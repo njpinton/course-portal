@@ -1,0 +1,93 @@
+<svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 950px; height: auto;">
+    <defs>
+        <style>
+            .input-node { fill: #F44336; stroke: #8B0000; stroke-width: 2; }
+            .hidden-node { fill: #2196F3; stroke: #0D47A1; stroke-width: 2; }
+            .output-node { fill: #4CAF50; stroke: #1B5E20; stroke-width: 2; }
+            .loss-box { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2; }
+            .gradient-node { fill: #E8F5E9; stroke: #2D6A4F; stroke-width: 2; }
+            .forward-arrow-faded { stroke: #333; stroke-width: 1.5; opacity: 0.2; fill: none; }
+            .error-arrow { stroke: #D32F2F; stroke-width: 3; fill: none; }
+            .gradient-arrow { stroke: #FF8A33; stroke-width: 2; stroke-dasharray: 5,5; fill: none; }
+            .label { font-family: Arial, sans-serif; font-size: 12px; fill: #333; }
+            .grad-label { font-family: Arial, sans-serif; font-size: 10px; fill: #D32F2F; font-weight: bold; }
+        </style>
+    </defs>
+
+    <!-- Forward Pass (Light/Faded) -->
+    <!-- Input Layer -->
+    <circle cx="80" cy="100" r="16" class="input-node" opacity="0.4"/>
+    <text x="80" y="107" text-anchor="middle" fill="white" font-size="12" opacity="0.4">x₁</text>
+
+    <circle cx="80" cy="180" r="16" class="input-node" opacity="0.4"/>
+    <text x="80" y="187" text-anchor="middle" fill="white" font-size="12" opacity="0.4">x₂</text>
+
+    <circle cx="80" cy="260" r="16" class="input-node" opacity="0.4"/>
+    <text x="80" y="267" text-anchor="middle" fill="white" font-size="12" opacity="0.4">x₃</text>
+
+    <!-- Hidden Layer -->
+    <circle cx="380" cy="120" r="16" class="hidden-node" opacity="0.4"/>
+    <text x="380" y="127" text-anchor="middle" fill="white" font-size="12" opacity="0.4">h₁</text>
+
+    <circle cx="380" cy="220" r="16" class="hidden-node" opacity="0.4"/>
+    <text x="380" y="227" text-anchor="middle" fill="white" font-size="12" opacity="0.4">h₂</text>
+
+    <!-- Output Layer -->
+    <circle cx="680" cy="170" r="16" class="output-node" opacity="0.4"/>
+    <text x="680" y="177" text-anchor="middle" fill="white" font-size="12" opacity="0.4">y</text>
+
+    <!-- Loss Function -->
+    <rect x="750" y="154" width="50" height="32" rx="4" class="loss-box" opacity="0.4"/>
+    <text x="775" y="174" text-anchor="middle" fill="#1976D2" font-size="14" opacity="0.4">L</text>
+
+    <!-- Forward connections (light) -->
+    <line x1="96" y1="100" x2="364" y2="120" class="forward-arrow-faded"/>
+    <line x1="96" y1="100" x2="364" y2="220" class="forward-arrow-faded"/>
+    <line x1="96" y1="180" x2="364" y2="120" class="forward-arrow-faded"/>
+    <line x1="96" y1="180" x2="364" y2="220" class="forward-arrow-faded"/>
+    <line x1="96" y1="260" x2="364" y2="120" class="forward-arrow-faded"/>
+    <line x1="96" y1="260" x2="364" y2="220" class="forward-arrow-faded"/>
+    <line x1="396" y1="120" x2="664" y2="170" class="forward-arrow-faded"/>
+    <line x1="396" y1="220" x2="664" y2="170" class="forward-arrow-faded"/>
+    <line x1="696" y1="170" x2="750" y2="170" class="forward-arrow-faded"/>
+
+    <!-- Layer Labels -->
+    <text x="80" y="310" text-anchor="middle" class="label" font-weight="bold">Input</text>
+    <text x="380" y="310" text-anchor="middle" class="label" font-weight="bold">Hidden</text>
+    <text x="680" y="310" text-anchor="middle" class="label" font-weight="bold">Output</text>
+
+    <!-- BACKWARD ERROR FLOW (Bold Red Arrows) -->
+    <!-- From Loss to Output -->
+    <line x1="750" y1="170" x2="696" y2="170" class="error-arrow"/>
+    <polygon points="750,165 750,175 755,170" fill="#D32F2F"/>
+
+    <!-- From Output to Hidden (thick red arrows) -->
+    <line x1="664" y1="170" x2="396" y2="120" class="error-arrow" stroke-width="2.5"/>
+    <polygon points="664,165 664,175 669,170" fill="#D32F2F"/>
+
+    <line x1="664" y1="170" x2="396" y2="220" class="error-arrow" stroke-width="2.5"/>
+
+    <!-- From Hidden to Input (curved) -->
+    <path d="M 364 120 Q 250 150 96 180" class="error-arrow" stroke-width="2.5"/>
+    <path d="M 364 220 Q 250 220 96 260" class="error-arrow" stroke-width="2.5"/>
+
+    <!-- Error labels -->
+    <text x="705" y="155" class="grad-label">δ⁽²⁾</text>
+    <text x="520" y="135" class="grad-label">δ⁽¹⁾</text>
+
+    <!-- Gradient Computation Nodes (above network) -->
+    <rect x="750" y="30" width="100" height="35" rx="4" class="gradient-node"/>
+    <text x="800" y="52" text-anchor="middle" fill="#2D6A4F" font-size="13" font-weight="bold">δ⁽²⁾</text>
+
+    <rect x="300" y="30" width="100" height="35" rx="4" class="gradient-node"/>
+    <text x="350" y="52" text-anchor="middle" fill="#2D6A4F" font-size="13" font-weight="bold">δ⁽¹⁾</text>
+
+    <!-- Gradient flow arrows (dashed orange) -->
+    <path d="M 775 154 Q 800 100 800 65" class="gradient-arrow"/>
+    <path d="M 680 150 Q 500 100 350 65" class="gradient-arrow"/>
+
+    <!-- Mathematical Equations -->
+    <rect x="50" y="330" width="900" height="45" rx="6" fill="#FFF9E6" stroke="#F57F17" stroke-width="2"/>
+    <text x="70" y="350" font-weight="bold" font-size="12" fill="#F57F17">Gradient Computation (Chain Rule):</text>
+    <text x="70" y="368" font-size="11" font-family="monospace" fill="#333">δ⁽²⁾ = ∂L/∂a⁽²⁾ ⊙ σ'(z⁽²⁾)     |     δ⁽¹⁾ = (W⁽²⁾)ᵀ δ⁽²⁾ ⊙ σ'(z⁽¹⁾)</text>
+</svg>

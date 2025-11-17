@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 0: Introduction to Machine Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 50%, #8B0000 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .presenter-header {
+            background: linear-gradient(135deg, #1B4332 0%, #8B0000 100%);
+            color: white;
+            padding: 15px 30px;
+            border-bottom: 4px solid #FFD700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .presenter-header h2 {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .slide-counter {
+            font-size: 0.95em;
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .presentation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .slide-viewer {
+            flex: 1;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .slide-content h2 {
+            color: #1B4332;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 4px solid #FFD700;
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .slide-content h3 {
+            color: #8B0000;
+            font-size: 1.6em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .slide-content h4 {
+            color: #1B4332;
+            font-size: 1.3em;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .slide-content p {
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.8;
+        }
+
+        .slide-content ul {
+            list-style: none;
+            margin: 15px 0 15px 20px;
+        }
+
+        .slide-content ol {
+            margin: 15px 0 15px 30px;
+            padding-left: 0;
+        }
+
+        .slide-content li {
+            margin-bottom: 12px;
+            color: #555;
+            line-height: 1.6;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .slide-content ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .definition {
+            background: linear-gradient(120deg, #E8F5E9 0%, #F1F8F6 100%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #1B4332;
+        }
+
+        .definition strong {
+            color: #1B4332;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #FFF9E6 0%, #FFFDF2 100%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #FFD700;
+        }
+
+        .highlight strong {
+            color: #8B0000;
+        }
+
+        .warning {
+            background: linear-gradient(120deg, #FFEBEE 0%, #FFF5F7 100%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #8B0000;
+        }
+
+        .warning strong {
+            color: #8B0000;
+        }
+
+        .slide-footer {
+            background: #f5f5f5;
+            padding: 15px 40px;
+            border-top: 2px solid #E0E0E0;
+            font-size: 0.9em;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .footer-left {
+            color: #1B4332;
+            font-weight: 600;
+        }
+
+        .footer-right {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-shrink: 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #1B4332 0%, #8B0000 100%);
+            color: white;
+            border: 2px solid #FFD700;
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(27, 67, 50, 0.3);
+            color: #FFD700;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Scrollbar styling */
+        .slide-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb {
+            background: #1B4332;
+            border-radius: 4px;
+        }
+
+        .slide-content::-webkit-scrollbar-thumb:hover {
+            background: #8B0000;
+        }
+
+        @media (max-width: 768px) {
+            .presenter-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .slide-content {
+                padding: 25px;
+            }
+
+            .slide-content h2 {
+                font-size: 1.8em;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .home-button {
+            background: #FFD700;
+            color: #1B4332;
+            border: none;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .home-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .slide-counter-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            display: block;
+        }
+</style>
+</head>
+<body>
+    <div class="presenter-header">
+        <div class="header-left">
+            <a href="/" class="home-button">🏠 Home</a>
+            <h2>Module 0: Introduction to Machine Learning</h2>
+        </div>
+        <div class="slide-counter">
+            <span class="slide-counter-label">Slide</span>
+            <span id="current-slide">1</span> / <span id="total-slides">1</span>
+        </div>
+    </div>
+
+    <div class="presentation-container">
+        <div class="slide-viewer">
+            <div class="slide-content" id="slide-content">
+                <!-- Slides will be inserted here -->
+            </div>
+            <div class="slide-footer">
+                <div class="footer-left">CMSC 173: Machine Learning</div>
+                <div class="footer-right">University of the Philippines - Cebu</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn" onclick="previousSlide()">← Previous</button>
+            <button id="next-btn" onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        // Slide content data
+        const slides = [
+            {
+                title: "What is Machine Learning?",
+                content: `
+                    <p>Machine Learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed.</p>
+                    <div class="definition">
+                        <strong>Definition:</strong> Machine learning allows computers to learn from data, identify patterns, and make decisions with minimal human intervention.
+                    </div>
+                    <h3>Key Characteristics</h3>
+                    <ul>
+                        <li><strong>Learning from Data:</strong> Models improve as they process more examples</li>
+                        <li><strong>Pattern Recognition:</strong> Automatically discover relationships in data</li>
+                        <li><strong>Generalization:</strong> Apply learned patterns to new, unseen data</li>
+                        <li><strong>Adaptation:</strong> Models can update and improve over time</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Historical Context",
+                content: `
+                    <h3>Why Machine Learning?</h3>
+                    <ul>
+                        <li><strong>Complexity:</strong> Many real-world problems are too complex to solve with explicit rules</li>
+                        <li><strong>Volume:</strong> Modern datasets are too large for manual analysis</li>
+                        <li><strong>Dynamics:</strong> Patterns in data change over time, requiring adaptive systems</li>
+                        <li><strong>Personalization:</strong> ML enables customized experiences for individual users</li>
+                    </ul>
+                    <h3>Historical Milestones</h3>
+                    <ul>
+                        <li><strong>1956:</strong> Dartmouth Summer Research Project on AI</li>
+                        <li><strong>1974-1980:</strong> First AI Winter - reduced funding and interest</li>
+                        <li><strong>1980-1987:</strong> Expert Systems boom</li>
+                        <li><strong>1987-1993:</strong> Second AI Winter</li>
+                        <li><strong>1997:</strong> IBM's Deep Blue defeats chess champion Kasparov</li>
+                        <li><strong>2011-Present:</strong> Deep learning revolution and modern era</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Real-World Applications",
+                content: `
+                    <h3>Healthcare</h3>
+                    <ul>
+                        <li>Disease diagnosis from medical imaging</li>
+                        <li>Drug discovery and protein folding</li>
+                        <li>Patient risk prediction</li>
+                    </ul>
+                    <h3>Finance</h3>
+                    <ul>
+                        <li>Fraud detection</li>
+                        <li>Credit risk assessment</li>
+                        <li>Stock market prediction</li>
+                    </ul>
+                    <h3>Technology & Media</h3>
+                    <ul>
+                        <li>Natural language processing (ChatGPT, Translation)</li>
+                        <li>Computer vision (Face recognition, Object detection)</li>
+                        <li>Recommendation systems (Netflix, Amazon, YouTube)</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Types of Machine Learning",
+                content: `
+                    <h3>Supervised Learning</h3>
+                    <div class="definition">
+                        <strong>Learning from labeled examples:</strong> The algorithm learns from data where the correct answer is known.
+                    </div>
+                    <ul>
+                        <li><strong>Regression:</strong> Predict continuous values (e.g., house prices, temperature)</li>
+                        <li><strong>Classification:</strong> Predict categories (e.g., spam detection, disease diagnosis)</li>
+                    </ul>
+
+                    <h3>Unsupervised Learning</h3>
+                    <div class="definition">
+                        <strong>Finding patterns in unlabeled data:</strong> The algorithm discovers hidden structures without explicit labels.
+                    </div>
+                    <ul>
+                        <li><strong>Clustering:</strong> Group similar items (e.g., customer segmentation)</li>
+                        <li><strong>Dimensionality Reduction:</strong> Reduce data complexity (e.g., visualization)</li>
+                    </ul>
+
+                    <h3>Reinforcement Learning</h3>
+                    <div class="definition">
+                        <strong>Learning through rewards:</strong> The algorithm learns by interacting with an environment and receiving feedback.
+                    </div>
+                    <ul>
+                        <li>Game playing (AlphaGo, Chess engines)</li>
+                        <li>Robot control and autonomous systems</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Supervised Learning: Regression",
+                content: `
+                    <h3>What is Regression?</h3>
+                    <p>Regression predicts continuous numerical values based on input features.</p>
+                    <h3>Common Regression Algorithms</h3>
+                    <ul>
+                        <li><strong>Linear Regression:</strong> Simple, interpretable, assumes linear relationship</li>
+                        <li><strong>Polynomial Regression:</strong> Captures nonlinear patterns</li>
+                        <li><strong>Ridge/Lasso Regression:</strong> Regularized regression to prevent overfitting</li>
+                        <li><strong>Support Vector Regression:</strong> Powerful nonlinear regression</li>
+                        <li><strong>Decision Tree Regression:</strong> Tree-based approach</li>
+                    </ul>
+                    <h3>Applications</h3>
+                    <ul>
+                        <li>House price prediction</li>
+                        <li>Stock price forecasting</li>
+                        <li>Weather prediction</li>
+                        <li>Sales forecasting</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Supervised Learning: Classification",
+                content: `
+                    <h3>What is Classification?</h3>
+                    <p>Classification assigns instances to predefined categories or classes.</p>
+                    <h3>Common Classification Algorithms</h3>
+                    <ul>
+                        <li><strong>Logistic Regression:</strong> Binary classification with probability estimates</li>
+                        <li><strong>Naive Bayes:</strong> Probabilistic classifier based on Bayes' theorem</li>
+                        <li><strong>Decision Trees:</strong> Tree-based classification rules</li>
+                        <li><strong>Random Forests:</strong> Ensemble of decision trees</li>
+                        <li><strong>Support Vector Machines (SVM):</strong> Finds optimal decision boundary</li>
+                        <li><strong>K-Nearest Neighbors (KNN):</strong> Instance-based classification</li>
+                    </ul>
+                    <h3>Applications</h3>
+                    <ul>
+                        <li>Email spam detection</li>
+                        <li>Medical diagnosis (disease/no disease)</li>
+                        <li>Sentiment analysis</li>
+                        <li>Image classification</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Unsupervised Learning: Clustering",
+                content: `
+                    <h3>What is Clustering?</h3>
+                    <p>Clustering groups similar data points together without predefined labels.</p>
+                    <h3>Common Clustering Algorithms</h3>
+                    <ul>
+                        <li><strong>K-Means:</strong> Partitions data into k clusters based on centroids</li>
+                        <li><strong>Hierarchical Clustering:</strong> Creates tree-like hierarchy of clusters</li>
+                        <li><strong>DBSCAN:</strong> Density-based clustering, handles arbitrary shapes</li>
+                        <li><strong>Gaussian Mixture Models:</strong> Probabilistic soft clustering</li>
+                    </ul>
+                    <h3>Applications</h3>
+                    <ul>
+                        <li>Customer segmentation for marketing</li>
+                        <li>Gene sequence clustering</li>
+                        <li>Document organization</li>
+                        <li>Image color quantization</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Unsupervised Learning: Dimensionality Reduction",
+                content: `
+                    <h3>What is Dimensionality Reduction?</h3>
+                    <p>Reduces the number of features while preserving important information.</p>
+                    <h3>Common Techniques</h3>
+                    <ul>
+                        <li><strong>Principal Component Analysis (PCA):</strong> Linear transformation to orthogonal components</li>
+                        <li><strong>t-SNE:</strong> Visualizes high-dimensional data in 2D/3D</li>
+                        <li><strong>UMAP:</strong> Better preservation of global structure than t-SNE</li>
+                        <li><strong>Autoencoders:</strong> Deep learning approach to dimensionality reduction</li>
+                    </ul>
+                    <h3>Benefits</h3>
+                    <ul>
+                        <li>Visualization of complex data</li>
+                        <li>Remove noise and redundant features</li>
+                        <li>Speed up model training</li>
+                        <li>Overcome curse of dimensionality</li>
+                    </ul>
+                `
+            },
+            {
+                title: "The Machine Learning Workflow",
+                content: `
+                    <h3>Step-by-Step Process</h3>
+                    <ol>
+                        <li><strong>Problem Definition:</strong> Understand the business problem and define success metrics</li>
+                        <li><strong>Data Collection:</strong> Gather relevant data from various sources</li>
+                        <li><strong>Exploratory Data Analysis:</strong> Understand data characteristics and relationships</li>
+                        <li><strong>Data Preprocessing:</strong> Clean, transform, and prepare data</li>
+                        <li><strong>Feature Engineering:</strong> Create meaningful features from raw data</li>
+                        <li><strong>Model Selection:</strong> Choose appropriate algorithms and architectures</li>
+                        <li><strong>Training:</strong> Fit the model to training data</li>
+                        <li><strong>Evaluation:</strong> Assess performance on validation/test data</li>
+                        <li><strong>Hyperparameter Tuning:</strong> Optimize model parameters</li>
+                        <li><strong>Deployment:</strong> Put the model into production</li>
+                        <li><strong>Monitoring:</strong> Track performance and retrain as needed</li>
+                    </ol>
+                `
+            },
+            {
+                title: "Data Preprocessing",
+                content: `
+                    <h3>Essential Preprocessing Steps</h3>
+                    <h4>Data Cleaning</h4>
+                    <ul>
+                        <li>Handle missing values (imputation, removal)</li>
+                        <li>Identify and remove outliers</li>
+                        <li>Fix data type inconsistencies</li>
+                        <li>Remove duplicate records</li>
+                    </ul>
+                    <h4>Feature Scaling</h4>
+                    <ul>
+                        <li><strong>Normalization:</strong> Scale features to [0, 1] range</li>
+                        <li><strong>Standardization:</strong> Scale to mean=0, std=1</li>
+                    </ul>
+                    <h4>Feature Engineering</h4>
+                    <ul>
+                        <li>Create new features from existing ones</li>
+                        <li>Encode categorical variables</li>
+                        <li>Select important features</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Model Selection & Training",
+                content: `
+                    <h3>Choosing the Right Algorithm</h3>
+                    <ul>
+                        <li>Problem type (regression, classification, clustering)</li>
+                        <li>Data size and dimensionality</li>
+                        <li>Interpretability requirements</li>
+                        <li>Computational resources</li>
+                    </ul>
+                    <h3>Training Considerations</h3>
+                    <ul>
+                        <li><strong>Optimization Algorithms:</strong> Gradient Descent, SGD, Adam</li>
+                        <li><strong>Learning Rate:</strong> Controls step size in optimization</li>
+                        <li><strong>Batch Size:</strong> Number of samples per gradient update</li>
+                        <li><strong>Epochs:</strong> Number of complete passes through training data</li>
+                    </ul>
+                    <h3>Validation Strategy</h3>
+                    <ul>
+                        <li>Train/Validation/Test split (60/20/20 or 70/15/15)</li>
+                        <li>K-Fold Cross-Validation for better estimates</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Evaluation Metrics: Regression",
+                content: `
+                    <h3>Common Regression Metrics</h3>
+                    <ul>
+                        <li><strong>Mean Squared Error (MSE):</strong> Average of squared errors</li>
+                        <li><strong>Root Mean Squared Error (RMSE):</strong> Square root of MSE, same units as target</li>
+                        <li><strong>Mean Absolute Error (MAE):</strong> Average absolute errors</li>
+                        <li><strong>R² Score:</strong> Proportion of variance explained (0-1 scale)</li>
+                    </ul>
+                    <h3>Interpretation</h3>
+                    <ul>
+                        <li>Lower MSE/RMSE/MAE = better predictions</li>
+                        <li>Higher R² (closer to 1) = better fit</li>
+                        <li>R² can be negative for very poor models</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Evaluation Metrics: Classification",
+                content: `
+                    <h3>Confusion Matrix Metrics</h3>
+                    <ul>
+                        <li><strong>Accuracy:</strong> (TP+TN)/(TP+TN+FP+FN) - overall correctness</li>
+                        <li><strong>Precision:</strong> TP/(TP+FP) - of predicted positives, how many are correct</li>
+                        <li><strong>Recall:</strong> TP/(TP+FN) - of actual positives, how many were found</li>
+                        <li><strong>F1-Score:</strong> Harmonic mean of precision and recall</li>
+                    </ul>
+                    <h3>Advanced Metrics</h3>
+                    <ul>
+                        <li><strong>ROC-AUC:</strong> Area under receiver operating characteristic curve</li>
+                        <li><strong>Precision-Recall Curve:</strong> Better for imbalanced datasets</li>
+                    </ul>
+                    <div class="highlight">
+                        <strong>Key insight:</strong> Choose metrics based on problem requirements (e.g., minimize false negatives in disease detection)
+                    </div>
+                `
+            },
+            {
+                title: "Bias-Variance Tradeoff",
+                content: `
+                    <h3>Understanding the Tradeoff</h3>
+                    <ul>
+                        <li><strong>Bias:</strong> Error from overly simplistic model assumptions</li>
+                        <li><strong>Variance:</strong> Sensitivity of model to variations in training data</li>
+                    </ul>
+                    <h3>Model Complexity Effects</h3>
+                    <ul>
+                        <li><strong>Underfitting:</strong> High bias, low variance - model too simple</li>
+                        <li><strong>Optimal:</strong> Balanced bias and variance - best generalization</li>
+                        <li><strong>Overfitting:</strong> Low bias, high variance - model memorizes training data</li>
+                    </ul>
+                    <div class="definition">
+                        <strong>Golden Rule:</strong> Cannot minimize both bias and variance simultaneously. Goal is to minimize total error.
+                    </div>
+                `
+            },
+            {
+                title: "Regularization Techniques",
+                content: `
+                    <h3>Preventing Overfitting</h3>
+                    <h4>L1 Regularization (Lasso)</h4>
+                    <ul>
+                        <li>Penalizes absolute coefficient values</li>
+                        <li>Can shrink some coefficients to exactly zero</li>
+                        <li>Provides feature selection</li>
+                    </ul>
+                    <h4>L2 Regularization (Ridge)</h4>
+                    <ul>
+                        <li>Penalizes squared coefficient values</li>
+                        <li>Shrinks all coefficients proportionally</li>
+                        <li>All features remain in the model</li>
+                    </ul>
+                    <h4>Other Techniques</h4>
+                    <ul>
+                        <li><strong>Dropout:</strong> Randomly disable neurons during training</li>
+                        <li><strong>Early Stopping:</strong> Stop training when validation error increases</li>
+                        <li><strong>Cross-Validation:</strong> Use multiple validation sets</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Course Structure: CMSC 173",
+                content: `
+                    <h3>Module Progression</h3>
+                    <h4>Foundation Phase (Modules 0-4)</h4>
+                    <ul>
+                        <li>Module 0: Introduction to Machine Learning</li>
+                        <li>Module 1: Parameter Estimation</li>
+                        <li>Module 2: Linear Regression</li>
+                        <li>Module 3: Regularization</li>
+                        <li>Module 4: Exploratory Data Analysis</li>
+                    </ul>
+                    <h4>Evaluation & Preparation (Modules 5-7)</h4>
+                    <ul>
+                        <li>Module 5: Model Selection and Evaluation</li>
+                        <li>Module 6: Cross Validation & Hyperparameter Tuning</li>
+                        <li>Module 7: Principal Component Analysis (PCA)</li>
+                    </ul>
+                    <h4>Supervised Learning (Modules 8-10)</h4>
+                    <ul>
+                        <li>Module 8: Logistic Regression</li>
+                        <li>Module 9: Classification Methods</li>
+                        <li>Module 10: Kernel Methods (SVMs)</li>
+                    </ul>
+                    <h4>Unsupervised Learning & Deep Learning (Modules 11-13)</h4>
+                    <ul>
+                        <li>Module 11: Clustering</li>
+                        <li>Module 12: Neural Networks</li>
+                        <li>Module 13: Advanced Neural Networks</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Learning Outcomes",
+                content: `
+                    <h3>By the end of CMSC 173, you will be able to:</h3>
+                    <ul>
+                        <li>Understand fundamental ML concepts and terminology</li>
+                        <li>Apply statistical methods and parameter estimation techniques</li>
+                        <li>Build and evaluate supervised learning models (regression & classification)</li>
+                        <li>Implement unsupervised learning algorithms (clustering, dimensionality reduction)</li>
+                        <li>Design and train neural networks for complex problems</li>
+                        <li>Select appropriate models for different problem domains</li>
+                        <li>Evaluate model performance comprehensively and interpret results</li>
+                        <li>Apply best practices for responsible AI development</li>
+                        <li>Implement and optimize complete ML pipelines</li>
+                        <li>Analyze real-world problems and propose ML solutions</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Prerequisites & Setup",
+                content: `
+                    <h3>Required Mathematical Background</h3>
+                    <ul>
+                        <li><strong>Linear Algebra:</strong> Vectors, matrices, matrix operations</li>
+                        <li><strong>Calculus:</strong> Derivatives, gradients, optimization</li>
+                        <li><strong>Probability & Statistics:</strong> Distributions, expectations, hypothesis testing</li>
+                    </ul>
+                    <h3>Programming Requirements</h3>
+                    <ul>
+                        <li>Python 3.8+ proficiency</li>
+                        <li>Familiarity with NumPy, Pandas, Matplotlib</li>
+                    </ul>
+                    <h3>Tools & Libraries</h3>
+                    <ul>
+                        <li><strong>NumPy:</strong> Numerical computing</li>
+                        <li><strong>Pandas:</strong> Data manipulation</li>
+                        <li><strong>Scikit-learn:</strong> Machine learning algorithms</li>
+                        <li><strong>Matplotlib/Seaborn:</strong> Data visualization</li>
+                        <li><strong>PyTorch/TensorFlow:</strong> Deep learning (Modules 12-13)</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Best Practices & Ethics",
+                content: `
+                    <h3>ML Best Practices</h3>
+                    <ul>
+                        <li><strong>Start Simple:</strong> Begin with baseline models before complex ones</li>
+                        <li><strong>Validate Properly:</strong> Always use separate validation/test sets</li>
+                        <li><strong>Document Everything:</strong> Keep detailed records of experiments</li>
+                        <li><strong>Reproduce Results:</strong> Ensure code and results are reproducible</li>
+                        <li><strong>Monitor Performance:</strong> Track model metrics over time in production</li>
+                    </ul>
+                    <h3>Ethics & Responsible AI</h3>
+                    <ul>
+                        <li><strong>Bias Awareness:</strong> Identify and mitigate bias in training data</li>
+                        <li><strong>Fairness:</strong> Ensure model decisions don't discriminate</li>
+                        <li><strong>Transparency:</strong> Make model decisions explainable</li>
+                        <li><strong>Privacy:</strong> Protect sensitive data in training and deployment</li>
+                        <li><strong>Accountability:</strong> Take responsibility for model outcomes</li>
+                    </ul>
+                    <div class="warning">
+                        <strong>Important:</strong> ML models reflect biases in training data and can cause harm if deployed without careful consideration
+                    </div>
+                `
+            },
+            {
+                title: "Ready to Learn!",
+                content: `
+                    <h3>What's Next?</h3>
+                    <div class="highlight">
+                        <strong>Module 1: Parameter Estimation</strong> will dive deep into how to estimate parameters from data using statistical methods.
+                    </div>
+                    <h3>Key Takeaways from Module 0</h3>
+                    <ul>
+                        <li>ML enables systems to learn from data and improve automatically</li>
+                        <li>Different problem types (regression, classification, clustering) require different approaches</li>
+                        <li>The ML workflow is iterative: prepare → model → evaluate → improve</li>
+                        <li>No single algorithm works best for all problems</li>
+                        <li>Responsible AI requires careful consideration of fairness and ethics</li>
+                    </ul>
+                    <h3>Preparation</h3>
+                    <ul>
+                        <li>Review linear algebra and calculus fundamentals</li>
+                        <li>Set up Python environment with required libraries</li>
+                        <li>Familiarize yourself with Jupyter notebooks</li>
+                        <li>Explore sample datasets in scikit-learn</li>
+                    </ul>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function renderSlide() {
+            const slide = slides[currentSlide];
+            const contentDiv = document.getElementById('slide-content');
+            contentDiv.innerHTML = `<h2>${slide.title}</h2>${slide.content}`;
+
+            // Update slide counter
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            document.getElementById('total-slides').textContent = slides.length;
+
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === slides.length - 1;
+
+            // Scroll to top
+            contentDiv.scrollTop = 0;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        renderSlide();
+    </script>
+</body>
+</html>

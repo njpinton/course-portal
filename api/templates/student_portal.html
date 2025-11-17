@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - CMSC 173</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 50%, #7A1E3F 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1B5E4F 0%, #7A1E3F 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #D4AF37;
+            color: #1B5E4F;
+        }
+
+        .btn-primary:hover {
+            background-color: #FFC700;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .error-message {
+            background: #ffcdd2;
+            border-left: 4px solid #dc3545;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .group-info {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1B5E4F;
+        }
+
+        .group-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .group-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .group-detail label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .group-detail value {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .members-list {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .members-list h3 {
+            color: #1B5E4F;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .member-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95em;
+        }
+
+        .member-item:last-child {
+            border-bottom: none;
+        }
+
+        .stages-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .stage-card {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stage-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .stage-header:hover {
+            background: linear-gradient(135deg, #0F3E35 0%, #1B2A27 100%);
+        }
+
+        .stage-number {
+            width: 50px;
+            height: 50px;
+            background: #D4AF37;
+            color: #1B5E4F;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .stage-title {
+            flex: 1;
+        }
+
+        .stage-title h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .stage-weight {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .stage-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .stage-content {
+            padding: 25px;
+            display: none;
+        }
+
+        .stage-content.active {
+            display: block;
+        }
+
+        .stage-description {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 3px solid #2196F3;
+        }
+
+        .stage-description h4 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+
+        .submission-area {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            border: 2px dashed #ddd;
+            margin-bottom: 20px;
+        }
+
+        .submission-area h4 {
+            color: #1B5E4F;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group textarea,
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 0.95em;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group textarea:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #1B5E4F;
+            box-shadow: 0 0 0 3px rgba(27,94,79,0.1);
+        }
+
+        .btn-submit {
+            background-color: #1B5E4F;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #0F3E35;
+        }
+
+        .submission-status {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #4CAF50;
+            margin-top: 15px;
+        }
+
+        .submission-status.submitted {
+            border-left-color: #4CAF50;
+            background: #e8f5e9;
+        }
+
+        .submission-status.pending {
+            border-left-color: #FF9800;
+            background: #fff3e0;
+        }
+
+        .submission-status.graded {
+            border-left-color: #2196F3;
+            background: #e3f2fd;
+        }
+
+        .submission-status h5 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .submission-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 3px;
+            border-left: 3px solid #2196F3;
+            font-size: 0.95em;
+        }
+
+        .feedback strong {
+            color: #2196F3;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .alert.success {
+            background: #c8e6c9;
+            border-left: 4px solid #4CAF50;
+            color: #2e7d32;
+        }
+
+        .alert.error {
+            background: #ffcdd2;
+            border-left: 4px solid #dc3545;
+            color: #c62828;
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .group-header {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stage-number {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📚 My Group Portal</h1>
+                <p>CMSC 173 - Machine Learning</p>
+            </div>
+            <div class="header-actions">
+                <a href="/" class="btn btn-primary">← Back Home</a>
+                <a href="/student_logout" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+
+        <div class="content">
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% elif group %}
+                <!-- GROUP INFO SECTION -->
+                <div class="group-info">
+                    <h2 style="color: #1B5E4F; margin-bottom: 20px;">{{ group.project_title }}</h2>
+                    <div class="group-header">
+                        <div class="group-detail">
+                            <label>Group Name</label>
+                            <value>{{ group.group_name }}</value>
+                        </div>
+                        <div class="group-detail">
+                            <label>Created</label>
+                            <value>{{ group.created_at[:10] }}</value>
+                        </div>
+                    </div>
+
+                    {% if group.members %}
+                    <div class="members-list">
+                        <h3>👥 Group Members</h3>
+                        {% for member in group.members %}
+                            <div class="member-item">
+                                {{ member.full_name }}
+                                {% if member.student_number %}
+                                    <span style="color: #999;">({{ member.student_number }})</span>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- STAGES SECTION -->
+                <h2 style="color: #1B5E4F; margin-bottom: 25px; display: flex; align-items: center;">
+                    <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
+                    Project Stages & Submissions
+                </h2>
+
+                <div class="stages-container">
+                    {% for stage in group.stages %}
+                    <div class="stage-card">
+                        <div class="stage-header" onclick="toggleStage({{ loop.index0 }})">
+                            <div style="display: flex; align-items: center; flex: 1;">
+                                <div class="stage-number">{{ stage.stage_number }}</div>
+                                <div class="stage-title">
+                                    <h3>{{ stage.stage_name }}</h3>
+                                    <span class="stage-weight">{{ [10, 15, 20, 20, 20, 15][stage.stage_number-1] }}% of grade</span>
+                                </div>
+                            </div>
+                            <div class="stage-status">
+                                {% if stage.status == 'completed' %}
+                                    ✓ Graded
+                                {% elif stage.status == 'submitted' or stage.status == 'under_review' %}
+                                    ⏳ Under Review
+                                {% elif stage.status == 'in_progress' %}
+                                    ⊙ In Progress
+                                {% else %}
+                                    ○ Not Started
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="stage-content" id="stage-{{ loop.index0 }}">
+                            <!-- STAGE DESCRIPTION -->
+                            <div class="stage-description">
+                                <h4>📋 Description</h4>
+                                <p>{{ stage.stage_description or 'Submit your work for this stage.' }}</p>
+                                {% if stage.due_date %}
+                                    <p style="margin-top: 10px; color: #999;">
+                                        <strong>Due:</strong> {{ stage.due_date[:10] }}
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <!-- SUBMISSION FORM -->
+                            <div class="submission-area">
+                                <h4>📤 Submit Work</h4>
+                                <form onsubmit="submitStageWork(event, '{{ group.id }}', '{{ stage.id }}', {{ loop.index0 }})">
+                                    <div class="form-group">
+                                        <label>Work Description or Notes (Optional)</label>
+                                        <textarea id="content-{{ loop.index0 }}" placeholder="Enter your submission details or leave blank if uploading a file only..."></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Upload File (Optional)</label>
+                                        <input type="file" id="file-{{ loop.index0 }}" accept=".pdf,.docx,.txt,.ipynb,.csv,.xlsx">
+                                        <small style="color: #999; display: block; margin-top: 5px;">
+                                            Accepted: PDF, DOCX, TXT, IPYNB, CSV, XLSX (Max 50MB)
+                                        </small>
+                                    </div>
+
+                                    <button type="submit" class="btn-submit">Submit for Stage {{ stage.stage_number }}</button>
+                                </form>
+                            </div>
+
+                            <!-- SUBMISSION STATUS -->
+                            {% set submission = group.submissions | selectattr('stage_id', 'equalto', stage.id) | first if group.submissions else none %}
+                            {% if submission %}
+                            <div class="submission-status submitted">
+                                <h5>✓ Submission Recorded</h5>
+                                <div class="submission-meta">
+                                    Submitted: {{ submission.submitted_at[:19] }}
+                                    {% if submission.submitted_by %}
+                                        by {{ submission.submitted_by }}
+                                    {% endif %}
+                                </div>
+                                {% if submission.file_name %}
+                                    <div class="submission-meta">
+                                        📎 File: {{ submission.file_name }}
+                                    </div>
+                                {% endif %}
+                                {% if stage.grade %}
+                                    <div style="margin-top: 10px;">
+                                        <span class="grade-badge">Grade: {{ stage.grade }}/10</span>
+                                    </div>
+                                {% endif %}
+                                {% if stage.feedback %}
+                                    <div class="feedback">
+                                        <strong>Instructor Feedback:</strong><br>
+                                        {{ stage.feedback }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            <div class="submission-status pending">
+                                <h5>No submission yet</h5>
+                                <p style="color: #666;">Submit your work above to get started on this stage.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <div class="error-message">
+                    You are not assigned to any group yet. Please contact your instructor.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            <p>CMSC 173 Group Project Portal | © 2025 University of the Philippines Cebu</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleStage(index) {
+            const content = document.getElementById(`stage-${index}`);
+            if (content) {
+                content.classList.toggle('active');
+            }
+        }
+
+        // Auto-expand first stage
+        document.addEventListener('DOMContentLoaded', () => {
+            const firstStage = document.getElementById('stage-0');
+            if (firstStage) {
+                firstStage.classList.add('active');
+            }
+        });
+
+        async function submitStageWork(event, groupId, stageId, stageIndex) {
+            event.preventDefault();
+
+            const content = document.getElementById(`content-${stageIndex}`).value;
+            const fileInput = document.getElementById(`file-${stageIndex}`);
+            const file = fileInput.files[0];
+
+            try {
+                if (file) {
+                    // Submit with file
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    const response = await fetch(`/api/student/submit-file/${stageId}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        alert('Error: ' + (error.error || 'Failed to submit file'));
+                        return;
+                    }
+                } else if (content) {
+                    // Submit with text content only
+                    const response = await fetch('/api/student/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            group_id: groupId,
+                            stage_id: stageId,
+                            content: content
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        alert('Error: ' + (error.error || 'Failed to submit work'));
+                        return;
+                    }
+                } else {
+                    alert('Please enter submission details or select a file to upload');
+                    return;
+                }
+
+                alert('Submission successful! Your work has been recorded.');
+                location.reload();
+
+            } catch (error) {
+                alert('Error submitting work: ' + error.message);
+                console.error('Submission error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

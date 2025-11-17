@@ -1,0 +1,8 @@
+Flask
+flask-cors
+flask-wtf
+Flask-SQLAlchemy
+Flask-SocketIO
+supabase
+gotrue
+python-dotenv
