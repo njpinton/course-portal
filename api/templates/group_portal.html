@@ -244,7 +244,9 @@
 
                                     const ungroupedCount = data.ungrouped_students.length;
                                     const totalCount = data.total_students;
-                                    const sectionLabel = className === 'cmsc173a' ? 'Section A' : 'Section D';
+                                    let sectionLabel = 'Section A';
+                                    if (className === 'cmsc173d') sectionLabel = 'Section D';
+                                    if (className === 'cmsc173e') sectionLabel = 'Section E';
                                     if (ungroupedCount > 0) {
                                         studentsAlert.style.display = 'block';
                                         studentsAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
