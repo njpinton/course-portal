@@ -713,7 +713,11 @@
                 <p>CMSC 173 - Machine Learning Course</p>
             </div>
             <div class="header-actions">
-                <a href="/" class="btn-secondary">← Back to Modules</a>
+                {% if session.get('is_admin') %}
+                    <a href="/admin_dashboard" class="btn-secondary">← Back to Admin Dashboard</a>
+                {% else %}
+                    <a href="/" class="btn-secondary">← Back to Modules</a>
+                {% endif %}
 
                 {% if session.get('is_admin') %}
                     <a href="/admin_logout" class="btn-danger">Logout Admin</a>
