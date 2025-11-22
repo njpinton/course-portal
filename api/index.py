@@ -1116,6 +1116,24 @@ def group_submission_portal():
         logger.error(f"Error loading group submission portal: {e}", exc_info=True)
         return render_template('group_submission_portal.html', error='An error occurred')
 
+@app.route('/admin/group/<group_id>')
+def admin_view_group(group_id):
+    """Admin view of a specific group's submissions and portal (admin only)"""
+    if not session.get('is_admin'):
+        logger.warning("Unauthorized access to admin group view")
+        return redirect(url_for('group_login'))
+
+    try:
+        group = get_group_with_submissions(group_id)
+        if not group:
+            return render_template('group_submission_portal.html', error='Group not found')
+
+        # Render the same submission portal template but for admin viewing
+        return render_template('group_submission_portal.html', group=group, group_name=group.get('group_name'), is_admin_view=True)
+    except Exception as e:
+        logger.error(f"Error loading admin group view: {e}", exc_info=True)
+        return render_template('group_submission_portal.html', error='An error occurred')
+
 @app.route('/group_logout')
 def group_logout():
     """Logout group"""

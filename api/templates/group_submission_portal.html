@@ -427,8 +427,13 @@
                 <p>CMSC 173 - Machine Learning</p>
             </div>
             <div class="header-actions">
-                <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
-                <a href="/group_logout" class="btn btn-danger">Logout</a>
+                {% if is_admin_view %}
+                    <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
+                    <a href="/admin_logout" class="btn btn-danger">Logout Admin</a>
+                {% else %}
+                    <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
+                    <a href="/group_logout" class="btn btn-danger">Logout</a>
+                {% endif %}
             </div>
         </div>
 
@@ -540,6 +545,7 @@
                                     <li><strong>Presentation</strong> - Either upload a presentation file (PPTX/PDF) OR provide a link to your presentation (Google Slides, Canva, etc.)</li>
                                 </ul>
                             </div>
+                            {% if not is_admin_view %}
                             <form onsubmit="submitStageWork(event, {{ i + 1 }})">
                                 <div class="form-group">
                                     <label><strong>📄 Summary PDF (Required)</strong></label>
@@ -581,6 +587,11 @@
 
                                 <button type="submit" class="btn-submit">Submit Stage {{ i + 1 }}</button>
                             </form>
+                            {% else %}
+                            <div style="background: #fffacd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffa500; margin-top: 15px;">
+                                <p style="margin: 0; color: #666;"><strong>📋 Admin View:</strong> Submission form is disabled. You are viewing this group's submissions as an administrator.</p>
+                            </div>
+                            {% endif %}
                         </div>
 
                         <!-- SUBMISSION STATUS -->

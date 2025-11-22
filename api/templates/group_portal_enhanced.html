@@ -977,7 +977,7 @@
                             <small style="color: #999;">${group.group_name}</small>
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button class="btn-view" onclick="event.stopPropagation(); loadGroupDetails('${group.id}')">View Details</button>
+                            <a href="/admin/group/${group.id}" class="btn-view" style="text-decoration: none; padding: 8px 16px; background-color: #1B5E4F; color: white; border-radius: 4px; border: none; cursor: pointer; font-weight: 600;">View Group</a>
                             ${deleteButton}
                         </div>
                     `;
