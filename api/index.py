@@ -6,19 +6,26 @@ import logging
 from datetime import datetime, timezone
 from supabase import create_client, Client
 from werkzeug.utils import secure_filename
-from werkzeug.security import check_password_hash
-from supabase_client import (
-    get_supabase_client, create_group, add_group_member, add_group_document,
-    get_groups, get_group_details, delete_group, get_project_stages,
-    update_stage_status, get_project_models, add_project_model,
-    get_stage_documents, add_stage_document, update_group_project_info,
-    update_group_credentials, get_group_by_username, update_group_last_login,
-    get_group_with_submissions, submit_group_stage_work, get_group_feedback,
-    get_class_by_code_section, get_students_by_class, get_ungrouped_students,
-    get_grouped_students, assign_student_to_group, get_student_by_campus_id,
-    get_group_members, unassign_student_from_group
-)
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
+
+# Load environment variables early for Vercel compatibility
+from dotenv import load_dotenv
+load_dotenv()
+
+try:
+    from supabase_client import (
+        get_supabase_client, create_group, add_group_member, add_group_document,
+        get_groups, get_group_details, delete_group, get_project_stages,
+        update_stage_status, get_project_models, add_project_model,
+        get_stage_documents, add_stage_document, update_group_project_info,
+        update_group_credentials, get_group_by_username, update_group_last_login,
+        get_group_with_submissions, submit_group_stage_work, get_group_feedback,
+        get_class_by_code_section, get_students_by_class, get_ungrouped_students,
+        get_grouped_students, assign_student_to_group, get_student_by_campus_id,
+        get_group_members, unassign_student_from_group
+    )
+except Exception as e:
+    print(f"Warning: Failed to import supabase_client: {e}")
 
 # Configure logging
 logging.basicConfig(
