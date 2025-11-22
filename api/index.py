@@ -3,7 +3,8 @@ from flask_cors import CORS
 import os
 import re
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+import jwt
 from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -94,6 +95,51 @@ CORS(app, resources={
     r"/api/*": {"origins": allowed_origins, "methods": ["GET", "POST", "OPTIONS"]},
 }, supports_credentials=True)
 logger.info(f"CORS configured for origins: {allowed_origins}")
+
+# JWT configuration for admin authentication (serverless-compatible)
+JWT_SECRET = app.secret_key
+JWT_ALGORITHM = 'HS256'
+JWT_EXPIRATION_HOURS = 24
+
+def generate_admin_token():
+    """Generate a JWT token for authenticated admin sessions"""
+    payload = {
+        'is_admin': True,
+        'exp': datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS),
+        'iat': datetime.utcnow()
+    }
+    token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+    return token
+
+def verify_admin_token(token):
+    """Verify JWT token and return True if valid admin token"""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        return payload.get('is_admin') == True
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return False
+
+def get_admin_token_from_request():
+    """Extract JWT token from request (cookie or header)"""
+    # Try cookie first
+    token = request.cookies.get('admin_token')
+    if token:
+        return token
+
+    # Try Authorization header
+    auth_header = request.headers.get('Authorization', '')
+    if auth_header.startswith('Bearer '):
+        return auth_header[7:]
+
+    return None
+
+def is_admin_authenticated():
+    """Check if current request is from authenticated admin"""
+    token = get_admin_token_from_request()
+    if token and verify_admin_token(token):
+        return True
+    # Fallback to session for backwards compatibility
+    return session.get('is_admin') == True
 
 # Security configuration
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB
@@ -771,10 +817,28 @@ def admin_login():
 
             # Verify password hash
             if username == admin_username and check_password_hash(admin_password_hash, password):
+                # Generate JWT token for serverless-compatible authentication
+                token = generate_admin_token()
+
+                # Create response with redirect
+                response = redirect(url_for('admin_dashboard'))
+
+                # Set JWT token in secure HTTP-only cookie
+                response.set_cookie(
+                    'admin_token',
+                    token,
+                    max_age=JWT_EXPIRATION_HOURS * 3600,
+                    secure=True,
+                    httponly=True,
+                    samesite='Lax'
+                )
+
+                # Also set session for backwards compatibility
                 session['logged_in'] = True
                 session['is_admin'] = True
+
                 logger.info(f"Admin login successful for user {username}")
-                return redirect(url_for('admin_dashboard'))
+                return response
             else:
                 # Use generic message to prevent user enumeration
                 logger.warning(f"Failed login attempt for user {username}")
@@ -796,7 +860,7 @@ def admin_logout():
 @app.route('/admin_dashboard')
 def admin_dashboard():
     """Admin dashboard with statistics and overview"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         logger.warning("Unauthorized access to admin dashboard")
         return redirect(url_for('admin_login'))
 
@@ -805,14 +869,14 @@ def admin_dashboard():
 @app.route('/admin_roster')
 def admin_roster():
     """Admin student roster page."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return redirect(url_for('admin_login'))
     return render_template('admin_student_roster.html')
 
 @app.route('/admin_submissions')
 def admin_submissions():
     """Admin view to see all submissions by all groups"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         logger.warning("Unauthorized access to admin submissions")
         return redirect(url_for('admin_login'))
 
@@ -821,7 +885,7 @@ def admin_submissions():
 @app.route('/api/admin/statistics', methods=['GET'])
 def get_admin_statistics():
     """Get dashboard statistics for admin"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -872,7 +936,7 @@ def get_admin_statistics():
 @app.route('/api/admin/submissions', methods=['GET'])
 def get_all_submissions_admin():
     """Get all submissions with optional filters"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -925,7 +989,7 @@ def get_all_submissions_admin():
 @app.route('/api/admin/submissions/<submission_id>', methods=['GET'])
 def get_submission_details_admin(submission_id):
     """Get detailed information about a specific submission"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -975,7 +1039,7 @@ def get_submission_details_admin(submission_id):
 @app.route('/api/admin/download/<submission_id>', methods=['GET'])
 def download_submission_file(submission_id):
     """Download a submitted file"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -1023,7 +1087,7 @@ def download_submission_file(submission_id):
 @app.route('/api/admin/view/<submission_id>', methods=['GET'])
 def view_submission_file(submission_id):
     """View a submitted file in browser (for PDFs)"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -1067,7 +1131,7 @@ def view_submission_file(submission_id):
 @app.route('/api/admin/groups/submission-status', methods=['GET'])
 def get_groups_submission_status():
     """Get all groups with their submission status for each stage"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -1185,7 +1249,7 @@ def group_submission_portal():
 @app.route('/admin/group/<group_id>')
 def admin_view_group(group_id):
     """Admin view of a specific group's submissions and portal (admin only)"""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         logger.warning("Unauthorized access to admin group view")
         return redirect(url_for('group_login'))
 
@@ -1440,7 +1504,7 @@ def group_submit_api():
 @app.route('/api/students/class/<class_id>', methods=['GET'])
 def get_students_by_class_api(class_id):
     """Get all students in a class."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1453,7 +1517,7 @@ def get_students_by_class_api(class_id):
 @app.route('/api/students/ungrouped/<class_id>', methods=['GET'])
 def get_ungrouped_students_api(class_id):
     """Get ungrouped students in a class."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1466,7 +1530,7 @@ def get_ungrouped_students_api(class_id):
 @app.route('/api/students/grouped/<class_id>', methods=['GET'])
 def get_grouped_students_api(class_id):
     """Get grouped students in a class."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1479,7 +1543,7 @@ def get_grouped_students_api(class_id):
 @app.route('/api/students/campus/<campus_id>', methods=['GET'])
 def get_student_api(campus_id):
     """Get student by campus ID."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1494,7 +1558,7 @@ def get_student_api(campus_id):
 @app.route('/api/students/<student_id>/assign-group/<group_id>', methods=['POST'])
 def assign_student_to_group_api(student_id, group_id):
     """Assign a student to a group."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1510,7 +1574,7 @@ def assign_student_to_group_api(student_id, group_id):
 @app.route('/api/students/<student_id>/unassign-group', methods=['POST'])
 def unassign_student_api(student_id):
     """Remove a student from their group."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     try:
@@ -1536,7 +1600,7 @@ def get_group_members_api(group_id):
 @app.route('/api/groups/<group_id>/comments', methods=['GET'])
 def get_group_comments(group_id):
     """Get admin comments for a group."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
@@ -1562,7 +1626,7 @@ def get_group_comments(group_id):
 @app.route('/api/groups/<group_id>/comments', methods=['POST'])
 def add_group_comment(group_id):
     """Add a comment to a group (admin only)."""
-    if not session.get('is_admin'):
+    if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 401
 
     supabase_client = get_supabase_client()
