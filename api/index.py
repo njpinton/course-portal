@@ -3,21 +3,29 @@ from flask_cors import CORS
 import os
 import re
 import logging
+import sys
 from datetime import datetime, timezone, timedelta
 import jwt
 from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
 
+# Add the API directory to the Python path for Vercel compatibility
+import os.path
+api_dir = os.path.dirname(os.path.abspath(__file__))
+if api_dir not in sys.path:
+    sys.path.insert(0, api_dir)
+    print(f"DEBUG: Added {api_dir} to sys.path")
+
 # Load environment variables early for Vercel compatibility
 from dotenv import load_dotenv
-import os.path
 # Load .env.local first if it exists (development), then .env (fallback)
 if os.path.exists('.env.local'):
     load_dotenv('.env.local')
 load_dotenv('.env')
 
 try:
+    print("DEBUG: Attempting to import supabase_client...")
     from supabase_client import (
         get_supabase_client, create_group, add_group_member, add_group_document,
         get_groups, get_group_details, delete_group, get_project_stages,
@@ -29,6 +37,7 @@ try:
         get_grouped_students, assign_student_to_group, get_student_by_campus_id,
         get_group_members, unassign_student_from_group
     )
+    print("DEBUG: Successfully imported supabase_client")
 except Exception as e:
     print(f"WARNING: Failed to import supabase_client: {e}")
     import traceback
@@ -1697,11 +1706,16 @@ def add_group_comment(group_id):
 def get_cmsc173a_class_api():
     """Get CMSC173 Section A class info and students."""
     try:
+        print("DEBUG: Starting CMSC173A query")
+        from supabase_client import get_supabase_client
+        client = get_supabase_client()
+        print(f"DEBUG: Supabase client available: {client is not None}")
+
         cmsc_class = get_class_by_code_section('CMSC173', 'A')
+        print(f"DEBUG: get_class_by_code_section returned: {cmsc_class}")
+
         if not cmsc_class:
             # Debug: Check if Supabase client is available
-            from supabase_client import get_supabase_client
-            client = get_supabase_client()
             debug_info = {
                 "error": "Class not found",
                 "supabase_client_available": client is not None

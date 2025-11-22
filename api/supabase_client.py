@@ -374,12 +374,23 @@ def get_class_by_code_section(course_code: str, section: str) -> dict:
     """Get a class by course code and section."""
     client = _get_client()
     if not client:
+        print(f"DEBUG: Client not available for query")
         return None
     try:
-        response = client.table('classes').select('*').eq('course_code', course_code).eq('section', section).single().execute()
-        return response.data
+        print(f"DEBUG: Querying classes where course_code={course_code}, section={section}")
+        # Try without .single() first to see if we get any results
+        response = client.table('classes').select('*').eq('course_code', course_code).eq('section', section).execute()
+        print(f"DEBUG: Query returned {len(response.data)} results")
+        if response.data and len(response.data) > 0:
+            print(f"DEBUG: Returning first result: {response.data[0]}")
+            return response.data[0]
+        else:
+            print(f"DEBUG: No results found for {course_code} {section}")
+            return None
     except Exception as e:
         print(f"Error getting class: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def get_students_by_class(class_id: str) -> list:
