@@ -11,7 +11,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 # Load environment variables early for Vercel compatibility
 from dotenv import load_dotenv
-load_dotenv()
+# Load .env.local first (for development), then .env (fallback)
+load_dotenv('.env.local')
+load_dotenv('.env')
 
 try:
     from supabase_client import (
