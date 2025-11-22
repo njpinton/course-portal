@@ -30,7 +30,24 @@ try:
         get_group_members, unassign_student_from_group
     )
 except Exception as e:
-    print(f"Warning: Failed to import supabase_client: {e}")
+    logger.error(f"Failed to import supabase_client: {e}", exc_info=True)
+    # Define stub functions to prevent NameError
+    def get_class_by_code_section(*args, **kwargs):
+        return None
+    def get_students_by_class(*args, **kwargs):
+        return []
+    def get_ungrouped_students(*args, **kwargs):
+        return []
+    def get_grouped_students(*args, **kwargs):
+        return []
+    def assign_student_to_group(*args, **kwargs):
+        return None
+    def get_student_by_campus_id(*args, **kwargs):
+        return None
+    def get_group_members(*args, **kwargs):
+        return []
+    def unassign_student_from_group(*args, **kwargs):
+        return None
 
 # Configure logging
 logging.basicConfig(
