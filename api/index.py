@@ -1477,7 +1477,7 @@ def group_submit_api():
             if not stage_id:
                 return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
 
-            # Upload file to Supabase Storage
+            # Process file for storage (base64 encoding for database)
             filename = secure_filename(f"group_{group_id}_stage_{stage_number}_{file.filename}")
             file_upload_result = upload_submission_file(
                 file,
@@ -1487,22 +1487,19 @@ def group_submit_api():
             )
 
             if not file_upload_result:
-                logger.error(f"Failed to upload file to Supabase Storage for group {group_id}")
-                return jsonify({"error": "Failed to upload file to storage"}), 500
+                logger.error(f"Failed to process file for group {group_id}")
+                return jsonify({"error": "Failed to process file for submission"}), 500
 
-            # Submit work with file information from Supabase Storage
+            # Submit work with file information (stored in database as base64)
             submission_data = {
                 'stage_number': stage_number,
                 'content': content if content else '',
-                'file_path': file_upload_result.get('file_path'),  # Storage path in Supabase
-                'file_name': filename,
-                'file_size': file.content_length or 0,
-                'file_mime_type': file.content_type
+                'file_path': file_upload_result.get('file_path'),
+                'file_name': file_upload_result.get('filename'),
+                'file_size': file_upload_result.get('size'),
+                'file_mime_type': file.content_type,
+                'file_data_b64': file_upload_result.get('file_data_b64')  # Base64 encoded file content
             }
-
-            # Add public URL if available
-            if file_upload_result.get('public_url'):
-                submission_data['file_url'] = file_upload_result.get('public_url')
 
             submission = submit_group_stage_work(
                 group_id,
@@ -1510,11 +1507,10 @@ def group_submit_api():
                 submission_data
             )
             if submission:
-                logger.info(f"File submitted for group {group_id} stage {stage_number}: {file_upload_result.get('file_path')}")
+                logger.info(f"File submitted for group {group_id} stage {stage_number}: {filename}")
                 return jsonify(submission), 201
             else:
-                # Clean up uploaded file if submission recording failed
-                delete_submission_file(file_upload_result.get('file_path'))
+                logger.error(f"Failed to record submission for group {group_id} stage {stage_number}")
                 return jsonify({"error": "Failed to record submission"}), 500
 
         else:

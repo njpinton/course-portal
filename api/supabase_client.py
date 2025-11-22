@@ -568,7 +568,10 @@ def get_group_submissions_for_dashboard(group_id: str) -> dict:
 # --- SUPABASE STORAGE FUNCTIONS FOR FILE UPLOADS ---
 
 def upload_submission_file(file_obj, group_id: str, stage_number: int, filename: str) -> dict:
-    """Upload a submission file to Supabase Storage bucket.
+    """Process submission file for storage.
+
+    Files are stored in the database submission record as base64 encoded data.
+    This avoids dependency on external storage buckets and works in serverless environments.
 
     Args:
         file_obj: File object from request.files
@@ -577,53 +580,32 @@ def upload_submission_file(file_obj, group_id: str, stage_number: int, filename:
         filename: Original filename
 
     Returns:
-        dict with 'file_path' and 'public_url' keys, or None on error
+        dict with file information (file_data, filename, size), or None on error
     """
-    client = _get_client()
-    if not client:
-        print("Supabase client not available for file upload")
-        return None
-
     try:
-        # Create a structured path in storage: submissions/group_{group_id}/stage_{stage}/filename
-        storage_path = f"submissions/group_{group_id}/stage_{stage_number}/{filename}"
-
         # Read file content
         file_content = file_obj.read()
 
-        # Upload to Supabase Storage in 'submissions' bucket
-        print(f"DEBUG: Uploading file to {storage_path}")
-        response = client.storage.from_('submissions').upload(
-            path=storage_path,
-            file=file_content,
-            file_options={
-                "cacheControl": "3600",
-                "upsert": False
-            }
-        )
+        if not file_content:
+            print("Error: File is empty")
+            return None
 
-        print(f"DEBUG: Upload response: {response}")
+        # Encode as base64 for database storage
+        import base64
+        file_data_b64 = base64.b64encode(file_content).decode('utf-8')
 
-        # Get public URL for the file
-        try:
-            public_url = client.storage.from_('submissions').get_public_url(storage_path)
-            print(f"DEBUG: Public URL: {public_url}")
+        file_size = len(file_content)
+        print(f"DEBUG: File processed for database storage: {filename} ({file_size} bytes)")
 
-            return {
-                'file_path': storage_path,
-                'public_url': public_url,
-                'filename': filename
-            }
-        except Exception as e:
-            print(f"Warning: Could not get public URL: {e}")
-            # Return what we have
-            return {
-                'file_path': storage_path,
-                'filename': filename
-            }
+        return {
+            'file_data_b64': file_data_b64,  # Base64 encoded file content
+            'filename': filename,
+            'size': file_size,
+            'file_path': f"group_{group_id}/stage_{stage_number}/{filename}"
+        }
 
     except Exception as e:
-        print(f"Error uploading file to Supabase Storage: {e}")
+        print(f"Error processing file: {e}")
         import traceback
         traceback.print_exc()
         return None
