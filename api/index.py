@@ -1490,15 +1490,14 @@ def group_submit_api():
                 logger.error(f"Failed to process file for group {group_id}")
                 return jsonify({"error": "Failed to process file for submission"}), 500
 
-            # Submit work with file information (stored in database as base64)
+            # Submit work with file information (file content not stored in main submission record)
             submission_data = {
                 'stage_number': stage_number,
                 'content': content if content else '',
                 'file_path': file_upload_result.get('file_path'),
                 'file_name': file_upload_result.get('filename'),
                 'file_size': file_upload_result.get('size'),
-                'file_mime_type': file.content_type,
-                'file_data_b64': file_upload_result.get('file_data_b64')  # Base64 encoded file content
+                'file_mime_type': file.content_type
             }
 
             submission = submit_group_stage_work(
