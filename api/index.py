@@ -1465,23 +1465,23 @@ def group_submit_api():
             if file.content_length and file.content_length > MAX_FILE_SIZE:
                 return jsonify({"error": "File too large (max 50MB)"}), 413
 
-            # Save file
-            filename = secure_filename(f"group_{group_id}_stage_{stage_number}_{int(os.times()[4])}_{file.filename}")
-            upload_path = os.path.join(UPLOAD_FOLDER, filename)
-            os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-            file.save(upload_path)
-
             # Get stage ID from stage number
             stage_id = get_stage_id_by_number(stage_number)
             if not stage_id:
                 return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
 
-            # Submit work with file reference
+            # In serverless environment, store file reference and content only
+            # File should be handled via direct upload to cloud storage or alternative approach
+            filename = secure_filename(f"group_{group_id}_stage_{stage_number}_{file.filename}")
+
+            # Submit work with file metadata (no local storage in serverless)
             submission_data = {
                 'stage_number': stage_number,
                 'content': content if content else '',
-                'file_path': upload_path,
-                'file_name': filename
+                'file_path': f"/uploads/{filename}",  # Reference for documentation
+                'file_name': filename,
+                'file_size': file.content_length or 0,
+                'file_mime_type': file.content_type
             }
             submission = submit_group_stage_work(
                 group_id,

@@ -1098,8 +1098,28 @@
                 });
 
                 if (!response.ok) {
-                    const error = await response.json();
-                    alert('Error: ' + (error.error || 'Failed to submit'));
+                    try {
+                        const error = await response.json();
+                        alert('Error: ' + (error.error || 'Failed to submit'));
+                    } catch (jsonError) {
+                        // Response is not JSON (likely an error page)
+                        const statusText = response.statusText || 'Unknown Error';
+                        const status = response.status;
+                        let errorMsg = `Server error (${status} ${statusText})`;
+
+                        if (status === 413) {
+                            errorMsg = 'Files are too large. Please reduce file sizes and try again.';
+                        } else if (status === 400) {
+                            errorMsg = 'Invalid request. Please check your inputs and try again.';
+                        } else if (status === 401) {
+                            errorMsg = 'Your session has expired. Please log in again.';
+                        } else if (status >= 500) {
+                            errorMsg = 'Server error. Please try again in a moment.';
+                        }
+
+                        alert('Error submitting work: ' + errorMsg);
+                        console.error('Response status:', status, 'Text:', statusText);
+                    }
                     return;
                 }
 
@@ -1108,6 +1128,7 @@
 
             } catch (error) {
                 alert('Error submitting work: ' + error.message);
+                console.error('Submission error:', error);
             }
         }
 

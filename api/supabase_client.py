@@ -472,3 +472,95 @@ def unassign_student_from_group(student_id: str) -> bool:
     except Exception as e:
         print(f"Error unassigning student: {e}")
         return False
+
+# --- SUBMISSION SCORING FUNCTIONS ---
+
+def save_submission_score(submission_id: str, score: float, max_score: float = 100, feedback: str = "", admin_notes: str = "") -> dict:
+    """Save or update a score for a submission."""
+    if not supabase:
+        return None
+    try:
+        # Try to update existing score first
+        response = supabase.table('submission_scores').update({
+            'score': score,
+            'max_score': max_score,
+            'feedback': feedback,
+            'admin_notes': admin_notes
+        }).eq('submission_id', submission_id).execute()
+
+        if response.data and len(response.data) > 0:
+            return response.data[0]
+
+        # If no existing score, insert new one
+        response = supabase.table('submission_scores').insert({
+            'submission_id': submission_id,
+            'score': score,
+            'max_score': max_score,
+            'feedback': feedback,
+            'admin_notes': admin_notes
+        }).execute()
+        return response.data[0] if response.data else None
+    except Exception as e:
+        print(f"Error saving submission score: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def get_submission_score(submission_id: str) -> dict:
+    """Get the score for a specific submission."""
+    if not supabase:
+        return None
+    try:
+        response = supabase.table('submission_scores').select('*').eq('submission_id', submission_id).execute()
+        return response.data[0] if response.data else None
+    except Exception as e:
+        print(f"Error getting submission score: {e}")
+        return None
+
+def get_all_groups_with_submissions() -> list:
+    """Get all groups with their submissions grouped by stage.
+    Returns data formatted for the dashboard grid view."""
+    if not supabase:
+        return []
+    try:
+        # Get all groups with their submissions and scores
+        response = supabase.table('groups').select(
+            '*, submissions:group_submissions(id, stage_number, submitted_at, submission_status, score:submission_scores(score, max_score, feedback))'
+        ).execute()
+        return response.data
+    except Exception as e:
+        print(f"Error getting groups with submissions: {e}")
+        import traceback
+        traceback.print_exc()
+        return []
+
+def get_group_submissions_for_dashboard(group_id: str) -> dict:
+    """Get a group's submissions organized by stage for dashboard display."""
+    if not supabase:
+        return None
+    try:
+        group = supabase.table('groups').select('*').eq('id', group_id).single().execute()
+        if not group.data:
+            return None
+
+        group_data = group.data
+
+        # Get all submissions with scores for this group
+        submissions = supabase.table('group_submissions').select(
+            '*, score:submission_scores(score, max_score, feedback, admin_notes)'
+        ).eq('group_id', group_id).order('stage_number').execute()
+
+        # Organize by stage
+        group_data['submissions_by_stage'] = {}
+        for submission in submissions.data:
+            stage_num = submission.get('stage_number')
+            if stage_num not in group_data['submissions_by_stage']:
+                group_data['submissions_by_stage'][stage_num] = None
+            group_data['submissions_by_stage'][stage_num] = submission
+
+        return group_data
+    except Exception as e:
+        print(f"Error getting group submissions for dashboard: {e}")
+        import traceback
+        traceback.print_exc()
+        return None

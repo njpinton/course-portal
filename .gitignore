@@ -138,3 +138,4 @@ cython_debug/
 
 # Vercel
 .vercel
+.env*.local
