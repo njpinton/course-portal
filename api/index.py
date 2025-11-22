@@ -1932,15 +1932,25 @@ def download_submission_presentation(submission_id):
             return jsonify({"error": error_msg}), 400
 
         # Get submission with presentation file info
-        response = supabase_client.table('group_submissions').select('id, presentation_file, presentation_path, group_id').eq('id', submission_id).execute()
+        # Use * to select all columns and handle missing columns gracefully
+        response = supabase_client.table('group_submissions').select('id, group_id').eq('id', submission_id).execute()
 
         if not response.data or len(response.data) == 0:
             logger.warning(f"Submission not found: {submission_id}")
             return jsonify({"error": "Submission not found"}), 404
 
         submission = response.data[0]
-        file_path = submission.get('presentation_path')
-        file_name = submission.get('presentation_file')
+
+        # Try to get presentation file info from the full submission record
+        # Check if presentation_path or presentation_file columns exist
+        response_full = supabase_client.table('group_submissions').select('*').eq('id', submission_id).execute()
+        if response_full.data:
+            submission = response_full.data[0]
+            file_path = submission.get('presentation_path')
+            file_name = submission.get('presentation_file')
+        else:
+            file_path = None
+            file_name = None
 
         # If presentation_path doesn't exist, try to construct it from presentation_file
         if not file_path and file_name:
