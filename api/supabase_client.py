@@ -5,9 +5,18 @@ url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_ANON_KEY")
 
 try:
-    supabase: Client = create_client(url, key) if url and key else None
+    print(f"DEBUG: Supabase URL set: {bool(url)}, Key set: {bool(key)}")
+    if url and key:
+        print(f"DEBUG: Creating Supabase client...")
+        supabase: Client = create_client(url, key)
+        print(f"DEBUG: Supabase client created successfully")
+    else:
+        print(f"DEBUG: URL or key missing, supabase will be None")
+        supabase = None
 except Exception as e:
-    print(f"WARNING: Failed to initialize Supabase client: {e}")
+    print(f"ERROR: Failed to initialize Supabase client: {e}")
+    import traceback
+    traceback.print_exc()
     supabase = None
 
 def get_supabase_client() -> Client:
