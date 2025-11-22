@@ -829,8 +829,8 @@
                             <div style="background-color: #fffacd; padding: 12px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffa500;">
                                 <strong>Required Submissions:</strong>
                                 <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Summary PDF</strong> - A PDF document summarizing your work for this stage</li>
-                                    <li><strong>Presentation</strong> - Either upload a presentation file (PPTX/PDF) OR provide a link to your presentation (Google Slides, Canva, etc.)</li>
+                                    <li><strong>Summary PDF (1 page only)</strong> - A single-page PDF document summarizing your work for this stage (keep file size under 2MB)</li>
+                                    <li><strong>Presentation</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, etc.) to avoid file size limits</li>
                                 </ul>
                             </div>
                             {% if not is_admin_view %}
@@ -845,27 +845,11 @@
 
                                 <div class="form-group">
                                     <label><strong>🎯 Presentation Slides (Required)</strong></label>
-                                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                                        <select id="presentation-type-{{ i }}" onchange="togglePresentationInput({{ i }})" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                            <option value="">-- Select presentation type --</option>
-                                            <option value="upload">Upload as PDF/PPTX</option>
-                                            <option value="link">Provide link (Google Slides, Canva, etc.)</option>
-                                        </select>
-                                    </div>
-
-                                    <div id="upload-presentation-{{ i }}" style="display: none;">
-                                        <input type="file" id="presentation-file-{{ i }}" accept=".pdf,.pptx">
-                                        <small style="color: #999; display: block; margin-top: 5px;">
-                                            Upload presentation as PDF or PPTX (Max 50MB)
-                                        </small>
-                                    </div>
-
-                                    <div id="link-presentation-{{ i }}" style="display: none;">
-                                        <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                                        <small style="color: #999; display: block; margin-top: 5px;">
-                                            Paste the shareable link to your presentation (must be publicly accessible)
-                                        </small>
-                                    </div>
+                                    <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <small style="color: #999; display: block; margin-top: 5px;">
+                                        ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc. (Any publicly accessible link)<br/>
+                                        📌 Note: Links are preferred to avoid file size limits
+                                    </small>
                                 </div>
 
                                 <div class="form-group">
@@ -1050,43 +1034,23 @@
             const stageIndex = stageNumber - 1;
             const content = document.getElementById(`content-${stageIndex}`).value;
             const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
-            const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;
-
-            let presentationFile = null;
-            let presentationLink = null;
-
-            if (presentationType === 'upload') {
-                presentationFile = document.getElementById(`presentation-file-${stageIndex}`).files[0];
-                if (!presentationFile) {
-                    alert('Please select a presentation file to upload');
-                    return;
-                }
-            } else if (presentationType === 'link') {
-                presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
-                if (!presentationLink) {
-                    alert('Please provide a presentation link');
-                    return;
-                }
-            } else {
-                alert('Please select a presentation type (upload or link)');
-                return;
-            }
+            const presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
 
             if (!summaryFile) {
                 alert('Please upload a summary PDF file');
                 return;
             }
 
+            if (!presentationLink) {
+                alert('Please provide a presentation link (Google Slides, Canva, PowerPoint Online, etc.)');
+                return;
+            }
+
             try {
-                // Submit with summary PDF, presentation, and optional content
+                // Submit with summary PDF, presentation link, and optional content
                 const formData = new FormData();
                 formData.append('file', summaryFile);
-                if (presentationFile) {
-                    formData.append('presentation_file', presentationFile);
-                }
-                if (presentationLink) {
-                    formData.append('presentation_link', presentationLink);
-                }
+                formData.append('presentation_link', presentationLink);
                 if (content) {
                     formData.append('content', content);
                 }
