@@ -35,7 +35,8 @@ try:
         get_group_with_submissions, submit_group_stage_work, get_group_feedback,
         get_class_by_code_section, get_students_by_class, get_ungrouped_students,
         get_grouped_students, assign_student_to_group, get_student_by_campus_id,
-        get_group_members, unassign_student_from_group
+        get_group_members, unassign_student_from_group,
+        upload_submission_file, get_submission_file_url, delete_submission_file
     )
     print("DEBUG: Successfully imported supabase_client")
 except Exception as e:
@@ -59,6 +60,12 @@ except Exception as e:
         return []
     def unassign_student_from_group(*args, **kwargs):
         return None
+    def upload_submission_file(*args, **kwargs):
+        return None
+    def get_submission_file_url(*args, **kwargs):
+        return None
+    def delete_submission_file(*args, **kwargs):
+        return False
 
 # Configure logging
 logging.basicConfig(
@@ -1470,28 +1477,44 @@ def group_submit_api():
             if not stage_id:
                 return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
 
-            # In serverless environment, store file reference and content only
-            # File should be handled via direct upload to cloud storage or alternative approach
+            # Upload file to Supabase Storage
             filename = secure_filename(f"group_{group_id}_stage_{stage_number}_{file.filename}")
+            file_upload_result = upload_submission_file(
+                file,
+                group_id,
+                stage_number,
+                filename
+            )
 
-            # Submit work with file metadata (no local storage in serverless)
+            if not file_upload_result:
+                logger.error(f"Failed to upload file to Supabase Storage for group {group_id}")
+                return jsonify({"error": "Failed to upload file to storage"}), 500
+
+            # Submit work with file information from Supabase Storage
             submission_data = {
                 'stage_number': stage_number,
                 'content': content if content else '',
-                'file_path': f"/uploads/{filename}",  # Reference for documentation
+                'file_path': file_upload_result.get('file_path'),  # Storage path in Supabase
                 'file_name': filename,
                 'file_size': file.content_length or 0,
                 'file_mime_type': file.content_type
             }
+
+            # Add public URL if available
+            if file_upload_result.get('public_url'):
+                submission_data['file_url'] = file_upload_result.get('public_url')
+
             submission = submit_group_stage_work(
                 group_id,
                 stage_id,
                 submission_data
             )
             if submission:
-                logger.info(f"File submitted for group {group_id} stage {stage_number}")
+                logger.info(f"File submitted for group {group_id} stage {stage_number}: {file_upload_result.get('file_path')}")
                 return jsonify(submission), 201
             else:
+                # Clean up uploaded file if submission recording failed
+                delete_submission_file(file_upload_result.get('file_path'))
                 return jsonify({"error": "Failed to record submission"}), 500
 
         else:

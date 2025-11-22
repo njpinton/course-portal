@@ -564,3 +564,109 @@ def get_group_submissions_for_dashboard(group_id: str) -> dict:
         import traceback
         traceback.print_exc()
         return None
+
+# --- SUPABASE STORAGE FUNCTIONS FOR FILE UPLOADS ---
+
+def upload_submission_file(file_obj, group_id: str, stage_number: int, filename: str) -> dict:
+    """Upload a submission file to Supabase Storage bucket.
+
+    Args:
+        file_obj: File object from request.files
+        group_id: ID of the group submitting
+        stage_number: Stage number (1-6)
+        filename: Original filename
+
+    Returns:
+        dict with 'file_path' and 'public_url' keys, or None on error
+    """
+    client = _get_client()
+    if not client:
+        print("Supabase client not available for file upload")
+        return None
+
+    try:
+        # Create a structured path in storage: submissions/group_{group_id}/stage_{stage}/filename
+        storage_path = f"submissions/group_{group_id}/stage_{stage_number}/{filename}"
+
+        # Read file content
+        file_content = file_obj.read()
+
+        # Upload to Supabase Storage in 'submissions' bucket
+        print(f"DEBUG: Uploading file to {storage_path}")
+        response = client.storage.from_('submissions').upload(
+            path=storage_path,
+            file=file_content,
+            file_options={
+                "cacheControl": "3600",
+                "upsert": False
+            }
+        )
+
+        print(f"DEBUG: Upload response: {response}")
+
+        # Get public URL for the file
+        try:
+            public_url = client.storage.from_('submissions').get_public_url(storage_path)
+            print(f"DEBUG: Public URL: {public_url}")
+
+            return {
+                'file_path': storage_path,
+                'public_url': public_url,
+                'filename': filename
+            }
+        except Exception as e:
+            print(f"Warning: Could not get public URL: {e}")
+            # Return what we have
+            return {
+                'file_path': storage_path,
+                'filename': filename
+            }
+
+    except Exception as e:
+        print(f"Error uploading file to Supabase Storage: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def get_submission_file_url(file_path: str) -> str:
+    """Get the public URL for a submission file from Supabase Storage.
+
+    Args:
+        file_path: Storage path of the file (e.g., 'submissions/group_123/stage_1/file.pdf')
+
+    Returns:
+        Public URL string, or None on error
+    """
+    client = _get_client()
+    if not client:
+        print("Supabase client not available for URL generation")
+        return None
+
+    try:
+        url = client.storage.from_('submissions').get_public_url(file_path)
+        return url
+    except Exception as e:
+        print(f"Error getting file URL from Supabase Storage: {e}")
+        return None
+
+def delete_submission_file(file_path: str) -> bool:
+    """Delete a submission file from Supabase Storage.
+
+    Args:
+        file_path: Storage path of the file to delete
+
+    Returns:
+        True if deleted successfully, False otherwise
+    """
+    client = _get_client()
+    if not client:
+        print("Supabase client not available for file deletion")
+        return False
+
+    try:
+        response = client.storage.from_('submissions').remove([file_path])
+        print(f"DEBUG: File deleted: {file_path}")
+        return True
+    except Exception as e:
+        print(f"Error deleting file from Supabase Storage: {e}")
+        return False
