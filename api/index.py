@@ -11,8 +11,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 # Load environment variables early for Vercel compatibility
 from dotenv import load_dotenv
-# Load .env.local first (for development), then .env (fallback)
-load_dotenv('.env.local')
+import os.path
+# Load .env.local first if it exists (development), then .env (fallback)
+if os.path.exists('.env.local'):
+    load_dotenv('.env.local')
 load_dotenv('.env')
 
 try:
@@ -817,8 +819,14 @@ def admin_login():
                 logger.error("Admin credentials not properly configured")
                 return render_template('admin_login.html', error='Server misconfiguration')
 
+            # Debug logging
+            logger.info(f"Login attempt: username={username}, admin_username={admin_username}")
+            logger.info(f"Hash from env starts with: {admin_password_hash[:20]}...")
+            hash_check = check_password_hash(admin_password_hash, password)
+            logger.info(f"Password hash check result: {hash_check}")
+
             # Verify password hash
-            if username == admin_username and check_password_hash(admin_password_hash, password):
+            if username == admin_username and hash_check:
                 # Generate JWT token for serverless-compatible authentication
                 token = generate_admin_token()
 
