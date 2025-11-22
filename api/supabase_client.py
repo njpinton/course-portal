@@ -1,26 +1,56 @@
 import os
 from supabase import create_client, Client
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_ANON_KEY")
-
-try:
-    print(f"DEBUG: Supabase URL set: {bool(url)}, Key set: {bool(key)}")
-    if url and key:
-        print(f"DEBUG: Creating Supabase client...")
-        supabase: Client = create_client(url, key)
-        print(f"DEBUG: Supabase client created successfully")
-    else:
-        print(f"DEBUG: URL or key missing, supabase will be None")
-        supabase = None
-except Exception as e:
-    print(f"ERROR: Failed to initialize Supabase client: {e}")
-    import traceback
-    traceback.print_exc()
-    supabase = None
+_supabase: Client = None
+_init_attempted = False
 
 def get_supabase_client() -> Client:
-    return supabase
+    """Get or create Supabase client with lazy initialization."""
+    global _supabase, _init_attempted
+
+    if _supabase is not None:
+        return _supabase
+
+    if _init_attempted:
+        return None  # Already tried and failed
+
+    _init_attempted = True
+
+    url: str = os.environ.get("SUPABASE_URL")
+    key: str = os.environ.get("SUPABASE_ANON_KEY")
+
+    if not url or not key:
+        print(f"WARNING: Supabase credentials not found in environment")
+        return None
+
+    try:
+        _supabase = create_client(url, key)
+        return _supabase
+    except Exception as e:
+        print(f"ERROR: Failed to initialize Supabase client: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+# Eagerly try to initialize, but don't fail if it doesn't work
+supabase: Client = None
+try:
+    url: str = os.environ.get("SUPABASE_URL")
+    key: str = os.environ.get("SUPABASE_ANON_KEY")
+    if url and key:
+        supabase = create_client(url, key)
+        _supabase = supabase  # Also set in lazy var
+        _init_attempted = True
+except Exception as e:
+    print(f"DEBUG: Eager initialization failed: {e}, will use lazy init")
+    # Ignore - lazy initialization will handle it on first use
+
+def _get_client() -> Client:
+    """Get Supabase client, using lazy initialization if needed."""
+    global supabase
+    if supabase is not None:
+        return supabase
+    return get_supabase_client()
 
 # --- Supabase CRUD operations for Group Portal ---
 
@@ -342,10 +372,11 @@ def get_submissions_by_stage(stage_number: int) -> list:
 
 def get_class_by_code_section(course_code: str, section: str) -> dict:
     """Get a class by course code and section."""
-    if not supabase:
+    client = _get_client()
+    if not client:
         return None
     try:
-        response = supabase.table('classes').select('*').eq('course_code', course_code).eq('section', section).single().execute()
+        response = client.table('classes').select('*').eq('course_code', course_code).eq('section', section).single().execute()
         return response.data
     except Exception as e:
         print(f"Error getting class: {e}")
@@ -353,10 +384,11 @@ def get_class_by_code_section(course_code: str, section: str) -> dict:
 
 def get_students_by_class(class_id: str) -> list:
     """Get all students in a class."""
-    if not supabase:
+    client = _get_client()
+    if not client:
         return []
     try:
-        response = supabase.table('students').select('*').eq('class_id', class_id).order('last_name').execute()
+        response = client.table('students').select('*').eq('class_id', class_id).order('last_name').execute()
         return response.data
     except Exception as e:
         print(f"Error getting students: {e}")
@@ -364,10 +396,11 @@ def get_students_by_class(class_id: str) -> list:
 
 def get_ungrouped_students(class_id: str) -> list:
     """Get students in a class who haven't been assigned to a group yet."""
-    if not supabase:
+    client = _get_client()
+    if not client:
         return []
     try:
-        response = supabase.table('students').select('*').eq('class_id', class_id).is_('group_id', 'null').order('last_name').execute()
+        response = client.table('students').select('*').eq('class_id', class_id).is_('group_id', 'null').order('last_name').execute()
         return response.data
     except Exception as e:
         print(f"Error getting ungrouped students: {e}")
@@ -375,10 +408,11 @@ def get_ungrouped_students(class_id: str) -> list:
 
 def get_grouped_students(class_id: str) -> list:
     """Get students in a class who have been assigned to a group."""
-    if not supabase:
+    client = _get_client()
+    if not client:
         return []
     try:
-        response = supabase.table('students').select('*').eq('class_id', class_id).not_('group_id', 'is', 'null').order('last_name').execute()
+        response = client.table('students').select('*').eq('class_id', class_id).not_('group_id', 'is', 'null').order('last_name').execute()
         return response.data
     except Exception as e:
         print(f"Error getting grouped students: {e}")
