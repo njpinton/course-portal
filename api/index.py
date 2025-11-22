@@ -12,7 +12,10 @@ from supabase_client import (
     update_stage_status, get_project_models, add_project_model,
     get_stage_documents, add_stage_document, update_group_project_info,
     update_group_credentials, get_group_by_username, update_group_last_login,
-    get_group_with_submissions, submit_group_stage_work, get_group_feedback
+    get_group_with_submissions, submit_group_stage_work, get_group_feedback,
+    get_class_by_code_section, get_students_by_class, get_ungrouped_students,
+    get_grouped_students, assign_student_to_group, get_student_by_campus_id,
+    get_group_members, unassign_student_from_group
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -96,6 +99,7 @@ ALLOWED_MIME_TYPES = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 }
 ALLOWED_EXTENSIONS = {'pdf', 'txt', 'doc', 'docx', 'csv', 'xls', 'xlsx'}
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'uploads')
 
 def allowed_file(filename: str, mime_type: str = None) -> bool:
     """Validate file type against allowed extensions and MIME types."""
@@ -751,18 +755,18 @@ def admin_login():
                 return render_template('admin_login.html', error='Username and password are required')
 
             admin_username = os.environ.get('ADMIN_USERNAME', '')
-            admin_password = os.environ.get('ADMIN_PASSWORD', '')
+            admin_password_hash = os.environ.get('ADMIN_PASSWORD_HASH', '')
 
-            if not admin_username or not admin_password:
+            if not admin_username or not admin_password_hash:
                 logger.error("Admin credentials not properly configured")
                 return render_template('admin_login.html', error='Server misconfiguration')
 
-            # Use constant-time comparison to prevent timing attacks
-            if username == admin_username and password == admin_password:
+            # Verify password hash
+            if username == admin_username and check_password_hash(admin_password_hash, password):
                 session['logged_in'] = True
                 session['is_admin'] = True
                 logger.info(f"Admin login successful for user {username}")
-                return redirect(url_for('group_portal'))
+                return redirect(url_for('admin_dashboard'))
             else:
                 # Use generic message to prevent user enumeration
                 logger.warning(f"Failed login attempt for user {username}")
@@ -778,6 +782,243 @@ def admin_logout():
     session.clear()
     logger.info("Admin user logged out")
     return redirect(url_for('group_portal'))
+
+# --- ADMIN DASHBOARD & SUBMISSIONS ---
+
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    """Admin dashboard with statistics and overview"""
+    if not session.get('is_admin'):
+        logger.warning("Unauthorized access to admin dashboard")
+        return redirect(url_for('admin_login'))
+
+    return render_template('admin_dashboard.html')
+
+@app.route('/admin_roster')
+def admin_roster():
+    """Admin student roster page."""
+    if not session.get('is_admin'):
+        return redirect(url_for('admin_login'))
+    return render_template('admin_student_roster.html')
+
+@app.route('/admin_submissions')
+def admin_submissions():
+    """Admin view to see all submissions by all groups"""
+    if not session.get('is_admin'):
+        logger.warning("Unauthorized access to admin submissions")
+        return redirect(url_for('admin_login'))
+
+    return render_template('admin_submissions.html')
+
+@app.route('/api/admin/statistics', methods=['GET'])
+def get_admin_statistics():
+    """Get dashboard statistics for admin"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Count total groups
+        groups_response = supabase_client.table('groups').select('id', count='exact').execute()
+        total_groups = groups_response.count
+
+        # Count total submissions
+        submissions_response = supabase_client.table('group_submissions').select('id', count='exact').execute()
+        total_submissions = submissions_response.count
+
+        # Count submissions by stage
+        submissions_by_stage = {}
+        for stage_num in range(1, 7):
+            stage_response = supabase_client.table('group_submissions').select('id', count='exact').eq('stage_number', stage_num).execute()
+            submissions_by_stage[f'stage_{stage_num}'] = stage_response.count
+
+        # Calculate submission rate per stage
+        submission_rates = {}
+        for stage_num in range(1, 7):
+            rate = (submissions_by_stage[f'stage_{stage_num}'] / total_groups * 100) if total_groups > 0 else 0
+            submission_rates[f'stage_{stage_num}'] = round(rate, 1)
+
+        # Get recent submissions (last 10)
+        recent_submissions_query = supabase_client.table('group_submissions').select('*, groups(group_name, project_title)').order('submitted_at', desc=True).limit(10)
+        recent_submissions = recent_submissions_query.execute()
+
+        statistics = {
+            'total_groups': total_groups,
+            'total_submissions': total_submissions,
+            'submissions_by_stage': submissions_by_stage,
+            'submission_rates': submission_rates,
+            'recent_submissions': recent_submissions.data,
+            'average_submissions_per_group': round(total_submissions / total_groups, 1) if total_groups > 0 else 0
+        }
+
+        logger.info("Admin statistics fetched successfully")
+        return jsonify(statistics), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching admin statistics: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/submissions', methods=['GET'])
+def get_all_submissions_admin():
+    """Get all submissions with optional filters"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Get query parameters for filtering
+        group_id = request.args.get('group_id')
+        stage_number = request.args.get('stage_number')
+
+        # Build query
+        query = supabase_client.table('group_submissions').select('*, groups(id, group_name, project_title)')
+
+        # Apply filters
+        if group_id:
+            query = query.eq('group_id', group_id)
+        if stage_number:
+            query = query.eq('stage_number', int(stage_number))
+
+        # Order by submission date (newest first)
+        query = query.order('submitted_at', desc=True)
+
+        response = query.execute()
+
+        logger.info(f"Fetched {len(response.data)} submissions for admin")
+        return jsonify(response.data), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching submissions: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/submissions/<submission_id>', methods=['GET'])
+def get_submission_details_admin(submission_id):
+    """Get detailed information about a specific submission"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate submission_id
+        is_valid, error_msg = validate_input(submission_id, 255, "submission_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Fetch submission with group details
+        response = supabase_client.table('group_submissions').select(
+            '*, groups(id, group_name, project_title, members:group_members(member_name))'
+        ).eq('id', submission_id).execute()
+
+        if not response.data or len(response.data) == 0:
+            return jsonify({"error": "Submission not found"}), 404
+
+        logger.info(f"Fetched details for submission {submission_id}")
+        return jsonify(response.data[0]), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching submission details: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/download/<submission_id>', methods=['GET'])
+def download_submission_file(submission_id):
+    """Download a submitted file"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate submission_id
+        is_valid, error_msg = validate_input(submission_id, 255, "submission_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Get submission
+        response = supabase_client.table('group_submissions').select('file_path, file_name').eq('id', submission_id).execute()
+
+        if not response.data or len(response.data) == 0 or not response.data[0].get('file_path'):
+            return jsonify({"error": "File not found"}), 404
+
+        file_path = response.data[0]['file_path']
+        file_name = response.data[0]['file_name']
+
+        # Verify file exists and is in uploads directory
+        if not os.path.exists(file_path):
+            logger.error(f"File not found on disk: {file_path}")
+            return jsonify({"error": "File not found on server"}), 404
+
+        # Security check: ensure file is within uploads directory
+        real_path = os.path.realpath(file_path)
+        real_upload_folder = os.path.realpath(UPLOAD_FOLDER)
+        if not real_path.startswith(real_upload_folder):
+            logger.error(f"Path traversal attempt detected: {file_path}")
+            return jsonify({"error": "Invalid file path"}), 400
+
+        # Serve file
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+
+        logger.info(f"Serving file {file_name} for submission {submission_id}")
+        return send_from_directory(directory, filename, as_attachment=True, download_name=file_name)
+
+    except Exception as e:
+        logger.error(f"Error downloading file: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/view/<submission_id>', methods=['GET'])
+def view_submission_file(submission_id):
+    """View a submitted file in browser (for PDFs)"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate submission_id
+        is_valid, error_msg = validate_input(submission_id, 255, "submission_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Get submission
+        response = supabase_client.table('group_submissions').select('file_path, file_name').eq('id', submission_id).execute()
+
+        if not response.data or len(response.data) == 0 or not response.data[0].get('file_path'):
+            return jsonify({"error": "File not found"}), 404
+
+        file_path = response.data[0]['file_path']
+
+        # Security check
+        if not os.path.exists(file_path):
+            return jsonify({"error": "File not found on server"}), 404
+
+        real_path = os.path.realpath(file_path)
+        real_upload_folder = os.path.realpath(UPLOAD_FOLDER)
+        if not real_path.startswith(real_upload_folder):
+            logger.error(f"Path traversal attempt detected: {file_path}")
+            return jsonify({"error": "Invalid file path"}), 400
+
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+
+        logger.info(f"Viewing file for submission {submission_id}")
+        return send_from_directory(directory, filename, as_attachment=False)
+
+    except Exception as e:
+        logger.error(f"Error viewing file: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
 
 # --- GROUP AUTHENTICATION & PORTAL ---
 
@@ -957,6 +1198,20 @@ def submit_file_api(stage_id):
 
 # --- GROUP SUBMISSION ENDPOINTS ---
 
+def get_stage_id_by_number(stage_number: int) -> str:
+    """Get stage UUID by stage number"""
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return None
+    try:
+        response = supabase_client.table('project_stages').select('id').eq('stage_number', stage_number).execute()
+        if response.data and len(response.data) > 0:
+            return response.data[0]['id']
+        return None
+    except Exception as e:
+        logger.error(f"Error getting stage ID: {e}")
+        return None
+
 @app.route('/api/group/submit', methods=['POST'])
 def group_submit_api():
     """Submit work for a group project stage"""
@@ -996,13 +1251,22 @@ def group_submit_api():
             os.makedirs(UPLOAD_FOLDER, exist_ok=True)
             file.save(upload_path)
 
+            # Get stage ID from stage number
+            stage_id = get_stage_id_by_number(stage_number)
+            if not stage_id:
+                return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
+
             # Submit work with file reference
+            submission_data = {
+                'stage_number': stage_number,
+                'content': content if content else '',
+                'file_path': upload_path,
+                'file_name': filename
+            }
             submission = submit_group_stage_work(
                 group_id,
-                stage_number,
-                content=content if content else None,
-                file_path=upload_path,
-                file_name=filename
+                stage_id,
+                submission_data
             )
             if submission:
                 logger.info(f"File submitted for group {group_id} stage {stage_number}")
@@ -1029,8 +1293,17 @@ def group_submit_api():
             if not content:
                 return jsonify({"error": "Content is required"}), 400
 
+            # Get stage ID from stage number
+            stage_id = get_stage_id_by_number(stage_number)
+            if not stage_id:
+                return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
+
             # Submit work with content only
-            submission = submit_group_stage_work(group_id, stage_number, content=content)
+            submission_data = {
+                'stage_number': stage_number,
+                'content': content
+            }
+            submission = submit_group_stage_work(group_id, stage_id, submission_data)
             if submission:
                 logger.info(f"Content submitted for group {group_id} stage {stage_number}")
                 return jsonify(submission), 201
@@ -1039,6 +1312,176 @@ def group_submit_api():
 
     except Exception as e:
         logger.error(f"Error submitting group work: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+# --- STUDENT MANAGEMENT API ---
+
+@app.route('/api/students/class/<class_id>', methods=['GET'])
+def get_students_by_class_api(class_id):
+    """Get all students in a class."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        students = get_students_by_class(class_id)
+        return jsonify(students), 200
+    except Exception as e:
+        logger.error(f"Error getting students: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/ungrouped/<class_id>', methods=['GET'])
+def get_ungrouped_students_api(class_id):
+    """Get ungrouped students in a class."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        students = get_ungrouped_students(class_id)
+        return jsonify(students), 200
+    except Exception as e:
+        logger.error(f"Error getting ungrouped students: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/grouped/<class_id>', methods=['GET'])
+def get_grouped_students_api(class_id):
+    """Get grouped students in a class."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        students = get_grouped_students(class_id)
+        return jsonify(students), 200
+    except Exception as e:
+        logger.error(f"Error getting grouped students: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/campus/<campus_id>', methods=['GET'])
+def get_student_api(campus_id):
+    """Get student by campus ID."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        student = get_student_by_campus_id(campus_id)
+        if student:
+            return jsonify(student), 200
+        return jsonify({"error": "Student not found"}), 404
+    except Exception as e:
+        logger.error(f"Error getting student: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/<student_id>/assign-group/<group_id>', methods=['POST'])
+def assign_student_to_group_api(student_id, group_id):
+    """Assign a student to a group."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        success = assign_student_to_group(student_id, group_id)
+        if success:
+            logger.info(f"Assigned student {student_id} to group {group_id}")
+            return jsonify({"success": True}), 200
+        return jsonify({"error": "Failed to assign student"}), 500
+    except Exception as e:
+        logger.error(f"Error assigning student: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/<student_id>/unassign-group', methods=['POST'])
+def unassign_student_api(student_id):
+    """Remove a student from their group."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        success = unassign_student_from_group(student_id)
+        if success:
+            logger.info(f"Unassigned student {student_id} from group")
+            return jsonify({"success": True}), 200
+        return jsonify({"error": "Failed to unassign student"}), 500
+    except Exception as e:
+        logger.error(f"Error unassigning student: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/groups/<group_id>/members', methods=['GET'])
+def get_group_members_api(group_id):
+    """Get all members of a group."""
+    try:
+        members = get_group_members(group_id)
+        return jsonify(members), 200
+    except Exception as e:
+        logger.error(f"Error getting group members: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/classes/cmsc173a', methods=['GET'])
+def get_cmsc173a_class_api():
+    """Get CMSC173 Section A class info and students."""
+    try:
+        cmsc_class = get_class_by_code_section('CMSC173', 'A')
+        if not cmsc_class:
+            return jsonify({"error": "Class not found"}), 404
+
+        all_students = get_students_by_class(cmsc_class['id'])
+        ungrouped = get_ungrouped_students(cmsc_class['id'])
+        grouped = get_grouped_students(cmsc_class['id'])
+
+        return jsonify({
+            "class": cmsc_class,
+            "total_students": len(all_students),
+            "ungrouped_count": len(ungrouped),
+            "grouped_count": len(grouped),
+            "ungrouped_students": ungrouped,
+            "grouped_students": grouped
+        }), 200
+    except Exception as e:
+        logger.error(f"Error getting CMSC173A class: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/classes/cmsc173d', methods=['GET'])
+def get_cmsc173d_class_api():
+    """Get CMSC173 Section D class info and students."""
+    try:
+        cmsc_class = get_class_by_code_section('CMSC173', 'D')
+        if not cmsc_class:
+            return jsonify({"error": "Class not found"}), 404
+
+        all_students = get_students_by_class(cmsc_class['id'])
+        ungrouped = get_ungrouped_students(cmsc_class['id'])
+        grouped = get_grouped_students(cmsc_class['id'])
+
+        return jsonify({
+            "class": cmsc_class,
+            "total_students": len(all_students),
+            "ungrouped_count": len(ungrouped),
+            "grouped_count": len(grouped),
+            "ungrouped_students": ungrouped,
+            "grouped_students": grouped
+        }), 200
+    except Exception as e:
+        logger.error(f"Error getting CMSC173D class: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/classes/cmsc173e', methods=['GET'])
+def get_cmsc173e_class_api():
+    """Get CMSC173 Section E class info and students."""
+    try:
+        cmsc_class = get_class_by_code_section('CMSC173', 'E')
+        if not cmsc_class:
+            return jsonify({"error": "Class not found"}), 404
+
+        all_students = get_students_by_class(cmsc_class['id'])
+        ungrouped = get_ungrouped_students(cmsc_class['id'])
+        grouped = get_grouped_students(cmsc_class['id'])
+
+        return jsonify({
+            "class": cmsc_class,
+            "total_students": len(all_students),
+            "ungrouped_count": len(ungrouped),
+            "grouped_count": len(grouped),
+            "ungrouped_students": ungrouped,
+            "grouped_students": grouped
+        }), 200
+    except Exception as e:
+        logger.error(f"Error getting CMSC173E class: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':

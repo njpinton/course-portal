@@ -122,7 +122,7 @@
 </head>
 <body>
     <div class="container">
-        <a href="/" class="back-button">← Back to Modules</a>
+        <a href="/" class="back-button">← Back to Homepage</a>
         <div style="float: right; margin-top: 20px;">
             {% if session.get('is_admin') %}
                 <a href="/admin_logout" class="back-button" style="background-color: #dc3545;">Logout Admin</a>
@@ -144,12 +144,28 @@
                     <input type="text" id="projectTitle" name="project_title">
                 </div>
                 <div class="form-group">
-                    <label for="newMemberName">Add Group Member:</label>
-                    <input type="text" id="newMemberName" placeholder="Enter member name">
-                    <button type="button" id="addMemberButton">Add Member</button>
+                    <label for="classSelect">Select Section/Class:</label>
+                    <select id="classSelect" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;">
+                        <option value="">-- Select a class --</option>
+                        <option value="cmsc173a">CMSC 173 Section A (Tue-Fri 3:00-4:30 PM)</option>
+                        <option value="cmsc173d">CMSC 173 Section D (Tue-Fri 4:30-6:00 PM)</option>
+                        <option value="cmsc173e">CMSC 173 Section E (Mon-Thu 3:00-4:30 PM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="studentSelect">Add Group Member:</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <select id="studentSelect" placeholder="Select a student..." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <option value="">-- Select a class first --</option>
+                        </select>
+                        <button type="button" id="addMemberButton" style="padding: 8px 15px;">Add Member</button>
+                    </div>
                     <div id="membersList" style="margin-top: 10px; border: 1px solid #eee; padding: 10px; border-radius: 5px; min-height: 50px;">
                         <!-- Added members will appear here -->
                         <p id="noMembersMessage" style="color: #888;">No members added yet.</p>
+                    </div>
+                    <div id="studentsAlert" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;">
+                        <small id="studentsAlertText"></small>
                     </div>
                 </div>
                 <button type="submit">Create Group</button>
@@ -194,13 +210,70 @@
                         const currentGroupName = document.getElementById('currentGroupName');
                         const uploadGroupId = document.getElementById('uploadGroupId');
             
-                        const newMemberNameInput = document.getElementById('newMemberName');
+                        const classSelect = document.getElementById('classSelect');
+                        const studentSelect = document.getElementById('studentSelect');
                         const addMemberButton = document.getElementById('addMemberButton');
                         const membersListDiv = document.getElementById('membersList');
                         const noMembersMessage = document.getElementById('noMembersMessage');
-            
+                        const studentsAlert = document.getElementById('studentsAlert');
+                        const studentsAlertText = document.getElementById('studentsAlertText');
+
                         let selectedGroupId = null;
                         let currentMembers = []; // Array to hold members for the new group
+                        let availableStudents = []; // Array to hold students from selected class
+
+                        // Handle class selection
+                        classSelect.addEventListener('change', async () => {
+                            const selectedClass = classSelect.value;
+                            if (selectedClass) {
+                                await loadStudentsByClass(selectedClass);
+                            } else {
+                                studentSelect.innerHTML = '<option value="">-- Select a class first --</option>';
+                                studentsAlert.style.display = 'none';
+                            }
+                        });
+
+                        // Load students by class
+                        async function loadStudentsByClass(className) {
+                            try {
+                                const response = await fetch(`/api/classes/${className}`);
+                                const data = await response.json();
+                                if (data.ungrouped_students) {
+                                    availableStudents = data.ungrouped_students;
+                                    populateStudentSelect();
+
+                                    const ungroupedCount = data.ungrouped_students.length;
+                                    const totalCount = data.total_students;
+                                    const sectionLabel = className === 'cmsc173a' ? 'Section A' : 'Section D';
+                                    if (ungroupedCount > 0) {
+                                        studentsAlert.style.display = 'block';
+                                        studentsAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
+                                    }
+                                } else if (data.error) {
+                                    studentSelect.innerHTML = '<option value="">No students found</option>';
+                                    studentsAlert.style.display = 'block';
+                                    studentsAlertText.textContent = '⚠️ Class not yet set up in database. Please contact admin.';
+                                }
+                            } catch (error) {
+                                console.error('Error loading students:', error);
+                                studentsAlert.style.display = 'block';
+                                studentsAlertText.textContent = '❌ Error loading students: ' + error.message;
+                            }
+                        }
+
+                        // Populate student dropdown
+                        function populateStudentSelect() {
+                            studentSelect.innerHTML = '<option value="">-- Select a student --</option>';
+                            availableStudents.forEach(student => {
+                                const option = document.createElement('option');
+                                const fullName = `${student.first_name} ${student.last_name}`;
+                                option.value = student.id;
+                                option.text = `${fullName} (${student.campus_id}) - ${student.program}`;
+                                option.dataset.name = fullName;
+                                option.dataset.campusId = student.campus_id;
+                                studentSelect.appendChild(option);
+                            });
+                        }
             
                 // Function to fetch and display all groups
                 async function fetchAndDisplayGroups() {
@@ -324,12 +397,28 @@
             
                     // Handle adding members
                     addMemberButton.addEventListener('click', () => {
-                        const memberName = newMemberNameInput.value.trim();
-                        if (memberName) {
-                            currentMembers.push(memberName);
-                            console.log('Current Members:', currentMembers); // Debugging line
+                        const selectedOption = studentSelect.options[studentSelect.selectedIndex];
+                        const studentId = studentSelect.value;
+                        const memberName = selectedOption.dataset.name;
+                        const campusId = selectedOption.dataset.campusId;
+
+                        if (studentId && memberName) {
+                            // Check if student is already added
+                            if (currentMembers.some(m => m.studentId === studentId)) {
+                                alert(`${memberName} is already added to this group!`);
+                                return;
+                            }
+
+                            currentMembers.push({
+                                studentId: studentId,
+                                name: memberName,
+                                campusId: campusId
+                            });
+                            console.log('Current Members:', currentMembers);
                             renderCurrentMembers();
-                            newMemberNameInput.value = '';
+                            studentSelect.value = ''; // Reset the select
+                        } else {
+                            alert('Please select a student');
                         }
                     });
             
@@ -341,12 +430,20 @@
                             const ul = document.createElement('ul');
                             currentMembers.forEach((member, index) => {
                                 const li = document.createElement('li');
-                                li.textContent = member;
+                                const memberInfo = typeof member === 'string'
+                                    ? member
+                                    : `${member.name} (${member.campusId})`;
+                                li.textContent = memberInfo;
+                                li.style.marginBottom = '8px';
                                 const removeButton = document.createElement('button');
                                 removeButton.textContent = 'Remove';
                                 removeButton.style.marginLeft = '10px';
                                 removeButton.style.backgroundColor = '#dc3545';
+                                removeButton.style.color = 'white';
+                                removeButton.style.border = 'none';
+                                removeButton.style.borderRadius = '4px';
                                 removeButton.style.padding = '5px 10px';
+                                removeButton.style.cursor = 'pointer';
                                 removeButton.addEventListener('click', () => {
                                     currentMembers.splice(index, 1);
                                     renderCurrentMembers();

@@ -131,6 +131,35 @@
             font-weight: 600;
         }
 
+        .feedback-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #7A1E3F, #1B5E4F);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .feedback-button:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            transform: scale(1.1);
+        }
+
+        .feedback-button:active {
+            transform: scale(0.95);
+        }
+
         .stages-container {
             display: grid;
             gap: 20px;
@@ -447,21 +476,107 @@
                             <p>{{ descriptions[i] }}</p>
                         </div>
 
+                        <!-- GUIDE QUESTIONS -->
+                        <div class="stage-description" style="background-color: #f9f3ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <h4>❓ Guide Questions</h4>
+                            {% set guide_questions = [
+                                [
+                                    "What is your project topic and why is it important?",
+                                    "What are your specific research objectives?",
+                                    "What dataset(s) will you use?",
+                                    "What machine learning techniques will you apply?",
+                                    "What are your expected outcomes?"
+                                ],
+                                [
+                                    "What is the source and size of your dataset?",
+                                    "What data quality issues did you encounter?",
+                                    "What preprocessing steps did you apply?",
+                                    "How did you handle missing values and outliers?",
+                                    "What insights did your exploratory analysis reveal?"
+                                ],
+                                [
+                                    "Which models did you train and why?",
+                                    "What were your hyperparameter choices?",
+                                    "How many epochs/iterations did you train?",
+                                    "What validation strategy did you use?",
+                                    "What was your training time and computational resources used?"
+                                ],
+                                [
+                                    "What metrics did you use to evaluate performance?",
+                                    "How does your model compare to baseline models?",
+                                    "What are the strengths and weaknesses of your model?",
+                                    "How did you handle class imbalance (if applicable)?",
+                                    "What are the practical implications of your results?"
+                                ],
+                                [
+                                    "What are your main findings and conclusions?",
+                                    "How do your results answer your research questions?",
+                                    "What limitations did you encounter?",
+                                    "What are potential applications of your work?",
+                                    "What improvements or future work would you recommend?"
+                                ],
+                                [
+                                    "Can you explain your methodology clearly?",
+                                    "Did you present your results with visualizations?",
+                                    "How did you address questions from the audience?",
+                                    "Did you stay within the time limit?",
+                                    "Did you demonstrate understanding of your work?"
+                                ]
+                            ] %}
+                            <ul style="margin-left: 20px;">
+                                {% for question in guide_questions[i] %}
+                                <li style="margin-bottom: 8px;">{{ question }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
                         <!-- SUBMISSION FORM -->
                         <div class="submission-area">
                             <h4>📤 Submit Work</h4>
+                            <div style="background-color: #fffacd; padding: 12px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffa500;">
+                                <strong>Required Submissions:</strong>
+                                <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+                                    <li><strong>Summary PDF</strong> - A PDF document summarizing your work for this stage</li>
+                                    <li><strong>Presentation</strong> - Either upload a presentation file (PPTX/PDF) OR provide a link to your presentation (Google Slides, Canva, etc.)</li>
+                                </ul>
+                            </div>
                             <form onsubmit="submitStageWork(event, {{ i + 1 }})">
                                 <div class="form-group">
-                                    <label>Work Description or Notes (Optional)</label>
-                                    <textarea id="content-{{ i }}" placeholder="Enter your submission details or leave blank if uploading a file only..."></textarea>
+                                    <label><strong>📄 Summary PDF (Required)</strong></label>
+                                    <input type="file" id="file-{{ i }}" accept=".pdf" required>
+                                    <small style="color: #999; display: block; margin-top: 5px;">
+                                        Upload a PDF summary of your work for this stage (Max 50MB)
+                                    </small>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Upload File (Optional)</label>
-                                    <input type="file" id="file-{{ i }}" accept=".pdf,.docx,.txt,.ipynb,.csv,.xlsx,.pptx">
-                                    <small style="color: #999; display: block; margin-top: 5px;">
-                                        Accepted: PDF, DOCX, TXT, IPYNB, CSV, XLSX, PPTX (Max 50MB)
-                                    </small>
+                                    <label><strong>🎯 Presentation Slides (Required)</strong></label>
+                                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                                        <select id="presentation-type-{{ i }}" onchange="togglePresentationInput({{ i }})" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                            <option value="">-- Select presentation type --</option>
+                                            <option value="upload">Upload as PDF/PPTX</option>
+                                            <option value="link">Provide link (Google Slides, Canva, etc.)</option>
+                                        </select>
+                                    </div>
+
+                                    <div id="upload-presentation-{{ i }}" style="display: none;">
+                                        <input type="file" id="presentation-file-{{ i }}" accept=".pdf,.pptx">
+                                        <small style="color: #999; display: block; margin-top: 5px;">
+                                            Upload presentation as PDF or PPTX (Max 50MB)
+                                        </small>
+                                    </div>
+
+                                    <div id="link-presentation-{{ i }}" style="display: none;">
+                                        <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                        <small style="color: #999; display: block; margin-top: 5px;">
+                                            Paste the shareable link to your presentation (must be publicly accessible)
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Additional Notes (Optional)</label>
+                                    <textarea id="content-{{ i }}" placeholder="Add any additional notes or details about your submission..."></textarea>
                                 </div>
 
                                 <button type="submit" class="btn-submit">Submit Stage {{ i + 1 }}</button>
@@ -527,49 +642,79 @@
             }
         });
 
+        function togglePresentationInput(stageIndex) {
+            const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;
+            const uploadDiv = document.getElementById(`upload-presentation-${stageIndex}`);
+            const linkDiv = document.getElementById(`link-presentation-${stageIndex}`);
+
+            if (presentationType === 'upload') {
+                uploadDiv.style.display = 'block';
+                linkDiv.style.display = 'none';
+            } else if (presentationType === 'link') {
+                uploadDiv.style.display = 'none';
+                linkDiv.style.display = 'block';
+            } else {
+                uploadDiv.style.display = 'none';
+                linkDiv.style.display = 'none';
+            }
+        }
+
         async function submitStageWork(event, stageNumber) {
             event.preventDefault();
 
             const stageIndex = stageNumber - 1;
             const content = document.getElementById(`content-${stageIndex}`).value;
-            const fileInput = document.getElementById(`file-${stageIndex}`);
-            const file = fileInput.files[0];
+            const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
+            const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;
+
+            let presentationFile = null;
+            let presentationLink = null;
+
+            if (presentationType === 'upload') {
+                presentationFile = document.getElementById(`presentation-file-${stageIndex}`).files[0];
+                if (!presentationFile) {
+                    alert('Please select a presentation file to upload');
+                    return;
+                }
+            } else if (presentationType === 'link') {
+                presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
+                if (!presentationLink) {
+                    alert('Please provide a presentation link');
+                    return;
+                }
+            } else {
+                alert('Please select a presentation type (upload or link)');
+                return;
+            }
+
+            if (!summaryFile) {
+                alert('Please upload a summary PDF file');
+                return;
+            }
 
             try {
-                if (file) {
-                    // Submit with file
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('stage_number', stageNumber);
+                // Submit with summary PDF, presentation, and optional content
+                const formData = new FormData();
+                formData.append('file', summaryFile);
+                if (presentationFile) {
+                    formData.append('presentation_file', presentationFile);
+                }
+                if (presentationLink) {
+                    formData.append('presentation_link', presentationLink);
+                }
+                if (content) {
+                    formData.append('content', content);
+                }
+                formData.append('stage_number', stageNumber);
 
-                    const response = await fetch('/api/group/submit', {
-                        method: 'POST',
-                        body: formData
-                    });
+                const response = await fetch('/api/group/submit', {
+                    method: 'POST',
+                    body: formData
+                });
 
-                    if (!response.ok) {
-                        const error = await response.json();
-                        alert('Error: ' + (error.error || 'Failed to submit file'));
-                        return;
-                    }
-                } else if (content) {
-                    // Submit with text content only
-                    const response = await fetch('/api/group/submit', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            stage_number: stageNumber,
-                            content: content
-                        })
-                    });
-
-                    if (!response.ok) {
-                        const error = await response.json();
-                        alert('Error: ' + (error.error || 'Failed to submit work'));
-                        return;
-                    }
-                } else {
-                    alert('Please enter submission details or select a file to upload');
+                if (!response.ok) {
+                    const error = await response.json();
+                    alert('Error: ' + (error.error || 'Failed to submit'));
                     return;
                 }
 
@@ -580,6 +725,21 @@
                 alert('Error submitting work: ' + error.message);
             }
         }
+
+        function openFeedbackForm() {
+            const feedback = prompt(
+                'Please share your feedback or report an issue:\n\n' +
+                '(Your message will help us improve the application)',
+                ''
+            );
+            if (feedback && feedback.trim()) {
+                alert('Thank you for your feedback! We appreciate your input.');
+                console.log('Feedback:', feedback);
+            }
+        }
     </script>
+
+    <!-- Feedback Button -->
+    <button class="feedback-button" onclick="openFeedbackForm()" title="Report issue or feedback">💬</button>
 </body>
 </html>

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CMSC 173 Group Project Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 50%, #7A1E3F 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #1B5E4F 0%, #7A1E3F 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-primary, .btn-secondary, .btn-danger {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #D4AF37;
+            color: #1B5E4F;
+        }
+
+        .btn-primary:hover {
+            background-color: #FFC700;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .feedback-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .feedback-button:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+            transform: scale(1.1);
+        }
+
+        .feedback-button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 40px;
+        }
+
+        /* STATISTICS SECTION */
+        .statistics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #1B5E4F;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            color: #1B5E4F;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-subtext {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .stat-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        /* STAGES SECTION */
+        .stages-section {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border: 1px solid #eee;
+        }
+
+        .stages-section h2 {
+            color: #1B5E4F;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .stage-item {
+            margin-bottom: 25px;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stage-name {
+            font-weight: 600;
+            color: #1B5E4F;
+            font-size: 1.1em;
+        }
+
+        .stage-percentage {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #7A1E3F;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #1B5E4F 0%, #2D4F47 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        /* SUBMISSIONS TABLE */
+        .submissions-section {
+            margin-top: 40px;
+        }
+
+        .submissions-section h2 {
+            color: #1B5E4F;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .submissions-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .submissions-table thead {
+            background: #1B5E4F;
+            color: white;
+        }
+
+        .submissions-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95em;
+            border-bottom: 2px solid #1B5E4F;
+        }
+
+        .submissions-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .submissions-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .submissions-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .group-name-cell {
+            font-weight: 600;
+            color: #1B5E4F;
+        }
+
+        .stage-cell {
+            color: #666;
+        }
+
+        .date-cell {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-submitted {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-under-review {
+            background: #e7d4f5;
+            color: #5a1b8f;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* LOADING STATE */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1B5E4F;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ERROR STATE */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert.error {
+            background: #ffcdd2;
+            border-left: 4px solid #dc3545;
+            color: #c62828;
+        }
+
+        .alert.success {
+            background: #c8e6c9;
+            border-left: 4px solid #4CAF50;
+            color: #2e7d32;
+        }
+
+        .alert.info {
+            background: #bbdefb;
+            border-left: 4px solid #2196F3;
+            color: #1565c0;
+        }
+
+        .alert.warning {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            color: #856404;
+        }
+
+        .alert-icon {
+            font-size: 1.3em;
+        }
+
+        .alert-close {
+            margin-left: auto;
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .alert-close:hover {
+            opacity: 1;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 1.1em;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: #999;
+        }
+
+        .footer a {
+            color: #1B5E4F;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .statistics-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .submissions-table {
+                font-size: 0.9em;
+            }
+
+            .submissions-table th,
+            .submissions-table td {
+                padding: 10px 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .statistics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 2em;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-primary, .btn-secondary, .btn-danger {
+                width: 100%;
+                text-align: center;
+            }
+
+            .submissions-table {
+                font-size: 0.85em;
+            }
+
+            .stage-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .stage-percentage {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p class="header-subtitle">CMSC 173 Group Project Portal - System Overview</p>
+            </div>
+            <div class="header-actions">
+                <a href="/admin_roster" class="btn-secondary">Student Roster</a>
+                <a href="/admin_submissions" class="btn-secondary">All Submissions</a>
+                <a href="/group_portal" class="btn-secondary">View Groups</a>
+                <a href="/admin_logout" class="btn-danger">Logout</a>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- ALERTS CONTAINER -->
+            <div id="alertsContainer"></div>
+
+            <!-- STATISTICS CARDS -->
+            <div class="statistics-grid">
+                <div class="stat-card loading" id="totalGroupsCard">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Total Groups</div>
+                    <div class="stat-value"><span class="loading-spinner"></span></div>
+                    <div class="stat-subtext">Active groups</div>
+                </div>
+
+                <div class="stat-card loading" id="totalSubmissionsCard">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-label">Total Submissions</div>
+                    <div class="stat-value"><span class="loading-spinner"></span></div>
+                    <div class="stat-subtext">All stages combined</div>
+                </div>
+
+                <div class="stat-card loading" id="avgSubmissionsCard">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-label">Avg Submissions per Group</div>
+                    <div class="stat-value"><span class="loading-spinner"></span></div>
+                    <div class="stat-subtext">Average across all groups</div>
+                </div>
+            </div>
+
+            <!-- STAGE COMPLETION SECTION -->
+            <div class="stages-section">
+                <h2>Stage Completion Overview</h2>
+                <div id="stagesContainer">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⏳</div>
+                        <div class="empty-state-text">Loading stage data...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RECENT SUBMISSIONS SECTION -->
+            <div class="submissions-section">
+                <h2>Recent Submissions (Last 10)</h2>
+                <div class="table-wrapper">
+                    <table class="submissions-table" id="submissionsTable">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                                <th>Project Title</th>
+                                <th>Stage</th>
+                                <th>Submitted Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="submissionsTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 40px 20px; color: #999;">
+                                    <span class="loading-spinner"></span> Loading submissions...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>CMSC 173 Group Project Portal | Admin Dashboard | © 2025 University of the Philippines Cebu</p>
+            <p><a href="/">Back to Home</a></p>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Admin Dashboard
+         * Fetches and displays system statistics, stage completion, and recent submissions
+         */
+
+        // Configuration
+        const API_ENDPOINT = '/api/admin/statistics';
+        const REFRESH_INTERVAL = 300000; // 5 minutes
+        let refreshTimer = null;
+
+        /**
+         * Display an alert message
+         */
+        function showAlert(message, type = 'info') {
+            const alertsContainer = document.getElementById('alertsContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert ${type}`;
+
+            const iconMap = {
+                'success': '✓',
+                'error': '✕',
+                'info': 'ℹ',
+                'warning': '⚠'
+            };
+
+            alert.innerHTML = `
+                <span class="alert-icon">${iconMap[type] || 'ℹ'}</span>
+                <span>${message}</span>
+                <span class="alert-close" onclick="this.parentElement.remove()">✕</span>
+            `;
+
+            alertsContainer.appendChild(alert);
+
+            // Auto-remove after 5 seconds for non-error alerts
+            if (type !== 'error') {
+                setTimeout(() => alert.remove(), 5000);
+            }
+        }
+
+        /**
+         * Set card loading state
+         */
+        function setCardLoading(cardId, isLoading) {
+            const card = document.getElementById(cardId);
+            if (isLoading) {
+                card.classList.add('loading');
+            } else {
+                card.classList.remove('loading');
+            }
+        }
+
+        /**
+         * Format date to readable string
+         */
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        /**
+         * Update statistics cards
+         */
+        function updateStatistics(data) {
+            try {
+                // Total Groups
+                const totalGroupsCard = document.getElementById('totalGroupsCard');
+                totalGroupsCard.innerHTML = `
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Total Groups</div>
+                    <div class="stat-value">${data.total_groups || 0}</div>
+                    <div class="stat-subtext">Active groups</div>
+                `;
+                setCardLoading('totalGroupsCard', false);
+
+                // Total Submissions
+                const totalSubmissionsCard = document.getElementById('totalSubmissionsCard');
+                totalSubmissionsCard.innerHTML = `
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-label">Total Submissions</div>
+                    <div class="stat-value">${data.total_submissions || 0}</div>
+                    <div class="stat-subtext">All stages combined</div>
+                `;
+                setCardLoading('totalSubmissionsCard', false);
+
+                // Average Submissions per Group
+                const avgSubmissionsCard = document.getElementById('avgSubmissionsCard');
+                const avgValue = data.total_groups > 0
+                    ? (data.total_submissions / data.total_groups).toFixed(1)
+                    : 0;
+                avgSubmissionsCard.innerHTML = `
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-label">Avg Submissions per Group</div>
+                    <div class="stat-value">${avgValue}</div>
+                    <div class="stat-subtext">Average across all groups</div>
+                `;
+                setCardLoading('avgSubmissionsCard', false);
+            } catch (error) {
+                console.error('Error updating statistics:', error);
+                showAlert('Failed to update statistics: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Update stage completion bars
+         */
+        function updateStages(stages) {
+            try {
+                const stagesContainer = document.getElementById('stagesContainer');
+
+                if (!stages || stages.length === 0) {
+                    stagesContainer.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <div class="empty-state-text">No stage data available</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                stages.forEach((stage, index) => {
+                    const percentage = stage.total_submissions > 0
+                        ? Math.round((stage.completed_submissions / stage.total_submissions) * 100)
+                        : 0;
+
+                    html += `
+                        <div class="stage-item">
+                            <div class="stage-header">
+                                <span class="stage-name">Stage ${stage.stage_number}: ${stage.stage_name}</span>
+                                <span class="stage-percentage">${percentage}%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${percentage}%">
+                                    ${percentage > 10 ? percentage + '%' : ''}
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 0.9em; color: #999;">
+                                ${stage.completed_submissions} of ${stage.total_submissions} groups completed
+                            </div>
+                        </div>
+                    `;
+                });
+
+                stagesContainer.innerHTML = html;
+            } catch (error) {
+                console.error('Error updating stages:', error);
+                showAlert('Failed to update stage data: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Update recent submissions table
+         */
+        function updateSubmissions(submissions) {
+            try {
+                const tableBody = document.getElementById('submissionsTableBody');
+
+                if (!submissions || submissions.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">📭</div>
+                                    <div class="empty-state-text">No submissions yet</div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                submissions.forEach(submission => {
+                    const groupName = submission.groups?.group_name || 'Unknown';
+                    const projectTitle = submission.groups?.project_title || 'N/A';
+                    html += `
+                        <tr>
+                            <td class="group-name-cell">${groupName}</td>
+                            <td>${projectTitle}</td>
+                            <td class="stage-cell">Stage ${submission.stage_number}</td>
+                            <td class="date-cell">${formatDate(submission.submitted_at)}</td>
+                        </tr>
+                    `;
+                });
+
+                tableBody.innerHTML = html;
+            } catch (error) {
+                console.error('Error updating submissions:', error);
+                showAlert('Failed to update submissions: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Fetch all dashboard data
+         */
+        async function fetchDashboardData() {
+            try {
+                const response = await fetch(API_ENDPOINT);
+
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Update all sections
+                updateStatistics(data);
+                updateStages(data.stages || []);
+                updateSubmissions(data.recent_submissions || []);
+
+                console.log('Dashboard data refreshed successfully');
+            } catch (error) {
+                console.error('Error fetching dashboard data:', error);
+                showAlert('Failed to load dashboard data: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Start auto-refresh timer
+         */
+        function startAutoRefresh() {
+            // Clear existing timer if any
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+            }
+
+            // Refresh every 5 minutes
+            refreshTimer = setInterval(() => {
+                console.log('Auto-refreshing dashboard data...');
+                fetchDashboardData();
+            }, REFRESH_INTERVAL);
+        }
+
+        /**
+         * Initialize dashboard
+         */
+        async function initializeDashboard() {
+            try {
+                console.log('Initializing admin dashboard...');
+
+                // Fetch initial data
+                await fetchDashboardData();
+
+                // Start auto-refresh
+                startAutoRefresh();
+
+                console.log('Admin dashboard initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize dashboard:', error);
+                showAlert('Failed to initialize dashboard: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Cleanup on page unload
+         */
+        window.addEventListener('beforeunload', () => {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+            }
+        });
+
+        /**
+         * Handle page visibility (pause refresh when tab is hidden)
+         */
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (refreshTimer) {
+                    clearInterval(refreshTimer);
+                    refreshTimer = null;
+                }
+            } else {
+                // Resume refresh when tab becomes visible
+                fetchDashboardData();
+                startAutoRefresh();
+            }
+        });
+
+        /**
+         * Initialize on DOM ready
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDashboard();
+        });
+
+        // Manual refresh function for debugging
+        window.refreshDashboard = function() {
+            console.log('Manual refresh triggered');
+            fetchDashboardData();
+        };
+
+        function openFeedbackForm() {
+            const feedback = prompt(
+                'Please share your feedback or report an issue:\n\n' +
+                '(Your message will help us improve the application)',
+                ''
+            );
+            if (feedback && feedback.trim()) {
+                alert('Thank you for your feedback! We appreciate your input.');
+                console.log('Feedback:', feedback);
+            }
+        }
+    </script>
+
+    <!-- Feedback Button -->
+    <button class="feedback-button" onclick="openFeedbackForm()" title="Report issue or feedback">💬</button>
+</body>
+</html>
