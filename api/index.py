@@ -819,13 +819,8 @@ def admin_login():
                 logger.error("Admin credentials not properly configured")
                 return render_template('admin_login.html', error='Server misconfiguration')
 
-            # Debug logging
-            logger.info(f"Login attempt: username={username}, admin_username={admin_username}")
-            logger.info(f"Hash from env starts with: {admin_password_hash[:20]}...")
-            hash_check = check_password_hash(admin_password_hash, password)
-            logger.info(f"Password hash check result: {hash_check}")
-
             # Verify password hash
+            hash_check = check_password_hash(admin_password_hash, password)
             if username == admin_username and hash_check:
                 # Generate JWT token for serverless-compatible authentication
                 token = generate_admin_token()
