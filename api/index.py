@@ -921,8 +921,27 @@ def get_submission_details_admin(submission_id):
         if not response.data or len(response.data) == 0:
             return jsonify({"error": "Submission not found"}), 404
 
+        # Flatten the response data for the frontend
+        submission_data = response.data[0]
+        group_data = submission_data.get('groups', {})
+
+        # Extract and structure the data
+        flattened_data = {
+            'id': submission_data.get('id'),
+            'group_id': submission_data.get('group_id'),
+            'group_name': group_data.get('group_name') if group_data else 'N/A',
+            'project_title': group_data.get('project_title') if group_data else 'N/A',
+            'members': [m.get('member_name', '') for m in (group_data.get('members', []) if group_data else [])],
+            'stage': submission_data.get('stage_number'),
+            'description': submission_data.get('content'),
+            'file_name': submission_data.get('file_path', '').split('/')[-1] if submission_data.get('file_path') else 'N/A',
+            'file_size': submission_data.get('file_size'),
+            'submitted_at': submission_data.get('submitted_at'),
+            'updated_at': submission_data.get('updated_at'),
+        }
+
         logger.info(f"Fetched details for submission {submission_id}")
-        return jsonify(response.data[0]), 200
+        return jsonify(flattened_data), 200
 
     except Exception as e:
         logger.error(f"Error fetching submission details: {e}", exc_info=True)
