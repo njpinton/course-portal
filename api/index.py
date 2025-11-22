@@ -1699,7 +1699,15 @@ def get_cmsc173a_class_api():
     try:
         cmsc_class = get_class_by_code_section('CMSC173', 'A')
         if not cmsc_class:
-            return jsonify({"error": "Class not found"}), 404
+            # Debug: Check if Supabase client is available
+            from supabase_client import get_supabase_client
+            client = get_supabase_client()
+            debug_info = {
+                "error": "Class not found",
+                "supabase_client_available": client is not None
+            }
+            logger.warning(f"Class not found. Supabase client available: {client is not None}")
+            return jsonify(debug_info), 404
 
         all_students = get_students_by_class(cmsc_class['id'])
         ungrouped = get_ungrouped_students(cmsc_class['id'])
