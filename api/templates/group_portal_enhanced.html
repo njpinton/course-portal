@@ -732,7 +732,9 @@
             <div id="overview" class="tab-content active">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                     <h2>All Groups</h2>
-                    <a href="#manage" onclick="showManageTab()" class="btn-primary" style="text-decoration: none; padding: 10px 20px;">+ Create New Group</a>
+                    {% if not session.get('is_group_logged_in') %}
+                        <a href="#manage" onclick="showManageTab()" class="btn-primary" style="text-decoration: none; padding: 10px 20px;">+ Create New Group</a>
+                    {% endif %}
                 </div>
 
                 <!-- LIST VIEW (Default) -->
@@ -758,6 +760,7 @@
 
 
             <!-- TAB 6: MANAGE -->
+            {% if not session.get('is_group_logged_in') %}
             <div id="manage" class="tab-content" style="display: none;">
                 <div style="margin-bottom: 25px;">
                     <button onclick="showOverviewTab()" class="btn-secondary" style="padding: 10px 20px;">← Back to Overview</button>
@@ -813,6 +816,7 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
         </div>
 
         <div class="footer">
