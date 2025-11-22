@@ -1452,19 +1452,34 @@ def group_submit_api():
     try:
         group_id = session.get('group_id')
 
-        # Check if this is file upload or JSON submission
-        if request.files and 'file' in request.files:
-            # Handle file submission
-            file = request.files['file']
-            stage_number = request.form.get('stage_number', type=int)
-            content = request.form.get('content', '')
+        # Handle submission - file is optional, presentation link is required
+        stage_number = request.form.get('stage_number', type=int)
+        content = request.form.get('content', '')
+        presentation_link = request.form.get('presentation_link', '').strip()
+        file = request.files.get('file') if request.files else None
 
-            if not stage_number or stage_number < 1 or stage_number > 6:
-                return jsonify({"error": "Invalid stage number"}), 400
+        # Validate stage number
+        if not stage_number or stage_number < 1 or stage_number > 6:
+            return jsonify({"error": "Invalid stage number"}), 400
 
-            if file.filename == '':
-                return jsonify({"error": "No file selected"}), 400
+        # Validate presentation link (required)
+        if not presentation_link:
+            return jsonify({"error": "Presentation link is required"}), 400
 
+        # Get stage ID from stage number
+        stage_id = get_stage_id_by_number(stage_number)
+        if not stage_id:
+            return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
+
+        # Process file if provided (optional)
+        submission_data = {
+            'stage_number': stage_number,
+            'content': content if content else '',
+            'presentation_link': presentation_link
+        }
+
+        if file and file.filename != '':
+            # Validate file
             if not allowed_file(file.filename, file.content_type):
                 logger.warning(f"Invalid file type submitted: {file.content_type}")
                 return jsonify({"error": "File type not allowed"}), 400
@@ -1472,12 +1487,7 @@ def group_submit_api():
             if file.content_length and file.content_length > MAX_FILE_SIZE:
                 return jsonify({"error": "File too large (max 50MB)"}), 413
 
-            # Get stage ID from stage number
-            stage_id = get_stage_id_by_number(stage_number)
-            if not stage_id:
-                return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
-
-            # Process file for storage (base64 encoding for database)
+            # Process file for storage
             filename = secure_filename(f"group_{group_id}_stage_{stage_number}_{file.filename}")
             file_upload_result = upload_submission_file(
                 file,
@@ -1490,63 +1500,24 @@ def group_submit_api():
                 logger.error(f"Failed to process file for group {group_id}")
                 return jsonify({"error": "Failed to process file for submission"}), 500
 
-            # Submit work with file information (file content not stored in main submission record)
-            submission_data = {
-                'stage_number': stage_number,
-                'content': content if content else '',
-                'file_path': file_upload_result.get('file_path'),
-                'file_name': file_upload_result.get('filename'),
-                'file_size': file_upload_result.get('size'),
-                'file_mime_type': file.content_type
-            }
+            # Add file information to submission data
+            submission_data['file_path'] = file_upload_result.get('file_path')
+            submission_data['file_name'] = file_upload_result.get('filename')
+            submission_data['file_size'] = file_upload_result.get('size')
+            submission_data['file_mime_type'] = file.content_type
 
-            submission = submit_group_stage_work(
-                group_id,
-                stage_id,
-                submission_data
-            )
-            if submission:
-                logger.info(f"File submitted for group {group_id} stage {stage_number}: {filename}")
-                return jsonify(submission), 201
-            else:
-                logger.error(f"Failed to record submission for group {group_id} stage {stage_number}")
-                return jsonify({"error": "Failed to record submission"}), 500
-
+        # Submit work
+        submission = submit_group_stage_work(
+            group_id,
+            stage_id,
+            submission_data
+        )
+        if submission:
+            logger.info(f"Submission recorded for group {group_id} stage {stage_number}")
+            return jsonify(submission), 201
         else:
-            # Handle JSON submission (content only)
-            data = request.get_json()
-            if not data:
-                return jsonify({"error": "Request body must be JSON"}), 400
-
-            try:
-                stage_number = int(data.get('stage_number', 0))
-            except (ValueError, TypeError):
-                return jsonify({"error": "Invalid stage number"}), 400
-
-            content = data.get('content', '').strip()
-
-            if not stage_number or stage_number < 1 or stage_number > 6:
-                return jsonify({"error": "Invalid stage number"}), 400
-
-            if not content:
-                return jsonify({"error": "Content is required"}), 400
-
-            # Get stage ID from stage number
-            stage_id = get_stage_id_by_number(stage_number)
-            if not stage_id:
-                return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
-
-            # Submit work with content only
-            submission_data = {
-                'stage_number': stage_number,
-                'content': content
-            }
-            submission = submit_group_stage_work(group_id, stage_id, submission_data)
-            if submission:
-                logger.info(f"Content submitted for group {group_id} stage {stage_number}")
-                return jsonify(submission), 201
-            else:
-                return jsonify({"error": "Failed to record submission"}), 500
+            logger.error(f"Failed to record submission for group {group_id} stage {stage_number}")
+            return jsonify({"error": "Failed to record submission"}), 500
 
     except Exception as e:
         logger.error(f"Error submitting group work: {e}", exc_info=True)

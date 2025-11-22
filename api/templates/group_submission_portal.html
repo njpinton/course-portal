@@ -827,28 +827,33 @@
                         <div class="submission-area">
                             <h4>📤 Submit Work</h4>
                             <div style="background-color: #fffacd; padding: 12px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffa500;">
-                                <strong>Required Submissions:</strong>
+                                <strong>Required Submission:</strong>
                                 <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Summary PDF (1 page only)</strong> - A single-page PDF document summarizing your work for this stage (keep file size under 2MB)</li>
-                                    <li><strong>Presentation</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, etc.) to avoid file size limits</li>
+                                    <li><strong>Presentation Link (Required)</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, Figma, etc.) including summary, slides, and any supporting materials</li>
+                                </ul>
+                                <br>
+                                <strong>Optional Submission:</strong>
+                                <ul style="margin-top: 0; margin-bottom: 0; padding-left: 20px;">
+                                    <li><strong>Summary PDF</strong> - Optionally upload a single-page PDF summary of your work for this stage (keep file size under 2MB)</li>
                                 </ul>
                             </div>
                             {% if not is_admin_view %}
                             <form onsubmit="submitStageWork(event, {{ i + 1 }})">
                                 <div class="form-group">
-                                    <label><strong>📄 Summary PDF (Required)</strong></label>
-                                    <input type="file" id="file-{{ i }}" accept=".pdf" required>
+                                    <label><strong>🎯 Presentation Link (Required)</strong></label>
+                                    <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
                                     <small style="color: #999; display: block; margin-top: 5px;">
-                                        Upload a PDF summary of your work for this stage (Max 50MB)
+                                        ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.<br/>
+                                        📌 Include your summary, slides, and any supporting materials in the link
                                     </small>
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>🎯 Presentation Slides (Required)</strong></label>
-                                    <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                    <label><strong>📄 Summary PDF (Optional)</strong></label>
+                                    <input type="file" id="file-{{ i }}" accept=".pdf">
                                     <small style="color: #999; display: block; margin-top: 5px;">
-                                        ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc. (Any publicly accessible link)<br/>
-                                        📌 Note: Links are preferred to avoid file size limits
+                                        Optionally upload a PDF summary of your work for this stage (Max 50MB)<br/>
+                                        Can be omitted if your presentation link above includes all necessary information
                                     </small>
                                 </div>
 
@@ -1036,20 +1041,17 @@
             const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
             const presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
 
-            if (!summaryFile) {
-                alert('Please upload a summary PDF file');
-                return;
-            }
-
             if (!presentationLink) {
                 alert('Please provide a presentation link (Google Slides, Canva, PowerPoint Online, etc.)');
                 return;
             }
 
             try {
-                // Submit with summary PDF, presentation link, and optional content
+                // Submit with presentation link and optional PDF file
                 const formData = new FormData();
-                formData.append('file', summaryFile);
+                if (summaryFile) {
+                    formData.append('file', summaryFile);
+                }
                 formData.append('presentation_link', presentationLink);
                 if (content) {
                     formData.append('content', content);
