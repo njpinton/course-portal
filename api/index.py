@@ -890,8 +890,25 @@ def get_all_submissions_admin():
 
         response = query.execute()
 
-        logger.info(f"Fetched {len(response.data)} submissions for admin")
-        return jsonify(response.data), 200
+        # Flatten the response data for the frontend
+        flattened_submissions = []
+        for submission in response.data:
+            group_data = submission.get('groups', {})
+            flattened_submission = {
+                'id': submission.get('id'),
+                'group_id': submission.get('group_id'),
+                'group_name': group_data.get('group_name') if group_data else 'N/A',
+                'project_title': group_data.get('project_title') if group_data else 'N/A',
+                'stage': submission.get('stage_number'),
+                'stage_number': submission.get('stage_number'),
+                'file_name': submission.get('file_path', '').split('/')[-1] if submission.get('file_path') else 'N/A',
+                'submitted_at': submission.get('submitted_at'),
+                'file_size': submission.get('file_size'),
+            }
+            flattened_submissions.append(flattened_submission)
+
+        logger.info(f"Fetched {len(flattened_submissions)} submissions for admin")
+        return jsonify(flattened_submissions), 200
 
     except Exception as e:
         logger.error(f"Error fetching submissions: {e}", exc_info=True)
