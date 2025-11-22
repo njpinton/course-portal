@@ -3,7 +3,12 @@ from supabase import create_client, Client
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_ANON_KEY")
-supabase: Client = create_client(url, key) if url and key else None
+
+try:
+    supabase: Client = create_client(url, key) if url and key else None
+except Exception as e:
+    print(f"WARNING: Failed to initialize Supabase client: {e}")
+    supabase = None
 
 def get_supabase_client() -> Client:
     return supabase

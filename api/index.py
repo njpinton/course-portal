@@ -30,7 +30,9 @@ try:
         get_group_members, unassign_student_from_group
     )
 except Exception as e:
-    logger.error(f"Failed to import supabase_client: {e}", exc_info=True)
+    print(f"WARNING: Failed to import supabase_client: {e}")
+    import traceback
+    traceback.print_exc()
     # Define stub functions to prevent NameError
     def get_class_by_code_section(*args, **kwargs):
         return None
