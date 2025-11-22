@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 import re
 import logging
+from datetime import datetime, timezone
 from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
@@ -1446,6 +1447,76 @@ def get_group_members_api(group_id):
         return jsonify(members), 200
     except Exception as e:
         logger.error(f"Error getting group members: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/groups/<group_id>/comments', methods=['GET'])
+def get_group_comments(group_id):
+    """Get admin comments for a group."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate group_id
+        is_valid, error_msg = validate_input(group_id, 255, "group_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Fetch comments from group_comments table
+        response = supabase_client.table('group_comments').select('*').eq('group_id', group_id).order('created_at', desc=True).execute()
+
+        logger.info(f"Fetched {len(response.data)} comments for group {group_id}")
+        return jsonify(response.data), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching group comments: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/groups/<group_id>/comments', methods=['POST'])
+def add_group_comment(group_id):
+    """Add a comment to a group (admin only)."""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate group_id
+        is_valid, error_msg = validate_input(group_id, 255, "group_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        data = request.get_json()
+        comment_text = data.get('comment_text', '').strip()
+
+        if not comment_text:
+            return jsonify({"error": "Comment text is required"}), 400
+
+        # Validate comment text
+        is_valid, error_msg = validate_input(comment_text, 5000, "comment_text")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Insert comment
+        comment_data = {
+            'group_id': group_id,
+            'admin_name': session.get('admin_username', 'Admin'),
+            'comment_text': comment_text,
+            'created_at': datetime.now(timezone.utc).isoformat(),
+        }
+
+        response = supabase_client.table('group_comments').insert([comment_data]).execute()
+
+        logger.info(f"Added comment to group {group_id}")
+        return jsonify(response.data[0] if response.data else comment_data), 201
+
+    except Exception as e:
+        logger.error(f"Error adding group comment: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/classes/cmsc173a', methods=['GET'])

@@ -760,6 +760,54 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- GROUP DETAILS MODAL (Admin View) -->
+                <div id="groupDetailsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto;">
+                    <div style="background: white; margin: 20px auto; padding: 40px; max-width: 1200px; border-radius: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                            <h2 id="groupDetailTitle" style="color: #1B5E4F; margin: 0;">Group Details</h2>
+                            <button onclick="closeGroupDetailsModal()" style="background: none; border: none; font-size: 28px; cursor: pointer; color: #999;">✕</button>
+                        </div>
+
+                        <!-- Tabs for group details -->
+                        <div style="display: flex; gap: 10px; border-bottom: 2px solid #eee; margin-bottom: 20px;">
+                            <button onclick="switchGroupDetailTab('info')" class="group-detail-tab active" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #1B5E4F; border-bottom: 3px solid #1B5E4F; font-weight: 600;">📋 Project Info</button>
+                            <button onclick="switchGroupDetailTab('progress')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">📊 Progress</button>
+                            <button onclick="switchGroupDetailTab('submissions')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">📤 Submissions</button>
+                            <button onclick="switchGroupDetailTab('comments')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">💬 Comments</button>
+                        </div>
+
+                        <!-- Tab: Project Info -->
+                        <div id="groupDetailTab-info" class="group-detail-tab-content" style="display: block;">
+                            <div id="projectDetailsContent"></div>
+                        </div>
+
+                        <!-- Tab: Progress -->
+                        <div id="groupDetailTab-progress" class="group-detail-tab-content" style="display: none;">
+                            <div id="progressContent"></div>
+                        </div>
+
+                        <!-- Tab: Submissions -->
+                        <div id="groupDetailTab-submissions" class="group-detail-tab-content" style="display: none;">
+                            <div id="documentsContent"></div>
+                        </div>
+
+                        <!-- Tab: Comments -->
+                        <div id="groupDetailTab-comments" class="group-detail-tab-content" style="display: none;">
+                            <div id="commentsSection" style="padding: 20px 0;">
+                                <h3 style="color: #1B5E4F; margin-bottom: 15px;">Admin Comments</h3>
+                                <div id="commentsList" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto;"></div>
+
+                                <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                                    <div class="form-group">
+                                        <textarea id="newCommentText" placeholder="Add a comment..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px; font-family: inherit;"></textarea>
+                                    </div>
+                                    <button onclick="submitGroupComment()" style="background-color: #1B5E4F; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Post Comment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -996,13 +1044,125 @@
                 const docsResponse = await fetch(`/api/groups/${groupId}/stage-documents`);
                 const documents = await docsResponse.json();
 
+                // Fetch group comments
+                await loadGroupComments(groupId);
+
                 displayProgressTimeline(group, stages);
                 displayProjectDetails(group);
                 displayModelResults(models);
                 displayDocuments(documents);
 
+                // Show the modal
+                document.getElementById('groupDetailTitle').textContent = group.group_name + ' - Details';
+                document.getElementById('groupDetailsModal').style.display = 'block';
+
+                // Reset to info tab
+                switchGroupDetailTab('info');
+
             } catch (error) {
                 console.error('Error loading group details:', error);
+            }
+        }
+
+        // Close group details modal
+        function closeGroupDetailsModal() {
+            document.getElementById('groupDetailsModal').style.display = 'none';
+        }
+
+        // Switch tabs in group details modal
+        function switchGroupDetailTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.group-detail-tab-content');
+            tabs.forEach(tab => tab.style.display = 'none');
+
+            // Remove active state from all buttons
+            const buttons = document.querySelectorAll('.group-detail-tab');
+            buttons.forEach(btn => {
+                btn.style.color = '#666';
+                btn.style.borderBottom = 'none';
+            });
+
+            // Show selected tab
+            document.getElementById(`groupDetailTab-${tabName}`).style.display = 'block';
+
+            // Add active state to clicked button
+            event.target.style.color = '#1B5E4F';
+            event.target.style.borderBottom = '3px solid #1B5E4F';
+        }
+
+        // Load group comments
+        async function loadGroupComments(groupId) {
+            try {
+                const response = await fetch(`/api/groups/${groupId}/comments`);
+                const comments = await response.json();
+                displayGroupComments(comments);
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        // Display group comments
+        function displayGroupComments(comments) {
+            const commentsList = document.getElementById('commentsList');
+
+            if (!Array.isArray(comments) || comments.length === 0) {
+                commentsList.innerHTML = '<p style="color: #999;">No comments yet.</p>';
+                return;
+            }
+
+            let html = '';
+            comments.forEach(comment => {
+                const date = new Date(comment.created_at).toLocaleString();
+                html += `
+                    <div style="background: #f9f9f9; padding: 12px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #1B5E4F;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <strong style="color: #1B5E4F;">${comment.admin_name || 'Admin'}</strong>
+                            <small style="color: #999;">${date}</small>
+                        </div>
+                        <p style="margin: 0; color: #333;">${comment.comment_text}</p>
+                    </div>
+                `;
+            });
+            commentsList.innerHTML = html;
+        }
+
+        // Submit new group comment
+        async function submitGroupComment() {
+            const commentText = document.getElementById('newCommentText').value.trim();
+
+            if (!commentText) {
+                alert('Please enter a comment');
+                return;
+            }
+
+            if (!selectedGroupId) {
+                alert('No group selected');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/groups/${selectedGroupId}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        comment_text: commentText
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to submit comment');
+
+                // Clear the textarea
+                document.getElementById('newCommentText').value = '';
+
+                // Reload comments
+                await loadGroupComments(selectedGroupId);
+
+                alert('Comment posted successfully!');
+            } catch (error) {
+                console.error('Error submitting comment:', error);
+                alert('Failed to post comment: ' + error.message);
             }
         }
 
