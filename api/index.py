@@ -1057,6 +1057,65 @@ def view_submission_file(submission_id):
         logger.error(f"Error viewing file: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/admin/groups/submission-status', methods=['GET'])
+def get_groups_submission_status():
+    """Get all groups with their submission status for each stage"""
+    if not session.get('is_admin'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Get all groups
+        groups_response = supabase_client.table('groups').select('id, group_name, project_title').execute()
+
+        if not groups_response.data:
+            return jsonify([]), 200
+
+        groups_data = []
+
+        # For each group, get submission status for each stage
+        for group in groups_response.data:
+            group_id = group['id']
+            group_name = group.get('group_name', 'N/A')
+            project_title = group.get('project_title', 'N/A')
+
+            # Get submissions for this group
+            submissions_response = supabase_client.table('group_submissions').select('stage_number').eq('group_id', group_id).execute()
+
+            # Create a set of stages that have submissions
+            submitted_stages = set()
+            if submissions_response.data:
+                for submission in submissions_response.data:
+                    stage_num = submission.get('stage_number')
+                    if stage_num:
+                        submitted_stages.add(stage_num)
+
+            # Build the group status object
+            group_status = {
+                'id': group_id,
+                'group_name': group_name,
+                'project_title': project_title,
+                'stages': {
+                    'stage_1': 1 in submitted_stages,
+                    'stage_2': 2 in submitted_stages,
+                    'stage_3': 3 in submitted_stages,
+                    'stage_4': 4 in submitted_stages,
+                    'stage_5': 5 in submitted_stages,
+                    'stage_6': 6 in submitted_stages,
+                }
+            }
+            groups_data.append(group_status)
+
+        logger.info(f"Fetched submission status for {len(groups_data)} groups")
+        return jsonify(groups_data), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching groups submission status: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 # --- GROUP AUTHENTICATION & PORTAL ---
 
 @app.route('/group_login', methods=['GET', 'POST'])

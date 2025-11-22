@@ -494,6 +494,35 @@
                 align-self: flex-end;
             }
         }
+
+        /* Groups submission status table styles */
+        .submissions-table td.submitted {
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .submissions-table td:not(.submitted) {
+            text-align: center;
+            color: #ccc;
+        }
+
+        .action-link {
+            color: #1B5E4F;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .action-link:hover {
+            background-color: #e8f5f3;
+            border: 1px solid #1B5E4F;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -549,6 +578,35 @@
                         <div class="empty-state-icon">⏳</div>
                         <div class="empty-state-text">Loading stage data...</div>
                     </div>
+                </div>
+            </div>
+
+            <!-- GROUPS SUBMISSION STATUS SECTION -->
+            <div class="submissions-section">
+                <h2>Groups Submission Status by Stage</h2>
+                <div class="table-wrapper" style="overflow-x: auto;">
+                    <table class="submissions-table" id="groupsStatusTable">
+                        <thead>
+                            <tr>
+                                <th>Group Name</th>
+                                <th>Project Title</th>
+                                <th>Stage 1<br><small>Proposal</small></th>
+                                <th>Stage 2<br><small>Data & Prep</small></th>
+                                <th>Stage 3<br><small>Training</small></th>
+                                <th>Stage 4<br><small>Evaluation</small></th>
+                                <th>Stage 5<br><small>Final Report</small></th>
+                                <th>Stage 6<br><small>Presentation</small></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupsStatusTableBody">
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 40px 20px; color: #999;">
+                                    <span class="loading-spinner"></span> Loading groups...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -827,6 +885,74 @@
         }
 
         /**
+         * Load and populate groups submission status table
+         */
+        async function loadGroupsSubmissionStatus() {
+            try {
+                const response = await fetch('/api/admin/groups/submission-status');
+
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+
+                const groups = await response.json();
+                const tbody = document.getElementById('groupsStatusTableBody');
+
+                if (!groups || groups.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 40px 20px; color: #999;">
+                                No groups found
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Clear loading state
+                tbody.innerHTML = '';
+
+                // Populate table with group data
+                groups.forEach(group => {
+                    const row = document.createElement('tr');
+
+                    // Build stage status cells
+                    let stageCells = '';
+                    for (let i = 1; i <= 6; i++) {
+                        const stageKey = `stage_${i}`;
+                        const isSubmitted = group.stages[stageKey];
+                        const checkmark = isSubmitted ? '✓' : '';
+                        const cellClass = isSubmitted ? 'submitted' : '';
+                        stageCells += `<td class="${cellClass}">${checkmark}</td>`;
+                    }
+
+                    row.innerHTML = `
+                        <td>${group.group_name}</td>
+                        <td>${group.project_title}</td>
+                        ${stageCells}
+                        <td>
+                            <a href="/admin/group/${group.id}" class="action-link">View Group</a>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                console.log(`Loaded submission status for ${groups.length} groups`);
+            } catch (error) {
+                console.error('Error loading groups submission status:', error);
+                const tbody = document.getElementById('groupsStatusTableBody');
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px 20px; color: #dc3545;">
+                            Error loading groups. Please try again.
+                        </td>
+                    </tr>
+                `;
+                showAlert('Failed to load groups submission status: ' + error.message, 'error');
+            }
+        }
+
+        /**
          * Initialize dashboard
          */
         async function initializeDashboard() {
@@ -835,6 +961,9 @@
 
                 // Fetch initial data
                 await fetchDashboardData();
+
+                // Load groups submission status table
+                await loadGroupsSubmissionStatus();
 
                 // Start auto-refresh
                 startAutoRefresh();
