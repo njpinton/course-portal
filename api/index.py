@@ -1787,5 +1787,197 @@ def get_cmsc173e_class_api():
         logger.error(f"Error getting CMSC173E class: {e}")
         return jsonify({"error": str(e)}), 500
 
+# --- ADMIN SUBMISSION SCORING ENDPOINTS ---
+
+@app.route('/api/admin/submissions/<submission_id>/score', methods=['POST'])
+def save_submission_score(submission_id):
+    """Save a score for a submission."""
+    if not is_admin_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        data = request.json or request.form.to_dict()
+        score = float(data.get('score', 0))
+        max_score = float(data.get('max_score', 100))
+        feedback = data.get('feedback', '')
+        admin_notes = data.get('admin_notes', '')
+
+        result = supabase_client.save_submission_score(
+            submission_id=submission_id,
+            score=score,
+            max_score=max_score,
+            feedback=feedback,
+            admin_notes=admin_notes
+        )
+
+        if result:
+            return jsonify(result), 200
+        else:
+            return jsonify({"error": "Failed to save score"}), 500
+    except ValueError:
+        return jsonify({"error": "Invalid score value"}), 400
+    except Exception as e:
+        logger.error(f"Error saving submission score: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/submissions/<submission_id>/score', methods=['GET'])
+def get_submission_score(submission_id):
+    """Get the score for a submission."""
+    if not is_admin_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        score = supabase_client.get_submission_score(submission_id)
+        if score:
+            return jsonify(score), 200
+        else:
+            return jsonify({"message": "No score found"}), 404
+    except Exception as e:
+        logger.error(f"Error getting submission score: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/groups/submissions-grid', methods=['GET'])
+def get_groups_submissions_grid():
+    """Get all groups with their submission statuses organized for dashboard grid view."""
+    if not is_admin_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        groups = supabase_client.get_all_groups_with_submissions()
+        return jsonify(groups), 200
+    except Exception as e:
+        logger.error(f"Error getting groups submissions grid: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/admin/groups/<group_id>/submissions-dashboard', methods=['GET'])
+def get_group_submissions_dashboard(group_id):
+    """Get a group's submissions organized by stage for dashboard display."""
+    if not is_admin_authenticated():
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        group_data = supabase_client.get_group_submissions_for_dashboard(group_id)
+        if group_data:
+            return jsonify(group_data), 200
+        else:
+            return jsonify({"error": "Group not found"}), 404
+    except Exception as e:
+        logger.error(f"Error getting group submissions dashboard: {e}")
+        return jsonify({"error": str(e)}), 500
+
+# --- SUBMISSION FILE DOWNLOADS ---
+
+@app.route('/api/submissions/<submission_id>/download/summary', methods=['GET'])
+def download_submission_summary(submission_id):
+    """Download the summary document (file_name) from a submission"""
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate submission_id
+        is_valid, error_msg = validate_input(submission_id, 255, "submission_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Get submission with file info
+        response = supabase_client.table('group_submissions').select('id, file_path, file_name, group_id').eq('id', submission_id).execute()
+
+        if not response.data or len(response.data) == 0:
+            logger.warning(f"Submission not found: {submission_id}")
+            return jsonify({"error": "Submission not found"}), 404
+
+        submission = response.data[0]
+        file_path = submission.get('file_path')
+        file_name = submission.get('file_name')
+
+        if not file_path:
+            logger.warning(f"No file found in submission: {submission_id}")
+            return jsonify({"error": "No file available for download"}), 404
+
+        # Verify file exists on disk
+        if not os.path.exists(file_path):
+            logger.error(f"File not found on disk: {file_path}")
+            return jsonify({"error": "File not found on server"}), 404
+
+        # Security check: ensure file is within uploads directory
+        real_path = os.path.realpath(file_path)
+        real_upload_folder = os.path.realpath(UPLOAD_FOLDER)
+        if not real_path.startswith(real_upload_folder):
+            logger.error(f"Path traversal attempt detected: {file_path}")
+            return jsonify({"error": "Invalid file path"}), 400
+
+        # Serve file
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+
+        logger.info(f"Downloading summary file {file_name} for submission {submission_id}")
+        return send_from_directory(directory, filename, as_attachment=True, download_name=file_name or filename)
+
+    except Exception as e:
+        logger.error(f"Error downloading summary file: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/submissions/<submission_id>/download/presentation', methods=['GET'])
+def download_submission_presentation(submission_id):
+    """Download the presentation file from a submission"""
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Validate submission_id
+        is_valid, error_msg = validate_input(submission_id, 255, "submission_id")
+        if not is_valid:
+            return jsonify({"error": error_msg}), 400
+
+        # Get submission with presentation file info
+        response = supabase_client.table('group_submissions').select('id, presentation_file, presentation_path, group_id').eq('id', submission_id).execute()
+
+        if not response.data or len(response.data) == 0:
+            logger.warning(f"Submission not found: {submission_id}")
+            return jsonify({"error": "Submission not found"}), 404
+
+        submission = response.data[0]
+        file_path = submission.get('presentation_path')
+        file_name = submission.get('presentation_file')
+
+        # If presentation_path doesn't exist, try to construct it from presentation_file
+        if not file_path and file_name:
+            # Try to find the file in uploads with the given filename
+            possible_path = os.path.join(UPLOAD_FOLDER, secure_filename(file_name))
+            if os.path.exists(possible_path):
+                file_path = possible_path
+            else:
+                logger.warning(f"Presentation file path not found for submission: {submission_id}")
+                return jsonify({"error": "Presentation file not available"}), 404
+
+        if not file_path:
+            logger.warning(f"No presentation file found in submission: {submission_id}")
+            return jsonify({"error": "Presentation file not available for download"}), 404
+
+        # Verify file exists on disk
+        if not os.path.exists(file_path):
+            logger.error(f"Presentation file not found on disk: {file_path}")
+            return jsonify({"error": "File not found on server"}), 404
+
+        # Security check: ensure file is within uploads directory
+        real_path = os.path.realpath(file_path)
+        real_upload_folder = os.path.realpath(UPLOAD_FOLDER)
+        if not real_path.startswith(real_upload_folder):
+            logger.error(f"Path traversal attempt detected: {file_path}")
+            return jsonify({"error": "Invalid file path"}), 400
+
+        # Serve file
+        directory = os.path.dirname(file_path)
+        filename = os.path.basename(file_path)
+
+        logger.info(f"Downloading presentation file {file_name} for submission {submission_id}")
+        return send_from_directory(directory, filename, as_attachment=True, download_name=file_name or filename)
+
+    except Exception as e:
+        logger.error(f"Error downloading presentation file: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(debug=True, port=8788)
