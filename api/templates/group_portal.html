@@ -192,7 +192,7 @@
                             ">
                             </ul>
                         </div>
-                        <button type="button" id="addMemberButton" style="padding: 8px 15px; white-space: nowrap;">Add Member</button>
+                        <button type="button" id="addMemberButton" style="padding: 8px 15px; white-space: nowrap;" disabled>Add Member</button>
                     </div>
                     <div id="membersList" style="margin-top: 10px; border: 1px solid #eee; padding: 10px; border-radius: 5px; min-height: 50px;">
                         <!-- Added members will appear here -->
@@ -354,12 +354,29 @@
                                     };
                                     memberSearchInput.value = fullName;
                                     memberDropdown.style.display = 'none';
+                                    addMemberButton.disabled = false;
                                 });
                                 memberDropdown.appendChild(li);
                             });
 
                             memberDropdown.style.display = 'block';
                         }
+
+                    // Add input event listener for member search
+                    memberSearchInput.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value.trim();
+                        // Disable button if input is cleared or doesn't match selected student
+                        if (!searchTerm) {
+                            addMemberButton.disabled = true;
+                            selectedStudentData = null;
+                        } else if (!selectedStudentData || selectedStudentData.name !== searchTerm) {
+                            // Disable button if typed text doesn't match the selected student name
+                            addMemberButton.disabled = true;
+                        } else {
+                            addMemberButton.disabled = false;
+                        }
+                        filterStudents(searchTerm);
+                    });
             
                 // Function to fetch and display all groups
                 async function fetchAndDisplayGroups() {
