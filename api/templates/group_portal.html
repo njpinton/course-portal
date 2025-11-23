@@ -280,8 +280,10 @@
                                 const data = await response.json();
                                 if (data.ungrouped_students) {
                                     availableStudents = data.ungrouped_students;
-                                    memberSearchInput.placeholder = 'Start typing a student name or campus ID...';
-                                    memberSearchInput.disabled = false;
+                                    memberSearchInput.placeholder = 'Click to select a student...';
+                                    // Make field functional (readonly allows clicking but not typing)
+                                    memberSearchInput.readOnly = false;
+                                    memberSearchInput.readOnly = true; // Keep it readonly for dropdown-only selection
 
                                     const ungroupedCount = data.ungrouped_students.length;
                                     const totalCount = data.total_students;
@@ -294,9 +296,9 @@
                                     }
                                 } else if (data.error) {
                                     memberSearchInput.value = '';
-                                    memberSearchInput.disabled = true;
                                     memberSearchInput.placeholder = 'No students available';
                                     memberDropdown.style.display = 'none';
+                                    addMemberButton.disabled = true;
                                     studentsAlert.style.display = 'block';
                                     studentsAlertText.textContent = '⚠️ Class not yet set up in database. Please contact admin.';
                                 }
@@ -374,19 +376,9 @@
                     // Add input event listener for member search
                     memberSearchInput.addEventListener('input', (e) => {
                         const searchTerm = e.target.value.trim();
-                        // Disable button if input is cleared or doesn't match selected student
-                        if (!searchTerm) {
-                            addMemberButton.disabled = true;
-                            selectedStudentData = null;
-                        } else if (!selectedStudentData || selectedStudentData.name !== searchTerm) {
-                            // Disable button if typed text doesn't match the selected student name
-                            addMemberButton.disabled = true;
-                        } else {
-                            addMemberButton.disabled = false;
-                        }
                         filterStudents(searchTerm);
                     });
-            
+
                 // Function to fetch and display all groups
                 async function fetchAndDisplayGroups() {
                     groupsList.innerHTML = '<p>Loading groups...</p>';
@@ -546,6 +538,8 @@
                         renderCurrentMembers();
                         memberSearchInput.value = ''; // Reset the input
                         selectedStudentData = null; // Clear selection
+                        addMemberButton.disabled = true; // Disable button until next selection
+                        memberDropdown.style.display = 'none'; // Hide dropdown
                     });
             
                     function renderCurrentMembers() {
