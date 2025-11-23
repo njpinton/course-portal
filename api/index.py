@@ -519,7 +519,8 @@ def create_group_api():
         project_title = data.get('project_title', '').strip()
         username = data.get('username', '').strip()
         password = data.get('password', '')
-        member_ids = data.get('members', [])  # Now expecting student IDs instead of names
+        # Accept both 'member_ids' (new) and 'members' (backward compat)
+        member_ids = data.get('member_ids', data.get('members', []))
 
         # Validate group_name
         is_valid, error_msg = validate_input(group_name, 100, "group_name")

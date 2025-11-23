@@ -1397,7 +1397,11 @@
         // Add selected member to group
         addMemberBtn.addEventListener('click', () => {
             if (selectedStudentData) {
-                currentMembers.push(selectedStudentData.name);
+                // Store both ID and name for later submission to Supabase
+                currentMembers.push({
+                    id: selectedStudentData.id,
+                    name: selectedStudentData.name
+                });
                 // Clear selection
                 memberDisplayText.textContent = 'Click to select a student from list...';
                 memberDisplayText.style.color = '#999';
@@ -1416,7 +1420,7 @@
                 currentMembers.forEach((member, index) => {
                     html += `
                         <li style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd;">
-                            <span>${member}</span>
+                            <span>${member.name}</span>
                             <button type="button" class="btn-danger" style="padding: 5px 10px;" onclick="removeMember(${index})">Remove</button>
                         </li>`;
                 });
@@ -1430,16 +1434,32 @@
             renderMembers();
         }
 
-        // Initialize: Fetch available students (this would come from your API)
-        // For now, create a list of all possible students from the loaded groups
-        function initializeStudentsList() {
-            // TODO: Fetch from /api/students or similar
-            allStudents = [
-                { id: 'student1', name: 'Alice Johnson' },
-                { id: 'student2', name: 'Bob Smith' },
-                { id: 'student3', name: 'Carol Williams' },
-                // Add more students as needed
-            ];
+        // Initialize: Fetch available students from Supabase via API
+        async function initializeStudentsList() {
+            try {
+                // For now, fetch all available students (not yet grouped)
+                // In a real app, you'd pass the class_id from a selector
+                const response = await fetch('/api/students/ungrouped/cmsc173a');
+
+                if (!response.ok) {
+                    console.warn('Could not fetch students from API, using empty list');
+                    allStudents = [];
+                    return;
+                }
+
+                const students = await response.json();
+                // Transform API response to match the dropdown format
+                // Expected format: [{id, campus_id, first_name, last_name, email}, ...]
+                allStudents = students.map(student => ({
+                    id: student.id,
+                    name: `${student.first_name} ${student.last_name} (${student.campus_id})`
+                }));
+
+                console.log(`Loaded ${allStudents.length} students from Supabase`);
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                allStudents = [];
+            }
         }
         initializeStudentsList();
 
@@ -1458,6 +1478,9 @@
             }
 
             try {
+                // Extract only the IDs for submission to backend
+                const memberIds = currentMembers.map(m => m.id);
+
                 const response = await fetch('/api/groups', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1466,7 +1489,7 @@
                         project_title: projectTitle,
                         username: username,
                         password: password,
-                        members: currentMembers
+                        member_ids: memberIds  // Send student IDs, not names
                     })
                 });
 
@@ -1474,9 +1497,11 @@
                 if (result.error) {
                     alert('Error: ' + result.error);
                 } else {
-                    alert('Group created successfully!');
+                    alert('Group created successfully with ' + memberIds.length + ' member(s)!');
                     document.getElementById('createGroupForm').reset();
                     currentMembers = [];
+                    memberDisplayText.textContent = 'Click to select a student from list...';
+                    memberDisplayText.style.color = '#999';
                     renderMembers();
                     fetchAndDisplayGroups();
                 }
