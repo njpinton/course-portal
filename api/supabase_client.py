@@ -293,9 +293,12 @@ def submit_group_stage_work(group_id: str, stage_id: str, submission_data: dict)
     try:
         data_to_insert = {
             'group_id': group_id,
-            'stage_id': stage_id,
             **submission_data
         }
+        # Only include stage_id if it's not None
+        if stage_id:
+            data_to_insert['stage_id'] = stage_id
+
         print(f"DEBUG: Inserting submission data: {data_to_insert}")
         response = supabase.table('group_submissions').insert(data_to_insert).execute()
         return response.data[0] if response.data else None

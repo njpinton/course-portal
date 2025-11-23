@@ -1475,11 +1475,6 @@ def group_submit_api():
         if not summary_markdown:
             return jsonify({"error": "Summary is required"}), 400
 
-        # Get stage ID from stage number
-        stage_id = get_stage_id_by_number(stage_number)
-        if not stage_id:
-            return jsonify({"error": f"Invalid stage number: {stage_number}"}), 400
-
         # Process file if provided (optional)
         submission_data = {
             'stage_number': stage_number,
@@ -1519,7 +1514,7 @@ def group_submit_api():
         # Submit work
         submission = submit_group_stage_work(
             group_id,
-            stage_id,
+            None,  # stage_id - not needed, we use stage_number in submission_data
             submission_data
         )
         if submission:
