@@ -170,7 +170,7 @@
                                 placeholder="Select a class first..."
                                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
                                 autocomplete="off"
-                                disabled
+                                readonly
                             >
                             <ul id="memberDropdown" style="
                                 display: none;
@@ -310,18 +310,17 @@
                         // Filter and display students in dropdown
                         function filterStudents(searchTerm) {
                             memberDropdown.innerHTML = '';
-                            if (!searchTerm.trim()) {
-                                memberDropdown.style.display = 'none';
-                                return;
-                            }
-
                             const searchLower = searchTerm.toLowerCase();
+
+                            // Filter students based on search term
                             const filtered = availableStudents.filter(student => {
+                                if (!searchTerm.trim()) return true; // Show all if empty search
                                 const fullName = `${student.first_name} ${student.last_name}`.toLowerCase();
                                 const campusId = student.campus_id.toLowerCase();
                                 return fullName.includes(searchLower) || campusId.includes(searchLower);
                             });
 
+                            // Hide dropdown if no students available
                             if (filtered.length === 0) {
                                 const li = document.createElement('li');
                                 li.textContent = 'No students found';
@@ -361,6 +360,16 @@
 
                             memberDropdown.style.display = 'block';
                         }
+
+                    // Add click event listener to show dropdown when field is clicked
+                    memberSearchInput.addEventListener('click', () => {
+                        if (availableStudents.length > 0) {
+                            memberSearchInput.value = '';
+                            addMemberButton.disabled = true;
+                            selectedStudentData = null;
+                            filterStudents('');
+                        }
+                    });
 
                     // Add input event listener for member search
                     memberSearchInput.addEventListener('input', (e) => {
