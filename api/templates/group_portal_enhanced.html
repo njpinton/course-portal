@@ -1437,28 +1437,31 @@
         // Initialize: Fetch available students from Supabase via API
         async function initializeStudentsList() {
             try {
-                // Fetch class data which includes ungrouped_students array
-                // This replicates the admin portal's approach
-                const response = await fetch('/api/classes/cmsc173a');
+                // Fetch students from all sections (A, D, E) of CMSC173
+                const sections = ['cmsc173a', 'cmsc173d', 'cmsc173e'];
+                const allFetchedStudents = [];
 
-                if (!response.ok) {
-                    console.warn('Could not fetch students from API, using empty list');
-                    allStudents = [];
-                    return;
+                for (const section of sections) {
+                    try {
+                        const response = await fetch(`/api/classes/${section}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            const students = data.ungrouped_students || [];
+                            allFetchedStudents.push(...students);
+                        }
+                    } catch (error) {
+                        console.warn(`Could not fetch students from section ${section}:`, error);
+                    }
                 }
-
-                const data = await response.json();
-                // Extract ungrouped_students from the response object
-                const students = data.ungrouped_students || [];
 
                 // Transform API response to match the dropdown format
                 // Expected format: [{id, campus_id, first_name, last_name, email}, ...]
-                allStudents = students.map(student => ({
+                allStudents = allFetchedStudents.map(student => ({
                     id: student.id,
                     name: `${student.first_name} ${student.last_name} (${student.campus_id})`
                 }));
 
-                console.log(`Loaded ${allStudents.length} students from Supabase`);
+                console.log(`Loaded ${allStudents.length} students from all CMSC173 sections`);
             } catch (error) {
                 console.error('Error fetching students:', error);
                 allStudents = [];
