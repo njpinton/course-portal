@@ -315,6 +315,24 @@
             background-color: #0F3E35;
         }
 
+        .markdown-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 0.9em;
+        }
+
+        .markdown-btn:hover {
+            background-color: #1B5E4F;
+            color: white;
+            border-color: #1B5E4F;
+        }
+
         .submission-status {
             background: white;
             padding: 15px;
@@ -829,12 +847,13 @@
                             <div style="background-color: #fffacd; padding: 12px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffa500;">
                                 <strong>Required Submission:</strong>
                                 <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Presentation Link (Required)</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, Figma, etc.) including summary, slides, and any supporting materials</li>
+                                    <li><strong>Presentation Link (Required)</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, Figma, etc.)</li>
+                                    <li><strong>Summary (Required)</strong> - Write a markdown summary of your work for this stage</li>
                                 </ul>
                                 <br>
                                 <strong>Optional Submission:</strong>
                                 <ul style="margin-top: 0; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Summary PDF</strong> - Optionally upload a single-page PDF summary of your work for this stage (keep file size under 2MB)</li>
+                                    <li><strong>Attachment</strong> - Optionally attach a PDF (max 2 pages) of your work for this stage</li>
                                 </ul>
                             </div>
                             {% if not is_admin_view %}
@@ -849,10 +868,48 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label><strong>📄 Summary PDF (Optional)</strong></label>
+                                    <label><strong>📝 Summary (Required)</strong></label>
+                                    <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '**bold text**', '**bold text**')" title="Bold">
+                                            <strong>B</strong>
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '*italic*', '*italic*')" title="Italic">
+                                            <em>I</em>
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '# Heading', '# Heading')" title="Heading">
+                                            H1
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '## Heading 2', '## Heading 2')" title="Heading 2">
+                                            H2
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '- Item', '- Item')" title="Bullet List">
+                                            •
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '1. Item', '1. Item')" title="Numbered List">
+                                            1.
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '[Link](url)', '[Link](url)')" title="Link">
+                                            🔗
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '`code`', '`code`')" title="Code">
+                                            &lt;&gt;
+                                        </button>
+                                        <button type="button" class="markdown-btn" onclick="togglePreview({{ i }})" title="Preview">
+                                            👁️ Preview
+                                        </button>
+                                    </div>
+                                    <textarea id="summary-{{ i }}" placeholder="Write a markdown summary of your work for this stage..." style="height: 200px; font-family: 'Courier New', monospace;" required></textarea>
+                                    <div id="preview-{{ i }}" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; margin-top: 10px; min-height: 100px;"></div>
+                                    <small style="color: #999; display: block; margin-top: 5px;">
+                                        ✅ Supports markdown formatting (bold, italic, headings, lists, links, code)
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label><strong>📎 Attachment (Optional - max 2 pages)</strong></label>
                                     <input type="file" id="file-{{ i }}" accept=".pdf">
                                     <small style="color: #999; display: block; margin-top: 5px;">
-                                        Optionally upload a PDF summary of your work for this stage (Max 50MB)<br/>
+                                        Optionally attach a PDF document (max 2 pages, keep file size under 2MB)<br/>
                                         Can be omitted if your presentation link above includes all necessary information
                                     </small>
                                 </div>
@@ -1033,10 +1090,76 @@
             }
         }
 
+        // Simple markdown-to-HTML converter
+        function markdownToHtml(markdown) {
+            let html = markdown
+                // Code blocks
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                // Inline code
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Bold
+                .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>')
+                // Italic
+                .replace(/\*([^\*]+)\*/g, '<em>$1</em>')
+                // Headings
+                .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+                // Links
+                .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+                // Lists
+                .replace(/^\- (.*?)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                // Line breaks
+                .replace(/\n/g, '<br>')
+                // Remove extra br tags inside code blocks
+                .replace(/<pre><code>([^<]*)<br>([^<]*)<\/code><\/pre>/g, '<pre><code>$1\n$2</code></pre>');
+
+            return html;
+        }
+
+        function insertMarkdown(stageIndex, before, after) {
+            const textarea = document.getElementById(`summary-${stageIndex}`);
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const selectedText = text.substring(start, end);
+
+            let newText, cursorPos;
+            if (selectedText) {
+                newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
+                cursorPos = start + before.length + selectedText.length;
+            } else {
+                newText = text.substring(0, start) + before + ' ' + after + text.substring(end);
+                cursorPos = start + before.length + 1;
+            }
+
+            textarea.value = newText;
+            textarea.selectionStart = cursorPos;
+            textarea.selectionEnd = cursorPos;
+            textarea.focus();
+        }
+
+        function togglePreview(stageIndex) {
+            const textarea = document.getElementById(`summary-${stageIndex}`);
+            const preview = document.getElementById(`preview-${stageIndex}`);
+
+            if (preview.style.display === 'none') {
+                // Show preview
+                const markdown = textarea.value;
+                preview.innerHTML = markdownToHtml(markdown) || '<em>Empty preview</em>';
+                preview.style.display = 'block';
+            } else {
+                // Hide preview
+                preview.style.display = 'none';
+            }
+        }
+
         async function submitStageWork(event, stageNumber) {
             event.preventDefault();
 
             const stageIndex = stageNumber - 1;
+            const summaryMarkdown = document.getElementById(`summary-${stageIndex}`).value;
             const content = document.getElementById(`content-${stageIndex}`).value;
             const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
             const presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
@@ -1047,8 +1170,11 @@
             }
 
             try {
-                // Submit with presentation link and optional PDF file
+                // Submit with presentation link and optional PDF file and markdown summary
                 const formData = new FormData();
+                if (summaryMarkdown) {
+                    formData.append('summary_markdown', summaryMarkdown);
+                }
                 if (summaryFile) {
                     formData.append('file', summaryFile);
                 }

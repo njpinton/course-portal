@@ -519,7 +519,7 @@ def create_group_api():
         project_title = data.get('project_title', '').strip()
         username = data.get('username', '').strip()
         password = data.get('password', '')
-        members = data.get('members', [])
+        member_ids = data.get('members', [])  # Now expecting student IDs instead of names
 
         # Validate group_name
         is_valid, error_msg = validate_input(group_name, 100, "group_name")
@@ -547,17 +547,11 @@ def create_group_api():
             return jsonify({"error": "Password must be at least 6 characters"}), 400
 
         # Validate members list
-        if not isinstance(members, list):
+        if not isinstance(member_ids, list):
             return jsonify({"error": "members must be a list"}), 400
 
-        if len(members) > 50:  # Reasonable limit
+        if len(member_ids) > 50:  # Reasonable limit
             return jsonify({"error": "Too many members (max 50)"}), 400
-
-        for member in members:
-            is_valid, error_msg = validate_input(member, 100, "member_name")
-            if not is_valid:
-                logger.warning(f"Invalid member: {error_msg}")
-                return jsonify({"error": f"Invalid member name: {error_msg}"}), 400
 
         # Create the group
         new_group = create_group(group_name, project_title)
@@ -565,9 +559,18 @@ def create_group_api():
             group_id = new_group['id']
             logger.info(f"Created group {group_id} with name '{group_name}'")
 
-            # Add members
-            for member_name in members:
-                add_group_member(group_id, member_name)
+            # Add members by student ID (update their group_id in the database)
+            for student_id in member_ids:
+                try:
+                    # Assign student to group - this updates the student's group_id in the database
+                    if assign_student_to_group(student_id, group_id):
+                        logger.info(f"Assigned student {student_id} to group {group_id}")
+                        # Also add as group member for reference
+                        add_group_member(group_id, student_id)
+                    else:
+                        logger.warning(f"Failed to assign student {student_id} to group {group_id}")
+                except Exception as e:
+                    logger.warning(f"Error assigning student {student_id} to group: {e}")
 
             # Set group credentials (username and hashed password)
             password_hash = generate_password_hash(password)
@@ -1452,8 +1455,9 @@ def group_submit_api():
     try:
         group_id = session.get('group_id')
 
-        # Handle submission - file is optional, presentation link is required
+        # Handle submission - file is optional, presentation link and summary are required
         stage_number = request.form.get('stage_number', type=int)
+        summary_markdown = request.form.get('summary_markdown', '').strip()
         content = request.form.get('content', '')
         presentation_link = request.form.get('presentation_link', '').strip()
         file = request.files.get('file') if request.files else None
@@ -1466,6 +1470,10 @@ def group_submit_api():
         if not presentation_link:
             return jsonify({"error": "Presentation link is required"}), 400
 
+        # Validate summary markdown (required)
+        if not summary_markdown:
+            return jsonify({"error": "Summary is required"}), 400
+
         # Get stage ID from stage number
         stage_id = get_stage_id_by_number(stage_number)
         if not stage_id:
@@ -1474,6 +1482,7 @@ def group_submit_api():
         # Process file if provided (optional)
         submission_data = {
             'stage_number': stage_number,
+            'summary_markdown': summary_markdown if summary_markdown else '',
             'content': content if content else '',
             'presentation_link': presentation_link
         }
