@@ -164,13 +164,26 @@
                     <label for="memberSearchInput">Add Group Member:</label>
                     <div style="display: flex; gap: 10px; margin-bottom: 10px; position: relative;">
                         <div style="flex: 1; position: relative;">
+                            <!-- Hidden input to store the selected student ID -->
+                            <input
+                                type="hidden"
+                                id="selectedStudentId"
+                            >
+                            <!-- Display field showing selected student (not editable) -->
+                            <div
+                                id="memberSearchInput"
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; background: white; cursor: pointer; min-height: 20px;"
+                                onclick="document.getElementById('memberFilterInput').focus();"
+                            >
+                                <span id="memberDisplayText" style="color: #999;">Click to select a student...</span>
+                            </div>
+                            <!-- Hidden input for typing/filtering (gets cleared) -->
                             <input
                                 type="text"
-                                id="memberSearchInput"
-                                placeholder="Select a class first..."
-                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                                id="memberFilterInput"
+                                placeholder="Type to search students..."
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 4px; display: none;"
                                 autocomplete="off"
-                                readonly
                             >
                             <ul id="memberDropdown" style="
                                 display: none;
@@ -246,6 +259,9 @@
             
                         const classSelect = document.getElementById('classSelect');
                         const memberSearchInput = document.getElementById('memberSearchInput');
+                        const memberDisplayText = document.getElementById('memberDisplayText');
+                        const memberFilterInput = document.getElementById('memberFilterInput');
+                        const selectedStudentIdHidden = document.getElementById('selectedStudentId');
                         const memberDropdown = document.getElementById('memberDropdown');
                         const addMemberButton = document.getElementById('addMemberButton');
                         const membersListDiv = document.getElementById('membersList');
@@ -264,11 +280,12 @@
                             if (selectedClass) {
                                 await loadStudentsByClass(selectedClass);
                             } else {
-                                memberSearchInput.value = '';
-                                memberSearchInput.disabled = true;
-                                memberSearchInput.placeholder = 'Select a class first...';
+                                memberDisplayText.textContent = 'Select a class first...';
+                                memberDisplayText.style.color = '#999';
+                                memberFilterInput.style.display = 'none';
                                 memberDropdown.style.display = 'none';
                                 selectedStudentData = null;
+                                selectedStudentIdHidden.value = '';
                                 studentsAlert.style.display = 'none';
                             }
                         });
@@ -280,10 +297,9 @@
                                 const data = await response.json();
                                 if (data.ungrouped_students) {
                                     availableStudents = data.ungrouped_students;
-                                    memberSearchInput.placeholder = 'Click to select a student...';
-                                    // Make field functional (readonly allows clicking but not typing)
-                                    memberSearchInput.readOnly = false;
-                                    memberSearchInput.readOnly = true; // Keep it readonly for dropdown-only selection
+                                    memberDisplayText.textContent = 'Click to select a student...';
+                                    memberDisplayText.style.color = '#999';
+                                    addMemberButton.disabled = true;
 
                                     const ungroupedCount = data.ungrouped_students.length;
                                     const totalCount = data.total_students;
@@ -295,8 +311,9 @@
                                         studentsAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
                                     }
                                 } else if (data.error) {
-                                    memberSearchInput.value = '';
-                                    memberSearchInput.placeholder = 'No students available';
+                                    memberDisplayText.textContent = 'No students available';
+                                    memberDisplayText.style.color = '#999';
+                                    memberFilterInput.style.display = 'none';
                                     memberDropdown.style.display = 'none';
                                     addMemberButton.disabled = true;
                                     studentsAlert.style.display = 'block';
@@ -353,7 +370,10 @@
                                         name: fullName,
                                         campusId: student.campus_id
                                     };
-                                    memberSearchInput.value = fullName;
+                                    selectedStudentIdHidden.value = student.id;
+                                    memberDisplayText.textContent = fullName;
+                                    memberDisplayText.style.color = '#333';
+                                    memberFilterInput.style.display = 'none';
                                     memberDropdown.style.display = 'none';
                                     addMemberButton.disabled = false;
                                 });
@@ -363,20 +383,33 @@
                             memberDropdown.style.display = 'block';
                         }
 
-                    // Add click event listener to show dropdown when field is clicked
+                    // Click on display div to trigger filter input
                     memberSearchInput.addEventListener('click', () => {
                         if (availableStudents.length > 0) {
-                            memberSearchInput.value = '';
+                            memberFilterInput.style.display = 'block';
+                            memberFilterInput.value = '';
+                            memberFilterInput.focus();
                             addMemberButton.disabled = true;
                             selectedStudentData = null;
                             filterStudents('');
                         }
                     });
 
-                    // Add input event listener for member search
-                    memberSearchInput.addEventListener('input', (e) => {
+                    // Input event on filter field for search
+                    memberFilterInput.addEventListener('input', (e) => {
                         const searchTerm = e.target.value.trim();
                         filterStudents(searchTerm);
+                    });
+
+                    // Blur event to hide filter input if no selection
+                    memberFilterInput.addEventListener('blur', () => {
+                        setTimeout(() => {
+                            if (!selectedStudentData) {
+                                memberFilterInput.style.display = 'none';
+                                memberDropdown.style.display = 'none';
+                                memberDisplayText.textContent = 'Click to select a student...';
+                            }
+                        }, 200);
                     });
 
                 // Function to fetch and display all groups
@@ -536,7 +569,11 @@
                         });
                         console.log('Current Members:', currentMembers);
                         renderCurrentMembers();
-                        memberSearchInput.value = ''; // Reset the input
+                        memberDisplayText.textContent = 'Click to select a student...'; // Reset display
+                        memberDisplayText.style.color = '#999';
+                        memberFilterInput.style.display = 'none'; // Hide filter input
+                        memberFilterInput.value = ''; // Clear filter text
+                        selectedStudentIdHidden.value = ''; // Clear hidden student ID
                         selectedStudentData = null; // Clear selection
                         addMemberButton.disabled = true; // Disable button until next selection
                         memberDropdown.style.display = 'none'; // Hide dropdown
