@@ -1437,9 +1437,9 @@
         // Initialize: Fetch available students from Supabase via API
         async function initializeStudentsList() {
             try {
-                // For now, fetch all available students (not yet grouped)
-                // In a real app, you'd pass the class_id from a selector
-                const response = await fetch('/api/students/ungrouped/cmsc173a');
+                // Fetch class data which includes ungrouped_students array
+                // This replicates the admin portal's approach
+                const response = await fetch('/api/classes/cmsc173a');
 
                 if (!response.ok) {
                     console.warn('Could not fetch students from API, using empty list');
@@ -1447,7 +1447,10 @@
                     return;
                 }
 
-                const students = await response.json();
+                const data = await response.json();
+                // Extract ungrouped_students from the response object
+                const students = data.ungrouped_students || [];
+
                 // Transform API response to match the dropdown format
                 // Expected format: [{id, campus_id, first_name, last_name, email}, ...]
                 allStudents = students.map(student => ({
