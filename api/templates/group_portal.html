@@ -153,12 +153,37 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="studentSelect">Add Group Member:</label>
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                        <select id="studentSelect" placeholder="Select a student..." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                            <option value="">-- Select a class first --</option>
-                        </select>
-                        <button type="button" id="addMemberButton" style="padding: 8px 15px;">Add Member</button>
+                    <label for="memberSearchInput">Add Group Member:</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; position: relative;">
+                        <div style="flex: 1; position: relative;">
+                            <input
+                                type="text"
+                                id="memberSearchInput"
+                                placeholder="Start typing a student name or campus ID..."
+                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                                autocomplete="off"
+                            >
+                            <ul id="memberDropdown" style="
+                                display: none;
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                background: white;
+                                border: 1px solid #ccc;
+                                border-top: none;
+                                border-radius: 0 0 4px 4px;
+                                list-style: none;
+                                margin: 0;
+                                padding: 0;
+                                max-height: 250px;
+                                overflow-y: auto;
+                                z-index: 1000;
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                            ">
+                            </ul>
+                        </div>
+                        <button type="button" id="addMemberButton" style="padding: 8px 15px; white-space: nowrap;">Add Member</button>
                     </div>
                     <div id="membersList" style="margin-top: 10px; border: 1px solid #eee; padding: 10px; border-radius: 5px; min-height: 50px;">
                         <!-- Added members will appear here -->
@@ -211,12 +236,14 @@
                         const uploadGroupId = document.getElementById('uploadGroupId');
             
                         const classSelect = document.getElementById('classSelect');
-                        const studentSelect = document.getElementById('studentSelect');
+                        const memberSearchInput = document.getElementById('memberSearchInput');
+                        const memberDropdown = document.getElementById('memberDropdown');
                         const addMemberButton = document.getElementById('addMemberButton');
                         const membersListDiv = document.getElementById('membersList');
                         const noMembersMessage = document.getElementById('noMembersMessage');
                         const studentsAlert = document.getElementById('studentsAlert');
                         const studentsAlertText = document.getElementById('studentsAlertText');
+                        let selectedStudentData = null;
 
                         let selectedGroupId = null;
                         let currentMembers = []; // Array to hold members for the new group
@@ -228,7 +255,11 @@
                             if (selectedClass) {
                                 await loadStudentsByClass(selectedClass);
                             } else {
-                                studentSelect.innerHTML = '<option value="">-- Select a class first --</option>';
+                                memberSearchInput.value = '';
+                                memberSearchInput.disabled = true;
+                                memberSearchInput.placeholder = 'Select a class first...';
+                                memberDropdown.style.display = 'none';
+                                selectedStudentData = null;
                                 studentsAlert.style.display = 'none';
                             }
                         });
@@ -240,7 +271,8 @@
                                 const data = await response.json();
                                 if (data.ungrouped_students) {
                                     availableStudents = data.ungrouped_students;
-                                    populateStudentSelect();
+                                    memberSearchInput.placeholder = 'Start typing a student name or campus ID...';
+                                    memberSearchInput.disabled = false;
 
                                     const ungroupedCount = data.ungrouped_students.length;
                                     const totalCount = data.total_students;
@@ -252,7 +284,10 @@
                                         studentsAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
                                     }
                                 } else if (data.error) {
-                                    studentSelect.innerHTML = '<option value="">No students found</option>';
+                                    memberSearchInput.value = '';
+                                    memberSearchInput.disabled = true;
+                                    memberSearchInput.placeholder = 'No students available';
+                                    memberDropdown.style.display = 'none';
                                     studentsAlert.style.display = 'block';
                                     studentsAlertText.textContent = '⚠️ Class not yet set up in database. Please contact admin.';
                                 }
@@ -263,18 +298,58 @@
                             }
                         }
 
-                        // Populate student dropdown
-                        function populateStudentSelect() {
-                            studentSelect.innerHTML = '<option value="">-- Select a student --</option>';
-                            availableStudents.forEach(student => {
-                                const option = document.createElement('option');
-                                const fullName = `${student.first_name} ${student.last_name}`;
-                                option.value = student.id;
-                                option.text = `${fullName} (${student.campus_id}) - ${student.program}`;
-                                option.dataset.name = fullName;
-                                option.dataset.campusId = student.campus_id;
-                                studentSelect.appendChild(option);
+                        // Filter and display students in dropdown
+                        function filterStudents(searchTerm) {
+                            memberDropdown.innerHTML = '';
+                            if (!searchTerm.trim()) {
+                                memberDropdown.style.display = 'none';
+                                return;
+                            }
+
+                            const searchLower = searchTerm.toLowerCase();
+                            const filtered = availableStudents.filter(student => {
+                                const fullName = `${student.first_name} ${student.last_name}`.toLowerCase();
+                                const campusId = student.campus_id.toLowerCase();
+                                return fullName.includes(searchLower) || campusId.includes(searchLower);
                             });
+
+                            if (filtered.length === 0) {
+                                const li = document.createElement('li');
+                                li.textContent = 'No students found';
+                                li.style.padding = '10px';
+                                li.style.color = '#999';
+                                memberDropdown.appendChild(li);
+                                memberDropdown.style.display = 'block';
+                                return;
+                            }
+
+                            filtered.forEach(student => {
+                                const li = document.createElement('li');
+                                const fullName = `${student.first_name} ${student.last_name}`;
+                                li.innerHTML = `<strong>${fullName}</strong><br><small>${student.campus_id} - ${student.program}</small>`;
+                                li.style.padding = '10px';
+                                li.style.borderBottom = '1px solid #eee';
+                                li.style.cursor = 'pointer';
+                                li.style.backgroundColor = '#fff';
+                                li.addEventListener('mouseenter', () => {
+                                    li.style.backgroundColor = '#f0f0f0';
+                                });
+                                li.addEventListener('mouseleave', () => {
+                                    li.style.backgroundColor = '#fff';
+                                });
+                                li.addEventListener('click', () => {
+                                    selectedStudentData = {
+                                        studentId: student.id,
+                                        name: fullName,
+                                        campusId: student.campus_id
+                                    };
+                                    memberSearchInput.value = fullName;
+                                    memberDropdown.style.display = 'none';
+                                });
+                                memberDropdown.appendChild(li);
+                            });
+
+                            memberDropdown.style.display = 'block';
                         }
             
                 // Function to fetch and display all groups
@@ -397,31 +472,45 @@
                                     }
                                 }            
             
+                    // Add input event listener for member search
+                    memberSearchInput.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value;
+                        filterStudents(searchTerm);
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (e.target !== memberSearchInput && e.target !== memberDropdown) {
+                            memberDropdown.style.display = 'none';
+                        }
+                    });
+
                     // Handle adding members
                     addMemberButton.addEventListener('click', () => {
-                        const selectedOption = studentSelect.options[studentSelect.selectedIndex];
-                        const studentId = studentSelect.value;
-                        const memberName = selectedOption.dataset.name;
-                        const campusId = selectedOption.dataset.campusId;
-
-                        if (studentId && memberName) {
-                            // Check if student is already added
-                            if (currentMembers.some(m => m.studentId === studentId)) {
-                                alert(`${memberName} is already added to this group!`);
-                                return;
-                            }
-
-                            currentMembers.push({
-                                studentId: studentId,
-                                name: memberName,
-                                campusId: campusId
-                            });
-                            console.log('Current Members:', currentMembers);
-                            renderCurrentMembers();
-                            studentSelect.value = ''; // Reset the select
-                        } else {
-                            alert('Please select a student');
+                        if (!selectedStudentData) {
+                            alert('Please select a student from the list');
+                            return;
                         }
+
+                        const studentId = selectedStudentData.studentId;
+                        const memberName = selectedStudentData.name;
+                        const campusId = selectedStudentData.campusId;
+
+                        // Check if student is already added
+                        if (currentMembers.some(m => m.studentId === studentId)) {
+                            alert(`${memberName} is already added to this group!`);
+                            return;
+                        }
+
+                        currentMembers.push({
+                            studentId: studentId,
+                            name: memberName,
+                            campusId: campusId
+                        });
+                        console.log('Current Members:', currentMembers);
+                        renderCurrentMembers();
+                        memberSearchInput.value = ''; // Reset the input
+                        selectedStudentData = null; // Clear selection
                     });
             
                     function renderCurrentMembers() {
