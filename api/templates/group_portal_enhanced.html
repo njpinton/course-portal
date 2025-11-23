@@ -849,19 +849,24 @@
                             </div>
                         </div>
 
-                        <h3 style="color: #1B5E4F; margin-top: 25px; margin-bottom: 15px;">👥 Add Members</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="newMemberName">Member Name:</label>
-                                <input type="text" id="newMemberName" placeholder="Enter member name">
+                        <h3 style="color: #1B5E4F; margin-top: 25px; margin-bottom: 15px;">👥 Add Group Member (Dropdown Only)</h3>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; position: relative;">
+                            <div style="flex: 1; position: relative;">
+                                <input type="hidden" id="selectedStudentId">
+                                <!-- Clickable display area - NOT an input field -->
+                                <div id="memberDisplay" style="width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; min-height: 20px; font-size: 16px; display: flex; align-items: center;">
+                                    <span id="memberDisplayText" style="color: #999;">Click to select a student from list...</span>
+                                </div>
+                                <!-- Search input - only shown when display is clicked -->
+                                <input type="text" id="memberSearchBox" placeholder="Type student name to filter..." style="width: 100%; padding: 8px; border: 1px solid #999; border-radius: 4px; margin-top: 4px; display: none; font-size: 14px;">
+                                <!-- Dropdown list -->
+                                <ul id="studentsList" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0; max-height: 250px; overflow-y: auto; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                                </ul>
                             </div>
-                            <div style="display: flex; align-items: flex-end;">
-                                <button type="button" id="addMemberButton" class="btn-primary">+ Add Member</button>
-                            </div>
+                            <button type="button" id="addMemberBtn" style="padding: 8px 15px; white-space: nowrap; background: #ffc107; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" disabled>+ Add Member</button>
                         </div>
-
-                        <div id="membersList" style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px; border: 1px solid #eee;">
-                            <p id="noMembersMessage" style="color: #888;">No members added yet.</p>
+                        <div id="selectedMembers" style="margin-top: 15px; border: 1px solid #e0e0e0; padding: 10px; border-radius: 4px; background: #f9f9f9;">
+                            <p id="noMembersMsg" style="color: #888; margin: 0;">No members added yet.</p>
                         </div>
 
                         <button type="submit" class="btn-submit">Create Group & Set Credentials</button>
@@ -1326,31 +1331,97 @@
             document.getElementById('documentsContent').innerHTML = html;
         }
 
-        // MEMBER MANAGEMENT
-        document.getElementById('addMemberButton').addEventListener('click', () => {
-            const memberName = document.getElementById('newMemberName').value.trim();
-            if (memberName) {
-                currentMembers.push(memberName);
-                document.getElementById('newMemberName').value = '';
+        // MEMBER MANAGEMENT - DROPDOWN ONLY
+        const memberDisplay = document.getElementById('memberDisplay');
+        const memberDisplayText = document.getElementById('memberDisplayText');
+        const memberSearchBox = document.getElementById('memberSearchBox');
+        const selectedStudentIdHidden = document.getElementById('selectedStudentId');
+        const studentsList = document.getElementById('studentsList');
+        const addMemberBtn = document.getElementById('addMemberBtn');
+        const selectedMembers = document.getElementById('selectedMembers');
+        const noMembersMsg = document.getElementById('noMembersMsg');
+
+        let selectedStudentData = null;
+        let allStudents = []; // Will be populated from available students
+
+        // Show/hide search box and list when clicking display
+        memberDisplay.addEventListener('click', () => {
+            memberSearchBox.style.display = 'block';
+            memberSearchBox.focus();
+            updateStudentsList('');
+        });
+
+        // Filter students as user types
+        memberSearchBox.addEventListener('input', (e) => {
+            updateStudentsList(e.target.value);
+        });
+
+        // Hide on blur
+        memberSearchBox.addEventListener('blur', () => {
+            setTimeout(() => {
+                memberSearchBox.style.display = 'none';
+                studentsList.style.display = 'none';
+                memberSearchBox.value = '';
+            }, 200);
+        });
+
+        function updateStudentsList(filter) {
+            const filtered = allStudents.filter(student =>
+                student.name.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                studentsList.innerHTML = '<li style="padding: 10px; color: #999;">No students found</li>';
+            } else {
+                studentsList.innerHTML = filtered.map(student => `
+                    <li style="padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; hover:background: #f5f5f5;"
+                        onclick="selectStudent('${student.id}', '${student.name}')">
+                        ${student.name}
+                    </li>
+                `).join('');
+            }
+            studentsList.style.display = 'block';
+        }
+
+        function selectStudent(studentId, studentName) {
+            selectedStudentData = { id: studentId, name: studentName };
+            selectedStudentIdHidden.value = studentId;
+            memberDisplayText.textContent = studentName;
+            memberDisplayText.style.color = '#333';
+            memberSearchBox.style.display = 'none';
+            studentsList.style.display = 'none';
+            memberSearchBox.value = '';
+            addMemberBtn.disabled = false;
+        }
+
+        // Add selected member to group
+        addMemberBtn.addEventListener('click', () => {
+            if (selectedStudentData) {
+                currentMembers.push(selectedStudentData.name);
+                // Clear selection
+                memberDisplayText.textContent = 'Click to select a student from list...';
+                memberDisplayText.style.color = '#999';
+                selectedStudentIdHidden.value = '';
+                selectedStudentData = null;
+                addMemberBtn.disabled = true;
                 renderMembers();
             }
         });
 
         function renderMembers() {
-            const list = document.getElementById('membersList');
             if (currentMembers.length === 0) {
-                list.innerHTML = '<p id="noMembersMessage" style="color: #888;">No members added yet.</p>';
+                selectedMembers.innerHTML = '<p id="noMembersMsg" style="color: #888; margin: 0;">No members added yet.</p>';
             } else {
-                let html = '<ul style="list-style: none;">';
+                let html = '<ul style="list-style: none; margin: 0; padding: 0;">';
                 currentMembers.forEach((member, index) => {
                     html += `
-                        <li style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
+                        <li style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd;">
                             <span>${member}</span>
                             <button type="button" class="btn-danger" style="padding: 5px 10px;" onclick="removeMember(${index})">Remove</button>
                         </li>`;
                 });
                 html += '</ul>';
-                list.innerHTML = html;
+                selectedMembers.innerHTML = html;
             }
         }
 
@@ -1358,6 +1429,19 @@
             currentMembers.splice(index, 1);
             renderMembers();
         }
+
+        // Initialize: Fetch available students (this would come from your API)
+        // For now, create a list of all possible students from the loaded groups
+        function initializeStudentsList() {
+            // TODO: Fetch from /api/students or similar
+            allStudents = [
+                { id: 'student1', name: 'Alice Johnson' },
+                { id: 'student2', name: 'Bob Smith' },
+                { id: 'student3', name: 'Carol Williams' },
+                // Add more students as needed
+            ];
+        }
+        initializeStudentsList();
 
         // CREATE GROUP
         document.getElementById('createGroupForm').addEventListener('submit', async (e) => {
