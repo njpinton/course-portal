@@ -161,58 +161,27 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="memberSearchInput">Add Group Member:</label>
+                    <label>Add Group Member (Dropdown Only):</label>
                     <div style="display: flex; gap: 10px; margin-bottom: 10px; position: relative;">
                         <div style="flex: 1; position: relative;">
-                            <!-- Hidden input to store the selected student ID -->
-                            <input
-                                type="hidden"
-                                id="selectedStudentId"
-                            >
-                            <!-- Display field showing selected student (not editable) -->
-                            <div
-                                id="memberSearchInput"
-                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; background: white; cursor: pointer; min-height: 20px;"
-                                onclick="document.getElementById('memberFilterInput').focus();"
-                            >
-                                <span id="memberDisplayText" style="color: #999;">Click to select a student...</span>
+                            <input type="hidden" id="selectedStudentId">
+                            <!-- Clickable display area - NOT an input field -->
+                            <div id="memberDisplay" style="width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; min-height: 20px; font-size: 16px; display: flex; align-items: center;">
+                                <span id="memberDisplayText" style="color: #999;">Click to select a student from list...</span>
                             </div>
-                            <!-- Hidden input for typing/filtering (gets cleared) -->
-                            <input
-                                type="text"
-                                id="memberFilterInput"
-                                placeholder="Type to search students..."
-                                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 4px; display: none;"
-                                autocomplete="off"
-                            >
-                            <ul id="memberDropdown" style="
-                                display: none;
-                                position: absolute;
-                                top: 100%;
-                                left: 0;
-                                right: 0;
-                                background: white;
-                                border: 1px solid #ccc;
-                                border-top: none;
-                                border-radius: 0 0 4px 4px;
-                                list-style: none;
-                                margin: 0;
-                                padding: 0;
-                                max-height: 250px;
-                                overflow-y: auto;
-                                z-index: 1000;
-                                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                            ">
+                            <!-- Search input - only shown when display is clicked -->
+                            <input type="text" id="memberSearchBox" placeholder="Type student name to filter..." style="width: 100%; padding: 8px; border: 1px solid #999; border-radius: 4px; margin-top: 4px; display: none; font-size: 14px;">
+                            <!-- Dropdown list -->
+                            <ul id="studentsList" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0; max-height: 250px; overflow-y: auto; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
                             </ul>
                         </div>
-                        <button type="button" id="addMemberButton" style="padding: 8px 15px; white-space: nowrap;" disabled>Add Member</button>
+                        <button type="button" id="addMemberBtn" style="padding: 8px 15px; white-space: nowrap; background: #ffc107; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" disabled>+ Add Member</button>
                     </div>
-                    <div id="membersList" style="margin-top: 10px; border: 1px solid #eee; padding: 10px; border-radius: 5px; min-height: 50px;">
-                        <!-- Added members will appear here -->
-                        <p id="noMembersMessage" style="color: #888;">No members added yet.</p>
+                    <div id="selectedMembers" style="margin-top: 15px; border: 1px solid #e0e0e0; padding: 10px; border-radius: 4px; background: #f9f9f9;">
+                        <p id="noMembersMsg" style="color: #888; margin: 0;">No members added yet.</p>
                     </div>
-                    <div id="studentsAlert" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; display: none;">
-                        <small id="studentsAlertText"></small>
+                    <div id="classAlert" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 4px; border-left: 4px solid #ffc107; display: none;">
+                        <small id="classAlertText" style="color: #333;"></small>
                     </div>
                 </div>
                 <button type="submit">Create Group</button>
@@ -258,16 +227,16 @@
                         const uploadGroupId = document.getElementById('uploadGroupId');
             
                         const classSelect = document.getElementById('classSelect');
-                        const memberSearchInput = document.getElementById('memberSearchInput');
+                        const memberDisplay = document.getElementById('memberDisplay');
                         const memberDisplayText = document.getElementById('memberDisplayText');
-                        const memberFilterInput = document.getElementById('memberFilterInput');
+                        const memberSearchBox = document.getElementById('memberSearchBox');
                         const selectedStudentIdHidden = document.getElementById('selectedStudentId');
-                        const memberDropdown = document.getElementById('memberDropdown');
-                        const addMemberButton = document.getElementById('addMemberButton');
-                        const membersListDiv = document.getElementById('membersList');
-                        const noMembersMessage = document.getElementById('noMembersMessage');
-                        const studentsAlert = document.getElementById('studentsAlert');
-                        const studentsAlertText = document.getElementById('studentsAlertText');
+                        const studentsList = document.getElementById('studentsList');
+                        const addMemberBtn = document.getElementById('addMemberBtn');
+                        const selectedMembers = document.getElementById('selectedMembers');
+                        const noMembersMsg = document.getElementById('noMembersMsg');
+                        const classAlert = document.getElementById('classAlert');
+                        const classAlertText = document.getElementById('classAlertText');
                         let selectedStudentData = null;
 
                         let selectedGroupId = null;
@@ -282,11 +251,11 @@
                             } else {
                                 memberDisplayText.textContent = 'Select a class first...';
                                 memberDisplayText.style.color = '#999';
-                                memberFilterInput.style.display = 'none';
-                                memberDropdown.style.display = 'none';
+                                memberSearchBox.style.display = 'none';
+                                studentsList.style.display = 'none';
                                 selectedStudentData = null;
                                 selectedStudentIdHidden.value = '';
-                                studentsAlert.style.display = 'none';
+                                classAlert.style.display = 'none';
                             }
                         });
 
@@ -299,7 +268,7 @@
                                     availableStudents = data.ungrouped_students;
                                     memberDisplayText.textContent = 'Click to select a student...';
                                     memberDisplayText.style.color = '#999';
-                                    addMemberButton.disabled = true;
+                                    addMemberBtn.disabled = true;
 
                                     const ungroupedCount = data.ungrouped_students.length;
                                     const totalCount = data.total_students;
@@ -307,28 +276,28 @@
                                     if (className === 'cmsc173d') sectionLabel = 'Section D';
                                     if (className === 'cmsc173e') sectionLabel = 'Section E';
                                     if (ungroupedCount > 0) {
-                                        studentsAlert.style.display = 'block';
-                                        studentsAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
+                                        classAlert.style.display = 'block';
+                                        classAlertText.textContent = `${ungroupedCount} students available (${totalCount} total in CMSC 173 ${sectionLabel})`;
                                     }
                                 } else if (data.error) {
                                     memberDisplayText.textContent = 'No students available';
                                     memberDisplayText.style.color = '#999';
-                                    memberFilterInput.style.display = 'none';
-                                    memberDropdown.style.display = 'none';
-                                    addMemberButton.disabled = true;
-                                    studentsAlert.style.display = 'block';
-                                    studentsAlertText.textContent = '⚠️ Class not yet set up in database. Please contact admin.';
+                                    memberSearchBox.style.display = 'none';
+                                    studentsList.style.display = 'none';
+                                    addMemberBtn.disabled = true;
+                                    classAlert.style.display = 'block';
+                                    classAlertText.textContent = '⚠️ Class not yet set up in database. Please contact admin.';
                                 }
                             } catch (error) {
                                 console.error('Error loading students:', error);
-                                studentsAlert.style.display = 'block';
-                                studentsAlertText.textContent = '❌ Error loading students: ' + error.message;
+                                classAlert.style.display = 'block';
+                                classAlertText.textContent = '❌ Error loading students: ' + error.message;
                             }
                         }
 
                         // Filter and display students in dropdown
                         function filterStudents(searchTerm) {
-                            memberDropdown.innerHTML = '';
+                            studentsList.innerHTML = '';
                             const searchLower = searchTerm.toLowerCase();
 
                             // Filter students based on search term
@@ -345,8 +314,8 @@
                                 li.textContent = 'No students found';
                                 li.style.padding = '10px';
                                 li.style.color = '#999';
-                                memberDropdown.appendChild(li);
-                                memberDropdown.style.display = 'block';
+                                studentsList.appendChild(li);
+                                studentsList.style.display = 'block';
                                 return;
                             }
 
@@ -373,40 +342,40 @@
                                     selectedStudentIdHidden.value = student.id;
                                     memberDisplayText.textContent = fullName;
                                     memberDisplayText.style.color = '#333';
-                                    memberFilterInput.style.display = 'none';
-                                    memberDropdown.style.display = 'none';
-                                    addMemberButton.disabled = false;
+                                    memberSearchBox.style.display = 'none';
+                                    studentsList.style.display = 'none';
+                                    addMemberBtn.disabled = false;
                                 });
-                                memberDropdown.appendChild(li);
+                                studentsList.appendChild(li);
                             });
 
-                            memberDropdown.style.display = 'block';
+                            studentsList.style.display = 'block';
                         }
 
                     // Click on display div to trigger filter input
-                    memberSearchInput.addEventListener('click', () => {
+                    memberDisplay.addEventListener('click', () => {
                         if (availableStudents.length > 0) {
-                            memberFilterInput.style.display = 'block';
-                            memberFilterInput.value = '';
-                            memberFilterInput.focus();
-                            addMemberButton.disabled = true;
+                            memberSearchBox.style.display = 'block';
+                            memberSearchBox.value = '';
+                            memberSearchBox.focus();
+                            addMemberBtn.disabled = true;
                             selectedStudentData = null;
                             filterStudents('');
                         }
                     });
 
                     // Input event on filter field for search
-                    memberFilterInput.addEventListener('input', (e) => {
+                    memberSearchBox.addEventListener('input', (e) => {
                         const searchTerm = e.target.value.trim();
                         filterStudents(searchTerm);
                     });
 
                     // Blur event to hide filter input if no selection
-                    memberFilterInput.addEventListener('blur', () => {
+                    memberSearchBox.addEventListener('blur', () => {
                         setTimeout(() => {
                             if (!selectedStudentData) {
-                                memberFilterInput.style.display = 'none';
-                                memberDropdown.style.display = 'none';
+                                memberSearchBox.style.display = 'none';
+                                studentsList.style.display = 'none';
                                 memberDisplayText.textContent = 'Click to select a student...';
                             }
                         }, 200);
@@ -532,21 +501,15 @@
                                     }
                                 }            
             
-                    // Add input event listener for member search
-                    memberSearchInput.addEventListener('input', (e) => {
-                        const searchTerm = e.target.value;
-                        filterStudents(searchTerm);
-                    });
-
                     // Close dropdown when clicking outside
                     document.addEventListener('click', (e) => {
-                        if (e.target !== memberSearchInput && e.target !== memberDropdown) {
-                            memberDropdown.style.display = 'none';
+                        if (e.target !== memberDisplay && e.target !== memberSearchBox && e.target !== studentsList) {
+                            studentsList.style.display = 'none';
                         }
                     });
 
                     // Handle adding members
-                    addMemberButton.addEventListener('click', () => {
+                    addMemberBtn.addEventListener('click', () => {
                         if (!selectedStudentData) {
                             alert('Please select a student from the list');
                             return;
@@ -571,18 +534,18 @@
                         renderCurrentMembers();
                         memberDisplayText.textContent = 'Click to select a student...'; // Reset display
                         memberDisplayText.style.color = '#999';
-                        memberFilterInput.style.display = 'none'; // Hide filter input
-                        memberFilterInput.value = ''; // Clear filter text
+                        memberSearchBox.style.display = 'none'; // Hide filter input
+                        memberSearchBox.value = ''; // Clear filter text
                         selectedStudentIdHidden.value = ''; // Clear hidden student ID
                         selectedStudentData = null; // Clear selection
-                        addMemberButton.disabled = true; // Disable button until next selection
-                        memberDropdown.style.display = 'none'; // Hide dropdown
+                        addMemberBtn.disabled = true; // Disable button until next selection
+                        studentsList.style.display = 'none'; // Hide dropdown
                     });
             
                     function renderCurrentMembers() {
-                        membersListDiv.innerHTML = ''; // Clear previous list
+                        selectedMembers.innerHTML = ''; // Clear previous list
                         if (currentMembers.length === 0) {
-                            membersListDiv.innerHTML = '<p id="noMembersMessage" style="color: #888;">No members added yet.</p>';
+                            selectedMembers.innerHTML = '<p id="noMembersMsg" style="color: #888;">No members added yet.</p>';
                         } else {
                             const ul = document.createElement('ul');
                             currentMembers.forEach((member, index) => {
@@ -608,7 +571,7 @@
                                 li.appendChild(removeButton);
                                 ul.appendChild(li);
                             });
-                            membersListDiv.appendChild(ul);
+                            selectedMembers.appendChild(ul);
                         }
                     }
             
