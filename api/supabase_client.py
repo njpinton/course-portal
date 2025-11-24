@@ -117,9 +117,24 @@ def get_group_details(group_id: str) -> dict:
         group_data = group_response.data[0] if group_response.data else None
 
         if group_data:
-            members_response = supabase.table('group_members').select('*').eq('group_id', group_id).execute()
+            # Get members with their campus_id from students table
+            members_response = supabase.table('group_members').select(
+                '*, students!inner(campus_id)'
+            ).eq('group_id', group_id).execute()
             documents_response = supabase.table('group_documents').select('*').eq('group_id', group_id).execute()
-            group_data['members'] = members_response.data
+
+            # Process members to include campus_id at the top level
+            members_data = []
+            for member in members_response.data:
+                processed_member = member.copy()
+                # Extract campus_id from nested students object
+                if 'students' in member and member['students']:
+                    processed_member['campus_id'] = member['students'].get('campus_id', 'N/A')
+                else:
+                    processed_member['campus_id'] = 'N/A'
+                members_data.append(processed_member)
+
+            group_data['members'] = members_data
             group_data['documents'] = documents_response.data
         return group_data
     except Exception as e:

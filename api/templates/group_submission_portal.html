@@ -744,18 +744,6 @@
         </div>
 
         <div class="content">
-            <!-- GROUP MEMBER CONTRIBUTIONS -->
-            <div style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 30px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #7A1E3F;">
-                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center;">
-                    <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">👥</span>
-                    Member Contributions
-                </h2>
-                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
-                <div id="member-contributions-list" style="display: grid; gap: 15px;">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-            </div>
-
             <!-- PROJECT STAGES & SUBMISSIONS -->
             <h2 style="color: #1B5E4F; margin-bottom: 25px; display: flex; align-items: center;">
                 <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
@@ -1062,6 +1050,18 @@
                 </div>
                 {% endfor %}
             </div>
+
+            <!-- GROUP MEMBER CONTRIBUTIONS -->
+            <div style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 30px; border-radius: 8px; margin-top: 40px; border-left: 4px solid #7A1E3F;">
+                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center;">
+                    <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">👥</span>
+                    Member Contributions
+                </h2>
+                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
+                <div id="member-contributions-list" style="display: grid; gap: 15px;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
         </div>
 
         <div class="footer">
@@ -1099,19 +1099,19 @@
             console.log('DEBUG: Group members data:', groupMembers);
 
             const html = groupMembers.map(member => {
-                // Try multiple possible field names for the member name
+                // Use campus_id (student ID number) as the primary identifier
+                const campusId = member.campus_id || member.student_id || member.id || 'N/A';
                 const memberName = member.member_name || member.name || member.first_name || 'Unknown Member';
-                const memberId = member.student_id || member.id || 'N/A';
 
-                console.log('DEBUG: Processing member:', { memberName, memberId, memberData: member });
+                console.log('DEBUG: Processing member:', { campusId, memberName, memberData: member });
 
                 return `
                 <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; align-items: center; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
                     <div style="flex: 1;">
-                        <h4 style="color: #1B5E4F; margin: 0 0 8px 0; font-size: 1.05em;">${memberName}</h4>
-                        <p style="color: #999; margin: 0; font-size: 0.9em;">ID: ${memberId}</p>
+                        <h4 style="color: #1B5E4F; margin: 0 0 8px 0; font-size: 1.05em;">${campusId}</h4>
+                        <p style="color: #999; margin: 0; font-size: 0.9em;">${memberName}</p>
                     </div>
-                    <input type="text" class="contribution-input" data-member-id="${memberName}" placeholder="Enter contribution..." style="flex: 0 0 auto; width: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em;">
+                    <input type="text" class="contribution-input" data-member-id="${campusId}" placeholder="Enter contribution..." style="flex: 0 0 auto; width: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em;">
                 </div>
             `;
             }).join('');
