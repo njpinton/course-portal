@@ -117,22 +117,30 @@ def get_group_details(group_id: str) -> dict:
         group_data = group_response.data[0] if group_response.data else None
 
         if group_data:
-            # Get members with their campus_id from students table
-            members_response = supabase.table('group_members').select(
-                '*, students!inner(campus_id)'
-            ).eq('group_id', group_id).execute()
+            # Get members
+            members_response = supabase.table('group_members').select('*').eq('group_id', group_id).execute()
             documents_response = supabase.table('group_documents').select('*').eq('group_id', group_id).execute()
 
-            # Process members to include campus_id at the top level
+            # Process members to include campus_id from students table
             members_data = []
-            for member in members_response.data:
-                processed_member = member.copy()
-                # Extract campus_id from nested students object
-                if 'students' in member and member['students']:
-                    processed_member['campus_id'] = member['students'].get('campus_id', 'N/A')
-                else:
-                    processed_member['campus_id'] = 'N/A'
-                members_data.append(processed_member)
+            if members_response.data:
+                # Get all student IDs from members
+                student_ids = [member.get('student_id') for member in members_response.data if member.get('student_id')]
+
+                # Fetch student data for these IDs
+                students_data = {}
+                if student_ids:
+                    students_response = supabase.table('students').select('id, campus_id').in_('id', student_ids).execute()
+                    if students_response.data:
+                        students_data = {student['id']: student['campus_id'] for student in students_response.data}
+
+                # Build members list with campus_id
+                for member in members_response.data:
+                    processed_member = member.copy()
+                    # Get campus_id from students lookup
+                    student_id = member.get('student_id')
+                    processed_member['campus_id'] = students_data.get(student_id, 'N/A')
+                    members_data.append(processed_member)
 
             group_data['members'] = members_data
             group_data['documents'] = documents_response.data
