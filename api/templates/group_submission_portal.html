@@ -1099,19 +1099,18 @@
             console.log('DEBUG: Group members data:', groupMembers);
 
             const html = groupMembers.map(member => {
-                // Use campus_id (student ID number) as the primary identifier
-                const campusId = member.campus_id || member.student_id || member.id || 'N/A';
+                // Use member_id for data attribute (use ID or student_id)
+                const memberId = member.id || member.student_id || 'N/A';
                 const memberName = member.member_name || member.name || member.first_name || 'Unknown Member';
 
-                console.log('DEBUG: Processing member:', { campusId, memberName, memberData: member });
+                console.log('DEBUG: Processing member:', { memberId, memberName, memberData: member });
 
                 return `
-                <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; align-items: center; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    <div style="flex: 1;">
-                        <h4 style="color: #1B5E4F; margin: 0 0 8px 0; font-size: 1.05em;">${campusId}</h4>
-                        <p style="color: #999; margin: 0; font-size: 0.9em;">${memberName}</p>
+                <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <div style="flex: 0 0 auto; display: flex; align-items: center;">
+                        <p style="color: #1B5E4F; margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">${memberName}</p>
                     </div>
-                    <input type="text" class="contribution-input" data-member-id="${campusId}" placeholder="Enter contribution..." style="flex: 0 0 auto; width: 250px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em;">
+                    <textarea class="contribution-input" data-member-id="${memberId}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
                 </div>
             `;
             }).join('');
