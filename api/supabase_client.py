@@ -131,13 +131,16 @@ def delete_group(group_id: str) -> bool:
         print("Supabase client not initialized. Cannot delete group.")
         return False
     try:
-        # Delete associated documents first
+        # Ungroup all members (set their group_id to NULL)
+        supabase.table('students').update({'group_id': None}).eq('group_id', group_id).execute()
+        # Delete associated documents
         supabase.table('group_documents').delete().eq('group_id', group_id).execute()
         # Delete associated members
         supabase.table('group_members').delete().eq('group_id', group_id).execute()
         # Delete the group itself
         response = supabase.table('groups').delete().eq('id', group_id).execute()
-        return len(response.data) > 0
+        # Check if deletion was successful (response has data or no error was raised)
+        return response is not None and hasattr(response, 'data')
     except Exception as e:
         print(f"Error deleting group: {e}")
         return False
@@ -433,10 +436,17 @@ def get_grouped_students(class_id: str) -> list:
         return []
 
 def assign_student_to_group(student_id: str, group_id: str) -> bool:
-    """Assign a student to a group."""
+    """Assign a student to a group. A student can only be in one group."""
     if not supabase:
         return False
     try:
+        # Get current student info to check if already in a group
+        response = supabase.table('students').select('group_id').eq('id', student_id).single().execute()
+        if response.data and response.data.get('group_id') is not None:
+            # Student is already in a group, cannot assign to a different one
+            print(f"Error: Student {student_id} is already in a group. Cannot assign to multiple groups.")
+            return False
+
         supabase.table('students').update({'group_id': group_id}).eq('id', student_id).execute()
         return True
     except Exception as e:
@@ -452,6 +462,17 @@ def get_student_by_campus_id(campus_id: str) -> dict:
         return response.data
     except Exception as e:
         print(f"Error getting student: {e}")
+        return None
+
+def get_student_by_id(student_id: str) -> dict:
+    """Get a student by UUID."""
+    if not supabase:
+        return None
+    try:
+        response = supabase.table('students').select('*').eq('id', student_id).single().execute()
+        return response.data
+    except Exception as e:
+        print(f"Error getting student by ID: {e}")
         return None
 
 def get_group_members(group_id: str) -> list:

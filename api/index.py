@@ -34,7 +34,7 @@ try:
         update_group_credentials, get_group_by_username, update_group_last_login,
         get_group_with_submissions, submit_group_stage_work, get_group_feedback,
         get_class_by_code_section, get_students_by_class, get_ungrouped_students,
-        get_grouped_students, assign_student_to_group, get_student_by_campus_id,
+        get_grouped_students, assign_student_to_group, get_student_by_campus_id, get_student_by_id,
         get_group_members, unassign_student_from_group,
         upload_submission_file, get_submission_file_url, delete_submission_file
     )
@@ -566,8 +566,18 @@ def create_group_api():
                     # Assign student to group - this updates the student's group_id in the database
                     if assign_student_to_group(student_id, group_id):
                         logger.info(f"Assigned student {student_id} to group {group_id}")
-                        # Also add as group member for reference
-                        add_group_member(group_id, student_id)
+                        # Also add as group member for reference - fetch student's actual name
+                        student = get_student_by_id(student_id)
+                        if student:
+                            # Concatenate first_name and last_name to create full name
+                            member_name = f"{student.get('first_name', '')} {student.get('last_name', '')}".strip()
+                            if not member_name:
+                                member_name = student.get('campus_id', student_id)  # Fallback to campus_id or student_id
+                            add_group_member(group_id, member_name)
+                            logger.info(f"Added group member {member_name} for student {student_id}")
+                        else:
+                            logger.warning(f"Could not find student {student_id}, adding with ID as member name")
+                            add_group_member(group_id, student_id)
                     else:
                         logger.warning(f"Failed to assign student {student_id} to group {group_id}")
                 except Exception as e:
