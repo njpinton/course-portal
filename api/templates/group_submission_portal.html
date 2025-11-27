@@ -1053,9 +1053,14 @@
 
             <!-- GROUP MEMBER CONTRIBUTIONS -->
             <div style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 30px; border-radius: 8px; margin-top: 40px; border-left: 4px solid #7A1E3F;">
-                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center;">
-                    <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">👥</span>
-                    Member Contributions
+                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <span style="display: flex; align-items: center;">
+                        <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">👥</span>
+                        Member Contributions
+                    </span>
+                    {% if not is_admin_view %}
+                    <button class="btn btn-primary" onclick="openAddMemberModal()">+ Add Member</button>
+                    {% endif %}
                 </h2>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
                 <div id="member-contributions-list" style="display: grid; gap: 15px;">
@@ -1384,6 +1389,104 @@
             }
         });
 
+        // Add Member Modal Functions
+        const groupData = {{ group | tojson }};
+        const groupId = groupData.id;
+        const classId = groupData.class_id;
+
+        async function openAddMemberModal() {
+            const modal = document.getElementById('add-member-modal');
+            const select = document.getElementById('student-select');
+            const message = document.getElementById('add-member-message');
+
+            // Reset
+            message.style.display = 'none';
+            select.innerHTML = '<option value="">Loading students...</option>';
+
+            // Show modal
+            modal.classList.add('active');
+
+            // Fetch ungrouped students
+            try {
+                if (!classId) {
+                    select.innerHTML = '<option value="">Error: Group has no class ID</option>';
+                    return;
+                }
+
+                const response = await fetch(`/api/admin/classes/${classId}/ungrouped-students`);
+                if (!response.ok) throw new Error('Failed to fetch students');
+
+                const students = await response.json();
+
+                if (students.length === 0) {
+                    select.innerHTML = '<option value="">No ungrouped students available</option>';
+                } else {
+                    select.innerHTML = '<option value="">-- Select a student --</option>' +
+                        students.map(s => `<option value="${s.id}">${s.first_name} ${s.last_name} (${s.campus_id})</option>`).join('');
+                }
+            } catch (error) {
+                console.error('Error fetching students:', error);
+                select.innerHTML = '<option value="">Error loading students</option>';
+            }
+        }
+
+        function closeAddMemberModal() {
+            const modal = document.getElementById('add-member-modal');
+            modal.classList.remove('active');
+        }
+
+        async function addSelectedStudent() {
+            const select = document.getElementById('student-select');
+            const studentId = select.value;
+            const message = document.getElementById('add-member-message');
+
+            if (!studentId) {
+                showMessage(message, 'Please select a student', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/admin/groups/${groupId}/members`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ student_id: studentId })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showMessage(message, result.error || 'Failed to add student', 'error');
+                    return;
+                }
+
+                showMessage(message, 'Student added successfully! Reloading...', 'success');
+                setTimeout(() => window.location.reload(), 1500);
+
+            } catch (error) {
+                console.error('Error adding student:', error);
+                showMessage(message, 'Error: ' + error.message, 'error');
+            }
+        }
+
+        function showMessage(element, text, type) {
+            element.textContent = text;
+            element.style.display = 'block';
+            element.style.background = type === 'error' ? '#ffcdd2' : '#c8e6c9';
+            element.style.color = type === 'error' ? '#c62828' : '#2e7d32';
+        }
+
+        // Close add member modal when clicking outside
+        document.addEventListener('DOMContentLoaded', () => {
+            const addMemberModal = document.getElementById('add-member-modal');
+            if (addMemberModal) {
+                addMemberModal.addEventListener('click', (event) => {
+                    if (event.target === addMemberModal) {
+                        closeAddMemberModal();
+                    }
+                });
+            }
+        });
+
         // Admin scoring function
         async function saveSubmissionScore(stageIndex, submissionId) {
             const scoreInput = document.getElementById(`admin-score-${stageIndex}`);
@@ -1459,6 +1562,27 @@
             <div class="pdf-preview-body">
                 <canvas id="pdf-canvas"></canvas>
                 <div id="pdf-loading" class="pdf-loading" style="display: none;">Loading PDF...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="add-member-modal" class="pdf-preview-modal"> <!-- Reusing styling of pdf-preview-modal -->
+        <div class="pdf-preview-container" style="max-width: 600px; height: auto;">
+            <div class="pdf-preview-header">
+                <h3>Add New Group Member</h3>
+                <button class="pdf-close-button" onclick="closeAddMemberModal()">✕ Close</button>
+            </div>
+            <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
+                <p style="margin-bottom: 15px; color: #555;">Select an ungrouped student to add to your group.</p>
+                <div class="form-group">
+                    <label for="student-select">Select Student:</label>
+                    <select id="student-select" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em;">
+                        <option value="">Loading students...</option>
+                    </select>
+                </div>
+                <button class="btn-submit" onclick="addSelectedStudent()">Add Student to Group</button>
+                <div id="add-member-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
             </div>
         </div>
     </div>
