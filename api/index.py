@@ -566,18 +566,6 @@ def create_group_api():
                     # Assign student to group - this updates the student's group_id in the database
                     if assign_student_to_group(student_id, group_id):
                         logger.info(f"Assigned student {student_id} to group {group_id}")
-                        # Also add as group member for reference - fetch student's actual name
-                        student = get_student_by_id(student_id)
-                        if student:
-                            # Concatenate first_name and last_name to create full name
-                            member_name = f"{student.get('first_name', '')} {student.get('last_name', '')}".strip()
-                            if not member_name:
-                                member_name = student.get('campus_id', student_id)  # Fallback to campus_id or student_id
-                            add_group_member(group_id, member_name)
-                            logger.info(f"Added group member {member_name} for student {student_id}")
-                        else:
-                            logger.warning(f"Could not find student {student_id}, adding with ID as member name")
-                            add_group_member(group_id, student_id)
                     else:
                         logger.warning(f"Failed to assign student {student_id} to group {group_id}")
                 except Exception as e:
@@ -1624,6 +1612,72 @@ def unassign_student_api(student_id):
         return jsonify({"error": "Failed to unassign student"}), 500
     except Exception as e:
         logger.error(f"Error unassigning student: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/group/members/ungrouped', methods=['GET'])
+def get_ungrouped_group_members_api():
+    """Get ungrouped students from the group's class for group members to add."""
+    if not session.get('is_group_logged_in'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    group_id = session.get('group_id')
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Get group details to find its class_id
+        group_details = get_group_details(group_id) # This now fetches class_id
+        if not group_details or not group_details.get('class_id'):
+            return jsonify({"error": "Could not determine group's class"}), 400
+
+        class_id = group_details['class_id']
+        ungrouped_students = get_ungrouped_students(class_id)
+        
+        # Filter out sensitive data from student objects before sending to frontend
+        safe_students = []
+        for student in ungrouped_students:
+            safe_students.append({
+                'id': student['id'],
+                'first_name': student.get('first_name', ''),
+                'last_name': student.get('last_name', ''),
+                'campus_id': student.get('campus_id', '')
+            })
+        return jsonify(safe_students), 200
+    except Exception as e:
+        logger.error(f"Error getting ungrouped students for group {group_id}: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/group/members/add', methods=['POST'])
+def add_group_member_api():
+    """Add a student to the current group (for group members)."""
+    if not session.get('is_group_logged_in'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    group_id = session.get('group_id')
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        data = request.get_json()
+        student_id = data.get('student_id')
+
+        # Validate student_id
+        is_valid, error_msg = validate_input(student_id, 255, "student_id")
+        if not is_valid:
+            logger.warning(f"Invalid student_id for adding to group: {error_msg}")
+            return jsonify({"error": error_msg}), 400
+
+        success = assign_student_to_group(student_id, group_id)
+        if success:
+            logger.info(f"Student {student_id} successfully added to group {group_id}")
+            return jsonify({"success": True, "message": "Student added successfully"}), 200
+        else:
+            logger.warning(f"Failed to add student {student_id} to group {group_id}")
+            return jsonify({"error": "Failed to add student"}), 500
+    except Exception as e:
+        logger.error(f"Error adding student to group {group_id}: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/groups/<group_id>/members', methods=['GET'])

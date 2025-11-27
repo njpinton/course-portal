@@ -68,15 +68,19 @@ def create_group(group_name: str, project_title: str) -> dict:
         print(f"Error creating group: {e}")
         return None
 
-def add_group_member(group_id: str, member_name: str) -> dict:
+def add_group_member(group_id: str, member_name: str, student_id: str = None) -> dict:
     if not supabase:
         print("Supabase client not initialized. Cannot add group member.")
         return None
     try:
-        response = supabase.table('group_members').insert({
+        data_to_insert = {
             "group_id": group_id,
             "member_name": member_name
-        }).execute()
+        }
+        if student_id:
+            data_to_insert["student_id"] = student_id
+            
+        response = supabase.table('group_members').insert(data_to_insert).execute()
         return response.data[0]
     except Exception as e:
         print(f"Error adding group member: {e}")
@@ -118,27 +122,24 @@ def get_group_details(group_id: str) -> dict:
         group_data = group_response.data[0] if group_response.data else None
 
         if group_data:
-            # Get class_id from the group itself (groups table has class_id)
-            # This is more reliable than trying to infer from members
-            group_class_id = group_data.get('class_id')
-
-            # Get members and their campus_id
             members_response = supabase.table('group_members').select('*').eq('group_id', group_id).execute()
             documents_response = supabase.table('group_documents').select('*').eq('group_id', group_id).execute()
 
             members_data = []
+            group_class_id = None # Initialize class_id to None
+
             if members_response.data:
                 # Get all student IDs from members
                 student_ids = [member.get('student_id') for member in members_response.data if member.get('student_id')]
 
-                # Fetch student data for these IDs to get campus_id
+                # Fetch student data for these IDs to get campus_id and class_id
                 students_data = {}
                 if student_ids:
-                    students_response = supabase.table('students').select('id, campus_id').in_('id', student_ids).execute()
+                    students_response = supabase.table('students').select('id, campus_id, class_id').in_('id', student_ids).execute()
                     if students_response.data:
                         students_data = {student['id']: student for student in students_response.data}
 
-                # Build members list with campus_id
+                # Build members list with campus_id and try to get class_id
                 for member in members_response.data:
                     processed_member = member.copy()
                     student_id = member.get('student_id')
@@ -146,14 +147,28 @@ def get_group_details(group_id: str) -> dict:
 
                     if student_info:
                         processed_member['campus_id'] = student_info.get('campus_id', 'N/A')
+                        if not group_class_id: # Take class_id from the first member found
+                            group_class_id = student_info.get('class_id')
                     else:
-                        processed_member['campus_id'] = 'N/A'
+                        processed_member['campus_id'] = 'N/A' # Student info not found
 
                     members_data.append(processed_member)
+            
+            # Fallback: If class_id is still not found via group_members, try to get it from students table directly
+            # This handles cases where group_members might be empty or inconsistent
+            if not group_class_id:
+                first_student_in_group_response = supabase.table('students').select('class_id').eq('group_id', group_id).limit(1).execute()
+                if first_student_in_group_response.data:
+                    group_class_id = first_student_in_group_response.data[0].get('class_id')
 
             group_data['members'] = members_data
             group_data['documents'] = documents_response.data
-            # class_id is already in group_data from the groups table
+            
+            if group_class_id:
+                group_data['class_id'] = group_class_id # Add class_id to group_data
+            else:
+                group_data['class_id'] = None # Explicitly set to None if not found
+
         return group_data
     except Exception as e:
         print(f"Error getting group details: {e}")
@@ -492,13 +507,13 @@ def assign_student_to_group(student_id: str, group_id: str) -> bool:
         supabase.table('students').update({'group_id': group_id}).eq('id', student_id).execute()
 
         # After successful assignment, add to group_members for consistency
-        student = response.data 
-        if student:
-            member_name = f"{student.get('first_name', '')} {student.get('last_name', '')}".strip()
+        student_data = response.data 
+        if student_data:
+            member_name = f"{student_data.get('first_name', '')} {student_data.get('last_name', '')}".strip()
             if not member_name: # Fallback if names are empty or missing
-                member_name = student.get('campus_id', student_id)
-            add_group_member(group_id, member_name)
-            print(f"Added {member_name} to group_members for group {group_id}")
+                member_name = student_data.get('campus_id', student_id)
+            add_group_member(group_id, member_name, student_id=student_id)
+            print(f"Added {member_name} (student_id: {student_id}) to group_members for group {group_id}")
 
         return True
     except Exception as e:
