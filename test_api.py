@@ -47,7 +47,29 @@ def mock_supabase(monkeypatch):
     mock_client.rpc.return_value = MagicMock()
     mock_client.rpc.return_value.execute.return_value = MagicMock()
 
-    monkeypatch.setattr('api.index.get_supabase_client', return_value=mock_client)
+    monkeypatch.setattr('api.index.get_supabase_client', mock_client)
+
+    # Mock create_group to accept class_id and return a consistent response
+    def mock_create_group_with_class_id(group_name, project_title, class_id):
+        return {"id": "test-group-id", "group_name": group_name, "project_title": project_title, "class_id": class_id}
+    monkeypatch.setattr('api.index.create_group', mock_create_group_with_class_id)
+
+    # Mock add_group_document
+    def mock_add_group_document(group_id, document_title, file_path):
+        return {"id": "test-doc-id", "group_id": group_id, "document_title": document_title, "file_path": file_path}
+    monkeypatch.setattr('api.index.add_group_document', mock_add_group_document)
+
+    # Mock assign_student_to_group since it's now called from index.py
+    def mock_assign_student_to_group(student_id, group_id):
+        return True # Assume successful assignment
+    monkeypatch.setattr('api.index.assign_student_to_group', mock_assign_student_to_group)
+
+    # Mock update_group_credentials
+    def mock_update_group_credentials(group_id, username, password_hash):
+        return True # Assume successful update
+    monkeypatch.setattr('api.index.update_group_credentials', mock_update_group_credentials)
+
+
     return mock_client
 
 
@@ -88,6 +110,9 @@ def test_create_group_api_valid(client, mock_supabase):
         json={
             "group_name": "Test Group",
             "project_title": "Test Project",
+            "username": "test_user",
+            "password": "test_password",
+            "class_id": "CMCS173A",
             "members": ["Alice", "Bob"]
         }
     )
@@ -121,6 +146,10 @@ def test_create_group_api_invalid_members_type(client, mock_supabase):
         '/api/groups',
         json={
             "group_name": "Test Group",
+            "project_title": "Test Project",
+            "username": "test_user",
+            "password": "test_password",
+            "class_id": "CMCS173A",
             "members": "not a list"
         }
     )
@@ -134,6 +163,10 @@ def test_create_group_api_too_many_members(client, mock_supabase):
         '/api/groups',
         json={
             "group_name": "Test Group",
+            "project_title": "Test Project",
+            "username": "test_user",
+            "password": "test_password",
+            "class_id": "CMCS173A",
             "members": [f"Member{i}" for i in range(60)]
         }
     )

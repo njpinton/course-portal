@@ -7,3 +7,4 @@ supabase
 gotrue
 python-dotenv
 PyJWT
+pytest

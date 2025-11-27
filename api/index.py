@@ -519,6 +519,7 @@ def create_group_api():
         project_title = data.get('project_title', '').strip()
         username = data.get('username', '').strip()
         password = data.get('password', '')
+        class_id = data.get('class_id', '').strip() # Get class_id from request
         # Accept both 'member_ids' (new) and 'members' (backward compat)
         member_ids = data.get('member_ids', data.get('members', []))
 
@@ -546,6 +547,14 @@ def create_group_api():
         # Validate password
         if not password or len(password) < 6:
             return jsonify({"error": "Password must be at least 6 characters"}), 400
+        
+        # Validate class_id
+        if not class_id:
+            return jsonify({"error": "Class ID is required"}), 400
+        is_valid, error_msg = validate_input(class_id, 50, "class_id") # Assuming class_id is a short string like 'CMCS173A'
+        if not is_valid:
+            logger.warning(f"Invalid class_id: {error_msg}")
+            return jsonify({"error": error_msg}), 400
 
         # Validate members list
         if not isinstance(member_ids, list):
@@ -555,7 +564,7 @@ def create_group_api():
             return jsonify({"error": "Too many members (max 50)"}), 400
 
         # Create the group
-        new_group = create_group(group_name, project_title)
+        new_group = create_group(group_name, project_title, class_id) # Pass class_id here
         if new_group:
             group_id = new_group['id']
             logger.info(f"Created group {group_id} with name '{group_name}'")
@@ -1667,9 +1676,7 @@ def add_group_member_api():
         is_valid, error_msg = validate_input(student_id, 255, "student_id")
         if not is_valid:
             logger.warning(f"Invalid student_id for adding to group: {error_msg}")
-            return jsonify({"error": error_msg}), 400
-
-        success = assign_student_to_group(student_id, group_id)
+        success = assign_student_to_group(group_id, student_id)
         if success:
             logger.info(f"Student {student_id} successfully added to group {group_id}")
             return jsonify({"success": True, "message": "Student added successfully"}), 200
