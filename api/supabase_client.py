@@ -118,33 +118,42 @@ def get_group_details(group_id: str) -> dict:
         group_data = group_response.data[0] if group_response.data else None
 
         if group_data:
-            # Get members
+            # Get class_id from the group itself (groups table has class_id)
+            # This is more reliable than trying to infer from members
+            group_class_id = group_data.get('class_id')
+
+            # Get members and their campus_id
             members_response = supabase.table('group_members').select('*').eq('group_id', group_id).execute()
             documents_response = supabase.table('group_documents').select('*').eq('group_id', group_id).execute()
 
-            # Process members to include campus_id from students table
             members_data = []
             if members_response.data:
                 # Get all student IDs from members
                 student_ids = [member.get('student_id') for member in members_response.data if member.get('student_id')]
 
-                # Fetch student data for these IDs
+                # Fetch student data for these IDs to get campus_id
                 students_data = {}
                 if student_ids:
                     students_response = supabase.table('students').select('id, campus_id').in_('id', student_ids).execute()
                     if students_response.data:
-                        students_data = {student['id']: student['campus_id'] for student in students_response.data}
+                        students_data = {student['id']: student for student in students_response.data}
 
                 # Build members list with campus_id
                 for member in members_response.data:
                     processed_member = member.copy()
-                    # Get campus_id from students lookup
                     student_id = member.get('student_id')
-                    processed_member['campus_id'] = students_data.get(student_id, 'N/A')
+                    student_info = students_data.get(student_id)
+
+                    if student_info:
+                        processed_member['campus_id'] = student_info.get('campus_id', 'N/A')
+                    else:
+                        processed_member['campus_id'] = 'N/A'
+
                     members_data.append(processed_member)
 
             group_data['members'] = members_data
             group_data['documents'] = documents_response.data
+            # class_id is already in group_data from the groups table
         return group_data
     except Exception as e:
         print(f"Error getting group details: {e}")
@@ -471,14 +480,26 @@ def assign_student_to_group(student_id: str, group_id: str) -> bool:
     if not supabase:
         return False
     try:
-        # Get current student info to check if already in a group
-        response = supabase.table('students').select('group_id').eq('id', student_id).single().execute()
+        # Get current student info to check if already in a group, and fetch name for group_members table
+        response = supabase.table('students').select('group_id, first_name, last_name').eq('id', student_id).single().execute()
+        
         if response.data and response.data.get('group_id') is not None:
             # Student is already in a group, cannot assign to a different one
             print(f"Error: Student {student_id} is already in a group. Cannot assign to multiple groups.")
             return False
 
+        # Assign student to group
         supabase.table('students').update({'group_id': group_id}).eq('id', student_id).execute()
+
+        # After successful assignment, add to group_members for consistency
+        student = response.data 
+        if student:
+            member_name = f"{student.get('first_name', '')} {student.get('last_name', '')}".strip()
+            if not member_name: # Fallback if names are empty or missing
+                member_name = student.get('campus_id', student_id)
+            add_group_member(group_id, member_name)
+            print(f"Added {member_name} to group_members for group {group_id}")
+
         return True
     except Exception as e:
         print(f"Error assigning student to group: {e}")
