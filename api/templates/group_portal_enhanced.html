@@ -876,8 +876,25 @@
             {% endif %}
         </div>
 
-        <div class="footer">
-            <p>CMSC 173 Group Project Portal | © 2025 University of the Philippines Cebu</p>
+                    <!-- DELETE CONFIRMATION MODAL -->
+                    <div id="deleteConfirmModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1100; align-items: center; justify-content: center;">
+                        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+                            <h3 style="color: #dc3545; margin-top: 0; margin-bottom: 15px;">⚠️ Delete Group</h3>
+                            <p style="margin-bottom: 20px; color: #555;">Are you sure you want to delete this group? This action will mark the group as inactive and remove all members.</p>
+                            <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin-bottom: 20px; font-size: 0.9em; color: #856404;">
+                                <strong>Warning:</strong> Submissions will be preserved but marked inactive. Members will be ungrouped.
+                            </div>
+                            <p style="margin-bottom: 10px; font-weight: 600;">Type the group name to confirm:</p>
+                            <p id="deleteTargetName" style="font-family: monospace; background: #f5f5f5; padding: 8px; border-radius: 4px; margin-bottom: 15px; user-select: all; font-weight: bold; color: #333;"></p>
+                            <input type="text" id="deleteConfirmInput" placeholder="Type group name here" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
+                            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                                <button onclick="closeDeleteModal()" style="padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: #333;">Cancel</button>
+                                <button onclick="executeDeleteGroup()" class="btn-danger">Delete Group</button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="footer">            <p>CMSC 173 Group Project Portal | © 2025 University of the Philippines Cebu</p>
             <p><a href="/group_portal">Back to Portal</a></p>
         </div>
     </div>
@@ -1013,16 +1030,48 @@
         }
 
         // DELETE GROUP WITH CONFIRMATION
+        let groupToDeleteId = null;
+        let groupToDeleteName = null;
+
         function deleteGroupConfirm(groupId, groupName) {
-            if (confirm(`Are you sure you want to delete group "${groupName}" and all its associated data? This action cannot be undone.`)) {
-                deleteGroup(groupId);
+            groupToDeleteId = groupId;
+            groupToDeleteName = groupName;
+            
+            const modal = document.getElementById('deleteConfirmModal');
+            const nameDisplay = document.getElementById('deleteTargetName');
+            const input = document.getElementById('deleteConfirmInput');
+            
+            if (modal && nameDisplay && input) {
+                nameDisplay.textContent = groupName;
+                input.value = '';
+                modal.style.display = 'flex'; // Use flex to center
+                input.focus();
+            } else {
+                console.error("Delete modal elements not found");
             }
         }
 
-        // DELETE GROUP
-        async function deleteGroup(groupId) {
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteConfirmModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            groupToDeleteId = null;
+            groupToDeleteName = null;
+        }
+
+        async function executeDeleteGroup() {
+            const input = document.getElementById('deleteConfirmInput');
+            
+            if (!input || input.value !== groupToDeleteName) {
+                alert("Group name does not match. Please type the exact group name to confirm.");
+                return;
+            }
+
+            if (!groupToDeleteId) return;
+
             try {
-                const response = await fetch(`/api/groups/${groupId}`, {
+                const response = await fetch(`/api/groups/${groupToDeleteId}`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -1032,7 +1081,8 @@
                 if (result.error) {
                     alert('Error deleting group: ' + result.error);
                 } else {
-                    alert('Group deleted successfully!');
+                    alert('Group deleted (deactivated) successfully!');
+                    closeDeleteModal();
                     fetchAndDisplayGroups();
                 }
             } catch (error) {
@@ -1040,6 +1090,11 @@
                 console.error('Delete error:', error);
             }
         }
+
+        /* 
+        // Legacy function kept for reference if needed, but replaced by executeDeleteGroup
+        async function deleteGroup(groupId) { ... } 
+        */
 
         // LOAD GROUP DETAILS AND STAGES
         async function loadGroupDetails(groupId) {

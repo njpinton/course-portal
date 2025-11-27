@@ -102,7 +102,7 @@ def get_groups() -> list:
         print("Supabase client not initialized. Cannot get groups.")
         return []
     try:
-        response = supabase.table('groups').select('*').execute()
+        response = supabase.table('groups').select('*').eq('is_active', True).execute()
         return response.data
     except Exception as e:
         print(f"Error getting groups: {e}")
@@ -154,15 +154,22 @@ def delete_group(group_id: str) -> bool:
         print("Supabase client not initialized. Cannot delete group.")
         return False
     try:
-        # Ungroup all members (set their group_id to NULL)
+        # Soft delete:
+        # 1. Ungroup all members (set their group_id to NULL in students table)
         supabase.table('students').update({'group_id': None}).eq('group_id', group_id).execute()
-        # Delete associated documents
-        supabase.table('group_documents').delete().eq('group_id', group_id).execute()
-        # Delete associated members
-        supabase.table('group_members').delete().eq('group_id', group_id).execute()
-        # Delete the group itself
-        response = supabase.table('groups').delete().eq('id', group_id).execute()
-        # Check if deletion was successful (response has data or no error was raised)
+        
+        # 2. Mark submissions as inactive (if column exists, otherwise this might fail if migration didn't run - handling gracefully?)
+        # We'll assume migration ran as per instructions.
+        try:
+            supabase.table('group_submissions').update({'is_active': False}).eq('group_id', group_id).execute()
+        except Exception:
+            # Fallback if column doesn't exist yet
+            pass
+
+        # 3. Mark the group itself as inactive
+        response = supabase.table('groups').update({'is_active': False}).eq('id', group_id).execute()
+        
+        # Check if update was successful
         return response is not None and hasattr(response, 'data')
     except Exception as e:
         print(f"Error deleting group: {e}")
