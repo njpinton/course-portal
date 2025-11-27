@@ -102,7 +102,8 @@ def get_groups() -> list:
         print("Supabase client not initialized. Cannot get groups.")
         return []
     try:
-        response = supabase.table('groups').select('*').eq('is_active', True).execute()
+        # Fetch groups and their members' names
+        response = supabase.table('groups').select('*, group_members(member_name)').eq('is_active', True).execute()
         return response.data
     except Exception as e:
         print(f"Error getting groups: {e}")

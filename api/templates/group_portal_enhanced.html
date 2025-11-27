@@ -1006,10 +1006,19 @@
 
                     const deleteButton = isAdminLoggedIn ? `<button class="btn-delete-list" onclick="event.stopPropagation(); deleteGroupConfirm('${group.id}', '${group.group_name}')">Delete</button>` : '';
 
+                    // Extract surnames
+                    const surnames = (group.group_members || [])
+                        .map(member => {
+                            const nameParts = member.member_name.split(' ');
+                            return nameParts[nameParts.length - 1]; // Get the last part as surname
+                        })
+                        .join(', ');
+
                     listItem.innerHTML = `
                         <div style="flex: 1; cursor: pointer;" onclick="showProposal('${group.group_name.replace(/'/g, "\\'")}', '${(group.project_title || '').replace(/'/g, "\\'")}')">
                             <h4 style="margin: 0 0 5px 0; color: #1B5E4F;">${group.project_title || 'Untitled Project'}</h4>
                             <small style="color: #999;">${group.group_name}</small>
+                            ${surnames ? `<small style="display: block; color: #666; font-size: 0.85em; margin-top: 3px;">Members: ${surnames}</small>` : ''}
                         </div>
                         <div style="display: flex; gap: 10px;">
                             <a href="/admin/group/${group.id}" class="btn-view" style="text-decoration: none; padding: 8px 16px; background-color: #1B5E4F; color: white; border-radius: 4px; border: none; cursor: pointer; font-weight: 600;">View Group</a>
