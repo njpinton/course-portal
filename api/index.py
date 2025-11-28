@@ -548,13 +548,12 @@ def create_group_api():
         if not password or len(password) < 6:
             return jsonify({"error": "Password must be at least 6 characters"}), 400
         
-        # Validate class_id
-        if not class_id:
-            return jsonify({"error": "Class ID is required"}), 400
-        is_valid, error_msg = validate_input(class_id, 50, "class_id") # Assuming class_id is a short string like 'CMCS173A'
-        if not is_valid:
-            logger.warning(f"Invalid class_id: {error_msg}")
-            return jsonify({"error": error_msg}), 400
+        # Validate class_id (optional)
+        if class_id:
+            is_valid, error_msg = validate_input(class_id, 50, "class_id") # Assuming class_id is a short string like 'CMCS173A'
+            if not is_valid:
+                logger.warning(f"Invalid class_id: {error_msg}")
+                return jsonify({"error": error_msg}), 400
 
         # Validate members list
         if not isinstance(member_ids, list):
@@ -617,7 +616,7 @@ def get_group_details_api(group_id):
     if not supabase_client:
         return jsonify({"error": "Supabase not configured"}), 500
     try:
-        group_details = get_group_details(group_id)
+        group_details = get_group_with_submissions(group_id)
         if group_details:
             return jsonify(group_details), 200
         return jsonify({"error": "Group not found"}), 404
@@ -1548,6 +1547,35 @@ def get_students_by_class_api(class_id):
         return jsonify(students), 200
     except Exception as e:
         logger.error(f"Error getting students: {e}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/students/ungrouped/all', methods=['GET'])
+def get_all_ungrouped_students_api():
+    """Get all ungrouped students across all classes."""
+    try:
+        supabase_client = get_supabase_client()
+        if not supabase_client:
+            return jsonify({"error": "Database not configured"}), 500
+
+        # Get all ungrouped students
+        response = supabase_client.table('students').select('*').is_('group_id', 'null').order('last_name').execute()
+        students = response.data
+
+        # Return safe student data
+        safe_students = []
+        for student in students:
+            safe_students.append({
+                'id': student['id'],
+                'first_name': student.get('first_name', ''),
+                'last_name': student.get('last_name', ''),
+                'campus_id': student.get('campus_id', ''),
+                'program': student.get('program', ''),
+                'class_id': student.get('class_id', '')
+            })
+
+        return jsonify(safe_students), 200
+    except Exception as e:
+        logger.error(f"Error getting all ungrouped students: {e}")
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/students/ungrouped/<class_id>', methods=['GET'])

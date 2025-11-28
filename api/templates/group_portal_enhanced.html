@@ -3,1587 +3,881 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMSC 173 Group Project Portal</title>
+    <title>Group Project Portal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 50%, #7A1E3F 100%);
             min-height: 100vh;
+            margin: 0;
             padding: 20px;
             color: #333;
         }
-
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px 40px;
             overflow: hidden;
         }
-
-        .header {
-            background: linear-gradient(135deg, #1B5E4F 0%, #7A1E3F 100%);
-            color: white;
-            padding: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn-primary, .btn-secondary, .btn-danger {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background-color: #D4AF37;
+        h1 {
             color: #1B5E4F;
-        }
-
-        .btn-primary:hover {
-            background-color: #FFC700;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255,255,255,0.3);
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 30px;
-        }
-
-        .tab-btn {
-            padding: 12px 20px;
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #999;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            color: #1B5E4F;
-            border-bottom-color: #1B5E4F;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* VIEW TOGGLE */
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: flex-end;
-        }
-
-        .view-btn {
-            padding: 8px 15px;
-            border: 2px solid #ddd;
-            background: white;
-            color: #666;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .view-btn.active {
-            background: #1B5E4F;
-            color: white;
-            border-color: #1B5E4F;
-        }
-
-        .view-btn:hover {
-            border-color: #1B5E4F;
-        }
-
-        /* GROUP OVERVIEW SECTION */
-        .overview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .overview-list {
-            display: block;
-        }
-
-        .overview-list.active {
-            display: block;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #1B5E4F;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-
-        .info-card h3 {
-            color: #1B5E4F;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .info-card p {
-            color: #333;
-            font-size: 1.2em;
-            font-weight: 600;
-        }
-
-        /* LIST VIEW */
-        .list-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .list-table thead {
-            background: #1B5E4F;
-            color: white;
-        }
-
-        .list-table th {
-            padding: 15px 20px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        .list-table td {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .list-table tbody tr {
-            transition: background-color 0.3s ease;
-        }
-
-        .list-table tbody tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        .group-name-col {
-            font-weight: 600;
-            color: #1B5E4F;
-            min-width: 150px;
-        }
-
-        .project-col {
-            color: #666;
-        }
-
-        .members-col {
             text-align: center;
-            font-weight: 600;
-        }
-
-        .actions-col {
-            text-align: right;
-        }
-
-        .btn-view {
-            padding: 6px 12px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.85em;
-            margin-right: 5px;
-            transition: background 0.3s ease;
-        }
-
-        .btn-view:hover {
-            background: #1976D2;
-        }
-
-        .btn-delete-list {
-            padding: 6px 12px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .btn-delete-list:hover {
-            background: #c82333;
-        }
-
-        /* PROGRESS TRACKER */
-        .progress-timeline {
-            position: relative;
-            margin: 40px 0;
-        }
-
-        .stages-container {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .stages-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #ddd;
-            z-index: 0;
-        }
-
-        .stage {
-            flex: 1;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stage-indicator {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #ccc;
-        }
-
-        .stage.pending .stage-indicator {
-            background: #999;
-        }
-
-        .stage.in_progress .stage-indicator {
-            background: #FF9800;
-            box-shadow: 0 0 0 4px rgba(255,152,0,0.2);
-            animation: pulse 2s infinite;
-        }
-
-        .stage.submitted .stage-indicator {
-            background: #2196F3;
-        }
-
-        .stage.under_review .stage-indicator {
-            background: #673AB7;
-        }
-
-        .stage.completed .stage-indicator {
-            background: #4CAF50;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .stage-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .stage-weight {
-            font-size: 0.85em;
-            color: #999;
-        }
-
-        .stage-grade {
-            font-size: 0.9em;
-            color: #4CAF50;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        /* STAGE DETAILS PANEL */
-        .stage-details {
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 25px;
-            margin: 30px 0;
-        }
-
-        .stage-details h3 {
-            color: #1B5E4F;
+            font-size: 2.8em;
             margin-bottom: 20px;
+            font-weight: 700;
+        }
+        h2 {
+            color: #7A1E3F;
             font-size: 1.8em;
-        }
-
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            margin-top: 40px;
             margin-bottom: 20px;
+            border-bottom: 2px solid #D4AF37;
+            padding-bottom: 10px;
         }
-
-        .detail-item {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 3px solid #D4AF37;
-        }
-
-        .detail-item label {
-            display: block;
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        .detail-item value {
-            display: block;
-            color: #333;
-            font-size: 1.1em;
-        }
-
-        .rubric-checklist {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-
-        .rubric-checklist h4 {
-            color: #1B5E4F;
-            margin-bottom: 15px;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .checklist-item:last-child {
-            border-bottom: none;
-        }
-
-        .checklist-item input[type="checkbox"] {
-            margin-right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .checklist-item label {
-            cursor: pointer;
-            flex: 1;
-            margin: 0;
-            font-weight: normal;
-        }
-
-        /* DOCUMENTS SECTION */
-        .documents-section {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border: 1px solid #eee;
-        }
-
-        .documents-section h4 {
-            color: #1B5E4F;
-            margin-bottom: 15px;
-        }
-
-        .document-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .document-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            border-left: 3px solid #2196F3;
-        }
-
-        .document-info {
-            flex: 1;
-        }
-
-        .document-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .document-meta {
-            font-size: 0.85em;
-            color: #999;
-        }
-
-        .document-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .document-actions a, .document-actions button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 3px;
-            background: #2196F3;
-            color: white;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: background 0.3s ease;
-        }
-
-        .document-actions a:hover, .document-actions button:hover {
-            background: #1976D2;
-        }
-
-        /* MODEL RESULTS SECTION */
-        .models-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-        }
-
-        .models-table thead {
-            background: #1B5E4F;
-            color: white;
-        }
-
-        .models-table th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        .models-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .models-table tbody tr:hover {
-            background: #f5f5f5;
-        }
-
-        .metric-badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 3px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-
-        .baseline-badge {
-            background: #fff3e0;
-            color: #E65100;
-        }
-
-        /* FORMS */
         .form-section {
-            background: #f9f9f9;
-            padding: 25px;
+            background-color: #f9f9f9;
             border-radius: 8px;
-            margin: 20px 0;
-            border: 1px solid #eee;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .form-section h3 {
-            color: #1B5E4F;
-            margin-bottom: 20px;
-        }
-
         .form-group {
             margin-bottom: 15px;
         }
-
-        .form-group label {
+        label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
             color: #555;
         }
-
-        .form-group input[type="text"],
-        .form-group input[type="password"],
-        .form-group input[type="number"],
-        .form-group input[type="email"],
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
+        input[type="text"],
+        textarea {
+            width: calc(100% - 20px);
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1em;
-            font-family: inherit;
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #1B5E4F;
-            box-shadow: 0 0 0 3px rgba(27,94,79,0.1);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .btn-submit {
+        button {
             background-color: #1B5E4F;
             color: white;
-            padding: 12px 30px;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
+            font-size: 1em;
             cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease;
         }
-
-        .btn-submit:hover {
+        button:hover {
             background-color: #0F3E35;
         }
-
-        /* ALERTS & MESSAGES */
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        .group-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
         }
-
-        .alert.success {
-            background: #c8e6c9;
-            border-left: 4px solid #4CAF50;
-            color: #2e7d32;
-        }
-
-        .alert.error {
-            background: #ffcdd2;
-            border-left: 4px solid #dc3545;
-            color: #c62828;
-        }
-
-        .alert.info {
-            background: #bbdefb;
-            border-left: 4px solid #2196F3;
-            color: #1565c0;
-        }
-
-        /* FOOTER */
-        .footer {
-            background: #f5f5f5;
+        .group-card {
+            background-color: #e8f5e9; /* Light green */
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
             padding: 20px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            color: #999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .footer a {
-            color: #1B5E4F;
+        .group-card h3 {
+            color: #2e7d32; /* Dark green */
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .group-card p {
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+        .group-card ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding-left: 0;
+        }
+        .group-card li {
+            margin-bottom: 3px;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            background-color: #7A1E3F;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
             text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .stages-container {
-                flex-wrap: wrap;
-            }
-
-            .stage {
-                min-width: 100px;
-            }
-
-            .overview-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .models-table {
-                font-size: 0.9em;
-            }
-
-            .models-table th,
-            .models-table td {
-                padding: 8px;
-            }
+        .back-button:hover {
+            background-color: #5C162F;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div>
-                <h1>📊 Group Project Portal</h1>
-                <p>CMSC 173 - Machine Learning Course</p>
-            </div>
-            <div class="header-actions">
-                {% if session.get('is_admin') %}
-                    <a href="/admin_dashboard" class="btn-secondary">← Back to Admin Dashboard</a>
-                {% else %}
-                    <a href="/" class="btn-secondary">← Back to Modules</a>
-                {% endif %}
-
-                {% if session.get('is_admin') %}
-                    <a href="/admin_logout" class="btn-danger">Logout Admin</a>
-                {% elif session.get('is_group_logged_in') %}
-                    <a href="/group_submission_portal" class="btn-primary">My Group Portal</a>
-                    <a href="/group_logout" class="btn-danger">Logout</a>
-                {% else %}
-                    <a href="/group_login" class="btn-primary">Group Login</a>
-                    <a href="/admin_login" class="btn-secondary">Admin Login</a>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="content">
-            <!-- TAB 1: OVERVIEW -->
-            <div id="overview" class="tab-content active">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h2>All Groups</h2>
-                    {% if not session.get('is_group_logged_in') %}
-                        <a href="#manage" onclick="showManageTab()" class="btn-primary" style="text-decoration: none; padding: 10px 20px;">+ Create New Group</a>
-                    {% endif %}
-                </div>
-
-                <!-- LIST VIEW (Default) -->
-                <div id="groupsOverviewList" class="overview-list">
-                    <div id="groupsListContainer" style="display: flex; flex-direction: column; gap: 10px;">
-                        <p style="color: #999;">Loading groups...</p>
-                    </div>
-                </div>
-
-                <!-- PROPOSAL DETAILS MODAL -->
-                <div id="proposalModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto;">
-                    <div style="background: white; margin: 40px auto; padding: 40px; max-width: 900px; border-radius: 12px; min-height: 300px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                            <h2 id="proposalTitle" style="color: #1B5E4F; margin: 0;">Proposal</h2>
-                            <button onclick="closeProposalModal()" style="background: none; border: none; font-size: 28px; cursor: pointer; color: #999;">✕</button>
-                        </div>
-                        <div id="proposalContent" style="color: #333; line-height: 1.6;">
-                            Loading proposal...
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GROUP DETAILS MODAL (Admin View) -->
-                <div id="groupDetailsModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto;">
-                    <div style="background: white; margin: 20px auto; padding: 40px; max-width: 1200px; border-radius: 12px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                            <h2 id="groupDetailTitle" style="color: #1B5E4F; margin: 0;">Group Details</h2>
-                            <button onclick="closeGroupDetailsModal()" style="background: none; border: none; font-size: 28px; cursor: pointer; color: #999;">✕</button>
-                        </div>
-
-                        <!-- Tabs for group details -->
-                        <div style="display: flex; gap: 10px; border-bottom: 2px solid #eee; margin-bottom: 20px;">
-                            <button onclick="switchGroupDetailTab('info')" class="group-detail-tab active" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #1B5E4F; border-bottom: 3px solid #1B5E4F; font-weight: 600;">📋 Project Info</button>
-                            <button onclick="switchGroupDetailTab('progress')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">📊 Progress</button>
-                            <button onclick="switchGroupDetailTab('submissions')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">📤 Submissions</button>
-                            <button onclick="switchGroupDetailTab('comments')" class="group-detail-tab" style="padding: 10px 20px; border: none; background: none; cursor: pointer; color: #666; font-weight: 600;">💬 Comments</button>
-                        </div>
-
-                        <!-- Tab: Project Info -->
-                        <div id="groupDetailTab-info" class="group-detail-tab-content" style="display: block;">
-                            <div id="projectDetailsContent"></div>
-                        </div>
-
-                        <!-- Tab: Progress -->
-                        <div id="groupDetailTab-progress" class="group-detail-tab-content" style="display: none;">
-                            <div id="progressContent"></div>
-                        </div>
-
-                        <!-- Tab: Submissions -->
-                        <div id="groupDetailTab-submissions" class="group-detail-tab-content" style="display: none;">
-                            <div id="documentsContent"></div>
-                        </div>
-
-                        <!-- Tab: Comments -->
-                        <div id="groupDetailTab-comments" class="group-detail-tab-content" style="display: none;">
-                            <div id="commentsSection" style="padding: 20px 0;">
-                                <h3 style="color: #1B5E4F; margin-bottom: 15px;">Admin Comments</h3>
-                                <div id="commentsList" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto;"></div>
-
-                                <div style="border-top: 1px solid #eee; padding-top: 15px;">
-                                    <div class="form-group">
-                                        <textarea id="newCommentText" placeholder="Add a comment..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px; font-family: inherit;"></textarea>
-                                    </div>
-                                    <button onclick="submitGroupComment()" style="background-color: #1B5E4F; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Post Comment</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- TAB 6: MANAGE -->
-            {% if not session.get('is_group_logged_in') %}
-            <div id="manage" class="tab-content" style="display: none;">
-                <div style="margin-bottom: 25px;">
-                    <button onclick="showOverviewTab()" class="btn-secondary" style="padding: 10px 20px;">← Back to Overview</button>
-                </div>
-                <h2>Create New Group</h2>
-                <div class="form-section">
-                    <form id="createGroupForm">
-                        <h3 style="color: #1B5E4F; margin-bottom: 15px;">📋 Group Information</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="groupName">Group Name:</label>
-                                <input type="text" id="groupName" name="group_name" required placeholder="e.g., Data Science Team">
-                            </div>
-                            <div class="form-group">
-                                <label for="projectTitle">Project Title:</label>
-                                <input type="text" id="projectTitle" name="project_title" required placeholder="e.g., ML Classification">
-                            </div>
-                        </div>
-
-                        <h3 style="color: #1B5E4F; margin-top: 25px; margin-bottom: 15px;">🔐 Group Login Credentials</h3>
-                        <p style="color: #666; margin-bottom: 15px; font-size: 0.9em;">
-                            These credentials will be used by all group members to login to the submission portal.
-                        </p>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="groupUsername">Username:</label>
-                                <input type="text" id="groupUsername" name="username" required placeholder="e.g., datasci-team-01" autocomplete="off">
-                                <small style="color: #999;">Must be unique across all groups</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="groupPassword">Password:</label>
-                                <input type="password" id="groupPassword" name="password" required placeholder="Enter a strong password" autocomplete="off">
-                                <small style="color: #999;">Min 6 characters, include uppercase & number</small>
-                            </div>
-                        </div>
-
-                        <h3 style="color: #1B5E4F; margin-top: 25px; margin-bottom: 15px;">👥 Add Group Member (Dropdown Only)</h3>
-                        <div style="display: flex; gap: 10px; margin-bottom: 10px; position: relative;">
-                            <div style="flex: 1; position: relative;">
-                                <input type="hidden" id="selectedStudentId">
-                                <!-- Clickable display area - NOT an input field -->
-                                <div id="memberDisplay" style="width: 100%; padding: 12px; border: 2px solid #ccc; border-radius: 4px; background: white; cursor: pointer; min-height: 20px; font-size: 16px; display: flex; align-items: center;">
-                                    <span id="memberDisplayText" style="color: #999;">Click to select a student from list...</span>
-                                </div>
-                                <!-- Search input - only shown when display is clicked -->
-                                <input type="text" id="memberSearchBox" placeholder="Type student name to filter..." style="width: 100%; padding: 8px; border: 1px solid #999; border-radius: 4px; margin-top: 4px; display: none; font-size: 14px;">
-                                <!-- Dropdown list -->
-                                <ul id="studentsList" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #ccc; border-radius: 0 0 4px 4px; list-style: none; margin: 0; padding: 0; max-height: 250px; overflow-y: auto; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                                </ul>
-                            </div>
-                            <button type="button" id="addMemberBtn" style="padding: 8px 15px; white-space: nowrap; background: #ffc107; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;" disabled>+ Add Member</button>
-                        </div>
-                        <div id="selectedMembers" style="margin-top: 15px; border: 1px solid #e0e0e0; padding: 10px; border-radius: 4px; background: #f9f9f9;">
-                            <p id="noMembersMsg" style="color: #888; margin: 0;">No members added yet.</p>
-                        </div>
-
-                        <button type="submit" class="btn-submit">Create Group & Set Credentials</button>
-                    </form>
-                </div>
-            </div>
+        <a href="/" class="back-button">← Back to Homepage</a>
+        <div style="float: right; margin-top: 20px;">
+            {% if session.get('is_admin') %}
+                <a href="/admin_logout" class="back-button" style="background-color: #dc3545;">Logout Admin</a>
+            {% else %}
+                <a href="/admin_login" class="back-button" style="background-color: #28a745;">Admin Login</a>
             {% endif %}
         </div>
+        <h1>Group Project Portal</h1>
 
-                    <!-- DELETE CONFIRMATION MODAL -->
-                    <div id="deleteConfirmModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1100; align-items: center; justify-content: center;">
-                        <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                            <h3 style="color: #dc3545; margin-top: 0; margin-bottom: 15px;">⚠️ Delete Group</h3>
-                            <p style="margin-bottom: 20px; color: #555;">Are you sure you want to delete this group? This action will mark the group as inactive and remove all members.</p>
-                            <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin-bottom: 20px; font-size: 0.9em; color: #856404;">
-                                <strong>Warning:</strong> Submissions will be preserved but marked inactive. Members will be ungrouped.
-                            </div>
-                            <p style="margin-bottom: 10px; font-weight: 600;">Type the group name to confirm:</p>
-                            <p id="deleteTargetName" style="font-family: monospace; background: #f5f5f5; padding: 8px; border-radius: 4px; margin-bottom: 15px; user-select: all; font-weight: bold; color: #333;"></p>
-                            <input type="text" id="deleteConfirmInput" placeholder="Type group name here" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                                <button onclick="closeDeleteModal()" style="padding: 10px 20px; background: #e0e0e0; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; color: #333;">Cancel</button>
-                                <button onclick="executeDeleteGroup()" class="btn-danger">Delete Group</button>
-                            </div>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button id="showCreateGroupBtn" class="back-button" style="background-color: #1B5E4F; font-size: 1.1em; padding: 12px 30px;">
+                + Create New Group
+            </button>
+        </div>
+
+        <div class="form-section" id="createGroupSection" style="display: none;">
+            <h2 style="margin-bottom: 25px;">Create New Group</h2>
+            <form id="createGroupForm">
+                <!-- Group Info Section -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #1B5E4F;">
+                    <h3 style="margin: 0 0 15px 0; color: #1B5E4F; font-size: 16px; font-weight: 600;">📋 Group Information</h3>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="groupName" style="font-weight: 500; color: #333; margin-bottom: 5px; display: block;">Group Name</label>
+                        <input type="text" id="groupName" name="group_name" required
+                               placeholder="e.g., Team Alpha, The Innovators"
+                               style="width: 100%; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; transition: all 0.2s;"
+                               onfocus="this.style.borderColor='#1B5E4F'; this.style.boxShadow='0 0 0 3px rgba(27,94,79,0.1)'"
+                               onblur="this.style.borderColor='#dee2e6'; this.style.boxShadow='none'">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="projectTitle" style="font-weight: 500; color: #333; margin-bottom: 5px; display: block;">Project Title</label>
+                        <input type="text" id="projectTitle" name="project_title" required
+                               placeholder="e.g., Machine Learning Image Classifier"
+                               style="width: 100%; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; transition: all 0.2s;"
+                               onfocus="this.style.borderColor='#1B5E4F'; this.style.boxShadow='0 0 0 3px rgba(27,94,79,0.1)'"
+                               onblur="this.style.borderColor='#dee2e6'; this.style.boxShadow='none'">
+                    </div>
+                </div>
+
+                <!-- Login Credentials Section -->
+                <div style="background: #f8e8e8; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #8B0000;">
+                    <h3 style="margin: 0 0 15px 0; color: #5c0000; font-size: 16px; font-weight: 600;">🔐 Login Credentials</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="groupUsername" style="font-weight: 500; color: #333; margin-bottom: 5px; display: block;">Username</label>
+                            <input type="text" id="groupUsername" name="username" required
+                                   placeholder="Choose a unique username"
+                                   style="width: 100%; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; transition: all 0.2s;"
+                                   onfocus="this.style.borderColor='#8B0000'; this.style.boxShadow='0 0 0 3px rgba(139,0,0,0.1)'"
+                                   onblur="this.style.borderColor='#dee2e6'; this.style.boxShadow='none'">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="groupPassword" style="font-weight: 500; color: #333; margin-bottom: 5px; display: block;">Password</label>
+                            <input type="password" id="groupPassword" name="password" minlength="6" required
+                                   placeholder="Min 6 characters"
+                                   style="width: 100%; padding: 10px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; transition: all 0.2s;"
+                                   onfocus="this.style.borderColor='#8B0000'; this.style.boxShadow='0 0 0 3px rgba(139,0,0,0.1)'"
+                                   onblur="this.style.borderColor='#dee2e6'; this.style.boxShadow='none'">
                         </div>
                     </div>
-        
-                    <div class="footer">            <p>CMSC 173 Group Project Portal | © 2025 University of the Philippines Cebu</p>
-            <p><a href="/group_portal">Back to Portal</a></p>
+                </div>
+
+                <!-- Members Section -->
+                <div style="background: #e8f4e8; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #1B5E4F;">
+                    <h3 style="margin: 0 0 15px 0; color: #1B5E4F; font-size: 16px; font-weight: 600;">👥 Group Members</h3>
+                    <div style="position: relative; margin-bottom: 15px;">
+                        <input type="text" id="studentSearch" placeholder="🔍 Search students by name or campus ID..."
+                               style="width: 100%; padding: 12px 15px; border: 2px solid #d4e6d4; border-radius: 8px; font-size: 14px; background: white; transition: all 0.2s;"
+                               onfocus="this.style.borderColor='#1B5E4F'; this.style.boxShadow='0 0 0 3px rgba(27,94,79,0.1)'; this.placeholder='Start typing to search...'"
+                               onblur="this.style.borderColor='#d4e6d4'; this.style.boxShadow='none'; this.placeholder='🔍 Search students by name or campus ID...'">
+                        <input type="hidden" id="selectedStudentId">
+                        <ul id="studentsList" style="display: none; list-style: none; margin: 0; padding: 0; max-height: 300px; overflow-y: auto; border: 2px solid #1B5E4F; border-radius: 8px; background: white; position: absolute; width: 100%; z-index: 100; box-shadow: 0 8px 16px rgba(0,0,0,0.15); margin-top: 5px;"></ul>
+                    </div>
+                    <div id="selectedMembers" style="min-height: 50px; border: 2px dashed #d4e6d4; padding: 15px; border-radius: 8px; background: white;">
+                        <p id="noMembersMsg" style="color: #6c757d; margin: 0; text-align: center; font-style: italic;">No members added yet. Search above to add students.</p>
+                    </div>
+                    <div id="classAlert" style="margin-top: 15px; padding: 12px; background: #e8f4e8; border-radius: 6px; border-left: 4px solid #1B5E4F; display: none;">
+                        <small id="classAlertText" style="color: #1B5E4F; font-weight: 500;"></small>
+                    </div>
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 100%); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                    ✨ Create Group
+                </button>
+            </form>
         </div>
+
+        <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">Existing Groups</h2>
+                <div style="display: flex; gap: 8px; background: #f8f9fa; padding: 4px; border-radius: 8px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                    <button id="viewKanban" class="view-toggle" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; background: transparent; color: #6c757d;">
+                        📊 Cards
+                    </button>
+                    <button id="viewList" class="view-toggle active" style="padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; background: white; color: #7A1E3F; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        📋 List
+                    </button>
+                </div>
+            </div>
+            <div id="groupsList" class="group-list">
+                <!-- Groups will be loaded here by JavaScript -->
+                <p>Loading groups...</p>
+            </div>
+        </div>
+
+        <!-- Document Upload Section (will be dynamically shown for a selected group) -->
+        <div class="form-section" id="documentUploadSection" style="display: none;">
+            <h2>Upload Document for <span id="currentGroupName"></span></h2>
+            <form id="uploadDocumentForm">
+                <input type="hidden" id="uploadGroupId" name="group_id">
+                <div class="form-group">
+                    <label for="documentTitle">Document Title:</label>
+                    <input type="text" id="documentTitle" name="document_title" required>
+                </div>
+                <div class="form-group">
+                    <label for="documentFile">Select File:</label>
+                    <input type="file" id="documentFile" name="file" required>
+                </div>
+                <button type="submit">Upload Document</button>
+            </form>
+        </div>
+        
+        <!-- Group Details Modal -->
+        <div id="groupDetailsModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);">
+            <div class="modal-content" style="background-color: #fff; margin: 5% auto; padding: 30px; border: none; width: 90%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: slideIn 0.3s ease-out;">
+                <span class="close-modal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.2s;">&times;</span>
+                <h2 id="modalGroupName" style="margin-top: 0; color: #1B5E4F; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-bottom: 20px;">Group Details</h2>
+                <div id="modalContent">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+        <style>
+            @keyframes slideIn {
+                from {transform: translateY(-20px); opacity: 0;}
+                to {transform: translateY(0); opacity: 1;}
+            }
+            .close-modal:hover { color: #333; }
+        </style>
+
     </div>
 
     <script>
-        let selectedGroupId = null;
-        let currentMembers = [];
-        const isAdminLoggedIn = {{ 'true' if session.get('is_admin') else 'false' }};
+        const IS_ADMIN = {{ session.get('is_admin', False) | tojson }}; // Passed from Flask backend
 
-        // VIEW TOGGLE
-        // Show manage tab
-        function showManageTab() {
-            document.getElementById('overview').style.display = 'none';
-            document.getElementById('manage').style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+                        console.log('DOMContentLoaded event fired!');
+                        const createGroupForm = document.getElementById('createGroupForm');
+                        const createGroupSection = document.getElementById('createGroupSection');
+                        const showCreateGroupBtn = document.getElementById('showCreateGroupBtn');
 
-        // Show overview tab
-        function showOverviewTab() {
-            document.getElementById('manage').style.display = 'none';
-            document.getElementById('overview').style.display = 'block';
+                        // Toggle create group form visibility
+                        showCreateGroupBtn.addEventListener('click', () => {
+                            if (createGroupSection.style.display === 'none') {
+                                createGroupSection.style.display = 'block';
+                                showCreateGroupBtn.textContent = '− Hide Form';
+                                createGroupSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            } else {
+                                createGroupSection.style.display = 'none';
+                                showCreateGroupBtn.textContent = '+ Create New Group';
+                            }
+                        });
+                        const groupsList = document.getElementById('groupsList');
+                        const documentUploadSection = document.getElementById('documentUploadSection');
+                        const uploadDocumentForm = document.getElementById('uploadDocumentForm');
+                        const currentGroupName = document.getElementById('currentGroupName');
+                        const uploadGroupId = document.getElementById('uploadGroupId');
+                        
+                        // Modal elements
+                        const modal = document.getElementById('groupDetailsModal');
+                        const closeModal = document.querySelector('.close-modal');
+
+                        closeModal.onclick = function() {
+                            modal.style.display = "none";
+                        }
+
+                        window.onclick = function(event) {
+                            if (event.target == modal) {
+                                modal.style.display = "none";
+                            }
+                        }
+
+                        const studentSearch = document.getElementById('studentSearch');
+                        const selectedStudentIdHidden = document.getElementById('selectedStudentId');
+                        const studentsList = document.getElementById('studentsList');
+                        const selectedMembers = document.getElementById('selectedMembers');
+                        const noMembersMsg = document.getElementById('noMembersMsg');
+                        const classAlert = document.getElementById('classAlert');
+                        const classAlertText = document.getElementById('classAlertText');
+
+                        let selectedGroupId = null;
+                        let currentMembers = []; // Array to hold members for the new group
+                        let availableStudents = []; // Array to hold all ungrouped students
+                        let currentView = 'list'; // Default view updated to LIST
+                        let cachedGroups = []; // Cache groups data
+
+                        // Load all ungrouped students from all classes
+                        async function loadAllStudents() {
+                            try {
+                                console.log('Loading all ungrouped students from all classes');
+                                const response = await fetch('/api/students/ungrouped/all');
+                                console.log('Response status:', response.status, response.statusText);
+
+                                if (!response.ok) {
+                                    throw new Error('Failed to fetch students');
+                                }
+
+                                const students = await response.json();
+                                console.log('Received students:', students);
+
+                                availableStudents = students;
+                                console.log('Available students:', availableStudents);
+                                console.log('Number of available students:', availableStudents.length);
+
+                                // Log first student structure for debugging
+                                if (availableStudents.length > 0) {
+                                    console.log('First student structure:', availableStudents[0]);
+                                    console.log('First student name parts:', {
+                                        id: availableStudents[0].id,
+                                        first_name: availableStudents[0].first_name,
+                                        last_name: availableStudents[0].last_name,
+                                        campus_id: availableStudents[0].campus_id,
+                                        program: availableStudents[0].program
+                                    });
+                                }
+
+                                const ungroupedCount = students.length;
+                                if (ungroupedCount > 0) {
+                                    classAlert.style.display = 'block';
+                                    classAlertText.textContent = `${ungroupedCount} ungrouped students available across all sections`;
+                                } else {
+                                    classAlert.style.display = 'block';
+                                    classAlertText.textContent = 'No ungrouped students available';
+                                }
+                            } catch (error) {
+                                console.error('Error loading students:', error);
+                                classAlert.style.display = 'block';
+                                classAlertText.textContent = '❌ Error loading students: ' + error.message;
+                            }
+                        }
+
+                        // Filter and display students in dropdown
+                        function filterStudents(searchTerm) {
+                            console.log('Filtering students with search term:', searchTerm);
+                            console.log('Available students count:', availableStudents.length);
+
+                            studentsList.innerHTML = '';
+                            const searchLower = searchTerm.toLowerCase();
+
+                            // Filter students based on search term
+                            const filtered = availableStudents.filter(student => {
+                                if (!searchTerm.trim()) return true; // Show all if empty search
+                                const firstName = student.first_name || '';
+                                const lastName = student.last_name || '';
+                                const fullName = `${firstName} ${lastName}`.toLowerCase();
+                                const campusId = (student.campus_id || '').toLowerCase();
+                                return fullName.includes(searchLower) || campusId.includes(searchLower);
+                            });
+
+                            console.log('Filtered students count:', filtered.length);
+
+                            // Hide dropdown if no students available
+                            if (filtered.length === 0) {
+                                const li = document.createElement('li');
+                                li.textContent = 'No students found';
+                                li.style.padding = '10px';
+                                li.style.color = '#999';
+                                studentsList.appendChild(li);
+                                studentsList.style.display = 'block';
+                                return;
+                            }
+
+                            filtered.forEach((student, index) => {
+                                const firstName = student.first_name || '';
+                                const lastName = student.last_name || '';
+                                const fullName = `${firstName} ${lastName}`.trim() || 'Unnamed Student';
+                                const campusId = student.campus_id || 'No ID';
+                                const program = student.program || 'N/A';
+
+                                if (index < 3) { // Log first 3 students for debugging
+                                    console.log(`Student ${index}:`, {
+                                        first_name: firstName,
+                                        last_name: lastName,
+                                        fullName: fullName,
+                                        campus_id: campusId,
+                                        program: program
+                                    });
+                                }
+
+                                const li = document.createElement('li');
+                                li.innerHTML = `<strong>${fullName}</strong><br><small>${campusId} - ${program}</small>`;
+                                li.style.padding = '10px';
+                                li.style.borderBottom = '1px solid #eee';
+                                li.style.cursor = 'pointer';
+                                li.style.backgroundColor = '#fff';
+                                li.addEventListener('mouseenter', () => {
+                                    li.style.backgroundColor = '#f0f0f0';
+                                });
+                                li.addEventListener('mouseleave', () => {
+                                    li.style.backgroundColor = '#fff';
+                                });
+                                li.addEventListener('click', () => {
+                                    // Check if student is already added
+                                    if (currentMembers.some(m => m.studentId === student.id)) {
+                                        alert(`${fullName} is already in the group!`);
+                                        return;
+                                    }
+
+                                    // Add the student to the group
+                                    const studentData = {
+                                        studentId: student.id,
+                                        name: fullName,
+                                        campusId: student.campus_id
+                                    };
+
+                                    currentMembers.push(studentData);
+                                    renderCurrentMembers();
+
+                                    // Clear search and hide dropdown
+                                    studentSearch.value = '';
+                                    studentsList.style.display = 'none';
+
+                                    console.log('Added student to group:', studentData);
+                                });
+                                studentsList.appendChild(li);
+                            });
+
+                            studentsList.style.display = 'block';
+                            console.log('Dropdown populated with', filtered.length, 'students');
+                        }
+
+                    // Show dropdown when search box is focused
+                    studentSearch.addEventListener('focus', () => {
+                        if (availableStudents.length > 0) {
+                            filterStudents(studentSearch.value);
+                        }
+                    });
+
+                    // Filter as user types
+                    studentSearch.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value;
+                        if (availableStudents.length > 0) {
+                            filterStudents(searchTerm);
+                        }
+                    });
+
+                    // Hide dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!studentSearch.contains(e.target) && !studentsList.contains(e.target)) {
+                            studentsList.style.display = 'none';
+                        }
+                    });
+
+                // Function to render groups in the selected view
+                function renderGroups(groups, view) {
+                    groupsList.innerHTML = '';
+
+                    if (view === 'kanban') {
+                        // Kanban/Card View
+                        groups.forEach(group => {
+                            const groupCard = document.createElement('div');
+                            groupCard.className = 'group-card';
+                            const memberCount = group.group_members ? group.group_members.length : 0;
+
+                            // Get member last names only
+                            let memberNames = '';
+                            if (group.group_members && group.group_members.length > 0) {
+                                const names = group.group_members.map(m => {
+                                    if (!m.member_name) return null;
+                                    // Extract last name (first word in full name for Filipino naming convention)
+                                    const parts = m.member_name.trim().split(' ');
+                                    return parts[0]; // First word is usually the last name
+                                }).filter(n => n);
+                                if (names.length > 0) {
+                                    memberNames = `<p style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 6px; border-left: 3px solid #7A1E3F;"><strong>👥 Team:</strong><br><span style="font-size: 14px; color: #495057;">${names.join(', ')}</span></p>`;
+                                }
+                            }
+
+                            groupCard.innerHTML = `
+                                <h3>${group.group_name}</h3>
+                                <p><strong>Project:</strong> ${group.project_title || 'N/A'}</p>
+                                <p><strong>Members:</strong> ${memberCount}</p>
+                                ${memberNames}
+                                <p><strong>Created:</strong> ${new Date(group.created_at).toLocaleDateString()}</p>
+                                <button class="view-details-btn" data-group-id="${group.id}">View Details</button>
+                            `;
+                            groupsList.appendChild(groupCard);
+                        });
+                    } else {
+                        // List View
+                        const table = document.createElement('table');
+                        table.style.cssText = 'width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);';
+
+                        table.innerHTML = `
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 100%); color: white;">
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">Group Name</th>
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">Project Title</th>
+                                    <th style="padding: 15px; text-align: left; font-weight: 600;">Created</th>
+                                    <th style="padding: 15px; text-align: center; font-weight: 600;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groupsTableBody"></tbody>
+                        `;
+
+                        const tbody = table.querySelector('#groupsTableBody');
+                        groups.forEach((group, index) => {
+                            // Get member last names only for display under group name
+                            let memberNamesSubtext = '';
+                            if (group.group_members && group.group_members.length > 0) {
+                                const lastNames = group.group_members.map(m => {
+                                    if (!m.member_name) return null;
+                                    // Extract last name (first word in full name for Filipino naming convention)
+                                    const parts = m.member_name.trim().split(' ');
+                                    return parts[0]; // First word is usually the last name
+                                }).filter(n => n);
+                                if (lastNames.length > 0) {
+                                    memberNamesSubtext = `<div style="font-size: 12px; color: #6c757d; font-weight: normal; margin-top: 4px;">
+                                        ${lastNames.join(', ')}
+                                    </div>`;
+                                }
+                            }
+
+                            const row = document.createElement('tr');
+                            row.style.cssText = `background: ${index % 2 === 0 ? '#f8f9fa' : 'white'}; transition: all 0.2s;`;
+                            row.onmouseenter = () => {
+                                row.style.background = '#e8f4e8';
+                                row.style.transform = 'scale(1.01)';
+                            };
+                            row.onmouseleave = () => {
+                                row.style.background = index % 2 === 0 ? '#f8f9fa' : 'white';
+                                row.style.transform = 'scale(1)';
+                            };
+
+                            row.innerHTML = `
+                                <td style="padding: 15px;">
+                                    <div style="font-weight: 600; color: #1B5E4F;">${group.group_name}</div>
+                                    ${memberNamesSubtext}
+                                </td>
+                                <td style="padding: 15px; color: #495057;">${group.project_title || '<em style="color: #999;">Not specified</em>'}</td>
+                                <td style="padding: 15px; color: #6c757d; font-size: 14px;">${new Date(group.created_at).toLocaleDateString()}</td>
+                                <td style="padding: 15px; text-align: center;">
+                                    <button class="view-details-btn" data-group-id="${group.id}"
+                                            style="background: linear-gradient(135deg, #1B5E4F 0%, #164636 100%); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s;"
+                                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.2)'"
+                                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                                        View Details
+                                    </button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+
+                        groupsList.appendChild(table);
+                    }
+
+                    // Attach event listeners to view details buttons
+                    document.querySelectorAll('.view-details-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            selectedGroupId = event.target.dataset.groupId;
+                            fetchAndDisplayGroupDetails(selectedGroupId);
+                        });
+                    });
+                }
+
+                // Function to fetch and display all groups
+                async function fetchAndDisplayGroups() {
+                    groupsList.innerHTML = '<p>Loading groups...</p>';
+                    try {
+                        const response = await fetch('/api/groups');
+                        const groups = await response.json();
+
+                        if (groups.error) {
+                            groupsList.innerHTML = `<p style="color: red;">Error: ${groups.error}</p>`;
+                            return;
+                        }
+
+                        if (groups.length === 0) {
+                            groupsList.innerHTML = '<p>No groups created yet.</p>';
+                            return;
+                        }
+
+                        cachedGroups = groups; // Cache the groups
+                        renderGroups(groups, currentView);
+
+                    } catch (error) {
+                        groupsList.innerHTML = `<p style="color: red;">Failed to load groups: ${error.message}</p>`;
+                        console.error('Error fetching groups:', error);
+                    }
+                }
+            
+                // Function to fetch and display details for a single group in a modal
+                async function fetchAndDisplayGroupDetails(groupId) {
+                    try {
+                        const response = await fetch(`/api/groups/${groupId}`);
+                        const group = await response.json();
+
+                        if (group.error) {
+                            alert(`Error: ${group.error}`);
+                            return;
+                        }
+
+                        // Populate Modal
+                        document.getElementById('modalGroupName').textContent = group.group_name;
+                        const modalContent = document.getElementById('modalContent');
+                        
+                        let summaryHtml = '<p><em>No summary submitted yet.</em></p>';
+                        
+                        if (group.submissions && group.submissions.length > 0) {
+                             // Sort by stage number descending to get latest
+                             const sortedSubmissions = group.submissions.sort((a, b) => b.stage_number - a.stage_number);
+                             const latestSubmission = sortedSubmissions[0];
+                             
+                             if (latestSubmission.summary_markdown) {
+                                 // Simple markdown rendering
+                                 let summaryText = latestSubmission.summary_markdown
+                                    .replace(/\n/g, '<br>')
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                                 
+                                 summaryHtml = `
+                                    <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 5px solid #1B5E4F; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                        <h4 style="margin-top: 0; color: #555; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Latest Summary (Stage ${latestSubmission.stage_number})</h4>
+                                        <div style="line-height: 1.6; color: #333; font-size: 1.05em;">${summaryText}</div>
+                                        ${latestSubmission.presentation_link ? `<p style="margin-top: 15px;"><a href="${latestSubmission.presentation_link}" target="_blank" style="color: #1B5E4F; font-weight: bold; text-decoration: none;">🔗 View Presentation</a></p>` : ''}
+                                    </div>
+                                 `;
+                             }
+                        }
+
+                        modalContent.innerHTML = `
+                            <p style="font-size: 1.1em; margin-bottom: 20px;"><strong>Project:</strong> ${group.project_title || 'N/A'}</p>
+                            <h3 style="color: #1B5E4F; font-size: 1.3em; margin-bottom: 15px;">Project Summary</h3>
+                            ${summaryHtml}
+                        `;
+
+                        // Show the modal
+                        modal.style.display = "block";
+                        
+                    } catch (error) {
+                        alert(`Failed to load group details: ${error.message}`);
+                        console.error('Error fetching group details:', error);
+                    }
+                }            
+            
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (e.target !== memberDisplay && e.target !== memberSearchBox && e.target !== studentsList) {
+                            studentsList.style.display = 'none';
+                        }
+                    });
+
+            
+                    function renderCurrentMembers() {
+                        selectedMembers.innerHTML = ''; // Clear previous list
+                        if (currentMembers.length === 0) {
+                            selectedMembers.innerHTML = '<p id="noMembersMsg" style="color: #6c757d; margin: 0; text-align: center; font-style: italic;">No members added yet. Search above to add students.</p>';
+                        } else {
+                            const container = document.createElement('div');
+                            container.style.display = 'grid';
+                            container.style.gap = '10px';
+
+                            currentMembers.forEach((member, index) => {
+                                const card = document.createElement('div');
+                                card.style.cssText = `
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    padding: 12px 15px;
+                                    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+                                    border: 2px solid #dee2e6;
+                                    border-radius: 8px;
+                                    transition: all 0.2s;
+                                `;
+                                card.onmouseenter = () => {
+                                    card.style.borderColor = '#1B5E4F';
+                                    card.style.boxShadow = '0 2px 8px rgba(23,162,184,0.15)';
+                                };
+                                card.onmouseleave = () => {
+                                    card.style.borderColor = '#dee2e6';
+                                    card.style.boxShadow = 'none';
+                                };
+
+                                const memberInfo = document.createElement('div');
+                                memberInfo.style.flex = '1';
+
+                                const name = document.createElement('div');
+                                name.textContent = member.name;
+                                name.style.cssText = 'font-weight: 600; color: #1B5E4F; margin-bottom: 3px;';
+
+                                const campusId = document.createElement('div');
+                                campusId.textContent = `📋 ${member.campusId}`;
+                                campusId.style.cssText = 'font-size: 12px; color: #6c757d;';
+
+                                memberInfo.appendChild(name);
+                                memberInfo.appendChild(campusId);
+
+                                const removeButton = document.createElement('button');
+                                removeButton.innerHTML = '✕';
+                                removeButton.style.cssText = `
+                                    background: #dc3545;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 50%;
+                                    width: 28px;
+                                    height: 28px;
+                                    font-size: 16px;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                `;
+                                removeButton.onmouseenter = () => {
+                                    removeButton.style.background = '#c82333';
+                                    removeButton.style.transform = 'scale(1.1)';
+                                };
+                                removeButton.onmouseleave = () => {
+                                    removeButton.style.background = '#dc3545';
+                                    removeButton.style.transform = 'scale(1)';
+                                };
+                                removeButton.onclick = () => {
+                                    currentMembers.splice(index, 1);
+                                    renderCurrentMembers();
+                                };
+
+                                card.appendChild(memberInfo);
+                                card.appendChild(removeButton);
+                                container.appendChild(card);
+                            });
+                            selectedMembers.appendChild(container);
+                        }
+                    }
+            
+                    // Handle create group form submission
+                    createGroupForm.addEventListener('submit', async (event) => {
+                        event.preventDefault();
+                        const formData = new FormData(createGroupForm);
+                        const groupName = formData.get('group_name');
+                        const projectTitle = formData.get('project_title');
+                        const username = formData.get('username');
+                        const password = formData.get('password');
+
+                        if (!groupName) {
+                            alert('Group Name is required.');
+                            return;
+                        }
+                        if (!username) {
+                            alert('Group Username is required.');
+                            return;
+                        }
+                        if (!password || password.length < 6) {
+                            alert('Password must be at least 6 characters.');
+                            return;
+                        }
+
+                        // Extract member names from currentMembers and convert to student IDs
+                        const memberIds = currentMembers.map(m => m.studentId);
+
+                            try {
+                                const response = await fetch('/api/groups', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        group_name: groupName,
+                                        project_title: projectTitle,
+                                        username: username,
+                                        password: password,
+                                        members: memberIds
+                                    }),
+                                });
+                                const result = await response.json();
+                
+                                if (result.error) {
+                                    alert(`Error creating group: ${result.error}`);
+                                } else {
+                                    alert('Group created successfully!');
+                                    createGroupForm.reset();
+                                    currentMembers = []; // Clear members array
+                                    renderCurrentMembers(); // Update display
+                                    fetchAndDisplayGroups(); // Refresh the list of groups
+                                }
+                            } catch (error) {
+                                alert(`Failed to create group: ${error.message}`);
+                                console.error('Error creating group:', error);
+                            }
+                        });
+            // Handle document upload form submission
+            uploadDocumentForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                if (!selectedGroupId) {
+                    alert('Please select a group first.');
+                    return;
+                }
+
+                const formData = new FormData(uploadDocumentForm);
+                formData.append('group_id', selectedGroupId); // Ensure group_id is in form data
+
+                try {
+                    const response = await fetch(`/api/groups/${selectedGroupId}/documents`, {
+                        method: 'POST',
+                        body: formData, // FormData handles Content-Type automatically
+                    });
+                    const result = await response.json();
+
+                    if (result.error) {
+                        alert(`Error uploading document: ${result.error}`);
+                    } else {
+                        alert('Document uploaded successfully!');
+                        uploadDocumentForm.reset();
+                        documentUploadSection.style.display = 'none'; // Hide upload section
+                        fetchAndDisplayGroupDetails(selectedGroupId); // Refresh group details
+                    }
+                } catch (error) {
+                    alert(`Failed to upload document: ${error.message}`);
+                    console.error('Error uploading document:', error);
+                }
+            });
+
+            // Initial fetch of groups when the page loads
             fetchAndDisplayGroups();
-        }
 
-        // Close proposal modal
-        function closeProposalModal() {
-            document.getElementById('proposalModal').style.display = 'none';
-        }
+            // View toggle functionality
+            const viewKanbanBtn = document.getElementById('viewKanban');
+            const viewListBtn = document.getElementById('viewList');
 
-        // Show proposal details in modal
-        function showProposal(groupName, projectDescription) {
-            document.getElementById('proposalTitle').textContent = groupName + ' - Proposal';
-            document.getElementById('proposalContent').innerHTML = `
-                <h4>Project Description</h4>
-                <p>${projectDescription || 'No proposal details available.'}</p>
-                <p style="margin-top: 20px; color: #999; font-size: 0.9em;">To submit the proposal, please use the Group Submission Portal after logging in with your group credentials.</p>
-            `;
-            document.getElementById('proposalModal').style.display = 'block';
-        }
-
-        // TAB SWITCHING
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // FETCH AND DISPLAY GROUPS - Simple list view
-        async function fetchAndDisplayGroups() {
-            try {
-                console.log('Fetching groups...');
-                const response = await fetch('/api/groups');
-                console.log('Response status:', response.status);
-
-                if (!response.ok) {
-                    console.error('API error:', response.status, response.statusText);
-                    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-                    console.error('Error details:', errorData);
-                    return;
-                }
-
-                const groups = await response.json();
-                console.log('Groups received:', groups);
-                console.log('Is array?', Array.isArray(groups));
-                console.log('Groups type:', typeof groups);
-
-                const listContainer = document.getElementById('groupsListContainer');
-                if (!listContainer) {
-                    console.error('listContainer element not found!');
-                    return;
-                }
-                listContainer.innerHTML = '';
-
-                // Handle both array response and object response
-                const groupsArray = Array.isArray(groups) ? groups : [];
-                if (groupsArray.length === 0) {
-                    console.log('No groups found');
-                    listContainer.innerHTML = '<p style="color: #999;">No groups created yet.</p>';
-                    return;
-                }
-
-                console.log('Creating list items for', groupsArray.length, 'groups');
-                // Simple list view
-                groupsArray.forEach(group => {
-                    const listItem = document.createElement('div');
-                    listItem.style.cssText = `
-                        padding: 15px 20px;
-                        background: white;
-                        border: 1px solid #eee;
-                        border-radius: 8px;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                    `;
-                    listItem.onmouseover = () => {
-                        listItem.style.background = '#f5f5f5';
-                        listItem.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-                    };
-                    listItem.onmouseout = () => {
-                        listItem.style.background = 'white';
-                        listItem.style.boxShadow = 'none';
-                    };
-
-                    const deleteButton = isAdminLoggedIn ? `<button class="btn-delete-list" onclick="event.stopPropagation(); deleteGroupConfirm('${group.id}', '${group.group_name}')">Delete</button>` : '';
-
-                    // Extract surnames
-                    const surnames = (group.group_members || [])
-                        .map(member => {
-                            const nameParts = member.member_name.split(' ');
-                            return nameParts[nameParts.length - 1]; // Get the last part as surname
-                        })
-                        .join(', ');
-
-                    listItem.innerHTML = `
-                        <div style="flex: 1; cursor: pointer;" onclick="showProposal('${group.group_name.replace(/'/g, "\\'")}', '${(group.project_title || '').replace(/'/g, "\\'")}')">
-                            <h4 style="margin: 0 0 5px 0; color: #1B5E4F;">${group.project_title || 'Untitled Project'}</h4>
-                            <small style="color: #999;">${group.group_name}</small>
-                            ${surnames ? `<small style="display: block; color: #666; font-size: 0.85em; margin-top: 3px;">Members: ${surnames}</small>` : ''}
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <a href="/admin/group/${group.id}" class="btn-view" style="text-decoration: none; padding: 8px 16px; background-color: #1B5E4F; color: white; border-radius: 4px; border: none; cursor: pointer; font-weight: 600;">View Group</a>
-                            ${deleteButton}
-                        </div>
-                    `;
-                    console.log('Appending group item:', group.group_name);
-                    listContainer.appendChild(listItem);
-                });
-                console.log('All groups loaded successfully');
-            } catch (error) {
-                console.error('Error in fetchAndDisplayGroups:', error);
-                const listContainer = document.getElementById('groupsListContainer');
-                if (listContainer) {
-                    listContainer.innerHTML = `<p style="color: red;">Error loading groups: ${error.message}</p>`;
-                }
-            }
-        }
-
-        // DELETE GROUP WITH CONFIRMATION
-        let groupToDeleteId = null;
-        let groupToDeleteName = null;
-
-        function deleteGroupConfirm(groupId, groupName) {
-            groupToDeleteId = groupId;
-            groupToDeleteName = groupName;
-            
-            const modal = document.getElementById('deleteConfirmModal');
-            const nameDisplay = document.getElementById('deleteTargetName');
-            const input = document.getElementById('deleteConfirmInput');
-            
-            if (modal && nameDisplay && input) {
-                nameDisplay.textContent = groupName;
-                input.value = '';
-                modal.style.display = 'flex'; // Use flex to center
-                input.focus();
-            } else {
-                console.error("Delete modal elements not found");
-            }
-        }
-
-        function closeDeleteModal() {
-            const modal = document.getElementById('deleteConfirmModal');
-            if (modal) {
-                modal.style.display = 'none';
-            }
-            groupToDeleteId = null;
-            groupToDeleteName = null;
-        }
-
-        async function executeDeleteGroup() {
-            const input = document.getElementById('deleteConfirmInput');
-            
-            if (!input || input.value !== groupToDeleteName) {
-                alert("Group name does not match. Please type the exact group name to confirm.");
-                return;
-            }
-
-            if (!groupToDeleteId) return;
-
-            try {
-                const response = await fetch(`/api/groups/${groupToDeleteId}`, {
-                    method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-
-                const result = await response.json();
-
-                if (result.error) {
-                    alert('Error deleting group: ' + result.error);
-                } else {
-                    alert('Group deleted (deactivated) successfully!');
-                    closeDeleteModal();
-                    fetchAndDisplayGroups();
-                }
-            } catch (error) {
-                alert('Failed to delete group: ' + error.message);
-                console.error('Delete error:', error);
-            }
-        }
-
-        /* 
-        // Legacy function kept for reference if needed, but replaced by executeDeleteGroup
-        async function deleteGroup(groupId) { ... } 
-        */
-
-        // LOAD GROUP DETAILS AND STAGES
-        async function loadGroupDetails(groupId) {
-            selectedGroupId = groupId;
-
-            try {
-                // Fetch group details
-                const groupResponse = await fetch(`/api/groups/${groupId}`);
-                const group = await groupResponse.json();
-
-                // Fetch project stages
-                const stagesResponse = await fetch(`/api/groups/${groupId}/stages`);
-                const stages = await stagesResponse.json();
-
-                // Fetch project models
-                const modelsResponse = await fetch(`/api/groups/${groupId}/models`);
-                const models = await modelsResponse.json();
-
-                // Fetch stage documents
-                const docsResponse = await fetch(`/api/groups/${groupId}/stage-documents`);
-                const documents = await docsResponse.json();
-
-                // Fetch group comments
-                await loadGroupComments(groupId);
-
-                displayProgressTimeline(group, stages);
-                displayProjectDetails(group);
-                displayModelResults(models);
-                displayDocuments(documents);
-
-                // Show the modal
-                document.getElementById('groupDetailTitle').textContent = group.group_name + ' - Details';
-                document.getElementById('groupDetailsModal').style.display = 'block';
-
-                // Reset to info tab
-                switchGroupDetailTab('info');
-
-            } catch (error) {
-                console.error('Error loading group details:', error);
-            }
-        }
-
-        // Close group details modal
-        function closeGroupDetailsModal() {
-            document.getElementById('groupDetailsModal').style.display = 'none';
-        }
-
-        // Switch tabs in group details modal
-        function switchGroupDetailTab(tabName) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.group-detail-tab-content');
-            tabs.forEach(tab => tab.style.display = 'none');
-
-            // Remove active state from all buttons
-            const buttons = document.querySelectorAll('.group-detail-tab');
-            buttons.forEach(btn => {
-                btn.style.color = '#666';
-                btn.style.borderBottom = 'none';
+            viewKanbanBtn.addEventListener('click', () => {
+                currentView = 'kanban';
+                viewKanbanBtn.style.background = 'white';
+                viewKanbanBtn.style.color = '#7A1E3F';
+                viewKanbanBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                viewListBtn.style.background = 'transparent';
+                viewListBtn.style.color = '#6c757d';
+                viewListBtn.style.boxShadow = 'none';
+                renderGroups(cachedGroups, currentView);
             });
 
-            // Show selected tab
-            document.getElementById(`groupDetailTab-${tabName}`).style.display = 'block';
-
-            // Add active state to clicked button
-            event.target.style.color = '#1B5E4F';
-            event.target.style.borderBottom = '3px solid #1B5E4F';
-        }
-
-        // Load group comments
-        async function loadGroupComments(groupId) {
-            try {
-                const response = await fetch(`/api/groups/${groupId}/comments`);
-                const comments = await response.json();
-                displayGroupComments(comments);
-            } catch (error) {
-                console.error('Error loading comments:', error);
-            }
-        }
-
-        // Display group comments
-        function displayGroupComments(comments) {
-            const commentsList = document.getElementById('commentsList');
-
-            if (!Array.isArray(comments) || comments.length === 0) {
-                commentsList.innerHTML = '<p style="color: #999;">No comments yet.</p>';
-                return;
-            }
-
-            let html = '';
-            comments.forEach(comment => {
-                const date = new Date(comment.created_at).toLocaleString();
-                html += `
-                    <div style="background: #f9f9f9; padding: 12px; border-radius: 5px; margin-bottom: 10px; border-left: 3px solid #1B5E4F;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <strong style="color: #1B5E4F;">${comment.admin_name || 'Admin'}</strong>
-                            <small style="color: #999;">${date}</small>
-                        </div>
-                        <p style="margin: 0; color: #333;">${comment.comment_text}</p>
-                    </div>
-                `;
-            });
-            commentsList.innerHTML = html;
-        }
-
-        // Submit new group comment
-        async function submitGroupComment() {
-            const commentText = document.getElementById('newCommentText').value.trim();
-
-            if (!commentText) {
-                alert('Please enter a comment');
-                return;
-            }
-
-            if (!selectedGroupId) {
-                alert('No group selected');
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/groups/${selectedGroupId}/comments`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        comment_text: commentText
-                    })
-                });
-
-                if (!response.ok) throw new Error('Failed to submit comment');
-
-                // Clear the textarea
-                document.getElementById('newCommentText').value = '';
-
-                // Reload comments
-                await loadGroupComments(selectedGroupId);
-
-                alert('Comment posted successfully!');
-            } catch (error) {
-                console.error('Error submitting comment:', error);
-                alert('Failed to post comment: ' + error.message);
-            }
-        }
-
-        // DISPLAY PROGRESS TIMELINE
-        function displayProgressTimeline(group, stages) {
-            const stageWeights = {
-                1: 10, 2: 15, 3: 20, 4: 20, 5: 20, 6: 15
-            };
-
-            let html = `<div class="progress-timeline">
-                <div class="stages-container">`;
-
-            stages.forEach(stage => {
-                const statusClass = stage.status || 'pending';
-                const grade = stage.grade ? `<div class="stage-grade">${stage.grade}/10</div>` : '';
-                html += `
-                    <div class="stage ${statusClass}">
-                        <div class="stage-indicator">${stage.stage_number}</div>
-                        <div class="stage-name">${stage.stage_name}</div>
-                        <div class="stage-weight">${stageWeights[stage.stage_number]}%</div>
-                        ${grade}
-                    </div>`;
+            viewListBtn.addEventListener('click', () => {
+                currentView = 'list';
+                viewListBtn.style.background = 'white';
+                viewListBtn.style.color = '#7A1E3F';
+                viewListBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                viewKanbanBtn.style.background = 'transparent';
+                viewKanbanBtn.style.color = '#6c757d';
+                viewKanbanBtn.style.boxShadow = 'none';
+                renderGroups(cachedGroups, currentView);
             });
 
-            html += `</div></div>`;
-
-            // Add stage details
-            stages.forEach(stage => {
-                html += `
-                    <div class="stage-details" style="${stage.status === 'pending' ? 'display: none;' : ''}">
-                        <h3>${stage.stage_number}. ${stage.stage_name}</h3>
-                        <div class="details-grid">
-                            <div class="detail-item">
-                                <label>Status</label>
-                                <value>${stage.status ? stage.status.replace('_', ' ').toUpperCase() : 'PENDING'}</value>
-                            </div>
-                            <div class="detail-item">
-                                <label>Weight</label>
-                                <value>${stageWeights[stage.stage_number]}%</value>
-                            </div>
-                            <div class="detail-item">
-                                <label>Due Date</label>
-                                <value>${stage.due_date ? new Date(stage.due_date).toLocaleDateString() : 'N/A'}</value>
-                            </div>
-                            <div class="detail-item">
-                                <label>Grade</label>
-                                <value>${stage.grade ? stage.grade + '/10' : 'Not graded'}</value>
-                            </div>
-                        </div>
-                        ${stage.feedback ? `<div class="alert info"><strong>Feedback:</strong> ${stage.feedback}</div>` : ''}
-                    </div>`;
-            });
-
-            document.getElementById('progressContent').innerHTML = html;
-        }
-
-        // DISPLAY PROJECT DETAILS
-        function displayProjectDetails(group) {
-            const html = `
-                <div class="stage-details">
-                    <div class="details-grid">
-                        <div class="detail-item">
-                            <label>Group Name</label>
-                            <value>${group.group_name}</value>
-                        </div>
-                        <div class="detail-item">
-                            <label>Project Title</label>
-                            <value>${group.project_title || 'N/A'}</value>
-                        </div>
-                        <div class="detail-item">
-                            <label>Created</label>
-                            <value>${new Date(group.created_at).toLocaleDateString()}</value>
-                        </div>
-                    </div>
-
-                    ${group.problem_statement ? `
-                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px; border-left: 3px solid #1B5E4F;">
-                            <h4 style="color: #1B5E4F;">Problem Statement</h4>
-                            <p>${group.problem_statement}</p>
-                        </div>
-                    ` : ''}
-
-                    ${group.dataset_source ? `
-                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px; border-left: 3px solid #2196F3;">
-                            <h4 style="color: #2196F3;">Dataset Information</h4>
-                            <p><strong>Source:</strong> ${group.dataset_source}</p>
-                            ${group.dataset_size ? `<p><strong>Size:</strong> ${group.dataset_size} samples</p>` : ''}
-                        </div>
-                    ` : ''}
-
-                    <!-- Team Member Contributions Section - At the Bottom -->
-                    <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 5px; border-left: 3px solid #FF6B6B;">
-                        <h4 style="color: #1B5E4F; margin-top: 0;">👥 Team Member Contributions</h4>
-                        ${group.members && group.members.length > 0 ? `
-                            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                                <thead>
-                                    <tr style="background: #f0f0f0; border-bottom: 2px solid #ddd;">
-                                        <th style="padding: 10px; text-align: left; color: #333;">Member Name</th>
-                                        <th style="padding: 10px; text-align: left; color: #333;">Contribution %</th>
-                                        <th style="padding: 10px; text-align: left; color: #333;">Role</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${group.members.map(member => `
-                                        <tr style="border-bottom: 1px solid #eee;">
-                                            <td style="padding: 12px; color: #333;">${member.member_name || 'Unknown'}</td>
-                                            <td style="padding: 12px; color: #333;">${member.contribution_percentage || '0'}%</td>
-                                            <td style="padding: 12px; color: #666;">${member.role || 'Team Member'}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        ` : `
-                            <p style="color: #999; margin: 0;">No members assigned to this group.</p>
-                        `}
-                    </div>
-                </div>`;
-
-            document.getElementById('projectDetailsContent').innerHTML = html;
-        }
-
-        // DISPLAY MODEL RESULTS
-        function displayModelResults(models) {
-            if (models.length === 0) {
-                document.getElementById('modelsContent').innerHTML = '<p style="color: #999;">No models recorded yet.</p>';
-                return;
-            }
-
-            let html = `<table class="models-table">
-                <thead>
-                    <tr>
-                        <th>Model Name</th>
-                        <th>Type</th>
-                        <th>Accuracy</th>
-                        <th>F1 Score</th>
-                        <th>Precision</th>
-                        <th>Recall</th>
-                        <th>Baseline</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-
-            models.forEach(model => {
-                html += `
-                    <tr>
-                        <td>${model.model_name}</td>
-                        <td>${model.model_type || 'N/A'}</td>
-                        <td>${model.accuracy ? (parseFloat(model.accuracy) * 100).toFixed(2) + '%' : 'N/A'}</td>
-                        <td>${model.f1_score ? parseFloat(model.f1_score).toFixed(3) : 'N/A'}</td>
-                        <td>${model.precision ? parseFloat(model.precision).toFixed(3) : 'N/A'}</td>
-                        <td>${model.recall ? parseFloat(model.recall).toFixed(3) : 'N/A'}</td>
-                        <td>${model.is_baseline ? '<span class="metric-badge baseline-badge">Baseline</span>' : '-'}</td>
-                    </tr>`;
-            });
-
-            html += `</tbody></table>`;
-            document.getElementById('modelsContent').innerHTML = html;
-        }
-
-        // DISPLAY DOCUMENTS
-        function displayDocuments(documents) {
-            if (documents.length === 0) {
-                document.getElementById('documentsContent').innerHTML = '<p style="color: #999;">No documents uploaded yet.</p>';
-                return;
-            }
-
-            let html = '<div class="documents-section"><div class="document-list">';
-
-            documents.forEach(doc => {
-                html += `
-                    <div class="document-item">
-                        <div class="document-info">
-                            <div class="document-title">${doc.document_title}</div>
-                            <div class="document-meta">Type: ${doc.document_type || 'N/A'} | Uploaded: ${new Date(doc.created_at).toLocaleDateString()}</div>
-                        </div>
-                        <div class="document-actions">
-                            <a href="/uploads/${doc.file_path.split('/').pop()}" target="_blank" download>Download</a>
-                        </div>
-                    </div>`;
-            });
-
-            html += '</div></div>';
-            document.getElementById('documentsContent').innerHTML = html;
-        }
-
-        // MEMBER MANAGEMENT - DROPDOWN ONLY
-        const memberDisplay = document.getElementById('memberDisplay');
-        const memberDisplayText = document.getElementById('memberDisplayText');
-        const memberSearchBox = document.getElementById('memberSearchBox');
-        const selectedStudentIdHidden = document.getElementById('selectedStudentId');
-        const studentsList = document.getElementById('studentsList');
-        const addMemberBtn = document.getElementById('addMemberBtn');
-        const selectedMembers = document.getElementById('selectedMembers');
-        const noMembersMsg = document.getElementById('noMembersMsg');
-
-        let selectedStudentData = null;
-        let allStudents = []; // Will be populated from available students
-
-        // Show/hide search box and list when clicking display
-        memberDisplay.addEventListener('click', () => {
-            memberSearchBox.style.display = 'block';
-            memberSearchBox.focus();
-            updateStudentsList('');
-        });
-
-        // Filter students as user types
-        memberSearchBox.addEventListener('input', (e) => {
-            updateStudentsList(e.target.value);
-        });
-
-        // Hide on blur
-        memberSearchBox.addEventListener('blur', () => {
-            setTimeout(() => {
-                memberSearchBox.style.display = 'none';
-                studentsList.style.display = 'none';
-                memberSearchBox.value = '';
-            }, 200);
-        });
-
-        function updateStudentsList(filter) {
-            const filtered = allStudents.filter(student =>
-                student.name.toLowerCase().includes(filter.toLowerCase())
-            );
-
-            if (filtered.length === 0) {
-                studentsList.innerHTML = '<li style="padding: 10px; color: #999;">No students found</li>';
-            } else {
-                studentsList.innerHTML = filtered.map(student => `
-                    <li style="padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; hover:background: #f5f5f5;"
-                        onclick="selectStudent('${student.id}', '${student.name}')">
-                        ${student.name}
-                    </li>
-                `).join('');
-            }
-            studentsList.style.display = 'block';
-        }
-
-        function selectStudent(studentId, studentName) {
-            selectedStudentData = { id: studentId, name: studentName };
-            selectedStudentIdHidden.value = studentId;
-            memberDisplayText.textContent = studentName;
-            memberDisplayText.style.color = '#333';
-            memberSearchBox.style.display = 'none';
-            studentsList.style.display = 'none';
-            memberSearchBox.value = '';
-            addMemberBtn.disabled = false;
-        }
-
-        // Add selected member to group
-        addMemberBtn.addEventListener('click', () => {
-            if (selectedStudentData) {
-                // Store both ID and name for later submission to Supabase
-                currentMembers.push({
-                    id: selectedStudentData.id,
-                    name: selectedStudentData.name
-                });
-                // Clear selection
-                memberDisplayText.textContent = 'Click to select a student from list...';
-                memberDisplayText.style.color = '#999';
-                selectedStudentIdHidden.value = '';
-                selectedStudentData = null;
-                addMemberBtn.disabled = true;
-                renderMembers();
-            }
-        });
-
-        function renderMembers() {
-            if (currentMembers.length === 0) {
-                selectedMembers.innerHTML = '<p id="noMembersMsg" style="color: #888; margin: 0;">No members added yet.</p>';
-            } else {
-                let html = '<ul style="list-style: none; margin: 0; padding: 0;">';
-                currentMembers.forEach((member, index) => {
-                    html += `
-                        <li style="padding: 10px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd;">
-                            <span>${member.name}</span>
-                            <button type="button" class="btn-danger" style="padding: 5px 10px;" onclick="removeMember(${index})">Remove</button>
-                        </li>`;
-                });
-                html += '</ul>';
-                selectedMembers.innerHTML = html;
-            }
-        }
-
-        function removeMember(index) {
-            currentMembers.splice(index, 1);
-            renderMembers();
-        }
-
-
-        // CREATE GROUP
-        document.getElementById('createGroupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const groupName = document.getElementById('groupName').value;
-            const projectTitle = document.getElementById('projectTitle').value;
-            const username = document.getElementById('groupUsername').value;
-            const password = document.getElementById('groupPassword').value;
-
-            // Validate password
-            if (password.length < 6) {
-                alert('Password must be at least 6 characters long');
-                return;
-            }
-
-            try {
-                // Extract only the IDs for submission to backend
-                const memberIds = currentMembers.map(m => m.id);
-
-                const response = await fetch('/api/groups', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        group_name: groupName,
-                        project_title: projectTitle,
-                        username: username,
-                        password: password,
-                        member_ids: memberIds  // Send student IDs, not names
-                    })
-                });
-
-                const result = await response.json();
-                if (result.error) {
-                    alert('Error: ' + result.error);
-                } else {
-                    alert('Group created successfully with ' + memberIds.length + ' member(s)!');
-                    document.getElementById('createGroupForm').reset();
-                    currentMembers = [];
-                    memberDisplayText.textContent = 'Click to select a student from list...';
-                    memberDisplayText.style.color = '#999';
-                    renderMembers();
-                    fetchAndDisplayGroups();
-                }
-            } catch (error) {
-                alert('Failed to create group: ' + error.message);
-            }
-        });
-
-        // INITIAL LOAD
-        window.addEventListener('DOMContentLoaded', () => {
-            fetchAndDisplayGroups();
+            // Load all students for member selection
+            console.log('About to call loadAllStudents()...');
+            loadAllStudents();
+            console.log('loadAllStudents() called');
         });
     </script>
 </body>

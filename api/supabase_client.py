@@ -54,15 +54,19 @@ def _get_client() -> Client:
 
 # --- Supabase CRUD operations for Group Portal ---
 
-def create_group(group_name: str, project_title: str) -> dict:
+def create_group(group_name: str, project_title: str, class_id: str = None) -> dict:
     if not supabase:
         print("Supabase client not initialized. Cannot create group.")
         return None
     try:
-        response = supabase.table('groups').insert({
+        data = {
             "group_name": group_name,
             "project_title": project_title
-        }).execute()
+        }
+        if class_id:
+            data["class_id"] = class_id
+
+        response = supabase.table('groups').insert(data).execute()
         return response.data[0]
     except Exception as e:
         print(f"Error creating group: {e}")

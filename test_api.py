@@ -250,3 +250,34 @@ def test_admin_login_missing_config(client, mock_supabase, monkeypatch):
     )
     assert response.status_code == 200
     # Should show misconfiguration error
+
+def test_get_students_by_class_api_status(client, mock_supabase, monkeypatch):
+    """Test that the /api/classes/<class_id> endpoint correctly returns grouped and ungrouped students."""
+    mock_class_id = "test_class_id_cmsc173a"
+    mock_class = {"id": mock_class_id, "course_code": "CMSC173", "section": "A", "schedule": "TTh 3-4:30PM"}
+
+    mock_all_students_data = [
+        {"id": "student1", "first_name": "John", "last_name": "Doe", "campus_id": "1", "email": "john@example.com", "program": "BSCS", "group_id": None},
+        {"id": "student2", "first_name": "Jane", "last_name": "Smith", "campus_id": "2", "email": "jane@example.com", "program": "BSCS", "group_id": "group1"},
+        {"id": "student3", "first_name": "Peter", "last_name": "Jones", "campus_id": "3", "email": "peter@example.com", "program": "BSCS", "group_id": None},
+        {"id": "student4", "first_name": "Alice", "last_name": "Brown", "campus_id": "4", "email": "alice@example.com", "program": "BSCS", "group_id": "group1"},
+    ]
+    mock_ungrouped_students_data = [s for s in mock_all_students_data if s["group_id"] is None]
+    mock_grouped_students_data = [s for s in mock_all_students_data if s["group_id"] is not None]
+
+    monkeypatch.setattr('api.index.is_admin_authenticated', lambda: True)
+    monkeypatch.setattr('api.index.get_class_by_code_section', lambda cc, sec: mock_class)
+    monkeypatch.setattr('api.index.get_students_by_class', lambda class_id: mock_all_students_data)
+    monkeypatch.setattr('api.index.get_ungrouped_students', lambda class_id: mock_ungrouped_students_data)
+    monkeypatch.setattr('api.index.get_grouped_students', lambda class_id: mock_grouped_students_data)
+
+    response = client.get(f'/api/classes/cmsc173a')
+    assert response.status_code == 200
+    data = response.get_json()
+
+    assert data['class'] == mock_class
+    assert data['total_students'] == len(mock_all_students_data)
+    assert data['ungrouped_count'] == len(mock_ungrouped_students_data)
+    assert data['grouped_count'] == len(mock_grouped_students_data)
+    assert data['ungrouped_students'] == mock_ungrouped_students_data
+    assert data['grouped_students'] == mock_grouped_students_data
