@@ -494,32 +494,37 @@ def get_grouped_students(class_id: str) -> list:
         print(f"Error getting grouped students: {e}")
         return []
 
-def assign_student_to_group(student_id: str, group_id: str) -> bool:
+def assign_student_to_group(group_id: str, student_id: str) -> bool:
     """Assign a student to a group. A student can only be in one group."""
     if not supabase:
         return False
     try:
         # Get current student info to check if already in a group, and fetch name for group_members table
-        response = supabase.table('students').select('group_id, first_name, last_name').eq('id', student_id).single().execute()
-        
-        if response.data and response.data.get('group_id') is not None:
-            # Student is already in a group, cannot assign to a different one
-            print(f"Error: Student {student_id} is already in a group. Cannot assign to multiple groups.")
-            return False
+        response = supabase.table('students').select('group_id, first_name, last_name, campus_id').eq('id', student_id).execute()
 
-        # Assign student to group
-        supabase.table('students').update({'group_id': group_id}).eq('id', student_id).execute()
+        if response.data and len(response.data) > 0:
+            # Query returns a list, so get the first (and should be only) result
+            student_data = response.data[0]
 
-        # After successful assignment, add to group_members for consistency
-        student_data = response.data 
-        if student_data:
+            if student_data.get('group_id') is not None:
+                # Student is already in a group, cannot assign to a different one
+                print(f"Error: Student {student_id} is already in a group. Cannot assign to multiple groups.")
+                return False
+
+            # Assign student to group
+            supabase.table('students').update({'group_id': group_id}).eq('id', student_id).execute()
+
+            # After successful assignment, add to group_members for consistency
             member_name = f"{student_data.get('first_name', '')} {student_data.get('last_name', '')}".strip()
             if not member_name: # Fallback if names are empty or missing
                 member_name = student_data.get('campus_id', student_id)
             add_group_member(group_id, member_name, student_id=student_id)
             print(f"Added {member_name} (student_id: {student_id}) to group_members for group {group_id}")
 
-        return True
+            return True
+        else:
+            print(f"Error: Student {student_id} not found. Cannot assign to group {group_id}.")
+            return False
     except Exception as e:
         print(f"Error assigning student to group: {e}")
         return False

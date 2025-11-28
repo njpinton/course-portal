@@ -1709,13 +1709,35 @@ def add_group_member_api():
         is_valid, error_msg = validate_input(student_id, 255, "student_id")
         if not is_valid:
             logger.warning(f"Invalid student_id for adding to group: {error_msg}")
+            return jsonify({"error": error_msg}), 400
+
         success = assign_student_to_group(group_id, student_id)
         if success:
             logger.info(f"Student {student_id} successfully added to group {group_id}")
             return jsonify({"success": True, "message": "Student added successfully"}), 200
         else:
-            logger.warning(f"Failed to add student {student_id} to group {group_id}")
-            return jsonify({"error": "Failed to add student"}), 500
+            # Check why the assignment failed - most likely student already in a group
+            logger.warning(f"assign_student_to_group returned False for student {student_id} and group {group_id}")
+            try:
+                # Use regular query (no .single()) to get list of students
+                student_response = supabase_client.table('students').select('group_id, first_name, last_name').eq('id', student_id).execute()
+                logger.info(f"Student response: {student_response.data}")
+                if student_response.data and len(student_response.data) > 0:
+                    student_data = student_response.data[0]
+                    if student_data.get('group_id') is not None:
+                        error_msg = f"Student {student_data.get('first_name', '')} {student_data.get('last_name', '')} is already in another group"
+                        logger.warning(f"Failed to add student {student_id} to group {group_id}: {error_msg}")
+                        return jsonify({"error": error_msg}), 400
+                    else:
+                        logger.warning(f"Student {student_id} exists but assignment failed for unknown reason")
+                else:
+                    logger.warning(f"Student {student_id} not found in database")
+                    return jsonify({"error": "Student not found"}), 404
+            except Exception as e:
+                logger.error(f"Error checking student status: {e}", exc_info=True)
+
+            logger.warning(f"Failed to add student {student_id} to group {group_id} - unknown reason")
+            return jsonify({"error": "Failed to add student to group"}), 500
     except Exception as e:
         logger.error(f"Error adding student to group {group_id}: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
