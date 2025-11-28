@@ -1405,22 +1405,44 @@
             // Show modal
             modal.classList.add('active');
 
-            // Fetch ungrouped students using the group API endpoint
-            // This endpoint automatically finds the class_id from the group
+            // Fetch all ungrouped students (from all classes)
             try {
-                const response = await fetch('/api/group/members/ungrouped');
+                console.log('Fetching all ungrouped students from /api/students/ungrouped/all');
+                const response = await fetch('/api/students/ungrouped/all');
+                console.log('Response status:', response.status, response.statusText);
+
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
+                    console.error('Server error response:', errorData);
                     throw new Error(errorData.error || 'Failed to fetch students');
                 }
 
                 const students = await response.json();
+                console.log('Received students:', students);
+                console.log('Number of students:', students.length);
+
+                // Log first student structure for debugging
+                if (students.length > 0) {
+                    console.log('First student structure:', students[0]);
+                    console.log('First student name parts:', {
+                        id: students[0].id,
+                        first_name: students[0].first_name,
+                        last_name: students[0].last_name,
+                        campus_id: students[0].campus_id
+                    });
+                }
 
                 if (students.length === 0) {
                     select.innerHTML = '<option value="">No ungrouped students available</option>';
                 } else {
                     select.innerHTML = '<option value="">-- Select a student --</option>' +
-                        students.map(s => `<option value="${s.id}">${s.first_name} ${s.last_name} (${s.campus_id})</option>`).join('');
+                        students.map(s => {
+                            const displayName = `${s.first_name || ''} ${s.last_name || ''}`.trim() || 'Unnamed Student';
+                            const campusId = s.campus_id || 'No ID';
+                            console.log(`Mapping student: ${displayName} (${campusId})`);
+                            return `<option value="${s.id}">${displayName} (${campusId})</option>`;
+                        }).join('');
+                    console.log('Dropdown populated with', students.length, 'students');
                 }
             } catch (error) {
                 console.error('Error fetching students:', error);
