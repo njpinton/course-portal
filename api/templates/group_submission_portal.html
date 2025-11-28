@@ -1405,10 +1405,10 @@
             // Show modal
             modal.classList.add('active');
 
-            // Fetch all ungrouped students (from all classes)
+            // Fetch available students for this group (excluding existing members)
             try {
-                console.log('Fetching all ungrouped students from /api/students/ungrouped/all');
-                const response = await fetch('/api/students/ungrouped/all');
+                console.log('Fetching available students for group from /api/group/members/available');
+                const response = await fetch('/api/group/members/available');
                 console.log('Response status:', response.status, response.statusText);
 
                 if (!response.ok) {

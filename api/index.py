@@ -1690,6 +1690,47 @@ def get_ungrouped_group_members_api():
         logger.error(f"Error getting ungrouped students for group {group_id}: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/group/members/available', methods=['GET'])
+def get_available_students_for_group_api():
+    """Get ungrouped students excluding those already in the group."""
+    if not session.get('is_group_logged_in'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    group_id = session.get('group_id')
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        # Get all ungrouped students
+        all_ungrouped = supabase_client.table('students').select('*').is_('group_id', 'null').order('last_name').execute()
+        ungrouped_students = all_ungrouped.data if all_ungrouped.data else []
+
+        # Get current group members
+        group_members = supabase_client.table('group_members').select('student_id').eq('group_id', group_id).execute()
+        member_ids = {m['student_id'] for m in (group_members.data if group_members.data else [])}
+
+        # Filter out students already in this group
+        available_students = [
+            {
+                'id': student['id'],
+                'first_name': student.get('first_name', ''),
+                'last_name': student.get('last_name', ''),
+                'campus_id': student.get('campus_id', ''),
+                'program': student.get('program', ''),
+                'class_id': student.get('class_id', '')
+            }
+            for student in ungrouped_students
+            if student['id'] not in member_ids
+        ]
+
+        logger.info(f"Group {group_id}: Found {len(ungrouped_students)} ungrouped, {len(member_ids)} group members, returning {len(available_students)} available")
+        return jsonify(available_students), 200
+    except Exception as e:
+        logger.error(f"Error getting available students for group: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/api/group/members/add', methods=['POST'])
 def add_group_member_api():
     """Add a student to the current group (for group members)."""
