@@ -1046,7 +1046,7 @@
                         ${stageCells}
                         <td>
                             <a href="/admin/group/${group.id}" class="action-link">View</a>
-                            <button onclick="deleteGroup('${group.id}', '${group.group_name}')" class="btn-delete" style="margin-left: 8px; padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Delete</button>
+                            <button class="btn-delete" data-group-id="${group.id}" data-group-name="${group.group_name}" style="margin-left: 8px; padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Delete</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -1098,6 +1098,22 @@
                 showAlert('Failed to delete group: ' + error.message, 'error');
             }
         }
+
+        /**
+         * Event delegation for delete buttons
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const groupsStatusTable = document.getElementById('groupsStatusTableBody');
+            if (groupsStatusTable) {
+                groupsStatusTable.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('btn-delete')) {
+                        const groupId = e.target.getAttribute('data-group-id');
+                        const groupName = e.target.getAttribute('data-group-name');
+                        deleteGroup(groupId, groupName);
+                    }
+                });
+            }
+        });
 
         /**
          * Initialize dashboard
