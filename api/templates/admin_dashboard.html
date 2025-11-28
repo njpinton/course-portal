@@ -524,6 +524,20 @@
             text-decoration: none;
         }
 
+        .btn-delete {
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-delete:active {
+            transform: translateY(0);
+        }
+
         /* GROUPS GRID VIEW */
         .groups-grid {
             display: grid;
@@ -1031,7 +1045,8 @@
                         <td>${group.project_title}</td>
                         ${stageCells}
                         <td>
-                            <a href="/admin/group/${group.id}" class="action-link">View Group</a>
+                            <a href="/admin/group/${group.id}" class="action-link">View</a>
+                            <button onclick="deleteGroup('${group.id}', '${group.group_name}')" class="btn-delete" style="margin-left: 8px; padding: 6px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">Delete</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -1049,6 +1064,38 @@
                     </tr>
                 `;
                 showAlert('Failed to load groups submission status: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Delete a group
+         */
+        async function deleteGroup(groupId, groupName) {
+            // Confirm deletion
+            if (!confirm(`Are you sure you want to delete the group "${groupName}"?\n\nThis will permanently delete:\n- The group and all its data\n- All group members\n- All submissions\n- All documents\n\nThis action cannot be undone!`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/groups/${groupId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to delete group');
+                }
+
+                showAlert(`Group "${groupName}" deleted successfully`, 'success');
+
+                // Reload the groups table
+                await loadGroupsSubmissionStatus();
+
+                // Refresh statistics
+                await fetchDashboardData();
+            } catch (error) {
+                console.error('Error deleting group:', error);
+                showAlert('Failed to delete group: ' + error.message, 'error');
             }
         }
 

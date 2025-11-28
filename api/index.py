@@ -625,6 +625,11 @@ def get_group_details_api(group_id):
 
 @app.route('/api/groups/<group_id>', methods=['DELETE'])
 def delete_group_api(group_id):
+    # Require admin authentication
+    if not is_admin_authenticated():
+        logger.warning(f"Unauthorized group deletion attempt for group {group_id}")
+        return jsonify({"error": "Unauthorized"}), 401
+
     supabase_client = get_supabase_client()
     if not supabase_client:
         logger.error("Supabase client not configured for group deletion")
