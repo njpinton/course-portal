@@ -991,11 +991,30 @@
                                 </div>
                                 {% endif %}
 
-                                {% if group.submissions[i].notes %}
+                                {% if group.submissions[i].summary_markdown %}
+                                <div style="margin-bottom: 12px;">
+                                    <strong>📋 Project Summary:</strong><br>
+                                    <div class="markdown-display" style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 8px; color: #333;">
+                                        <div id="summary-display-{{ i }}"></div>
+                                    </div>
+                                </div>
+                                <script>
+                                (function() {
+                                    const markdown = {{ group.submissions[i].summary_markdown | tojson }};
+                                    const container = document.getElementById('summary-display-{{ i }}');
+                                    if (markdown && container && window.markdownit) {
+                                        const md = window.markdownit();
+                                        container.innerHTML = md.render(markdown);
+                                    }
+                                })();
+                                </script>
+                                {% endif %}
+
+                                {% if group.submissions[i].submission_content %}
                                 <div>
-                                    <strong>📝 Submission Notes:</strong><br>
+                                    <strong>📝 Additional Notes:</strong><br>
                                     <div style="background: #f9f9f9; padding: 10px; border-radius: 5px; margin-top: 8px; color: #666; font-size: 0.9em;">
-                                        {{ group.submissions[i].notes }}
+                                        {{ group.submissions[i].submission_content }}
                                     </div>
                                 </div>
                                 {% endif %}
