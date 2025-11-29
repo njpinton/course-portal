@@ -1589,8 +1589,7 @@ def soft_delete_group_api():
 
         # Soft delete the group by setting is_active to false
         update_data = {
-            'is_active': False,
-            'deleted_at': datetime.now(timezone.utc).isoformat()
+            'is_active': False
         }
 
         response = supabase_client.table('groups').update(update_data).eq('id', group_id).execute()
