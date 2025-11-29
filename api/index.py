@@ -1572,7 +1572,7 @@ def update_submission_api(submission_id):
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/group/delete', methods=['PUT'])
-def delete_group_api():
+def soft_delete_group_api():
     """Soft delete a group (set is_active to false)"""
     if not session.get('is_group_logged_in'):
         return jsonify({"error": "Unauthorized"}), 401
