@@ -1594,8 +1594,9 @@ def soft_delete_group_api():
 
         response = supabase_client.table('groups').update(update_data).eq('id', group_id).execute()
 
-        if response.data and len(response.data) > 0:
-            logger.info(f"Group {group_id} soft deleted")
+        # Check if update was successful (response may be empty but still successful)
+        if response:
+            logger.info(f"Group {group_id} soft deleted successfully")
             # Clear the session
             session.clear()
             return jsonify({"message": "Group deleted successfully"}), 200
