@@ -1091,13 +1091,8 @@
             </div>
             <!-- DELETE GROUP SECTION -->
             {% if not is_admin_view %}
-            <div style="background: #fff3cd; padding: 30px; border-radius: 8px; margin-top: 40px; border-left: 4px solid #dc3545;">
-                <h3 style="color: #721c24; margin-bottom: 15px; display: flex; align-items: center;">
-                    <span style="width: 35px; height: 35px; background: #dc3545; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; font-size: 1.1em;">⚠️</span>
-                    Danger Zone
-                </h3>
-                <p style="color: #721c24; margin-bottom: 20px;">Once you delete this group, it cannot be undone.</p>
-                <button class="btn btn-danger" onclick="openDeleteGroupModal()" style="background: #dc3545; border: 1px solid #c82333; padding: 10px 20px; border-radius: 4px; color: white; cursor: pointer; font-weight: bold;">🗑️ Delete Group</button>
+            <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+                <a href="javascript:openDeleteGroupModal()" style="color: #999; text-decoration: none; font-size: 0.85em; cursor: pointer; hover: color: #666;">Delete group</a>
             </div>
             {% endif %}
         </div>
