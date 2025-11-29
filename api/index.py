@@ -1571,6 +1571,43 @@ def update_submission_api(submission_id):
         logger.error(f"Error updating submission: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/group/delete', methods=['PUT'])
+def delete_group_api():
+    """Soft delete a group (set is_active to false)"""
+    if not session.get('is_group_logged_in'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        group_id = session.get('group_id')
+
+        if not group_id:
+            return jsonify({"error": "No group session found"}), 400
+
+        # Soft delete the group by setting is_active to false
+        update_data = {
+            'is_active': False,
+            'deleted_at': datetime.now(timezone.utc).isoformat()
+        }
+
+        response = supabase_client.table('groups').update(update_data).eq('id', group_id).execute()
+
+        if response.data and len(response.data) > 0:
+            logger.info(f"Group {group_id} soft deleted")
+            # Clear the session
+            session.clear()
+            return jsonify({"message": "Group deleted successfully"}), 200
+        else:
+            logger.error(f"Failed to soft delete group {group_id}")
+            return jsonify({"error": "Failed to delete group"}), 500
+
+    except Exception as e:
+        logger.error(f"Error deleting group: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 # --- STUDENT MANAGEMENT API ---
 
 @app.route('/api/students/class/<class_id>', methods=['GET'])
