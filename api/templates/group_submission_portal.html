@@ -934,6 +934,9 @@
                             <h5>✓ Submission Recorded</h5>
                             <div class="submission-meta">
                                 Submitted: {{ group.submissions[i].submitted_at[:19] }}
+                                {% if not is_admin_view %}
+                                <button class="btn btn-info" onclick="openEditSubmissionModal({{ i }}, {{ group.submissions[i] | tojson }})">✏️ Edit Submission</button>
+                                {% endif %}
                             </div>
 
                             <!-- SUBMISSION FILES DISPLAY -->
@@ -1274,6 +1277,123 @@
             }
         }
 
+        // Edit Submission Functions
+        function openEditSubmissionModal(stageIndex, submission) {
+            const modal = document.getElementById('edit-submission-modal');
+            document.getElementById('edit-submission-id').value = submission.id;
+            document.getElementById('edit-submission-stage').value = submission.stage_number;
+            document.getElementById('edit-presentation-link').value = submission.presentation_link || '';
+            document.getElementById('edit-summary').value = submission.summary_markdown || '';
+            document.getElementById('edit-content').value = submission.submission_content || '';
+            document.getElementById('edit-submission-message').style.display = 'none';
+
+            modal.classList.add('active');
+        }
+
+        function closeEditSubmissionModal() {
+            const modal = document.getElementById('edit-submission-modal');
+            modal.classList.remove('active');
+        }
+
+        function insertMarkdownEdit(startText, endText) {
+            const textarea = document.getElementById('edit-summary');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const selectedText = text.substring(start, end) || '';
+
+            const newText = text.substring(0, start) + startText + selectedText + endText + text.substring(end);
+            textarea.value = newText;
+
+            // Move cursor
+            setTimeout(() => {
+                textarea.focus();
+                textarea.selectionStart = textarea.selectionEnd = start + startText.length;
+            }, 0);
+        }
+
+        function toggleEditPreview() {
+            const preview = document.getElementById('edit-preview');
+            const textarea = document.getElementById('edit-summary');
+
+            if (preview.style.display === 'none') {
+                preview.style.display = 'block';
+                const md = window.markdownit();
+                preview.innerHTML = md.render(textarea.value);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Handle edit submission form submission
+        document.addEventListener('DOMContentLoaded', () => {
+            const editSubmissionForm = document.getElementById('edit-submission-form');
+            if (editSubmissionForm) {
+                editSubmissionForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const submissionId = document.getElementById('edit-submission-id').value;
+                    const stageNumber = document.getElementById('edit-submission-stage').value;
+                    const presentationLink = document.getElementById('edit-presentation-link').value.trim();
+                    const summaryMarkdown = document.getElementById('edit-summary').value.trim();
+                    const content = document.getElementById('edit-content').value.trim();
+                    const message = document.getElementById('edit-submission-message');
+
+                    if (!presentationLink) {
+                        showMessage(message, 'Please provide a presentation link', 'error');
+                        return;
+                    }
+
+                    if (!summaryMarkdown) {
+                        showMessage(message, 'Please provide a summary', 'error');
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(`/api/group/submission/${submissionId}`, {
+                            method: 'PUT',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                presentation_link: presentationLink,
+                                summary_markdown: summaryMarkdown,
+                                submission_content: content,
+                                stage_number: stageNumber
+                            })
+                        });
+
+                        const result = await response.json();
+
+                        if (!response.ok) {
+                            showMessage(message, result.error || 'Failed to save submission', 'error');
+                            return;
+                        }
+
+                        showMessage(message, 'Submission updated successfully!', 'success');
+                        setTimeout(() => {
+                            closeEditSubmissionModal();
+                            location.reload();
+                        }, 1500);
+
+                    } catch (error) {
+                        console.error('Error saving submission:', error);
+                        showMessage(message, 'Error: ' + error.message, 'error');
+                    }
+                });
+            }
+        });
+
+        // Close edit submission modal when clicking outside
+        document.addEventListener('DOMContentLoaded', () => {
+            const editSubmissionModal = document.getElementById('edit-submission-modal');
+            if (editSubmissionModal) {
+                editSubmissionModal.addEventListener('click', (event) => {
+                    if (event.target === editSubmissionModal) {
+                        closeEditSubmissionModal();
+                    }
+                });
+            }
+        });
+
         function openFeedbackForm() {
             const feedback = prompt(
                 'Please share your feedback or report an issue:\n\n' +
@@ -1603,6 +1723,76 @@
                 </div>
                 <button class="btn-submit" onclick="addSelectedStudent()">Add Student to Group</button>
                 <div id="add-member-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Submission Modal -->
+    <div id="edit-submission-modal" class="pdf-preview-modal">
+        <div class="pdf-preview-container" style="max-width: 800px; height: auto; max-height: 90vh; overflow-y: auto;">
+            <div class="pdf-preview-header">
+                <h3>Edit Submission</h3>
+                <button class="pdf-close-button" onclick="closeEditSubmissionModal()">✕ Close</button>
+            </div>
+            <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
+                <form id="edit-submission-form">
+                    <input type="hidden" id="edit-submission-id">
+                    <input type="hidden" id="edit-submission-stage">
+
+                    <div class="form-group">
+                        <label><strong>🎯 Presentation Link (Required)</strong></label>
+                        <input type="url" id="edit-presentation-link" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+                        <small style="color: #999; display: block; margin-top: 5px;">
+                            ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label><strong>📝 Summary (Required - Markdown)</strong></label>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('**bold text**', '**bold text**')" title="Bold">
+                                <strong>B</strong>
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('*italic*', '*italic*')" title="Italic">
+                                <em>I</em>
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('# Heading', '# Heading')" title="Heading">
+                                H1
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('## Heading 2', '## Heading 2')" title="Heading 2">
+                                H2
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('- Item', '- Item')" title="Bullet List">
+                                •
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('1. Item', '1. Item')" title="Numbered List">
+                                1.
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('[Link](url)', '[Link](url)')" title="Link">
+                                🔗
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('`code`', '`code`')" title="Code">
+                                &lt;&gt;
+                            </button>
+                            <button type="button" class="markdown-btn" onclick="toggleEditPreview()" title="Preview">
+                                👁️ Preview
+                            </button>
+                        </div>
+                        <textarea id="edit-summary" placeholder="Write a markdown summary of your work for this stage..." style="width: 100%; height: 250px; font-family: 'Courier New', monospace; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required></textarea>
+                        <div id="edit-preview" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; margin-top: 10px; min-height: 100px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Additional Notes (Optional)</label>
+                        <textarea id="edit-content" placeholder="Add any additional notes or details about your submission..." style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditSubmissionModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                    <div id="edit-submission-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+                </form>
             </div>
         </div>
     </div>

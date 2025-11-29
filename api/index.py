@@ -1518,6 +1518,59 @@ def group_submit_api():
         logger.error(f"Error submitting group work: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/group/submission/<submission_id>', methods=['PUT'])
+def update_submission_api(submission_id):
+    """Update a group submission (presentation link, summary, content)"""
+    if not session.get('is_group_logged_in'):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    supabase_client = get_supabase_client()
+    if not supabase_client:
+        return jsonify({"error": "Database not configured"}), 500
+
+    try:
+        data = request.get_json()
+        group_id = session.get('group_id')
+
+        # Get the submission to verify ownership
+        submission_response = supabase_client.table('group_submissions').select('*').eq('id', submission_id).execute()
+        if not submission_response.data:
+            return jsonify({"error": "Submission not found"}), 404
+
+        submission = submission_response.data[0]
+        if submission['group_id'] != group_id:
+            return jsonify({"error": "Unauthorized - not your submission"}), 403
+
+        # Validate required fields
+        presentation_link = data.get('presentation_link', '').strip()
+        summary_markdown = data.get('summary_markdown', '').strip()
+
+        if not presentation_link:
+            return jsonify({"error": "Presentation link is required"}), 400
+        if not summary_markdown:
+            return jsonify({"error": "Summary is required"}), 400
+
+        # Update submission
+        update_data = {
+            'presentation_link': presentation_link,
+            'summary_markdown': summary_markdown,
+            'submission_content': data.get('submission_content', ''),
+            'updated_at': datetime.now(timezone.utc).isoformat()
+        }
+
+        response = supabase_client.table('group_submissions').update(update_data).eq('id', submission_id).execute()
+
+        if response.data and len(response.data) > 0:
+            logger.info(f"Submission {submission_id} updated for group {group_id}")
+            return jsonify({"message": "Submission updated successfully"}), 200
+        else:
+            logger.error(f"Failed to update submission {submission_id}")
+            return jsonify({"error": "Failed to update submission"}), 500
+
+    except Exception as e:
+        logger.error(f"Error updating submission: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
 # --- STUDENT MANAGEMENT API ---
 
 @app.route('/api/students/class/<class_id>', methods=['GET'])
