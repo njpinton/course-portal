@@ -572,7 +572,7 @@ def create_group_api():
             for student_id in member_ids:
                 try:
                     # Assign student to group - this updates the student's group_id in the database
-                    if assign_student_to_group(student_id, group_id):
+                    if assign_student_to_group(group_id, student_id):
                         logger.info(f"Assigned student {student_id} to group {group_id}")
                     else:
                         logger.warning(f"Failed to assign student {student_id} to group {group_id}")
