@@ -131,7 +131,7 @@ app.secret_key = secret_key
 # Configure CORS - only allow specified origins in production
 allowed_origins = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:*').split(',')
 CORS(app, resources={
-    r"/api/*": {"origins": allowed_origins, "methods": ["GET", "POST", "OPTIONS"]},
+    r"/api/*": {"origins": allowed_origins, "methods": ["GET", "POST", "PUT", "OPTIONS"]},
 }, supports_credentials=True)
 logger.info(f"CORS configured for origins: {allowed_origins}")
 
