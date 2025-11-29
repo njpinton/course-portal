@@ -733,9 +733,6 @@
                 <p>CMSC 173 - Machine Learning</p>
             </div>
             <div class="header-actions">
-                {% if not is_admin_view %}
-                    <button class="btn btn-info" onclick="openEditProjectModal()">✏️ Edit Project</button>
-                {% endif %}
                 {% if is_admin_view %}
                     <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
                     <a href="/admin_logout" class="btn btn-danger">Logout Admin</a>
@@ -1498,91 +1495,6 @@
             element.style.color = type === 'error' ? '#c62828' : '#2e7d32';
         }
 
-        // Edit Project Modal Functions
-        async function openEditProjectModal() {
-            const modal = document.getElementById('edit-project-modal');
-            const message = document.getElementById('edit-project-message');
-
-            // Reset message
-            message.style.display = 'none';
-
-            // Show modal
-            modal.classList.add('active');
-
-            // Fetch current project info
-            try {
-                const response = await fetch(`/api/groups/${groupId}/project-info`);
-                if (response.ok) {
-                    const projectData = await response.json();
-                    document.getElementById('project-title').value = projectData.title || '';
-                    document.getElementById('project-description').value = projectData.description || '';
-                    document.getElementById('project-objectives').value = projectData.objectives || '';
-                    document.getElementById('project-methodology').value = projectData.methodology || '';
-                } else {
-                    console.warn('Could not fetch project info, starting with empty form');
-                }
-            } catch (error) {
-                console.error('Error fetching project info:', error);
-            }
-        }
-
-        function closeEditProjectModal() {
-            const modal = document.getElementById('edit-project-modal');
-            modal.classList.remove('active');
-        }
-
-        // Handle edit project form submission
-        document.addEventListener('DOMContentLoaded', () => {
-            const editProjectForm = document.getElementById('edit-project-form');
-            if (editProjectForm) {
-                editProjectForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    const message = document.getElementById('edit-project-message');
-                    const formData = {
-                        title: document.getElementById('project-title').value,
-                        description: document.getElementById('project-description').value,
-                        objectives: document.getElementById('project-objectives').value,
-                        methodology: document.getElementById('project-methodology').value
-                    };
-
-                    try {
-                        const response = await fetch(`/api/groups/${groupId}/project-info`, {
-                            method: 'PUT',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify(formData)
-                        });
-
-                        const result = await response.json();
-
-                        if (!response.ok) {
-                            showMessage(message, result.error || 'Failed to save project info', 'error');
-                            return;
-                        }
-
-                        showMessage(message, 'Project information saved successfully!', 'success');
-                        setTimeout(() => closeEditProjectModal(), 1500);
-
-                    } catch (error) {
-                        console.error('Error saving project info:', error);
-                        showMessage(message, 'Error: ' + error.message, 'error');
-                    }
-                });
-            }
-        });
-
-        // Close edit project modal when clicking outside
-        document.addEventListener('DOMContentLoaded', () => {
-            const editProjectModal = document.getElementById('edit-project-modal');
-            if (editProjectModal) {
-                editProjectModal.addEventListener('click', (event) => {
-                    if (event.target === editProjectModal) {
-                        closeEditProjectModal();
-                    }
-                });
-            }
-        });
-
         // Close add member modal when clicking outside
         document.addEventListener('DOMContentLoaded', () => {
             const addMemberModal = document.getElementById('add-member-modal');
@@ -1691,45 +1603,6 @@
                 </div>
                 <button class="btn-submit" onclick="addSelectedStudent()">Add Student to Group</button>
                 <div id="add-member-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Project Modal -->
-    <div id="edit-project-modal" class="pdf-preview-modal">
-        <div class="pdf-preview-container" style="max-width: 700px; height: auto;">
-            <div class="pdf-preview-header">
-                <h3>Edit Project Information</h3>
-                <button class="pdf-close-button" onclick="closeEditProjectModal()">✕ Close</button>
-            </div>
-            <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
-                <form id="edit-project-form">
-                    <div class="form-group">
-                        <label for="project-title">Project Title:</label>
-                        <input type="text" id="project-title" name="title" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em;">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="project-description">Project Description:</label>
-                        <textarea id="project-description" name="description" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; font-family: Arial, sans-serif; resize: vertical;"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="project-objectives">Project Objectives:</label>
-                        <textarea id="project-objectives" name="objectives" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; font-family: Arial, sans-serif; resize: vertical;"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="project-methodology">Methodology/Approach:</label>
-                        <textarea id="project-methodology" name="methodology" rows="3" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em; font-family: Arial, sans-serif; resize: vertical;"></textarea>
-                    </div>
-
-                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-                        <button type="button" class="btn btn-secondary" onclick="closeEditProjectModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                    <div id="edit-project-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
-                </form>
             </div>
         </div>
     </div>
