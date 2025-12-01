@@ -599,7 +599,7 @@
                     const status = student.group_id ? 'grouped' : 'ungrouped';
                     const statusText = student.group_id ? 'Grouped' : 'Ungrouped';
                     const fullName = `${student.first_name} ${student.last_name}`;
-                    const groupInfo = student.group_id ? `Group #${student.group_id.slice(0, 8)}...` : 'No Group';
+                    const groupInfo = student.group_name || 'Ungrouped';
 
                     html += `
                         <tr>
@@ -658,7 +658,7 @@
                 return;
             }
 
-            let csv = 'Section,Campus ID,First Name,Last Name,Email,Program,Status,Group ID\n';
+            let csv = 'Section,Campus ID,First Name,Last Name,Email,Program,Status,Group Name\n';
             const sectionNames = {
                 cmsc173a: 'Section A',
                 cmsc173d: 'Section D',
@@ -668,7 +668,8 @@
             sections.forEach(section => {
                 filteredStudents[section].forEach(student => {
                     const status = student.group_id ? 'Grouped' : 'Ungrouped';
-                    csv += `${sectionNames[section]},${student.campus_id},"${student.first_name}","${student.last_name}",${student.email},${student.program},${status},"${student.group_id || 'N/A'}"\n`;
+                    const groupName = student.group_name || 'Ungrouped';
+                    csv += `${sectionNames[section]},${student.campus_id},"${student.first_name}","${student.last_name}",${student.email},${student.program},${status},"${groupName}"\n`;
                 });
             });
 
