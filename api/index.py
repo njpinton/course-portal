@@ -929,8 +929,8 @@ def get_admin_statistics():
         return jsonify({"error": "Database not configured"}), 500
 
     try:
-        # Count total groups
-        groups_response = supabase_client.table('groups').select('id', count='exact').execute()
+        # Count total groups (only active ones)
+        groups_response = supabase_client.table('groups').select('id', count='exact').eq('is_active', True).execute()
         total_groups = groups_response.count
 
         # Count total submissions
@@ -1175,8 +1175,8 @@ def get_groups_submission_status():
         return jsonify({"error": "Database not configured"}), 500
 
     try:
-        # Get all groups
-        groups_response = supabase_client.table('groups').select('id, group_name, project_title').execute()
+        # Get all active groups
+        groups_response = supabase_client.table('groups').select('id, group_name, project_title').eq('is_active', True).execute()
 
         if not groups_response.data:
             return jsonify([]), 200
