@@ -10,12 +10,18 @@ from supabase import create_client, Client
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# Add the API directory to the Python path for Vercel compatibility
+# Add the API directory and parent directory to the Python path for Vercel compatibility
 import os.path
 api_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(api_dir)  # Parent directory (project root)
+
 if api_dir not in sys.path:
     sys.path.insert(0, api_dir)
     print(f"DEBUG: Added {api_dir} to sys.path")
+
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+    print(f"DEBUG: Added {parent_dir} to sys.path")
 
 # Load environment variables early for Vercel compatibility
 from dotenv import load_dotenv
