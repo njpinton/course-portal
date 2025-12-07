@@ -539,12 +539,14 @@
                             let memberNamesSubtext = '';
                             if (group.group_members && group.group_members.length > 0) {
                                 const memberNames = group.group_members.map(m => {
-                                    // Use last_name if available, otherwise parse from member_name
-                                    if (m.last_name) {
+                                    // Priority: 1) last_name field, 2) extract from member_name, 3) use full member_name as fallback
+                                    if (m.last_name && m.last_name.trim()) {
                                         return m.last_name;
-                                    } else if (m.member_name) {
+                                    } else if (m.member_name && m.member_name.trim()) {
                                         const parts = m.member_name.trim().split(' ');
-                                        return parts[parts.length - 1]; // Last word is the surname
+                                        // If more than one word, use last word (surname)
+                                        // Otherwise use the whole name
+                                        return parts.length > 1 ? parts[parts.length - 1] : m.member_name;
                                     }
                                     return null;
                                 }).filter(n => n);

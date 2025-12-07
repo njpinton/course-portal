@@ -762,6 +762,9 @@ def update_stage_api(stage_id):
         return jsonify({"error": "Supabase not configured"}), 500
     try:
         data = request.get_json()
+        if data is None:
+            return jsonify({"error": "Invalid JSON in request body"}), 400
+
         status = data.get('status')
         grade = data.get('grade')
         feedback = data.get('feedback')
@@ -773,8 +776,23 @@ def update_stage_api(stage_id):
         if success:
             logger.info(f"Stage {stage_id} updated successfully")
             return jsonify({"message": "Stage updated successfully"}), 200
-        return jsonify({"error": "Failed to update stage"}), 500
+        # Failure likely due to missing schema columns
+        return jsonify({
+            "error": "Failed to update stage. project_stages table may be missing required columns (status, grade, feedback)",
+            "status": "incomplete_schema"
+        }), 503
     except Exception as e:
+        error_msg = str(e)
+        if "status" in error_msg and "does not exist" in error_msg:
+            return jsonify({
+                "error": "project_stages table is missing required columns. Please add 'status', 'grade', and 'feedback' columns to project_stages table in Supabase.",
+                "status": "incomplete_schema"
+            }), 503
+        elif "project_stages" in error_msg:
+            return jsonify({
+                "error": "Error with project_stages table schema",
+                "status": "incomplete_schema"
+            }), 503
         logger.error(f"Error updating stage {stage_id}: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
@@ -799,7 +817,14 @@ def add_model_api(group_id):
     if not supabase_client:
         return jsonify({"error": "Supabase not configured"}), 500
     try:
+        # Handle missing Content-Type header
+        if request.content_type is None or 'application/json' not in request.content_type:
+            return jsonify({"error": "Request must have Content-Type: application/json header"}), 400
+
         data = request.get_json()
+        if data is None:
+            return jsonify({"error": "Invalid JSON in request body"}), 400
+
         model_name = data.get('model_name')
         model_type = data.get('model_type')
         metrics = {k: v for k, v in data.items() if k not in ['model_name', 'model_type']}
@@ -811,8 +836,12 @@ def add_model_api(group_id):
         if new_model:
             logger.info(f"Model '{model_name}' added for group {group_id}")
             return jsonify(new_model), 201
-        return jsonify({"error": "Failed to add model"}), 500
+        # Check if failure was due to missing table
+        return jsonify({"error": "Failed to add model. project_models table may need to be created in Supabase.", "status": "incomplete_schema"}), 503
     except Exception as e:
+        error_msg = str(e)
+        if "project_models" in error_msg:
+            return jsonify({"error": "project_models table does not exist", "status": "incomplete_schema"}), 503
         logger.error(f"Error adding model for group {group_id}: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
