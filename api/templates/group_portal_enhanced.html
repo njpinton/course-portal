@@ -535,18 +535,22 @@
 
                         const tbody = table.querySelector('#groupsTableBody');
                         groups.forEach((group, index) => {
-                            // Get member last names only for display under group name
+                            // Get member names for display under group name
                             let memberNamesSubtext = '';
                             if (group.group_members && group.group_members.length > 0) {
-                                const lastNames = group.group_members.map(m => {
-                                    if (!m.member_name) return null;
-                                    // Extract last name (first word in full name for Filipino naming convention)
-                                    const parts = m.member_name.trim().split(' ');
-                                    return parts[0]; // First word is usually the last name
+                                const memberNames = group.group_members.map(m => {
+                                    // Use last_name if available, otherwise parse from member_name
+                                    if (m.last_name) {
+                                        return m.last_name;
+                                    } else if (m.member_name) {
+                                        const parts = m.member_name.trim().split(' ');
+                                        return parts[parts.length - 1]; // Last word is the surname
+                                    }
+                                    return null;
                                 }).filter(n => n);
-                                if (lastNames.length > 0) {
+                                if (memberNames.length > 0) {
                                     memberNamesSubtext = `<div style="font-size: 12px; color: #6c757d; font-weight: normal; margin-top: 4px;">
-                                        ${lastNames.join(', ')}
+                                        ${memberNames.join(', ')}
                                     </div>`;
                                 }
                             }

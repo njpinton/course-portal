@@ -1086,7 +1086,18 @@
                 </h2>
                 <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
                 <div id="member-contributions-list" style="display: grid; gap: 15px;">
-                    <!-- Will be populated by JavaScript -->
+                    {% if group.members and group.members|length > 0 %}
+                        {% for member in group.members %}
+                        <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                            <div style="flex: 0 0 auto; display: flex; align-items: center;">
+                                <p style="color: #1B5E4F; margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">{{ member.member_name or member.first_name or 'Unknown Member' }}</p>
+                            </div>
+                            <textarea class="contribution-input" data-member-id="{{ member.id or member.student_id }}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color: #999;">No members found in this group.</p>
+                    {% endif %}
                 </div>
             </div>
             <!-- DELETE GROUP SECTION -->
