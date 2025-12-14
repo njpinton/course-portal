@@ -1310,12 +1310,12 @@ def group_submission_portal():
     try:
         group = get_group_with_submissions(group_id)
         if not group:
-            return render_template('group_submission_portal.html', error='Group not found')
+            return render_template('group_submission_portal.html', error='Group not found', group=None)
 
         return render_template('group_submission_portal.html', group=group, group_name=session.get('group_name'))
     except Exception as e:
         logger.error(f"Error loading group submission portal: {e}", exc_info=True)
-        return render_template('group_submission_portal.html', error='An error occurred')
+        return render_template('group_submission_portal.html', error='An error occurred', group=None)
 
 @app.route('/admin/group/<group_id>')
 def admin_view_group(group_id):

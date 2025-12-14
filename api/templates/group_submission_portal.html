@@ -745,6 +745,11 @@
         </div>
 
         <div class="content">
+            {% if error %}
+            <div class="error-message">
+                <strong>⚠️ Error:</strong> {{ error }}
+            </div>
+            {% elif group %}
             <!-- GROUP SUMMARY -->
             <div class="group-info">
                 <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center;">
@@ -782,7 +787,9 @@
                 </div>
                 {% endif %}
             </div>
+            {% endif %}
 
+            {% if group %}
             <!-- PROJECT STAGES & SUBMISSIONS -->
             <h2 style="color: #1B5E4F; margin-bottom: 25px; display: flex; align-items: center;">
                 <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
@@ -1139,6 +1146,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
             <!-- DELETE GROUP SECTION -->
             {% if not is_admin_view %}
             <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
@@ -1167,10 +1175,13 @@
             if (firstStage) {
                 firstStage.classList.add('active');
             }
+            {% if group %}
             loadMemberContributions();
+            {% endif %}
         });
 
         // Load and display member contributions
+        {% if group %}
         function loadMemberContributions() {
             const groupMembers = {{ group.members | tojson }};
             const contributionsList = document.getElementById('member-contributions-list');
@@ -1201,6 +1212,7 @@
 
             contributionsList.innerHTML = html;
         }
+        {% endif %}
 
         function togglePresentationInput(stageIndex) {
             const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;

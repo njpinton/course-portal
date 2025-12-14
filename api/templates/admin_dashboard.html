@@ -247,6 +247,7 @@
             color: #1B5E4F;
             margin-bottom: 25px;
             font-size: 1.8em;
+            text-align: left;
         }
 
         .table-wrapper {
@@ -273,6 +274,29 @@
             font-weight: 600;
             font-size: 0.95em;
             border-bottom: 2px solid #1B5E4F;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+
+        .submissions-table th:hover {
+            background-color: #2D4F47;
+        }
+
+        .submissions-table th.sortable::after {
+            content: ' ↕';
+            font-size: 0.8em;
+            opacity: 0.5;
+        }
+
+        .submissions-table th.sort-asc::after {
+            content: ' ↑';
+            opacity: 1;
+        }
+
+        .submissions-table th.sort-desc::after {
+            content: ' ↓';
+            opacity: 1;
         }
 
         .submissions-table td {
@@ -293,12 +317,26 @@
             color: #1B5E4F;
         }
 
+        .group-name-link {
+            color: #1B5E4F;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .group-name-link:hover {
+            color: #2D4F47;
+            border-bottom: 2px solid #1B5E4F;
+        }
+
         .stage-cell {
-            color: #666;
+            color: #333;
         }
 
         .date-cell {
-            color: #999;
+            color: #333;
             font-size: 0.9em;
         }
 
@@ -503,11 +541,6 @@
             text-align: center;
         }
 
-        .submissions-table td:not(.submitted) {
-            text-align: center;
-            color: #ccc;
-        }
-
         .action-link {
             color: #1B5E4F;
             text-decoration: none;
@@ -637,6 +670,108 @@
             background: #FFC700;
             transform: translateY(-2px);
         }
+
+        /* FILTER CONTROLS */
+        .submissions-filter {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95em;
+            color: #333;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 150px;
+        }
+
+        .filter-select:hover {
+            border-color: #1B5E4F;
+            box-shadow: 0 2px 6px rgba(27, 94, 79, 0.1);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #1B5E4F;
+            box-shadow: 0 0 0 3px rgba(27, 94, 79, 0.1);
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: #1B5E4F;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 0.95em;
+        }
+
+        .filter-btn:hover {
+            background: #2D4F47;
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.reset {
+            background: #999;
+        }
+
+        .filter-btn.reset:hover {
+            background: #777;
+        }
+
+        /* SCROLLABLE TABLE CONTAINER */
+        .scrollable-table-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .scrollable-table-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-table-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .scrollable-table-wrapper::-webkit-scrollbar-thumb {
+            background: #1B5E4F;
+            border-radius: 4px;
+        }
+
+        .scrollable-table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #2D4F47;
+        }
+
+        .submissions-count {
+            font-size: 0.9em;
+            color: #666;
+            padding: 0 5px;
+        }
     </style>
 </head>
 <body>
@@ -726,8 +861,29 @@
 
             <!-- RECENT SUBMISSIONS SECTION -->
             <div class="submissions-section">
-                <h2>Recent Submissions (Last 10)</h2>
-                <div class="table-wrapper">
+                <h2>Stage 1 Submissions</h2>
+
+                <!-- FILTER CONTROLS -->
+                <div class="submissions-filter">
+                    <div class="filter-group">
+                        <label class="filter-label">Filter by Stage:</label>
+                        <select id="stageFilter" class="filter-select">
+                            <option value="">All Stages</option>
+                            <option value="1">Stage 1 - Proposal</option>
+                            <option value="2">Stage 2 - Data & Prep</option>
+                            <option value="3">Stage 3 - Training</option>
+                            <option value="4">Stage 4 - Evaluation</option>
+                            <option value="5">Stage 5 - Final Report</option>
+                            <option value="6">Stage 6 - Presentation</option>
+                        </select>
+                    </div>
+                    <button class="filter-btn" id="applyFilterBtn">Apply Filter</button>
+                    <button class="filter-btn reset" id="resetFilterBtn">Reset</button>
+                    <span class="submissions-count" id="submissionsCount"></span>
+                </div>
+
+                <!-- SCROLLABLE TABLE -->
+                <div class="scrollable-table-wrapper">
                     <table class="submissions-table" id="submissionsTable">
                         <thead>
                             <tr>
@@ -917,6 +1073,7 @@
         function updateSubmissions(submissions) {
             try {
                 const tableBody = document.getElementById('submissionsTableBody');
+                const countSpan = document.getElementById('submissionsCount');
 
                 if (!submissions || submissions.length === 0) {
                     tableBody.innerHTML = `
@@ -924,21 +1081,24 @@
                             <td colspan="4">
                                 <div class="empty-state">
                                     <div class="empty-state-icon">📭</div>
-                                    <div class="empty-state-text">No submissions yet</div>
+                                    <div class="empty-state-text">No submissions found</div>
                                 </div>
                             </td>
                         </tr>
                     `;
+                    countSpan.textContent = 'No submissions';
                     return;
                 }
 
                 let html = '';
                 submissions.forEach(submission => {
-                    const groupName = submission.groups?.group_name || 'Unknown';
-                    const projectTitle = submission.groups?.project_title || 'N/A';
+                    // Handle both flattened and nested response structures
+                    const groupName = submission.group_name || submission.groups?.group_name || 'Unknown';
+                    const groupId = submission.group_id;
+                    const projectTitle = submission.project_title || submission.groups?.project_title || 'N/A';
                     html += `
                         <tr>
-                            <td class="group-name-cell">${groupName}</td>
+                            <td class="group-name-cell"><a href="/admin/group/${groupId}" class="group-name-link">${groupName}</a></td>
                             <td>${projectTitle}</td>
                             <td class="stage-cell">Stage ${submission.stage_number}</td>
                             <td class="date-cell">${formatDate(submission.submitted_at)}</td>
@@ -947,9 +1107,149 @@
                 });
 
                 tableBody.innerHTML = html;
+                countSpan.textContent = `${submissions.length} submission(s)`;
+
+                // Initialize sorting for the submissions table
+                initializeTableSorting('submissionsTable');
             } catch (error) {
                 console.error('Error updating submissions:', error);
                 showAlert('Failed to update submissions: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Fetch filtered submissions
+         */
+        async function fetchFilteredSubmissions(stageNumber = null) {
+            try {
+                let url = '/api/admin/submissions?sort=submitted_at';
+
+                if (stageNumber) {
+                    url += `&stage_number=${stageNumber}`;
+                }
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Check if the response is an array or has a data property
+                const submissions = Array.isArray(data) ? data : (data.submissions || data.data || []);
+
+                updateSubmissions(submissions);
+            } catch (error) {
+                console.error('Error fetching filtered submissions:', error);
+                showAlert('Failed to load submissions: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Initialize table sorting functionality
+         */
+        function initializeTableSorting(tableId) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+
+            const headers = table.querySelectorAll('th');
+            headers.forEach((header, index) => {
+                // Skip the last column (Actions) for sorting
+                if (index < headers.length - 1 || tableId === 'submissionsTable') {
+                    header.classList.add('sortable');
+                    header.addEventListener('click', () => sortTable(tableId, index));
+                }
+            });
+        }
+
+        /**
+         * Sort table by column
+         */
+        function sortTable(tableId, columnIndex) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const header = table.querySelectorAll('th')[columnIndex];
+            const headerText = header.textContent.trim().toLowerCase();
+
+            // Determine sort direction
+            let isAscending = !header.classList.contains('sort-asc');
+
+            // Remove previous sort indicators
+            table.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+
+            // Add sort indicator to current header
+            if (isAscending) {
+                header.classList.add('sort-asc');
+            } else {
+                header.classList.add('sort-desc');
+            }
+
+            // Sort rows
+            rows.sort((a, b) => {
+                let aVal = a.querySelectorAll('td')[columnIndex].textContent.trim();
+                let bVal = b.querySelectorAll('td')[columnIndex].textContent.trim();
+
+                // Check if this is the "Submitted Date" column
+                if (headerText.includes('submitted')) {
+                    // Parse dates in format "Mon DD, YYYY"
+                    const aDate = new Date(aVal);
+                    const bDate = new Date(bVal);
+                    if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
+                        return isAscending ? aDate - bDate : bDate - aDate;
+                    }
+                }
+
+                // Try to convert to numbers if they look like numbers
+                const aNum = parseFloat(aVal);
+                const bNum = parseFloat(bVal);
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAscending ? aNum - bNum : bNum - aNum;
+                }
+
+                // Compare as strings
+                if (isAscending) {
+                    return aVal.localeCompare(bVal);
+                } else {
+                    return bVal.localeCompare(aVal);
+                }
+            });
+
+            // Reorder table rows
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        /**
+         * Setup filter controls
+         */
+        function setupFilterControls() {
+            const applyBtn = document.getElementById('applyFilterBtn');
+            const resetBtn = document.getElementById('resetFilterBtn');
+            const stageFilter = document.getElementById('stageFilter');
+
+            if (applyBtn) {
+                applyBtn.addEventListener('click', () => {
+                    const selectedStage = stageFilter.value;
+                    fetchFilteredSubmissions(selectedStage || null);
+                });
+            }
+
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    stageFilter.value = '';
+                    fetchFilteredSubmissions(null);
+                });
+            }
+
+            // Allow pressing Enter in the select to apply filter
+            if (stageFilter) {
+                stageFilter.addEventListener('change', () => {
+                    const selectedStage = stageFilter.value;
+                    fetchFilteredSubmissions(selectedStage || null);
+                });
             }
         }
 
@@ -1122,11 +1422,17 @@
             try {
                 console.log('Initializing admin dashboard...');
 
-                // Fetch initial data
+                // Setup filter controls for submissions
+                setupFilterControls();
+
+                // Fetch initial data (for statistics)
                 await fetchDashboardData();
 
                 // Load groups submission status table
                 await loadGroupsSubmissionStatus();
+
+                // Load initial filtered submissions (Stage 1 by default)
+                await fetchFilteredSubmissions(1);
 
                 // Start auto-refresh
                 startAutoRefresh();
