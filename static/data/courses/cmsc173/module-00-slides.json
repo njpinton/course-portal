@@ -1,0 +1,293 @@
+{
+  "module": {
+    "id": "00",
+    "title": "Introduction to Machine Learning",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 35,
+    "estimatedDuration": "70 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Course Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Topics Covered</h4>\n<ol>\n<li>What is Machine Learning?</li>\n<li>Types of Learning: Supervised, Unsupervised, Reinforcement</li>\n<li>The ML Pipeline</li>\n<li>Bias-Variance Tradeoff</li>\n<li>Best Practices & Ethics</li>\n</ol>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Machine Learning?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Formal Definition</h4><strong>Machine Learning (ML)</strong> is the science of getting computers to learn and act like humans do, and improve their learning over time in autonomous fashion, by feeding them data and information.</div>\n\n<div class=\"highlight\"><h4>Key Characteristics</h4><ul>\n\n<li><strong>Learning from data</strong> without explicit programming\n</li>\n<li><strong>Improving performance</strong> with experience\n</li>\n<li><strong>Discovering patterns</strong> in complex datasets\n</li>\n<li><strong>Making predictions</strong> or decisions\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\"><h4>Traditional Programming vs ML</h4><strong>Traditional:</strong>\\\\\nRules + Data → Answers\n\n<strong>Machine Learning:</strong>\\\\\nData + Answers → Rules</div>\n\n<div class=\"warning\"><h4>Core Insight</h4>ML finds the rules automatically from examples!</div>\n</div>\n</div>\n\n<div class=\"code-example\">\n<h4>Traditional Programming vs ML</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Aspect</th><th>Traditional</th><th>Machine Learning</th></tr></thead>\n<tbody><tr><td>Input</td><td>Rules + Data</td><td>Data + Labels</td></tr><tr><td>Output</td><td>Answers</td><td>Rules/Model</td></tr><tr><td>Example</td><td>if price > 1000: expensive</td><td>Learn threshold from examples</td></tr></tbody>\n</table>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Historical Context",
+      "readingTime": "1 min",
+      "content": "<em>\"A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.\"</em> --- Alan Turing\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Major Milestones</h4><ul>\n\n<li><strong>1950s</strong>: Alan Turing - \"Can machines think?\"\n</li>\n<li><strong>1957</strong>: Perceptron (Frank Rosenblatt)\n</li>\n<li><strong>1986</strong>: Backpropagation popularized\n</li>\n<li><strong>1990s</strong>: Support Vector Machines\n</li>\n<li><strong>1997</strong>: Deep Blue defeats Kasparov\n</li>\n<li><strong>2006</strong>: Deep Learning renaissance\n</li>\n<li><strong>2012</strong>: AlexNet wins ImageNet\n</li>\n<li><strong>2016</strong>: AlphaGo defeats Lee Sedol\n</li>\n<li><strong>2020s</strong>: Large Language Models\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\"><h4>The Three AI Winters</h4>Periods of reduced funding and interest:\n<ul>\n\n<li>1970s: Perceptron limitations\n</li>\n<li>1987-1993: Expert systems fail\n</li>\n<li>Post-2000: AI hype deflation\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Current Era</h4>We're in the <strong>Deep Learning Revolution</strong>:\n<ul>\n\n<li>Big data availability\n</li>\n<li>GPU acceleration\n</li>\n<li>Novel architectures (Transformers)\n</li>\n<li>Widespread deployment\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Real-World Applications",
+      "readingTime": "1 min",
+      "content": "<em>\"Machine learning is the last invention that humanity will ever need to make.\"</em> --- Nick Bostrom\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Computer Vision</h4><ul>\n\n<li>Medical image diagnosis\n</li>\n<li>Autonomous vehicles\n</li>\n<li>Facial recognition\n</li>\n<li>Object detection &amp; tracking\n</li>\n<li>Image generation (DALL-E, Midjourney)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Natural Language Processing</h4><ul>\n\n<li>Machine translation\n</li>\n<li>Chatbots &amp; virtual assistants\n</li>\n<li>Sentiment analysis\n</li>\n<li>Text summarization\n</li>\n<li>Question answering\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Other Domains</h4><ul>\n\n<li><strong>Finance</strong>: Fraud detection, trading\n</li>\n<li><strong>Healthcare</strong>: Drug discovery, medicine\n</li>\n<li><strong>E-commerce</strong>: Recommendations\n</li>\n<li><strong>Gaming</strong>: AI opponents\n</li>\n<li><strong>Manufacturing</strong>: Quality control\n</li>\n<li><strong>Agriculture</strong>: Crop monitoring\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Impact</h4>ML is transforming every industry!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Learning Objectives",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>By the end of this course, you will be able to:</h4><ol>\n\n<li><strong>Understand</strong> the fundamental concepts and mathematical foundations of machine learning\n</li>\n<li><strong>Distinguish</strong> between different types of learning paradigms (supervised, unsupervised, etc.)\n</li>\n<li><strong>Implement</strong> core ML algorithms from scratch using Python\n</li>\n<li><strong>Apply</strong> appropriate ML techniques to real-world problems\n</li>\n<li><strong>Evaluate</strong> model performance using rigorous metrics\n</li>\n<li><strong>Analyze</strong> the theoretical properties of learning algorithms\n</li>\n<li><strong>Compare</strong> different approaches and select optimal methods\n</li>\n<li><strong>Understand</strong> state-of-the-art techniques in deep learning\n</li>\n</ol></div>\n\n<div class=\"warning\"><h4>Prerequisites</h4><strong>CMSC 170</strong>: Linear algebra, probability theory, calculus, Python programming</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Machine Learning Taxonomy",
+      "readingTime": "1 min",
+      "content": "<div class=\"info\"><p><em>See visual diagram in lecture materials</em></p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Supervised Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/supervised_vs_unsupervised.png\" alt=\"Supervised vs Unsupervised\" style=\"max-width: 100%;\">\n            <figcaption>Supervised vs Unsupervised Learning</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"definition\">\n            <strong>Definition:</strong> Learning from <em>labeled data</em>\n        </div>\n        <ul>\n            <li><strong>Input:</strong> $\\mathbf{x} \\in \\mathbb{R}^d$</li>\n            <li><strong>Output:</strong> Label $y$</li>\n            <li><strong>Goal:</strong> Learn $f(\\mathbf{x}) \\approx y$</li>\n        </ul>\n        <div class=\"highlight\">\n            <h4>Two Main Tasks</h4>\n            <ul>\n                <li><strong>Regression:</strong> $y \\in \\mathbb{R}$</li>\n                <li><strong>Classification:</strong> $y \\in \\{1,...,K\\}$</li>\n            </ul>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Supervised Learning: Training",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Training Process</h4>\n            <p>Given $\\mathcal{D} = \\{(\\mathbf{x}_i, y_i)\\}_{i=1}^n$:</p>\n            <ol>\n                <li>Choose hypothesis class $\\mathcal{H}$</li>\n                <li>Define loss $\\mathcal{L}(y, \\hat{y})$</li>\n                <li>Minimize empirical risk:<br>\n                    $$\\hat{f} = \\arg\\min_{f \\in \\mathcal{H}} \\frac{1}{n}\\sum_{i=1}^n \\mathcal{L}(y_i, f(\\mathbf{x}_i))$$\n                </li>\n            </ol>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Key Properties</h4>\n            <ul>\n                <li>Labeled data required</li>\n                <li>Teacher signal guides learning</li>\n                <li>Generalization to new examples</li>\n            </ul>\n        </div>\n        <div class=\"warning\">\n            <h4>Challenge</h4>\n            <p>Avoid overfitting to training data!</p>\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)\nmodel = LogisticRegression().fit(X_train, y_train)\nprint(f\"Accuracy: {model.score(X_test, y_test):.2f}\")</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Regression: Predicting Continuous Values",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/regression_example.png\" alt=\"Regression Example\" style=\"max-width: 100%;\">\n            <figcaption>Linear Regression with Fitted Line</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"definition\">\n            <strong>Input:</strong> $\\mathbf{x} \\in \\mathbb{R}^d$<br>\n            <strong>Output:</strong> $y \\in \\mathbb{R}$ (continuous)<br>\n            <strong>Model:</strong> $\\hat{y} = f(\\mathbf{x}; \\theta)$\n        </div>\n        <div class=\"highlight\">\n            <h4>Loss Functions</h4>\n            <ul>\n                <li><strong>MSE:</strong> $\\frac{1}{n}\\sum (y_i - \\hat{y}_i)^2$</li>\n                <li><strong>MAE:</strong> $\\frac{1}{n}\\sum |y_i - \\hat{y}_i|$</li>\n            </ul>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Regression: Algorithms & Examples",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Regression Algorithms</h4>\n            <ul>\n                <li>Linear Regression</li>\n                <li>Ridge/Lasso (regularized)</li>\n                <li>Polynomial Regression</li>\n                <li>SVR, Decision Trees</li>\n                <li>Neural Networks</li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Real-World Examples</h4>\n            <ul>\n                <li>House price prediction</li>\n                <li>Stock forecasting</li>\n                <li>Temperature prediction</li>\n                <li>Sales forecasting</li>\n            </ul>\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error, r2_score\n\nmodel = LinearRegression().fit(X_train, y_train)\ny_pred = model.predict(X_test)\nprint(f\"MSE: {mean_squared_error(y_test, y_pred):.4f}\")</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Classification: Predicting Categories",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/classification_example.png\" alt=\"Classification Example\" style=\"max-width: 100%;\">\n            <figcaption>Decision Boundary Separating Classes</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"definition\">\n            <strong>Input:</strong> $\\mathbf{x} \\in \\mathbb{R}^d$<br>\n            <strong>Output:</strong> $y \\in \\{1,...,K\\}$ (discrete)<br>\n            <strong>Model:</strong> $\\hat{y} = \\arg\\max_k P(y=k|\\mathbf{x})$\n        </div>\n        <div class=\"highlight\">\n            <h4>Types</h4>\n            <ul>\n                <li><strong>Binary:</strong> $K=2$ (spam/not spam)</li>\n                <li><strong>Multi-class:</strong> $K>2$ (digits 0-9)</li>\n                <li><strong>Multi-label:</strong> Multiple tags per item</li>\n            </ul>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Classification: Algorithms & Code",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Classification Algorithms</h4>\n            <ul>\n                <li>Logistic Regression</li>\n                <li>Naive Bayes</li>\n                <li>K-Nearest Neighbors</li>\n                <li>Decision Trees</li>\n                <li>Random Forests, SVM</li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Loss Functions</h4>\n            <p><strong>Cross-Entropy:</strong></p>\n            $$\\mathcal{L} = -\\frac{1}{n}\\sum_{i} y_i \\log \\hat{y}_i$$\n            <p><strong>Hinge Loss (SVM):</strong></p>\n            $$\\mathcal{L} = \\max(0, 1 - y\\hat{y})$$\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import classification_report\n\nclf = RandomForestClassifier(n_estimators=100).fit(X_train, y_train)\nprint(classification_report(y_test, clf.predict(X_test)))</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Unsupervised Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4>Learning from <strong>unlabeled data</strong> without explicit target outputs:\n<ul>\n\n<li><strong>Input</strong>: Feature vectors $\\{\\mathbf{x}_1, …, \\mathbf{x}_n\\}$\n</li>\n<li><strong>Output</strong>: None (discover structure)\n</li>\n</ul>\n\n<strong>Goal</strong>: Discover hidden patterns, structures, or relationships in data</div>\n\n<div class=\"highlight\"><h4>Main Tasks</h4><strong>1. Clustering</strong>\n<ul>\n\n<li>Group similar data points\n</li>\n<li>Algorithms: K-Means, DBSCAN, Hierarchical\n</li>\n</ul>\n\n<strong>2. Dimensionality Reduction</strong>\n<ul>\n\n<li>Compress high-dimensional data\n</li>\n<li>Algorithms: PCA, t-SNE, UMAP\n</li>\n</ul>\n\n<strong>3. Density Estimation</strong>\n<ul>\n\n<li>Model the data distribution\n</li>\n<li>Algorithms: Gaussian Mixture Models\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\"><h4>Key Characteristics</h4><ul>\n\n<li><strong>No labels</strong> required\n</li>\n<li><strong>Exploratory</strong> in nature\n</li>\n<li><strong>Structure discovery</strong>\n</li>\n<li>Performance harder to measure\n</li>\n</ul></div>\n\n<div class=\"example\"><h4>Applications</h4><ul>\n\n<li>Customer segmentation\n</li>\n<li>Anomaly detection\n</li>\n<li>Data visualization\n</li>\n<li>Feature extraction\n</li>\n<li>Compression\n</li>\n<li>Recommender systems\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Challenge</h4>How do we evaluate without labels?</div>\n</div>\n</div>\n\n<div class=\"code-example\">\n<h4>Supervised vs Unsupervised Comparison</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Aspect</th><th>Supervised</th><th>Unsupervised</th></tr></thead>\n<tbody><tr><td>Data</td><td>Labeled (X, y)</td><td>Unlabeled (X only)</td></tr><tr><td>Goal</td><td>Predict y from X</td><td>Find hidden patterns</td></tr><tr><td>Evaluation</td><td>Compare to true labels</td><td>Internal metrics</td></tr><tr><td>Examples</td><td>Classification, Regression</td><td>Clustering, PCA</td></tr></tbody>\n</table>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Clustering: Grouping Similar Data",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/clustering_example.png\" alt=\"K-Means Clustering\" style=\"max-width: 100%;\">\n            <figcaption>K-Means with 3 Clusters</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"definition\">\n            <strong>Goal:</strong> Group similar data points without labels\n        </div>\n        <div class=\"highlight\">\n            <h4>K-Means Objective</h4>\n            $$\\min \\sum_{i=1}^n \\|\\mathbf{x}_i - \\mu_{c_i}\\|^2$$\n            <ol>\n                <li>Initialize K centroids</li>\n                <li>Assign points to nearest</li>\n                <li>Update centroids</li>\n                <li>Repeat until convergence</li>\n            </ol>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Clustering: Methods & Evaluation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Other Clustering Methods</h4>\n            <ul>\n                <li><strong>Hierarchical:</strong> Dendrogram</li>\n                <li><strong>DBSCAN:</strong> Density-based, finds arbitrary shapes</li>\n                <li><strong>GMM:</strong> Probabilistic, soft assignments</li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Evaluation Metrics</h4>\n            <ul>\n                <li>Silhouette coefficient</li>\n                <li>Davies-Bouldin index</li>\n                <li>Calinski-Harabasz index</li>\n            </ul>\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\n\nkmeans = KMeans(n_clusters=3).fit(X)\nscore = silhouette_score(X, kmeans.labels_)\nprint(f\"Silhouette: {score:.3f}\")</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Dimensionality Reduction",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/pca_visualization.png\" alt=\"PCA Visualization\" style=\"max-width: 100%;\">\n            <figcaption>PCA: Principal Components</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"definition\">\n            <strong>Goal:</strong> Compress high-dim data while preserving structure\n        </div>\n        <div class=\"highlight\">\n            <h4>Curse of Dimensionality</h4>\n            <ul>\n                <li>Volume grows exponentially</li>\n                <li>Data becomes sparse</li>\n                <li>Overfitting risk increases</li>\n            </ul>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "PCA & Other Techniques",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>PCA Algorithm</h4>\n            <ol>\n                <li>Center data: $\\tilde{\\mathbf{x}}_i = \\mathbf{x}_i - \\bar{\\mathbf{x}}$</li>\n                <li>Compute covariance: $\\mathbf{C} = \\frac{1}{n}\\mathbf{X}^T\\mathbf{X}$</li>\n                <li>Find eigenvectors of $\\mathbf{C}$</li>\n                <li>Project onto top $k$ eigenvectors</li>\n            </ol>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Other Techniques</h4>\n            <ul>\n                <li><strong>Linear:</strong> PCA, LDA, ICA</li>\n                <li><strong>Non-linear:</strong> t-SNE, UMAP</li>\n                <li><strong>Neural:</strong> Autoencoders</li>\n            </ul>\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.decomposition import PCA\n\npca = PCA(n_components=2).fit(X)\nX_reduced = pca.transform(X)\nprint(f\"Variance explained: {pca.explained_variance_ratio_.sum():.2%}\")</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Semi-Supervised Learning",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4>Learning from <strong>both labeled and unlabeled data</strong>:\n<ul>\n\n<li><strong>Labeled</strong>: $\\mathcal{D}_L = \\{(\\mathbf{x}_1, y_1), …, (\\mathbf{x}_l, y_l)\\}$\n</li>\n<li><strong>Unlabeled</strong>: $\\mathcal{D}_U = \\{\\mathbf{x}_{l+1}, …, \\mathbf{x}_{l+u}\\}$\n</li>\n<li>Typically $l \\ll u$ (few labels, many unlabeled)\n</li>\n</ul>\n\n<strong>Goal</strong>: Leverage unlabeled data to improve performance</div>\n\n<div class=\"highlight\"><h4>Fundamental Assumptions</h4><strong>1. Smoothness Assumption</strong>\n<ul>\n\n<li>Nearby points share same label\n</li>\n</ul>\n\n<strong>2. Cluster Assumption</strong>\n<ul>\n\n<li>Data forms discrete clusters\n</li>\n<li>Points in same cluster have same label\n</li>\n</ul>\n\n<strong>3. Manifold Assumption</strong>\n<ul>\n\n<li>High-dim data lies on low-dim manifold\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\"><h4>Common Approaches</h4><strong>Self-Training</strong>:\n<ul>\n\n<li>Train on labeled data\n</li>\n<li>Predict unlabeled data\n</li>\n<li>Add confident predictions to training set\n</li>\n<li>Iterate\n</li>\n</ul>\n\n<strong>Co-Training</strong>:\n<ul>\n\n<li>Multiple views of data\n</li>\n<li>Train separate classifiers\n</li>\n<li>Exchange confident predictions\n</li>\n</ul>\n\n<strong>Graph-Based Methods</strong>:\n<ul>\n\n<li>Construct similarity graph\n</li>\n<li>Propagate labels\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Why Semi-Supervised?</h4>Labels are expensive! (Human annotation, expert knowledge, time)</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Reinforcement Learning",
+      "readingTime": "2 min",
+      "content": "<em>\"You can use a spoon to eat soup, but it's better to use a ladle. Learning is choosing the right tool.\"</em> --- Yann LeCun\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4>Learning through <strong>interaction with an environment</strong>:\n<ul>\n\n<li><strong>Agent</strong> takes actions\n</li>\n<li><strong>Environment</strong> provides states &amp; rewards\n</li>\n<li><strong>Goal</strong>: Maximize cumulative reward\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Markov Decision Process (MDP)</h4>Formal framework: $(\\mathcal{S}, \\mathcal{A}, P, R, \\gamma)$\n\n<ul>\n\n<li>$\\mathcal{S}$: State space\n</li>\n<li>$\\mathcal{A}$: Action space\n</li>\n<li>$P(s'|s,a)$: Transition probabilities\n</li>\n<li>$R(s,a,s')$: Reward function\n</li>\n<li>$\\gamma \\in [0,1]$: Discount factor\n</li>\n</ul>\n\n<strong>Policy</strong>: $\\pi: \\mathcal{S} \\rightarrow \\mathcal{A}$\n\n<strong>Value Function</strong>:\n$$V^\\pi(s) = \\mathbb{E}\\left[\\sum_{t=0}^\\infty \\gamma^t R_t \\mid s_0=s, \\pi\\right]$$\n\n<strong>Optimal Policy</strong>: $\\pi^* = \\arg\\max_\\pi V^\\pi(s) \\; \\forall s$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\"><h4>RL vs Other Paradigms</h4><strong>Key Differences</strong>:\n<ul>\n\n<li>No direct supervision\n</li>\n<li>Delayed rewards\n</li>\n<li>Exploration vs exploitation\n</li>\n<li>Sequential decision making\n</li>\n<li>Trial and error learning\n</li>\n</ul></div>\n\n<div class=\"example\"><h4>Classic Algorithms</h4><ul>\n\n<li><strong>Q-Learning</strong>\n</li>\n<li>SARSA\n</li>\n<li>Policy Gradient\n</li>\n<li>Actor-Critic\n</li>\n<li>Deep Q-Networks (DQN)\n</li>\n<li>Proximal Policy Optimization (PPO)\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Famous Applications</h4>AlphaGo, robotics, game playing, autonomous driving</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "RL Example: Q-Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Q-Learning Algorithm</h4><strong>Goal</strong>: Learn optimal action-value function\n$$Q^*(s,a) = \\max_\\pi \\mathbb{E}\\left[\\sum_{t=0}^\\infty \\gamma^t R_t \\mid s_0=s, a_0=a, \\pi\\right]$$\n\n<strong>Update Rule</strong>:\n$$Q(s,a) \\leftarrow Q(s,a) + \\alpha [r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)]$$\n\nwhere:\n<ul>\n\n<li>$\\alpha$: Learning rate\n</li>\n<li>$r$: Immediate reward\n</li>\n<li>$s'$: Next state\n</li>\n<li>$\\gamma$: Discount factor\n</li>\n</ul>\n\n<strong>Policy</strong>: $\\pi(s) = \\arg\\max_a Q(s,a)$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Algorithm Pseudocode</h4><ol class=\"algorithm\"><li>Initialize $Q(s,a)$ arbitrarily</li>\n<li><strong>For</strong>{each episode}</li>\n<li>Initialize state $s$</li>\n<li><strong>Repeat</strong></li>\n<li>Choose action $a$ using $\\epsilon$-greedy policy</li>\n<li>Take action $a$, observe $r, s'$</li>\n<li>$Q(s,a) \\leftarrow Q(s,a) + \\alpha [r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)]$</li>\n<li>$s \\leftarrow s'$</li>\n<li><strong>Until</strong>{$s$ is terminal}</li></ol></div>\n\n<div class=\"example\"><h4>Key Concepts</h4><strong>Exploration vs Exploitation</strong>:\n<ul>\n\n<li>$\\epsilon$-greedy: explore with probability $\\epsilon$\n</li>\n<li>Balances trying new actions vs using known good ones\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "The ML Pipeline: From Data to Deployment",
+      "readingTime": "2 min",
+      "content": "<div class=\"info\"><p><em>See visual diagram in lecture materials</em></p></div>\n\n<div class=\"warning\"><h4>Key Insight</h4>ML is iterative! Model performance informs feature engineering, data collection, etc.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Data Preprocessing: Cleaning & Scaling",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Data Cleaning</h4>\n            <ul>\n                <li><strong>Missing values:</strong> Imputation or deletion</li>\n                <li><strong>Outliers:</strong> Detect and handle</li>\n                <li><strong>Duplicates:</strong> Remove</li>\n                <li><strong>Noise:</strong> Filter/smooth</li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Feature Scaling</h4>\n            <p><strong>Z-score:</strong> $z = \\frac{x - \\mu}{\\sigma}$</p>\n            <p><strong>Min-Max:</strong> $x' = \\frac{x - \\min}{\\max - \\min}$</p>\n            <p><strong>Robust:</strong> Uses median/IQR</p>\n        </div>\n    </div>\n</div>\n\n<div class=\"warning\">\n    <h4>Why Scale?</h4>\n    <p>Many algorithms (SVM, KNN, gradient descent) are sensitive to feature scales!</p>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Feature Engineering & Train/Test Split",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n    <div class=\"column\">\n        <div class=\"highlight\">\n            <h4>Feature Engineering</h4>\n            <ul>\n                <li>Polynomial features: $x_1 x_2$, $x^2$</li>\n                <li>One-hot encoding</li>\n                <li>Date/time extraction</li>\n                <li>Text vectorization (TF-IDF)</li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"column\">\n        <div class=\"example\">\n            <h4>Train/Test Split</h4>\n            <ul>\n                <li>Common: 80/20 or 70/30</li>\n                <li>Cross-validation (k-fold)</li>\n                <li>Time series: temporal split</li>\n            </ul>\n            <p><strong>Rule:</strong> Never train on test data!</p>\n        </div>\n    </div>\n</div>\n\n<div class=\"code-example\">\n    <h4>Python Example</h4>\n    <pre class=\"code-block\"><code class=\"language-python\">from sklearn.preprocessing import StandardScaler\nfrom sklearn.impute import SimpleImputer\n\nimputer = SimpleImputer(strategy='mean')\nscaler = StandardScaler()\nX_clean = scaler.fit_transform(imputer.fit_transform(X))</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Model Selection \\& Training",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Choosing a Model</h4><strong>Consider</strong>:\n<ul>\n\n<li><strong>Problem type</strong>: Regression, classification, etc.\n</li>\n<li><strong>Data size</strong>: Deep learning needs more data\n</li>\n<li><strong>Interpretability</strong>: Linear models vs black boxes\n</li>\n<li><strong>Training time</strong>: Real-time vs offline\n</li>\n<li><strong>Prediction speed</strong>: Production requirements\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>No Free Lunch Theorem</h4><strong>Theorem</strong>: No single algorithm works best for all problems\n\n<strong>Implication</strong>: Must try multiple approaches and validate empirically</div>\n\n<div class=\"example\"><h4>Start Simple!</h4><ol>\n\n<li>Simple baseline (mean, majority class)\n</li>\n<li>Linear model\n</li>\n<li>More complex models\n</li>\n<li>Ensemble methods\n</li>\n</ol></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Process</h4><strong>Optimization</strong>: Minimize loss function\n$$\\theta^* = \\arg\\min_\\theta \\mathcal{L}(\\theta; \\mathcal{D})$$\n\n<strong>Common Optimizers</strong>:\n<ul>\n\n<li>Gradient Descent\n</li>\n<li>Stochastic Gradient Descent (SGD)\n</li>\n<li>Adam (adaptive learning rate)\n</li>\n<li>RMSprop\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Hyperparameter Tuning</h4><strong>Hyperparameters</strong>: Set before training\n<ul>\n\n<li>Learning rate, regularization strength\n</li>\n<li>Number of layers, hidden units\n</li>\n<li>Tree depth, number of trees\n</li>\n</ul>\n\n<strong>Search Methods</strong>:\n<ul>\n\n<li>Grid search\n</li>\n<li>Random search\n</li>\n<li>Bayesian optimization\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Model Evaluation Metrics",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Regression Metrics</h4><strong>Mean Squared Error (MSE)</strong>:\n$$\\text{MSE} = \\frac{1}{n}\\sum_{i=1}^n (y_i - \\hat{y}_i)^2$$\n\n<strong>Root MSE (RMSE)</strong>:\n$$\\text{RMSE} = \\sqrt{\\text{MSE}}$$\n\n<strong>Mean Absolute Error (MAE)</strong>:\n$$\\text{MAE} = \\frac{1}{n}\\sum_{i=1}^n |y_i - \\hat{y}_i|$$\n\n<strong>R-squared</strong> (coefficient of determination):\n$$R^2 = 1 - \\frac{\\sum_i (y_i - \\hat{y}_i)^2}{\\sum_i (y_i - \\bar{y})^2}$$\n\nRange: $(-\\infty, 1]$, closer to 1 is better</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Classification Metrics</h4><strong>Accuracy</strong>:\n$$\\text{Acc} = \\frac{\\text{correct predictions}}{\\text{total predictions}}$$\n\n<strong>Precision</strong> (positive predictive value):\n$$\\text{Prec} = \\frac{TP}{TP + FP}$$\n\n<strong>Recall</strong> (sensitivity, true positive rate):\n$$\\text{Rec} = \\frac{TP}{TP + FN}$$\n\n<strong>F1-Score</strong> (harmonic mean):\n$$F_1 = 2 \\cdot \\frac{\\text{Prec} \\cdot \\text{Rec}}{\\text{Prec} + \\text{Rec}}$$\n\n<strong>ROC-AUC</strong>: Area under ROC curve</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Important</h4>Choose metrics appropriate to your problem! Accuracy misleading for imbalanced data.</div>\n\n<div class=\"code-example\">\n<h4>When to Use Each Metric</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Metric</th><th>Use When</th><th>Avoid When</th></tr></thead>\n<tbody><tr><td>Accuracy</td><td>Balanced classes</td><td>Imbalanced data</td></tr><tr><td>Precision</td><td>False positives costly</td><td>Need recall</td></tr><tr><td>Recall</td><td>False negatives costly</td><td>Need precision</td></tr><tr><td>F1-Score</td><td>Balance precision/recall</td><td>Clear preference</td></tr><tr><td>RMSE</td><td>Penalize large errors</td><td>Robust to outliers</td></tr><tr><td>MAE</td><td>All errors equal</td><td>Large errors matter</td></tr></tbody>\n</table>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Bias-Variance Tradeoff",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/bias_variance_tradeoff.png\" alt=\"Bias-Variance Tradeoff\" style=\"max-width: 100%;\">\n            <figcaption>The Bias-Variance Tradeoff</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"highlight\">\n            <h4>Error Decomposition</h4>\n            $$\\text{Error} = \\text{Bias}^2 + \\text{Variance} + \\text{Noise}$$\n            <ul>\n                <li><strong>Bias:</strong> Error from wrong assumptions</li>\n                <li><strong>Variance:</strong> Sensitivity to training set</li>\n                <li><strong>Noise:</strong> Irreducible error</li>\n            </ul>\n        </div>\n        <div class=\"example\">\n            <h4>The Tradeoff</h4>\n            <ul>\n                <li>Simple models: High bias, low variance</li>\n                <li>Complex models: Low bias, high variance</li>\n            </ul>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Underfitting vs Overfitting",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n    <div class=\"image-column\">\n        <figure class=\"slide-figure\">\n            <img src=\"/static/images/courses/cmsc173/module-00/overfitting_example.png\" alt=\"Overfitting Example\" style=\"max-width: 100%;\">\n            <figcaption>Underfitting vs Good Fit vs Overfitting</figcaption>\n        </figure>\n    </div>\n    <div class=\"text-column\">\n        <div class=\"two-column\">\n            <div class=\"column\">\n                <div class=\"highlight\">\n                    <h4>Underfitting</h4>\n                    <p>High train & test error</p>\n                    <p><strong>Fix:</strong></p>\n                    <ul>\n                        <li>More features</li>\n                        <li>Complex model</li>\n                        <li>Less regularization</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"column\">\n                <div class=\"warning\">\n                    <h4>Overfitting</h4>\n                    <p>Low train, high test error</p>\n                    <p><strong>Fix:</strong></p>\n                    <ul>\n                        <li>More data</li>\n                        <li>Regularization</li>\n                        <li>Simpler model</li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Regularization Techniques",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>L2 Regularization (Ridge)</h4><strong>Modified objective</strong>:\n$$\\min_\\theta \\mathcal{L}(\\theta) + \\lambda \\|\\theta\\|_2^2$$\n\nwhere $\\lambda > 0$ is regularization strength\n\n<strong>Effect</strong>:\n<ul>\n\n<li>Penalizes large weights\n</li>\n<li>Shrinks coefficients toward zero\n</li>\n<li>Improves generalization\n</li>\n<li>Handles multicollinearity\n</li>\n</ul>\n\n<strong>Closed-form solution</strong> (linear regression):\n$$\\hat{\\theta} = (\\mathbf{X}^T\\mathbf{X} + \\lambda \\mathbf{I})^{-1}\\mathbf{X}^T\\mathbf{y}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>L1 Regularization (Lasso)</h4><strong>Modified objective</strong>:\n$$\\min_\\theta \\mathcal{L}(\\theta) + \\lambda \\|\\theta\\|_1$$\n\n<strong>Effect</strong>:\n<ul>\n\n<li>Sparse solutions (some $\\theta_i = 0$)\n</li>\n<li>Automatic feature selection\n</li>\n<li>More aggressive than L2\n</li>\n</ul>\n\n<strong>No closed-form</strong>: Use iterative methods</div>\n\n<div class=\"example\"><h4>Elastic Net</h4><strong>Combines L1 and L2</strong>:\n$$\\min_\\theta \\mathcal{L}(\\theta) + \\lambda_1 \\|\\theta\\|_1 + \\lambda_2 \\|\\theta\\|_2^2$$\n\n<strong>Benefits</strong>:\n<ul>\n\n<li>Sparsity from L1\n</li>\n<li>Stability from L2\n</li>\n<li>Best of both worlds\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"code-example\">\n<h4>Python Example: Ridge and Lasso</h4>\n<pre class=\"code-block\"><code class=\"language-python\">from sklearn.linear_model import Ridge, Lasso, ElasticNet\n\n# Ridge (L2 regularization)\nridge = Ridge(alpha=1.0)\nridge.fit(X_train, y_train)\n\n# Lasso (L1 regularization)\nlasso = Lasso(alpha=0.1)\nlasso.fit(X_train, y_train)\n\n# Elastic Net (L1 + L2)\nelastic = ElasticNet(alpha=0.1, l1_ratio=0.5)\nelastic.fit(X_train, y_train)\n\n# Lasso creates sparse solutions (feature selection)\nprint(f\"Non-zero coefficients: {sum(lasso.coef_ != 0)}\")</code></pre>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "The Curse of Dimensionality",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Problem Statement</h4>As dimensionality $d$ increases:\n<ul>\n\n<li><strong>Volume grows exponentially</strong>: $V \\propto r^d$\n</li>\n<li><strong>Data becomes sparse</strong>: Points far apart\n</li>\n<li><strong>Distance metrics break down</strong>: All points equidistant\n</li>\n<li><strong>Overfitting risk increases</strong>: More parameters to fit\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Mathematical Insight</h4>In high dimensions, volume concentrated in corners:\n\n$$\\frac{V_{\\text{corners}}}{V_{\\text{total}}} = 1 - \\left(1 - \\frac{1}{2^d}\\right)^{2^d} \\approx 1 - e^{-1}$$\n\nFor unit hypercube, most volume is near edges!</div>\n\n<div class=\"example\"><h4>Data Requirements</h4>To maintain density, need $n \\propto c^d$ samples where $c > 1$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Solutions</h4><strong>1. Dimensionality Reduction</strong>\n<ul>\n\n<li>PCA, t-SNE, UMAP\n</li>\n<li>Feature selection\n</li>\n</ul>\n\n<strong>2. Feature Selection</strong>\n<ul>\n\n<li>Filter methods (correlation)\n</li>\n<li>Wrapper methods (RFE)\n</li>\n<li>Embedded (Lasso, trees)\n</li>\n</ul>\n\n<strong>3. Regularization</strong>\n<ul>\n\n<li>L1/L2 penalties\n</li>\n<li>Early stopping\n</li>\n</ul>\n\n<strong>4. Collect More Data</strong>\n<ul>\n\n<li>Exponentially more needed\n</li>\n<li>Often impractical\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>$n \\geq 10 \\cdot d$ for reliable models</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "CMSC 173 Course Topics",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Core Foundations</h4><strong>I. Overview</strong> (Today!)\n<ul>\n\n<li>Learning paradigms\n</li>\n<li>Applications\n</li>\n</ul>\n\n<strong>II. Parameter Estimation</strong>\n<ul>\n\n<li>Method of Moments\n</li>\n<li>Maximum Likelihood Estimation\n</li>\n</ul>\n\n<strong>III. Regression</strong>\n<ul>\n\n<li>Linear Regression\n</li>\n<li>Lasso &amp; Ridge\n</li>\n<li>Cubic Splines\n</li>\n</ul>\n\n<strong>IV. Model Selection</strong>\n<ul>\n\n<li>Bias-Variance Decomposition\n</li>\n<li>Cross-Validation\n</li>\n<li>Regularization\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advanced Methods</h4><strong>V. Classification</strong>\n<ul>\n\n<li>Logistic Regression, Naïve Bayes\n</li>\n<li>KNN, Decision Trees\n</li>\n</ul>\n\n<strong>VI. Kernel Methods</strong>\n<ul>\n\n<li>Support Vector Machines\n</li>\n<li>Kernel trick\n</li>\n</ul>\n\n<strong>VII. Dimensionality Reduction</strong>\n<ul>\n\n<li>Principal Component Analysis\n</li>\n</ul>\n\n<strong>VIII. Neural Networks</strong>\n<ul>\n\n<li>Feedforward Networks\n</li>\n<li>CNNs, Transformers\n</li>\n<li>Generative Models\n</li>\n</ul>\n\n<strong>IX. Clustering</strong>\n<ul>\n\n<li>K-Means, Hierarchical\n</li>\n<li>Gaussian Mixture Models\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Learning Resources",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Recommended Textbooks</h4><strong>Primary</strong>:\n<ul>\n\n<li>Murphy, K. P. (2022). <em>Probabilistic Machine Learning: An Introduction</em>. MIT Press.\n</li>\n<li>Bishop, C. M. (2006). <em>Pattern Recognition and Machine Learning</em>. Springer.\n</li>\n</ul>\n\n<strong>Supplementary</strong>:\n<ul>\n\n<li>Hastie et al. (2009). <em>The Elements of Statistical Learning</em>. Springer.\n</li>\n<li>Goodfellow et al. (2016). <em>Deep Learning</em>. MIT Press.\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Online Resources</h4><ul>\n\n<li>Scikit-learn documentation\n</li>\n<li>PyTorch/TensorFlow tutorials\n</li>\n<li>Coursera ML courses (Andrew Ng)\n</li>\n<li>Stanford CS229 lecture notes\n</li>\n<li>ArXiv.org for research papers\n</li>\n</ul></div>\n\n<div class=\"example\"><h4>Tools We'll Use</h4><ul>\n\n<li>Python 3.8+\n</li>\n<li>NumPy, Pandas, Matplotlib\n</li>\n<li>Scikit-learn\n</li>\n<li>Jupyter Notebooks\n</li>\n<li>PyTorch (for deep learning)\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Installation</h4>Ensure you have Python and required packages installed before next session!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Best Practices in Machine Learning",
+      "readingTime": "2 min",
+      "content": "<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-00/ml_workflow_diagram.png\" alt=\"ML Workflow\" style=\"max-width: 95%;\">\n<figcaption>Machine Learning Workflow</figcaption>\n</figure>\n\n<em>\"The best way to predict the future is to invent it.\"</em> --- Alan Kay\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Development Workflow</h4><strong>1. Start with baseline</strong>\n<ul>\n\n<li>Simple model first\n</li>\n<li>Establish minimum performance\n</li>\n</ul>\n\n<strong>2. Iterate systematically</strong>\n<ul>\n\n<li>Change one thing at a time\n</li>\n<li>Track experiments\n</li>\n<li>Version control (Git)\n</li>\n</ul>\n\n<strong>3. Validate rigorously</strong>\n<ul>\n\n<li>Cross-validation\n</li>\n<li>Hold-out test set\n</li>\n<li>Statistical significance\n</li>\n</ul>\n\n<strong>4. Document everything</strong>\n<ul>\n\n<li>Assumptions\n</li>\n<li>Hyperparameters\n</li>\n<li>Results\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Common Pitfalls to Avoid</h4><ul>\n\n<li><strong>Data leakage</strong>: Test data in training\n</li>\n<li><strong>Ignoring class imbalance</strong>\n</li>\n<li><strong>Not checking for overfitting</strong>\n</li>\n<li><strong>Using wrong metrics</strong>\n</li>\n<li><strong>Not scaling features</strong>\n</li>\n<li><strong>Forgetting randomness</strong>: Set seeds!\n</li>\n<li><strong>Over-engineering</strong>: Keep it simple\n</li>\n</ul></div>\n\n<div class=\"example\"><h4>Reproducibility</h4><strong>Essential for science</strong>:\n<ul>\n\n<li>Set random seeds\n</li>\n<li>Document dependencies\n</li>\n<li>Share code &amp; data (when possible)\n</li>\n<li>Report all hyperparameters\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Ethics \\& Responsible AI",
+      "readingTime": "1 min",
+      "content": "<em>\"With great power comes great responsibility.\"</em> --- Stan Lee (adapted from Voltaire)\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Ethical Considerations</h4><strong>Bias &amp; Fairness</strong>:\n<ul>\n\n<li>Training data may contain biases\n</li>\n<li>Models can amplify discrimination\n</li>\n<li>Ensure fairness across groups\n</li>\n</ul>\n\n<strong>Privacy</strong>:\n<ul>\n\n<li>Protect sensitive information\n</li>\n<li>Anonymization techniques\n</li>\n<li>Comply with regulations (GDPR)\n</li>\n</ul>\n\n<strong>Transparency</strong>:\n<ul>\n\n<li>Explainable AI (XAI)\n</li>\n<li>Interpretable models\n</li>\n<li>Document limitations\n</li>\n</ul>\n\n<strong>Safety &amp; Security</strong>:\n<ul>\n\n<li>Adversarial robustness\n</li>\n<li>Prevent misuse\n</li>\n<li>Validate thoroughly\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Societal Impact</h4><strong>Positive</strong>:\n<ul>\n\n<li>Healthcare improvements\n</li>\n<li>Scientific discoveries\n</li>\n<li>Accessibility tools\n</li>\n<li>Environmental monitoring\n</li>\n</ul>\n\n<strong>Concerns</strong>:\n<ul>\n\n<li>Job displacement\n</li>\n<li>Deepfakes &amp; misinformation\n</li>\n<li>Surveillance\n</li>\n<li>Autonomous weapons\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Our Responsibility</h4>As ML practitioners, we must:\n<ul>\n\n<li>Consider ethical implications\n</li>\n<li>Design inclusive systems\n</li>\n<li>Communicate limitations\n</li>\n<li>Prioritize societal benefit\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>What We Covered Today</h4><ol>\n\n<li><strong>Definition of Machine Learning</strong>: Learning from data to improve performance\n</li>\n<li><strong>Supervised Learning</strong>: Regression &amp; classification with labeled data\n</li>\n<li><strong>Unsupervised Learning</strong>: Clustering &amp; dimensionality reduction\n</li>\n<li><strong>Semi-Supervised Learning</strong>: Leveraging both labeled &amp; unlabeled data\n</li>\n<li><strong>Reinforcement Learning</strong>: Learning through interaction &amp; rewards\n</li>\n<li><strong>ML Pipeline</strong>: From data collection to deployment\n</li>\n<li><strong>Key Challenges</strong>: Bias-variance tradeoff, overfitting, curse of dimensionality\n</li>\n<li><strong>Best Practices</strong>: Systematic development, validation, ethics\n</li>\n</ol></div>\n\n<div class=\"warning\"><h4>Next Lecture</h4><strong>Parameter Estimation</strong>: Method of Moments &amp; Maximum Likelihood Estimation</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Prepare for Next Session",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Required Reading</h4><strong>Murphy (2022)</strong>:\n<ul>\n\n<li>Chapter 4: Statistics (4.1-4.3)\n</li>\n<li>Chapter 5: Decision Theory (5.1-5.2)\n</li>\n</ul>\n\n<strong>Bishop (2006)</strong>:\n<ul>\n\n<li>Chapter 1: Introduction (1.1-1.5)\n</li>\n<li>Chapter 2: Probability (2.1-2.3)\n</li>\n</ul></div>\n\n<div class=\"example\"><h4>Practice Problems</h4><ol>\n\n<li>Review probability theory\n</li>\n<li>Linear algebra refresher\n</li>\n<li>Set up Python environment\n</li>\n<li>Install required packages\n</li>\n</ol></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Questions to Ponder</h4><ol>\n\n<li>When would you choose supervised vs unsupervised learning?\n</li>\n<li>How do you decide on train/test split ratio?\n</li>\n<li>What metrics are appropriate for imbalanced datasets?\n</li>\n<li>How can we detect overfitting early?\n</li>\n<li>What are ethical concerns in your domain of interest?\n</li>\n</ol></div>\n\n<div class=\"warning\"><h4>Office Hours</h4>Available for questions and discussion after class or by appointment</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

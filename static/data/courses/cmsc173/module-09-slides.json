@@ -1,0 +1,397 @@
+{
+  "module": {
+    "id": "09",
+    "title": "Classification Methods",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 48,
+    "estimatedDuration": "96 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Classification?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4><strong>Classification</strong> is a supervised learning task where we predict a discrete class label for new observations based on training examples.</div>\n\n\n\n\\begin{exampleblock}{Key Characteristics}\n<ul>\n\n<li>Supervised learning\n</li>\n<li>Discrete output (classes/categories)\n</li>\n<li>Learn from labeled training data\n</li>\n<li>Make predictions on new data\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Formulation</h4>Given training data:\n$$\\mathcal{D} = \\{(\\mathbf{x}_1, y_1), …, (\\mathbf{x}_n, y_n)\\}$$\n\nwhere:\n<ul>\n\n<li>$\\mathbf{x}_i \\in \\mathbb{R}^d$ = feature vector\n</li>\n<li>$y_i \\in \\{1, 2, …, C\\}$ = class label\n</li>\n</ul>\n\n\n\n<strong>Goal:</strong> Learn function $f: \\mathbb{R}^d \\rightarrow \\{1, …, C\\}$</div>\n\n\n\n<div class=\"warning\"><h4>Types</h4><strong>Binary:</strong> 2 classes (spam/not spam)\\\\\n<strong>Multi-class:</strong> $C > 2$ classes (digits 0-9)</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Classification vs Regression",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Classification</h4><ul>\n\n<li><strong>Output:</strong> Discrete categories\n</li>\n<li><strong>Examples:</strong>\n  <ul>\n  \n</li>\n  <li>Email: spam/not spam\n</li>\n  <li>Medical: disease diagnosis\n</li>\n  <li>Image: object recognition\n</li>\n  <li>Finance: loan approval\n</li>\n  </ul>\n<li><strong>Metrics:</strong> Accuracy, precision, recall\n</li>\n<li><strong>Goal:</strong> Predict class membership\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Regression</h4><ul>\n\n<li><strong>Output:</strong> Continuous values\n</li>\n<li><strong>Examples:</strong>\n  <ul>\n  \n</li>\n  <li>House price prediction\n</li>\n  <li>Temperature forecasting\n</li>\n  <li>Stock price estimation\n</li>\n  <li>Age prediction\n</li>\n  </ul>\n<li><strong>Metrics:</strong> MSE, MAE, $R^2$\n</li>\n<li><strong>Goal:</strong> Predict numerical value\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Difference</h4>Classification predicts <strong>categories</strong>, regression predicts <strong>quantities</strong>.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Real-World Applications",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Medical \\& Healthcare</h4><ul>\n\n<li><strong>Disease diagnosis</strong>: Cancer detection, diabetes screening\n</li>\n<li><strong>Medical imaging</strong>: X-ray, MRI classification\n</li>\n<li><strong>Drug discovery</strong>: Molecular classification\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Finance \\& Business</h4><ul>\n\n<li><strong>Credit scoring</strong>: Loan default prediction\n</li>\n<li><strong>Fraud detection</strong>: Transaction classification\n</li>\n<li><strong>Customer churn</strong>: Retention analysis\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Technology \\& Media</h4><ul>\n\n<li><strong>Image recognition</strong>: Object detection, face recognition\n</li>\n<li><strong>Text classification</strong>: Sentiment analysis, spam filtering\n</li>\n<li><strong>Recommendation</strong>: Content categorization\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Science \\& Engineering</h4><ul>\n\n<li><strong>Biology</strong>: Species identification, gene classification\n</li>\n<li><strong>Quality control</strong>: Defect detection\n</li>\n<li><strong>Remote sensing</strong>: Land cover classification\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Common Theme</h4>All involve learning patterns from labeled examples to classify new instances!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Classification Methods Overview",
+      "readingTime": "1 min",
+      "content": "<strong>This lecture covers three fundamental classification methods:</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Naive Bayes</h4><strong>Probabilistic</strong>\n<ul>\n\n<li>Based on Bayes theorem\n</li>\n<li>Assumes feature independence\n</li>\n<li>Fast, simple\n</li>\n<li>Works with small data\n</li>\n</ul>\n\n\n\n<strong>Best for:</strong> Text classification, real-time prediction</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>K-Nearest Neighbors</h4><strong>Instance-based</strong>\n<ul>\n\n<li>Distance-based\n</li>\n<li>Non-parametric\n</li>\n<li>No training phase\n</li>\n<li>Intuitive\n</li>\n</ul>\n\n\n\n<strong>Best for:</strong> Pattern recognition, recommendation systems</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Decision Trees</h4><strong>Rule-based</strong>\n<ul>\n\n<li>Hierarchical decisions\n</li>\n<li>Interpretable\n</li>\n<li>Handles mixed types\n</li>\n<li>Foundation for ensembles\n</li>\n</ul>\n\n\n\n<strong>Best for:</strong> Medical diagnosis, credit scoring</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Learning Objectives</h4>Understand theory, implementation, and practical application of each method.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Bayes' Theorem: Foundation",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Bayes' Theorem</h4>$$P(C_k | \\mathbf{x}) = \\frac{P(\\mathbf{x} | C_k) \\cdot P(C_k)}{P(\\mathbf{x})}$$\n\nwhere:\n<ul>\n\n<li>$P(C_k | \\mathbf{x})$ = <strong>Posterior</strong>: Probability of class $C_k$ given features $\\mathbf{x}$\n</li>\n<li>$P(\\mathbf{x} | C_k)$ = <strong>Likelihood</strong>: Probability of features given class\n</li>\n<li>$P(C_k)$ = <strong>Prior</strong>: Probability of class (before seeing data)\n</li>\n<li>$P(\\mathbf{x})$ = <strong>Evidence</strong>: Probability of features (normalization constant)\n</li>\n</ul></div>\n\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/nb_bayes_theorem.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Classification Rule</h4>Choose class with highest posterior: $\\hat{y} = \\arg\\max_{k} P(C_k | \\mathbf{x})$</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "The \"Naive\" Assumption",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Feature Independence</h4><strong>Assumption:</strong> Features are conditionally independent given the class:\n\n$$P(\\mathbf{x} | C_k) = P(x_1, x_2, …, x_d | C_k)$$\n$$= P(x_1|C_k) \\cdot P(x_2|C_k) ⋯ P(x_d|C_k)$$\n$$= \\prod_{i=1}^{d} P(x_i | C_k)$$</div>\n\n\n\n\\begin{exampleblock}{Why \"Naive\"?}\nThis assumption is often violated in practice, but:\n<ul>\n\n<li>Makes computation tractable\n</li>\n<li>Reduces parameters exponentially\n</li>\n<li>Works surprisingly well empirically\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/nb_naive_assumption.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Practical Impact</h4>Enables classification with minimal training data and fast prediction!</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Naive Bayes: Classification Formula",
+      "readingTime": "1 min",
+      "content": "<strong>Combining Bayes theorem with independence assumption:</strong>\n\n\n\n<div class=\"highlight\"><h4>Full Formula</h4>$$P(C_k | \\mathbf{x}) \\propto P(C_k) \\prod_{i=1}^{d} P(x_i | C_k)$$\n\n\n\n<strong>Classification decision:</strong>\n$$\\hat{y} = \\arg\\max_{k} \\left[ P(C_k) \\prod_{i=1}^{d} P(x_i | C_k) \\right]$$</div>\n\n\n\n\\begin{exampleblock}{In Practice (Log Probabilities)}\nTo avoid numerical underflow, use log probabilities:\n\n$$\\hat{y} = \\arg\\max_{k} \\left[ \\log P(C_k) + \\sum_{i=1}^{d} \\log P(x_i | C_k) \\right]$$\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>We only need to estimate $P(C_k)$ and $P(x_i | C_k)$ from training data!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Types of Naive Bayes Classifiers",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>1. Gaussian Naive Bayes</h4>For <strong>continuous</strong> features: Assume features follow Gaussian distribution\n\n$$P(x_i | C_k) = \\frac{1}{\\sqrt{2\\pi\\sigma_{k,i}^2}} \\exp\\left(-\\frac{(x_i - \\mu_{k,i})^2}{2\\sigma_{k,i}^2}\\right)$$\n\n<strong>Parameters:</strong> Mean $\\mu_{k,i}$ and variance $\\sigma_{k,i}^2$ for each feature $i$ and class $k$\n\n<strong>Use cases:</strong> Iris classification, continuous sensor data</div>\n\n<div class=\"highlight\"><h4>2. Multinomial Naive Bayes</h4>For <strong>discrete counts</strong> (e.g., word frequencies): Assume multinomial distribution\n\n$$P(x_i | C_k) = \\frac{N_{k,i} + \\alpha}{\\sum_{j} N_{k,j} + \\alpha d}$$\n\nwhere $N_{k,i}$ = count of feature $i$ in class $k$, $\\alpha$ = smoothing parameter\n\n<strong>Use cases:</strong> Text classification, document categorization</div>\n\n<div class=\"highlight\"><h4>3. Bernoulli Naive Bayes</h4>For <strong>binary</strong> features: Assume Bernoulli distribution\n\n$$P(x_i | C_k) = P(i|C_k)^{x_i} \\cdot (1 - P(i|C_k))^{(1-x_i)}$$\n\n<strong>Use cases:</strong> Spam filtering (word present/absent), binary feature sets</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Gaussian Naive Bayes: Details",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training (Parameter Estimation)</h4>For each class $C_k$ and feature $i$:\n\n\n\n<strong>1. Prior probability:</strong>\n$$P(C_k) = \\frac{n_k}{n}$$\nwhere $n_k$ = number of samples in class $k$\n\n\n\n<strong>2. Mean:</strong>\n$$\\mu_{k,i} = \\frac{1}{n_k} \\sum_{\\mathbf{x}_j \\in C_k} x_{j,i}$$\n\n\n\n<strong>3. Variance:</strong>\n$$\\sigma_{k,i}^2 = \\frac{1}{n_k} \\sum_{\\mathbf{x}_j \\in C_k} (x_{j,i} - \\mu_{k,i})^2$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Prediction</h4>For new sample $\\mathbf{x}$:\n\n\n\n<strong>1. Compute log-likelihood for each class:</strong>\n$$\\log P(C_k | \\mathbf{x}) = \\log P(C_k)$$\n$$+ \\sum_{i=1}^{d} \\log P(x_i | C_k)$$\n\n\n\n<strong>2. Choose class with highest value:</strong>\n$$\\hat{y} = \\arg\\max_{k} \\log P(C_k | \\mathbf{x})$$</div>\n\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/nb_gaussian_decision.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Naive Bayes Example: Binary Classification",
+      "readingTime": "2 min",
+      "content": "<strong>Dataset: Weather conditions for playing tennis</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Data</h4>\\small\n\\begin{tabular}{cccc}\n\\toprule\nOutlook & Temp & Humidity & Play \\\\\n\\midrule\nSunny & Hot & High & No \\\\\nSunny & Hot & High & No \\\\\nOvercast & Hot & High & Yes \\\\\nRainy & Mild & High & Yes \\\\\nRainy & Cool & Normal & Yes \\\\\nRainy & Cool & Normal & No \\\\\nOvercast & Cool & Normal & Yes \\\\\nSunny & Mild & High & No \\\\\nSunny & Cool & Normal & Yes \\\\\n\\bottomrule\n\\end{tabular}</div>\n\n\n\n\\begin{exampleblock}{Question}\nPredict: Outlook=Sunny, Temp=Cool, Humidity=High\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 1: Compute Priors</h4>\\small\n$P(\\text{Yes}) = \\frac{5}{9} \\approx 0.56$  \n$P(\\text{No}) = \\frac{4}{9} \\approx 0.44$</div>\n\n<div class=\"highlight\"><h4>Step 2: Compute Likelihoods</h4>\\small\n<strong>For Class = Yes:</strong>\n<ul>\n\n<li>$P(\\text{Sunny}|\\text{Yes}) = \\frac{2}{5} = 0.40$\n</li>\n<li>$P(\\text{Cool}|\\text{Yes}) = \\frac{3}{5} = 0.60$\n</li>\n<li>$P(\\text{High}|\\text{Yes}) = \\frac{1}{5} = 0.20$\n</li>\n</ul>\n\n<strong>For Class = No:</strong>\n<ul>\n\n<li>$P(\\text{Sunny}|\\text{No}) = \\frac{2}{4} = 0.50$\n</li>\n<li>$P(\\text{Cool}|\\text{No}) = \\frac{1}{4} = 0.25$\n</li>\n<li>$P(\\text{High}|\\text{No}) = \\frac{3}{4} = 0.75$\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Step 3: Calculate Posteriors</h4>\\small\n$P(\\text{Yes}|\\mathbf{x}) \\propto 0.56 \\times 0.40 \\times 0.60 \\times 0.20 = \\mathbf{0.027}$\n\n$P(\\text{No}|\\mathbf{x}) \\propto 0.44 \\times 0.50 \\times 0.25 \\times 0.75 = \\mathbf{0.041}$\n\n\n\n<strong>Prediction:</strong> <strong>No</strong> (higher posterior)</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Naive Bayes: Iris Dataset Example",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/nb_iris_example.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Gaussian NB Performance}\n<ul>\n\n<li><strong>Training Accuracy:</strong> 96.0\\%\n</li>\n<li><strong>Test Accuracy:</strong> 93.3\\%\n</li>\n<li><strong>Training Time:</strong> $<$1ms\n</li>\n<li><strong>Prediction Time:</strong> $<$1ms\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Key Observations</h4><ul>\n\n<li>Linear decision boundaries\n</li>\n<li>Fast training and prediction\n</li>\n<li>Some overlap between classes\n</li>\n<li>Good generalization despite naive assumption\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Laplace Smoothing",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Problem: Zero Probabilities</h4>If a feature value never appears with a class in training: $P(x_i | C_k) = 0$\n\nThis makes the entire product zero: $P(C_k | \\mathbf{x}) = 0$</div>\n\n\n\n<div class=\"highlight\"><h4>Solution: Laplace (Additive) Smoothing</h4>Add pseudo-count $\\alpha$ (typically $\\alpha = 1$):\n\n\n\n<strong>For discrete features:</strong>\n$$P(x_i = v | C_k) = \\frac{N_{k,v} + \\alpha}{N_k + \\alpha \\cdot V}$$\n\nwhere:\n<ul>\n<li>$N_{k,v}$ = count of value $v$ in class $k$\n</li>\n<li>$N_k$ = total count in class $k$\n</li>\n<li>$V$ = number of unique values for feature $i$\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Effect}\n<ul>\n\n<li>Prevents zero probabilities\n</li>\n<li>Provides small probability to unseen events\n</li>\n<li>$\\alpha = 1$ called \"Laplace smoothing\", $\\alpha < 1$ called \"Lidstone smoothing\"\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Naive Bayes Algorithm (Pseudocode)",
+      "readingTime": "1 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{Gaussian Naive Bayes}\n\\begin{algorithmic}[1]\n\\REQUIRE Training data $\\mathcal{D} = \\{(\\mathbf{x}_1, y_1), …, (\\mathbf{x}_n, y_n)\\}$\n\\ENSURE Class prediction for new sample $\\mathbf{x}$\n\n\\STATE <strong>Training Phase:</strong>\n\\FOR{each class $k = 1, …, C$}\n    \\STATE Compute prior: $P(C_k) = \\frac{n_k}{n}$\n    \\FOR{each feature $i = 1, …, d$}\n        \\STATE Compute mean: $\\mu_{k,i} = \\frac{1}{n_k} \\sum_{\\mathbf{x}_j \\in C_k} x_{j,i}$\n        \\STATE Compute variance: $\\sigma_{k,i}^2 = \\frac{1}{n_k} \\sum_{\\mathbf{x}_j \\in C_k} (x_{j,i} - \\mu_{k,i})^2$\n    \\ENDFOR\n\\ENDFOR\n\n\\STATE\n\\STATE <strong>Prediction Phase:</strong>\n\\FOR{each class $k = 1, …, C$}\n    \\STATE $\\text{score}_k = \\log P(C_k)$\n    \\FOR{each feature $i = 1, …, d$}\n        \\STATE $\\text{score}_k \\mathrel{+}= \\log P(x_i | C_k)$   (using Gaussian PDF)\n    \\ENDFOR\n\\ENDFOR\n\\STATE <strong>return</strong> $\\arg\\max_k \\text{score}_k$\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n<div class=\"warning\"><h4>Complexity</h4><strong>Training:</strong> $O(nd)$   <strong>Prediction:</strong> $O(Cd)$ where $C$ = number of classes</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Naive Bayes: Advantages \\& Disadvantages",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Fast:</strong> Training and prediction are very efficient\n</li>\n<li><strong>Simple:</strong> Easy to understand and implement\n</li>\n<li><strong>Small data:</strong> Works well with limited training samples\n</li>\n<li><strong>Multi-class:</strong> Naturally handles multiple classes\n</li>\n<li><strong>Scalable:</strong> Scales linearly with features and samples\n</li>\n<li><strong>Probabilistic:</strong> Provides probability estimates\n</li>\n<li><strong>Online learning:</strong> Can update incrementally\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>Independence assumption:</strong> Rarely true in practice\n</li>\n<li><strong>Zero frequency:</strong> Needs smoothing for unseen values\n</li>\n<li><strong>Poor estimates:</strong> Probability estimates not always accurate\n</li>\n<li><strong>Feature correlations:</strong> Cannot capture dependencies\n</li>\n<li><strong>Continuous data:</strong> Distribution assumption may not hold\n</li>\n<li><strong>Imbalanced data:</strong> Prior bias with skewed classes\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>When to Use Naive Bayes</h4><strong>Good for:</strong> Text classification, spam filtering, real-time prediction, high-dimensional data\\\\\n<strong>Avoid when:</strong> Feature independence badly violated, need probability calibration</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "K-Nearest Neighbors: The Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Core Concept</h4>\"You are the average of your $k$ closest neighbors\"\n\n\n\n<strong>Classification rule:</strong>\n<ol>\n\n<li>Find $k$ nearest training samples\n</li>\n<li>Vote based on their labels\n</li>\n<li>Assign most common class\n</li>\n</ol></div>\n\n\n\n\\begin{exampleblock}{Key Characteristics}\n<ul>\n\n<li><strong>Non-parametric:</strong> No model to train\n</li>\n<li><strong>Instance-based:</strong> Stores all training data\n</li>\n<li><strong>Lazy learning:</strong> Computation at prediction time\n</li>\n<li><strong>Intuitive:</strong> Easy to understand and visualize\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/knn_concept.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Intuition</h4>Similar inputs should have similar outputs!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "KNN: Distance Metrics",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Common Distance Metrics</h4>For feature vectors $\\mathbf{x} = (x_1, …, x_d)$ and $\\mathbf{y} = (y_1, …, y_d)$:\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>1. Euclidean Distance (L2)</strong>\n$$d(\\mathbf{x}, \\mathbf{y}) = \\sqrt{\\sum_{i=1}^{d} (x_i - y_i)^2}$$\n\nMost common choice, assumes all features equally important\n\n\n\n<strong>2. Manhattan Distance (L1)</strong>\n$$d(\\mathbf{x}, \\mathbf{y}) = \\sum_{i=1}^{d} |x_i - y_i|$$\n\nLess sensitive to outliers, good for high dimensions\n</div>\n\n<div class=\"column\">\n<strong>3. Minkowski Distance (general)</strong>\n$$d(\\mathbf{x}, \\mathbf{y}) = \\left(\\sum_{i=1}^{d} |x_i - y_i|^p\\right)^{1/p}$$\n\nGeneralization: $p=1$ (Manhattan), $p=2$ (Euclidean)\n\n\n\n<strong>4. Chebyshev Distance (L$\\infty$)</strong>\n$$d(\\mathbf{x}, \\mathbf{y}) = \\max_{i} |x_i - y_i|$$\n\nMaximum difference across any dimension\n</div>\n</div></div>\n\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/knn_distance_metrics.png]</em></p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "KNN Algorithm",
+      "readingTime": "1 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{K-Nearest Neighbors Classification}\n\\begin{algorithmic}[1]\n\\REQUIRE Training data $\\mathcal{D} = \\{(\\mathbf{x}_1, y_1), …, (\\mathbf{x}_n, y_n)\\}$, parameter $k$, test sample $\\mathbf{x}_{\\text{test}}$\n\\ENSURE Predicted class $\\hat{y}$\n\n\\STATE <strong>Training Phase:</strong>\n\\STATE Store all training samples $\\mathcal{D}$   (no explicit training!)\n\n\\STATE\n\\STATE <strong>Prediction Phase:</strong>\n\\STATE Initialize distance array $D = []$\n\\FOR{each training sample $(\\mathbf{x}_i, y_i)$ in $\\mathcal{D}$}\n    \\STATE Compute distance: $d_i = d(\\mathbf{x}_{\\text{test}}, \\mathbf{x}_i)$\n    \\STATE Append $(d_i, y_i)$ to $D$\n\\ENDFOR\n\n\\STATE Sort $D$ by distance (ascending)\n\\STATE Select $k$ nearest neighbors: $N_k = \\{(d_1, y_1), …, (d_k, y_k)\\}$\n\n\\STATE <strong>Classification (Majority Vote):</strong>\n\\STATE Count occurrences of each class in $N_k$\n\\STATE <strong>return</strong> class with highest count\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n<div class=\"warning\"><h4>Complexity</h4><strong>Training:</strong> $O(1)$   <strong>Prediction:</strong> $O(nd)$ per query</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "KNN Example: Manual Calculation",
+      "readingTime": "2 min",
+      "content": "<strong>Binary classification with $k=3$, Euclidean distance</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Data</h4>\\small\n\\begin{tabular}{cccc}\n\\toprule\nID & $x_1$ & $x_2$ & Class \\\\\n\\midrule\nA & 1 & 2 & Red \\\\\nB & 2 & 3 & Red \\\\\nC & 3 & 1 & Red \\\\\nD & 5 & 4 & Blue \\\\\nE & 5 & 6 & Blue \\\\\nF & 6 & 5 & Blue \\\\\n\\bottomrule\n\\end{tabular}</div>\n\n\n\n\\begin{exampleblock}{Test Point}\n$\\mathbf{x}_{\\text{test}} = (4, 3)$\n\nPredict class with $k=3$\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 1: Compute Distances</h4>\\small\n$$\\begin{aligned}d(A) = \\sqrt{(4-1)^2 + (3-2)^2} = \\sqrt{10} \\approx \\mathbf{3.16} \\\\ d(B) = \\sqrt{(4-2)^2 + (3-3)^2} = \\sqrt{4} = \\mathbf{2.00} \\\\ d(C) = \\sqrt{(4-3)^2 + (3-1)^2} = \\sqrt{5} \\approx \\mathbf{2.24} \\\\ d(D) = \\sqrt{(4-5)^2 + (3-4)^2} = \\sqrt{2} \\approx \\mathbf{1.41} \\\\ d(E) = \\sqrt{(4-5)^2 + (3-6)^2} = \\sqrt{10} \\approx 3.16 \\\\ d(F) = \\sqrt{(4-6)^2 + (3-5)^2} = \\sqrt{8} \\approx 2.83\\end{aligned}$$</div>\n\n<div class=\"highlight\"><h4>Step 2: Find 3-Nearest Neighbors</h4>\\small\nSorted: D(1.41), B(2.00), C(2.24), …\n\n<strong>3 nearest:</strong> D (Blue), B (Red), C (Red)</div>\n\n<div class=\"highlight\"><h4>Step 3: Majority Vote</h4>\\small\n<strong>Blue:</strong> 1 vote   <strong>Red:</strong> 2 votes\n\n\n\n<strong>Prediction:</strong> <strong>Red</strong> (majority class)</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "KNN: Choosing K",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Effect of K</h4><strong>Small K (e.g., $k=1$):</strong>\n<ul>\n\n<li><strong>Flexible</strong> decision boundary\n</li>\n<li><strong>Low bias</strong>, high variance\n</li>\n<li>Sensitive to noise\n</li>\n<li>Prone to overfitting\n</li>\n</ul>\n\n\n\n<strong>Large K (e.g., $k=n$):</strong>\n<ul>\n\n<li><strong>Smooth</strong> decision boundary\n</li>\n<li><strong>High bias</strong>, low variance\n</li>\n<li>More robust to noise\n</li>\n<li>Prone to underfitting\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>$k = \\sqrt{n}$ or use cross-validation</div>\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/knn_bias_variance.png]</em></p></div>\n\n\n\n\\begin{exampleblock}{Best Practice}\n<ul>\n\n<li>Use <strong>odd</strong> $k$ for binary classification (avoid ties)\n</li>\n<li>Try multiple values: $k \\in \\{1, 3, 5, 7, 9, …\\}$\n</li>\n<li>Use cross-validation to select optimal $k$\n</li>\n<li>Consider $k \\leq 20$ for most problems\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "KNN: Decision Boundaries",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/knn_decision_boundaries.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>$k=1$</h4><ul>\n\n<li>Highly irregular\n</li>\n<li>Captures all details\n</li>\n<li>Overfits training data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>$k=5$</h4><ul>\n\n<li>Balanced complexity\n</li>\n<li>Smooth but flexible\n</li>\n<li>Good generalization\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>$k=15$</h4><ul>\n\n<li>Very smooth\n</li>\n<li>Less flexible\n</li>\n<li>May underfit\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>KNN creates <strong>non-linear</strong> decision boundaries that adapt to local structure!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "KNN: Iris Dataset Example",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/knn_iris_example.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Performance ($k=5$)}\n<ul>\n\n<li><strong>Training Accuracy:</strong> 96.7\\%\n</li>\n<li><strong>Test Accuracy:</strong> 96.7\\%\n</li>\n<li><strong>Prediction Time:</strong> 2-5ms per sample\n</li>\n<li><strong>Best $k$:</strong> 5 (via cross-validation)\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Key Observations</h4><ul>\n\n<li>Non-linear decision boundaries\n</li>\n<li>Adapts to local data structure\n</li>\n<li>Some classification errors at overlap\n</li>\n<li>Feature scaling important!\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Curse of Dimensionality",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Problem: Distance Concentration</h4>In high dimensions, distances between points become similar!\n\nAll points appear equidistant $\\Rightarrow$ \"nearest\" neighbors not actually close</div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Why This Happens</h4><ul>\n\n<li>Volume of hypersphere grows exponentially with $d$\n</li>\n<li>Most data lies near surface of hypersphere\n</li>\n<li>Ratio of nearest to farthest distance $\\rightarrow 1$\n</li>\n<li>Need exponentially more data as $d$ increases\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Mitigation Strategies}\n<ul>\n\n<li><strong>Feature selection:</strong> Remove irrelevant features\n</li>\n<li><strong>Dimensionality reduction:</strong> PCA, feature extraction\n</li>\n<li><strong>Distance weighting:</strong> Weight by feature importance\n</li>\n<li><strong>Use appropriate distance:</strong> Manhattan often better in high-d\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n\\begin{tikzpicture}[scale=1.0]\n\\begin{axis}[\n    xlabel={Number of Dimensions ($d$)},\n    ylabel={Samples Needed},\n    width=\\textwidth,\n    height=0.6\\textwidth,\n    grid=major,\n    legend pos=north west,\n    ymode=log\n]\n\\addplot[blue, thick, mark=*] coordinates {\n    (1, 10) (2, 100) (3, 1000) (4, 10000) (5, 100000)\n};\n\\legend{Training samples}\n\\end{axis}\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>KNN works best with $d < 20$ features</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "KNN: Advantages \\& Disadvantages",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Simple:</strong> Easy to understand and implement\n</li>\n<li><strong>No training:</strong> No explicit model fitting\n</li>\n<li><strong>Non-parametric:</strong> No assumptions about data distribution\n</li>\n<li><strong>Flexible:</strong> Non-linear decision boundaries\n</li>\n<li><strong>Multi-class:</strong> Naturally handles multiple classes\n</li>\n<li><strong>Adaptive:</strong> Decision boundary adapts locally\n</li>\n<li><strong>Incremental:</strong> Easy to add new training data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>Slow prediction:</strong> $O(nd)$ per query\n</li>\n<li><strong>Memory intensive:</strong> Stores all training data\n</li>\n<li><strong>Curse of dimensionality:</strong> Poor in high dimensions\n</li>\n<li><strong>Scaling sensitive:</strong> Must normalize features\n</li>\n<li><strong>Imbalanced data:</strong> Majority class dominates\n</li>\n<li><strong>Choosing k:</strong> Requires cross-validation\n</li>\n<li><strong>No interpretability:</strong> Cannot explain decisions\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>When to Use KNN</h4><strong>Good for:</strong> Small to medium datasets ($n < 10,000$), low dimensions ($d < 20$), non-linear patterns\\\\\n<strong>Avoid when:</strong> Large datasets, high dimensions, real-time requirements, need interpretability</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Decision Trees: The Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Core Concept</h4>Learn a <strong>tree of if-then-else rules</strong> to classify data\n\n\n\n<strong>Structure:</strong>\n<ul>\n\n<li><strong>Root node:</strong> Start of tree (top)\n</li>\n<li><strong>Internal nodes:</strong> Decision/test on feature\n</li>\n<li><strong>Branches:</strong> Outcome of test\n</li>\n<li><strong>Leaf nodes:</strong> Class predictions (bottom)\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Classification Process}\n<ol>\n\n<li>Start at root\n</li>\n<li>Test feature at current node\n</li>\n<li>Follow branch based on result\n</li>\n<li>Repeat until leaf\n</li>\n<li>Return class at leaf\n</li>\n</ol>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/dt_tree_structure.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Advantage</h4>Highly <strong>interpretable</strong> - can explain every decision!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Decision Tree: Example",
+      "readingTime": "1 min",
+      "content": "<strong>Classification: Will a person buy a computer?</strong>\n\n\n\n\n\\begin{tikzpicture}[\n  level distance=1.8cm,\n  level 1/.style={sibling distance=5cm},\n  level 2/.style={sibling distance=2.5cm},\n  every node/.style={rectangle, draw, rounded corners, align=center, minimum height=0.8cm},\n  leaf/.style={rectangle, draw, fill=green!20, rounded corners},\n  internal/.style={rectangle, draw, fill=blue!15, rounded corners}\n]\n\n\\node[internal] {Age?}\n  child {node[internal] {Student?}\n    child {node[leaf] {Yes\\\\Buy}\n      edge from parent node[left, draw=none] {Yes}}\n    child {node[leaf] {No\\\\Don't Buy}\n      edge from parent node[right, draw=none] {No}}\n    edge from parent node[left, draw=none] {$\\leq 30$}\n  }\n  child {node[leaf] {Yes\\\\Buy}\n    edge from parent node[above, draw=none] {31-40}\n  }\n  child {node[internal] {Credit?}\n    child {node[leaf] {Yes\\\\Buy}\n      edge from parent node[left, draw=none] {Good}}\n    child {node[leaf] {No\\\\Don't Buy}\n      edge from parent node[right, draw=none] {Poor}}\n    edge from parent node[right, draw=none] {$> 40$}\n  };\n\\end{tikzpicture}\n\n\n\n\\begin{exampleblock}{Example Classification}\n<strong>Query:</strong> Age=35, Student=No, Credit=Good\n\n<strong>Path:</strong> Age $>$ 40? No $\\rightarrow$ Age 31-40? Yes $\\rightarrow$ <strong>Buy</strong>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Building Decision Trees: CART Algorithm",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>CART = Classification And Regression Trees</h4><strong>Greedy recursive algorithm:</strong>\n<ol>\n\n<li>Start with all data at root\n</li>\n<li>Find <strong>best split</strong> that maximizes information gain\n</li>\n<li>Partition data into two subsets\n</li>\n<li>Recursively build left and right subtrees\n</li>\n<li>Stop when stopping criterion met (pure node, max depth, min samples)\n</li>\n</ol></div>\n\n\n\n<div class=\"warning\"><h4>Key Question</h4>How do we determine the \"<strong>best split</strong>\"?\n\n$\\Rightarrow$ Use splitting criteria: Gini impurity or entropy</div>\n\n\n\n\\begin{exampleblock}{Splitting Decision}\nFor each feature $j$ and threshold $t$:\n<ul>\n<li>Split data: $\\mathcal{D}_{\\text{left}} = \\{\\mathbf{x} | x_j \\leq t\\}$, $\\mathcal{D}_{\\text{right}} = \\{\\mathbf{x} | x_j > t\\}$\n</li>\n<li>Compute impurity of split\n</li>\n<li>Choose $(j, t)$ with lowest impurity\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Splitting Criteria",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>1. Gini Impurity (CART default)</h4>Measures probability of incorrect classification:\n\n$$\\text{Gini}(D) = 1 - \\sum_{k=1}^{C} p_k^2$$\n\nwhere $p_k$ = proportion of class $k$ in dataset $D$\n\n\n\n<strong>Range:</strong> [0, 1], where 0 = pure (all same class), higher = more mixed\n\n<strong>Interpretation:</strong> Probability of misclassifying if label randomly assigned</div>\n\n<div class=\"highlight\"><h4>2. Entropy (ID3, C4.5 algorithms)</h4>Measures disorder/uncertainty:\n\n$$\\text{Entropy}(D) = -\\sum_{k=1}^{C} p_k \\log_2(p_k)$$\n\n<strong>Range:</strong> [0, $\\log_2 C$], where 0 = pure, higher = more uncertain\n\n<strong>Interpretation:</strong> Average number of bits needed to encode class</div>\n\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/dt_splitting_criteria.png]</em></p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Information Gain",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Definition</h4><strong>Information Gain</strong> = Reduction in impurity after split\n\n$$\\text{IG}(D, j, t) = \\text{Impurity}(D) - \\left( \\frac{|D_L|}{|D|} \\text{Impurity}(D_L) + \\frac{|D_R|}{|D|} \\text{Impurity}(D_R) \\right)$$\n\nwhere:\n<ul>\n<li>$D$ = parent dataset\n</li>\n<li>$D_L$ = left child (samples with $x_j \\leq t$)\n</li>\n<li>$D_R$ = right child (samples with $x_j > t$)\n</li>\n<li>$|D|$ = number of samples\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Splitting Algorithm}\n<strong>For each feature $j$ and each possible threshold $t$:</strong>\n<ol>\n\n<li>Compute information gain IG$(D, j, t)$\n</li>\n<li>Keep track of best $(j^*, t^*)$ with highest gain\n</li>\n</ol>\n\n<strong>Split on</strong> $(j^*, t^*)$ to maximize information gain\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Goal</h4>Maximize purity of child nodes (minimize impurity)</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Decision Tree Example: Manual Construction",
+      "readingTime": "2 min",
+      "content": "<strong>Dataset: Play tennis? (same as Naive Bayes example)</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Data (9 samples)</h4>\\tiny\n\\begin{tabular}{cccc}\n\\toprule\nOutlook & Temp & Humidity & Play \\\\\n\\midrule\nSunny & Hot & High & No \\\\\nSunny & Hot & High & No \\\\\nOvercast & Hot & High & Yes \\\\\nRainy & Mild & High & Yes \\\\\nRainy & Cool & Normal & Yes \\\\\nRainy & Cool & Normal & No \\\\\nOvercast & Cool & Normal & Yes \\\\\nSunny & Mild & High & No \\\\\nSunny & Cool & Normal & Yes \\\\\n\\bottomrule\n\\end{tabular}</div>\n\n\n\n\\begin{exampleblock}{Class Distribution}\nYes: 5, No: 4\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 1: Compute Root Entropy</h4>\\small\n$$\\text{Entropy}(\\text{root}) = -\\frac{5}{9}\\log_2\\frac{5}{9} - \\frac{4}{9}\\log_2\\frac{4}{9}$$\n$$\\approx 0.994 \\text{ bits}$$</div>\n\n<div class=\"highlight\"><h4>Step 2: Try Splitting on Outlook</h4>\\small\n<strong>Sunny</strong> (3 samples): No=2, Yes=1\\\\\n$\\text{Entropy} = -\\frac{2}{3}\\log_2\\frac{2}{3} - \\frac{1}{3}\\log_2\\frac{1}{3} \\approx 0.918$\n\n<strong>Overcast</strong> (2 samples): Yes=2\\\\\n$\\text{Entropy} = 0$ (pure!)\n\n<strong>Rainy</strong> (4 samples): Yes=2, No=1, Yes=1\\\\\n$\\text{Entropy} = -\\frac{2}{4}\\log_2\\frac{2}{4} - \\frac{2}{4}\\log_2\\frac{2}{4} = 1.0$</div>\n\n<div class=\"highlight\"><h4>Step 3: Information Gain</h4>\\small\n$$\\text{IG}(\\text{Outlook}) = 0.994 - \\left(\\frac{3}{9}(0.918) + \\frac{2}{9}(0) + \\frac{4}{9}(1.0)\\right)$$\n$$= 0.994 - 0.750 = \\mathbf{0.244}$$\n\n<strong>Result:</strong> Outlook has good information gain!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Decision Tree: Iris Dataset Example",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/dt_iris_example.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Performance (max\\_depth=3)}\n<ul>\n\n<li><strong>Training Accuracy:</strong> 98.3\\%\n</li>\n<li><strong>Test Accuracy:</strong> 93.3\\%\n</li>\n<li><strong>Tree Depth:</strong> 3\n</li>\n<li><strong>Number of Leaves:</strong> 5\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Key Observations</h4><ul>\n\n<li>Axis-aligned decision boundaries\n</li>\n<li>Interpretable rules\n</li>\n<li>Feature importance clear\n</li>\n<li>Some overfitting without pruning\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Decision Boundaries: Different Depths",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/dt_decision_boundaries.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Depth = 2</h4><ul>\n\n<li>Simple boundaries\n</li>\n<li>High bias\n</li>\n<li>Underfits\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Depth = 5</h4><ul>\n\n<li>Balanced\n</li>\n<li>Good generalization\n</li>\n<li>Optimal complexity\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Depth = 20</h4><ul>\n\n<li>Complex boundaries\n</li>\n<li>High variance\n</li>\n<li>Overfits\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Decision trees create <strong>axis-aligned rectangular</strong> decision regions!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Decision Tree Algorithm (Pseudocode)",
+      "readingTime": "1 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{CART Decision Tree (Recursive)}\n\\begin{algorithmic}[1]\n\\REQUIRE Dataset $D$, features $F$, max\\_depth, min\\_samples\n\\ENSURE Decision tree $T$\n\n\\STATE <strong>function</strong> BuildTree($D$, depth)\n\\IF{stopping criterion met}\n    \\STATE <strong>return</strong> LeafNode(majority class in $D$)\n\\ENDIF\n\n\\STATE $\\text{best\\_gain} \\gets 0$\n\\STATE $(j^*, t^*) \\gets \\text{None}$\n\n\\FOR{each feature $j \\in F$}\n    \\FOR{each threshold $t$ (midpoints of sorted values)}\n        \\STATE Split: $D_L \\gets \\{\\mathbf{x} \\in D : x_j \\leq t\\}$, $D_R \\gets \\{\\mathbf{x} \\in D : x_j > t\\}$\n        \\STATE $\\text{gain} \\gets \\text{InformationGain}(D, D_L, D_R)$\n        \\IF{gain $>$ best\\_gain}\n            \\STATE $\\text{best\\_gain} \\gets \\text{gain}$\n            \\STATE $(j^*, t^*) \\gets (j, t)$\n        \\ENDIF\n    \\ENDFOR\n\\ENDFOR\n\n\\STATE $D_L, D_R \\gets$ Split $D$ on feature $j^*$ at threshold $t^*$\n\\STATE $T_L \\gets$ BuildTree($D_L$, depth + 1)\n\\STATE $T_R \\gets$ BuildTree($D_R$, depth + 1)\n\\STATE <strong>return</strong> DecisionNode($j^*, t^*, T_L, T_R$)\n\\end{algorithmic}\n\\end{algorithm}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Overfitting and Pruning",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/dt_overfitting.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Overfitting Problem</h4><ul>\n\n<li>Deep trees memorize training data\n</li>\n<li>Poor generalization\n</li>\n<li>High variance\n</li>\n<li>Noisy patterns captured\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Pre-Pruning (Early Stopping)</h4>Stop growing tree when:\n<ul>\n\n<li>Max depth reached\n</li>\n<li>Min samples per node\n</li>\n<li>Min information gain\n</li>\n<li>Max number of leaves\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Post-Pruning</h4><ul>\n\n<li>Grow full tree first\n</li>\n<li>Remove subtrees that don't improve validation accuracy\n</li>\n<li>Use cost-complexity pruning\n</li>\n<li>More expensive but often better\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Best Practice}\n<ul>\n\n<li>Use cross-validation to tune parameters\n</li>\n<li>Start with max\\_depth $\\in [3, 10]$\n</li>\n<li>Require min\\_samples\\_split $\\geq 20$\n</li>\n<li>Monitor train vs validation accuracy\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Feature Importance",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Computing Importance</h4>For each feature $j$:\n\n$$\\text{Importance}(j) = \\sum_{\\text{nodes using } j} \\frac{n_{\\text{node}}}{n_{\\text{total}}} \\cdot \\Delta\\text{Impurity}$$\n\nwhere:\n<ul>\n<li>Sum over all nodes that split on feature $j$\n</li>\n<li>Weight by fraction of samples at node\n</li>\n<li>$\\Delta\\text{Impurity}$ = reduction in impurity\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Interpretation}\n<ul>\n\n<li>Higher importance = more useful for prediction\n</li>\n<li>Normalized to sum to 1.0\n</li>\n<li>Features not used have 0 importance\n</li>\n<li>Can identify redundant features\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/dt_feature_importance.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Use Cases</h4>Feature selection, domain insights, model interpretation, debugging</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Ensemble Methods Preview",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Limitation: Single Tree Instability</h4><ul>\n\n<li>Small changes in data $\\rightarrow$ very different tree\n</li>\n<li>High variance\n</li>\n<li>Sensitive to training set\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Solution: Ensemble Methods}\nCombine multiple trees for better performance:\n\n\n\n<strong>1. Random Forest</strong>\n<ul>\n\n<li>Train many trees on bootstrap samples\n</li>\n<li>Random feature subset at each split\n</li>\n<li>Average predictions (voting for classification)\n</li>\n</ul>\n\n\n\n<strong>2. Gradient Boosting (XGBoost, LightGBM)</strong>\n<ul>\n\n<li>Train trees sequentially\n</li>\n<li>Each tree corrects errors of previous\n</li>\n<li>Weighted combination of predictions\n</li>\n</ul>\n\n\n\n<strong>3. AdaBoost</strong>\n<ul>\n\n<li>Weighted training samples\n</li>\n<li>Focus on hard-to-classify examples\n</li>\n<li>Weighted voting\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Note</h4>These methods will be covered in detail in the Ensemble Learning module!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Decision Trees: Advantages \\& Disadvantages",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Interpretable:</strong> Easy to visualize and explain\n</li>\n<li><strong>No scaling:</strong> Works with raw features\n</li>\n<li><strong>Mixed types:</strong> Handles numerical and categorical\n</li>\n<li><strong>Non-linear:</strong> Captures complex patterns\n</li>\n<li><strong>Feature selection:</strong> Automatic importance ranking\n</li>\n<li><strong>Missing values:</strong> Can handle with surrogates\n</li>\n<li><strong>Fast prediction:</strong> $O(\\log n)$ time\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>Overfitting:</strong> Prone to high variance\n</li>\n<li><strong>Instability:</strong> Small data changes = big tree changes\n</li>\n<li><strong>Axis-aligned:</strong> Cannot capture diagonal boundaries well\n</li>\n<li><strong>Biased:</strong> Favors features with many values\n</li>\n<li><strong>Imbalanced:</strong> Struggles with skewed classes\n</li>\n<li><strong>Local optima:</strong> Greedy algorithm\n</li>\n<li><strong>Extrapolation:</strong> Poor outside training range\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>When to Use Decision Trees</h4><strong>Good for:</strong> Interpretability needed, mixed feature types, feature interactions, baseline model\\\\\n<strong>Avoid when:</strong> Need best accuracy (use ensembles), many irrelevant features</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "Comparison: Decision Boundaries",
+      "readingTime": "1 min",
+      "content": "<strong>Visual comparison on synthetic 2D dataset:</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\n<strong>Naive Bayes</strong>\n<div class=\"figure\"><p><em>[Figure: ../figures/nb_gaussian_decision.png]</em></p></div>\n\n<div class=\"highlight\"><h4>Properties</h4><ul>\n\n\\small\n<li>Linear/quadratic\n</li>\n<li>Smooth probabilistic\n</li>\n<li>Assumes Gaussian\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\n<strong>K-Nearest Neighbors</strong>\n<div class=\"figure\"><p><em>[Figure: ../figures/knn_decision_boundaries.png]</em></p></div>\n\n<div class=\"highlight\"><h4>Properties</h4><ul>\n\n\\small\n<li>Non-linear\n</li>\n<li>Locally adaptive\n</li>\n<li>No assumptions\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\n<strong>Decision Tree</strong>\n<div class=\"figure\"><p><em>[Figure: ../figures/dt_decision_boundaries.png]</em></p></div>\n\n<div class=\"highlight\"><h4>Properties</h4><ul>\n\n\\small\n<li>Axis-aligned\n</li>\n<li>Rectangular regions\n</li>\n<li>Rule-based\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Different methods create fundamentally different decision boundaries!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 39,
+      "title": "Detailed Comparison Table",
+      "readingTime": "1 min",
+      "content": "\\small\n\\begin{table}\n\n\\begin{tabular}{p{2.5cm}p{3.5cm}p{3.5cm}p{3.5cm}}\n\\toprule\n<strong>Criterion</strong> & <strong>Naive Bayes</strong> & <strong>K-Nearest Neighbors</strong> & <strong>Decision Trees</strong> \\\\\n\\midrule\n<strong>Type</strong> & Probabilistic & Instance-based & Rule-based \\\\\n<strong>Training Time</strong> & Very fast ($O(nd)$) & None ($O(1)$) & Medium ($O(nd\\log n)$) \\\\\n<strong>Prediction Time</strong> & Very fast ($O(Cd)$) & Slow ($O(nd)$) & Fast ($O(\\log n)$) \\\\\n<strong>Memory</strong> & Low (parameters only) & High (stores all data) & Medium (tree structure) \\\\\n<strong>Interpretability</strong> & Medium (probabilistic) & Low (no model) & High (rules) \\\\\n<strong>Assumptions</strong> & Feature independence & Locality principle & None \\\\\n<strong>Overfitting Risk</strong> & Low & Medium-High & High (needs pruning) \\\\\n<strong>Handling Noise</strong> & Robust & Sensitive & Medium \\\\\n<strong>Feature Scaling</strong> & Not needed & Critical & Not needed \\\\\n<strong>Missing Values</strong> & Can handle & Requires imputation & Can handle \\\\\n<strong>Categorical Features</strong> & Natural & Needs encoding & Natural \\\\\n<strong>High Dimensions</strong> & Good & Poor (curse) & Medium \\\\\n<strong>Imbalanced Data</strong> & Prior adjustment & Class weighting & Sample weighting \\\\\n\\bottomrule\n\\end{tabular}\n\\end{table}\n\n\n\n<div class=\"warning\"><h4>Recommendation</h4>Try all three methods and use cross-validation to choose the best for your data!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 40,
+      "title": "When to Use Each Method",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Use Naive Bayes When:</h4><ul>\n\n<li><strong>Text classification</strong> (spam filtering, document categorization)\n</li>\n<li><strong>Real-time prediction</strong> required (fast training and prediction)\n</li>\n<li><strong>High-dimensional data</strong> (works well even with many features)\n</li>\n<li><strong>Small training set</strong> (few parameters to estimate)\n</li>\n<li><strong>Probabilistic output</strong> needed (uncertainty estimates)\n</li>\n<li><strong>Baseline model</strong> (quick first approach)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Use K-Nearest Neighbors When:</h4><ul>\n\n<li><strong>Small to medium dataset</strong> ($n < 10,000$)\n</li>\n<li><strong>Low dimensions</strong> ($d < 20$)\n</li>\n<li><strong>Non-linear patterns</strong> present\n</li>\n<li><strong>No training time</strong> budget\n</li>\n<li><strong>Anomaly detection</strong> (outliers far from neighbors)\n</li>\n<li><strong>Recommendation systems</strong> (similarity-based)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Use Decision Trees When:</h4><ul>\n\n<li><strong>Interpretability crucial</strong> (medical, legal, financial decisions)\n</li>\n<li><strong>Mixed feature types</strong> (numerical and categorical)\n</li>\n<li><strong>Feature interactions</strong> important\n</li>\n<li><strong>Non-linear relationships</strong> expected\n</li>\n<li><strong>Feature selection</strong> needed (importance ranking)\n</li>\n<li><strong>Building ensemble models</strong> (Random Forest, XGBoost)\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 41,
+      "title": "Performance Comparison: Iris Dataset",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Accuracy Comparison</h4>\n\\begin{tabular}{lcc}\n\\toprule\n<strong>Method</strong> & <strong>Train</strong> & <strong>Test</strong> \\\\\n\\midrule\nNaive Bayes & 96.0\\% & 93.3\\% \\\\\nKNN ($k=5$) & 96.7\\% & 96.7\\% \\\\\nDecision Tree (depth=3) & 98.3\\% & 93.3\\% \\\\\n\\bottomrule\n\\end{tabular}\n</div>\n\n\n\n<div class=\"highlight\"><h4>Timing Comparison</h4>\n\\begin{tabular}{lcc}\n\\toprule\n<strong>Method</strong> & <strong>Train</strong> & <strong>Predict</strong> \\\\\n\\midrule\nNaive Bayes & $<$1 ms & $<$1 ms \\\\\nKNN & 0 ms & 2-5 ms \\\\\nDecision Tree & 1-2 ms & $<$1 ms \\\\\n\\bottomrule\n\\end{tabular}\n</div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Key Insights}\n<ul>\n\n<li>All methods perform well on Iris\n</li>\n<li>KNN best test accuracy\n</li>\n<li>Decision tree shows slight overfit\n</li>\n<li>Naive Bayes fastest overall\n</li>\n<li>Timing differences negligible for small data\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Important Note</h4>Performance varies greatly by dataset!\n\n\n\nAlways use cross-validation to compare methods on <strong>your specific data</strong>.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 42,
+      "title": "General Best Practices",
+      "readingTime": "1 min",
+      "content": "\\begin{exampleblock}{Data Preprocessing}\n<ul>\n\n<li><strong>Handle missing values:</strong> Impute or remove (method-dependent)\n</li>\n<li><strong>Scale features:</strong> Essential for KNN, not for Naive Bayes/Trees\n</li>\n<li><strong>Encode categorical:</strong> One-hot encoding (KNN), label encoding (Trees)\n</li>\n<li><strong>Remove outliers:</strong> Especially important for KNN\n</li>\n<li><strong>Feature engineering:</strong> Create domain-specific features\n</li>\n<li><strong>Balance classes:</strong> Use SMOTE, class weights, or resampling\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{Model Selection \\& Tuning}\n<ul>\n\n<li><strong>Split data properly:</strong> Train/validation/test or cross-validation\n</li>\n<li><strong>Tune hyperparameters:</strong> Grid search or random search\n</li>\n<li><strong>Compare multiple methods:</strong> Don't commit to one prematurely\n</li>\n<li><strong>Use appropriate metrics:</strong> Accuracy, precision, recall, F1, AUC\n</li>\n<li><strong>Validate generalization:</strong> Check on held-out test set\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{Model Interpretation}\n<ul>\n\n<li><strong>Analyze errors:</strong> Confusion matrix, error analysis\n</li>\n<li><strong>Feature importance:</strong> Which features matter most?\n</li>\n<li><strong>Decision boundaries:</strong> Visualize for 2D data\n</li>\n<li><strong>Cross-validate:</strong> Report mean and std of metrics\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 43,
+      "title": "Common Pitfalls \\& Solutions",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Pitfall 1: Not Scaling Features (KNN)</h4><strong>Problem:</strong> Features with large ranges dominate distance calculations\n\n<strong>Solution:</strong> Always use StandardScaler or MinMaxScaler for KNN</div>\n\n<div class=\"highlight\"><h4>Pitfall 2: Using Test Data for Hyperparameter Tuning</h4><strong>Problem:</strong> Test accuracy is optimistically biased\n\n<strong>Solution:</strong> Use separate validation set or cross-validation</div>\n\n<div class=\"highlight\"><h4>Pitfall 3: Overfitting Deep Decision Trees</h4><strong>Problem:</strong> Tree memorizes training data, poor generalization\n\n<strong>Solution:</strong> Use pruning (max\\_depth, min\\_samples\\_split, min\\_samples\\_leaf)</div>\n\n<div class=\"highlight\"><h4>Pitfall 4: Ignoring Class Imbalance</h4><strong>Problem:</strong> Majority class dominates, poor minority class performance\n\n<strong>Solution:</strong> Use class weights, SMOTE, or stratified sampling</div>\n\n<div class=\"highlight\"><h4>Pitfall 5: Naive Bayes with Correlated Features</h4><strong>Problem:</strong> Independence assumption violated, overconfident predictions\n\n<strong>Solution:</strong> Remove redundant features or use different method</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 44,
+      "title": "Hyperparameter Tuning Guide",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Naive Bayes</h4><ul>\n\n<li><strong>Type:</strong> Gaussian, Multinomial, or Bernoulli (match to data type)\n</li>\n<li><strong>Smoothing $\\alpha$:</strong> Try [0.1, 0.5, 1.0, 2.0, 5.0] (for discrete features)\n</li>\n<li><strong>Priors:</strong> Uniform or class-balanced (adjust for imbalance)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>K-Nearest Neighbors</h4><ul>\n\n<li><strong>$k$:</strong> Try odd values [1, 3, 5, 7, 9, 15, 21] (cross-validate!)\n</li>\n<li><strong>Distance metric:</strong> Euclidean, Manhattan, Minkowski\n</li>\n<li><strong>Weights:</strong> 'uniform' or 'distance' (weight by inverse distance)\n</li>\n<li><strong>Algorithm:</strong> 'brute', 'kd\\_tree', 'ball\\_tree' (for efficiency)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Decision Trees</h4><ul>\n\n<li><strong>max\\_depth:</strong> Try [3, 5, 7, 10, 15, None] (most important!)\n</li>\n<li><strong>min\\_samples\\_split:</strong> Try [2, 10, 20, 50] (prevent overfitting)\n</li>\n<li><strong>min\\_samples\\_leaf:</strong> Try [1, 5, 10, 20] (smoother boundaries)\n</li>\n<li><strong>criterion:</strong> 'gini' or 'entropy' (usually similar performance)\n</li>\n<li><strong>max\\_features:</strong> 'sqrt', 'log2', or None (for Random Forest)\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Tip</h4>Use GridSearchCV or RandomizedSearchCV from scikit-learn for systematic tuning!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 45,
+      "title": "Feature Engineering Tips",
+      "readingTime": "1 min",
+      "content": "\\begin{exampleblock}{For Naive Bayes}\n<ul>\n\n<li><strong>Text:</strong> Use TF-IDF or count vectors (Multinomial NB)\n</li>\n<li><strong>Discretize:</strong> Bin continuous features if needed\n</li>\n<li><strong>Remove correlated:</strong> Drop highly redundant features\n</li>\n<li><strong>Log transform:</strong> For skewed distributions (Gaussian NB)\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{For K-Nearest Neighbors}\n<ul>\n\n<li><strong>Dimensionality reduction:</strong> Use PCA to reduce features\n</li>\n<li><strong>Feature selection:</strong> Remove irrelevant/noisy features\n</li>\n<li><strong>Polynomial features:</strong> Create interaction terms\n</li>\n<li><strong>Distance metric:</strong> Choose appropriate for domain (e.g., cosine for text)\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{For Decision Trees}\n<ul>\n\n<li><strong>Keep raw features:</strong> Trees handle non-linearity automatically\n</li>\n<li><strong>Interaction terms:</strong> Not needed (tree finds them)\n</li>\n<li><strong>Categorical encoding:</strong> Use label encoding (not one-hot)\n</li>\n<li><strong>Create domain features:</strong> Trees can use them directly\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Universal Tip</h4>Domain knowledge is more valuable than complex feature engineering!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 46,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Core Concepts</h4><ul>\n\n<li><strong>Classification:</strong> Supervised learning for discrete labels\n</li>\n<li><strong>Three fundamental approaches:</strong> Probabilistic, instance-based, rule-based\n</li>\n<li><strong>Different assumptions:</strong> Match method to data characteristics\n</li>\n<li><strong>Trade-offs:</strong> Speed vs accuracy vs interpretability\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Method Summaries</h4><ul>\n\n<li><strong>Naive Bayes:</strong> Fast probabilistic, assumes independence, great for text\n</li>\n<li><strong>K-Nearest Neighbors:</strong> Simple instance-based, non-parametric, slow prediction\n</li>\n<li><strong>Decision Trees:</strong> Interpretable rules, non-linear, prone to overfit\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Best Practices</h4><ul>\n\n<li><strong>Preprocess appropriately:</strong> Scaling for KNN, encoding for trees\n</li>\n<li><strong>Use cross-validation:</strong> For model selection and hyperparameter tuning\n</li>\n<li><strong>Try multiple methods:</strong> No single best classifier for all problems\n</li>\n<li><strong>Interpret results:</strong> Understand why model makes predictions\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 47,
+      "title": "What We Covered",
+      "readingTime": "1 min",
+      "content": "<ol>\n\n<li><strong>Introduction:</strong> Classification definition, applications, comparison with regression\n</li>\n<li><strong>Naive Bayes:</strong> Bayes theorem, independence assumption, Gaussian/Multinomial/Bernoulli variants, worked example\n</li>\n<li><strong>K-Nearest Neighbors:</strong> Distance metrics, algorithm, choosing $k$, curse of dimensionality, worked example\n</li>\n<li><strong>Decision Trees:</strong> CART algorithm, splitting criteria (Gini/Entropy), pruning, feature importance, worked example\n</li>\n<li><strong>Comparison:</strong> Decision boundaries, performance metrics, when to use each method\n</li>\n<li><strong>Best Practices:</strong> Data preprocessing, hyperparameter tuning, common pitfalls, feature engineering\n</li>\n</ol>\n\n\n\n<div class=\"warning\"><h4>Next Steps</h4><ul>\n\n<li><strong>Practice:</strong> Implement all three methods from scratch\n</li>\n<li><strong>Experiment:</strong> Try on different datasets (UCI ML Repository)\n</li>\n<li><strong>Read ahead:</strong> Ensemble methods (Random Forest, Boosting)\n</li>\n<li><strong>Workshop:</strong> Hands-on exercises in Jupyter notebook\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 48,
+      "title": "Further Reading",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Textbooks</h4><ul>\n\n<li><strong>Hastie et al.</strong>: \"The Elements of Statistical Learning\" (Ch. 9: Additive Models, Trees)\n</li>\n<li><strong>Bishop</strong>: \"Pattern Recognition and Machine Learning\" (Ch. 4: Linear Models for Classification)\n</li>\n<li><strong>Murphy</strong>: \"Machine Learning: A Probabilistic Perspective\" (Ch. 3, 16: Generative and Discriminative Models)\n</li>\n<li><strong>Mitchell</strong>: \"Machine Learning\" (Ch. 3: Decision Tree Learning)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Key Papers</h4><ul>\n\n<li>Breiman et al. (1984): \"Classification and Regression Trees (CART)\"\n</li>\n<li>Quinlan (1986): \"Induction of Decision Trees (ID3)\"\n</li>\n<li>Cover \\& Hart (1967): \"Nearest Neighbor Pattern Classification\"\n</li>\n<li>Rish (2001): \"An Empirical Study of the Naive Bayes Classifier\"\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Implementations</h4><ul>\n\n<li><strong>scikit-learn</strong>: GaussianNB, MultinomialNB, KNeighborsClassifier, DecisionTreeClassifier\n</li>\n<li><strong>Documentation</strong>: https://scikit-learn.org/stable/supervised\\_learning.html\n</li>\n<li><strong>Tutorials</strong>: scikit-learn user guide, Kaggle Learn\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

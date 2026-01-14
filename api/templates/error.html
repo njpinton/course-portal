@@ -1,0 +1,24 @@
+{% extends "base_layout.html" %}
+
+{% block title %}Error - Learning Hub{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Hub</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">Error</span>
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 80px 20px;">
+    <div style="font-size: 64px; margin-bottom: 24px;">&#9888;</div>
+    <h1 style="font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;">
+        {{ error or 'Something went wrong' }}
+    </h1>
+    <p style="font-size: 16px; color: var(--text-secondary); margin-bottom: 32px;">
+        The page you're looking for doesn't exist or has been moved.
+    </p>
+    <a href="/" class="btn btn-primary">
+        Back to Course Hub
+    </a>
+</div>
+{% endblock %}

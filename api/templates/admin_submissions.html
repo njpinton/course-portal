@@ -1,1189 +1,507 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Submissions Viewer</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #1B5E4F;
-            --secondary: #7A1E3F;
-            --accent: #D4AF37;
-            --light-bg: #F5F5F5;
-            --border-color: #E0E0E0;
-            --text-dark: #333;
-            --text-light: #666;
-            --error: #DC3545;
-            --success: #28A745;
-            --warning: #FFC107;
-            --info: #17A2B8;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Header & Navigation */
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        nav a, nav button {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover, nav button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        nav a.active {
-            background-color: var(--accent);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        /* Filter Panel */
-        .filter-panel {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .filter-panel h2 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-        }
-
-        .filter-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .filter-item label {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        .filter-item select,
-        .filter-item input {
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .filter-item select:focus,
-        .filter-item input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(27, 94, 79, 0.1);
-        }
-
-        .stage-filter {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.5rem;
-        }
-
-        .stage-btn {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--border-color);
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            min-width: 50px;
-            text-align: center;
-        }
-
-        .stage-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .stage-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .filter-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #154541;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5d1530;
-            transform: translateY(-2px);
-        }
-
-        .btn-accent {
-            background-color: var(--accent);
-            color: var(--primary);
-        }
-
-        .btn-accent:hover {
-            background-color: #C49E27;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: white;
-            color: var(--text-dark);
-            border: 2px solid var(--border-color);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Table Section */
-        .table-section {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .table-header {
-            padding: 1.5rem;
-            background-color: var(--light-bg);
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .table-header h2 {
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin: 0;
-        }
-
-        .table-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        /* Loading & Status */
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            border: 1px solid #f5c6cb;
-        }
-
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            border: 1px solid #c3e6cb;
-        }
-
-        /* Table */
-        .submissions-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .submissions-table thead {
-            background-color: var(--light-bg);
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .submissions-table th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.95rem;
-        }
-
-        .submissions-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .submissions-table tbody tr {
-            transition: background-color 0.2s ease;
-        }
-
-        .submissions-table tbody tr:hover {
-            background-color: var(--light-bg);
-        }
-
-        .stage-badge {
-            display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        .stage-1 { background-color: #E3F2FD; color: #1565C0; }
-        .stage-2 { background-color: #F3E5F5; color: #6A1B9A; }
-        .stage-3 { background-color: #FCE4EC; color: #C2185B; }
-        .stage-4 { background-color: #FFF3E0; color: #E65100; }
-        .stage-5 { background-color: #E0F2F1; color: #00695C; }
-        .stage-6 { background-color: #F1F8E9; color: #558B2F; }
-
-        .table-actions-cell {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-small {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.85rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--text-light);
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .modal.open {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 8px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--light-bg);
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: color 0.3s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--text-dark);
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .detail-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-section h3 {
-            font-size: 1.1rem;
-            color: var(--primary);
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .detail-row {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 1rem;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .detail-value {
-            color: var(--text-dark);
-            word-break: break-word;
-        }
-
-        .file-preview {
-            background-color: var(--light-bg);
-            padding: 1rem;
-            border-radius: 4px;
-            margin-top: 0.75rem;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-        }
-
-        /* PDF Viewer Modal */
-        .pdf-viewer {
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .pdf-viewer {
-                height: 400px;
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header {
-                padding: 1rem;
-            }
-
-            header h1 {
-                font-size: 1.4rem;
-                margin-bottom: 0.75rem;
-            }
-
-            nav {
-                gap: 0.5rem;
-            }
-
-            nav a, nav button {
-                padding: 0.4rem 0.75rem;
-                font-size: 0.9rem;
-            }
-
-            .filter-group {
-                grid-template-columns: 1fr;
-            }
-
-            .submissions-table {
-                font-size: 0.9rem;
-            }
-
-            .submissions-table th,
-            .submissions-table td {
-                padding: 0.75rem;
-            }
-
-            .table-actions-cell {
-                flex-direction: column;
-            }
-
-            .btn-small {
-                width: 100%;
-            }
-
-            .detail-row {
-                grid-template-columns: 1fr;
-                gap: 0.25rem;
-            }
-
-            .detail-label::after {
-                content: ': ';
-            }
-
-            .detail-value {
-                display: inline;
-            }
-
-            .modal-content {
-                max-width: 95%;
-            }
-        }
-
-        /* Accessibility */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Utility Classes */
-        .text-muted {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
-        .mt-1 {
-            margin-top: 0.25rem;
-        }
-
-        .feedback-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-        }
-
-        .feedback-button:hover {
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-            transform: scale(1.1);
-        }
-
-        .feedback-button:active {
-            transform: scale(0.95);
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <h1>Admin Panel - Submissions Viewer</h1>
-        <nav>
-            <a href="/admin_dashboard">Dashboard</a>
-            <a href="/admin_submissions" class="active">All Submissions</a>
-            <a href="/admin_roster">Student Roster</a>
-            <button id="logoutBtn" aria-label="Logout">Logout</button>
-        </nav>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Alert Messages -->
-        <div id="messageContainer"></div>
-
-        <!-- Filter Panel -->
-        <div class="filter-panel">
-            <h2>Filters</h2>
-            <div class="filter-group">
-                <div class="filter-item">
-                    <label for="groupFilter">Group</label>
-                    <select id="groupFilter" aria-label="Filter by group">
-                        <option value="">All Groups</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label for="searchFilter">Search</label>
-                    <input type="text" id="searchFilter" placeholder="Search by project title, group name, or member name..." aria-label="Search submissions">
-                </div>
-            </div>
-
-            <div class="filter-item">
-                <label>Stage</label>
-                <div class="stage-filter" role="group" aria-label="Filter by stage">
-                    <button class="stage-btn" data-stage="1">1</button>
-                    <button class="stage-btn" data-stage="2">2</button>
-                    <button class="stage-btn" data-stage="3">3</button>
-                    <button class="stage-btn" data-stage="4">4</button>
-                    <button class="stage-btn" data-stage="5">5</button>
-                    <button class="stage-btn" data-stage="6">6</button>
-                </div>
-            </div>
-
-            <div class="filter-actions">
-                <button class="btn btn-primary" id="applyFiltersBtn">Apply Filters</button>
-                <button class="btn btn-outline" id="clearFiltersBtn">Clear Filters</button>
-                <button class="btn btn-accent" id="exportCsvBtn">Export to CSV</button>
-            </div>
+{% extends "base_layout.html" %}
+
+{% block title %}All Submissions - CMSC 173{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Submissions Page-Specific Styles */
+
+    /* Page Header */
+    .page-title { color: var(--up-green); font-size: 1.6em; margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 0.95em; margin-bottom: 24px; }
+
+    /* Filter Panel */
+    .filter-panel { background: var(--bg-white); padding: 24px; border-radius: var(--radius-lg); margin-bottom: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .filter-panel h2 { font-size: 1.1em; margin-bottom: 20px; color: var(--up-green); }
+    .filter-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .filter-item { display: flex; flex-direction: column; }
+    .filter-item label { font-weight: 600; margin-bottom: 6px; color: var(--text-primary); font-size: 0.9em; }
+    .filter-item select, .filter-item input { padding: 10px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 0.95em; }
+    .filter-item select:focus, .filter-item input:focus { outline: none; border-color: var(--up-green); box-shadow: 0 0 0 3px var(--primary-light); }
+
+    /* Stage Filter Buttons */
+    .stage-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .stage-btn { padding: 8px 16px; border: 2px solid var(--border); background: var(--bg-white); border-radius: var(--radius); cursor: pointer; font-weight: 600; min-width: 50px; text-align: center; transition: all 0.2s ease; }
+    .stage-btn:hover { border-color: var(--up-green); color: var(--up-green); }
+    .stage-btn.active { background: var(--up-green); color: white; border-color: var(--up-green); }
+
+    /* Filter Actions */
+    .filter-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+
+    /* Table Section */
+    .table-section { background: var(--bg-white); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+    .table-header { padding: 20px 24px; background: var(--bg-main); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .table-header h2 { font-size: 1.1em; color: var(--up-green); margin: 0; }
+
+    /* Submissions Table */
+    .submissions-table { width: 100%; border-collapse: collapse; }
+    .submissions-table thead { background: var(--up-green); color: white; }
+    .submissions-table th { padding: 14px 20px; text-align: left; font-weight: 600; font-size: 0.9em; }
+    .submissions-table td { padding: 14px 20px; border-bottom: 1px solid var(--border-light); }
+    .submissions-table tbody tr:hover { background: var(--primary-light); }
+
+    /* Stage Badges */
+    .stage-badge { display: inline-block; padding: 4px 12px; border-radius: var(--radius); font-weight: 600; font-size: 0.85em; text-align: center; }
+    .stage-1 { background: #E3F2FD; color: #1565C0; }
+    .stage-2 { background: #F3E5F5; color: #6A1B9A; }
+    .stage-3 { background: #FCE4EC; color: #C2185B; }
+    .stage-4 { background: #FFF3E0; color: #E65100; }
+    .stage-5 { background: #E0F2F1; color: #00695C; }
+    .stage-6 { background: #F1F8E9; color: #558B2F; }
+
+    /* Table Actions */
+    .table-actions-cell { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Group Name Link */
+    .group-name-link { color: var(--up-green); text-decoration: none; transition: all 0.2s ease; }
+    .group-name-link:hover { color: #238A79; text-decoration: underline; }
+
+    /* Sortable Columns */
+    .submissions-table th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+    .submissions-table th.sortable:hover { background-color: #238A79; }
+    .sort-icon { margin-left: 6px; opacity: 0.5; font-size: 0.9em; }
+    .sort-icon.active { opacity: 1; color: var(--up-gold); }
+
+    /* Empty State */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .empty-state-icon { font-size: 3em; margin-bottom: 16px; opacity: 0.5; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .filter-group { grid-template-columns: 1fr; }
+        .table-actions-cell { flex-direction: column; }
+        .submissions-table th, .submissions-table td { padding: 10px 12px; font-size: 0.85em; }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Home</a>
+<span class="breadcrumb-separator">/</span>
+<a href="/admin" class="breadcrumb-item">Admin</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">All Submissions</span>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">All Submissions</h1>
+<p class="page-subtitle">View and manage all group submissions across all stages</p>
+
+<!-- Alert Messages -->
+<div id="messageContainer"></div>
+
+<!-- Filter Panel -->
+<div class="filter-panel">
+    <h2>Filters</h2>
+    <div class="filter-group">
+        <div class="filter-item">
+            <label for="groupFilter">Group</label>
+            <select id="groupFilter" aria-label="Filter by group">
+                <option value="">All Groups</option>
+            </select>
         </div>
-
-        <!-- Table Section -->
-        <div class="table-section">
-            <div class="table-header">
-                <h2>Submissions <span id="submissionCount"></span></h2>
-                <div class="table-actions">
-                    <button class="btn btn-small btn-primary" id="refreshBtn">Refresh</button>
-                </div>
-            </div>
-
-            <div id="tableContainer">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading submissions...</p>
-                </div>
-            </div>
+        <div class="filter-item">
+            <label for="searchFilter">Search</label>
+            <input type="text" id="searchFilter" placeholder="Search by project title, group name..." aria-label="Search submissions">
         </div>
     </div>
 
-    <!-- Submission Details Modal -->
-    <div class="modal" id="detailsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Submission Details</h2>
-                <button class="modal-close" id="detailsCloseBtn" aria-label="Close details modal">&times;</button>
-            </div>
-            <div class="modal-body" id="detailsContent">
-                <!-- Details will be loaded here -->
-            </div>
+    <div class="filter-item">
+        <label>Stage</label>
+        <div class="stage-filter" role="group" aria-label="Filter by stage">
+            <button type="button" class="stage-btn" data-stage="1">1</button>
+            <button type="button" class="stage-btn" data-stage="2">2</button>
+            <button type="button" class="stage-btn" data-stage="3">3</button>
+            <button type="button" class="stage-btn" data-stage="4">4</button>
+            <button type="button" class="stage-btn" data-stage="5">5</button>
+            <button type="button" class="stage-btn" data-stage="6">6</button>
         </div>
     </div>
 
-    <!-- PDF Viewer Modal -->
-    <div class="modal" id="pdfModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>PDF Viewer</h2>
-                <button class="modal-close" id="pdfCloseBtn" aria-label="Close PDF viewer">&times;</button>
-            </div>
-            <div class="modal-body">
-                <iframe id="pdfViewer" class="pdf-viewer" aria-label="PDF content viewer"></iframe>
-            </div>
-        </div>
+    <div class="filter-actions">
+        <button class="btn btn-primary" id="applyFiltersBtn">Apply Filters</button>
+        <button class="btn btn-secondary" id="clearFiltersBtn">Clear Filters</button>
+        <button class="btn btn-primary" id="exportCsvBtn" style="background: var(--up-gold); color: var(--up-green-dark);">Export CSV</button>
+    </div>
+</div>
+
+<!-- Table Section -->
+<div class="table-section">
+    <div class="table-header">
+        <h2>Submissions <span id="submissionCount"></span></h2>
+        <button class="btn btn-sm btn-primary" id="refreshBtn">Refresh</button>
     </div>
 
-    <script>
-        // Configuration
-        const CONFIG = {
-            apiBaseUrl: '/api',
-            adminEndpoint: '/api/admin',
-            groupsEndpoint: '/api/groups',
-            debounceDelay: 300
-        };
+    <div id="tableContainer">
+        <div class="empty-state">
+            <div class="spinner"></div>
+            <p>Loading submissions...</p>
+        </div>
+    </div>
+</div>
 
-        // State Management
-        const state = {
-            submissions: [],
-            groups: [],
-            filters: {
-                groupId: '',
-                stages: [],
-                search: ''
-            },
-            selectedSubmissionId: null,
-            debounceTimer: null,
-            isLoading: false
-        };
+<!-- Submission Details Modal -->
+<div id="detailsModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+    <div class="modal" style="max-width: 700px;">
+        <header class="modal-header">
+            <h2 id="detailsModalTitle" class="modal-title">Submission Details</h2>
+            <button type="button" class="modal-close" id="detailsCloseBtn" aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </header>
+        <div class="modal-body" id="detailsContent">
+            <!-- Details loaded dynamically -->
+        </div>
+    </div>
+</div>
 
-        // DOM Elements
-        const elements = {
-            messageContainer: document.getElementById('messageContainer'),
-            groupFilter: document.getElementById('groupFilter'),
-            searchFilter: document.getElementById('searchFilter'),
-            stageButtons: document.querySelectorAll('.stage-btn'),
-            applyFiltersBtn: document.getElementById('applyFiltersBtn'),
-            clearFiltersBtn: document.getElementById('clearFiltersBtn'),
-            exportCsvBtn: document.getElementById('exportCsvBtn'),
-            refreshBtn: document.getElementById('refreshBtn'),
-            tableContainer: document.getElementById('tableContainer'),
-            submissionCount: document.getElementById('submissionCount'),
-            detailsModal: document.getElementById('detailsModal'),
-            detailsCloseBtn: document.getElementById('detailsCloseBtn'),
-            detailsContent: document.getElementById('detailsContent'),
-            pdfModal: document.getElementById('pdfModal'),
-            pdfCloseBtn: document.getElementById('pdfCloseBtn'),
-            pdfViewer: document.getElementById('pdfViewer'),
-            logoutBtn: document.getElementById('logoutBtn'),
-            messageContainer: document.getElementById('messageContainer')
-        };
+<!-- PDF Viewer Modal -->
+<div id="pdfModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pdfModalTitle">
+    <div class="modal" style="max-width: 900px;">
+        <header class="modal-header">
+            <h2 id="pdfModalTitle" class="modal-title">PDF Viewer</h2>
+            <button type="button" class="modal-close" id="pdfCloseBtn" aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <iframe id="pdfViewer" style="width: 100%; height: 500px; border: none;" aria-label="PDF content viewer"></iframe>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-        // Utility Functions
-        function showMessage(message, type = 'info') {
-            const messageEl = document.createElement('div');
-            messageEl.className = `${type}-message`;
-            messageEl.textContent = message;
-            messageEl.setAttribute('role', 'alert');
-            elements.messageContainer.innerHTML = '';
-            elements.messageContainer.appendChild(messageEl);
+{% block extra_js %}
+<script>
+    const CONFIG = { apiBaseUrl: '/api', adminEndpoint: '/api/admin', groupsEndpoint: '/api/groups', debounceDelay: 300 };
 
-            if (type !== 'error') {
-                setTimeout(() => {
-                    messageEl.remove();
-                }, 4000);
+    const state = {
+        allSubmissions: [],  // All submissions from API
+        filteredSubmissions: [],  // After client-side filtering
+        groups: [],
+        filters: { groupId: '', stages: [], search: '' },
+        sort: { column: 'submitted_at', direction: 'desc' },
+        debounceTimer: null,
+        isLoading: false
+    };
+
+    const elements = {};
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initElements();
+        setupEventListeners();
+        fetchGroups();
+        fetchSubmissions();
+    });
+
+    function initElements() {
+        elements.messageContainer = document.getElementById('messageContainer');
+        elements.groupFilter = document.getElementById('groupFilter');
+        elements.searchFilter = document.getElementById('searchFilter');
+        elements.stageButtons = document.querySelectorAll('.stage-btn');
+        elements.applyFiltersBtn = document.getElementById('applyFiltersBtn');
+        elements.clearFiltersBtn = document.getElementById('clearFiltersBtn');
+        elements.exportCsvBtn = document.getElementById('exportCsvBtn');
+        elements.refreshBtn = document.getElementById('refreshBtn');
+        elements.tableContainer = document.getElementById('tableContainer');
+        elements.submissionCount = document.getElementById('submissionCount');
+        elements.detailsModal = document.getElementById('detailsModal');
+        elements.detailsCloseBtn = document.getElementById('detailsCloseBtn');
+        elements.detailsContent = document.getElementById('detailsContent');
+        elements.pdfModal = document.getElementById('pdfModal');
+        elements.pdfCloseBtn = document.getElementById('pdfCloseBtn');
+        elements.pdfViewer = document.getElementById('pdfViewer');
+    }
+
+    function setupEventListeners() {
+        elements.stageButtons.forEach(btn => btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+            applyFilters();
+        }));
+        elements.searchFilter.addEventListener('input', () => {
+            clearTimeout(state.debounceTimer);
+            state.debounceTimer = setTimeout(applyFilters, CONFIG.debounceDelay);
+        });
+        elements.groupFilter.addEventListener('change', applyFilters);
+        elements.applyFiltersBtn.addEventListener('click', applyFilters);
+        elements.clearFiltersBtn.addEventListener('click', clearFilters);
+        elements.exportCsvBtn.addEventListener('click', exportToCsv);
+        elements.refreshBtn.addEventListener('click', () => { fetchSubmissions(); showMessage('Submissions refreshed', 'success'); });
+
+        elements.detailsCloseBtn.addEventListener('click', () => closeModal(elements.detailsModal));
+        elements.pdfCloseBtn.addEventListener('click', () => closeModal(elements.pdfModal));
+        elements.detailsModal.addEventListener('click', (e) => { if (e.target === elements.detailsModal) closeModal(elements.detailsModal); });
+        elements.pdfModal.addEventListener('click', (e) => { if (e.target === elements.pdfModal) closeModal(elements.pdfModal); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal(elements.detailsModal);
+                closeModal(elements.pdfModal);
             }
+        });
+    }
+
+    function openModal(modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeModal(modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
+
+    function showMessage(message, type = 'info') {
+        const alertClass = type === 'error' ? 'alert-error' : 'alert-success';
+        elements.messageContainer.innerHTML = `<div class="alert ${alertClass}" onclick="this.remove()">${message}</div>`;
+        if (type !== 'error') setTimeout(() => elements.messageContainer.innerHTML = '', 4000);
+    }
+
+    function formatDate(dateString) {
+        return dateString ? new Date(dateString).toLocaleString() : 'N/A';
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    async function fetchGroups() {
+        try {
+            const response = await fetch(CONFIG.groupsEndpoint);
+            if (!response.ok) throw new Error('Failed to fetch groups');
+            state.groups = await response.json();
+            populateGroupFilter();
+        } catch (error) {
+            console.error('Error fetching groups:', error);
+        }
+    }
+
+    function populateGroupFilter() {
+        elements.groupFilter.innerHTML = '<option value="">All Groups</option>';
+        state.groups.forEach(group => {
+            const option = document.createElement('option');
+            option.value = group.id;
+            option.textContent = group.group_name || group.name;
+            elements.groupFilter.appendChild(option);
+        });
+    }
+
+    async function fetchSubmissions() {
+        state.isLoading = true;
+        try {
+            // Only send group_id to API (server-side filter)
+            const params = new URLSearchParams();
+            if (state.filters.groupId) params.append('group_id', state.filters.groupId);
+
+            const response = await fetch(`${CONFIG.adminEndpoint}/submissions?${params.toString()}`);
+            if (!response.ok) throw new Error('Failed to fetch submissions');
+
+            state.allSubmissions = await response.json();
+            applyClientFilters();
+        } catch (error) {
+            console.error('Error fetching submissions:', error);
+            showMessage('Failed to load submissions', 'error');
+            elements.tableContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#9888;</div><p>Error loading submissions. Please try again.</p></div>';
+        } finally {
+            state.isLoading = false;
+        }
+    }
+
+    function updateFilters() {
+        state.filters.groupId = elements.groupFilter.value;
+        state.filters.search = elements.searchFilter.value.toLowerCase().trim();
+        state.filters.stages = Array.from(elements.stageButtons).filter(btn => btn.classList.contains('active')).map(btn => parseInt(btn.dataset.stage));
+    }
+
+    function applyClientFilters() {
+        updateFilters();
+        let filtered = [...state.allSubmissions];
+
+        // Filter by stages (client-side)
+        if (state.filters.stages.length > 0) {
+            filtered = filtered.filter(s => state.filters.stages.includes(s.stage));
         }
 
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            return new Date(dateString).toLocaleString();
+        // Filter by search (client-side)
+        if (state.filters.search) {
+            filtered = filtered.filter(s =>
+                (s.group_name && s.group_name.toLowerCase().includes(state.filters.search)) ||
+                (s.project_title && s.project_title.toLowerCase().includes(state.filters.search))
+            );
         }
 
-        function sanitizeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        // Apply sorting
+        filtered = sortSubmissions(filtered);
 
-        function openModal(modal) {
-            modal.classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
+        state.filteredSubmissions = filtered;
+        renderSubmissionsTable();
+    }
 
-        function closeModal(modal) {
-            modal.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        // API Functions
-        async function fetchGroups() {
-            try {
-                const response = await fetch(`${CONFIG.groupsEndpoint}`);
-                if (!response.ok) throw new Error('Failed to fetch groups');
-                state.groups = await response.json();
-                populateGroupFilter();
-            } catch (error) {
-                console.error('Error fetching groups:', error);
-                showMessage('Failed to load groups', 'error');
-            }
-        }
-
-        async function fetchSubmissions() {
-            state.isLoading = true;
-            try {
-                const params = new URLSearchParams();
-                if (state.filters.groupId) params.append('group_id', state.filters.groupId);
-                if (state.filters.search) params.append('search', state.filters.search);
-                if (state.filters.stages.length > 0) {
-                    params.append('stages', state.filters.stages.join(','));
-                }
-
-                const url = `${CONFIG.adminEndpoint}/submissions?${params.toString()}`;
-                const response = await fetch(url);
-
-                if (!response.ok) throw new Error('Failed to fetch submissions');
-
-                state.submissions = await response.json();
-                renderSubmissionsTable();
-            } catch (error) {
-                console.error('Error fetching submissions:', error);
-                showMessage('Failed to load submissions', 'error');
-                elements.tableContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">⚠️</div>
-                        <p>Error loading submissions. Please try again.</p>
-                    </div>
-                `;
-            } finally {
-                state.isLoading = false;
-            }
-        }
-
-        async function fetchSubmissionDetails(submissionId) {
-            try {
-                const response = await fetch(`${CONFIG.adminEndpoint}/submissions/${submissionId}`);
-                if (!response.ok) throw new Error('Failed to fetch submission details');
-                return await response.json();
-            } catch (error) {
-                console.error('Error fetching submission details:', error);
-                showMessage('Failed to load submission details', 'error');
-                return null;
-            }
-        }
-
-        // Filter Functions
-        function populateGroupFilter() {
-            const currentValue = elements.groupFilter.value;
-            elements.groupFilter.innerHTML = '<option value="">All Groups</option>';
-
-            state.groups.forEach(group => {
-                const option = document.createElement('option');
-                option.value = group.id;
-                option.textContent = group.name;
-                elements.groupFilter.appendChild(option);
-            });
-
-            elements.groupFilter.value = currentValue;
-        }
-
-        function updateFilters() {
-            state.filters.groupId = elements.groupFilter.value;
-            state.filters.search = elements.searchFilter.value;
-            state.filters.stages = Array.from(elements.stageButtons)
-                .filter(btn => btn.classList.contains('active'))
-                .map(btn => btn.dataset.stage);
-        }
-
-        function applyFilters() {
-            updateFilters();
+    function applyFilters() {
+        // If group filter changed, refetch from API; otherwise just filter client-side
+        const currentGroupId = elements.groupFilter.value;
+        if (currentGroupId !== state.filters.groupId) {
+            state.filters.groupId = currentGroupId;
             fetchSubmissions();
+        } else {
+            applyClientFilters();
         }
+    }
 
-        function clearFilters() {
-            elements.groupFilter.value = '';
-            elements.searchFilter.value = '';
-            elements.stageButtons.forEach(btn => btn.classList.remove('active'));
-            state.filters = { groupId: '', stages: [], search: '' };
-            fetchSubmissions();
-        }
+    function clearFilters() {
+        elements.groupFilter.value = '';
+        elements.searchFilter.value = '';
+        elements.stageButtons.forEach(btn => btn.classList.remove('active'));
+        state.filters = { groupId: '', stages: [], search: '' };
+        state.sort = { column: 'submitted_at', direction: 'desc' };
+        fetchSubmissions();
+    }
 
-        // Table Rendering
-        function renderSubmissionsTable() {
-            if (state.submissions.length === 0) {
-                elements.tableContainer.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <p>No submissions found</p>
-                    </div>
-                `;
-                elements.submissionCount.textContent = '(0)';
-                return;
+    function sortSubmissions(submissions) {
+        const { column, direction } = state.sort;
+        const modifier = direction === 'asc' ? 1 : -1;
+
+        return submissions.sort((a, b) => {
+            let aVal = a[column];
+            let bVal = b[column];
+
+            // Handle dates
+            if (column === 'submitted_at') {
+                aVal = aVal ? new Date(aVal).getTime() : 0;
+                bVal = bVal ? new Date(bVal).getTime() : 0;
+                return (aVal - bVal) * modifier;
             }
 
-            let html = `
-                <table class="submissions-table">
-                    <thead>
-                        <tr>
-                            <th>Group Name</th>
-                            <th>Project Title</th>
-                            <th>Stage</th>
-                            <th>Submitted At</th>
-                            <th>File Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            // Handle numbers (stage)
+            if (column === 'stage') {
+                return ((aVal || 0) - (bVal || 0)) * modifier;
+            }
 
-            state.submissions.forEach(submission => {
-                const stageBadge = `<span class="stage-badge stage-${submission.stage}">Stage ${submission.stage}</span>`;
-                const fileName = submission.file_name || 'N/A';
-                const isPdf = fileName.toLowerCase().endsWith('.pdf');
+            // Handle strings
+            aVal = (aVal || '').toString().toLowerCase();
+            bVal = (bVal || '').toString().toLowerCase();
+            return aVal.localeCompare(bVal) * modifier;
+        });
+    }
 
-                html += `
+    function handleSort(column) {
+        if (state.sort.column === column) {
+            state.sort.direction = state.sort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            state.sort.column = column;
+            state.sort.direction = 'asc';
+        }
+        applyClientFilters();
+    }
+
+    function getSortIcon(column) {
+        if (state.sort.column !== column) return '<span class="sort-icon">&#8597;</span>';
+        return state.sort.direction === 'asc'
+            ? '<span class="sort-icon active">&#8593;</span>'
+            : '<span class="sort-icon active">&#8595;</span>';
+    }
+
+    function renderSubmissionsTable() {
+        const submissions = state.filteredSubmissions;
+
+        if (submissions.length === 0) {
+            elements.tableContainer.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#128235;</div><p>No submissions found</p></div>';
+            elements.submissionCount.textContent = '(0)';
+            return;
+        }
+
+        let html = `
+            <table class="submissions-table" id="submissionsTable">
+                <thead>
                     <tr>
-                        <td>${sanitizeHtml(submission.group_name)}</td>
-                        <td>${sanitizeHtml(submission.project_title)}</td>
-                        <td>${stageBadge}</td>
-                        <td><span class="text-muted">${formatDate(submission.submitted_at)}</span></td>
-                        <td>${sanitizeHtml(fileName)}</td>
-                        <td>
-                            <div class="table-actions-cell">
-                                <button class="btn btn-small btn-primary" onclick="viewDetails('${submission.id}')">Details</button>
-                                <button class="btn btn-small btn-secondary" onclick="downloadFile('${submission.id}')">Download</button>
-                                ${isPdf ? `<button class="btn btn-small btn-accent" onclick="viewPdf('${submission.id}')">View PDF</button>` : ''}
-                            </div>
-                        </td>
+                        <th scope="col" class="sortable" onclick="handleSort('group_name')">Group Name ${getSortIcon('group_name')}</th>
+                        <th scope="col" class="sortable" onclick="handleSort('project_title')">Project Title ${getSortIcon('project_title')}</th>
+                        <th scope="col" class="sortable" onclick="handleSort('stage')">Stage ${getSortIcon('stage')}</th>
+                        <th scope="col" class="sortable" onclick="handleSort('submitted_at')">Submitted At ${getSortIcon('submitted_at')}</th>
+                        <th scope="col">Actions</th>
                     </tr>
-                `;
-            });
+                </thead>
+                <tbody>
+        `;
+
+        submissions.forEach(submission => {
+            const stageBadge = `<span class="stage-badge stage-${submission.stage}">Stage ${submission.stage}</span>`;
+            const fileName = submission.file_name || 'N/A';
+            const isPdf = fileName.toLowerCase().endsWith('.pdf');
 
             html += `
-                    </tbody>
-                </table>
+                <tr>
+                    <td><a href="/admin/group/${submission.group_id}" class="group-name-link"><strong>${escapeHtml(submission.group_name)}</strong></a></td>
+                    <td>${escapeHtml(submission.project_title)}</td>
+                    <td>${stageBadge}</td>
+                    <td>${formatDate(submission.submitted_at)}</td>
+                    <td>
+                        <div class="table-actions-cell">
+                            <button class="btn btn-sm btn-primary" onclick="viewDetails('${submission.id}')">Details</button>
+                            <button class="btn btn-sm btn-secondary" onclick="downloadFile('${submission.id}')">Download</button>
+                            ${isPdf ? `<button class="btn btn-sm btn-primary" style="background: var(--up-gold); color: var(--up-green-dark);" onclick="viewPdf('${submission.id}')">View PDF</button>` : ''}
+                        </div>
+                    </td>
+                </tr>
             `;
+        });
 
-            elements.tableContainer.innerHTML = html;
-            elements.submissionCount.textContent = `(${state.submissions.length})`;
-        }
+        html += '</tbody></table>';
+        elements.tableContainer.innerHTML = html;
+        elements.submissionCount.textContent = `(${submissions.length})`;
+    }
 
-        // Modal Functions
-        async function viewDetails(submissionId) {
-            const submission = state.submissions.find(s => s.id === submissionId);
-            if (!submission) return;
+    async function viewDetails(submissionId) {
+        elements.detailsContent.innerHTML = '<div class="empty-state"><div class="spinner"></div><p>Loading details...</p></div>';
+        openModal(elements.detailsModal);
 
-            elements.detailsContent.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading details...</p></div>';
-            openModal(elements.detailsModal);
+        try {
+            const response = await fetch(`${CONFIG.adminEndpoint}/submissions/${submissionId}`);
+            if (!response.ok) throw new Error('Failed to fetch details');
 
-            const details = await fetchSubmissionDetails(submissionId);
-            if (!details) return;
-
-            let detailsHtml = `
-                <div class="detail-section">
-                    <h3>Group Information</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Group Name</span>
-                        <span class="detail-value">${sanitizeHtml(details.group_name)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Group ID</span>
-                        <span class="detail-value">${sanitizeHtml(details.group_id)}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>Members</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Members</span>
-                        <span class="detail-value">${details.members ? sanitizeHtml(details.members.join(', ')) : 'N/A'}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>Submission Details</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Project Title</span>
-                        <span class="detail-value">${sanitizeHtml(details.project_title)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Stage</span>
-                        <span class="detail-value"><span class="stage-badge stage-${details.stage}">Stage ${details.stage}</span></span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Description</span>
-                        <span class="detail-value">${sanitizeHtml(details.description || 'N/A')}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>File Information</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">File Name</span>
-                        <span class="detail-value">${sanitizeHtml(details.file_name || 'N/A')}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">File Size</span>
-                        <span class="detail-value">${details.file_size ? formatFileSize(details.file_size) : 'N/A'}</span>
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <h3>Timestamps</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Submitted At</span>
-                        <span class="detail-value">${formatDate(details.submitted_at)}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label">Updated At</span>
-                        <span class="detail-value">${formatDate(details.updated_at)}</span>
-                    </div>
-                </div>
+            const details = await response.json();
+            elements.detailsContent.innerHTML = `
+                <div class="detail-row"><span class="detail-label">Group Name</span><span class="detail-value">${escapeHtml(details.group_name)}</span></div>
+                <div class="detail-row"><span class="detail-label">Project Title</span><span class="detail-value">${escapeHtml(details.project_title)}</span></div>
+                <div class="detail-row"><span class="detail-label">Stage</span><span class="detail-value"><span class="stage-badge stage-${details.stage}">Stage ${details.stage}</span></span></div>
+                <div class="detail-row"><span class="detail-label">Members</span><span class="detail-value">${details.members ? escapeHtml(details.members.join(', ')) : 'N/A'}</span></div>
+                <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${escapeHtml(details.description || 'N/A')}</span></div>
+                <div class="detail-row"><span class="detail-label">File Name</span><span class="detail-value">${escapeHtml(details.file_name || 'N/A')}</span></div>
+                <div class="detail-row"><span class="detail-label">Submitted At</span><span class="detail-value">${formatDate(details.submitted_at)}</span></div>
             `;
+        } catch (error) {
+            elements.detailsContent.innerHTML = '<div class="alert alert-error">Failed to load submission details</div>';
+        }
+    }
 
-            elements.detailsContent.innerHTML = detailsHtml;
+    function viewPdf(submissionId) {
+        elements.pdfViewer.src = `${CONFIG.adminEndpoint}/view/${submissionId}`;
+        openModal(elements.pdfModal);
+    }
+
+    function downloadFile(submissionId) {
+        const link = document.createElement('a');
+        link.href = `${CONFIG.adminEndpoint}/download/${submissionId}`;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function exportToCsv() {
+        if (state.filteredSubmissions.length === 0) {
+            showMessage('No submissions to export', 'error');
+            return;
         }
 
-        function viewPdf(submissionId) {
-            const url = `${CONFIG.adminEndpoint}/view/${submissionId}`;
-            elements.pdfViewer.src = url;
-            openModal(elements.pdfModal);
-        }
+        const headers = ['Group Name', 'Project Title', 'Stage', 'Submitted At'];
+        const rows = state.filteredSubmissions.map(s => [s.group_name, s.project_title, s.stage, formatDate(s.submitted_at)]);
+        const csv = [headers, ...rows].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
 
-        function downloadFile(submissionId) {
-            const url = `${CONFIG.adminEndpoint}/download/${submissionId}`;
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `submissions-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-        // Export Functions
-        function exportToCsv() {
-            if (state.submissions.length === 0) {
-                showMessage('No submissions to export', 'warning');
-                return;
-            }
-
-            const headers = ['Group Name', 'Project Title', 'Stage', 'Submitted At', 'File Name'];
-            const rows = state.submissions.map(s => [
-                s.group_name,
-                s.project_title,
-                s.stage,
-                formatDate(s.submitted_at),
-                s.file_name || ''
-            ]);
-
-            const csv = [headers, ...rows]
-                .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-                .join('\n');
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', `submissions-${new Date().toISOString().split('T')[0]}.csv`);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            showMessage('Submissions exported to CSV', 'success');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
-        }
-
-        // Event Listeners
-        function setupEventListeners() {
-            // Filter buttons
-            elements.stageButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.classList.toggle('active');
-                });
-            });
-
-            // Search input with debounce
-            elements.searchFilter.addEventListener('input', () => {
-                clearTimeout(state.debounceTimer);
-                state.debounceTimer = setTimeout(() => {
-                    applyFilters();
-                }, CONFIG.debounceDelay);
-            });
-
-            // Group filter
-            elements.groupFilter.addEventListener('change', applyFilters);
-
-            // Action buttons
-            elements.applyFiltersBtn.addEventListener('click', applyFilters);
-            elements.clearFiltersBtn.addEventListener('click', clearFilters);
-            elements.exportCsvBtn.addEventListener('click', exportToCsv);
-            elements.refreshBtn.addEventListener('click', () => {
-                fetchSubmissions();
-                showMessage('Submissions refreshed', 'success');
-            });
-
-            // Modal close buttons
-            elements.detailsCloseBtn.addEventListener('click', () => closeModal(elements.detailsModal));
-            elements.pdfCloseBtn.addEventListener('click', () => closeModal(elements.pdfModal));
-
-            // Close modal on background click
-            elements.detailsModal.addEventListener('click', (e) => {
-                if (e.target === elements.detailsModal) closeModal(elements.detailsModal);
-            });
-
-            elements.pdfModal.addEventListener('click', (e) => {
-                if (e.target === elements.pdfModal) closeModal(elements.pdfModal);
-            });
-
-            // Logout
-            elements.logoutBtn.addEventListener('click', async () => {
-                try {
-                    const response = await fetch('/logout', { method: 'POST' });
-                    if (response.ok) {
-                        window.location.href = '/';
-                    }
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    showMessage('Logout failed', 'error');
-                }
-            });
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeModal(elements.detailsModal);
-                    closeModal(elements.pdfModal);
-                }
-            });
-        }
-
-        // Initialize
-        async function initialize() {
-            setupEventListeners();
-            await fetchGroups();
-            await fetchSubmissions();
-        }
-
-        // Start on page load
-        document.addEventListener('DOMContentLoaded', initialize);
-
-        // Make functions global for inline onclick handlers
-        window.viewDetails = viewDetails;
-        window.viewPdf = viewPdf;
-        window.downloadFile = downloadFile;
-
-        function openFeedbackForm() {
-            const feedback = prompt(
-                'Please share your feedback or report an issue:\n\n' +
-                '(Your message will help us improve the application)',
-                ''
-            );
-            if (feedback && feedback.trim()) {
-                alert('Thank you for your feedback! We appreciate your input.');
-                console.log('Feedback:', feedback);
-            }
-        }
-    </script>
-
-    <!-- Feedback Button -->
-    <button class="feedback-button" onclick="openFeedbackForm()" title="Report issue or feedback">💬</button>
-</body>
-</html>
+        showMessage('Submissions exported to CSV', 'success');
+    }
+</script>
+{% endblock %}

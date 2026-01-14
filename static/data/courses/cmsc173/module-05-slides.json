@@ -1,0 +1,309 @@
+{
+  "module": {
+    "id": "05",
+    "title": "Model Selection and Evaluation",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 37,
+    "estimatedDuration": "74 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "The Model Selection Problem",
+      "readingTime": "1 min",
+      "content": "<strong>Central Question: How do we choose the best model?</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Challenges</h4><ul>\n\n<li>Multiple algorithms available\n</li>\n<li>Different hyperparameters\n</li>\n<li>Trade-offs between complexity and performance\n</li>\n<li>Avoiding overfitting\n</li>\n<li>Generalization to unseen data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Goals}\n<ul>\n\n<li>Select optimal model architecture\n</li>\n<li>Tune hyperparameters effectively\n</li>\n<li>Ensure reliable performance\n</li>\n<li>Balance bias and variance\n</li>\n<li>Maximize generalization\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>\n\n\n\n<div class=\"definition\"><h4>Key Insight</h4>Model selection is not just about training performance, but about how well the model generalizes to new, unseen data.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Model Selection Pipeline",
+      "readingTime": "1 min",
+      "content": "\\begin{tikzpicture}[node distance=1.5cm, every node/.style={font=\\small}]\n\\node[rectangle, draw, fill=blue!20, minimum width=2.5cm, minimum height=0.8cm] (data) {Data};\n\\node[rectangle, draw, fill=green!20, minimum width=2.5cm, minimum height=0.8cm, right=of data] (split) {Train/Val/Test Split};\n\\node[rectangle, draw, fill=yellow!20, minimum width=2.5cm, minimum height=0.8cm, right=of split] (train) {Train Models};\n\\node[rectangle, draw, fill=orange!20, minimum width=2.5cm, minimum height=0.8cm, below=0.8cm of train] (validate) {Validate \\& Select};\n\\node[rectangle, draw, fill=purple!20, minimum width=2.5cm, minimum height=0.8cm, left=of validate] (test) {Test Final Model};\n\n\\draw[->, thick] (data) -- (split);\n\\draw[->, thick] (split) -- (train);\n\\draw[->, thick] (train) -- (validate);\n\\draw[->, thick] (validate) -- (test);\n\\end{tikzpicture}\n\n\n\n\n<ul>\n<li><strong>Split:</strong> Divide data into training, validation, and test sets\n</li>\n<li><strong>Train:</strong> Fit multiple candidate models\n</li>\n<li><strong>Validate:</strong> Compare models on validation set\n</li>\n<li><strong>Select:</strong> Choose best performing model\n</li>\n<li><strong>Test:</strong> Final evaluation on held-out test set\n</li>\n</ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Train-Validation-Test Split",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/train_test_split.png]</em></p></div>\n\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Set</h4><ul>\n\n<li>Model fitting\n</li>\n<li>Learning parameters\n</li>\n<li>60-70\\% of data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Validation Set</h4><ul>\n\n<li>Model selection\n</li>\n<li>Hyperparameter tuning\n</li>\n<li>15-20\\% of data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Test Set</h4><ul>\n\n<li>Final evaluation\n</li>\n<li>Unbiased estimate\n</li>\n<li>15-20\\% of data\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Understanding Prediction Error",
+      "readingTime": "1 min",
+      "content": "For a regression problem, the expected prediction error can be decomposed:\n\n\n\n<div class=\"warning\"><h4>Error Decomposition</h4>$$\n\\mathbb{E}[(y - \\hat{f}(x))^2] = \\text{Bias}^2[\\hat{f}(x)] + \\text{Var}[\\hat{f}(x)] + \\sigma^2\n$$</div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Bias</h4>\n$$\n\\text{Bias}[\\hat{f}] = \\mathbb{E}[\\hat{f}] - f\n$$\nError from wrong assumptions in the learning algorithm</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Variance</h4>\n$$\n\\text{Var}[\\hat{f}] = \\mathbb{E}[(\\hat{f} - \\mathbb{E}[\\hat{f}])^2]\n$$\nError from sensitivity to training set variations</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Irreducible Error</h4>\n$$\n\\sigma^2 = \\text{Var}[\\epsilon]\n$$\nNoise in the data that cannot be reduced</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "The Bias-Variance Tradeoff",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/bias_variance_tradeoff.png]</em></p></div>\n\n\n\n\n\\begin{tipblock}{Key Insight}\n<ul>\n\n<li>As model complexity increases, bias decreases but variance increases\n</li>\n<li>The optimal model minimizes the total error (bias$^2$ + variance)\n</li>\n<li>There exists a sweet spot that balances both sources of error\n</li>\n</ul>\n\\end{tipblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "High Bias vs High Variance",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>High Bias (Underfitting)</h4><strong>Characteristics:</strong>\n<ul>\n\n<li>Overly simple model\n</li>\n<li>Poor training performance\n</li>\n<li>Poor test performance\n</li>\n<li>Cannot capture data patterns\n</li>\n</ul>\n\n\n<strong>Solutions:</strong>\n<ul>\n\n<li>Increase model complexity\n</li>\n<li>Add more features\n</li>\n<li>Reduce regularization\n</li>\n<li>Train longer\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>High Variance (Overfitting)</h4><strong>Characteristics:</strong>\n<ul>\n\n<li>Overly complex model\n</li>\n<li>Excellent training performance\n</li>\n<li>Poor test performance\n</li>\n<li>Memorizes training data\n</li>\n</ul>\n\n\n<strong>Solutions:</strong>\n<ul>\n\n<li>Simplify model\n</li>\n<li>Get more training data\n</li>\n<li>Increase regularization\n</li>\n<li>Use early stopping\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Visualizing Underfitting and Overfitting",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/underfitting_overfitting.png]</em></p></div>\n\n\n\n\n<ul>\n<li><strong>Left:</strong> Underfitting - linear model cannot capture nonlinear relationship\n</li>\n<li><strong>Center:</strong> Good fit - balanced complexity captures true pattern\n</li>\n<li><strong>Right:</strong> Overfitting - high-degree polynomial fits noise\n</li>\n</ul>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Model Complexity and Error",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/model_complexity_curve.png]</em></p></div>\n\n\n\n\n<div class=\"definition\"><h4>Observations</h4><ul>\n\n<li>Training error decreases monotonically with complexity\n</li>\n<li>Validation error has a U-shaped curve\n</li>\n<li>Gap between curves indicates overfitting\n</li>\n<li>Optimal complexity minimizes validation error\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Why Do We Need Validation?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>The Fundamental Problem</h4>We cannot evaluate model performance on the same data used for training!</div>\n\n\n\n\\begin{exampleblock}{Training Error is Optimistic}\n<ul>\n\n<li>Model has seen the training data\n</li>\n<li>Can memorize patterns and noise\n</li>\n<li>Does not reflect generalization\n</li>\n<li>Always decreases with complexity\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n\\begin{exampleblock}{Validation Error is Realistic}\n<ul>\n\n<li>Model has not seen validation data\n</li>\n<li>Measures true generalization\n</li>\n<li>Enables fair model comparison\n</li>\n<li>Guides hyperparameter selection\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/validation_necessity.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Learning Curves",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/learning_curves.png]</em></p></div>\n\n\n\n\n<ul>\n<li><strong>Underfitting:</strong> Both errors high, converge to high value\n</li>\n<li><strong>Well-fitted:</strong> Both errors low, small gap between them\n</li>\n<li><strong>Overfitting:</strong> Large gap between training and validation error\n</li>\n</ul>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Cross-Validation: Motivation",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Problem with Single Train-Val Split</h4><ul>\n\n<li>Results depend on random split\n</li>\n<li>Some data points never used for training\n</li>\n<li>Some never used for validation\n</li>\n<li>High variance in performance estimates\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Cross-Validation Solution}\n<ul>\n\n<li>Use multiple train-validation splits\n</li>\n<li>Every data point used for both training and validation\n</li>\n<li>Average results across splits for robust estimate\n</li>\n<li>Reduces variance in performance evaluation\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Cross-Validation Schemes",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/cross_validation_schemes.png]</em></p></div>\n\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>K-Fold CV</h4><ul>\n\n<li>Split data into K folds\n</li>\n<li>Train on K-1, validate on 1\n</li>\n<li>Repeat K times\n</li>\n<li>Average K results\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Stratified K-Fold</h4><ul>\n\n<li>Maintains class distribution\n</li>\n<li>Important for imbalanced data\n</li>\n<li>Each fold representative\n</li>\n<li>Same averaging as K-Fold\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "K-Fold Cross-Validation Algorithm",
+      "readingTime": "1 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{K-Fold Cross-Validation}\n\\begin{algorithmic}[1]\n\\REQUIRE Dataset $D$, Model $M$, Number of folds $K$\n\\ENSURE Cross-validation score\n\\STATE Randomly partition $D$ into $K$ equal-sized subsets $D_1, D_2, …, D_K$\n\\STATE Initialize $\\text{scores} = []$\n\\FOR{$i = 1$ to $K$}\n    \\STATE $D_{\\text{val}} \\leftarrow D_i$\n    \\STATE $D_{\\text{train}} \\leftarrow D \\setminus D_i$\n    \\STATE Train model $\\hat{M}$ on $D_{\\text{train}}$\n    \\STATE $s_i \\leftarrow \\text{Evaluate}(\\hat{M}, D_{\\text{val}})$\n    \\STATE Append $s_i$ to $\\text{scores}$\n\\ENDFOR\n\\STATE <strong>return</strong> $\\frac{1}{K} \\sum_{i=1}^{K} s_i$\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n\\begin{tipblock}{Common Choices}\n$K = 5$ or $K = 10$ are typical values balancing computational cost and variance reduction.\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Validation Curve",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/validation_curve.png]</em></p></div>\n\n\n\n\n<div class=\"definition\"><h4>Using Validation Curves</h4><ul>\n\n<li>Plot training and validation scores vs. hyperparameter values\n</li>\n<li>Identify optimal hyperparameter setting\n</li>\n<li>Diagnose underfitting and overfitting regions\n</li>\n<li>Select model with best validation performance\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Classification Metrics: Confusion Matrix",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/confusion_matrix.png]</em></p></div>\n\n</div>\n\n<div class=\"column\">\n\n<div class=\"highlight\"><h4>Definitions</h4><ul>\n\n<li><strong>TP:</strong> True Positives\n</li>\n<li><strong>TN:</strong> True Negatives\n</li>\n<li><strong>FP:</strong> False Positives (Type I error)\n</li>\n<li><strong>FN:</strong> False Negatives (Type II error)\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Key Metrics</h4>\n$$\\begin{aligned}\\text{Accuracy} = \\frac{TP + TN}{TP + TN + FP + FN} \\\\ \\text{Precision} = \\frac{TP}{TP + FP} \\\\ \\text{Recall} = \\frac{TP}{TP + FN}\\end{aligned}$$</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Classification Metrics Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/metrics_comparison.png]</em></p></div>\n\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Accuracy</h4>Overall correctness; can be misleading with imbalanced classes</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>F1-Score</h4>Harmonic mean of precision and recall: $F_1 = \\frac{2 \\cdot \\text{Precision} \\cdot \\text{Recall}}{\\text{Precision} + \\text{Recall}}$</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "ROC Curve and AUC",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/roc_curve.png]</em></p></div>\n\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>ROC Curve</h4><ul>\n\n<li>Plots TPR vs FPR\n</li>\n<li>Shows performance across thresholds\n</li>\n<li>Diagonal = random classifier\n</li>\n<li>Upper-left corner = perfect\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{AUC Score}\n<ul>\n\n<li>Area Under ROC Curve\n</li>\n<li>Range: [0, 1]\n</li>\n<li>0.5 = random\n</li>\n<li>1.0 = perfect\n</li>\n<li>Threshold-independent\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Precision-Recall Curve",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/precision_recall_curve.png]</em></p></div>\n\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>When to Use</h4><ul>\n\n<li>Imbalanced datasets\n</li>\n<li>Care about positive class\n</li>\n<li>False positives costly\n</li>\n<li>Alternative to ROC\n</li>\n</ul></div>\n\n\n\n\\begin{tipblock}{Interpretation}\n<ul>\n\n<li>High area = good performance\n</li>\n<li>Trade-off between precision and recall\n</li>\n<li>Choose threshold based on application needs\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Regression Metrics",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mean Squared Error (MSE)</h4>\n$$\n\\text{MSE} = \\frac{1}{n}\\sum_{i=1}^{n}(y_i - \\hat{y}_i)^2\n$$\n<ul>\n\n<li>Penalizes large errors heavily\n</li>\n<li>Same units as $y^2$\n</li>\n<li>Always non-negative\n</li>\n<li>Lower is better\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Root Mean Squared Error</h4>\n$$\n\\text{RMSE} = \\sqrt{\\text{MSE}}\n$$\n<ul>\n\n<li>Same units as $y$\n</li>\n<li>More interpretable than MSE\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mean Absolute Error (MAE)</h4>\n$$\n\\text{MAE} = \\frac{1}{n}\\sum_{i=1}^{n}|y_i - \\hat{y}_i|\n$$\n<ul>\n\n<li>Robust to outliers\n</li>\n<li>Same units as $y$\n</li>\n<li>Easy to interpret\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>R-Squared ($R^2$)</h4>\n$$\nR^2 = 1 - \\frac{\\sum(y_i - \\hat{y}_i)^2}{\\sum(y_i - \\bar{y})^2}\n$$\n<ul>\n\n<li>Proportion of variance explained\n</li>\n<li>Range: $(-\\infty, 1]$\n</li>\n<li>1 = perfect predictions\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "What is Regularization?",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Definition</h4>Regularization is a technique to prevent overfitting by adding a penalty term to the loss function that discourages complex models.</div>\n\n\n\n\\begin{exampleblock}{General Form}\n$$\n\\text{Loss}_{\\text{regularized}} = \\text{Loss}_{\\text{data}} + \\lambda \\cdot \\text{Penalty}(\\text{parameters})\n$$\nwhere $\\lambda \\geq 0$ is the <strong>regularization parameter</strong> controlling the strength of regularization.\n\\end{exampleblock}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Benefits</h4><ul>\n\n<li>Reduces overfitting\n</li>\n<li>Improves generalization\n</li>\n<li>Encourages simpler models\n</li>\n<li>Can perform feature selection\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Trade-off</h4><ul>\n\n<li>$\\lambda$ too small: underfitting\n</li>\n<li>$\\lambda$ too large: underfitting\n</li>\n<li>Must tune $\\lambda$ via validation\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Ridge Regression (L2 Regularization)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Objective Function</h4>\n$$\n\\min_{\\mathbf{w}} \\sum_{i=1}^{n}(y_i - \\mathbf{w}^T\\mathbf{x}_i)^2 + \\lambda \\|\\mathbf{w}\\|_2^2\n$$\nwhere $\\|\\mathbf{w}\\|_2^2 = \\sum_{j=1}^{d} w_j^2$ is the L2 norm.</div>\n\n\n\n\\begin{exampleblock}{Characteristics}\n<ul>\n\n<li>Shrinks coefficients towards zero\n</li>\n<li>Does not set coefficients exactly to zero\n</li>\n<li>Has closed-form solution\n</li>\n<li>Stable and computationally efficient\n</li>\n<li>Preferred when all features are relevant\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"highlight\"><h4>Solution</h4>\n$$\n\\hat{\\mathbf{w}} = (\\mathbf{X}^T\\mathbf{X} + \\lambda \\mathbf{I})^{-1}\\mathbf{X}^T\\mathbf{y}\n$$</div>\n</div>\n\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/regularization_effect.png]</em></p></div>\n\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Lasso Regression (L1 Regularization)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Objective Function</h4>\n$$\n\\min_{\\mathbf{w}} \\sum_{i=1}^{n}(y_i - \\mathbf{w}^T\\mathbf{x}_i)^2 + \\lambda \\|\\mathbf{w}\\|_1\n$$\nwhere $\\|\\mathbf{w}\\|_1 = \\sum_{j=1}^{d} |w_j|$ is the L1 norm.</div>\n\n\n\n\\begin{exampleblock}{Characteristics}\n<ul>\n\n<li>Can set coefficients exactly to zero\n</li>\n<li>Performs automatic feature selection\n</li>\n<li>Produces sparse models\n</li>\n<li>No closed-form solution (use optimization)\n</li>\n<li>Preferred with many irrelevant features\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Sparsity Property</h4>Lasso's ability to zero out coefficients makes it ideal for interpretable models and high-dimensional data.</div>\n</div>\n\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/sparsity_comparison.png]</em></p></div>\n\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "L1 vs L2 Regularization: Geometric Interpretation",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/l1_vs_l2_geometry.png]</em></p></div>\n\n\n\n\n<ul>\n<li><strong>L2 (Ridge):</strong> Circular constraint region - solution rarely at axes (non-sparse)\n</li>\n<li><strong>L1 (Lasso):</strong> Diamond constraint region - corners encourage sparse solutions\n</li>\n<li>Contours represent loss function, constraint region represents penalty\n</li>\n</ul>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Regularization Paths",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/regularization_paths.png]</em></p></div>\n\n\n\n\n<div class=\"definition\"><h4>Observations</h4><ul>\n\n<li><strong>Ridge:</strong> Coefficients shrink smoothly but never reach exactly zero\n</li>\n<li><strong>Lasso:</strong> Coefficients can become exactly zero at finite $\\lambda$\n</li>\n<li>As $\\lambda \\to \\infty$, all coefficients approach zero\n</li>\n<li>Different coefficients zero out at different $\\lambda$ values in Lasso\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Elastic Net: Combining L1 and L2",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Objective Function</h4>\n$$\n\\min_{\\mathbf{w}} \\sum_{i=1}^{n}(y_i - \\mathbf{w}^T\\mathbf{x}_i)^2 + \\lambda_1 \\|\\mathbf{w}\\|_1 + \\lambda_2 \\|\\mathbf{w}\\|_2^2\n$$\nAlternatively parameterized with mixing parameter $\\alpha \\in [0,1]$:\n$$\n\\text{Penalty} = \\lambda \\left[ \\alpha \\|\\mathbf{w}\\|_1 + (1-\\alpha) \\|\\mathbf{w}\\|_2^2 \\right]\n$$</div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Advantages}\n<ul>\n\n<li>Combines benefits of Ridge and Lasso\n</li>\n<li>Handles correlated features better than Lasso\n</li>\n<li>Can select groups of correlated features\n</li>\n<li>More stable than Lasso\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{When to Use}\n<ul>\n\n<li>Many correlated features\n</li>\n<li>Want feature selection and grouping\n</li>\n<li>Lasso is too aggressive\n</li>\n<li>Ridge is not sparse enough\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Comparing Regularization Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/regularization_comparison.png]</em></p></div>\n\n\n\n\n<ul>\n<li>All methods converge to similar training error with strong regularization\n</li>\n<li>Test error differences reveal generalization capabilities\n</li>\n<li>Optimal $\\lambda$ differs across methods\n</li>\n</ul>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Regularization in Other Models",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Neural Networks</h4><ul>\n\n<li><strong>Weight decay:</strong> L2 penalty on weights\n</li>\n<li><strong>Dropout:</strong> Randomly drop neurons during training\n</li>\n<li><strong>Early stopping:</strong> Stop training before overfitting\n</li>\n<li><strong>Batch normalization:</strong> Normalize activations\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Support Vector Machines</h4><ul>\n\n<li>$C$ parameter controls regularization\n</li>\n<li>Small $C$ = strong regularization\n</li>\n<li>Large $C$ = weak regularization\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Decision Trees/Forests</h4><ul>\n\n<li>Max depth\n</li>\n<li>Min samples per leaf\n</li>\n<li>Max number of features\n</li>\n<li>Pruning\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>General Strategies</h4><ul>\n\n<li>Data augmentation\n</li>\n<li>Feature selection\n</li>\n<li>Ensemble methods\n</li>\n<li>Cross-validation for tuning\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Model Selection Best Practices",
+      "readingTime": "1 min",
+      "content": "\\begin{exampleblock}{Do's}\n<ul>\n\n<li>Always use separate train/validation/test sets\n</li>\n<li>Use cross-validation for robust estimates\n</li>\n<li>Tune hyperparameters only on validation data\n</li>\n<li>Report final performance on test set (once!)\n</li>\n<li>Standardize/normalize features appropriately\n</li>\n<li>Use stratified splits for classification\n</li>\n<li>Track both training and validation metrics\n</li>\n<li>Document all preprocessing steps\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Common Pitfalls to Avoid",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Don'ts</h4><ul>\n\n<li><strong>Data leakage:</strong> Including test data in preprocessing\n</li>\n<li><strong>Peeking at test set:</strong> Multiple evaluations on test set\n</li>\n<li><strong>Ignoring class imbalance:</strong> Using accuracy on imbalanced data\n</li>\n<li><strong>Not checking assumptions:</strong> Assuming i.i.d. data\n</li>\n<li><strong>Overfitting validation set:</strong> Excessive hyperparameter tuning\n</li>\n<li><strong>Cherry-picking results:</strong> Reporting only best-case performance\n</li>\n<li><strong>Inadequate splitting:</strong> Too small validation/test sets\n</li>\n<li><strong>Comparing on training data:</strong> Always compare on validation\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Data Leakage: A Critical Issue",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>What is Data Leakage?</h4>Information from the test/validation set leaking into the training process, leading to overly optimistic performance estimates.</div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Common Sources}\n<ul>\n\n<li>Normalization using all data\n</li>\n<li>Feature selection on all data\n</li>\n<li>Imputation using all data\n</li>\n<li>Temporal data ordering issues\n</li>\n<li>Duplicate samples across splits\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Prevention}\n<ul>\n\n<li>Split data FIRST\n</li>\n<li>Fit preprocessing only on training\n</li>\n<li>Transform validation/test separately\n</li>\n<li>Use pipelines\n</li>\n<li>Be careful with time series\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>\n\n\n\n<div class=\"definition\"><h4>Example: Correct Order</h4>1. Split data $\\to$ 2. Fit scaler on train $\\to$ 3. Transform train/val/test $\\to$ 4. Train model</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Hyperparameter Tuning Strategies",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Grid Search</h4><ul>\n\n<li>Exhaustive search over grid\n</li>\n<li>Guarantees finding best in grid\n</li>\n<li>Exponential in \\# parameters\n</li>\n<li>Good for few parameters\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Random Search</h4><ul>\n\n<li>Randomly sample combinations\n</li>\n<li>Often finds good solutions faster\n</li>\n<li>Better for many parameters\n</li>\n<li>Can set computational budget\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Bayesian Optimization</h4><ul>\n\n<li>Models objective function\n</li>\n<li>Guides search intelligently\n</li>\n<li>Most sample-efficient\n</li>\n<li>Good for expensive models\n</li>\n</ul></div>\n\n\n\n\\begin{tipblock}{Practical Tips}\n<ul>\n\n<li>Start with coarse grid\n</li>\n<li>Refine around best values\n</li>\n<li>Use log scale for $\\lambda$\n</li>\n<li>Parallelize when possible\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Nested Cross-Validation",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Problem</h4>Using CV for both model selection and performance estimation gives biased results!</div>\n\n\n\n\\begin{exampleblock}{Solution: Nested CV}\n<ul>\n\n<li><strong>Outer loop:</strong> Estimates true performance\n</li>\n<li><strong>Inner loop:</strong> Selects hyperparameters\n</li>\n<li>Provides unbiased performance estimate\n</li>\n<li>More computationally expensive\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"definition\"><h4>Structure</h4>For each outer fold:\n<ol>\n\n<li>Set aside test fold\n</li>\n<li>Use inner CV to select hyperparameters\n</li>\n<li>Train final model with best hyperparameters\n</li>\n<li>Evaluate on test fold\n</li>\n</ol>\nAverage outer fold results</div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.7]\n% Outer loop\n\\draw[thick, blue] (0,0) rectangle (5,0.6);\n\\node at (2.5, 0.3) {\\small Outer Fold 1};\n\n\\draw[thick, blue] (0,-1) rectangle (5,-0.4);\n\\node at (2.5, -0.7) {\\small Outer Fold 2};\n\n\\draw[thick, blue] (0,-2) rectangle (5,-1.4);\n\\node at (2.5, -1.7) {\\small Outer Fold 3};\n\n% Inner loops for first outer fold\n\\draw[thick, red] (0.2, 1.2) rectangle (1.5, 1.6);\n\\node at (0.85, 1.4) {\\tiny Inner 1};\n\n\\draw[thick, red] (1.7, 1.2) rectangle (3, 1.6);\n\\node at (2.35, 1.4) {\\tiny Inner 2};\n\n\\draw[thick, red] (3.2, 1.2) rectangle (4.5, 1.6);\n\\node at (3.85, 1.4) {\\tiny Inner 3};\n\n% Arrows\n\\draw[->, thick] (2.5, 0.6) -- (2.5, 1.2);\n\n% Labels\n\\node[blue, left] at (-0.2, 0.3) {\\small Outer};\n\\node[red, right] at (5.2, 1.4) {\\small Inner};\n\\end{tikzpicture}\n\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Model Selection Checklist",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Before Training</h4><ul>\n\n<li>[$\\square$] Understand the problem and data\n</li>\n<li>[$\\square$] Check for class imbalance\n</li>\n<li>[$\\square$] Handle missing values\n</li>\n<li>[$\\square$] Split data properly\n</li>\n<li>[$\\square$] Standardize/normalize features\n</li>\n<li>[$\\square$] Choose appropriate metrics\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>During Training</h4><ul>\n\n<li>[$\\square$] Use cross-validation\n</li>\n<li>[$\\square$] Track train and validation metrics\n</li>\n<li>[$\\square$] Try multiple model types\n</li>\n<li>[$\\square$] Tune hyperparameters systematically\n</li>\n<li>[$\\square$] Check for overfitting\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>After Training</h4><ul>\n\n<li>[$\\square$] Evaluate on test set (once!)\n</li>\n<li>[$\\square$] Compare multiple metrics\n</li>\n<li>[$\\square$] Analyze errors/confusion matrix\n</li>\n<li>[$\\square$] Check for biases\n</li>\n<li>[$\\square$] Document results\n</li>\n<li>[$\\square$] Assess computational requirements\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Golden Rule</h4><strong>Never</strong> touch the test set until final evaluation, and evaluate on it only <strong>once</strong>!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Summary: Key Concepts",
+      "readingTime": "1 min",
+      "content": "<ol>\n<li><strong>Bias-Variance Tradeoff</strong>\n<ul>\n</li>\n<li>Balance between model complexity and generalization\n</li>\n<li>Underfitting (high bias) vs Overfitting (high variance)\n</li>\n</ul>\n\n\n\n<li><strong>Model Validation</strong>\n<ul>\n</li>\n<li>Always use separate train/validation/test sets\n</li>\n<li>Cross-validation provides robust performance estimates\n</li>\n<li>Learning curves diagnose fitting issues\n</li>\n</ul>\n\n\n\n<li><strong>Evaluation Metrics</strong>\n<ul>\n</li>\n<li>Choose metrics appropriate for the problem\n</li>\n<li>Classification: accuracy, precision, recall, F1, ROC-AUC\n</li>\n<li>Regression: MSE, RMSE, MAE, $R^2$\n</li>\n</ul>\n\n\n\n<li><strong>Regularization</strong>\n<ul>\n</li>\n<li>Ridge (L2): shrinks coefficients, keeps all features\n</li>\n<li>Lasso (L1): feature selection via sparsity\n</li>\n<li>Elastic Net: combines L1 and L2\n</li>\n</ul>\n</ol>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>Critical Principles</h4><ul>\n\n<li><strong>Generalization is the goal</strong> - training performance is not enough\n</li>\n<li><strong>Avoid data leakage</strong> - fit preprocessing only on training data\n</li>\n<li><strong>Use proper validation</strong> - cross-validation for robust estimates\n</li>\n<li><strong>Test set is sacred</strong> - evaluate on it only once at the end\n</li>\n<li><strong>Choose appropriate metrics</strong> - align with business/research goals\n</li>\n<li><strong>Regularize when needed</strong> - prevent overfitting proactively\n</li>\n<li><strong>Document everything</strong> - ensure reproducibility\n</li>\n</ul></div>\n\n\n\n<div class=\"definition\"><h4>Next Steps</h4>Practice model selection and evaluation on real datasets using cross-validation, regularization, and proper evaluation protocols.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Additional Resources",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Textbooks</h4><ul>\n<li>Hastie, Tibshirani, Friedman - <em>The Elements of Statistical Learning</em>\n</li>\n<li>Bishop - <em>Pattern Recognition and Machine Learning</em>\n</li>\n<li>James et al. - <em>An Introduction to Statistical Learning</em>\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Online Resources</h4><ul>\n<li>scikit-learn documentation: Model selection and evaluation\n</li>\n<li>Coursera: Machine Learning by Andrew Ng\n</li>\n<li>Fast.ai: Practical Deep Learning for Coders\n</li>\n</ul></div>\n\n\n\n\n<strong>\\Large Thank you!</strong>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

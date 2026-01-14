@@ -1,0 +1,317 @@
+{
+  "module": {
+    "id": "10",
+    "title": "Kernel Methods",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 38,
+    "estimatedDuration": "76 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "Review: Supervised Learning Framework",
+      "readingTime": "1 min",
+      "content": "<strong>Supervised Learning: Learning from Labeled Examples</strong>\n\n<div class=\"figure\"><p><em>[Figure: ../figures/supervised_learning_overview.png]</em></p></div>\n\n\n<div class=\"highlight\"><h4>Core Concept</h4>Given labeled training data, learn $f: \\mathcal{X} \\to \\mathcal{Y}$.</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Regression Tasks</h4><ul>\n\n<li>Continuous output\n</li>\n<li>Ex: price prediction\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Classification Tasks</h4><ul>\n\n<li>Discrete labels\n</li>\n<li>Ex: spam detection\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Comparison of Supervised Learning Methods",
+      "readingTime": "1 min",
+      "content": "\\scriptsize\n\\begin{tabular}{|l|c|c|}\n\\hline\n<strong>Method</strong> & <strong>Model</strong> & <strong>Loss Function</strong> \\\\\n\\hline\n<strong>Linear Regression</strong> & $y = w^T x + b$ & $\\sum_{i=1}^N (y_i - w^T x_i - b)^2$ \\\\\n& & Sum-of-squares loss \\\\\n\\hline\n<strong>Logistic Regression</strong> & $P(y=1|x) = \\sigma(w^T x + b)$ & $-\\sum_{i=1}^N y_i \\log(\\sigma(w^T x_i + b))$ \\\\\n& $\\sigma(z) = \\frac{1}{1+e^{-z}}$ & $+ (1-y_i)\\log(1-\\sigma(w^T x_i + b))$ \\\\\n& & Cross-entropy loss \\\\\n\\hline\n<strong>Support Vector Machine</strong> & $y = \\text{sign}(w^T x + b)$ & $\\frac{1}{2}\\|w\\|^2 + C\\sum_i \\max(0, 1-y_i(w^T x_i + b))$ \\\\\n& & Hinge loss + L2 regularization \\\\\n\\hline\n\\end{tabular}\n\n\n\n<div class=\"warning\"><h4>Today's Focus</h4>We'll explore how <strong>Support Vector Machines</strong> use the <strong>kernel trick</strong> to solve non-linear problems while maintaining computational efficiency.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "What are Kernel Methods?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4><strong>Kernel methods</strong> are a class of algorithms that use kernel functions to operate in high-dimensional feature spaces without explicitly computing the coordinates in that space.</div>\n\n\n<strong>Key Idea:</strong>\n<ul>\n\n<li>Transform data to higher dimensions where it becomes linearly separable\n</li>\n<li>Use <strong>kernel trick</strong> to avoid explicit transformation\n</li>\n<li>Compute inner products efficiently in feature space\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Why Kernel Methods?</h4>Many real-world problems are <strong>not linearly separable</strong> in their original feature space.</div>\n</div>\n\n<div class=\"column\">\n<strong>Common Applications:</strong>\n<ul>\n\n<li><strong>Classification:</strong> Support Vector Machines\n</li>\n<li><strong>Regression:</strong> Support Vector Regression\n</li>\n<li><strong>Dimensionality Reduction:</strong> Kernel PCA\n</li>\n<li><strong>Clustering:</strong> Kernel K-means\n</li>\n</ul>\n\n\n<strong>Advantages:</strong>\n<ul>\n\n<li>Handle non-linear relationships\n</li>\n<li>Computational efficiency via kernel trick\n</li>\n<li>Strong theoretical foundations\n</li>\n<li>Flexible and powerful\n</li>\n</ul>\n\n\n<strong>Examples:</strong>\n<ul>\n\n<li>Image classification\n</li>\n<li>Text analysis\n</li>\n<li>Bioinformatics\n</li>\n<li>Time series analysis\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Linear vs Non-linear Separability",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/linear_vs_nonlinear_data.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Linearly Separable Data</h4><strong>Characteristics:</strong>\n<ul>\n\n<li>Classes form distinct clusters\n</li>\n<li>Linear boundary separates perfectly\n</li>\n<li>Decision rule: $w^T x + b = 0$\n</li>\n</ul></div>\n\n<strong>Advantages:</strong>\n<ul>\n\n<li>Simple and interpretable\n</li>\n<li>Fast training and prediction\n</li>\n<li>Good generalization\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Non-linearly Separable Data</h4><strong>Characteristics:</strong>\n<ul>\n\n<li>Complex data patterns (e.g., concentric circles)\n</li>\n<li>No linear boundary can separate\n</li>\n<li>Requires non-linear decision boundary\n</li>\n</ul></div>\n\n<strong>Solution: Kernel Methods</strong>\n<ul>\n\n<li>Transform to higher dimensions\n</li>\n<li>Apply linear methods in new space\n</li>\n<li>Kernel trick for efficiency\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Rosenblatt's Perceptron (1957)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>The Perceptron Algorithm</h4><strong>Frank Rosenblatt</strong> introduced the first learning algorithm for binary classification in 1957.</div>\n\n\n<strong>Perceptron Model:</strong>\n$$\\begin{aligned}f(x) = \\text{sign}(w^T x + b) \\\\ \\text{Output} = \\begin{cases}\n+1  \\text{if } w^T x + b \\geq 0 \\\\ -1  \\text{if } w^T x + b < 0\n\\end{cases}\\end{aligned}$$\n\n\n<strong>Learning Rule:</strong>\n$$\\begin{aligned}w^{(t+1)} = w^{(t)} + \\eta \\cdot y_i \\cdot x_i \\\\ b^{(t+1)} = b^{(t)} + \\eta \\cdot y_i\\end{aligned}$$\n<em>Update only when misclassified</em>\n\n\n<div class=\"warning\"><h4>Perceptron Convergence Theorem</h4>If data is linearly separable, the perceptron algorithm will converge to a solution in finite steps.</div>\n</div>\n\n<div class=\"column\">\n<strong>Historical Impact:</strong>\n\n\n<ul>\n\n<li><strong>1957:</strong> Perceptron introduced\n</li>\n<li><strong>1969:</strong> Limitations exposed (XOR problem)\n</li>\n<li><strong>1980s-1990s:</strong> SVM development\n</li>\n<li><strong>Key insight:</strong> Maximum margin principle\n</li>\n</ul>\n\n\n<strong>Motivation for SVMs:</strong>\n<ul>\n\n<li>Address perceptron limitations\n</li>\n<li>Better generalization bounds\n</li>\n<li>Handle non-linearly separable data\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Perceptron vs SVM: A Visual Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/perceptron_vs_svm.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Perceptron Approach</h4><ul>\n\n<li><strong>Goal:</strong> Find any separating hyperplane\n</li>\n<li><strong>Method:</strong> Iterative weight updates\n</li>\n<li><strong>Result:</strong> Multiple valid solutions\n</li>\n<li><strong>Issue:</strong> No optimality criterion\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>SVM Approach</h4><ul>\n\n<li><strong>Goal:</strong> Find optimal separating hyperplane\n</li>\n<li><strong>Method:</strong> Maximize margin width\n</li>\n<li><strong>Result:</strong> Unique optimal solution\n</li>\n<li><strong>Benefit:</strong> Better generalization\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Key Insight</h4>SVMs choose the hyperplane that maximizes the distance to the nearest data points (<strong>support vectors</strong>), leading to better generalization performance.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "From Linear to Non-linear: Evolution of Ideas",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Timeline of Development:</strong>\n\n\n<ul>\n\n<li><strong>1957:</strong> Rosenblatt's Perceptron\n</li>\n<li><strong>1969:</strong> Minsky \\& Papert limitations\n</li>\n<li><strong>1979:</strong> Least squares SVM ideas\n</li>\n<li><strong>1992:</strong> Boser, Guyon, Vapnik kernel trick\n</li>\n<li><strong>1995:</strong> Cortes \\& Vapnik soft margin\n</li>\n<li><strong>1996:</strong> Schölkopf kernel methods\n</li>\n</ul>\n\n\n<div class=\"highlight\"><h4>Minsky \\& Papert (1969)</h4>Showed that perceptrons cannot solve non-linearly separable problems like XOR, leading to the \"AI winter.\"</div>\n\n\n<div class=\"warning\"><h4>The Kernel Revolution</h4>The kernel trick (1992) revived interest by enabling non-linear classification while maintaining computational efficiency.</div>\n</div>\n\n<div class=\"column\">\n<strong>The XOR Problem:</strong>\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/xor_problem.png]</em></p></div>\n\n\n<div class=\"highlight\"><h4>Problem Statement</h4><ul>\n\n<li>Input: $(0,0) \\to 0$, $(0,1) \\to 1$\n</li>\n<li>Input: $(1,0) \\to 1$, $(1,1) \\to 0$\n</li>\n<li>No linear separator exists\n</li>\n</ul></div>\n\n\n<strong>Kernel Solution:</strong>\nTransform to 3D space:\n$$\\phi(x_1, x_2) = (x_1, x_2, x_1 x_2)$$\n\n<strong>Result:</strong> Linearly separable in 3D!\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Support Vector Machines: Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Core Concept</h4><strong>SVM</strong> finds the optimal hyperplane that separates classes with the <strong>maximum margin</strong>.</div>\n\n\n<strong>Key Components:</strong>\n<ul>\n\n<li><strong>Decision boundary:</strong> Hyperplane separating classes\n</li>\n<li><strong>Margin:</strong> Distance between boundary and closest points\n</li>\n<li><strong>Support vectors:</strong> Points defining the margin\n</li>\n</ul>\n\n\n<strong>Mathematical Formulation:</strong>\n$$\\begin{aligned}\\text{Hyperplane: }   w^T x + b = 0 \\\\ \\text{Margin: }   \\frac{2}{\\|w\\|}\\end{aligned}$$\n\n<div class=\"warning\"><h4>Goal</h4><strong>Maximize margin</strong> while correctly classifying all training points.</div>\n</div>\n\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/linear_svm_margins.png]</em></p></div>\n\n\n\n<strong>Why Maximum Margin?</strong>\n<ul>\n\n<li><strong>Generalization:</strong> Better performance on unseen data\n</li>\n<li><strong>Robustness:</strong> Less sensitive to noise\n</li>\n<li><strong>Uniqueness:</strong> Single optimal solution\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Geometric Interpretation of Margin",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Margin Definition:</strong>\n\n\nFor a hyperplane $w^T x + b = 0$:\n$$\\begin{aligned}\\text{Distance from point } x_i \\text{ to hyperplane:} \\\\ d_i = \\frac{|w^T x_i + b|}{\\|w\\|}\\end{aligned}$$\n\n\n<strong>Margin Width:</strong>\n$$\\text{Margin} = \\min_{i} d_i = \\frac{1}{\\|w\\|}$$\n\n\n<div class=\"highlight\"><h4>Canonical Form</h4>Scale $w$ and $b$ so that for the closest points:\n$$w^T x_i + b = \\pm 1$$\nThen margin becomes $\\frac{2}{\\|w\\|}$.</div>\n</div>\n\n<div class=\"column\">\n<strong>Visual Interpretation:</strong>\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/svm_geometry.png]</em></p></div>\n\n\n<div class=\"highlight\"><h4>Key Elements</h4><ul>\n\n<li><strong>Decision boundary:</strong> $w^T x + b = 0$\n</li>\n<li><strong>Margin boundaries:</strong> $w^T x + b = \\pm 1$\n</li>\n<li><strong>Support vectors:</strong> Closest points\n</li>\n<li><strong>Margin width:</strong> $\\frac{2}{\\|w\\|}$\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "SVM Optimization: Primal Problem",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Hard Margin SVM:</strong>\n\n\n<div class=\"highlight\"><h4>Primal Problem</h4>$$\\begin{aligned}\\min_{w,b}   \\frac{1}{2}\\|w\\|^2 \\\\ \\text{subject to}   y_i(w^T x_i + b) \\geq 1,   i = 1,…,n\\end{aligned}$$</div>\n\n\n<strong>Interpretation:</strong>\n<ul>\n\n<li><strong>Objective:</strong> Minimize $\\|w\\|^2$ $\\Rightarrow$ Maximize margin $\\frac{2}{\\|w\\|}$\n</li>\n<li><strong>Constraints:</strong> All points correctly classified with margin $\\geq 1$\n</li>\n</ul>\n\n\n<strong>Problem Type:</strong>\n<ul>\n\n<li>Quadratic objective function\n</li>\n<li>Linear constraints\n</li>\n<li>Convex optimization problem\n</li>\n<li>Unique global optimum\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Soft Margin SVM:</strong>\n\n\n<div class=\"highlight\"><h4>Primal Problem with Slack Variables</h4>$$\\begin{aligned}\\min_{w,b,\\xi}   \\frac{1}{2}\\|w\\|^2 + C\\sum_{i=1}^{n}\\xi_i \\\\ \\text{subject to}   y_i(w^T x_i + b) \\geq 1 - \\xi_i \\\\ \\xi_i \\geq 0,   i = 1,…,n\\end{aligned}$$</div>\n\n\n<strong>Slack Variables $\\xi_i$:</strong>\n<ul>\n\n<li>$\\xi_i = 0$: Point correctly classified with margin $\\geq 1$\n</li>\n<li>$0 < \\xi_i < 1$: Point correctly classified but within margin\n</li>\n<li>$\\xi_i \\geq 1$: Point misclassified\n</li>\n</ul>\n\n\n<strong>Regularization Parameter $C$:</strong>\n<ul>\n\n<li>Large $C$: Penalty for violations (hard margin)\n</li>\n<li>Small $C$: Allow more violations (soft margin)\n</li>\n<li>Controls bias-variance tradeoff\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "SVM Optimization: Dual Problem",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Lagrangian Formulation:</strong>\n\n\n<div class=\"highlight\"><h4>Lagrangian</h4>$$\\begin{aligned}L = \\frac{1}{2}\\|w\\|^2 + C\\sum_{i=1}^{n}\\xi_i \\\\ - \\sum_{i=1}^{n}\\alpha_i[y_i(w^T x_i + b) - 1 + \\xi_i] \\\\ - \\sum_{i=1}^{n}\\mu_i\\xi_i\\end{aligned}$$</div>\n\n\n<strong>KKT Conditions:</strong>\n$$\\begin{aligned}\\frac{\\partial L}{\\partial w} = 0 \\Rightarrow w = \\sum_{i=1}^{n}\\alpha_i y_i x_i \\\\ \\frac{\\partial L}{\\partial b} = 0 \\Rightarrow \\sum_{i=1}^{n}\\alpha_i y_i = 0 \\\\ \\frac{\\partial L}{\\partial \\xi_i} = 0 \\Rightarrow \\alpha_i + \\mu_i = C\\end{aligned}$$\n</div>\n\n<div class=\"column\">\n<strong>Dual Problem:</strong>\n\n\n<div class=\"highlight\"><h4>Dual Formulation</h4>$$\\begin{aligned}\\max_{\\alpha}   \\sum_{i=1}^{n}\\alpha_i - \\frac{1}{2}\\sum_{i,j=1}^{n}\\alpha_i\\alpha_j y_i y_j x_i^T x_j \\\\ \\text{subject to}   \\sum_{i=1}^{n}\\alpha_i y_i = 0 \\\\ 0 \\leq \\alpha_i \\leq C,   i = 1,…,n\\end{aligned}$$</div>\n\n\n<strong>Key Insights:</strong>\n<ul>\n\n<li>Only depends on <strong>inner products</strong> $x_i^T x_j$\n</li>\n<li>Sparse solution: many $\\alpha_i = 0$\n</li>\n<li>Support vectors: $\\alpha_i > 0$\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Kernel Trick Preview</h4>Replace $x_i^T x_j$ with $K(x_i, x_j)$ to work in higher dimensions!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Hard vs Soft Margin SVMs",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/hard_vs_soft_margin.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Hard Margin (C = 1000)</h4><ul>\n\n<li>No training errors allowed\n</li>\n<li>Requires linearly separable data\n</li>\n<li>May overfit to training data\n</li>\n<li>Complex decision boundary\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Soft Margin (C = 0.1)</h4><ul>\n\n<li>Allows some training errors\n</li>\n<li>Works with non-separable data\n</li>\n<li>Better generalization\n</li>\n<li>Smoother decision boundary\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "The Kernel Trick",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Feature Mapping:</strong>\n\n\nTransform input space $\\mathcal{X}$ to feature space $\\mathcal{H}$:\n$$\\phi: \\mathcal{X} \\rightarrow \\mathcal{H}$$\n\n\n<strong>Example: Polynomial Features</strong>\n$$\\begin{aligned}x = (x_1, x_2) \\\\ \\phi(x) = (1, x_1, x_2, x_1^2, x_2^2, \\sqrt{2}x_1 x_2)\\end{aligned}$$\n\n\n<div class=\"highlight\"><h4>Kernel Function</h4>Instead of computing $\\phi(x_i)^T \\phi(x_j)$ explicitly:\n$$K(x_i, x_j) = \\phi(x_i)^T \\phi(x_j)$$</div>\n\n\n<div class=\"warning\"><h4>Key Insight</h4>We can compute inner products in high-dimensional space without explicitly mapping to that space!</div>\n</div>\n\n<div class=\"column\">\n<strong>Computational Advantage:</strong>\n\n\n<strong>Without Kernel Trick:</strong>\n<ul>\n\n<li>Map: $\\mathcal{O}(d')$ where $d'$ is feature space dimension\n</li>\n<li>Inner product: $\\mathcal{O}(d')$\n</li>\n<li>Total: $\\mathcal{O}(d')$ per pair\n</li>\n</ul>\n\n\n<strong>With Kernel Trick:</strong>\n<ul>\n\n<li>Direct kernel computation: $\\mathcal{O}(d)$ where $d$ is input dimension\n</li>\n<li>No explicit mapping needed\n</li>\n<li>Total: $\\mathcal{O}(d)$ per pair\n</li>\n</ul>\n\n\n<strong>Example: Polynomial Kernel</strong>\n$$\\begin{aligned}K(x, x') = (x^T x' + 1)^2 \\\\ = 1 + 2x^T x' + (x^T x')^2\\end{aligned}$$\n\nThis implicitly computes inner product in a $(d+1)(d+2)/2$ dimensional space using only $\\mathcal{O}(d)$ operations!\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Kernel Trick Visualization",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/kernel_trick_transformation.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Original Space</h4>Non-linearly separable data in 2D cannot be separated by a straight line.</div>\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Transformed Space</h4>Data becomes linearly separable in 3D after polynomial transformation $\\phi(x) = (x_1, x_2, x_1^2 + x_2^2)$.</div>\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Kernel Result</h4>RBF kernel achieves non-linear separation directly in original 2D space.</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Common Kernel Functions",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/kernel_functions.png]</em></p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Common Kernel Functions: Definitions",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Linear Kernel</h4>$$K(x, x') = x^T x'$$\n<ul>\n\n<li>Equivalent to no transformation\n</li>\n<li>Fastest computation\n</li>\n<li>Good baseline\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Polynomial Kernel</h4>$$K(x, x') = (\\gamma x^T x' + r)^d$$\n<ul>\n\n<li>Captures interactions to degree $d$\n</li>\n<li>Parameters: $\\gamma, r, d$\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>RBF (Gaussian) Kernel</h4>$$K(x, x') = \\exp\\left(-\\gamma \\|x - x'\\|^2\\right)$$\n<ul>\n\n<li>Most popular kernel\n</li>\n<li>Infinite-dimensional feature space\n</li>\n<li>Smooth, localized similarity\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Sigmoid Kernel</h4>$$K(x, x') = \\tanh(\\gamma x^T x' + r)$$\n<ul>\n\n<li>Neural network inspired\n</li>\n<li>Less commonly used\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Comparing Different Kernels",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/different_kernels.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Kernel Selection:</strong>\n<ul>\n\n<li><strong>Linear:</strong> High-dim data\n</li>\n<li><strong>Polynomial:</strong> Known relationships\n</li>\n<li><strong>RBF:</strong> General-purpose\n</li>\n<li><strong>Sigmoid:</strong> Neural network\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Performance Factors:</strong>\n<ul>\n\n<li>Data dimensionality\n</li>\n<li>Training set size\n</li>\n<li>Noise level\n</li>\n<li>Domain knowledge\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "RBF Kernel Parameter Effects",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/rbf_kernel_parameters.png]</em></p></div>\n\n\n<strong>Gamma ($\\gamma$):</strong> Small $\\Rightarrow$ smooth, Large $\\Rightarrow$ complex\n\n<strong>Regularization ($C$):</strong> Small $\\Rightarrow$ soft margin, Large $\\Rightarrow$ hard margin",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Mercer's Theorem: Valid Kernels",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mercer's Theorem</h4>A function $K(x, x')$ is a valid kernel (corresponds to an inner product in some feature space) if and only if for any finite set of points $\\{x_1, …, x_n\\}$, the kernel matrix $\\mathbf{K}$ is positive semi-definite.</div>\n\n\n<strong>Kernel Matrix:</strong>\n$$\\mathbf{K}_{ij} = K(x_i, x_j)$$\n\n\n<strong>Positive Semi-definite:</strong>\n$$\\mathbf{K} \\succeq 0 \\iff \\sum_{i,j} c_i c_j K(x_i, x_j) \\geq 0$$\nfor all real numbers $c_1, …, c_n$.\n\n\n<div class=\"warning\"><h4>Practical Implication</h4>Not every function can be used as a kernel! Only those satisfying Mercer's condition.</div>\n</div>\n\n<div class=\"column\">\n<strong>Properties of Valid Kernels:</strong>\n\n\n<ul>\n\n<li><strong>Symmetry:</strong> $K(x, x') = K(x', x)$\n</li>\n<li><strong>Positive semi-definiteness:</strong> Kernel matrix $\\mathbf{K} \\succeq 0$\n</li>\n</ul>\n\n\n<strong>Constructing New Kernels:</strong>\n\n\nIf $K_1$ and $K_2$ are valid kernels, then:\n$$\\begin{aligned}K(x, x') = K_1(x, x') + K_2(x, x') \\\\ K(x, x') = c \\cdot K_1(x, x'),   c > 0 \\\\ K(x, x') = K_1(x, x') \\cdot K_2(x, x') \\\\ K(x, x') = \\exp(K_1(x, x')) \\\\ K(x, x') = f(x) K_1(x, x') f(x')\\end{aligned}$$\n\n\n<strong>Domain-Specific Kernels:</strong>\n<ul>\n\n<li>String kernels for text\n</li>\n<li>Graph kernels for networks\n</li>\n<li>Tree kernels for structured data\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Examples of Valid and Invalid Kernels",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Valid Kernels:</strong>\n\n\n<div class=\"highlight\"><h4>Linear</h4>$$K(x, x') = x^T x'$$</div>\n\n<div class=\"highlight\"><h4>Polynomial</h4>$$K(x, x') = (x^T x' + 1)^d,   d \\geq 1$$</div>\n\n<div class=\"highlight\"><h4>RBF/Gaussian</h4>$$K(x, x') = \\exp\\left(-\\frac{\\|x - x'\\|^2}{2\\sigma^2}\\right)$$</div>\n\n<div class=\"highlight\"><h4>Exponential</h4>$$K(x, x') = \\exp(-\\gamma \\|x - x'\\|),   \\gamma > 0$$</div>\n\n\n<strong>Why Valid?</strong>\nAll can be shown to correspond to inner products in (possibly infinite-dimensional) feature spaces.\n</div>\n\n<div class=\"column\">\n<strong>Invalid Kernels:</strong>\n\n\n<div class=\"highlight\"><h4>Negative Power</h4>$$K(x, x') = (x^T x')^{-1}$$\nNot positive semi-definite.</div>\n\n<div class=\"highlight\"><h4>Logarithmic</h4>$$K(x, x') = \\log(x^T x' + 1)$$\nCan produce negative eigenvalues.</div>\n\n\n<strong>Checking Validity:</strong>\n\n\n<ol>\n\n<li><strong>Theoretical:</strong> Prove positive semi-definiteness\n</li>\n<li><strong>Computational:</strong> Check eigenvalues of kernel matrix\n</li>\n<li><strong>Construction:</strong> Build from known valid kernels\n</li>\n</ol>\n\n\n<div class=\"warning\"><h4>Practical Note</h4>Most standard kernels in ML libraries are guaranteed to be valid. Custom kernels need verification.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Multiple Kernel Learning (MKL)",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Motivation</h4>Different kernels capture different aspects of data:\n<ul>\n\n<li>RBF kernel: local similarities\n</li>\n<li>Linear kernel: global structure\n</li>\n<li>Polynomial kernel: feature interactions\n</li>\n</ul></div>\n\n\n<strong>Idea:</strong> Combine multiple kernels to get better performance than any single kernel.\n\n\n<strong>Linear Combination:</strong>\n$$K(x, x') = \\sum_{m=1}^M \\beta_m K_m(x, x')$$\n\nwhere $\\beta_m \\geq 0$ and $\\sum_{m=1}^M \\beta_m = 1$.\n\n\n<strong>Applications:</strong>\n<ul>\n\n<li>Multi-modal data (text + images)\n</li>\n<li>Feature selection\n</li>\n<li>Domain adaptation\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>MKL Optimization:</strong>\n\n\n<div class=\"highlight\"><h4>Joint Optimization</h4>$$\\begin{aligned}\\min_{w,b,\\xi,\\beta}   \\frac{1}{2}\\sum_{m=1}^M \\frac{\\|w_m\\|^2}{\\beta_m} + C\\sum_{i=1}^n \\xi_i \\\\ \\text{subject to}   y_i\\left(\\sum_{m=1}^M w_m^T \\phi_m(x_i) + b\\right) \\geq 1 - \\xi_i \\\\ \\xi_i \\geq 0,   \\beta_m \\geq 0,   \\sum_{m=1}^M \\beta_m = 1\\end{aligned}$$</div>\n\n\n<strong>Solution Methods:</strong>\n<ul>\n\n<li><strong>Alternating optimization:</strong> Fix $\\beta$, solve for $w$; fix $w$, solve for $\\beta$\n</li>\n<li><strong>Semi-definite programming:</strong> Convex formulation\n</li>\n<li><strong>Gradient-based methods:</strong> Efficient for large-scale\n</li>\n</ul>\n\n\n<strong>Kernel Weight Interpretation:</strong>\n<ul>\n\n<li>$\\beta_m$ close to 1: Kernel $m$ is most important\n</li>\n<li>$\\beta_m$ close to 0: Kernel $m$ is irrelevant\n</li>\n<li>Automatic feature/kernel selection\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "MKL Example: Combining Kernels",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Example Setup:</strong>\n\n\nConsider combining three kernels:\n$$\\begin{aligned}K_1(x, x') = x^T x'   \\text{(Linear)} \\\\ K_2(x, x') = (x^T x' + 1)^2   \\text{(Polynomial)} \\\\ K_3(x, x') = \\exp(-\\|x-x'\\|^2)   \\text{(RBF)}\\end{aligned}$$\n\n\n<strong>Combined Kernel:</strong>\n$$K(x, x') = \\beta_1 K_1(x, x') + \\beta_2 K_2(x, x') + \\beta_3 K_3(x, x')$$\n\n\n<strong>Learning Process:</strong>\n<ol>\n\n<li>Start with equal weights: $\\beta_1 = \\beta_2 = \\beta_3 = \\frac{1}{3}$\n</li>\n<li>Iteratively optimize weights and SVM parameters\n</li>\n<li>Converge to optimal combination\n</li>\n</ol>\n</div>\n\n<div class=\"column\">\n<strong>Sample Results:</strong>\n\n\n\n\\begin{tabular}{|l|c|c|}\n\\hline\n<strong>Kernel</strong> & <strong>Weight</strong> & <strong>Accuracy</strong> \\\\\n\\hline\nLinear & 0.1 & 0.78 \\\\\nPolynomial & 0.3 & 0.82 \\\\\nRBF & 0.6 & 0.85 \\\\\n\\hline\n<strong>Combined MKL</strong> & <strong>-</strong> & <strong>0.89</strong> \\\\\n\\hline\n\\end{tabular}\n\n\n\n<strong>Advantages:</strong>\n<ul>\n\n<li><strong>Better performance</strong> than individual kernels\n</li>\n<li><strong>Automatic selection</strong> of relevant kernels\n</li>\n<li><strong>Interpretability</strong> through weights\n</li>\n</ul>\n\n\n<strong>Challenges:</strong>\n<ul>\n\n<li>Increased computational complexity\n</li>\n<li>More hyperparameters to tune\n</li>\n<li>Risk of overfitting with many kernels\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Multi-class SVM Strategies",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/multiclass_strategies.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>One-vs-Rest (OvR)</h4><ul>\n\n<li>Train $k$ binary classifiers\n</li>\n<li>Each separates one class from all others\n</li>\n<li>Prediction: class with highest score\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>One-vs-One (OvO)</h4><ul>\n\n<li>Train $\\binom{k}{2}$ binary classifiers\n</li>\n<li>Each separates pair of classes\n</li>\n<li>Prediction: majority voting\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Direct Multiclass</h4><ul>\n\n<li>Single optimization problem\n</li>\n<li>Simultaneous separation\n</li>\n<li>More complex but unified\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "One-vs-Rest Detailed Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/ovr_detailed.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>OvR Strategy:</strong>\n\nFor $k$ classes:\n<ol>\n\n<li>Class 0 vs {1,2,3}\n</li>\n<li>Class 1 vs {0,2,3}\n</li>\n<li>Class 2 vs {0,1,3}\n</li>\n<li>Class 3 vs {0,1,2}\n</li>\n</ol>\n\n<strong>Prediction:</strong>\n$$\\hat{y} = \\arg\\max_{j} f_j(x)$$\n</div>\n\n<div class=\"column\">\n<strong>Advantages:</strong>\n<ul>\n\n<li>Simple implementation\n</li>\n<li>Linear scaling with $k$\n</li>\n<li>Any binary classifier\n</li>\n</ul>\n\n<strong>Disadvantages:</strong>\n<ul>\n\n<li>Class imbalance\n</li>\n<li>Inconsistent regions\n</li>\n</ul>\n\n<strong>Complexity:</strong>\n$$\\mathcal{O}(k \\cdot \\text{binary})$$\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Multi-class Kernel Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/kernel_multiclass_comparison.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Performance:</strong>\n<ul>\n\n<li><strong>Linear:</strong> High-dim data\n</li>\n<li><strong>Polynomial:</strong> Feature interactions\n</li>\n<li><strong>RBF:</strong> Most flexible\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Selection Criteria:</strong>\n<ul>\n\n<li>Dataset size\n</li>\n<li>Computational cost\n</li>\n<li>Cross-validation\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Best Practice</h4>Start with RBF kernel and tune $C$, $\\gamma$ via cross-validation.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Support Vector Regression (SVR)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>SVR Concept</h4>Extend SVM to regression by finding a function that deviates from target values by at most $\\epsilon$, while being as flat as possible.</div>\n\n\n<strong>Linear SVR:</strong>\n$$f(x) = w^T x + b$$\n\n\n<strong>Optimization Problem:</strong>\n$$\\begin{aligned}\\min_{w,b,\\xi,\\xi^*}   \\frac{1}{2}\\|w\\|^2 + C\\sum_{i=1}^n(\\xi_i + \\xi_i^*) \\\\ \\text{subject to}   y_i - w^T x_i - b \\leq \\epsilon + \\xi_i \\\\ w^T x_i + b - y_i \\leq \\epsilon + \\xi_i^* \\\\ \\xi_i, \\xi_i^* \\geq 0\\end{aligned}$$\n\n\n<strong>$\\epsilon$-insensitive Loss:</strong>\n$$L_\\epsilon(y, f(x)) = \\max(0, |y - f(x)| - \\epsilon)$$\n</div>\n\n<div class=\"column\">\n<strong>Key Parameters:</strong>\n\n\n<ul>\n\n<li><strong>$\\epsilon$:</strong> Width of insensitive zone\n</li>\n<li><strong>$C$:</strong> Regularization parameter\n</li>\n<li><strong>Kernel parameters:</strong> $\\gamma$ for RBF, etc.\n</li>\n</ul>\n\n\n<strong>Dual Formulation:</strong>\n$$f(x) = \\sum_{i=1}^n (\\alpha_i - \\alpha_i^*) K(x_i, x) + b$$\n\nwhere $\\alpha_i, \\alpha_i^* \\geq 0$ are Lagrange multipliers.\n\n\n<strong>Support Vectors:</strong>\n<ul>\n\n<li>Points outside $\\epsilon$-tube\n</li>\n<li>$\\alpha_i > 0$ or $\\alpha_i^* > 0$\n</li>\n<li>Determine the regression function\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Sparsity</h4>Many $\\alpha_i = \\alpha_i^* = 0$, leading to sparse solutions.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "SVR Demonstration",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/svr_demonstration.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Linear SVR</h4><ul>\n\n<li>Simple linear relationship\n</li>\n<li>Good for linear trends\n</li>\n<li>Fast computation\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Polynomial SVR</h4><ul>\n\n<li>Captures polynomial trends\n</li>\n<li>Risk of overfitting\n</li>\n<li>Degree selection important\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>RBF SVR</h4><ul>\n\n<li>Most flexible\n</li>\n<li>Handles non-linear patterns\n</li>\n<li>Requires parameter tuning\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Effect of $$ Parameter in SVR",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/epsilon_parameter_effect.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>$\\epsilon$ Parameter Effects:</strong>\n\n\n<ul>\n\n<li><strong>Small $\\epsilon$ (0.01):</strong> Tight fit, many support vectors\n</li>\n<li><strong>Medium $\\epsilon$ (0.1):</strong> Balanced complexity\n</li>\n<li><strong>Large $\\epsilon$ (0.5):</strong> Loose fit, fewer support vectors\n</li>\n</ul>\n\n\n<strong>Trade-offs:</strong>\n<ul>\n\n<li><strong>Small $\\epsilon$:</strong> Low bias, high variance\n</li>\n<li><strong>Large $\\epsilon$:</strong> High bias, low variance\n</li>\n<li><strong>Sparsity:</strong> Larger $\\epsilon$ $\\Rightarrow$ fewer support vectors\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Selection Guidelines:</strong>\n\n\n<ul>\n\n<li>Cross-validation for optimal $\\epsilon$\n</li>\n<li>Consider noise level in data\n</li>\n<li>Balance accuracy vs complexity\n</li>\n</ul>\n\n\n<strong>Practical Values:</strong>\n<ul>\n\n<li>Start with $\\epsilon = 0.1$\n</li>\n<li>Scale with target variable range\n</li>\n<li>Grid search with $C$ and kernel parameters\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>Set $\\epsilon \\approx \\frac{\\text{std}(y)}{10}$ as starting point.</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Kernel Ridge Regression vs SVR",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/kernel_ridge_vs_svr.png]</em></p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Kernel Ridge Regression vs SVR: Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Kernel Ridge</h4><strong>Objective:</strong>\n$$\\min_\\alpha \\|\\mathbf{K}\\alpha - y\\|^2 + \\lambda \\alpha^T \\mathbf{K} \\alpha$$\n\n<strong>Solution:</strong>\n$$\\alpha = (\\mathbf{K} + \\lambda \\mathbf{I})^{-1} y$$</div>\n\n<strong>Properties:</strong>\n<ul>\n\n<li>Non-sparse\n</li>\n<li>Closed-form\n</li>\n<li>Fast for small data\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>SVR</h4><strong>Objective:</strong>\n$$\\min_{w,b,\\xi} \\frac{1}{2}\\|w\\|^2 + C\\sum_i (\\xi_i + \\xi_i^*)$$\n\n<strong>Constraints:</strong>\n$$|y_i - f(x_i)| \\leq \\epsilon + \\xi_i$$</div>\n\n<strong>Properties:</strong>\n<ul>\n\n<li>Sparse (SVs)\n</li>\n<li>Robust to outliers\n</li>\n<li>Quadratic program\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Regularization in Kernel Regression",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/regularization_comparison.png]</em></p></div>\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Kernel Ridge ($\\alpha$):</strong>\n<ul>\n\n<li>Small: Overfitting risk\n</li>\n<li>Medium: Balanced\n</li>\n<li>Large: Underfitting risk\n</li>\n</ul>\n\n$$\\min_f \\sum_{i} (y_i - f(x_i))^2 + \\alpha \\|f\\|^2$$\n</div>\n\n<div class=\"column\">\n<strong>SVR ($C$):</strong>\n<ul>\n\n<li>High: Complex model\n</li>\n<li>Medium: Balanced\n</li>\n<li>Low: Simple model\n</li>\n</ul>\n\n<strong>Relationship:</strong> $C \\approx \\frac{1}{\\alpha}$\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Worked Example: RBF Kernel Computation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Problem Setup:</strong>\n\n\nGiven two points:\n$$\\begin{aligned}x_1 = (1, 2) \\\\ x_2 = (3, 1)\\end{aligned}$$\n\nCompute RBF kernel with $\\gamma = 0.5$:\n$$K(x_1, x_2) = \\exp(-\\gamma \\|x_1 - x_2\\|^2)$$\n\n\n<strong>Step 1: Compute distance</strong>\n$$\\begin{aligned}x_1 - x_2 = (1, 2) - (3, 1) = (-2, 1) \\\\ \\|x_1 - x_2\\|^2 = (-2)^2 + 1^2 = 4 + 1 = 5\\end{aligned}$$\n\n\n<strong>Step 2: Apply kernel</strong>\n$$\\begin{aligned}K(x_1, x_2) = \\exp(-0.5 \\times 5) \\\\ = \\exp(-2.5) \\\\ \\approx 0.082\\end{aligned}$$\n</div>\n\n<div class=\"column\">\n<strong>Interpretation:</strong>\n\n\n<ul>\n\n<li>Points are moderately far apart\n</li>\n<li>Kernel value is small (0.082)\n</li>\n<li>Indicates low similarity\n</li>\n</ul>\n\n\n<strong>Compare with closer points:</strong>\n\n\nFor $x_1 = (1, 2)$ and $x_3 = (1.1, 2.1)$:\n$$\\begin{aligned}\\|x_1 - x_3\\|^2 = (0.1)^2 + (0.1)^2 = 0.02 \\\\ K(x_1, x_3) = \\exp(-0.5 \\times 0.02) = \\exp(-0.01) \\\\ \\approx 0.99\\end{aligned}$$\n\n\n<strong>Effect of $\\gamma$:</strong>\n<ul>\n\n<li>Large $\\gamma$: Rapid decay, local influence\n</li>\n<li>Small $\\gamma$: Slow decay, global influence\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Key Insight</h4>RBF kernel measures similarity through Euclidean distance in input space.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Practical Implementation Tips",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Data Preprocessing:</strong>\n\n\n<ul>\n\n<li><strong>Feature Scaling:</strong> Critical for RBF kernels\n</li>\n<li><strong>Normalization:</strong> StandardScaler or MinMaxScaler\n</li>\n<li><strong>Missing Values:</strong> Handle before kernel computation\n</li>\n</ul>\n\n\n<strong>Hyperparameter Tuning:</strong>\n\n\n<div class=\"highlight\"><h4>Grid Search Example</h4>\\scriptsize\n\\texttt{param\\_grid = \\{} \\\\\n\\texttt{    'C': [0.1, 1, 10, 100],} \\\\\n\\texttt{    'gamma': [0.001, 0.01, 0.1, 1],} \\\\\n\\texttt{    'kernel': ['rbf', 'poly', 'linear']} \\\\\n\\texttt{\\}}</div>\n\n\n<strong>Performance Considerations:</strong>\n<ul>\n\n<li>Linear kernel: $\\mathcal{O}(n \\times d)$\n</li>\n<li>RBF kernel: $\\mathcal{O}(n \\times d)$ per evaluation\n</li>\n<li>Training complexity: $\\mathcal{O}(n^2)$ to $\\mathcal{O}(n^3)$\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Model Selection:</strong>\n\n\n<ol>\n\n<li>Start with RBF kernel\n</li>\n<li>Use cross-validation\n</li>\n<li>Compare with linear kernel\n</li>\n<li>Consider computational constraints\n</li>\n</ol>\n\n\n<strong>Common Pitfalls:</strong>\n\n\n<div class=\"warning\"><h4>Avoid These</h4><ul>\n\n<li>Forgetting to scale features\n</li>\n<li>Using default parameters\n</li>\n<li>Ignoring class imbalance\n</li>\n<li>Overfitting with complex kernels\n</li>\n</ul></div>\n\n\n<strong>Debugging Tips:</strong>\n<ul>\n\n<li>Check kernel matrix properties\n</li>\n<li>Visualize decision boundaries\n</li>\n<li>Monitor support vector counts\n</li>\n<li>Validate on holdout set\n</li>\n</ul>\n\n\n<strong>Software Libraries:</strong>\n<ul>\n\n<li>\\texttt{scikit-learn}: General purpose\n</li>\n<li>\\texttt{libsvm}: High performance\n</li>\n<li>\\texttt{thundersvm}: GPU acceleration\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Understanding Model Types",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Parametric Models:</strong>\n\n\n<div class=\"highlight\"><h4>Definition</h4>Fixed number of parameters independent of training set size. Make strong assumptions about functional form.</div>\n\n\n<strong>Examples:</strong>\n<ul>\n\n<li><strong>Linear Regression:</strong> $f(x) = w^T x + b$\n</li>\n<li><strong>Logistic Regression:</strong> $p = \\sigma(w^T x + b)$\n</li>\n<li><strong>Perceptron:</strong> Fixed decision boundary\n</li>\n<li><strong>Neural Networks:</strong> Fixed architecture\n</li>\n</ul>\n\n\n<strong>Characteristics:</strong>\n<ul>\n\n<li>Fast training and prediction\n</li>\n<li>Strong inductive bias\n</li>\n<li>May underfit complex data\n</li>\n<li>Interpretable parameters\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Non-parametric Models:</strong>\n\n\n<div class=\"highlight\"><h4>Definition</h4>Number of parameters grows with training data size. Make minimal assumptions about functional form.</div>\n\n\n<strong>Examples:</strong>\n<ul>\n\n<li><strong>k-NN:</strong> Stores all training data\n</li>\n<li><strong>Decision Trees:</strong> Adaptive structure\n</li>\n<li><strong>Kernel Methods:</strong> Support vector representation\n</li>\n<li><strong>Gaussian Processes:</strong> Infinite parameters\n</li>\n</ul>\n\n\n<strong>Characteristics:</strong>\n<ul>\n\n<li>Flexible representation\n</li>\n<li>Can fit complex patterns\n</li>\n<li>Risk of overfitting\n</li>\n<li>Higher computational cost\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Kernel Methods: The Non-parametric Perspective",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Why SVMs are Non-parametric:</strong>\n\n\n<div class=\"warning\"><h4>Key Insight</h4>SVM decision function depends on support vectors, whose number grows with data complexity, not fixed in advance.</div>\n\n\n<strong>Decision Function:</strong>\n$$f(x) = \\sum_{i \\in SV} \\alpha_i y_i K(x_i, x) + b$$\n\n\n<ul>\n\n<li>Number of support vectors $|SV|$ varies\n</li>\n<li>Complex data $\\Rightarrow$ more support vectors\n</li>\n<li>Simple data $\\Rightarrow$ fewer support vectors\n</li>\n</ul>\n\n\n<strong>Adaptive Complexity:</strong>\n<ul>\n\n<li>Model complexity adapts to data\n</li>\n<li>Automatic feature selection\n</li>\n<li>Sparse representation via support vectors\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Comparison with Other Methods:</strong>\n\n\n<div class=\"highlight\"><h4>Parametric Linear Classifier</h4>$$f(x) = w^T x + b$$\nFixed $d+1$ parameters regardless of training set size.</div>\n\n\n<div class=\"highlight\"><h4>Non-parametric SVM</h4>$$f(x) = \\sum_{i=1}^{n_{sv}} \\alpha_i y_i K(x_i, x) + b$$\n$n_{sv}$ support vectors determined by data.</div>\n\n\n<strong>Benefits of Non-parametric Approach:</strong>\n<ul>\n\n<li><strong>Flexibility:</strong> No assumptions about decision boundary shape\n</li>\n<li><strong>Universality:</strong> Can approximate any function (with appropriate kernel)\n</li>\n<li><strong>Robustness:</strong> Less sensitive to model specification\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Kernel Functions and Function Spaces",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Reproducing Kernel Hilbert Space (RKHS):</strong>\n\n\n<div class=\"highlight\"><h4>Mathematical Framework</h4>Kernel $K$ defines an infinite-dimensional feature space $\\mathcal{H}$ where linear methods become non-linear in original space.</div>\n\n\n<strong>Key Properties:</strong>\n$$\\begin{aligned}\\phi: \\mathcal{X} \\to \\mathcal{H} \\\\ K(x, x') = \\langle \\phi(x), \\phi(x') \\rangle_{\\mathcal{H}}\\end{aligned}$$\n\n\n<strong>Universal Approximation:</strong>\n<ul>\n\n<li>RBF kernels are universal approximators\n</li>\n<li>Can represent any continuous function\n</li>\n<li>Given sufficient training data\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Non-parametric Power</h4>Kernel methods can learn arbitrarily complex decision boundaries without specifying the form in advance.</div>\n</div>\n\n<div class=\"column\">\n<strong>Practical Implications:</strong>\n\n\n<strong>Model Selection Strategy:</strong>\n<ul>\n\n<li><strong>Start Simple:</strong> Linear kernel first\n</li>\n<li><strong>Add Complexity:</strong> Polynomial → RBF\n</li>\n<li><strong>Cross-validate:</strong> Choose optimal kernel and parameters\n</li>\n</ul>\n\n\n<strong>Trade-offs:</strong>\n\n<div class=\"highlight\"><h4>Parametric Advantage</h4><ul>\n\n<li>Fast training and prediction\n</li>\n<li>Lower memory requirements\n</li>\n<li>Better interpretability\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Non-parametric Advantage</h4><ul>\n\n<li>Higher representational power\n</li>\n<li>Better fit to complex data\n</li>\n<li>Fewer modeling assumptions\n</li>\n</ul></div>\n\n\n<strong>When to Use Kernel Methods:</strong>\n<ul>\n\n<li>Non-linear relationships in data\n</li>\n<li>High-dimensional feature spaces\n</li>\n<li>Need for flexible decision boundaries\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "Summary and Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Core Concepts Learned:</strong>\n\n\n<ul>\n\n<li><strong>Kernel Trick:</strong> Implicit high-dimensional mapping\n</li>\n<li><strong>Support Vectors:</strong> Sparse representation\n</li>\n<li><strong>Margin Maximization:</strong> Generalization principle\n</li>\n<li><strong>Non-linear Separation:</strong> Via kernels\n</li>\n</ul>\n\n\n<strong>Main Algorithms:</strong>\n<ul>\n\n<li><strong>SVM:</strong> Classification with maximum margin\n</li>\n<li><strong>SVR:</strong> Regression with $\\epsilon$-insensitive loss\n</li>\n<li><strong>Kernel Ridge:</strong> Regularized regression\n</li>\n<li><strong>Multi-class:</strong> Extensions to multiple classes\n</li>\n</ul>\n\n\n<strong>Key Kernels:</strong>\n<ul>\n\n<li>Linear, Polynomial, RBF, Sigmoid\n</li>\n<li>Mercer's theorem for validity\n</li>\n<li>Multiple kernel learning\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>Practical Guidelines:</strong>\n\n\n<div class=\"highlight\"><h4>When to Use Kernel Methods</h4><ul>\n\n<li>Non-linear relationships in data\n</li>\n<li>Need for sparse solutions\n</li>\n<li>Strong theoretical guarantees required\n</li>\n<li>Medium-sized datasets\n</li>\n</ul></div>\n\n\n<strong>Parameter Selection:</strong>\n<ul>\n\n<li><strong>C:</strong> Start with 1.0, tune via CV\n</li>\n<li><strong>$\\gamma$:</strong> Start with $\\frac{1}{\\text{n\\_features}}$\n</li>\n<li><strong>$\\epsilon$:</strong> Start with 0.1 for SVR\n</li>\n</ul>\n\n\n<strong>Limitations:</strong>\n<ul>\n\n<li>Computational complexity: $\\mathcal{O}(n^2)$ to $\\mathcal{O}(n^3)$\n</li>\n<li>Memory requirements: Store kernel matrix\n</li>\n<li>Parameter sensitivity\n</li>\n<li>Not suitable for very large datasets\n</li>\n</ul>\n\n\n<div class=\"warning\"><h4>Next Steps</h4>Explore deep learning for automatic feature learning in high-dimensional spaces.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

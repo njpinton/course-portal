@@ -1,0 +1,349 @@
+{
+  "module": {
+    "id": "12",
+    "title": "Artificial Neural Networks",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 42,
+    "estimatedDuration": "84 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What Are Neural Networks?",
+      "readingTime": "1 min",
+      "content": "<strong>Artificial Neural Networks: Computing systems inspired by biological neural networks</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Biological Inspiration</h4><ul>\n\n<li><strong>Neurons</strong>: Basic processing units\n</li>\n<li><strong>Synapses</strong>: Weighted connections\n</li>\n<li><strong>Learning</strong>: Adapting connection strengths\n</li>\n<li><strong>Parallel processing</strong>: Massive connectivity\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Artificial Counterpart</h4><ul>\n\n<li><strong>Perceptrons</strong>: Mathematical neurons\n</li>\n<li><strong>Weights</strong>: Learnable parameters\n</li>\n<li><strong>Training</strong>: Gradient-based optimization\n</li>\n<li><strong>Layers</strong>: Organized processing units\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Neural networks can <strong>learn complex non-linear mappings</strong> from data by adjusting weights through training.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Why Neural Networks?",
+      "readingTime": "1 min",
+      "content": "<strong>Motivation: Limitations of Linear Models</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Linear Models</h4><ul>\n\n<li>Limited to linear decision boundaries\n</li>\n<li>Cannot solve XOR problem\n</li>\n<li>Restricted representational power\n</li>\n<li>Simple but insufficient for complex data\n</li>\n</ul></div>\n\n<strong>Example: XOR Problem</strong>\n\n\\begin{tabular}{cc|c}\n$x_1$ & $x_2$ & XOR \\\\\n\\hline\n0 & 0 & 0 \\\\\n0 & 1 & 1 \\\\\n1 & 0 & 1 \\\\\n1 & 1 & 0 \\\\\n\\end{tabular}\n\nNo linear classifier can solve this!\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Neural Networks</h4><ul>\n\n<li>Non-linear decision boundaries\n</li>\n<li>Universal approximation capability\n</li>\n<li>Hierarchical feature learning\n</li>\n<li>Scalable to complex problems\n</li>\n</ul></div>\n\n<strong>Universal Approximation Theorem:</strong>\nA neural network with a single hidden layer can approximate any continuous function to arbitrary accuracy (given sufficient neurons).\n\n\n\n<strong>Key Advantages:</strong>\n<ul>\n<li>Automatic feature extraction\n</li>\n<li>End-to-end learning\n</li>\n<li>Flexible architectures\n</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "The Perceptron: Building Block of Neural Networks",
+      "readingTime": "2 min",
+      "content": "\\begin{tikzpicture}[scale=1.0, every node/.style={scale=1.0}]\n    % Input nodes - better vertical spacing and centered\n    \\node[input neuron] (x1) at (0,2.5) {$x_1$};\n    \\node[input neuron] (x2) at (0,1.5) {$x_2$};\n    \\node[input neuron] (x3) at (0,0.5) {$x_3$};\n    \\node[bias neuron] (x0) at (0,-0.5) {$x_0$};\n    % \\node[above=0.05cm of x0, font=\\tiny] {bias};\n\n    % Intermediate processing nodes - better horizontal alignment\n    \\node[computation] (sum) at (3.5,1) {$\\sum$};\n    \\node[activation] (sigma) at (5.5,1) {$\\sigma$};\n\n    % Output neuron - centered vertically with processing nodes\n    \\node[output neuron, large neuron] (y) at (7.5,1) {$y$};\n\n    % Connections from inputs to summation with better routing\n    \\coordinate (sumIn) at (2.8,1);\n    \\draw[strong connection] (x1) -- (sumIn);\n    \\draw[strong connection] (x2) -- (sumIn);\n    \\draw[strong connection] (x3) -- (sumIn);\n    \\draw[strong connection] (x0) -- (sumIn);\n\n    % Weight labels positioned clearly above connections\n    \\node at (1.4, 2.2) [font=\\small] {$w_1$};\n    \\node at (1.4, 1.5) [font=\\small] {$w_2$};\n    \\node at (1.4, 0.8) [font=\\small] {$w_3$};\n    \\node at (1.4, 0.1) [font=\\small] {$b$};\n\n    % Flow arrows between processing stages\n    \\draw[flow arrow] (sum) -- (sigma);\n    \\draw[flow arrow] (sigma) -- (y);\n\n    % Mathematical formulation - positioned below with consistent spacing\n    \\node[below=0.8cm of sum, font=\\small] {$z = \\sum_{i=1}^{n} w_i x_i + b$};\n    \\node[below=0.8cm of sigma, font=\\small] {$y = \\sigma(z)$};\n\n    % Input and Output labels - better positioning\n    \\node[left=0.2cm of x1, font=\\bfseries\\small] {Inputs};\n    \\node[right=0.2cm of y, font=\\bfseries\\small] {Output};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Mathematical Model</h4><strong>Linear Combination:</strong> $z = \\sum_{i=1}^{n} w_i x_i + b = \\mathbf{w}^T\\mathbf{x} + b$\n\n<strong>Activation:</strong> $y = \\sigma(z)$ where $\\sigma$ is an activation function</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Neural Network Components and Architecture",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<strong>Single Processing Unit</strong>\n\n\n\n\\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]\n    % Single neuron diagram - centered at (3,2)\n    \\node[neuron, minimum size=1.2cm] (neuron) at (3,2) {$y$};\n\n    % Input nodes properly positioned\n    \\node[left] (x1) at (0,3.2) {$x_1$};\n    \\node[left] (x2) at (0,2.4) {$x_2$};\n    \\node[left] (xdots) at (0,1.6) {$⋮$};\n    \\node[left] (xD) at (0,0.8) {$x_D$};\n    \\node[left] (bias) at (0,3.8) {$w_0$};\n\n    % Input connections with clear weight labels\n    \\draw[connection] (x1) -- (neuron) node[pos=0.3, above] {$w_1$};\n    \\draw[connection] (x2) -- (neuron) node[pos=0.3, above] {$w_2$};\n    \\draw[connection] (xdots) -- (neuron);\n    \\draw[connection] (xD) -- (neuron) node[pos=0.3, below] {$w_D$};\n    \\draw[connection] (bias) -- (neuron) node[pos=0.35, above, sloped, font=\\tiny] {bias};\n\n    % Output with clear spacing\n    \\draw[connection] (neuron) -- (5.5,2) node[right] {$y := \\sigma(z)$};\n\n    % Activation function annotation - better positioned\n    \\node[above=0.5cm of neuron, font=\\tiny] {Activation};\n    \\node[above=0.25cm of neuron, font=\\tiny] {Function, $\\sigma$};\n\\end{tikzpicture}\n\n\n\\small{Single processing unit with inputs $x_1, …, x_D$, weights $w_1, …, w_D$, bias $w_0$, and activation function $\\sigma$.}\n</div>\n\n<div class=\"column\">\n\n<strong>Multi-Layer Perceptron</strong>\n\n\n\n\\begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]\n    % Input layer - vertically centered\n    \\foreach \\y in {1,2,3,4} {\n        \\node[input neuron] (I-\\y) at (0,{4.5-\\y}) {$x_\\y$};\n    }\n\n    % Hidden layer 1 - centered with 5 nodes\n    \\foreach \\y in {1,2,3,4,5} {\n        \\node[hidden neuron] (H1-\\y) at (2.8,{5-\\y}) {};\n    }\n\n    % Hidden layer 2 - centered with 3 nodes\n    \\foreach \\y in {1,2,3} {\n        \\node[hidden neuron] (H2-\\y) at (5.6,{3.5-\\y}) {};\n    }\n\n    % Output layer - centered\n    \\node[output neuron] (O-1) at (8.4,2) {$y$};\n\n    % Connections input to hidden1\n    \\foreach \\i in {1,2,3,4} {\n        \\foreach \\j in {1,2,3,4,5} {\n            \\draw[connection, opacity=0.25] (I-\\i) -- (H1-\\j);\n        }\n    }\n\n    % Connections hidden1 to hidden2\n    \\foreach \\i in {1,2,3,4,5} {\n        \\foreach \\j in {1,2,3} {\n            \\draw[connection, opacity=0.25] (H1-\\i) -- (H2-\\j);\n        }\n    }\n\n    % Connections hidden2 to output\n    \\foreach \\i in {1,2,3} {\n        \\draw[connection, opacity=0.25] (H2-\\i) -- (O-1);\n    }\n\n    % Layer labels - better positioned\n    \\node[layer label] at (0,-0.8) {Input};\n    \\node[layer label] at (2.8,-0.8) {Hidden 1};\n    \\node[layer label] at (5.6,-0.8) {Hidden 2};\n    \\node[layer label] at (8.4,-0.8) {Output};\n\\end{tikzpicture}\n\n\n\\small{Multi-layer perceptron with fully connected layers. Each connection represents a learnable weight parameter.}\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Concepts</h4><strong>Processing Unit:</strong> $z = \\sum_{i=1}^{D} w_i x_i + w_0$, then $y = \\sigma(z)$ \\\\\n<strong>Network:</strong> Multiple units arranged in layers with feedforward connections</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Perceptron: Mathematical Formulation",
+      "readingTime": "1 min",
+      "content": "<strong>Complete Mathematical Description:</strong>\n\n$$\\begin{aligned}z = \\sum_{i=1}^{n} w_i x_i + b = \\mathbf{w}^T\\mathbf{x} + b \\\\ y = \\sigma(z) = \\sigma(\\mathbf{w}^T\\mathbf{x} + b)\\end{aligned}$$\n\nwhere:\n<ul>\n<li>$\\mathbf{x} = [x_1, x_2, …, x_n]^T$: input vector\n</li>\n<li>$\\mathbf{w} = [w_1, w_2, …, w_n]^T$: weight vector\n</li>\n<li>$b$: bias term\n</li>\n<li>$\\sigma(\\cdot)$: activation function\n</li>\n</ul>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step Function (Original)</h4>$$\\sigma(z) = \\begin{cases}\n1 & \\text{if } z \\geq 0 \\\\\n0 & \\text{if } z < 0\n\\end{cases}$$\n<strong>Problem:</strong> Not differentiable</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Sigmoid Function (Modern)</h4>$$\\sigma(z) = \\frac{1}{1 + e^{-z}}$$\n<strong>Advantage:</strong> Smooth and differentiable</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Perceptron Learning Algorithm",
+      "readingTime": "1 min",
+      "content": "<strong>Goal:</strong> Learn weights $\\mathbf{w}$ and bias $b$ to minimize prediction error\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Original Perceptron Rule</h4>For misclassified point $(x_i, y_i)$:\n$$w_j := w_j + \\alpha (y_i - \\hat{y}_i) x_{ij}$$\n$$b := b + \\alpha (y_i - \\hat{y}_i)$$\n\nwhere $\\alpha$ is the learning rate.\n\n<strong>Convergence:</strong> Guaranteed for linearly separable data</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Gradient Descent (Modern)</h4>Define loss function: $L = \\frac{1}{2}(y - \\hat{y})^2$\n\nWeight updates:\n$$\\begin{aligned}w_j := w_j - \\alpha \\frac{\\partial L}{\\partial w_j} \\\\ = w_j - \\alpha (y - \\hat{y}) \\sigma'(z) x_j \\\\ b := b - \\alpha \\frac{\\partial L}{\\partial b} \\\\ = b - \\alpha (y - \\hat{y}) \\sigma'(z)\\end{aligned}$$</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Limitation</h4>Single perceptron can only learn <strong>linearly separable</strong> functions. Solution: <strong>Multi-layer networks!</strong></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Activation Functions: The Heart of Non-linearity",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/activation_functions.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Purpose</h4>Activation functions introduce <strong>non-linearity</strong> into the network, enabling it to learn complex patterns.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Activation Functions: Mathematical Properties",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Sigmoid Function</h4>$$\\sigma(x) = \\frac{1}{1 + e^{-x}}$$\n\n<strong>Properties:</strong>\n<ul>\n<li>Range: $(0, 1)$\n</li>\n<li>Smooth and differentiable\n</li>\n<li>Output interpretable as probability\n</li>\n</ul>\n\n<strong>Derivative:</strong>\n$$\\sigma'(x) = \\sigma(x)(1 - \\sigma(x))$$\n\n<strong>Issues:</strong> Vanishing gradients for large $|x|$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Hyperbolic Tangent</h4>$$\\tanh(x) = \\frac{e^x - e^{-x}}{e^x + e^{-x}}$$\n\n<strong>Properties:</strong>\n<ul>\n<li>Range: $(-1, 1)$\n</li>\n<li>Zero-centered output\n</li>\n<li>Steeper gradients than sigmoid\n</li>\n</ul>\n\n<strong>Derivative:</strong>\n$$\\tanh'(x) = 1 - \\tanh^2(x)$$\n\n<strong>Advantage:</strong> Better than sigmoid</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Activation Functions: ReLU Family",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>ReLU (Rectified Linear Unit)</h4>$$\\text{ReLU}(x) = \\max(0, x)$$\n\n<strong>Advantages:</strong>\n<ul>\n<li>Computationally efficient\n</li>\n<li>No vanishing gradient for $x > 0$\n</li>\n<li>Sparse activation\n</li>\n<li>Most popular choice\n</li>\n</ul>\n\n<strong>Derivative:</strong>\n$$\\text{ReLU}'(x) = \\begin{cases}\n1 & \\text{if } x > 0 \\\\\n0 & \\text{if } x \\leq 0\n\\end{cases}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Leaky ReLU</h4>$$\\text{LeakyReLU}(x) = \\begin{cases}\nx & \\text{if } x > 0 \\\\\n\\alpha x & \\text{if } x \\leq 0\n\\end{cases}$$\n\n<strong>Advantages:</strong>\n<ul>\n<li>Avoids \"dying ReLU\" problem\n</li>\n<li>Small gradient for negative inputs\n</li>\n<li>Typically $\\alpha = 0.01$\n</li>\n</ul>\n\n<strong>Derivative:</strong>\n$$\\text{LeakyReLU}'(x) = \\begin{cases}\n1 & \\text{if } x > 0 \\\\\n\\alpha & \\text{if } x \\leq 0\n\\end{cases}$$</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Activation Function Derivatives",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/activation_derivatives.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Why Derivatives Matter</h4>Derivatives are crucial for <strong>backpropagation</strong> - they determine how errors flow backward through the network during training.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Choosing Activation Functions",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\\begin{tipblock}{Guidelines}\n<strong>Hidden Layers:</strong>\n<ul>\n\n<li><strong>ReLU</strong>: Default choice (fast, effective)\n</li>\n<li><strong>Leaky ReLU</strong>: If dying ReLU is a problem\n</li>\n<li><strong>Tanh</strong>: For zero-centered data\n</li>\n<li><strong>Sigmoid</strong>: Avoid (vanishing gradients)\n</li>\n</ul>\n\n<strong>Output Layer:</strong>\n<ul>\n\n<li><strong>Sigmoid</strong>: Binary classification\n</li>\n<li><strong>Softmax</strong>: Multi-class classification\n</li>\n<li><strong>Linear</strong>: Regression\n</li>\n<li><strong>Tanh</strong>: Regression (bounded output)\n</li>\n</ul>\n\\end{tipblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Common Issues</h4><strong>Vanishing Gradients:</strong>\n<ul>\n\n<li>Sigmoid/Tanh derivatives $\\rightarrow 0$ for large inputs\n</li>\n<li>Deep networks suffer from this\n</li>\n<li>Solution: ReLU activations\n</li>\n</ul>\n\n<strong>Dying ReLU:</strong>\n<ul>\n\n<li>Neurons get stuck at zero output\n</li>\n<li>No gradient flows through\n</li>\n<li>Solution: Leaky ReLU, initialization\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Best Practice</h4><strong>Start with ReLU</strong> for hidden layers and choose output activation based on your task.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Multi-Layer Neural Network Architecture",
+      "readingTime": "2 min",
+      "content": "\\begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]\n    % Input layer - centered vertically\n    \\foreach \\y in {0,1,2,3} {\n        \\node[input neuron] (I-\\y) at (0,{3.5-\\y}) {$x_{\\y}$};\n    }\n\n    % Hidden layer 1 - centered with 5 nodes\n    \\foreach \\y in {0,1,2,3,4} {\n        \\node[hidden neuron] (H1-\\y) at (3,{4-\\y}) {};\n    }\n\n    % Hidden layer 2 - centered with 3 nodes\n    \\foreach \\y in {0,1,2} {\n        \\node[hidden neuron] (H2-\\y) at (6,{3-\\y}) {};\n    }\n\n    % Output layer - centered with 2 nodes\n    \\foreach \\y in {0,1} {\n        \\node[output neuron] (O-\\y) at (9,{2-\\y}) {$y_{\\y}$};\n    }\n\n    % Connections input to hidden1\n    \\foreach \\i in {0,1,2,3} {\n        \\foreach \\j in {0,1,2,3,4} {\n            \\draw[connection, opacity=0.3] (I-\\i) -- (H1-\\j);\n        }\n    }\n\n    % Connections hidden1 to hidden2\n    \\foreach \\i in {0,1,2,3,4} {\n        \\foreach \\j in {0,1,2} {\n            \\draw[connection, opacity=0.3] (H1-\\i) -- (H2-\\j);\n        }\n    }\n\n    % Connections hidden2 to output\n    \\foreach \\i in {0,1,2} {\n        \\foreach \\j in {0,1} {\n            \\draw[connection, opacity=0.3] (H2-\\i) -- (O-\\j);\n        }\n    }\n\n    % Layer labels - better positioned\n    \\node[layer label] at (0,-1.3) {Input};\n    \\node[layer label] at (3,-1.3) {Hidden 1};\n    \\node[layer label] at (6,-1.3) {Hidden 2};\n    \\node[layer label] at (9,-1.3) {Output};\n\n    % Weight matrix labels - positioned above network\n    \\node[above, font=\\small] at (1.5,4.5) {$\\mathbf{W}^{(1)}, \\mathbf{b}^{(1)}$};\n    \\node[above, font=\\small] at (4.5,4.5) {$\\mathbf{W}^{(2)}, \\mathbf{b}^{(2)}$};\n    \\node[above, font=\\small] at (7.5,4.5) {$\\mathbf{W}^{(3)}, \\mathbf{b}^{(3)}$};\n\n    % Forward propagation arrows\n    \\foreach \\x in {1.5,4.5,7.5} {\n        \\draw[flow arrow] (\\x,-0.8) -- (\\x+1,-0.8);\n    }\n    \\node[below] at (4.5,-0.8) {<strong>Forward Propagation</strong>};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Key Components</h4><strong>Layers:</strong> Input → Hidden → Hidden → ... → Output\n\n<strong>Connections:</strong> Each neuron connects to all neurons in the next layer (fully connected)</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Network Architecture: Mathematical Representation",
+      "readingTime": "1 min",
+      "content": "<strong>For a network with $L$ layers:</strong>\n\n$$\\begin{aligned}\\mathbf{a}^{(0)} = \\mathbf{x}   \\text{(input layer)} \\\\ \\mathbf{z}^{(l)} = \\mathbf{W}^{(l)} \\mathbf{a}^{(l-1)} + \\mathbf{b}^{(l)}   \\text{for } l = 1, 2, …, L \\\\ \\mathbf{a}^{(l)} = \\sigma^{(l)}(\\mathbf{z}^{(l)})   \\text{for } l = 1, 2, …, L \\\\ \\hat{\\mathbf{y}} = \\mathbf{a}^{(L)}   \\text{(output layer)}\\end{aligned}$$\n\nwhere:\n<ul>\n\n<li>$\\mathbf{W}^{(l)} \\in \\mathbb{R}^{n_l \\times n_{l-1}}$: weight matrix for layer $l$\n</li>\n<li>$\\mathbf{b}^{(l)} \\in \\mathbb{R}^{n_l}$: bias vector for layer $l$\n</li>\n<li>$n_l$: number of neurons in layer $l$\n</li>\n<li>$\\sigma^{(l)}$: activation function for layer $l$\n</li>\n</ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Network Dimensions and Parameters",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Matrix Dimensions</h4>For layer $l$:\n<ul>\n<li>Input: $\\mathbf{a}^{(l-1)}$ has shape $(n_{l-1}, 1)$\n</li>\n<li>Weights: $\\mathbf{W}^{(l)}$ has shape $(n_l, n_{l-1})$\n</li>\n<li>Output: $\\mathbf{a}^{(l)}$ has shape $(n_l, 1)$\n</li>\n</ul>\n\n\n\n<strong>Batch Processing:</strong>\n<ul>\n<li>Input batch: $\\mathbf{A}^{(l-1)}$ has shape $(n_{l-1}, m)$\n</li>\n<li>Output batch: $\\mathbf{A}^{(l)}$ has shape $(n_l, m)$\n</li>\n<li>where $m$ is the batch size\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Parameter Count</h4>Total parameters:\n$$\\sum_{l=1}^{L} (n_l \\times n_{l-1} + n_l)$$\n\n<strong>Example:</strong> 784 → 128 → 64 → 10\n$$\\begin{aligned}784 \\times 128 + 128 \\\\ + 128 \\times 64 + 64 \\\\ + 64 \\times 10 + 10 \\\\ = 109,386 \\text{ parameters}\\end{aligned}$$\n\n<strong>Memory scales with:</strong>\n<ul>\n<li>Network depth\n</li>\n<li>Layer width\n</li>\n<li>Batch size\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Network Design Considerations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Depth vs Width</h4><strong>Deeper Networks:</strong>\n<ul>\n\n<li>More layers, fewer neurons per layer\n</li>\n<li>Better feature hierarchies\n</li>\n<li>Can represent more complex functions\n</li>\n<li>Risk: vanishing gradients\n</li>\n</ul>\n\n<strong>Wider Networks:</strong>\n<ul>\n\n<li>Fewer layers, more neurons per layer\n</li>\n<li>More parameters at each level\n</li>\n<li>Easier to train\n</li>\n<li>Risk: overfitting\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Architecture Guidelines}\n<strong>Hidden Layer Size:</strong>\n<ul>\n\n<li>Start with 1-2 hidden layers\n</li>\n<li>Size between input and output dimensions\n</li>\n<li>Rule of thumb: $\\sqrt{n_{input} \\times n_{output}}$\n</li>\n</ul>\n\n<strong>Number of Layers:</strong>\n<ul>\n\n<li>Simple problems: 1-2 hidden layers\n</li>\n<li>Complex problems: 3+ layers\n</li>\n<li>Very deep: Requires special techniques\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>Start simple and gradually increase complexity. Use validation performance to guide architecture choices.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Forward Propagation: Information Flow",
+      "readingTime": "2 min",
+      "content": "\\begin{tikzpicture}[scale=1.0, every node/.style={scale=1.0}]\n    % Network structure (simplified 3-layer) - centered vertically\n    \\node[input neuron] (x1) at (0,2) {$x_1$};\n    \\node[input neuron] (x2) at (0,1) {$x_2$};\n    \\node[input neuron] (x3) at (0,0) {$x_3$};\n\n    \\node[hidden neuron] (h1) at (3.5,1.5) {$h_1$};\n    \\node[hidden neuron] (h2) at (3.5,0.5) {$h_2$};\n\n    \\node[output neuron] (y) at (7,1) {$y$};\n\n    % Connections with reduced opacity\n    \\draw[strong connection, opacity=0.25] (x1) -- (h1);\n    \\draw[strong connection, opacity=0.25] (x1) -- (h2);\n    \\draw[strong connection, opacity=0.25] (x2) -- (h1);\n    \\draw[strong connection, opacity=0.25] (x2) -- (h2);\n    \\draw[strong connection, opacity=0.25] (x3) -- (h1);\n    \\draw[strong connection, opacity=0.25] (x3) -- (h2);\n\n    \\draw[strong connection, opacity=0.25] (h1) -- (y);\n    \\draw[strong connection, opacity=0.25] (h2) -- (y);\n\n    % Flow arrows and computations - positioned above network\n    \\node[computation] (z1) at (1.75,2.8) {$\\mathbf{z}^{(1)}$};\n    \\node[activation] (a1) at (1.75,3.6) {$\\sigma$};\n    \\draw[flow arrow] (z1) -- (a1);\n    \\node[above=0.1cm of a1, font=\\small] {$\\mathbf{a}^{(1)} = \\sigma(\\mathbf{z}^{(1)})$};\n\n    \\node[computation] (z2) at (5.25,2.8) {$\\mathbf{z}^{(2)}$};\n    \\node[activation] (a2) at (5.25,3.6) {$\\sigma$};\n    \\draw[flow arrow] (z2) -- (a2);\n    \\node[above=0.1cm of a2, font=\\small] {$\\mathbf{a}^{(2)} = \\sigma(\\mathbf{z}^{(2)})$};\n\n    % Mathematical formulation - better positioning\n    \\node[below, font=\\small] at (1.75,-0.8) {$\\mathbf{z}^{(1)} = \\mathbf{W}^{(1)}\\mathbf{x} + \\mathbf{b}^{(1)}$};\n    \\node[below, font=\\small] at (5.25,-0.8) {$\\mathbf{z}^{(2)} = \\mathbf{W}^{(2)}\\mathbf{a}^{(1)} + \\mathbf{b}^{(2)}$};\n\n    % Layer labels\n    \\node[layer label] at (0,-1.5) {Input};\n    \\node[layer label] at (3.5,-1.5) {Hidden};\n    \\node[layer label] at (7,-1.5) {Output};\n\n    % Forward flow arrows - positioned below labels\n    \\draw[flow arrow, very thick] (0.8,-1.3) -- (2.7,-1.3);\n    \\draw[flow arrow, very thick] (4.3,-1.3) -- (6.2,-1.3);\n    \\node[below, font=\\small\\bfseries] at (3.5,-1.1) {Forward Propagation};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Forward Pass</h4>Information flows from <strong>input to output</strong>, layer by layer, to compute predictions.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Forward Propagation Algorithm",
+      "readingTime": "2 min",
+      "content": "<strong>Step-by-step Process:</strong>\n\n\\begin{algorithm}[H]\n\\caption{Forward Propagation}\n\\begin{algorithmic}[1]\n\\STATE <strong>Input:</strong> $\\mathbf{x}$, weights $\\{\\mathbf{W}^{(l)}\\}$, biases $\\{\\mathbf{b}^{(l)}\\}$\n\\STATE Set $\\mathbf{a}^{(0)} = \\mathbf{x}$\n\\FOR{$l = 1$ to $L$}\n    \\STATE Compute pre-activation: $\\mathbf{z}^{(l)} = \\mathbf{W}^{(l)} \\mathbf{a}^{(l-1)} + \\mathbf{b}^{(l)}$\n    \\STATE Apply activation: $\\mathbf{a}^{(l)} = \\sigma^{(l)}(\\mathbf{z}^{(l)})$\n\\ENDFOR\n\\STATE <strong>Output:</strong> $\\hat{\\mathbf{y}} = \\mathbf{a}^{(L)}$\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n\\begin{exampleblock}{Vectorized Implementation}\n<strong>For batch processing:</strong>\n$$\\begin{aligned}\\mathbf{Z}^{(l)} = \\mathbf{A}^{(l-1)} \\mathbf{W}^{(l)T} + \\mathbf{b}^{(l)} \\\\ \\mathbf{A}^{(l)} = \\sigma^{(l)}(\\mathbf{Z}^{(l)})\\end{aligned}$$\n\nwhere $\\mathbf{A}^{(l)}$ has shape $(m, n_l)$ for $m$ examples.\n\n<strong>Computational Complexity:</strong> $O(L \\cdot N \\cdot M)$\nwhere $L$ = layers, $N$ = max neurons/layer, $M$ = batch size\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Example Calculation}\nNetwork: $2 \\rightarrow 3 \\rightarrow 1$\nInput: $\\mathbf{x} = [0.5, 0.8]^T$\n\n<strong>Layer 1:</strong>\n$\\mathbf{z}^{(1)} = \\mathbf{W}^{(1)} \\mathbf{x} + \\mathbf{b}^{(1)}$\n$\\mathbf{a}^{(1)} = \\sigma(\\mathbf{z}^{(1)})$\n\n<strong>Layer 2:</strong>\n$z^{(2)} = \\mathbf{w}^{(2)T} \\mathbf{a}^{(1)} + b^{(2)}$\n$\\hat{y} = \\sigma(z^{(2)})$\n\nAll intermediate values $\\mathbf{z}^{(l)}, \\mathbf{a}^{(l)}$ are stored for backpropagation.\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Forward Propagation: Implementation Details",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Memory Considerations</h4><strong>Storage Requirements:</strong>\n<ul>\n\n<li>Store all activations $\\mathbf{a}^{(l)}$\n</li>\n<li>Store all pre-activations $\\mathbf{z}^{(l)}$\n</li>\n<li>Needed for backpropagation\n</li>\n</ul>\n\n<strong>Memory Usage:</strong>\n$$\\text{Memory} \\propto \\sum_{l=0}^{L} n_l \\times \\text{batch\\_size}$$\n\n<strong>Trade-offs:</strong>\n<ul>\n\n<li>Larger batches: More memory, better GPU utilization\n</li>\n<li>Smaller batches: Less memory, more gradient noise\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\"><h4>Numerical Stability</h4><strong>Common Issues:</strong>\n<ul>\n\n<li><strong>Overflow:</strong> Large intermediate values\n</li>\n<li><strong>Underflow:</strong> Very small values → 0\n</li>\n<li><strong>NaN propagation:</strong> Invalid operations\n</li>\n</ul>\n\n<strong>Solutions:</strong>\n<ul>\n\n<li>Proper weight initialization\n</li>\n<li>Batch normalization\n</li>\n<li>Gradient clipping\n</li>\n<li>Use stable activation functions (ReLU)\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Forward propagation is computationally straightforward, but proper implementation requires attention to <strong>memory usage</strong> and <strong>numerical stability</strong>.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Forward Pass: Handworked Example",
+      "readingTime": "1 min",
+      "content": "<strong>Network:</strong> 2 inputs → 2 hidden → 1 output (sigmoid activation)\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Given</h4><strong>Input:</strong> $\\mathbf{x} = \\begin{bmatrix} 0.5 \\\\ 0.8 \\end{bmatrix}$\n\n<strong>Weights \\& Biases:</strong>\n$$\\mathbf{W}^{(1)} = \\begin{bmatrix} 0.2 & 0.4 \\\\ 0.3 & 0.1 \\end{bmatrix},   \\mathbf{b}^{(1)} = \\begin{bmatrix} 0.1 \\\\ 0.2 \\end{bmatrix}$$\n\n$$\\mathbf{W}^{(2)} = \\begin{bmatrix} 0.6 & 0.5 \\end{bmatrix},   b^{(2)} = 0.3$$\n\n<strong>Activation:</strong> $\\sigma(z) = \\frac{1}{1 + e^{-z}}$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 1: Hidden Layer</h4>$$\\mathbf{z}^{(1)} = \\mathbf{W}^{(1)} \\mathbf{x} + \\mathbf{b}^{(1)}$$\n\n$$= \\begin{bmatrix} 0.2 & 0.4 \\\\ 0.3 & 0.1 \\end{bmatrix} \\begin{bmatrix} 0.5 \\\\ 0.8 \\end{bmatrix} + \\begin{bmatrix} 0.1 \\\\ 0.2 \\end{bmatrix}$$\n\n$$= \\begin{bmatrix} 0.2(0.5) + 0.4(0.8) \\\\ 0.3(0.5) + 0.1(0.8) \\end{bmatrix} + \\begin{bmatrix} 0.1 \\\\ 0.2 \\end{bmatrix}$$\n\n$$= \\begin{bmatrix} 0.1 + 0.32 \\\\ 0.15 + 0.08 \\end{bmatrix} + \\begin{bmatrix} 0.1 \\\\ 0.2 \\end{bmatrix} = \\begin{bmatrix} 0.52 \\\\ 0.43 \\end{bmatrix}$$</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Forward Pass: Handworked Example (continued)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 2: Hidden Activations</h4>$$\\mathbf{a}^{(1)} = \\sigma(\\mathbf{z}^{(1)}) = \\sigma\\left(\\begin{bmatrix} 0.52 \\\\ 0.43 \\end{bmatrix}\\right)$$\n\n$$a_1^{(1)} = \\sigma(0.52) = \\frac{1}{1 + e^{-0.52}} = \\frac{1}{1 + 0.595} = 0.627$$\n\n$$a_2^{(1)} = \\sigma(0.43) = \\frac{1}{1 + e^{-0.43}} = \\frac{1}{1 + 0.651} = 0.606$$\n\n$$\\mathbf{a}^{(1)} = \\begin{bmatrix} 0.627 \\\\ 0.606 \\end{bmatrix}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 3: Output Layer</h4>$$z^{(2)} = \\mathbf{W}^{(2)} \\mathbf{a}^{(1)} + b^{(2)}$$\n\n$$= \\begin{bmatrix} 0.6 & 0.5 \\end{bmatrix} \\begin{bmatrix} 0.627 \\\\ 0.606 \\end{bmatrix} + 0.3$$\n\n$$= 0.6(0.627) + 0.5(0.606) + 0.3$$\n\n$$= 0.376 + 0.303 + 0.3 = 0.979$$\n\n<strong>Final Output:</strong>\n$$\\hat{y} = \\sigma(0.979) = \\frac{1}{1 + e^{-0.979}} = 0.727$$</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Summary</h4>Input $[0.5, 0.8]$ → Hidden $[0.627, 0.606]$ → Output $0.727$</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Backpropagation: Error Flow",
+      "readingTime": "3 min",
+      "content": "\\begin{tikzpicture}[scale=1.0, every node/.style={scale=1.0}]\n    % Network structure (same as forward, but show backward flow)\n    \\node[input neuron] (x1) at (0,2) {$x_1$};\n    \\node[input neuron] (x2) at (0,1) {$x_2$};\n    \\node[input neuron] (x3) at (0,0) {$x_3$};\n\n    \\node[hidden neuron] (h1) at (3.5,1.5) {$h_1$};\n    \\node[hidden neuron] (h2) at (3.5,0.5) {$h_2$};\n\n    \\node[output neuron] (y) at (7,1) {$y$};\n\n    % Forward connections (lighter)\n    \\draw[weak connection, opacity=0.15] (x1) -- (h1);\n    \\draw[weak connection, opacity=0.15] (x1) -- (h2);\n    \\draw[weak connection, opacity=0.15] (x2) -- (h1);\n    \\draw[weak connection, opacity=0.15] (x2) -- (h2);\n    \\draw[weak connection, opacity=0.15] (x3) -- (h1);\n    \\draw[weak connection, opacity=0.15] (x3) -- (h2);\n    \\draw[weak connection, opacity=0.15] (h1) -- (y);\n    \\draw[weak connection, opacity=0.15] (h2) -- (y);\n\n    % Error/gradient flow (backward arrows) - positioned below\n    \\draw[error arrow, very thick] (6.2,-1.3) -- (4.3,-1.3);\n    \\draw[error arrow, very thick] (2.7,-1.3) -- (0.8,-1.3);\n    \\node[below, font=\\small\\bfseries] at (3.5,-1.1) {Error Backpropagation};\n\n    % Loss function\n    \\node[function box] (loss) at (8.2,1) {$L$};\n    \\draw[error arrow] (y) -- (loss);\n    \\node[right=0.05cm of loss, font=\\small] {Loss};\n\n    % Gradient computations - positioned above network\n    \\node[computation] (grad2) at (5.25,2.8) {$\\boldsymbol{\\delta}^{(2)}$};\n    \\node[computation] (grad1) at (1.75,2.8) {$\\boldsymbol{\\delta}^{(1)}$};\n\n    % Chain rule arrows\n    \\draw[gradient arrow] (loss) to[bend left=20] (grad2);\n    \\draw[gradient arrow] (grad2) to[bend left=20] (grad1);\n\n    % Mathematical formulation - better positioning\n    \\node[below, font=\\small] at (1.75,-0.8) {$\\frac{\\partial L}{\\partial \\mathbf{W}^{(1)}} = \\boldsymbol{\\delta}^{(1)} \\mathbf{x}^T$};\n    \\node[below, font=\\small] at (5.25,-0.8) {$\\frac{\\partial L}{\\partial \\mathbf{W}^{(2)}} = \\boldsymbol{\\delta}^{(2)} (\\mathbf{a}^{(1)})^T$};\n\n    % Layer labels\n    \\node[layer label] at (0,-1.5) {Input};\n    \\node[layer label] at (3.5,-1.5) {Hidden};\n    \\node[layer label] at (7,-1.5) {Output};\n\n    % Gradient flow labels - above network\n    \\node[above=0.1cm of grad1, font=\\scriptsize] {$\\boldsymbol{\\delta}^{(1)} = (\\mathbf{W}^{(2)})^T \\boldsymbol{\\delta}^{(2)} \\odot \\sigma'(\\mathbf{z}^{(1)})$};\n    \\node[above=0.1cm of grad2, font=\\scriptsize] {$\\boldsymbol{\\delta}^{(2)} = \\frac{\\partial L}{\\partial \\mathbf{a}^{(2)}} \\odot \\sigma'(\\mathbf{z}^{(2)})$};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Backpropagation</h4>Efficient algorithm to compute gradients by propagating errors <strong>backward</strong> through the network using the <strong>chain rule</strong>.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Mathematical Foundation: Chain Rule",
+      "readingTime": "2 min",
+      "content": "<strong>Goal:</strong> Compute $\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}}$ and $\\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}}$ for all layers\n\n\n\n<strong>Chain Rule Application:</strong>\n$$\\begin{aligned}\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l)}} \\frac{\\partial \\mathbf{z}^{(l)}}{\\partial \\mathbf{W}^{(l)}} \\\\ \\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l)}} \\frac{\\partial \\mathbf{z}^{(l)}}{\\partial \\mathbf{b}^{(l)}} \\\\ \\frac{\\partial L}{\\partial \\mathbf{a}^{(l-1)}} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l)}} \\frac{\\partial \\mathbf{z}^{(l)}}{\\partial \\mathbf{a}^{(l-1)}}\\end{aligned}$$\n\n\n\n<strong>Key Insight:</strong> Define error terms $\\boldsymbol{\\delta}^{(l)} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l)}}$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Gradient Computations</h4>$$\\begin{aligned}\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\boldsymbol{\\delta}^{(l)} (\\mathbf{a}^{(l-1)})^T \\\\ \\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}} = \\boldsymbol{\\delta}^{(l)} \\\\ \\boldsymbol{\\delta}^{(l-1)} = (\\mathbf{W}^{(l)})^T \\boldsymbol{\\delta}^{(l)} \\odot \\sigma'(\\mathbf{z}^{(l-1)})\\end{aligned}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Output Layer</h4>For output layer $L$:\n$$\\boldsymbol{\\delta}^{(L)} = \\frac{\\partial L}{\\partial \\mathbf{a}^{(L)}} \\odot \\sigma'(\\mathbf{z}^{(L)})$$\n\nCommon case (MSE + sigmoid):\n$$\\boldsymbol{\\delta}^{(L)} = (\\mathbf{a}^{(L)} - \\mathbf{y}) \\odot \\mathbf{a}^{(L)} \\odot (1 - \\mathbf{a}^{(L)})$$</div>\n</div>\n</div>\n\nwhere $\\odot$ denotes element-wise multiplication.",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Backpropagation Algorithm",
+      "readingTime": "2 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{Backpropagation}\n\\begin{algorithmic}[1]\n\\STATE <strong>Input:</strong> Training example $(\\mathbf{x}, \\mathbf{y})$, network weights\n\\STATE <strong>Forward Pass:</strong> Compute all $\\mathbf{a}^{(l)}$ and $\\mathbf{z}^{(l)}$ (store them!)\n\\STATE <strong>Compute Output Error:</strong> $\\boldsymbol{\\delta}^{(L)} = \\frac{\\partial L}{\\partial \\mathbf{a}^{(L)}} \\odot \\sigma'(\\mathbf{z}^{(L)})$\n\\FOR{$l = L-1$ down to $1$}\n    \\STATE <strong>Propagate Error:</strong> $\\boldsymbol{\\delta}^{(l)} = (\\mathbf{W}^{(l+1)})^T \\boldsymbol{\\delta}^{(l+1)} \\odot \\sigma'(\\mathbf{z}^{(l)})$\n\\ENDFOR\n\\FOR{$l = 1$ to $L$}\n    \\STATE <strong>Compute Gradients:</strong>\n    \\STATE $\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\boldsymbol{\\delta}^{(l)} (\\mathbf{a}^{(l-1)})^T$\n    \\STATE $\\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}} = \\boldsymbol{\\delta}^{(l)}$\n\\ENDFOR\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Computational Complexity</h4><strong>Time:</strong> $O(\\text{number of weights})$\n<ul>\n\n<li>Same order as forward pass\n</li>\n<li>Very efficient vs numerical gradients\n</li>\n</ul>\n<strong>Space:</strong> $O(\\text{network size})$\n<ul>\n\n<li>Must store all activations\n</li>\n<li>Memory scales with depth\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Why Backpropagation Works</h4><ul>\n\n<li><strong>Efficiency:</strong> Reuses computations via chain rule\n</li>\n<li><strong>Automatic:</strong> No manual gradient derivation\n</li>\n<li><strong>Exact:</strong> Computes exact gradients\n</li>\n<li><strong>General:</strong> Works for any differentiable network\n</li>\n</ul>\n<strong>Historical Impact:</strong>\n<ul>\n\n<li>Rumelhart, Hinton, Williams (1986)\n</li>\n<li>Made deep learning practical\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Computational Graph Perspective",
+      "readingTime": "3 min",
+      "content": "\\begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]\n    % Input nodes - better vertical alignment\n    \\node[input neuron] (x) at (0,1.8) {$x$};\n    \\node[input neuron] (w) at (0,0.2) {$w$};\n\n    % Operation nodes (rectangles for operations) - aligned at y=1\n    \\node[function box] (mul) at (2.5,1) {$\\times$};\n    \\node[function box] (add) at (5,1) {$+$};\n    \\node[function box] (sig) at (7.5,1) {$\\sigma$};\n\n    % Intermediate results - positioned above operations\n    \\node[computation] (z1) at (2.5,2.2) {$z_1$};\n    \\node[computation] (z2) at (5,2.2) {$z_2$};\n    \\node[output neuron] (y) at (10,1) {$y$};\n\n    % Bias - positioned below mul operation\n    \\node[bias neuron] (b) at (2.5,-0.6) {$b$};\n\n    % Forward edges\n    \\draw[flow arrow] (x) -- (mul);\n    \\draw[flow arrow] (w) -- (mul);\n    \\draw[flow arrow] (mul) -- (add);\n    \\draw[flow arrow] (b) -- (add);\n    \\draw[flow arrow] (add) -- (sig);\n    \\draw[flow arrow] (sig) -- (y);\n\n    % Intermediate value labels - better positioning\n    \\draw[connection] (mul) -- (z1) node[midway, right, font=\\tiny] {$wx$};\n    \\draw[connection] (add) -- (z2) node[midway, right, font=\\tiny] {$wx + b$};\n\n    % Loss function\n    \\node[function box] (loss) at (12,1) {$L$};\n    \\draw[error arrow] (y) -- (loss);\n\n    % Backward gradients (dashed red arrows)\n    \\draw[gradient arrow] (loss) to[bend left=12] (sig);\n    \\draw[gradient arrow] (sig) to[bend left=12] (add);\n    \\draw[gradient arrow] (add) to[bend left=12] (mul);\n    \\draw[gradient arrow] (add) to[bend right=12] (b);\n    \\draw[gradient arrow] (mul) to[bend left=12] (x);\n    \\draw[gradient arrow] (mul) to[bend right=12] (w);\n\n    % Gradient labels - cleaner positioning\n    \\node[above, font=\\tiny] at (11,1.4) {$\\frac{\\partial L}{\\partial y}$};\n    \\node[above, font=\\tiny] at (8.75,1.4) {$\\frac{\\partial L}{\\partial z_2}$};\n    \\node[above, font=\\tiny] at (6.25,1.4) {$\\frac{\\partial L}{\\partial z_1}$};\n    \\node[left, font=\\tiny] at (1.3,0.6) {$\\frac{\\partial L}{\\partial w}$};\n    \\node[right, font=\\tiny] at (3.2,-0.4) {$\\frac{\\partial L}{\\partial b}$};\n\n    % Mathematical operations - positioned below\n    \\node[below, font=\\small] at (2.5,-1.2) {$z_1 = w \\cdot x$};\n    \\node[below, font=\\small] at (5,-1.2) {$z_2 = z_1 + b$};\n    \\node[below, font=\\small] at (7.5,-1.2) {$y = \\sigma(z_2)$};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Modern View</h4>Backpropagation is <strong>automatic differentiation</strong> applied to computational graphs. Modern frameworks (TensorFlow, PyTorch) build these graphs automatically.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "4-Layer Neural Network: Differential Equation Derivation",
+      "readingTime": "2 min",
+      "content": "<strong>Network Structure:</strong> Input → Hidden1 → Hidden2 → Hidden3 → Output\n\n<strong>Forward Pass Equations:</strong>\n$$\\begin{aligned}\\mathbf{a}^{(0)} = \\mathbf{x}   \\text{(input)} \\\\ \\mathbf{z}^{(1)} = \\mathbf{W}^{(1)} \\mathbf{a}^{(0)} + \\mathbf{b}^{(1)},   \\mathbf{a}^{(1)} = \\sigma(\\mathbf{z}^{(1)}) \\\\ \\mathbf{z}^{(2)} = \\mathbf{W}^{(2)} \\mathbf{a}^{(1)} + \\mathbf{b}^{(2)},   \\mathbf{a}^{(2)} = \\sigma(\\mathbf{z}^{(2)}) \\\\ \\mathbf{z}^{(3)} = \\mathbf{W}^{(3)} \\mathbf{a}^{(2)} + \\mathbf{b}^{(3)},   \\mathbf{a}^{(3)} = \\sigma(\\mathbf{z}^{(3)}) \\\\ \\mathbf{z}^{(4)} = \\mathbf{W}^{(4)} \\mathbf{a}^{(3)} + \\mathbf{b}^{(4)},   \\mathbf{a}^{(4)} = \\sigma(\\mathbf{z}^{(4)})   \\text{(output)}\\end{aligned}$$\n\n<strong>Loss Function:</strong> $L = \\frac{1}{2}||\\mathbf{a}^{(4)} - \\mathbf{y}||^2$\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Output Layer Error</h4>Starting from the output layer:\n$$\\begin{aligned}\\boldsymbol{\\delta}^{(4)} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(4)}} \\\\ = \\frac{\\partial L}{\\partial \\mathbf{a}^{(4)}} \\odot \\frac{\\partial \\mathbf{a}^{(4)}}{\\partial \\mathbf{z}^{(4)}} \\\\ = (\\mathbf{a}^{(4)} - \\mathbf{y}) \\odot \\sigma'(\\mathbf{z}^{(4)})\\end{aligned}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Chain Rule Application</h4>For hidden layers ($l = 3, 2, 1$):\n$$\\begin{aligned}\\boldsymbol{\\delta}^{(l)} = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l)}} \\\\ = \\frac{\\partial L}{\\partial \\mathbf{z}^{(l+1)}} \\frac{\\partial \\mathbf{z}^{(l+1)}}{\\partial \\mathbf{a}^{(l)}} \\frac{\\partial \\mathbf{a}^{(l)}}{\\partial \\mathbf{z}^{(l)}} \\\\ = (\\mathbf{W}^{(l+1)})^T \\boldsymbol{\\delta}^{(l+1)} \\odot \\sigma'(\\mathbf{z}^{(l)})\\end{aligned}$$</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "4-Layer Network: Complete Backpropagation Derivation",
+      "readingTime": "2 min",
+      "content": "<strong>Step-by-Step Gradient Computation:</strong>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Error Propagation</h4><strong>Layer 4 (Output):</strong>\n$$\\boldsymbol{\\delta}^{(4)} = (\\mathbf{a}^{(4)} - \\mathbf{y}) \\odot \\sigma'(\\mathbf{z}^{(4)})$$\n\n<strong>Layer 3:</strong>\n$$\\boldsymbol{\\delta}^{(3)} = (\\mathbf{W}^{(4)})^T \\boldsymbol{\\delta}^{(4)} \\odot \\sigma'(\\mathbf{z}^{(3)})$$\n\n<strong>Layer 2:</strong>\n$$\\boldsymbol{\\delta}^{(2)} = (\\mathbf{W}^{(3)})^T \\boldsymbol{\\delta}^{(3)} \\odot \\sigma'(\\mathbf{z}^{(2)})$$\n\n<strong>Layer 1:</strong>\n$$\\boldsymbol{\\delta}^{(1)} = (\\mathbf{W}^{(2)})^T \\boldsymbol{\\delta}^{(2)} \\odot \\sigma'(\\mathbf{z}^{(1)})$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Weight and Bias Gradients</h4>For each layer $l = 1, 2, 3, 4$:\n\n<strong>Weight Gradients:</strong>\n$$\\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} = \\boldsymbol{\\delta}^{(l)} (\\mathbf{a}^{(l-1)})^T$$\n\n<strong>Bias Gradients:</strong>\n$$\\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}} = \\boldsymbol{\\delta}^{(l)}$$\n\n\n\n<strong>Update Rules:</strong>\n$$\\begin{aligned}\\mathbf{W}^{(l)} := \\mathbf{W}^{(l)} - \\alpha \\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}} \\\\ \\mathbf{b}^{(l)} := \\mathbf{b}^{(l)} - \\alpha \\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}}\\end{aligned}$$</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Key Insight</h4>The error <strong>flows backward</strong> through the network, with each layer's error depending on the next layer's error multiplied by the transpose of the connecting weights.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Gradient Descent Optimization",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/gradient_descent_visualization.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Weight Update Rule</h4>$$\\mathbf{W}^{(l)} := \\mathbf{W}^{(l)} - \\alpha \\frac{\\partial L}{\\partial \\mathbf{W}^{(l)}}$$\n$$\\mathbf{b}^{(l)} := \\mathbf{b}^{(l)} - \\alpha \\frac{\\partial L}{\\partial \\mathbf{b}^{(l)}}$$\nwhere $\\alpha$ is the learning rate.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "The Overfitting Problem",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/overfitting_regularization_demo.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Overfitting</h4>Model learns training data too well, <strong>memorizing noise</strong> instead of generalizable patterns.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "L1 and L2 Regularization",
+      "readingTime": "1 min",
+      "content": "<strong>Add penalty terms to the loss function to control model complexity</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>L2 Regularization (Ridge)</h4>$$L_{total} = L_{data} + \\lambda \\sum_{l} ||\\mathbf{W}^{(l)}||_2^2$$\n\nwhere $||\\mathbf{W}^{(l)}||_2^2 = \\sum_i \\sum_j (W_{ij}^{(l)})^2$\n\n<strong>Effect:</strong>\n<ul>\n<li>Shrinks weights towards zero\n</li>\n<li>Uniform penalty on all weights\n</li>\n<li>Smooth weight distributions\n</li>\n<li>Preferred for most applications\n</li>\n</ul>\n\n<strong>Gradient Modification:</strong>\n$$\\frac{\\partial L_{total}}{\\partial \\mathbf{W}^{(l)}} = \\frac{\\partial L_{data}}{\\partial \\mathbf{W}^{(l)}} + 2\\lambda \\mathbf{W}^{(l)}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>L1 Regularization (Lasso)</h4>$$L_{total} = L_{data} + \\lambda \\sum_{l} ||\\mathbf{W}^{(l)}||_1$$\n\nwhere $||\\mathbf{W}^{(l)}||_1 = \\sum_i \\sum_j |W_{ij}^{(l)}|$\n\n<strong>Effect:</strong>\n<ul>\n<li>Promotes sparsity (many weights → 0)\n</li>\n<li>Automatic feature selection\n</li>\n<li>Creates sparse networks\n</li>\n<li>Useful for interpretability\n</li>\n</ul>\n\n<strong>Gradient Modification:</strong>\n$$\\frac{\\partial L_{total}}{\\partial \\mathbf{W}^{(l)}} = \\frac{\\partial L_{data}}{\\partial \\mathbf{W}^{(l)}} + \\lambda \\text{sign}(\\mathbf{W}^{(l)})$$</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Hyperparameter $$</h4>Controls regularization strength: <strong>larger $\\lambda$</strong> → more regularization → simpler model</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "L1 vs L2 Regularization Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/l1_vs_l2_regularization.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>When to Use L2</h4><ul>\n\n<li>General-purpose regularization\n</li>\n<li>All features potentially relevant\n</li>\n<li>Want smooth weight shrinkage\n</li>\n<li>Most common choice\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>When to Use L1</h4><ul>\n\n<li>Feature selection needed\n</li>\n<li>Many irrelevant features\n</li>\n<li>Want sparse models\n</li>\n<li>Interpretability important\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Dropout: A Different Approach",
+      "readingTime": "3 min",
+      "content": "\\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]\n    % Training network (with dropout)\n    \\node[above, font=\\bfseries] at (2.25,3.8) {Training (with Dropout)};\n\n    % Input layer - centered vertically\n    \\foreach \\y in {0,1,2,3} {\n        \\node[input neuron] (TI-\\y) at (0,{3-\\y}) {$x_{\\y}$};\n    }\n\n    % Hidden layer with some dropped out neurons - centered\n    \\node[hidden neuron] (TH-0) at (2.5,{3-0}) {};\n    \\node[hidden neuron, fill=gray!50, draw=gray] (TH-1) at (2.5,{3-1}) {\\scriptsize X}; % Dropped out\n    \\node[hidden neuron] (TH-2) at (2.5,{3-2}) {};\n    \\node[hidden neuron, fill=gray!50, draw=gray] (TH-3) at (2.5,{3-3}) {\\scriptsize X}; % Dropped out\n\n    % Output layer - centered\n    \\node[output neuron] (TO) at (5,1.5) {$y$};\n\n    % Active connections only - reduced opacity\n    \\draw[strong connection, opacity=0.3] (TI-0) -- (TH-0);\n    \\draw[strong connection, opacity=0.3] (TI-0) -- (TH-2);\n    \\draw[strong connection, opacity=0.3] (TI-1) -- (TH-0);\n    \\draw[strong connection, opacity=0.3] (TI-1) -- (TH-2);\n    \\draw[strong connection, opacity=0.3] (TI-2) -- (TH-0);\n    \\draw[strong connection, opacity=0.3] (TI-2) -- (TH-2);\n    \\draw[strong connection, opacity=0.3] (TI-3) -- (TH-0);\n    \\draw[strong connection, opacity=0.3] (TI-3) -- (TH-2);\n\n    \\draw[strong connection, opacity=0.3] (TH-0) -- (TO);\n    \\draw[strong connection, opacity=0.3] (TH-2) -- (TO);\n\n    % Testing network (no dropout)\n    \\node[above, font=\\bfseries] at (8.75,3.8) {Testing (no Dropout)};\n\n    % Input layer - centered vertically\n    \\foreach \\y in {0,1,2,3} {\n        \\node[input neuron] (EI-\\y) at (6.5,{3-\\y}) {$x_{\\y}$};\n    }\n\n    % Hidden layer - all active, centered\n    \\foreach \\y in {0,1,2,3} {\n        \\node[hidden neuron] (EH-\\y) at (9,{3-\\y}) {};\n    }\n\n    % Output layer - centered\n    \\node[output neuron] (EO) at (11.5,1.5) {$y$};\n\n    % All connections active - very light\n    \\foreach \\i in {0,1,2,3} {\n        \\foreach \\j in {0,1,2,3} {\n            \\draw[connection, opacity=0.2] (EI-\\i) -- (EH-\\j);\n        }\n    }\n\n    \\foreach \\j in {0,1,2,3} {\n        \\draw[connection, opacity=0.2] (EH-\\j) -- (EO);\n    }\n\n    % Dropout probability label - better positioning\n    \\node[below, font=\\footnotesize] at (2.5,-0.5) {Dropout rate: $p = 0.5$};\n    \\node[below, font=\\footnotesize] at (9,-0.5) {All neurons active};\n\n    % Layer labels\n    \\node[layer label] at (0,-1.1) {Input};\n    \\node[layer label] at (2.5,-1.1) {Hidden};\n    \\node[layer label] at (5,-1.1) {Output};\n\n    \\node[layer label] at (6.5,-1.1) {Input};\n    \\node[layer label] at (9,-1.1) {Hidden};\n    \\node[layer label] at (11.5,-1.1) {Output};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Dropout Technique</h4>Randomly <strong>set neurons to zero</strong> during training to prevent co-adaptation and improve generalization.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Dropout: Mathematical Formulation",
+      "readingTime": "2 min",
+      "content": "<strong>Training Phase:</strong>\n$$\\begin{aligned}\\mathbf{r}^{(l)} \\sim \\text{Bernoulli}(p)   \\text{(dropout mask)} \\\\ \\tilde{\\mathbf{a}}^{(l)} = \\mathbf{r}^{(l)} \\odot \\mathbf{a}^{(l)}   \\text{(apply mask)} \\\\ \\mathbf{z}^{(l+1)} = \\mathbf{W}^{(l+1)} \\tilde{\\mathbf{a}}^{(l)} + \\mathbf{b}^{(l+1)}\\end{aligned}$$\n\n<strong>Testing Phase:</strong>\n$$\\mathbf{z}^{(l+1)} = p \\cdot \\mathbf{W}^{(l+1)} \\mathbf{a}^{(l)} + \\mathbf{b}^{(l+1)}   \\text{(scale weights)}$$\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Dropout Benefits</h4><ul>\n\n<li><strong>Prevents overfitting:</strong> Reduces complex co-adaptations\n</li>\n<li><strong>Model averaging:</strong> Approximates ensemble of networks\n</li>\n<li><strong>Robust features:</strong> Forces redundant representations\n</li>\n<li><strong>Easy to implement:</strong> Simple modification to forward pass\n</li>\n</ul>\n\n<strong>Typical rates:</strong> 0.2-0.5 for hidden layers, 0.1-0.2 for input</div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Implementation Notes}\n<strong>Training vs Testing:</strong>\n<ul>\n\n<li>Training: Randomly drop neurons\n</li>\n<li>Testing: Use all neurons but scale outputs\n</li>\n<li>Modern frameworks handle this automatically\n</li>\n</ul>\n\n<strong>Why Scaling Works:</strong>\n<ul>\n\n<li>Training: Each neuron is \"on\" with probability $p$\n</li>\n<li>Testing: All neurons are \"on\"\n</li>\n<li>Scaling by $p$ maintains expected activation levels\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>\n<div class=\"warning\"><h4>Best Practice</h4>Use dropout in <strong>hidden layers only</strong>, not in output layer. Start with rate 0.5 and tune.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Regularization Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/regularization_comparison.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Choosing Regularization</h4><strong>Start with:</strong>\n<ul>\n\n<li>L2 regularization ($\\lambda = 0.01$)\n</li>\n<li>Dropout (rate = 0.5)\n</li>\n<li>Early stopping\n</li>\n</ul>\n\n<strong>If still overfitting:</strong>\n<ul>\n\n<li>Increase regularization strength\n</li>\n<li>Add more dropout\n</li>\n<li>Reduce model complexity\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Other Techniques</h4><strong>Early Stopping:</strong>\n<ul>\n\n<li>Monitor validation loss\n</li>\n<li>Stop when it starts increasing\n</li>\n<li>Simple and effective\n</li>\n</ul>\n\n<strong>Data Augmentation:</strong>\n<ul>\n\n<li>Artificially increase training data\n</li>\n<li>Add noise, rotations, etc.\n</li>\n<li>Domain-specific techniques\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Training Curves with Regularization",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/training_curves_regularization.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Monitoring Training</h4>Use <strong>validation curves</strong> to detect overfitting and choose regularization strength.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Weight Initialization",
+      "readingTime": "1 min",
+      "content": "<strong>Proper initialization is crucial for successful training</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Poor Initialization</h4><strong>All zeros:</strong> No learning (symmetry)\n$$W_{ij} = 0 \\Rightarrow \\text{no gradient flow}$$\n\n<strong>Too large:</strong> Exploding gradients\n$$W_{ij} \\sim \\mathcal{N}(0, 1) \\Rightarrow \\text{saturation}$$\n\n<strong>Too small:</strong> Vanishing gradients\n$$W_{ij} \\sim \\mathcal{N}(0, 0.01) \\Rightarrow \\text{weak signals}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Good Initialization</h4><strong>Xavier/Glorot (Sigmoid/Tanh):</strong>\n$$W_{ij} \\sim \\mathcal{N}\\left(0, \\sqrt{\\frac{2}{n_{in} + n_{out}}}\\right)$$\n\n<strong>He initialization (ReLU):</strong>\n$$W_{ij} \\sim \\mathcal{N}\\left(0, \\sqrt{\\frac{2}{n_{in}}}\\right)$$\n\n<strong>Bias initialization:</strong>\n$$b_i = 0 \\text{ (usually sufficient)}$$</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Why These Work</h4>}\nMaintain <strong>activation variance</strong> and <strong>gradient variance</strong> across layers during initialization.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Learning Rate and Optimization",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Learning Rate Selection</h4><strong>Too high:</strong> Overshooting, instability\n<ul>\n<li>Loss explodes or oscillates\n</li>\n<li>Network doesn't converge\n</li>\n<li>Weights become very large\n</li>\n</ul>\n\n<strong>Too low:</strong> Slow convergence\n<ul>\n<li>Training takes forever\n</li>\n<li>Gets stuck in local minima\n</li>\n<li>Poor final performance\n</li>\n</ul>\n\n<strong>Good range:</strong> Typically $10^{-4}$ to $10^{-1}$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advanced Optimizers</h4><strong>SGD with Momentum:</strong>\n$$\\mathbf{v}_t = \\beta \\mathbf{v}_{t-1} + (1-\\beta) \\nabla L$$\n$$\\mathbf{W} := \\mathbf{W} - \\alpha \\mathbf{v}_t$$\n\n<strong>Adam (Adaptive Moments):</strong>\n$$\\begin{aligned}\\mathbf{m}_t = \\beta_1 \\mathbf{m}_{t-1} + (1-\\beta_1) \\nabla L \\\\ \\mathbf{v}_t = \\beta_2 \\mathbf{v}_{t-1} + (1-\\beta_2) (\\nabla L)^2 \\\\ \\mathbf{W} := \\mathbf{W} - \\alpha \\frac{\\mathbf{m}_t}{\\sqrt{\\mathbf{v}_t} + \\epsilon}\\end{aligned}$$\n\n<strong>Default choice:</strong> Adam with $\\alpha = 0.001$</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Learning Rate Scheduling</h4><strong>Decay strategies:</strong> Step decay, exponential decay, cosine annealing. Start high, reduce during training.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "Training Diagnostics",
+      "readingTime": "2 min",
+      "content": "<strong>Monitor these metrics during training:</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Loss Monitoring</h4><ul>\n<li><strong>Training loss</strong>: Should decrease monotonically\n</li>\n<li><strong>Validation loss</strong>: Should decrease, then stabilize\n</li>\n<li><strong>Gap</strong>: Indicates overfitting if too large\n</li>\n</ul>\n\n<strong>Warning Signs:</strong>\n<ul>\n<li>Loss increases: Learning rate too high\n</li>\n<li>Loss plateaus early: Learning rate too low\n</li>\n<li>Validation loss increases: Overfitting\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Gradient Monitoring</h4><ul>\n<li><strong>Gradient norms</strong>: Should be reasonable ($10^{-6}$ to $10^{-1}$)\n</li>\n<li><strong>Vanishing</strong>: Gradients → 0 in early layers\n</li>\n<li><strong>Exploding</strong>: Gradients become very large\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Activation Monitoring</h4><ul>\n<li><strong>Activation statistics</strong>: Mean, std, sparsity\n</li>\n<li><strong>Dead neurons</strong>: Always output zero\n</li>\n<li><strong>Saturated neurons</strong>: Always in saturation region\n</li>\n</ul>\n\n<strong>Healthy activations:</strong>\n<ul>\n<li>Reasonable variance (not too small/large)\n</li>\n<li>Some sparsity (for ReLU)\n</li>\n<li>No layers completely dead\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Weight Monitoring</h4><ul>\n<li><strong>Weight distributions</strong>: Should be reasonable\n</li>\n<li><strong>Weight updates</strong>: $|\\Delta W| / |W| \\approx 10^{-3}$\n</li>\n<li><strong>Layer-wise learning rates</strong>: May need adjustment\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Tools</h4>Use <strong>TensorBoard</strong>, <strong>Weights \\& Biases</strong>, or similar tools for comprehensive monitoring and visualization.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 39,
+      "title": "Common Problems and Solutions",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Problem: Vanishing Gradients</h4><strong>Symptoms:</strong>\n<ul>\n\n<li>Early layers don't learn\n</li>\n<li>Gradients approach zero\n</li>\n</ul>\n<strong>Solutions:</strong>\n<ul>\n\n<li>Use ReLU activations\n</li>\n<li>Proper weight initialization\n</li>\n<li>Batch normalization\n</li>\n</ul></div>\n<div class=\"highlight\"><h4>Problem: Overfitting</h4><strong>Symptoms:</strong>\n<ul>\n\n<li>Training accuracy >> validation accuracy\n</li>\n<li>Validation loss increases\n</li>\n</ul>\n<strong>Solutions:</strong>\n<ul>\n\n<li>Add regularization (L2, dropout)\n</li>\n<li>Reduce model complexity\n</li>\n<li>More training data\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Problem: Exploding Gradients</h4><strong>Symptoms:</strong>\n<ul>\n\n<li>Loss becomes NaN\n</li>\n<li>Weights blow up\n</li>\n</ul>\n<strong>Solutions:</strong>\n<ul>\n\n<li>Gradient clipping\n</li>\n<li>Lower learning rate\n</li>\n<li>Better initialization\n</li>\n</ul></div>\n<div class=\"highlight\"><h4>Problem: Slow Convergence</h4><strong>Symptoms:</strong>\n<ul>\n\n<li>Loss decreases slowly\n</li>\n<li>Gets stuck in plateaus\n</li>\n</ul>\n<strong>Solutions:</strong>\n<ul>\n\n<li>Increase learning rate\n</li>\n<li>Use adaptive optimizers\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 40,
+      "title": "Neural Networks: Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Core Concepts</h4><ul>\n\n<li><strong>Perceptron</strong>: Basic building block\n</li>\n<li><strong>Multi-layer</strong>: Enable complex mappings\n</li>\n<li><strong>Activation functions</strong>: Provide non-linearity\n</li>\n<li><strong>Forward propagation</strong>: Compute predictions\n</li>\n<li><strong>Backpropagation</strong>: Compute gradients efficiently\n</li>\n<li><strong>Regularization</strong>: Prevent overfitting\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Mathematical Foundation</h4><ul>\n\n<li>Matrix operations for efficiency\n</li>\n<li>Chain rule for gradient computation\n</li>\n<li>Optimization theory for training\n</li>\n<li>Probability theory for interpretation\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Best Practices</h4><ul>\n\n<li><strong>Architecture</strong>: Start simple, add complexity gradually\n</li>\n<li><strong>Initialization</strong>: Xavier/He for proper gradient flow\n</li>\n<li><strong>Optimization</strong>: Adam optimizer with proper learning rate\n</li>\n<li><strong>Regularization</strong>: L2 + Dropout for generalization\n</li>\n<li><strong>Monitoring</strong>: Track loss, gradients, activations\n</li>\n<li><strong>Debugging</strong>: Systematic approach to problems\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>When to Use Neural Networks</h4><ul>\n\n<li>Large datasets available\n</li>\n<li>Complex non-linear patterns\n</li>\n<li>End-to-end learning desired\n</li>\n<li>Feature engineering is difficult\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Modern Deep Learning</h4>These fundamentals scale to modern architectures: <strong>CNNs, RNNs, Transformers, ResNets, etc.</strong></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 41,
+      "title": "Applications \\& Real-World Impact",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Computer Vision</h4><ul>\n<li><strong>Image classification</strong>: ResNet, EfficientNet\n</li>\n<li><strong>Object detection</strong>: YOLO, R-CNN\n</li>\n<li><strong>Segmentation</strong>: U-Net, Mask R-CNN\n</li>\n<li><strong>Face recognition</strong>: DeepFace, FaceNet\n</li>\n<li><strong>Medical imaging</strong>: Cancer detection, radiology\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Natural Language Processing</h4><ul>\n<li><strong>Language models</strong>: GPT, BERT, T5\n</li>\n<li><strong>Translation</strong>: Google Translate, DeepL\n</li>\n<li><strong>Chatbots</strong>: ChatGPT, virtual assistants\n</li>\n<li><strong>Text analysis</strong>: Sentiment, summarization\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Other Domains</h4><ul>\n<li><strong>Speech</strong>: Recognition, synthesis, processing\n</li>\n<li><strong>Recommendation</strong>: Netflix, Amazon, Spotify\n</li>\n<li><strong>Games</strong>: AlphaGo, OpenAI Five, StarCraft\n</li>\n<li><strong>Robotics</strong>: Control, perception, planning\n</li>\n<li><strong>Finance</strong>: Trading, fraud detection, risk\n</li>\n<li><strong>Science</strong>: Drug discovery, climate modeling\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Emerging Areas</h4><ul>\n<li><strong>Generative AI</strong>: DALL-E, Midjourney, Stable Diffusion\n</li>\n<li><strong>Multimodal</strong>: CLIP, GPT-4V\n</li>\n<li><strong>Reinforcement Learning</strong>: Autonomous systems\n</li>\n<li><strong>Scientific Computing</strong>: Physics, chemistry, biology\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Impact</h4>Neural networks have <strong>revolutionized AI</strong> and are now fundamental to most modern machine learning applications.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 42,
+      "title": "Looking Forward: Advanced Topics",
+      "readingTime": "1 min",
+      "content": "<strong>What's Next After This Foundation?</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Specialized Architectures</h4><ul>\n<li><strong>Convolutional Neural Networks (CNNs)</strong>\n  <ul>\n</li>\n  <li>Spatial structure exploitation\n</li>\n  <li>Translation invariance\n</li>\n  <li>Computer vision applications\n</li>\n  </ul>\n<li><strong>Recurrent Neural Networks (RNNs)</strong>\n  <ul>\n</li>\n  <li>Sequential data processing\n</li>\n  <li>Memory and temporal dynamics\n</li>\n  <li>LSTM, GRU variants\n</li>\n  </ul>\n<li><strong>Transformer Networks</strong>\n  <ul>\n</li>\n  <li>Attention mechanisms\n</li>\n  <li>Parallel processing\n</li>\n  <li>Modern NLP backbone\n</li>\n  </ul>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advanced Techniques</h4><ul>\n<li><strong>Batch Normalization</strong>\n  <ul>\n</li>\n  <li>Internal covariate shift\n</li>\n  <li>Training acceleration\n</li>\n  </ul>\n<li><strong>Residual Connections</strong>\n  <ul>\n</li>\n  <li>Very deep networks\n</li>\n  <li>Gradient flow improvement\n</li>\n  </ul>\n<li><strong>Attention Mechanisms</strong>\n  <ul>\n</li>\n  <li>Selective focus\n</li>\n  <li>Long-range dependencies\n</li>\n  </ul>\n<li><strong>Generative Models</strong>\n  <ul>\n</li>\n  <li>VAEs, GANs, Diffusion\n</li>\n  <li>Creative AI applications\n</li>\n  </ul>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Next Steps</h4><strong>Practice implementation</strong>, experiment with <strong>real datasets</strong>, and explore <strong>specialized architectures</strong> for your domain of interest.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

@@ -1,106 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 50%, #7A1E3F 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .login-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h1 {
-            color: #1B5E4F;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-        button {
-            background-color: #1B5E4F;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 100%;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #0F3E35;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-        }
-        .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            background-color: #7A1E3F;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        .back-button:hover {
-            background-color: #5C162F;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h1>Admin Login</h1>
+{% extends "base_layout.html" %}
+
+{% block title %}Admin Login - CMSC 173{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Admin-specific: maroon icon background */
+    .auth-icon.admin-icon { background: var(--up-maroon); }
+    .btn-admin {
+        width: 100%;
+        background: linear-gradient(135deg, var(--up-maroon) 0%, #6B1A36 100%);
+    }
+    .btn-admin:hover { box-shadow: 0 8px 20px rgba(140, 36, 72, 0.3); }
+    .form-group input { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 1em; font-family: inherit; }
+    .form-group input:focus { outline: none; border-color: var(--up-green); box-shadow: 0 0 0 3px var(--primary-light); }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Home</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">Admin Login</span>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-icon admin-icon">🔐</div>
+            <h1>Admin Login</h1>
+            <p>CMSC 173 - Machine Learning</p>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
         <form method="POST" action="{{ url_for('admin_login') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter admin username" autofocus>
             </div>
+
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter password">
             </div>
-            {% if error %}
-                <p class="error-message">{{ error }}</p>
-            {% endif %}
-            <button type="submit">Login</button>
+
+            <button type="submit" class="btn btn-primary btn-admin btn-lg">Login to Dashboard</button>
         </form>
-        <a href="/" class="back-button">← Back to Modules</a>
+
+        <div class="auth-footer">
+            <p>Not an administrator?</p>
+            <div class="auth-links">
+                <a href="/group_login">Group Login</a>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

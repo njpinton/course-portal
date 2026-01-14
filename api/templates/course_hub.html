@@ -1,0 +1,93 @@
+{% extends "base_layout.html" %}
+
+{% block title %}Course Hub - Learning Hub{% endblock %}
+
+{% block breadcrumbs %}
+<span class="breadcrumb-current">Course Hub</span>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/course-hub.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section with UP Branding -->
+<div class="hub-hero">
+    <div class="hub-hero-content">
+        <div class="hub-hero-logos">
+            <img src="{{ url_for('static', filename='images/up-logo.png') }}" alt="University of the Philippines" onerror="this.style.display='none'">
+            <img src="{{ url_for('static', filename='images/up-cebu-logo.png') }}" alt="UP Cebu" onerror="this.style.display='none'">
+        </div>
+        <div class="hub-hero-text">
+            <h1>UP Cebu Learning Hub</h1>
+            <p>Department of Computer Science - Interactive Course Materials</p>
+        </div>
+    </div>
+    <div class="hub-hero-accent"></div>
+</div>
+
+<div class="hub-header">
+    <h2 class="hub-title">Your Courses</h2>
+    <p class="hub-subtitle">Select a course to view lectures and projects</p>
+</div>
+
+<!-- Quick Stats -->
+<div class="quick-stats">
+    <div class="stat-card">
+        <div class="stat-icon courses">&#128218;</div>
+        <div class="stat-content">
+            <h3>{{ active_courses }}</h3>
+            <p>Active Courses</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon modules">&#128214;</div>
+        <div class="stat-content">
+            <h3>{{ total_modules }}</h3>
+            <p>Total Modules</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon projects">&#128101;</div>
+        <div class="stat-content">
+            <h3>{{ total_projects }}</h3>
+            <p>Group Projects</p>
+        </div>
+    </div>
+</div>
+
+<!-- Courses Grid -->
+<div class="courses-grid">
+    {% for course_id, course in courses.items() %}
+    <a href="/course/{{ course_id }}" class="course-card {% if not course.is_active %}coming-soon{% endif %}">
+        <div class="course-card-header">
+            <div class="course-code">
+                {{ course.code }}
+                {% if not course.is_active %}
+                <span class="coming-soon-badge">Coming Soon</span>
+                {% endif %}
+            </div>
+            <h2 class="course-title">{{ course.title }}</h2>
+            <p class="course-description">{{ course.description }}</p>
+        </div>
+        <div class="course-card-footer">
+            <div class="course-stat">
+                <div class="course-stat-icon">&#128214;</div>
+                <div class="course-stat-info">
+                    <span class="course-stat-value">{{ course.modules|length }}</span>
+                    <span class="course-stat-label">Modules</span>
+                </div>
+            </div>
+            <div class="course-stat">
+                <div class="course-stat-icon">&#128101;</div>
+                <div class="course-stat-info">
+                    <span class="course-stat-value">{{ course.projects|length }}</span>
+                    <span class="course-stat-label">Projects</span>
+                </div>
+            </div>
+            <div class="course-card-action">&#8594;</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

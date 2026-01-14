@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Machine Learning with JavaScript</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Urbanist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ==========================================
+           CSS Variables & Base
+           ========================================== */
+        :root {
+            /* Dark Theme Colors */
+            --bg-page: #0f172a;
+            --bg-slide: #000000;
+            --bg-card: #1e293b;
+            --bg-code: #0d1117;
+
+            /* Accent Colors */
+            --electric-blue: #38bdf8;
+            --emerald-green: #10b981;
+            --js-yellow: #facc15;
+            --accent-purple: #a78bfa;
+            --accent-rose: #fb7185;
+
+            /* Text Colors */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            /* Gradients */
+            --gradient-blue: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --gradient-green: linear-gradient(135deg, #10b981 0%, #38bdf8 100%);
+            --gradient-yellow: linear-gradient(135deg, #facc15 0%, #fb923c 100%);
+
+            /* Slide Dimensions */
+            --slide-width: 1280px;
+            --slide-height: 720px;
+
+            /* Spacing */
+            --padding-slide: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+
+        /* ==========================================
+           Slide Container
+           ========================================== */
+        .deck {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .slide {
+            width: var(--slide-width);
+            height: var(--slide-height);
+            background: var(--bg-slide);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Glow effect behind slides */
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            padding: var(--padding-slide);
+        }
+
+        /* ==========================================
+           Typography
+           ========================================== */
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .gradient-text {
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .accent-blue { color: var(--electric-blue); }
+        .accent-green { color: var(--emerald-green); }
+        .accent-yellow { color: var(--js-yellow); }
+        .accent-purple { color: var(--accent-purple); }
+
+        /* ==========================================
+           Slide 1: Title Slide
+           ========================================== */
+        .slide-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-title .slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-title::before {
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(250, 204, 21, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+        }
+
+        .slide-title h1 {
+            font-size: 4.5rem;
+            margin-bottom: 24px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.75rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 48px;
+        }
+
+        .slide-title .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-card);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .slide-title .tech-badge i {
+            font-size: 1.5rem;
+        }
+
+        .slide-title .tech-badge span {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Abstract grid background */
+        .abstract-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* ==========================================
+           Slide 2: Two Column Layout
+           ========================================== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .two-col .col-text {
+            padding-right: 20px;
+        }
+
+        .two-col .col-image {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .two-col .col-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 32px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+            font-size: 1.125rem;
+        }
+
+        .feature-list li i {
+            font-size: 1.25rem;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .feature-list li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .feature-list li span {
+            color: var(--text-secondary);
+        }
+
+        /* ==========================================
+           Slide 3: Comparison Table
+           ========================================== */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            font-size: 1.05rem;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--bg-card) 0%, #2d3a4f 100%);
+            padding: 20px 28px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--electric-blue);
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .comparison-table th.python-col {
+            color: var(--accent-purple);
+        }
+
+        .comparison-table th.js-col {
+            color: var(--js-yellow);
+        }
+
+        .comparison-table td {
+            padding: 18px 28px;
+            background: var(--bg-card);
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+
+        .comparison-table tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .comparison-table .check {
+            color: var(--emerald-green);
+        }
+
+        .comparison-table .cross {
+            color: var(--accent-rose);
+        }
+
+        /* ==========================================
+           Slide 4: Three Cards
+           ========================================== */
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .card.card-blue::before { background: var(--gradient-blue); }
+        .card.card-green::before { background: var(--gradient-green); }
+        .card.card-yellow::before { background: var(--gradient-yellow); }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .card-blue .card-icon {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--electric-blue);
+        }
+        .card-green .card-icon {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald-green);
+        }
+        .card-yellow .card-icon {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--js-yellow);
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .card .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-blue .tag { background: rgba(56, 189, 248, 0.15); color: var(--electric-blue); }
+        .card-green .tag { background: rgba(16, 185, 129, 0.15); color: var(--emerald-green); }
+        .card-yellow .tag { background: rgba(250, 204, 21, 0.15); color: var(--js-yellow); }
+
+        /* ==========================================
+           Slide 5, 7: Bleed Layout
+           ========================================== */
+        .bleed-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100%;
+        }
+
+        .bleed-layout .content-col {
+            padding: var(--padding-slide);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bleed-layout .image-col {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bleed-layout .image-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bleed-layout .image-col::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 100%;
+            background: linear-gradient(90deg, var(--bg-slide) 0%, transparent 100%);
+        }
+
+        .bleed-layout.reverse {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .bleed-layout.reverse .image-col {
+            order: -1;
+        }
+
+        .bleed-layout.reverse .image-col::after {
+            left: auto;
+            right: 0;
+            background: linear-gradient(-90deg, var(--bg-slide) 0%, transparent 100%);
+        }
+
+        .code-snippet {
+            background: var(--bg-code);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            overflow-x: auto;
+        }
+
+        .code-snippet pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .code-snippet .keyword { color: var(--accent-rose); }
+        .code-snippet .string { color: var(--emerald-green); }
+        .code-snippet .function { color: var(--js-yellow); }
+        .code-snippet .comment { color: var(--text-muted); font-style: italic; }
+        .code-snippet .variable { color: var(--electric-blue); }
+        .code-snippet .number { color: var(--accent-purple); }
+
+        /* ==========================================
+           Slide 6: Circular Image Layout
+           ========================================== */
+        .circular-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .circular-layout .image-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circular-layout .image-col img {
+            width: 380px;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--emerald-green);
+            box-shadow:
+                0 0 0 20px rgba(16, 185, 129, 0.1),
+                0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .circular-layout .content-col {
+            padding-left: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
+            border-left: 4px solid var(--emerald-green);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 24px;
+        }
+
+        .highlight-box p {
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        /* ==========================================
+           Slide 8: Image Grid
+           ========================================== */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 40px;
+        }
+
+        .grid-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .grid-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        }
+
+        .grid-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .grid-item .caption h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .grid-item .caption p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================
+           Slide 9: Code Demo
+           ========================================== */
+        .code-demo {
+            margin-top: 20px;
+        }
+
+        .code-demo .code-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-card);
+            padding: 12px 20px;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .code-demo .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-demo .dot.red { background: #ef4444; }
+        .code-demo .dot.yellow { background: #facc15; }
+        .code-demo .dot.green { background: #22c55e; }
+
+        .code-demo .filename {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .code-demo .code-body {
+            background: var(--bg-code);
+            padding: 24px;
+            border-radius: 0 0 12px 12px;
+            overflow-x: auto;
+        }
+
+        .code-demo pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .code-demo .line-number {
+            color: var(--text-muted);
+            user-select: none;
+            padding-right: 20px;
+            display: inline-block;
+            width: 40px;
+            text-align: right;
+        }
+
+        /* ==========================================
+           Slide 10: Q&A
+           ========================================== */
+        .slide-qna {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-qna::before {
+            background:
+                radial-gradient(ellipse at 30% 40%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+        }
+
+        .slide-qna .slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qna-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--electric-blue) 0%, var(--emerald-green) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--bg-slide);
+            margin-bottom: 40px;
+            box-shadow:
+                0 0 0 20px rgba(56, 189, 248, 0.1),
+                0 0 0 40px rgba(56, 189, 248, 0.05);
+        }
+
+        .slide-qna h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .slide-qna .contact-info {
+            display: flex;
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .contact-item i {
+            color: var(--electric-blue);
+        }
+
+        /* ==========================================
+           Slide Numbers
+           ========================================== */
+        .slide-number {
+            position: absolute;
+            bottom: 24px;
+            right: 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            z-index: 10;
+        }
+
+        .slide-number span {
+            color: var(--electric-blue);
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           Utilities
+           ========================================== */
+        .mb-0 { margin-bottom: 0; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-6 { margin-top: 24px; }
+
+        .text-sm { font-size: 0.9rem; }
+        .text-lg { font-size: 1.25rem; }
+
+        /* ==========================================
+           Responsive (for viewing on smaller screens)
+           ========================================== */
+        @media (max-width: 1400px) {
+            .slide {
+                transform: scale(0.8);
+                transform-origin: top center;
+                margin-bottom: -144px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .slide {
+                transform: scale(0.65);
+                margin-bottom: -252px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck">
+
+        <!-- ==========================================
+             SLIDE 1: Title
+             ========================================== -->
+        <div class="slide slide-title">
+            <div class="abstract-grid"></div>
+            <div class="slide-content">
+                <h1>Machine Learning<br><span class="gradient-text">with JavaScript</span></h1>
+                <p class="subtitle">Run AI models directly in the browser — no server required.</p>
+                <div class="tech-badge">
+                    <i class="fa-brands fa-js accent-yellow"></i>
+                    <span>TensorFlow.js &bull; ml5.js &bull; Brain.js</span>
+                </div>
+            </div>
+            <div class="slide-number"><span>01</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 2: Why JavaScript?
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="two-col">
+                    <div class="col-text">
+                        <h2>Why <span class="accent-yellow">JavaScript</span><br>for Machine Learning?</h2>
+                        <ul class="feature-list">
+                            <li>
+                                <i class="fa-solid fa-shield-halved accent-green"></i>
+                                <div>
+                                    <strong>Privacy First</strong><br>
+                                    <span>Data never leaves the user's device. Process images, audio, and text locally.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-microchip accent-blue"></i>
+                                <div>
+                                    <strong>Device Sensors</strong><br>
+                                    <span>Direct access to camera, microphone, accelerometer, and touch events.</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-globe accent-purple"></i>
+                                <div>
+                                    <strong>Ubiquitous Runtime</strong><br>
+                                    <span>3+ billion browsers. Zero installation. Instant deployment.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-image">
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80" alt="Abstract technology visualization">
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>02</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 3: Comparison Table
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Python <span class="accent-purple">vs</span> JavaScript <span class="accent-yellow">for ML</span></h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="python-col"><i class="fa-brands fa-python"></i> Python</th>
+                            <th class="js-col"><i class="fa-brands fa-js"></i> JavaScript</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Training Large Models</td>
+                            <td><i class="fa-solid fa-check check"></i> Excellent (PyTorch, TensorFlow)</td>
+                            <td><i class="fa-solid fa-minus cross"></i> Limited (transfer learning)</td>
+                        </tr>
+                        <tr>
+                            <td>Browser Deployment</td>
+                            <td><i class="fa-solid fa-xmark cross"></i> Requires server/API</td>
+                            <td><i class="fa-solid fa-check check"></i> Native support</td>
+                        </tr>
+                        <tr>
+                            <td>Real-time Inference</td>
+                            <td><i class="fa-solid fa-minus"></i> Server latency</td>
+                            <td><i class="fa-solid fa-check check"></i> Client-side, instant</td>
+                        </tr>
+                        <tr>
+                            <td>Data Privacy</td>
+                            <td><i class="fa-solid fa-minus"></i> Data sent to server</td>
+                            <td><i class="fa-solid fa-check check"></i> Stays on device</td>
+                        </tr>
+                        <tr>
+                            <td>GPU Acceleration</td>
+                            <td><i class="fa-solid fa-check check"></i> CUDA, cuDNN</td>
+                            <td><i class="fa-solid fa-check check"></i> WebGL, WebGPU</td>
+                        </tr>
+                        <tr>
+                            <td>Ecosystem Maturity</td>
+                            <td><i class="fa-solid fa-check check"></i> Massive (scikit-learn, etc.)</td>
+                            <td><i class="fa-solid fa-minus"></i> Growing rapidly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slide-number"><span>03</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 4: Ecosystem Overview
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>The <span class="gradient-text">JavaScript ML</span> Ecosystem</h2>
+                <div class="cards-row">
+                    <div class="card card-blue">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3>TensorFlow.js</h3>
+                        <p>Google's official ML library for JavaScript. Train and deploy models in browser or Node.js with GPU acceleration via WebGL.</p>
+                        <span class="tag">Production Ready</span>
+                    </div>
+                    <div class="card card-green">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3>ml5.js</h3>
+                        <p>Friendly high-level interface built on TensorFlow.js. Perfect for beginners, artists, and creative coders.</p>
+                        <span class="tag">Beginner Friendly</span>
+                    </div>
+                    <div class="card card-yellow">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3>Brain.js</h3>
+                        <p>Lightweight neural network library in pure JavaScript. Great for simple tasks like pattern recognition and time series.</p>
+                        <span class="tag">Lightweight</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>04</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 5: TensorFlow.js (Bleed Layout)
+             ========================================== -->
+        <div class="slide">
+            <div class="bleed-layout">
+                <div class="content-col">
+                    <h2><span class="accent-blue">TensorFlow.js</span><br>in Action</h2>
+                    <p>Load pre-trained models or convert existing Python models. Supports Keras, GraphDef, and SavedModel formats.</p>
+
+                    <div class="code-snippet">
+                        <pre><span class="comment">// Load MobileNet for image classification</span>
+<span class="keyword">import</span> <span class="variable">*</span> <span class="keyword">as</span> tf <span class="keyword">from</span> <span class="string">'@tensorflow/tfjs'</span>;
+<span class="keyword">import</span> <span class="variable">*</span> <span class="keyword">as</span> mobilenet <span class="keyword">from</span> <span class="string">'@tensorflow-models/mobilenet'</span>;
+
+<span class="keyword">const</span> model = <span class="keyword">await</span> mobilenet.<span class="function">load</span>();
+<span class="keyword">const</span> predictions = <span class="keyword">await</span> model.<span class="function">classify</span>(img);
+<span class="variable">console</span>.<span class="function">log</span>(predictions);</pre>
+                    </div>
+
+                    <ul class="feature-list mt-6">
+                        <li>
+                            <i class="fa-solid fa-bolt accent-yellow"></i>
+                            <div><strong>WebGL Acceleration</strong> — GPU-powered inference</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-cubes accent-blue"></i>
+                            <div><strong>Model Zoo</strong> — 50+ pre-trained models</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI neural network visualization">
+                </div>
+            </div>
+            <div class="slide-number"><span>05</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 6: ml5.js (Circular Image)
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="circular-layout">
+                    <div class="image-col">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Creative coding and art">
+                    </div>
+                    <div class="content-col">
+                        <h2><span class="accent-green">ml5.js</span><br>Accessible AI</h2>
+                        <p>Built for accessibility and ease of use. ml5.js wraps TensorFlow.js in a friendly API inspired by Processing and p5.js.</p>
+
+                        <div class="highlight-box">
+                            <p>"Democratizing machine learning for artists, creative coders, and students."</p>
+                        </div>
+
+                        <ul class="feature-list mt-6">
+                            <li>
+                                <i class="fa-solid fa-palette accent-green"></i>
+                                <div><strong>PoseNet</strong> — Real-time body tracking</div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-face-smile accent-green"></i>
+                                <div><strong>FaceAPI</strong> — Face detection & landmarks</div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-pen-fancy accent-green"></i>
+                                <div><strong>SketchRNN</strong> — AI drawing generation</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>06</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 7: Brain.js (Bleed Layout Reversed)
+             ========================================== -->
+        <div class="slide">
+            <div class="bleed-layout reverse">
+                <div class="content-col">
+                    <h2><span class="accent-yellow">Brain.js</span><br>Pure JavaScript</h2>
+                    <p>No dependencies, no WebGL required. Brain.js is perfect for simple neural networks that run anywhere JavaScript runs.</p>
+
+                    <div class="code-snippet">
+                        <pre><span class="keyword">const</span> brain = <span class="function">require</span>(<span class="string">'brain.js'</span>);
+<span class="keyword">const</span> net = <span class="keyword">new</span> brain.<span class="function">NeuralNetwork</span>();
+
+net.<span class="function">train</span>([
+  { input: [<span class="number">0</span>, <span class="number">0</span>], output: [<span class="number">0</span>] },
+  { input: [<span class="number">1</span>, <span class="number">0</span>], output: [<span class="number">1</span>] },
+  { input: [<span class="number">0</span>, <span class="number">1</span>], output: [<span class="number">1</span>] },
+  { input: [<span class="number">1</span>, <span class="number">1</span>], output: [<span class="number">0</span>] }
+]);
+
+<span class="keyword">const</span> output = net.<span class="function">run</span>([<span class="number">1</span>, <span class="number">0</span>]); <span class="comment">// [0.98]</span></pre>
+                    </div>
+
+                    <ul class="feature-list mt-6">
+                        <li>
+                            <i class="fa-solid fa-feather accent-yellow"></i>
+                            <div><strong>Tiny Footprint</strong> — ~15KB minified</div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-server accent-yellow"></i>
+                            <div><strong>Node.js Ready</strong> — Server-side ML</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80" alt="Neural network concept">
+                </div>
+            </div>
+            <div class="slide-number"><span>07</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 8: Real World Uses
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Real-World <span class="gradient-text">Applications</span></h2>
+                <div class="image-grid">
+                    <div class="grid-item">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80" alt="Object detection">
+                        <div class="caption">
+                            <h4><i class="fa-solid fa-eye accent-blue"></i> Object Detection</h4>
+                            <p>COCO-SSD identifies 80+ objects in real-time from webcam feed.</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <img src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&q=80" alt="Audio recognition">
+                        <div class="caption">
+                            <h4><i class="fa-solid fa-microphone accent-green"></i> Speech Commands</h4>
+                            <p>Recognize spoken words for voice-controlled interfaces.</p>
+                        </div>
+                    </div>
+                    <div class="grid-item">
+                        <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80" alt="Style transfer">
+                        <div class="caption">
+                            <h4><i class="fa-solid fa-paintbrush accent-purple"></i> Style Transfer</h4>
+                            <p>Apply artistic styles to photos in the browser.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>08</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 9: Code Demo
+             ========================================== -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2>Code Demo: <span class="accent-blue">Image Classification</span></h2>
+                <div class="code-demo">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="filename">classify.js</span>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="line-number">1</span>  <span class="comment">// Complete image classification example</span>
+<span class="line-number">2</span>  <span class="keyword">import</span> <span class="variable">*</span> <span class="keyword">as</span> tf <span class="keyword">from</span> <span class="string">'@tensorflow/tfjs'</span>;
+<span class="line-number">3</span>  <span class="keyword">import</span> <span class="variable">*</span> <span class="keyword">as</span> mobilenet <span class="keyword">from</span> <span class="string">'@tensorflow-models/mobilenet'</span>;
+<span class="line-number">4</span>
+<span class="line-number">5</span>  <span class="keyword">async function</span> <span class="function">classifyImage</span>() {
+<span class="line-number">6</span>      <span class="comment">// Load the model (cached after first load)</span>
+<span class="line-number">7</span>      <span class="keyword">const</span> model = <span class="keyword">await</span> mobilenet.<span class="function">load</span>({ <span class="variable">version</span>: <span class="number">2</span>, <span class="variable">alpha</span>: <span class="number">1.0</span> });
+<span class="line-number">8</span>
+<span class="line-number">9</span>      <span class="comment">// Get image element from DOM</span>
+<span class="line-number">10</span>     <span class="keyword">const</span> img = <span class="variable">document</span>.<span class="function">getElementById</span>(<span class="string">'my-image'</span>);
+<span class="line-number">11</span>
+<span class="line-number">12</span>     <span class="comment">// Run inference</span>
+<span class="line-number">13</span>     <span class="keyword">const</span> predictions = <span class="keyword">await</span> model.<span class="function">classify</span>(img, <span class="number">3</span>);
+<span class="line-number">14</span>
+<span class="line-number">15</span>     <span class="comment">// Output: [{ className: 'Labrador', probability: 0.92 }, ...]</span>
+<span class="line-number">16</span>     predictions.<span class="function">forEach</span>(p => {
+<span class="line-number">17</span>         <span class="variable">console</span>.<span class="function">log</span>(<span class="string">`</span><span class="variable">${</span>p.className<span class="variable">}</span><span class="string">: </span><span class="variable">${</span>(p.probability * <span class="number">100</span>).toFixed(<span class="number">1</span>)<span class="variable">}</span><span class="string">%`</span>);
+<span class="line-number">18</span>     });
+<span class="line-number">19</span> }
+<span class="line-number">20</span>
+<span class="line-number">21</span> <span class="function">classifyImage</span>();</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>09</span> / 10</div>
+        </div>
+
+        <!-- ==========================================
+             SLIDE 10: Q&A
+             ========================================== -->
+        <div class="slide slide-qna">
+            <div class="abstract-grid"></div>
+            <div class="slide-content">
+                <div class="qna-icon">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <h2>Questions & <span class="gradient-text">Discussion</span></h2>
+                <p class="text-lg">Let's explore the possibilities of ML in the browser together.</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fa-brands fa-github"></i>
+                        <span>github.com/username</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-brands fa-twitter"></i>
+                        <span>@username</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>example.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number"><span>10</span> / 10</div>
+        </div>
+
+    </div>
+</body>
+</html>

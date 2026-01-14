@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 0: Introduction to Machine Learning | CMSC 173</title>
+    <meta name="description" content="Module 0: Introduction to Machine Learning - CMSC 173, University of the Philippines Cebu">
+
+    <!-- Google Fonts: Urbanist + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <!-- Prism.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            /* Dark Mode Palette (Default) */
+            --bg-body: #0a0a0f;
+            --bg-card: #0f0f14;
+            --bg-sidebar: #131318;
+            --bg-elevated: #1a1a22;
+            --text-main: #a1a1aa;
+            --text-heading: #fafafa;
+            --text-muted: #71717a;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --accent-yellow: #fbbf24;
+            --accent-pink: #f472b6;
+            --accent-purple: #a78bfa;
+            --border-color: #27272a;
+
+            --font-main: 'Urbanist', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+
+            --card-width: 1400px;
+            --card-height: 800px;
+            --header-height: 56px;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-body: #f4f4f5;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-elevated: #f4f4f5;
+            --text-main: #52525b;
+            --text-heading: #18181b;
+            --text-muted: #a1a1aa;
+            --border-color: #e4e4e7;
+            --accent-blue: #0284c7;
+            --accent-green: #059669;
+            --accent-yellow: #d97706;
+            --accent-pink: #db2777;
+            --accent-purple: #7c3aed;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+        /* --- 2. HEADER --- */
+        .presenter-header {
+            height: var(--header-height);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-card);
+            z-index: 20;
+        }
+
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            color: var(--text-muted);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .icon-btn:hover {
+            background: var(--bg-elevated);
+            color: var(--accent-blue);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-heading);
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .presenter-header h1 {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .slide-counter {
+            font-family: var(--font-code);
+            font-size: 13px;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .slide-counter span { color: var(--accent-blue); font-weight: 600; }
+
+        /* --- 3. MAIN CONTAINER --- */
+        .presentation-container {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            position: absolute;
+            top: 0; bottom: 0; left: 0;
+            z-index: 15;
+            transform: translateX(-100%);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.active { transform: translateX(0); }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-heading);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toc-list {
+            list-style: none;
+            overflow-y: auto;
+            flex: 1;
+            padding: 12px;
+        }
+
+        .toc-item {
+            padding: 12px 16px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-main);
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toc-item:hover { background: var(--bg-elevated); color: var(--text-heading); }
+        .toc-item.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+        .toc-num {
+            font-family: var(--font-code);
+            font-size: 12px;
+            opacity: 0.5;
+            width: 24px;
+        }
+
+        .sidebar-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 14;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .sidebar.active ~ .sidebar-overlay { opacity: 1; pointer-events: auto; }
+
+        /* --- 4. SLIDE VIEWPORT --- */
+        .slide-viewport {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        .slide-card {
+            width: 100%;
+            max-width: var(--card-width);
+            height: 100%;
+            max-height: var(--card-height);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow */
+        .slide-card::before {
+            content: '';
+            position: absolute;
+            top: -30%; left: -20%;
+            width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .slide-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30%; right: -20%;
+            width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Fullscreen */
+        body.fullscreen .presenter-header { display: none; }
+        body.fullscreen .slide-viewport { padding: 0; }
+        body.fullscreen .slide-card {
+            max-width: none; max-height: none;
+            width: 100vw; height: 100vh;
+            border: none; border-radius: 0;
+        }
+
+        /* --- 5. SLIDE CONTENT --- */
+        .progress-bar {
+            height: 3px;
+            background: var(--border-color);
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-content {
+            flex: 1;
+            padding: 48px 64px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .slide-inner {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .slide-inner.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin: 24px 0 12px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        ul, ol { list-style: none; margin: 12px 0; }
+        li {
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.5;
+        }
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 2px;
+            transform: rotate(45deg);
+        }
+        ol { counter-reset: item; }
+        ol li::before {
+            content: counter(item);
+            counter-increment: item;
+            background: var(--accent-blue);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: none;
+            top: 2px;
+        }
+
+        strong { color: var(--text-heading); font-weight: 600; }
+        em { font-style: italic; }
+
+        /* Cards Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        .info-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .info-card .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .info-card .icon.blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+        .info-card .icon.green { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .info-card .icon.yellow { background: rgba(251, 191, 36, 0.15); color: var(--accent-yellow); }
+        .info-card .icon.pink { background: rgba(244, 114, 182, 0.15); color: var(--accent-pink); }
+        .info-card .icon.purple { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+
+        .info-card h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+        }
+        .info-card p {
+            font-size: 13px;
+            margin: 0;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Callout */
+        .callout {
+            background: var(--bg-elevated);
+            border-left: 4px solid var(--accent-yellow);
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 16px 0;
+        }
+        .callout.blue { border-left-color: var(--accent-blue); }
+        .callout.green { border-left-color: var(--accent-green); }
+        .callout.pink { border-left-color: var(--accent-pink); }
+        .callout.purple { border-left-color: var(--accent-purple); }
+
+        .callout-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-yellow);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .callout.blue .callout-title { color: var(--accent-blue); }
+        .callout.green .callout-title { color: var(--accent-green); }
+        .callout.pink .callout-title { color: var(--accent-pink); }
+        .callout.purple .callout-title { color: var(--accent-purple); }
+
+        .callout p { margin: 0; font-size: 15px; }
+        .callout ul, .callout ol { margin: 8px 0 0; }
+        .callout li { font-size: 14px; margin-bottom: 6px; }
+
+        /* Quote */
+        blockquote {
+            border-left: 4px solid var(--accent-purple);
+            padding: 16px 20px;
+            margin: 16px 0;
+            background: rgba(167, 139, 250, 0.05);
+            border-radius: 0 10px 10px 0;
+        }
+        blockquote p {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+        blockquote cite {
+            font-size: 13px;
+            color: var(--accent-purple);
+            font-style: normal;
+        }
+
+        /* Two Column */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 16px 0;
+        }
+
+        /* Figure/Image */
+        .slide-figure {
+            margin: 0;
+            text-align: center;
+        }
+        .slide-figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .slide-figure figcaption {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Definition Box */
+        .definition {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .definition h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 0 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .definition p { margin: 8px 0; font-size: 15px; }
+        .definition ul { margin: 10px 0 0; }
+        .definition li { font-size: 14px; margin-bottom: 6px; }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .comparison-table th {
+            background: var(--bg-elevated);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .comparison-table td {
+            color: var(--text-main);
+        }
+        .comparison-table tr:hover td {
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #1e1e2e;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0;
+            font-family: var(--font-code);
+            font-size: 13px;
+            line-height: 1.6;
+            background: transparent !important;
+            padding: 0 !important;
+        }
+        .code-block code {
+            font-family: var(--font-code) !important;
+            font-size: 13px !important;
+            background: transparent !important;
+            text-shadow: none !important;
+        }
+        /* Prism syntax highlighting overrides */
+        .code-block .token.comment { color: #6272a4; }
+        .code-block .token.string { color: #f1fa8c; }
+        .code-block .token.keyword { color: #ff79c6; }
+        .code-block .token.function { color: #50fa7b; }
+        .code-block .token.number { color: #bd93f9; }
+        .code-block .token.operator { color: #ff79c6; }
+        .code-block .token.class-name { color: #8be9fd; }
+        .code-block .token.builtin { color: #8be9fd; }
+        .code-block .token.punctuation { color: #f8f8f2; }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comparison-table th {
+            background: var(--bg-elevated);
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .comparison-table tr:hover td {
+            background: var(--bg-elevated);
+        }
+
+        /* Image with Caption */
+        .slide-figure {
+            margin: 16px 0;
+            text-align: center;
+        }
+        .slide-figure img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .slide-figure figcaption {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Definition Box */
+        .definition {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        /* Knowledge Check */
+        .knowledge-check {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        .knowledge-check .label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-yellow);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .knowledge-check .question {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .answer {
+            margin-top: 14px;
+            padding: 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease;
+        }
+        .answer.hidden { display: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 6. NAVIGATION --- */
+        .nav-overlay {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+        .nav-prev { left: 32px; }
+        .nav-next { right: 32px; }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.15s;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+            transform: scale(1.05);
+        }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .slide-footer {
+            height: 48px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+        }
+
+        /* --- 7. MODAL --- */
+        dialog {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 480px;
+            width: 90%;
+        }
+        dialog::backdrop { background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
+
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px 24px;
+            margin-top: 20px;
+        }
+        .key {
+            font-family: var(--font-code);
+            background: var(--bg-elevated);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+        }
+
+        /* --- 8. DROPDOWN MENU --- */
+        .menu-container {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px;
+            min-width: 200px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            color: var(--text-main);
+            font-size: 14px;
+            font-family: inherit;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+        }
+
+        .menu-item:hover {
+            background: var(--bg-elevated);
+            color: var(--accent-blue);
+        }
+
+        .menu-item i {
+            width: 18px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .menu-item:hover i {
+            color: var(--accent-blue);
+        }
+
+        /* --- 9. RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .slide-viewport { padding: 12px; }
+            .slide-card { border-radius: 12px; }
+            .slide-content { padding: 24px 20px; }
+            h2 { font-size: 26px; }
+            .two-col { grid-template-columns: 1fr; gap: 16px; }
+            .card-grid { grid-template-columns: 1fr; }
+            .nav-overlay { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span>Contents</span>
+            <button class="icon-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <ul class="toc-list" id="toc-list"></ul>
+    </aside>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Header -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <div class="menu-container">
+                <button class="icon-btn" onclick="toggleMenu()" title="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="/" class="menu-item">
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+                    <button class="menu-item" onclick="toggleSidebar(); toggleMenu();">
+                        <i class="fa-solid fa-list"></i> Table of Contents
+                    </button>
+                    <button class="menu-item" onclick="goToSlide(0); toggleMenu();">
+                        <i class="fa-solid fa-backward-fast"></i> First Slide
+                    </button>
+                    <button class="menu-item" onclick="goToSlide(slides.length - 1); toggleMenu();">
+                        <i class="fa-solid fa-forward-fast"></i> Last Slide
+                    </button>
+                </div>
+            </div>
+            <a href="/" class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-brain"></i></div>
+                CMSC 173
+            </a>
+            <h1>Module 0: Introduction to Machine Learning</h1>
+        </div>
+
+        <div class="header-right">
+            <div class="slide-counter"><span id="current-slide">1</span> / <span id="total-slides">1</span></div>
+            <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <button class="icon-btn" onclick="showShortcuts()" title="Shortcuts (?)">
+                <i class="fa-regular fa-keyboard"></i>
+            </button>
+            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme (T)">
+                <i class="fa-solid fa-sun" id="theme-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="presentation-container">
+        <div class="slide-viewport">
+            <div class="nav-overlay nav-prev">
+                <button class="nav-btn" id="prev-btn" onclick="previousSlide()">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+            <div class="nav-overlay nav-next">
+                <button class="nav-btn" id="next-btn" onclick="nextSlide()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="slide-card">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+
+                <div class="slide-content" id="slide-scroll-area">
+                    <div class="slide-inner" id="slide-inner"></div>
+                </div>
+
+                <div class="slide-footer">
+                    <span id="reading-time"></span>
+                    <span>Module 0: Introduction to Machine Learning</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Shortcuts Modal -->
+    <dialog id="shortcuts-modal">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="margin:0; font-size:20px;">Keyboard Shortcuts</h3>
+            <button class="icon-btn" onclick="document.getElementById('shortcuts-modal').close()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="shortcut-grid">
+            <span class="key">Space / Arrow Right</span> <span>Next Slide</span>
+            <span class="key">Arrow Left</span> <span>Previous Slide</span>
+            <span class="key">F</span> <span>Toggle Fullscreen</span>
+            <span class="key">M</span> <span>Toggle Menu</span>
+            <span class="key">T</span> <span>Toggle Theme</span>
+            <span class="key">?</span> <span>Show Shortcuts</span>
+        </div>
+    </dialog>
+
+    <script nonce="{{ csp_nonce() }}">
+        const slides = [
+            {
+                title: "Course Overview",
+                subtitle: "Introduction to Machine Learning",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-list-check"></i> Topics Covered</div>
+                        <ol>
+                            <li>What is Machine Learning?</li>
+                            <li>Types of Learning: Supervised, Unsupervised, Reinforcement</li>
+                            <li>The ML Pipeline</li>
+                            <li>Bias-Variance Tradeoff</li>
+                            <li>Best Practices & Ethics</li>
+                        </ol>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "What is Machine Learning?",
+                subtitle: "Learning from data without explicit programming",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-book"></i> Definition</div>
+                        <p><strong>Machine Learning</strong> is the science of getting computers to learn from data and improve their performance over time—without being explicitly programmed.</p>
+                    </div>
+                    <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-code"></i></div>
+                            <h4>Traditional Programming</h4>
+                            <p><strong>Rules + Data → Answers</strong><br>Programmer writes explicit rules</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-brain"></i></div>
+                            <h4>Machine Learning</h4>
+                            <p><strong>Data + Answers → Rules</strong><br>Algorithm discovers the rules automatically</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-lightbulb"></i> Key Insight</div>
+                        <p>ML finds patterns <strong>automatically</strong> from examples—learning from data, improving with experience, and making predictions.</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Historical Context",
+                subtitle: "From Turing to Transformers",
+                content: `
+                    <blockquote>
+                        <p>"A computer would deserve to be called intelligent if it could deceive a human into believing that it was human."</p>
+                        <cite>- Alan Turing, 1950</cite>
+                    </blockquote>
+                    <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-brain"></i></div>
+                            <h4>1950s-1980s</h4>
+                            <p>Turing Test, Perceptron, Backpropagation</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-chess"></i></div>
+                            <h4>1990s-2000s</h4>
+                            <p>SVMs, Deep Blue beats Kasparov</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon yellow"><i class="fa-solid fa-image"></i></div>
+                            <h4>2012</h4>
+                            <p>AlexNet wins ImageNet—Deep Learning era begins</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon pink"><i class="fa-solid fa-robot"></i></div>
+                            <h4>2020s</h4>
+                            <p>Transformers, LLMs, ChatGPT, Generative AI</p>
+                        </div>
+                    </div>
+                    <div class="callout green">
+                        <div class="callout-title"><i class="fa-solid fa-rocket"></i> Current Era</div>
+                        <p>We're in the <strong>Deep Learning Revolution</strong>: big data, GPU acceleration, and Transformer architectures are powering breakthroughs in every domain.</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Real-World Applications",
+                subtitle: "ML is transforming every industry",
+                content: `
+                    <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-eye"></i></div>
+                            <h4>Computer Vision</h4>
+                            <p>Medical diagnosis, autonomous vehicles, facial recognition, object detection, image generation (DALL-E, Midjourney)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-language"></i></div>
+                            <h4>Natural Language Processing</h4>
+                            <p>Machine translation, chatbots & virtual assistants, sentiment analysis, text summarization</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon yellow"><i class="fa-solid fa-chart-line"></i></div>
+                            <h4>Finance</h4>
+                            <p>Fraud detection, algorithmic trading, credit scoring, risk assessment</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon pink"><i class="fa-solid fa-heart-pulse"></i></div>
+                            <h4>Healthcare</h4>
+                            <p>Drug discovery, personalized medicine, medical imaging, patient outcome prediction</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-globe"></i> More Domains</div>
+                        <p><strong>E-commerce:</strong> Recommendations | <strong>Gaming:</strong> AI opponents | <strong>Manufacturing:</strong> Quality control | <strong>Agriculture:</strong> Crop monitoring</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Learning Objectives",
+                subtitle: "What you'll master in this course",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-bullseye"></i> By the end of this course, you will be able to:</div>
+                        <ol>
+                            <li><strong>Understand</strong> the fundamental concepts and mathematical foundations of machine learning</li>
+                            <li><strong>Distinguish</strong> between different types of learning paradigms (supervised, unsupervised, etc.)</li>
+                            <li><strong>Implement</strong> core ML algorithms from scratch using Python</li>
+                            <li><strong>Apply</strong> appropriate ML techniques to real-world problems</li>
+                            <li><strong>Evaluate</strong> model performance using rigorous metrics</li>
+                            <li><strong>Analyze</strong> the theoretical properties of learning algorithms</li>
+                            <li><strong>Understand</strong> state-of-the-art techniques in deep learning</li>
+                        </ol>
+                    </div>
+                    <div class="callout pink">
+                        <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Prerequisites</div>
+                        <p><strong>CMSC 170</strong>: Linear algebra, probability theory, calculus, Python programming</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Machine Learning Taxonomy",
+                subtitle: "Overview of learning paradigms",
+                content: `
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-user-graduate"></i></div>
+                            <h4>Supervised Learning</h4>
+                            <p>Learning from labeled data. Includes regression and classification tasks.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-circle-nodes"></i></div>
+                            <h4>Unsupervised Learning</h4>
+                            <p>Finding patterns in unlabeled data. Includes clustering and dimensionality reduction.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon purple"><i class="fa-solid fa-gamepad"></i></div>
+                            <h4>Reinforcement Learning</h4>
+                            <p>Learning through interaction with an environment. Agent receives rewards for actions.</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-diagram-project"></i> Semi-Supervised Learning</div>
+                        <p>Combines labeled and unlabeled data. Useful when labels are expensive to obtain.</p>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Supervised Learning",
+                subtitle: "Learning from labeled examples",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/supervised_vs_unsupervised.png" alt="Supervised vs Unsupervised">
+                                <figcaption>Supervised vs Unsupervised Learning</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="definition">
+                                <h4>Definition</h4>
+                                <p>Learning from <strong>labeled data</strong></p>
+                                <ul>
+                                    <li><strong>Input:</strong> \\(\\mathbf{x} \\in \\mathbb{R}^d\\)</li>
+                                    <li><strong>Output:</strong> Label \\(y\\)</li>
+                                    <li><strong>Goal:</strong> Learn \\(f(\\mathbf{x}) \\approx y\\)</li>
+                                </ul>
+                            </div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-code-branch"></i> Two Main Tasks</div>
+                                <ul>
+                                    <li><strong>Regression:</strong> \\(y \\in \\mathbb{R}\\) (continuous)</li>
+                                    <li><strong>Classification:</strong> \\(y \\in \\{1,...,K\\}\\) (discrete)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Supervised Learning: Training",
+                subtitle: "The learning process",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-gears"></i> Training Process</div>
+                                <p>Given \\(\\mathcal{D} = \\{(\\mathbf{x}_i, y_i)\\}_{i=1}^n\\):</p>
+                                <ol>
+                                    <li>Choose hypothesis class \\(\\mathcal{H}\\)</li>
+                                    <li>Define loss \\(\\mathcal{L}(y, \\hat{y})\\)</li>
+                                    <li>Minimize empirical risk:</li>
+                                </ol>
+                                <p style="text-align:center;margin-top:12px;">\\(\\hat{f} = \\arg\\min_{f \\in \\mathcal{H}} \\frac{1}{n}\\sum_{i=1}^n \\mathcal{L}(y_i, f(\\mathbf{x}_i))\\)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-check"></i> Key Properties</div>
+                                <ul>
+                                    <li>Labeled data required</li>
+                                    <li>Teacher signal guides learning</li>
+                                    <li>Generalization to new examples</li>
+                                </ul>
+                            </div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Challenge</div>
+                                <p>Avoid overfitting to training data!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+                        <pre><code class="language-python">from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = LogisticRegression().fit(X_train, y_train)
+print(f"Accuracy: {model.score(X_test, y_test):.2f}")</code></pre>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Regression: Predicting Continuous Values",
+                subtitle: "When the output is a real number",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/regression_example.png" alt="Regression Example">
+                                <figcaption>Linear Regression with Fitted Line</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="definition">
+                                <p><strong>Input:</strong> \\(\\mathbf{x} \\in \\mathbb{R}^d\\)</p>
+                                <p><strong>Output:</strong> \\(y \\in \\mathbb{R}\\) (continuous)</p>
+                                <p><strong>Model:</strong> \\(\\hat{y} = f(\\mathbf{x}; \\theta)\\)</p>
+                            </div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-calculator"></i> Loss Functions</div>
+                                <ul>
+                                    <li><strong>MSE:</strong> \\(\\frac{1}{n}\\sum (y_i - \\hat{y}_i)^2\\)</li>
+                                    <li><strong>MAE:</strong> \\(\\frac{1}{n}\\sum |y_i - \\hat{y}_i|\\)</li>
+                                </ul>
+                            </div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-list"></i> Examples</div>
+                                <p>House prices, stock forecasting, temperature prediction, sales forecasting</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Classification: Predicting Categories",
+                subtitle: "When the output is discrete",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/classification_example.png" alt="Classification Example">
+                                <figcaption>Decision Boundary Separating Classes</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="definition">
+                                <p><strong>Input:</strong> \\(\\mathbf{x} \\in \\mathbb{R}^d\\)</p>
+                                <p><strong>Output:</strong> \\(y \\in \\{1,...,K\\}\\) (discrete)</p>
+                                <p><strong>Model:</strong> \\(\\hat{y} = \\arg\\max_k P(y=k|\\mathbf{x})\\)</p>
+                            </div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-tags"></i> Types</div>
+                                <ul>
+                                    <li><strong>Binary:</strong> \\(K=2\\) (spam/not spam)</li>
+                                    <li><strong>Multi-class:</strong> \\(K>2\\) (digits 0-9)</li>
+                                    <li><strong>Multi-label:</strong> Multiple tags per item</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+                        <pre><code class="language-python">from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+clf = RandomForestClassifier(n_estimators=100).fit(X_train, y_train)
+print(classification_report(y_test, clf.predict(X_test)))</code></pre>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Unsupervised Learning",
+                subtitle: "Learning without labels",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-book"></i> Definition</div>
+                        <p>Learning from <strong>unlabeled data</strong>—discover hidden structure without explicit target outputs.</p>
+                    </div>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-circle-nodes"></i></div>
+                            <h4>Clustering</h4>
+                            <p>Group similar data points (K-Means, DBSCAN, GMM)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-compress"></i></div>
+                            <h4>Dimensionality Reduction</h4>
+                            <p>Compress features while preserving structure (PCA, t-SNE)</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon purple"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                            <h4>Applications</h4>
+                            <p>Customer segmentation, anomaly detection, visualization</p>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Clustering: Grouping Similar Data",
+                subtitle: "Finding natural groups in data",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/clustering_example.png" alt="K-Means Clustering">
+                                <figcaption>K-Means with 3 Clusters</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="definition">
+                                <h4>Goal</h4>
+                                <p>Group similar data points without labels</p>
+                            </div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-bullseye"></i> K-Means Objective</div>
+                                <p style="text-align:center;">\\(\\min \\sum_{i=1}^n \\|\\mathbf{x}_i - \\mu_{c_i}\\|^2\\)</p>
+                                <ol>
+                                    <li>Initialize K centroids</li>
+                                    <li>Assign points to nearest</li>
+                                    <li>Update centroids</li>
+                                    <li>Repeat until convergence</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+                        <pre><code class="language-python">from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+
+kmeans = KMeans(n_clusters=3).fit(X)
+score = silhouette_score(X, kmeans.labels_)
+print(f"Silhouette: {score:.3f}")</code></pre>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Dimensionality Reduction",
+                subtitle: "Compressing high-dimensional data",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/pca_visualization.png" alt="PCA Visualization">
+                                <figcaption>PCA: Principal Components</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="definition">
+                                <h4>Goal</h4>
+                                <p>Compress high-dimensional data while preserving structure</p>
+                            </div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Curse of Dimensionality</div>
+                                <ul>
+                                    <li>Volume grows exponentially</li>
+                                    <li>Data becomes sparse</li>
+                                    <li>Overfitting risk increases</li>
+                                </ul>
+                            </div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-code-branch"></i> Techniques</div>
+                                <ul>
+                                    <li><strong>Linear:</strong> PCA, LDA, ICA</li>
+                                    <li><strong>Non-linear:</strong> t-SNE, UMAP</li>
+                                    <li><strong>Neural:</strong> Autoencoders</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Semi-Supervised Learning",
+                subtitle: "Leveraging both labeled and unlabeled data",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-book"></i> Definition</div>
+                        <p>Learning from <strong>few labeled + many unlabeled</strong> examples. Useful when labels are expensive to obtain.</p>
+                    </div>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-arrows-rotate"></i></div>
+                            <h4>Self-Training</h4>
+                            <p>Train → Predict → Add confident predictions → Repeat</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon purple"><i class="fa-solid fa-code-branch"></i></div>
+                            <h4>Co-Training</h4>
+                            <p>Multiple views exchange predictions</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-diagram-project"></i></div>
+                            <h4>Graph-Based</h4>
+                            <p>Propagate labels via similarity graph</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-lightbulb"></i> Key Assumptions</div>
+                        <p><strong>Smoothness:</strong> nearby points share labels | <strong>Cluster:</strong> same cluster = same label | <strong>Manifold:</strong> data lies on low-dim surface</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Reinforcement Learning",
+                subtitle: "Learning through interaction",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-gamepad"></i> Definition</div>
+                        <p>An <strong>agent</strong> learns by interacting with an <strong>environment</strong>: take actions, receive rewards, maximize cumulative reward over time.</p>
+                    </div>
+                    <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-gears"></i></div>
+                            <h4>Key Characteristics</h4>
+                            <p>No direct supervision • Delayed rewards • Exploration vs exploitation • Sequential decisions</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon purple"><i class="fa-solid fa-trophy"></i></div>
+                            <h4>Famous Applications</h4>
+                            <p>AlphaGo, robotics, game playing, autonomous driving, ChatGPT (RLHF)</p>
+                        </div>
+                    </div>
+                    <div class="callout green">
+                        <div class="callout-title"><i class="fa-solid fa-square-root-variable"></i> MDP Framework</div>
+                        <p>\\((\\mathcal{S}, \\mathcal{A}, P, R, \\gamma)\\): States, Actions, Transitions \\(P(s'|s,a)\\), Rewards \\(R(s,a,s')\\), Discount \\(\\gamma\\)</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "The ML Pipeline",
+                subtitle: "From Data to Deployment",
+                content: `
+                    <div class="card-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-database"></i></div>
+                            <h4>1. Data Collection</h4>
+                            <p>Gather raw data from various sources</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-broom"></i></div>
+                            <h4>2. Preprocessing</h4>
+                            <p>Clean, scale, and transform data</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon yellow"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <h4>3. Feature Engineering</h4>
+                            <p>Create informative features</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon pink"><i class="fa-solid fa-sliders"></i></div>
+                            <h4>4. Model Selection</h4>
+                            <p>Choose and tune algorithms</p>
+                        </div>
+                    </div>
+                    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="info-card">
+                            <div class="icon purple"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <h4>5. Training</h4>
+                            <p>Fit model to data</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-chart-line"></i></div>
+                            <h4>6. Evaluation</h4>
+                            <p>Measure performance</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon green"><i class="fa-solid fa-rocket"></i></div>
+                            <h4>7. Deployment</h4>
+                            <p>Put model into production</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-arrows-rotate"></i> Key Insight</div>
+                        <p>ML is <strong>iterative</strong>! Model performance informs feature engineering, data collection, etc.</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Data Preprocessing",
+                subtitle: "Cleaning and scaling your data",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-broom"></i> Data Cleaning</div>
+                                <ul>
+                                    <li><strong>Missing values:</strong> Imputation or deletion</li>
+                                    <li><strong>Outliers:</strong> Detect and handle</li>
+                                    <li><strong>Duplicates:</strong> Remove</li>
+                                    <li><strong>Noise:</strong> Filter/smooth</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-arrows-left-right-to-line"></i> Feature Scaling</div>
+                                <p><strong>Z-score:</strong> \\(z = \\frac{x - \\mu}{\\sigma}\\)</p>
+                                <p><strong>Min-Max:</strong> \\(x' = \\frac{x - \\min}{\\max - \\min}\\)</p>
+                                <p><strong>Robust:</strong> Uses median/IQR</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="callout pink">
+                        <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Why Scale?</div>
+                        <p>Many algorithms (SVM, KNN, gradient descent) are sensitive to feature scales!</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><code class="language-python">from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
+
+imputer = SimpleImputer(strategy='mean')
+scaler = StandardScaler()
+X_clean = scaler.fit_transform(imputer.fit_transform(X))</code></pre>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Model Selection & Training",
+                subtitle: "Choosing the right algorithm",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-scale-balanced"></i> Choosing a Model</div>
+                                <ul>
+                                    <li><strong>Problem type:</strong> Regression, classification</li>
+                                    <li><strong>Data size:</strong> Deep learning needs more</li>
+                                    <li><strong>Interpretability:</strong> Linear vs black box</li>
+                                    <li><strong>Training time:</strong> Real-time vs offline</li>
+                                </ul>
+                            </div>
+                            <div class="callout">
+                                <div class="callout-title"><i class="fa-solid fa-utensils"></i> No Free Lunch</div>
+                                <p>No single algorithm works best for all problems. Must try multiple approaches!</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-gears"></i> Training Process</div>
+                                <p><strong>Optimization:</strong> Minimize loss function</p>
+                                <p style="text-align:center;">\\(\\theta^* = \\arg\\min_\\theta \\mathcal{L}(\\theta; \\mathcal{D})\\)</p>
+                                <p><strong>Common Optimizers:</strong> SGD, Adam, RMSprop</p>
+                            </div>
+                            <div class="callout purple">
+                                <div class="callout-title"><i class="fa-solid fa-sliders"></i> Hyperparameter Tuning</div>
+                                <p>Grid search, random search, Bayesian optimization</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Model Evaluation Metrics",
+                subtitle: "Measuring model performance",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-chart-line"></i> Regression Metrics</div>
+                                <p><strong>MSE:</strong> \\(\\frac{1}{n}\\sum_{i=1}^n (y_i - \\hat{y}_i)^2\\)</p>
+                                <p><strong>RMSE:</strong> \\(\\sqrt{\\text{MSE}}\\)</p>
+                                <p><strong>MAE:</strong> \\(\\frac{1}{n}\\sum_{i=1}^n |y_i - \\hat{y}_i|\\)</p>
+                                <p><strong>R-squared:</strong> \\(R^2 = 1 - \\frac{\\sum_i (y_i - \\hat{y}_i)^2}{\\sum_i (y_i - \\bar{y})^2}\\)</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-tags"></i> Classification Metrics</div>
+                                <p><strong>Accuracy:</strong> \\(\\frac{\\text{correct}}{\\text{total}}\\)</p>
+                                <p><strong>Precision:</strong> \\(\\frac{TP}{TP + FP}\\)</p>
+                                <p><strong>Recall:</strong> \\(\\frac{TP}{TP + FN}\\)</p>
+                                <p><strong>F1-Score:</strong> \\(2 \\cdot \\frac{\\text{Prec} \\cdot \\text{Rec}}{\\text{Prec} + \\text{Rec}}\\)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="callout pink">
+                        <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Important</div>
+                        <p>Choose metrics appropriate to your problem! Accuracy is misleading for imbalanced data.</p>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Bias-Variance Tradeoff",
+                subtitle: "Understanding model errors",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <figure class="slide-figure">
+                                <img src="/static/images/courses/cmsc173/module-00/bias_variance_tradeoff.png" alt="Bias-Variance Tradeoff">
+                                <figcaption>The Bias-Variance Tradeoff</figcaption>
+                            </figure>
+                        </div>
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-calculator"></i> Error Decomposition</div>
+                                <p style="text-align:center;font-size:18px;"><strong>Error = Bias<sup>2</sup> + Variance + Noise</strong></p>
+                                <ul>
+                                    <li><strong>Bias:</strong> Error from wrong assumptions</li>
+                                    <li><strong>Variance:</strong> Sensitivity to training set</li>
+                                    <li><strong>Noise:</strong> Irreducible error</li>
+                                </ul>
+                            </div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-scale-balanced"></i> The Tradeoff</div>
+                                <ul>
+                                    <li><strong>Simple models:</strong> High bias, low variance</li>
+                                    <li><strong>Complex models:</strong> Low bias, high variance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Underfitting vs Overfitting",
+                subtitle: "Finding the right model complexity",
+                content: `
+                    <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="info-card">
+                            <div class="icon blue"><i class="fa-solid fa-down-long"></i></div>
+                            <h4>Underfitting (High Bias)</h4>
+                            <p><strong>Symptom:</strong> High train & test error</p>
+                            <p><strong>Fix:</strong> More features, complex model, less regularization</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="icon pink"><i class="fa-solid fa-up-long"></i></div>
+                            <h4>Overfitting (High Variance)</h4>
+                            <p><strong>Symptom:</strong> Low train, high test error</p>
+                            <p><strong>Fix:</strong> More data, regularization, simpler model</p>
+                        </div>
+                    </div>
+                    <div class="callout">
+                        <div class="callout-title"><i class="fa-solid fa-bullseye"></i> The Goal</div>
+                        <p>Find the <strong>sweet spot</strong>—a model complex enough to capture patterns, but simple enough to generalize to new data.</p>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Regularization Techniques",
+                subtitle: "Preventing overfitting",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-shield-halved"></i> L2 Regularization (Ridge)</div>
+                                <p><strong>Modified objective:</strong></p>
+                                <p style="text-align:center;">\\(\\min_\\theta \\mathcal{L}(\\theta) + \\lambda \\|\\theta\\|_2^2\\)</p>
+                                <ul>
+                                    <li>Penalizes large weights</li>
+                                    <li>Shrinks coefficients toward zero</li>
+                                    <li>Handles multicollinearity</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-diamond"></i> L1 Regularization (Lasso)</div>
+                                <p><strong>Modified objective:</strong></p>
+                                <p style="text-align:center;">\\(\\min_\\theta \\mathcal{L}(\\theta) + \\lambda \\|\\theta\\|_1\\)</p>
+                                <ul>
+                                    <li>Sparse solutions (some \\(\\theta_i = 0\\))</li>
+                                    <li>Automatic feature selection</li>
+                                </ul>
+                            </div>
+                            <div class="callout purple">
+                                <div class="callout-title"><i class="fa-solid fa-plus"></i> Elastic Net</div>
+                                <p>Combines L1 and L2: Best of both worlds!</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "The Curse of Dimensionality",
+                subtitle: "Why high dimensions are problematic",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Problem Statement</div>
+                                <p>As dimensionality \\(d\\) increases:</p>
+                                <ul>
+                                    <li><strong>Volume grows exponentially:</strong> \\(V \\propto r^d\\)</li>
+                                    <li><strong>Data becomes sparse:</strong> Points far apart</li>
+                                    <li><strong>Distance metrics break down</strong></li>
+                                    <li><strong>Overfitting risk increases</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-hammer"></i> Solutions</div>
+                                <ul>
+                                    <li><strong>Dimensionality Reduction:</strong> PCA, t-SNE, UMAP</li>
+                                    <li><strong>Feature Selection:</strong> Filter, wrapper, embedded</li>
+                                    <li><strong>Regularization:</strong> L1/L2 penalties</li>
+                                    <li><strong>More Data:</strong> Often impractical</li>
+                                </ul>
+                            </div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-ruler"></i> Rule of Thumb</div>
+                                <p>\\(n \\geq 10 \\cdot d\\) for reliable models</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "CMSC 173 Course Topics",
+                subtitle: "What we'll cover this semester",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-layer-group"></i> Core Foundations</div>
+                                <p><strong>I. Overview</strong> (Today!): Learning paradigms, applications</p>
+                                <p><strong>II. Parameter Estimation:</strong> MoM, MLE</p>
+                                <p><strong>III. Regression:</strong> Linear, Lasso, Ridge, Splines</p>
+                                <p><strong>IV. Model Selection:</strong> Bias-Variance, Cross-Validation</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-rocket"></i> Advanced Methods</div>
+                                <p><strong>V. Classification:</strong> Logistic Regression, Naive Bayes, KNN, Trees</p>
+                                <p><strong>VI. Kernel Methods:</strong> SVMs, Kernel trick</p>
+                                <p><strong>VII. PCA:</strong> Dimensionality Reduction</p>
+                                <p><strong>VIII. Neural Networks:</strong> Feedforward, CNNs, Transformers</p>
+                                <p><strong>IX. Clustering:</strong> K-Means, GMM</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Learning Resources",
+                subtitle: "Textbooks and tools",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-book"></i> Recommended Textbooks</div>
+                                <p><strong>Primary:</strong></p>
+                                <ul>
+                                    <li>Murphy (2022). <em>Probabilistic ML: An Introduction</em></li>
+                                    <li>Bishop (2006). <em>Pattern Recognition and ML</em></li>
+                                </ul>
+                                <p><strong>Supplementary:</strong></p>
+                                <ul>
+                                    <li>Hastie et al. <em>Elements of Statistical Learning</em></li>
+                                    <li>Goodfellow et al. <em>Deep Learning</em></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-toolbox"></i> Tools We'll Use</div>
+                                <ul>
+                                    <li>Python 3.8+</li>
+                                    <li>NumPy, Pandas, Matplotlib</li>
+                                    <li>Scikit-learn</li>
+                                    <li>Jupyter Notebooks</li>
+                                    <li>PyTorch (for deep learning)</li>
+                                </ul>
+                            </div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-download"></i> Installation</div>
+                                <p>Ensure you have Python and required packages installed before next session!</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Best Practices in ML",
+                subtitle: "Development workflow and common pitfalls",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-list-check"></i> Development Workflow</div>
+                                <ol>
+                                    <li><strong>Start with baseline:</strong> Simple model first</li>
+                                    <li><strong>Iterate systematically:</strong> Change one thing at a time</li>
+                                    <li><strong>Validate rigorously:</strong> Cross-validation, hold-out set</li>
+                                    <li><strong>Document everything:</strong> Assumptions, hyperparams, results</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-ban"></i> Common Pitfalls to Avoid</div>
+                                <ul>
+                                    <li><strong>Data leakage:</strong> Test data in training</li>
+                                    <li>Ignoring class imbalance</li>
+                                    <li>Not checking for overfitting</li>
+                                    <li>Using wrong metrics</li>
+                                    <li>Forgetting randomness: Set seeds!</li>
+                                </ul>
+                            </div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-arrows-rotate"></i> Reproducibility</div>
+                                <p>Set random seeds, document dependencies, share code & data</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Ethics & Responsible AI",
+                subtitle: "Building fair and accountable systems",
+                content: `
+                    <blockquote>
+                        <p>"With great power comes great responsibility."</p>
+                        <cite>- Stan Lee (adapted from Voltaire)</cite>
+                    </blockquote>
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-scale-balanced"></i> Ethical Considerations</div>
+                                <p><strong>Bias & Fairness:</strong> Training data may contain biases; models can amplify discrimination</p>
+                                <p><strong>Privacy:</strong> Protect sensitive information; comply with GDPR</p>
+                                <p><strong>Transparency:</strong> Explainable AI (XAI); document limitations</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-plus"></i> Positive Impact</div>
+                                <p>Healthcare improvements, scientific discoveries, accessibility tools</p>
+                            </div>
+                            <div class="callout pink">
+                                <div class="callout-title"><i class="fa-solid fa-triangle-exclamation"></i> Concerns</div>
+                                <p>Job displacement, deepfakes, surveillance, autonomous weapons</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "2 min"
+            },
+            {
+                title: "Key Takeaways",
+                subtitle: "What we covered today",
+                content: `
+                    <div class="callout blue">
+                        <div class="callout-title"><i class="fa-solid fa-list-check"></i> Summary</div>
+                        <ol>
+                            <li><strong>Definition of ML:</strong> Learning from data to improve performance</li>
+                            <li><strong>Supervised Learning:</strong> Regression & classification with labeled data</li>
+                            <li><strong>Unsupervised Learning:</strong> Clustering & dimensionality reduction</li>
+                            <li><strong>Semi-Supervised:</strong> Leveraging labeled & unlabeled data</li>
+                            <li><strong>Reinforcement Learning:</strong> Learning through interaction & rewards</li>
+                            <li><strong>ML Pipeline:</strong> From data collection to deployment</li>
+                            <li><strong>Key Challenges:</strong> Bias-variance tradeoff, overfitting, curse of dimensionality</li>
+                            <li><strong>Best Practices:</strong> Systematic development, validation, ethics</li>
+                        </ol>
+                    </div>
+                    <div class="callout green">
+                        <div class="callout-title"><i class="fa-solid fa-arrow-right"></i> Next Lecture</div>
+                        <p><strong>Parameter Estimation:</strong> Method of Moments & Maximum Likelihood Estimation</p>
+                    </div>
+                `,
+                readingTime: "1 min"
+            },
+            {
+                title: "Prepare for Next Session",
+                subtitle: "Readings and practice",
+                content: `
+                    <div class="two-col">
+                        <div>
+                            <div class="callout blue">
+                                <div class="callout-title"><i class="fa-solid fa-book-open"></i> Required Reading</div>
+                                <p><strong>Murphy (2022):</strong></p>
+                                <ul>
+                                    <li>Chapter 4: Statistics (4.1-4.3)</li>
+                                    <li>Chapter 5: Decision Theory (5.1-5.2)</li>
+                                </ul>
+                                <p><strong>Bishop (2006):</strong></p>
+                                <ul>
+                                    <li>Chapter 1: Introduction (1.1-1.5)</li>
+                                    <li>Chapter 2: Probability (2.1-2.3)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="callout green">
+                                <div class="callout-title"><i class="fa-solid fa-dumbbell"></i> Practice</div>
+                                <ol>
+                                    <li>Review probability theory</li>
+                                    <li>Linear algebra refresher</li>
+                                    <li>Set up Python environment</li>
+                                    <li>Install required packages</li>
+                                </ol>
+                            </div>
+                            <div class="callout purple">
+                                <div class="callout-title"><i class="fa-solid fa-comments"></i> Questions to Ponder</div>
+                                <ul>
+                                    <li>When would you choose supervised vs unsupervised?</li>
+                                    <li>How do you decide on train/test split ratio?</li>
+                                    <li>What are ethical concerns in your domain?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                readingTime: "1 min"
+            }
+        ];
+
+        let currentSlideIndex = 0;
+
+        function init() {
+            document.getElementById('total-slides').textContent = slides.length;
+
+            const tocList = document.getElementById('toc-list');
+            slides.forEach((slide, index) => {
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                li.innerHTML = `<span class="toc-num">${index + 1}</span>${slide.title}`;
+                li.onclick = () => { goToSlide(index); toggleSidebar(); };
+                tocList.appendChild(li);
+            });
+
+            const savedTheme = localStorage.getItem('cmsc173-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            renderSlide();
+        }
+
+        function renderSlide() {
+            const slide = slides[currentSlideIndex];
+            const container = document.getElementById('slide-inner');
+            const scrollArea = document.getElementById('slide-scroll-area');
+
+            container.classList.remove('active');
+
+            setTimeout(() => {
+                let html = `<h2>${slide.title}</h2>`;
+                if (slide.subtitle) html += `<p class="subtitle">${slide.subtitle}</p>`;
+                html += slide.content;
+
+                if (slide.knowledgeCheck) {
+                    html += `
+                        <div class="knowledge-check">
+                            <div class="label"><i class="fa-solid fa-circle-question"></i> Knowledge Check</div>
+                            <p class="question">${slide.knowledgeCheck.question}</p>
+                            <button class="btn btn-primary" onclick="toggleAnswer(this)">
+                                <i class="fa-solid fa-eye"></i> Reveal Answer
+                            </button>
+                            <div class="answer hidden">${slide.knowledgeCheck.answer}</div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = html;
+
+                document.getElementById('current-slide').textContent = currentSlideIndex + 1;
+                document.getElementById('reading-time').textContent = slide.readingTime ? `~${slide.readingTime} read` : '';
+                document.getElementById('progress-fill').style.width = `${((currentSlideIndex + 1) / slides.length) * 100}%`;
+
+                document.getElementById('prev-btn').disabled = currentSlideIndex === 0;
+                document.getElementById('next-btn').disabled = currentSlideIndex === slides.length - 1;
+
+                document.querySelectorAll('.toc-item').forEach((el, idx) => {
+                    el.classList.toggle('active', idx === currentSlideIndex);
+                });
+
+                if (typeof renderMathInElement !== 'undefined') renderMathInElement(container);
+                if (typeof Prism !== 'undefined') Prism.highlightAllUnder(container);
+
+                scrollArea.scrollTop = 0;
+                container.classList.add('active');
+            }, 150);
+        }
+
+        function nextSlide() { if (currentSlideIndex < slides.length - 1) { currentSlideIndex++; renderSlide(); } }
+        function previousSlide() { if (currentSlideIndex > 0) { currentSlideIndex--; renderSlide(); } }
+        function goToSlide(index) { currentSlideIndex = index; renderSlide(); }
+
+        function toggleAnswer(btn) {
+            const answer = btn.nextElementSibling;
+            const hidden = answer.classList.contains('hidden');
+            answer.classList.toggle('hidden');
+            btn.innerHTML = hidden ? '<i class="fa-solid fa-eye-slash"></i> Hide Answer' : '<i class="fa-solid fa-eye"></i> Reveal Answer';
+        }
+
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        function toggleMenu() {
+            document.getElementById('dropdown-menu').classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('dropdown-menu');
+            const menuContainer = document.querySelector('.menu-container');
+            if (menu.classList.contains('active') && !menuContainer.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                document.body.classList.add('fullscreen');
+            } else {
+                document.exitFullscreen();
+                document.body.classList.remove('fullscreen');
+            }
+        }
+
+        function showShortcuts() { document.getElementById('shortcuts-modal').showModal(); }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('cmsc173-theme', next);
+            updateThemeIcon(next);
+        }
+
+        function updateThemeIcon(theme) {
+            document.getElementById('theme-icon').className = theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('shortcuts-modal').open && e.key === 'Escape') return;
+            switch(e.key) {
+                case 'ArrowRight': case ' ': e.preventDefault(); nextSlide(); break;
+                case 'ArrowLeft': e.preventDefault(); previousSlide(); break;
+                case 'f': case 'F': toggleFullscreen(); break;
+                case 'm': case 'M': toggleSidebar(); break;
+                case 't': case 'T': toggleTheme(); break;
+                case '?': showShortcuts(); break;
+            }
+        });
+
+        // Handle fullscreen exit via Escape or browser controls
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('fullscreen');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

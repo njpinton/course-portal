@@ -1,0 +1,98 @@
+{
+  "module": {
+    "id": "03",
+    "title": "Regularization",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "45 minutes",
+    "prerequisites": ["Linear Regression", "Gradient Descent"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "The Problem of Overfitting",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">A model that fits training data <strong>too well</strong> may fail to generalize to new data.</div><div class=\"two-column\"><div class=\"column\"><h4>Underfitting (High Bias)</h4><ul><li>Model too simple</li><li>High training error</li><li>High test error</li></ul></div><div class=\"column\"><h4>Overfitting (High Variance)</h4><ul><li>Model too complex</li><li>Low training error</li><li>High test error</li></ul></div></div><div class=\"definition\"><strong>Goal:</strong> Find the sweet spot — complex enough to capture patterns, simple enough to generalize.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Regularization?",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition\"><strong>Regularization:</strong> Adding a penalty term to the cost function to discourage overly complex models.</div><div class=\"math-block\">$$J_{regularized}(\\theta) = J(\\theta) + \\lambda \\cdot R(\\theta)$$</div><div class=\"highlight\"><h4>Key Components</h4><ul><li><strong>$J(\\theta)$:</strong> Original loss (e.g., MSE)</li><li><strong>$\\lambda$:</strong> Regularization strength (hyperparameter)</li><li><strong>$R(\\theta)$:</strong> Penalty term (depends on weights)</li></ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What happens if λ is too large?",
+        "answer": "If λ is too large, the model will focus mostly on minimizing the penalty term, leading to underfitting. The weights will be pushed too close to zero, making the model too simple to capture patterns in the data."
+      }
+    },
+    {
+      "id": 3,
+      "title": "Ridge Regression (L2)",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Ridge (L2):</strong> Penalizes the sum of squared weights.</div><div class=\"math-block\">$$J_{ridge}(\\theta) = \\frac{1}{2m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)}) - y^{(i)})^2 + \\lambda\\sum_{j=1}^{n}\\theta_j^2$$</div><div class=\"two-column\"><div class=\"column\"><h4>Properties</h4><ul><li>Shrinks all coefficients</li><li>Never sets to exactly zero</li><li>Keeps all features</li></ul></div><div class=\"column\"><h4>When to Use</h4><ul><li>Many small/medium effects</li><li>All features potentially relevant</li><li>Multicollinearity present</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Lasso Regression (L1)",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Lasso (L1):</strong> Penalizes the sum of absolute weights.</div><div class=\"math-block\">$$J_{lasso}(\\theta) = \\frac{1}{2m}\\sum_{i=1}^{m}(h_\\theta(x^{(i)}) - y^{(i)})^2 + \\lambda\\sum_{j=1}^{n}|\\theta_j|$$</div><div class=\"two-column\"><div class=\"column\"><h4>Properties</h4><ul><li>Can set coefficients to exactly zero</li><li>Performs <strong>feature selection</strong></li><li>Produces sparse models</li></ul></div><div class=\"column\"><h4>When to Use</h4><ul><li>Many features, few important</li><li>Want automatic feature selection</li><li>Need interpretable models</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Ridge vs Lasso: Geometric View",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">The shape of the constraint region determines which coefficients become zero.</div><div class=\"two-column\"><div class=\"column\"><h4>Ridge (Circle)</h4><ul><li>Smooth boundary</li><li>Optimal point rarely at corners</li><li>All coefficients shrink equally</li></ul></div><div class=\"column\"><h4>Lasso (Diamond)</h4><ul><li>Sharp corners at axes</li><li>Optimal point often at corners</li><li>Some coefficients become zero</li></ul></div></div><div class=\"definition\">The contours of the loss function intersect the constraint region at the optimal point.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why does Lasso produce sparse solutions while Ridge doesn't?",
+        "answer": "Lasso's L1 constraint forms a diamond shape with corners on the axes. The optimal point (where loss contours meet the constraint) often falls at these corners, where some coefficients are exactly zero. Ridge's L2 constraint is circular, so corners don't exist, making exact zeros rare."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Elastic Net",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition\"><strong>Elastic Net:</strong> Combines L1 and L2 regularization.</div><div class=\"math-block\">$$J_{elastic}(\\theta) = J(\\theta) + \\lambda_1\\sum_{j}|\\theta_j| + \\lambda_2\\sum_{j}\\theta_j^2$$</div><div class=\"highlight\"><h4>Benefits</h4><ul><li>Feature selection (from L1)</li><li>Handles correlated features (from L2)</li><li>More flexible than either alone</li></ul></div><div class=\"key-point\"><strong>Mix ratio:</strong> Control balance between L1 and L2 with a single parameter $\\alpha \\in [0,1]$.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Choosing λ (Regularization Strength)",
+      "readingTime": "2 min",
+      "content": "<div class=\"warning\"><strong>$\\lambda$ is a hyperparameter</strong> — it's not learned from data, we must choose it.</div><div class=\"highlight\"><h4>Selection Methods</h4><ul><li><strong>Cross-validation:</strong> Try different λ values, pick best validation performance</li><li><strong>Grid search:</strong> Test λ ∈ {0.001, 0.01, 0.1, 1, 10, 100}</li><li><strong>Regularization path:</strong> Plot coefficients vs λ</li></ul></div><div class=\"two-column\"><div class=\"column\"><h4>λ too small</h4><p>→ Little regularization</p><p>→ Risk of overfitting</p></div><div class=\"column\"><h4>λ too large</h4><p>→ Too much regularization</p><p>→ Risk of underfitting</p></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Feature Scaling Matters",
+      "readingTime": "2 min",
+      "content": "<div class=\"warning\"><strong>Important:</strong> Always scale features before applying regularization!</div><div class=\"definition\">Regularization penalizes large weights. If features have different scales, their weights will differ just due to scale, not importance.</div><div class=\"highlight\"><h4>Standard Scaling</h4><p>$$x_{scaled} = \\frac{x - \\mu}{\\sigma}$$</p></div><div class=\"key-point\">After scaling, all features compete on equal footing for the regularization penalty.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Regularization in Practice",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>Python Implementation</h4></div><pre style=\"background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto;\"><code>from sklearn.linear_model import Ridge, Lasso, ElasticNet\nfrom sklearn.preprocessing import StandardScaler\n\n# Always scale first!\nscaler = StandardScaler()\nX_scaled = scaler.fit_transform(X)\n\n# Ridge\nridge = Ridge(alpha=1.0)\nridge.fit(X_scaled, y)\n\n# Lasso\nlasso = Lasso(alpha=0.1)\nlasso.fit(X_scaled, y)\n\n# Elastic Net\nenet = ElasticNet(alpha=0.1, l1_ratio=0.5)\nenet.fit(X_scaled, y)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Key Takeaways</h4><ul><li><strong>Regularization</strong> prevents overfitting by penalizing complex models</li><li><strong>Ridge (L2):</strong> Shrinks all coefficients, handles multicollinearity</li><li><strong>Lasso (L1):</strong> Feature selection, produces sparse models</li><li><strong>Elastic Net:</strong> Combines benefits of both</li><li><strong>λ selection:</strong> Use cross-validation</li><li><strong>Feature scaling:</strong> Essential for fair regularization</li></ul></div><div class=\"key-point\"><strong>Next:</strong> Exploratory Data Analysis — understanding your data before modeling.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

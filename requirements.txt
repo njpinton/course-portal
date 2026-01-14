@@ -1,10 +1,9 @@
 Flask
 flask-cors
 flask-wtf
-Flask-SQLAlchemy
-Flask-SocketIO
+flask-limiter
+flask-talisman
 supabase
 gotrue
 python-dotenv
 PyJWT
-pytest

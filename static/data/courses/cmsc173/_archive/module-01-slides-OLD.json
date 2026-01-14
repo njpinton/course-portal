@@ -1,0 +1,285 @@
+{
+  "module": {
+    "id": "01",
+    "title": "Parameter Estimation",
+    "subtitle": "Method of Moments \\& Maximum Likelihood Estimation",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 34,
+    "estimatedDuration": "68 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Course Outline",
+      "readingTime": "1 min",
+      "content": "<ul>\n<li><strong>Introduction</strong> - What is parameter estimation?\n</li>\n<li><strong>Statistical Foundations</strong> - Key concepts and notation\n</li>\n<li><strong>Method of Moments</strong> - Classical parameter estimation\n</li>\n<li><strong>Maximum Likelihood Estimation</strong> - Optimal parameter estimation\n</li>\n<li><strong>Comparison</strong> - When to use which method\n</li>\n<li><strong>Applications</strong> - Real-world examples\n</li>\n<li><strong>Advanced Topics</strong> - Extensions and modern approaches\n</li>\n<li><strong>Best Practices</strong> - Common pitfalls and guidelines\n</li>\n</ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Parameter Estimation?",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\"><h4>Definition</h4>Parameter estimation is the process of inferring the values of unknown parameters that characterize a probability distribution from observed data.</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>The Problem:</strong>\n<ul>\n\n<li>We have data samples: $\\{x_1, x_2, \\ldots, x_n\\}$\n</li>\n<li>We assume a distribution family: $f(x|\\theta)$\n</li>\n<li>We need to find: $\\hat{\\theta}$\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Examples:</strong>\n<ul>\n\n<li>Normal distribution: $\\mu, \\sigma^2$\n</li>\n<li>Poisson distribution: $\\lambda$\n</li>\n<li>Linear regression: $\\beta_0, \\beta_1$\n</li>\n</ul>\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept.png\" alt=\"Parameter Estimation Concept\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Why Parameter Estimation Matters",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Machine Learning Applications:</strong>\n<ul>\n\n<li><strong>Supervised Learning:</strong> Estimating model weights\n</li>\n<li><strong>Unsupervised Learning:</strong> Finding cluster parameters\n</li>\n<li><strong>Probabilistic Models:</strong> Bayesian inference\n</li>\n<li><strong>Time Series:</strong> ARIMA parameters\n</li>\n<li><strong>Deep Learning:</strong> Neural network weights\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<div class=\"example\">\n<strong>Linear Regression:</strong>\nGiven data $(x_i, y_i)$, estimate:\n$$y = \\beta_0 + \\beta_1 x + \\epsilon$$\nFind $\\hat{\\beta}_0, \\hat{\\beta}_1$ that best fit the data.\n</div>\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/ml_applications.png\" alt=\"Machine Learning Applications\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Estimation Quality Criteria",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\"><h4>Desirable Properties of Estimators</h4><ul>\n\n<li><strong>Unbiased:</strong> $E[\\hat{\\theta}] = \\theta$\n</li>\n<li><strong>Consistent:</strong> $\\hat{\\theta} \\xrightarrow{p} \\theta$ as $n \\to \\infty$\n</li>\n<li><strong>Efficient:</strong> Minimum variance among unbiased estimators\n</li>\n<li><strong>Sufficient:</strong> Uses all information in the data\n</li>\n</ul></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Bias-Variance Tradeoff:</strong>\n$$MSE = Bias^2 + Variance + Noise$$\n</div>\n<div class=\"column\">\n<strong>Cramér-Rao Lower Bound:</strong>\n$$Var(\\hat{\\theta}) \\geq \\frac{1}{I(\\theta)}$$\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/estimator_properties.png\" alt=\"Estimator Properties\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Key Concepts and Notation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Random Variables:</strong>\n<ul>\n\n<li>$X$: Random variable\n</li>\n<li>$x$: Observed value\n</li>\n<li>$\\theta$: True parameter\n</li>\n<li>$\\hat{\\theta}$: Estimated parameter\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Distributions:</strong>\n<ul>\n\n<li>$f(x|\\theta)$: PDF/PMF\n</li>\n<li>$F(x|\\theta)$: CDF\n</li>\n<li>$L(\\theta|x)$: Likelihood\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"info\"><h4>Sample vs Population</h4><ul>\n\n<li><strong>Population:</strong> $\\mu = E[X]$, $\\sigma^2 = Var(X)$\n</li>\n<li><strong>Sample:</strong> $\\bar{x} = \\frac{1}{n}\\sum_{i=1}^n x_i$, $s^2 = \\frac{1}{n-1}\\sum_{i=1}^n (x_i - \\bar{x})^2$\n</li>\n</ul></div>\n\n<div class=\"example\">\nFor normal distribution $N(\\mu, \\sigma^2)$:\n$$f(x|\\mu,\\sigma^2) = \\frac{1}{\\sqrt{2\\pi\\sigma^2}} \\exp\\left(-\\frac{(x-\\mu)^2}{2\\sigma^2}\\right)$$\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Moments and Central Moments",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\"><h4>Definition of Moments</h4>The $k$-th moment of a random variable $X$:\n$$m_k = E[X^k] = \\int_{-\\infty}^{\\infty} x^k f(x) dx$$</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Raw Moments:</strong>\n<ul>\n\n<li>$m_1 = E[X] = \\mu$ (mean)\n</li>\n<li>$m_2 = E[X^2]$\n</li>\n<li>$m_3 = E[X^3]$\n</li>\n<li>$m_4 = E[X^4]$\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Central Moments:</strong>\n<ul>\n\n<li>$\\mu_1 = 0$\n</li>\n<li>$\\mu_2 = E[(X-\\mu)^2] = \\sigma^2$ (variance)\n</li>\n<li>$\\mu_3 = E[(X-\\mu)^3]$ (skewness)\n</li>\n<li>$\\mu_4 = E[(X-\\mu)^4]$ (kurtosis)\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"example\">\nFor normal distribution $N(\\mu, \\sigma^2)$:\n$m_1 = \\mu$, $m_2 = \\mu^2 + \\sigma^2$, $\\mu_2 = \\sigma^2$\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/moments_illustration.png\" alt=\"Moments Illustration\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Method of Moments: Basic Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"key-point\"><h4>Core Principle</h4>Match sample moments to theoretical moments to estimate parameters.</div>\n\n<strong>Algorithm:</strong>\n<ol>\n\n<li>Express theoretical moments in terms of parameters: $m_k(\\theta)$\n</li>\n<li>Calculate sample moments: $\\hat{m}_k = \\frac{1}{n}\\sum_{i=1}^n x_i^k$\n</li>\n<li>Set theoretical = sample: $m_k(\\theta) = \\hat{m}_k$\n</li>\n<li>Solve system of equations for $\\hat{\\theta}$\n</li>\n</ol>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>For $p$ parameters:</strong>\nUse first $p$ moments\n$$m_1(\\theta) = \\hat{m}_1$$\n$$m_2(\\theta) = \\hat{m}_2$$\n$$\\vdots$$\n$$m_p(\\theta) = \\hat{m}_p$$\n</div>\n<div class=\"column\">\n<div class=\"highlight\"><h4>Key Insight</h4>If we can express moments as functions of parameters, we can invert to find parameters from moments.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "MoM Example: Normal Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\mu$ and $\\sigma^2$ for $N(\\mu, \\sigma^2)$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Step 1: Theoretical moments</strong>\n$$\\begin{aligned}m_1 = E[X] = \\mu \\\\ m_2 = E[X^2] = \\mu^2 + \\sigma^2\\end{aligned}$$\n</div>\n<div class=\"column\">\n<strong>Step 2: Sample moments</strong>\n$$\\begin{aligned}\\hat{m}_1 = \\frac{1}{n}\\sum_{i=1}^n x_i = \\bar{x} \\\\ \\hat{m}_2 = \\frac{1}{n}\\sum_{i=1}^n x_i^2\\end{aligned}$$\n</div>\n</div>\n\n<strong>Step 3: Set equal and solve</strong>\n$$\\begin{aligned}\\mu = \\bar{x} \\\\ \\mu^2 + \\sigma^2 = \\frac{1}{n}\\sum_{i=1}^n x_i^2\\end{aligned}$$\n\n<strong>Step 4: Solution</strong>\n$$\\begin{aligned}\\hat{\\mu}_{\text{MoM}} = \\bar{x} \\\\ \\hat{\\sigma}^2_{\text{MoM}} = \\frac{1}{n}\\sum_{i=1}^n x_i^2 - \\bar{x}^2 = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\bar{x})^2\\end{aligned}$$",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "MoM Example: Poisson Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\lambda$ for Poisson($\\lambda$)\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Theoretical moment:</strong>\nFor Poisson distribution:\n$$E[X] = \\lambda$$\n\n<strong>Sample moment:</strong>\n$$\\hat{m}_1 = \\bar{x} = \\frac{1}{n}\\sum_{i=1}^n x_i$$\n\n<strong>MoM Estimate:</strong>\n$$\\hat{\\lambda}_{\text{MoM}} = \\bar{x}$$\n</div>\n<div class=\"column\">\n<div class=\"example\">\nData: [2, 1, 3, 0, 2, 1, 4, 1]\n\nSample mean:\n$$\\bar{x} = \\frac{14}{8} = 1.75$$\n\nMoM estimate:\n$$\\hat{\\lambda} = 1.75$$\n</div>\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/mom_poisson_example.png\" alt=\"Method of Moments Poisson Example\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "MoM Example: Gamma Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\alpha$ and $\\beta$ for Gamma($\\alpha, \\beta$)\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Theoretical moments:</strong>\n$$\\begin{aligned}E[X] = \\alpha\\beta \\\\ Var(X) = \\alpha\\beta^2\\end{aligned}$$\n\nAlso: $E[X^2] = Var(X) + (E[X])^2 = \\alpha\\beta^2 + \\alpha^2\\beta^2$\n</div>\n<div class=\"column\">\n<strong>Sample moments:</strong>\n$$\\begin{aligned}\\hat{m}_1 = \\bar{x} \\\\ \\hat{m}_2 = \\frac{1}{n}\\sum_{i=1}^n x_i^2\\end{aligned}$$\n\nSample variance:\n$$\\hat{\\sigma}^2 = \\hat{m}_2 - \\hat{m}_1^2$$\n</div>\n</div>\n\n<strong>Setting moments equal:</strong>\n$$\\begin{aligned}\\alpha\\beta = \\bar{x} \\\\ \\alpha\\beta^2 = \\hat{\\sigma}^2\\end{aligned}$$\n\n<strong>MoM Estimates:</strong>\n$$\\hat{\\beta}_{\text{MoM}} = \\frac{\\hat{\\sigma}^2}{\\bar{x}},   \\hat{\\alpha}_{\text{MoM}} = \\frac{\\bar{x}^2}{\\hat{\\sigma}^2}$$",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Properties of Method of Moments",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/mom_properties.png\" alt=\"Method of Moments Properties\"></figure>\n<div class=\"text-content\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n<li><strong>Simple:</strong> Easy to compute</li>\n<li><strong>Consistent:</strong> $\\hat{\\theta} \\to \\theta$ as $n \\to \\infty$</li>\n<li><strong>General:</strong> Works for any distribution</li>\n</ul></div>\n<div class=\"warning\"><h4>Disadvantages</h4><ul>\n<li><strong>Not optimal:</strong> Higher variance than MLE</li>\n<li><strong>Existence:</strong> Solutions may not exist</li>\n<li><strong>Boundary:</strong> May give invalid estimates</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Maximum Likelihood: Basic Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"key-point\"><h4>Core Principle</h4>Find parameter values that make the observed data most likely.</div>\n\n<strong>Likelihood Function:</strong>\nFor independent observations $x_1, x_2, \\ldots, x_n$:\n$$L(\\theta) = L(\\theta | x_1, \\ldots, x_n) = \\prod_{i=1}^n f(x_i | \\theta)$$\n\n<strong>Log-Likelihood:</strong>\n$$\\ell(\\theta) = \\log L(\\theta) = \\sum_{i=1}^n \\log f(x_i | \\theta)$$\n\n<div class=\"definition\"><h4>Maximum Likelihood Estimator (MLE)</h4>$$\\hat{\\theta}_{\text{MLE}} = \\arg\\max_\\theta L(\\theta) = \\arg\\max_\\theta \\ell(\\theta)$$</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/likelihood_concept.png\" alt=\"Likelihood Concept\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Finding the MLE: Calculus Approach",
+      "readingTime": "1 min",
+      "content": "<strong>Method 1: Differentiation</strong>\n\nFor continuous parameter space, solve:\n$$\\frac{d\\ell(\\theta)}{d\\theta} = 0$$\n\n<strong>Score Function:</strong>\n$$S(\\theta) = \\frac{d\\ell(\\theta)}{d\\theta} = \\sum_{i=1}^n \\frac{d\\log f(x_i|\\theta)}{d\\theta}$$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>For vector parameters $\\boldsymbol{\\theta</strong>$:}\n$$\\nabla_{\\boldsymbol{\\theta}} \\ell(\\boldsymbol{\\theta}) = \\mathbf{0}$$\n\nThis gives a system of equations to solve.\n</div>\n<div class=\"column\">\n<strong>Second-order condition:</strong>\n$$\\frac{d^2\\ell(\\theta)}{d\\theta^2} < 0$$\n\nEnsures we have a maximum, not minimum.\n</div>\n</div>\n\n<div class=\"example\">\nFor normal distribution with known $\\sigma^2$:\n$$\\frac{d\\ell(\\mu)}{d\\mu} = \\frac{1}{\\sigma^2}\\sum_{i=1}^n (x_i - \\mu) = 0$$\n$$\\Rightarrow \\hat{\\mu}_{\text{MLE}} = \\bar{x}$$\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "MLE Example: Normal Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\mu$ and $\\sigma^2$ for $N(\\mu, \\sigma^2)$\n\n<strong>Log-likelihood:</strong>\n$$\\begin{aligned}\\ell(\\mu, \\sigma^2) = \\sum_{i=1}^n \\log f(x_i | \\mu, \\sigma^2) \\\\ = \\sum_{i=1}^n \\left[-\\frac{1}{2}\\log(2\\pi) - \\frac{1}{2}\\log(\\sigma^2) - \\frac{(x_i-\\mu)^2}{2\\sigma^2}\\right] \\\\ = -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum_{i=1}^n(x_i-\\mu)^2\\end{aligned}$$\n\n<strong>Taking derivatives:</strong>\n$$\\begin{aligned}\\frac{\\partial \\ell}{\\partial \\mu} = \\frac{1}{\\sigma^2}\\sum_{i=1}^n(x_i - \\mu) = 0 \\\\ \\frac{\\partial \\ell}{\\partial \\sigma^2} = -\\frac{n}{2\\sigma^2} + \\frac{1}{2(\\sigma^2)^2}\\sum_{i=1}^n(x_i-\\mu)^2 = 0\\end{aligned}$$\n\n<strong>MLE Solutions:</strong>\n$$\\hat{\\mu}_{\text{MLE}} = \\bar{x},   \\hat{\\sigma}^2_{\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^n(x_i - \\bar{x})^2$$",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "MLE Example: Poisson Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\lambda$ for Poisson($\\lambda$)\n\n<strong>PMF:</strong> $P(X = k) = \\frac{\\lambda^k e^{-\\lambda}}{k!}$\n\n<strong>Log-likelihood:</strong>\n$$\\begin{aligned}\\ell(\\lambda) = \\sum_{i=1}^n \\log P(X_i = x_i | \\lambda) \\\\ = \\sum_{i=1}^n \\left[x_i \\log \\lambda - \\lambda - \\log(x_i!)\\right] \\\\ = \\log \\lambda \\sum_{i=1}^n x_i - n\\lambda - \\sum_{i=1}^n \\log(x_i!)\\end{aligned}$$\n\n<strong>Score function:</strong>\n$$\\frac{d\\ell(\\lambda)}{d\\lambda} = \\frac{1}{\\lambda}\\sum_{i=1}^n x_i - n = 0$$\n\n<strong>MLE Solution:</strong>\n$$\\hat{\\lambda}_{\text{MLE}} = \\frac{1}{n}\\sum_{i=1}^n x_i = \\bar{x}$$\n\n<div class=\"warning\"><h4>Note</h4>For Poisson distribution, MLE and MoM give the same result!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "MLE Example: Exponential Distribution",
+      "readingTime": "1 min",
+      "content": "<strong>Problem:</strong> Estimate $\\lambda$ for Exponential($\\lambda$)\n\n<strong>PDF:</strong> $f(x|\\lambda) = \\lambda e^{-\\lambda x}$ for $x \\geq 0$\n\n<strong>Log-likelihood:</strong>\n$$\\begin{aligned}\\ell(\\lambda) = \\sum_{i=1}^n \\log(\\lambda e^{-\\lambda x_i}) \\\\ = \\sum_{i=1}^n [\\log \\lambda - \\lambda x_i] \\\\ = n \\log \\lambda - \\lambda \\sum_{i=1}^n x_i\\end{aligned}$$\n\n<strong>Score function:</strong>\n$$\\frac{d\\ell(\\lambda)}{d\\lambda} = \\frac{n}{\\lambda} - \\sum_{i=1}^n x_i = 0$$\n\n<strong>MLE Solution:</strong>\n$$\\hat{\\lambda}_{\text{MLE}} = \\frac{n}{\\sum_{i=1}^n x_i} = \\frac{1}{\\bar{x}}$$\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/mle_exponential.png\" alt=\"MLE Exponential Distribution\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Properties of Maximum Likelihood Estimators",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\"><h4>Asymptotic Properties (Large Sample)</h4>Under regularity conditions:\n<ul>\n\n<li><strong>Consistency:</strong> $\\hat{\\theta}_{\text{MLE}} \\xrightarrow{p} \\theta$\n</li>\n<li><strong>Asymptotic Normality:</strong> $\\sqrt{n}(\\hat{\\theta}_{\text{MLE}} - \\theta) \\xrightarrow{d} N(0, I(\\theta)^{-1})$\n</li>\n<li><strong>Efficiency:</strong> Achieves Cramér-Rao lower bound\n</li>\n<li><strong>Invariance:</strong> If $\\hat{\\theta}$ is MLE of $\\theta$, then $g(\\hat{\\theta})$ is MLE of $g(\\theta)$\n</li>\n</ul></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Fisher Information:</strong>\n$$I(\\theta) = -E\\left[\\frac{d^2\\ell(\\theta)}{d\\theta^2}\\right]$$\n\nHigher information $\\Rightarrow$ lower variance\n</div>\n<div class=\"column\">\n<strong>Observed Information:</strong>\n$$J(\\hat{\\theta}) = -\\frac{d^2\\ell(\\theta)}{d\\theta^2}\\bigg|_{\\theta=\\hat{\\theta}}$$\n\nUsed for confidence intervals\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/mle_properties.png\" alt=\"MLE Properties\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Numerical Methods for MLE",
+      "readingTime": "1 min",
+      "content": "<div class=\"warning\"><h4>When Closed-Form Solution Doesn't Exist</h4>Many distributions require numerical optimization to find MLE.</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Newton-Raphson Method:</strong>\n$$\\theta^{(t+1)} = \\theta^{(t)} - \\frac{S(\\theta^{(t)})}{J(\\theta^{(t)})}$$\n\nwhere $S(\\theta)$ is score and $J(\\theta)$ is observed information.\n</div>\n<div class=\"column\">\n<strong>Other Methods:</strong>\n<ul>\n\n<li>Gradient ascent\n</li>\n<li>BFGS optimization\n</li>\n<li>EM algorithm (for latent variables)\n</li>\n<li>Grid search (for low dimensions)\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"example\">\nFor mixture of Gaussians:\n$$f(x|\\boldsymbol{\\theta}) = \\sum_{k=1}^K \\pi_k N(x|\\mu_k, \\sigma_k^2)$$\nNo closed-form MLE $\\Rightarrow$ Use EM algorithm\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/numerical_mle.png\" alt=\"Numerical MLE Methods\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Method of Moments vs Maximum Likelihood",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/mom_vs_mle_comparison.png\" alt=\"Method of Moments vs MLE Comparison\"></figure>\n<div class=\"text-content\">\n<div class=\"key-point\"><h4>Method of Moments</h4><ul>\n<li><strong>+</strong> Simple computation</li>\n<li><strong>+</strong> Always exists (if moments exist)</li>\n<li><strong>−</strong> Not optimal (higher variance)</li>\n</ul></div>\n<div class=\"key-point\"><h4>Maximum Likelihood</h4><ul>\n<li><strong>+</strong> Optimal (minimum variance)</li>\n<li><strong>+</strong> Uses full data information</li>\n<li><strong>−</strong> May require numerical methods</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Efficiency Comparison",
+      "readingTime": "1 min",
+      "content": "<div style=\"display:flex;flex-direction:row;gap:24px;align-items:flex-start\">\n<figure class=\"slide-figure\" style=\"flex:0 0 68%;margin:0\"><img src=\"/static/images/courses/cmsc173/module-01/efficiency_comparison.png\" alt=\"Efficiency Comparison\" style=\"width:100%;height:auto\"></figure>\n<div style=\"flex:1;font-size:13px\">\n<div class=\"definition\" style=\"padding:12px\"><h4 style=\"margin:0 0 8px 0;font-size:14px\">Relative Efficiency</h4>$$ARE = \\frac{Var(\\hat{\\theta}_{\\text{MLE}})}{Var(\\hat{\\theta}_{\\text{MoM}})}$$<p style=\"margin:8px 0 0 0\">MLE is more efficient when $ARE < 1$.</p></div>\n<ul style=\"margin:12px 0 8px 18px;font-size:13px\">\n<li><strong>Normal μ:</strong> ARE = 1</li>\n<li><strong>Normal σ²:</strong> ARE = 0.5</li>\n<li><strong>Exponential:</strong> ARE = 1</li>\n<li><strong>Gamma:</strong> MLE much better</li>\n</ul>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "When to Use Which Method?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Use Method of Moments When:</h4><ul>\n\n<li>Quick estimates needed\n</li>\n<li>Computational resources limited\n</li>\n<li>Distribution family uncertain\n</li>\n<li>Starting values for optimization\n</li>\n<li>Robust estimates desired\n</li>\n<li>Teaching/illustration purposes\n</li>\n</ul></div>\n</div>\n<div class=\"column\">\n<div class=\"highlight\"><h4>Use Maximum Likelihood When:</h4><ul>\n\n<li>Optimal estimates needed\n</li>\n<li>Distribution well-specified\n</li>\n<li>Large sample sizes\n</li>\n<li>Inference required (confidence intervals)\n</li>\n<li>Model comparison needed\n</li>\n<li>Production/research applications\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"highlight\"><h4>Practical Strategy</h4><ol>\n\n<li>Start with Method of Moments for initial estimates\n</li>\n<li>Use MoM estimates as starting values for MLE optimization\n</li>\n<li>Compare results and choose based on application needs\n</li>\n<li>Consider computational cost vs. statistical efficiency trade-off\n</li>\n</ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Linear Regression Parameter Estimation",
+      "readingTime": "1 min",
+      "content": "<strong>Model:</strong> $y_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i$, where $\\epsilon_i \\sim N(0, \\sigma^2)$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Method of Moments:</strong>\n$$\\begin{aligned}E[Y] = \\beta_0 + \\beta_1 E[X] \\\\ E[XY] = \\beta_0 E[X] + \\beta_1 E[X^2]\\end{aligned}$$\n\nSolving:\n$$\\begin{aligned}\\hat{\\beta}_1 = \\frac{\\overline{xy} - \\bar{x}\\bar{y}}{\\overline{x^2} - \\bar{x}^2} \\\\ \\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1\\bar{x}\\end{aligned}$$\n</div>\n<div class=\"column\">\n<strong>Maximum Likelihood:</strong>\n$$\\ell(\\boldsymbol{\\beta}, \\sigma^2) = -\\frac{n}{2}\\log(2\\pi\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum_{i=1}^n (y_i - \\beta_0 - \\beta_1 x_i)^2$$\n\nMLE gives same result:\n$$\\begin{aligned}\\hat{\\beta}_1 = \\frac{\\sum(x_i - \\bar{x})(y_i - \\bar{y})}{\\sum(x_i - \\bar{x})^2} \\\\ \\hat{\\beta}_0 = \\bar{y} - \\hat{\\beta}_1\\bar{x}\\end{aligned}$$\n</div>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/linear_regression_estimation.png\" alt=\"Linear Regression Estimation\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Logistic Regression Parameter Estimation",
+      "readingTime": "1 min",
+      "content": "<strong>Model:</strong> $P(Y=1|X) = \\frac{1}{1 + e^{-(\\beta_0 + \\beta_1 X)}}$\n\n<div class=\"warning\"><h4>No Closed-Form Solution</h4>Logistic regression requires numerical optimization for MLE.</div>\n\n<strong>Log-likelihood:</strong>\n$$\\ell(\\boldsymbol{\\beta}) = \\sum_{i=1}^n \\left[y_i(\\beta_0 + \\beta_1 x_i) - \\log(1 + e^{\\beta_0 + \\beta_1 x_i})\\right]$$\n\n<strong>Score equations:</strong>\n$$\\begin{aligned}\\frac{\\partial \\ell}{\\partial \\beta_0} = \\sum_{i=1}^n (y_i - p_i) = 0 \\\\ \\frac{\\partial \\ell}{\\partial \\beta_1} = \\sum_{i=1}^n x_i(y_i - p_i) = 0\\end{aligned}$$\n\nwhere $p_i = \\frac{1}{1 + e^{-(\\beta_0 + \\beta_1 x_i)}}$\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/logistic_regression_estimation.png\" alt=\"Logistic Regression Estimation\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Clustering: Gaussian Mixture Models",
+      "readingTime": "1 min",
+      "content": "<strong>Model:</strong> $f(x|\\boldsymbol{\\theta}) = \\sum_{k=1}^K \\pi_k N(x|\\mu_k, \\sigma_k^2)$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Parameters to estimate:</strong>\n<ul>\n\n<li>Mixing weights: $\\pi_1, \\ldots, \\pi_K$\n</li>\n<li>Means: $\\mu_1, \\ldots, \\mu_K$\n</li>\n<li>Variances: $\\sigma_1^2, \\ldots, \\sigma_K^2$\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Challenges:</strong>\n<ul>\n\n<li>Latent variables (cluster assignments)\n</li>\n<li>Complex likelihood surface\n</li>\n<li>Local optima\n</li>\n<li>Model selection (choosing $K$)\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"definition\"><h4>EM Algorithm</h4><strong>E-step:</strong> Compute posterior probabilities of cluster assignments\\\\\n<strong>M-step:</strong> Update parameters using weighted MLE</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/gaussian_mixture_estimation.png\" alt=\"Gaussian Mixture Model Estimation\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Time Series: ARIMA Parameters",
+      "readingTime": "1 min",
+      "content": "<strong>ARIMA(p,d,q) Model:</strong>\n$$(1-\\phi_1B-⋯-\\phi_pB^p)(1-B)^d X_t = (1+\\theta_1B+⋯+\\theta_qB^q)\\epsilon_t$$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Method of Moments:</strong>\n<ul>\n\n<li>Use sample autocorrelations\n</li>\n<li>Yule-Walker equations for AR parts\n</li>\n<li>Moment conditions for MA parts\n</li>\n<li>Simple but not optimal\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Maximum Likelihood:</strong>\n<ul>\n\n<li>Kalman filter for likelihood\n</li>\n<li>Numerical optimization required\n</li>\n<li>More efficient estimates\n</li>\n<li>Standard errors available\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"example\">\nAR(1): $X_t = \\phi X_{t-1} + \\epsilon_t$\n<ul>\n\n<li>MoM: $\\hat{\\phi} = \\hat{\\rho}_1$ (sample autocorrelation)\n</li>\n<li>MLE: Optimize $\\ell(\\phi, \\sigma^2)$ numerically\n</li>\n</ul>\n</div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/arima_estimation.png\" alt=\"ARIMA Parameter Estimation\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Bayesian Parameter Estimation",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\"><h4>Bayesian Approach</h4>Treat parameters as random variables with prior distributions.</div>\n\n<strong>Bayes' Theorem:</strong>\n$$p(\\theta|x) = \\frac{p(x|\\theta)p(\\theta)}{p(x)} \\propto p(x|\\theta)p(\\theta)$$\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>Components:</strong>\n<ul>\n\n<li>$p(\\theta)$: Prior distribution\n</li>\n<li>$p(x|\\theta)$: Likelihood\n</li>\n<li>$p(\\theta|x)$: Posterior distribution\n</li>\n<li>$p(x)$: Marginal likelihood\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Estimation:</strong>\n<ul>\n\n<li>MAP: $\\hat{\\theta}_{\text{MAP}} = \\arg\\max p(\\theta|x)$\n</li>\n<li>Posterior mean: $\\hat{\\theta}_{\text{PM}} = E[\\theta|x]$\n</li>\n<li>Credible intervals available\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"example\">\nNormal with normal prior:\nPrior: $\\mu \\sim N(\\mu_0, \\tau^2)$, Likelihood: $X|\\mu \\sim N(\\mu, \\sigma^2)$\nPosterior: $\\mu|x \\sim N\\left(\\frac{\\tau^2 \\bar{x} + \\sigma^2\\mu_0/n}{\\tau^2 + \\sigma^2/n}, \\frac{\\tau^2\\sigma^2/n}{\\tau^2 + \\sigma^2/n}\\right)$\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Robust Parameter Estimation",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/robust_estimation.png\" alt=\"Robust Parameter Estimation\"></figure>\n<div class=\"text-content\">\n<div class=\"warning\"><h4>Problem with MLE</h4>MLE can be sensitive to outliers.</div>\n<strong>Robust Alternatives:</strong>\n<ul>\n<li><strong>M-estimators:</strong> Generalize MLE</li>\n<li><strong>Huber estimator:</strong> Robust to outliers</li>\n<li><strong>Trimmed means:</strong> Remove extreme values</li>\n</ul>\n<div class=\"definition\"><h4>Huber Loss</h4>$$\\rho(x) = \\begin{cases}\\frac{1}{2}x^2 & |x| \\leq k\\\\ k|x| - \\frac{1}{2}k^2 & |x| > k\\end{cases}$$</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Bootstrap and Resampling",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/bootstrap_estimation.png\" alt=\"Bootstrap Estimation\"></figure>\n<div class=\"text-content\">\n<div class=\"definition\"><h4>Bootstrap Principle</h4>Estimate sampling distribution by resampling from observed data.</div>\n<strong>Algorithm:</strong>\n<ol>\n<li>Draw $B$ bootstrap samples from original data</li>\n<li>Compute estimate $\\hat{\\theta}_b^*$ for each</li>\n<li>Use distribution of estimates for inference</li>\n</ol>\n<strong>Applications:</strong> Confidence intervals, bias correction, variance estimation\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Model Selection and Information Criteria",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/model_selection.png\" alt=\"Model Selection\"></figure>\n<div class=\"text-content\">\n<div class=\"definition\"><h4>Information Criteria</h4>$$AIC = -2\\ell(\\hat{\\theta}) + 2k$$\n$$BIC = -2\\ell(\\hat{\\theta}) + k\\log n$$</div>\n<ul>\n<li><strong>Lower = better</strong></li>\n<li>Trade-off: fit vs complexity</li>\n<li>AIC: prediction focus</li>\n<li>BIC: true model focus</li>\n</ul>\n<strong>Cross-Validation:</strong> Split train/validation, choose best CV score\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Common Pitfalls and How to Avoid Them",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Pitfall 1: Wrong Distribution</h4>Assuming incorrect distributional family leads to biased estimates.\n\n<strong>Solution:</strong>\n<ul>\n\n<li>Exploratory data analysis\n</li>\n<li>Goodness-of-fit tests\n</li>\n<li>Residual analysis\n</li>\n<li>Model comparison\n</li>\n</ul></div>\n</div>\n<div class=\"column\">\n<div class=\"warning\"><h4>Pitfall 2: Insufficient Data</h4>Small samples lead to unreliable estimates.\n\n<strong>Solution:</strong>\n<ul>\n\n<li>Check sample size requirements\n</li>\n<li>Use bootstrap for uncertainty\n</li>\n<li>Consider Bayesian methods\n</li>\n<li>Regularization techniques\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Pitfall 3: Outliers</h4>Extreme values can severely affect estimates.\n\n<strong>Solution:</strong>\n<ul>\n\n<li>Data visualization\n</li>\n<li>Robust estimation methods\n</li>\n<li>Outlier detection and treatment\n</li>\n<li>Sensitivity analysis\n</li>\n</ul></div>\n</div>\n<div class=\"column\">\n<div class=\"warning\"><h4>Pitfall 4: Overfitting</h4>Too many parameters relative to data.\n\n<strong>Solution:</strong>\n<ul>\n\n<li>Information criteria (AIC, BIC)\n</li>\n<li>Cross-validation\n</li>\n<li>Regularization (Ridge, Lasso)\n</li>\n<li>Domain knowledge constraints\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Diagnostic Tools and Validation",
+      "readingTime": "1 min",
+      "content": "<div class=\"image-text-layout\">\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/diagnostic_tools.png\" alt=\"Diagnostic Tools\"></figure>\n<div class=\"text-content\">\n<div class=\"definition\"><h4>Model Validation</h4>Always validate estimates and assumptions.</div>\n<strong>Residual Analysis:</strong>\n<ul>\n<li>Plot residuals vs fitted values</li>\n<li>Check for patterns/heteroscedasticity</li>\n<li>Normal probability plots</li>\n</ul>\n<strong>Goodness-of-Fit:</strong> K-S test, Anderson-Darling, Chi-square\n<strong>Sensitivity:</strong> Remove outliers, subsample analysis, cross-validation\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Computational Considerations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Optimization Tips</h4><ul>\n\n<li><strong>Starting values:</strong> Use MoM for MLE initialization\n</li>\n<li><strong>Scaling:</strong> Normalize variables for numerical stability\n</li>\n<li><strong>Constraints:</strong> Handle parameter bounds properly\n</li>\n<li><strong>Convergence:</strong> Check multiple starting points\n</li>\n</ul></div>\n</div>\n<div class=\"column\">\n<div class=\"highlight\"><h4>Implementation</h4><ul>\n\n<li><strong>Vectorization:</strong> Use efficient matrix operations\n</li>\n<li><strong>Automatic differentiation:</strong> For complex models\n</li>\n<li><strong>Parallel computing:</strong> Bootstrap and cross-validation\n</li>\n<li><strong>Memory management:</strong> For large datasets\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"definition\"><h4>Software Tools</h4><ul>\n\n<li><strong>Python:</strong> scipy.optimize, statsmodels, scikit-learn\n</li>\n<li><strong>R:</strong> optim(), nlm(), maxLik package\n</li>\n<li><strong>Specialized:</strong> Stan, PyMC for Bayesian methods\n</li>\n<li><strong>Deep Learning:</strong> TensorFlow, PyTorch for gradient-based optimization\n</li>\n</ul></div>\n\n\n<figure class=\"slide-figure\"><img src=\"/static/images/courses/cmsc173/module-01/computational_tools.png\" alt=\"Computational Tools\"></figure>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Summary and Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"key-point\"><h4>Method of Moments</h4><strong>When to use:</strong>\n<ul>\n\n<li>Quick estimates needed\n</li>\n<li>Simple distributions\n</li>\n<li>Starting values for MLE\n</li>\n<li>Computational constraints\n</li>\n</ul>\n\n<strong>Key insight:</strong> Match theoretical and sample moments</div>\n</div>\n<div class=\"column\">\n<div class=\"key-point\"><h4>Maximum Likelihood</h4><strong>When to use:</strong>\n<ul>\n\n<li>Optimal estimates desired\n</li>\n<li>Large sample sizes\n</li>\n<li>Inference required\n</li>\n<li>Model comparison\n</li>\n</ul>\n\n<strong>Key insight:</strong> Find parameters that maximize data likelihood</div>\n</div>\n</div>\n\n<div class=\"highlight\"><h4>General Principles</h4><ul>\n\n<li><strong>Start simple:</strong> Use MoM, then refine with MLE if needed\n</li>\n<li><strong>Validate assumptions:</strong> Check distributional assumptions\n</li>\n<li><strong>Assess uncertainty:</strong> Always provide confidence intervals\n</li>\n<li><strong>Consider alternatives:</strong> Robust methods for outliers\n</li>\n<li><strong>Use diagnostics:</strong> Residual analysis and goodness-of-fit\n</li>\n</ul></div>\n\n\n<strong>Parameter estimation is fundamental to statistical modeling and machine learning!</strong>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Next Steps and Further Reading",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Advanced Topics to Explore:</strong>\n<ul>\n\n<li>Generalized Method of Moments (GMM)\n</li>\n<li>Quasi-Maximum Likelihood\n</li>\n<li>Empirical likelihood methods\n</li>\n<li>Regularized estimation (Ridge, Lasso)\n</li>\n<li>Bayesian computation (MCMC)\n</li>\n</ul>\n</div>\n<div class=\"column\">\n<strong>Applications in ML:</strong>\n<ul>\n\n<li>Neural network training\n</li>\n<li>Variational autoencoders\n</li>\n<li>Gaussian processes\n</li>\n<li>Hidden Markov models\n</li>\n<li>Reinforcement learning\n</li>\n</ul>\n</div>\n</div>\n\n<div class=\"definition\"><h4>Recommended Resources</h4><ul>\n\n<li><strong>Books:</strong> Casella \\& Berger \"Statistical Inference\", Lehmann \\& Casella \"Theory of Point Estimation\"\n</li>\n<li><strong>Software:</strong> Practice with scipy.optimize, statsmodels, Stan\n</li>\n<li><strong>Datasets:</strong> UCI ML Repository, Kaggle competitions\n</li>\n</ul></div>\n\n\n<strong>Thank you! Questions?</strong>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

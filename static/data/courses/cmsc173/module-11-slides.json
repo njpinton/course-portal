@@ -1,0 +1,413 @@
+{
+  "module": {
+    "id": "11",
+    "title": "Clustering",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 50,
+    "estimatedDuration": "100 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Clustering?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4><strong>Clustering</strong> is the task of grouping a set of objects such that objects in the same group (cluster) are more similar to each other than to those in other groups.</div>\n\n\n\n\\begin{exampleblock}{Key Characteristics}\n<ul>\n\n<li>Unsupervised learning\n</li>\n<li>No labeled data required\n</li>\n<li>Discover hidden patterns\n</li>\n<li>Data-driven groupings\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/clustering_motivation.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Goal</h4>Find natural groupings in data without prior knowledge of group labels.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Supervised vs Unsupervised Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Supervised Learning</h4><ul>\n\n<li>Training data has <strong>labels</strong>\n</li>\n<li>Learn mapping: $f: X \\rightarrow Y$\n</li>\n<li>Goal: Predict labels for new data\n</li>\n<li>Examples: Classification, regression\n</li>\n</ul></div>\n\n\n\n<strong>Example:</strong>\n<ul>\n<li>Input: Email text\n</li>\n<li>Label: Spam/Not Spam\n</li>\n<li>Task: Learn to classify\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Unsupervised Learning</h4><ul>\n\n<li>Training data has <strong>no labels</strong>\n</li>\n<li>Discover structure in $X$\n</li>\n<li>Goal: Find patterns, groups\n</li>\n<li>Examples: Clustering, dimensionality reduction\n</li>\n</ul></div>\n\n\n\n<strong>Example:</strong>\n<ul>\n<li>Input: Customer purchase data\n</li>\n<li>No labels\n</li>\n<li>Task: Find customer segments\n</li>\n</ul>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Clustering = Unsupervised</h4>We discover groups without knowing what they should be in advance.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Real-World Applications",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Business \\& Marketing</h4><ul>\n\n<li><strong>Customer segmentation</strong>: Group customers by behavior\n</li>\n<li><strong>Market research</strong>: Identify consumer groups\n</li>\n<li><strong>Recommendation systems</strong>: Group similar items\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Biology \\& Medicine</h4><ul>\n\n<li><strong>Gene expression</strong>: Find related genes\n</li>\n<li><strong>Disease diagnosis</strong>: Identify patient subgroups\n</li>\n<li><strong>Protein structure</strong>: Analyze protein families\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Image \\& Vision</h4><ul>\n\n<li><strong>Image segmentation</strong>: Group pixels by similarity\n</li>\n<li><strong>Object recognition</strong>: Cluster visual features\n</li>\n<li><strong>Color quantization</strong>: Reduce color palette\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Text \\& Web</h4><ul>\n\n<li><strong>Document clustering</strong>: Group similar documents\n</li>\n<li><strong>Topic modeling</strong>: Discover themes\n</li>\n<li><strong>Social network analysis</strong>: Find communities\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Common Theme</h4>All involve finding structure in unlabeled data!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Types of Clustering",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Partitional Clustering</h4><ul>\n\n<li>Divide data into <strong>K</strong> non-overlapping groups\n</li>\n<li>Each point belongs to exactly <strong>one</strong> cluster\n</li>\n<li>Flat structure\n</li>\n<li>Examples: K-Means, K-Medoids, GMM\n</li>\n</ul></div>\n\n\n\n<strong>Characteristics:</strong>\n<ul>\n<li>Need to specify K\n</li>\n<li>Fast and scalable\n</li>\n<li>Sensitive to initialization\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Hierarchical Clustering</h4><ul>\n\n<li>Build a <strong>tree</strong> of clusters (dendrogram)\n</li>\n<li>Can extract K clusters at any level\n</li>\n<li>Nested structure\n</li>\n<li>Examples: Agglomerative, Divisive\n</li>\n</ul></div>\n\n\n\n<strong>Characteristics:</strong>\n<ul>\n<li>No need to specify K upfront\n</li>\n<li>More interpretable hierarchy\n</li>\n<li>Computationally expensive\n</li>\n</ul>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>This Lecture</h4>Focus on <strong>Partitional</strong> (K-Means, GMM) and <strong>Hierarchical</strong> methods.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Distance Metrics",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Common Distance Metrics</h4>For $\\mathbf{x} = (x_1, …, x_d)$ and $\\mathbf{y} = (y_1, …, y_d)$:\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<strong>1. Euclidean Distance</strong> (L2)\n$$d(\\mathbf{x}, \\mathbf{y}) = \\sqrt{\\sum_{i=1}^{d} (x_i - y_i)^2}$$\n\n<strong>2. Manhattan Distance</strong> (L1)\n$$d(\\mathbf{x}, \\mathbf{y}) = \\sum_{i=1}^{d} |x_i - y_i|$$\n</div>\n\n<div class=\"column\">\n<strong>3. Chebyshev Distance</strong> (L$\\infty$)\n$$d(\\mathbf{x}, \\mathbf{y}) = \\max_{i} |x_i - y_i|$$\n\n<strong>4. Cosine Similarity</strong>\n$$\\text{sim}(\\mathbf{x}, \\mathbf{y}) = \\frac{\\mathbf{x} \\cdot \\mathbf{y}}{\\|\\mathbf{x}\\| \\|\\mathbf{y}\\|}$$\n</div>\n</div></div>\n\n\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/distance_metrics.png]</em></p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Properties of Distance Metrics",
+      "readingTime": "1 min",
+      "content": "<strong>A valid distance metric must satisfy:</strong>\n\n\n\n<div class=\"highlight\"><h4>Metric Axioms</h4>For all points $\\mathbf{x}, \\mathbf{y}, \\mathbf{z}$:\n\n\n\n<ol>\n\n<li><strong>Non-negativity</strong>: $d(\\mathbf{x}, \\mathbf{y}) \\geq 0$\n</li>\n<li><strong>Identity</strong>: $d(\\mathbf{x}, \\mathbf{y}) = 0 \\iff \\mathbf{x} = \\mathbf{y}$\n</li>\n<li><strong>Symmetry</strong>: $d(\\mathbf{x}, \\mathbf{y}) = d(\\mathbf{y}, \\mathbf{x})$\n</li>\n<li><strong>Triangle inequality</strong>: $d(\\mathbf{x}, \\mathbf{z}) \\leq d(\\mathbf{x}, \\mathbf{y}) + d(\\mathbf{y}, \\mathbf{z})$\n</li>\n</ol></div>\n\n\n\n\\begin{exampleblock}{Choosing the Right Metric}\n<ul>\n\n<li><strong>Euclidean</strong>: Most common, assumes all features equally important\n</li>\n<li><strong>Manhattan</strong>: Less sensitive to outliers, good for high dimensions\n</li>\n<li><strong>Cosine</strong>: Good for text/document clustering (direction matters)\n</li>\n<li><strong>Custom</strong>: Domain-specific distances (e.g., edit distance for strings)\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "K-Means Algorithm: Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Goal</h4>Partition $n$ points into $K$ clusters</div>\n\n\n\n<div class=\"highlight\"><h4>Key Idea</h4><ul>\n\n<li>Each cluster has <strong>centroid</strong> (mean)\n</li>\n<li>Assign points to <strong>nearest</strong> centroid\n</li>\n<li>Update centroids iteratively\n</li>\n<li>Minimize within-cluster variance\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Input \\& Output}\n<strong>Input:</strong>\n<ul>\n\n<li>Dataset $X$, Number $K$\n</li>\n</ul>\n\n<strong>Output:</strong>\n<ul>\n\n<li>Assignments $\\{C_1, …, C_K\\}$\n</li>\n<li>Centroids $\\{\\boldsymbol{\\mu}_1, …, \\boldsymbol{\\mu}_K\\}$\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/kmeans_iterations.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "K-Means Objective Function",
+      "readingTime": "1 min",
+      "content": "<strong>Minimize within-cluster sum of squares (WCSS):</strong>\n\n\n\n<div class=\"highlight\"><h4>Objective</h4>$$J = \\sum_{k=1}^{K} \\sum_{\\mathbf{x}_i \\in C_k} \\|\\mathbf{x}_i - \\boldsymbol{\\mu}_k\\|^2$$\n\nwhere:\n<ul>\n<li>$C_k$ = set of points in cluster $k$\n</li>\n<li>$\\boldsymbol{\\mu}_k$ = centroid of cluster $k$\n</li>\n<li>$\\|\\cdot\\|$ = Euclidean distance\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Interpretation}\n<ul>\n\n<li>Minimize total squared distance from points to their centroids\n</li>\n<li>Encourages <strong>compact</strong>, <strong>spherical</strong> clusters\n</li>\n<li>Also called <strong>inertia</strong> or <strong>distortion</strong>\n</li>\n<li>NP-hard to minimize globally, but heuristics work well\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Note</h4>K-Means finds <strong>local minimum</strong>, not necessarily global!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "K-Means Algorithm (Lloyd's Algorithm)",
+      "readingTime": "1 min",
+      "content": "\\begin{algorithm}[H]\n\\caption{K-Means Clustering}\n\\begin{algorithmic}[1]\n\\REQUIRE Dataset $X = \\{\\mathbf{x}_1, …, \\mathbf{x}_n\\}$, number of clusters $K$\n\\ENSURE Cluster assignments and centroids\n\n\\STATE <strong>Initialize</strong> $K$ centroids $\\{\\boldsymbol{\\mu}_1, …, \\boldsymbol{\\mu}_K\\}$ randomly\n\\REPEAT\n    \\STATE <strong>Assignment Step:</strong>\n    \\FOR{each data point $\\mathbf{x}_i$}\n        \\STATE Assign $\\mathbf{x}_i$ to cluster $k^* = \\arg\\min_k \\|\\mathbf{x}_i - \\boldsymbol{\\mu}_k\\|^2$\n    \\ENDFOR\n\n    \\STATE <strong>Update Step:</strong>\n    \\FOR{each cluster $k = 1, …, K$}\n        \\STATE Update centroid: $\\boldsymbol{\\mu}_k = \\frac{1}{|C_k|} \\sum_{\\mathbf{x}_i \\in C_k} \\mathbf{x}_i$\n    \\ENDFOR\n\\UNTIL{centroids do not change (or max iterations reached)}\n\\end{algorithmic}\n\\end{algorithm}\n\n\n\n<div class=\"warning\"><h4>Key Properties</h4><strong>Convergence:</strong> Guaranteed (objective always decreases).  \n<strong>Complexity:</strong> $O(nKdT)$ where $T$ = iterations</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "K-Means Example: Dataset",
+      "readingTime": "1 min",
+      "content": "<strong>Let's apply K-Means to a toy dataset with $K=2$</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Dataset (4 points, 2D)</h4>\n\\begin{tabular}{ccc}\n\\toprule\nPoint & $x_1$ & $x_2$ \\\\\n\\midrule\nA & 1 & 2 \\\\\nB & 2 & 1 \\\\\nC & 4 & 3 \\\\\nD & 5 & 4 \\\\\n\\bottomrule\n\\end{tabular}\n</div>\n\n\n\n\\begin{exampleblock}{Goal}\nCluster into $K = 2$ groups\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Axis labels\n\\foreach \\x in {1,2,...,6}\n    \\node at (\\x,-0.3) {\\tiny \\x};\n\\foreach \\y in {1,2,...,5}\n    \\node at (-0.3,\\y) {\\tiny \\y};\n\n% Data points\n\\fill[blue] (1,2) circle (3pt) node[above left] {A};\n\\fill[blue] (2,1) circle (3pt) node[below right] {B};\n\\fill[blue] (4,3) circle (3pt) node[above left] {C};\n\\fill[blue] (5,4) circle (3pt) node[above right] {D};\n\\end{tikzpicture}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "K-Means Example: Step 1 - Initialization",
+      "readingTime": "1 min",
+      "content": "<strong>Step 1: Randomly initialize 2 centroids</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Random Initialization</h4>Let's choose first two points as centroids:\n\n\n\n$\\boldsymbol{\\mu}_1 = \\text{Point A} = (1, 2)$\n\n$\\boldsymbol{\\mu}_2 = \\text{Point D} = (5, 4)$</div>\n\n\n\n<div class=\"warning\"><h4>Note</h4>In practice, use K-Means++ initialization!</div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Data points\n\\fill[blue] (1,2) circle (3pt) node[above left] {A};\n\\fill[blue] (2,1) circle (3pt) node[below right] {B};\n\\fill[blue] (4,3) circle (3pt) node[above left] {C};\n\\fill[blue] (5,4) circle (3pt) node[above right] {D};\n\n% Centroids\n\\draw[red, line width=2pt] (1,2) -- (1.3,2) -- (1.15,2.3) -- cycle;\n\\node[red] at (0.5,2.5) {$\\boldsymbol{\\mu}_1$};\n\n\\draw[green!60!black, line width=2pt] (5,4) -- (5.3,4) -- (5.15,4.3) -- cycle;\n\\node[green!60!black] at (5.5,4.5) {$\\boldsymbol{\\mu}_2$};\n\\end{tikzpicture}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "K-Means Example: Step 2 - Assignment",
+      "readingTime": "3 min",
+      "content": "<strong>Step 2: Assign each point to nearest centroid</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Distance Calculations</h4>\\small\nFor each point, compute distance to both centroids:\n\n\n\n<strong>Point A (1,2):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(1-1)^2 + (2-2)^2} = \\mathbf{0}$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(1-5)^2 + (2-4)^2} = 4.47$\n</li>\n<li>$\\Rightarrow$ Assign to Cluster 1\n</li>\n</ul>\n\n<strong>Point B (2,1):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(2-1)^2 + (1-2)^2} = \\mathbf{1.41}$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(2-5)^2 + (1-4)^2} = 4.24$\n</li>\n<li>$\\Rightarrow$ Assign to Cluster 1\n</li>\n</ul>\n\n<strong>Point C (4,3):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(4-1)^2 + (3-2)^2} = 3.16$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(4-5)^2 + (3-4)^2} = \\mathbf{1.41}$\n</li>\n<li>$\\Rightarrow$ Assign to Cluster 2\n</li>\n</ul>\n\n<strong>Point D (5,4):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(5-1)^2 + (4-2)^2} = 4.47$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(5-5)^2 + (4-4)^2} = \\mathbf{0}$\n</li>\n<li>$\\Rightarrow$ Assign to Cluster 2\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Data points colored by cluster\n\\fill[red!70] (1,2) circle (3pt) node[above left] {A};\n\\fill[red!70] (2,1) circle (3pt) node[below right] {B};\n\\fill[green!60!black] (4,3) circle (3pt) node[above left] {C};\n\\fill[green!60!black] (5,4) circle (3pt) node[above right] {D};\n\n% Centroids\n\\draw[red, line width=2pt] (1,2) -- (1.3,2) -- (1.15,2.3) -- cycle;\n\\node[red] at (0.5,2.5) {$\\boldsymbol{\\mu}_1$};\n\n\\draw[green!60!black, line width=2pt] (5,4) -- (5.3,4) -- (5.15,4.3) -- cycle;\n\\node[green!60!black] at (5.5,4.5) {$\\boldsymbol{\\mu}_2$};\n\\end{tikzpicture}\n\n\n\n\\begin{exampleblock}{Clusters}\n<strong>C1:</strong> \\{A, B\\} \\\\\n<strong>C2:</strong> \\{C, D\\}\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "K-Means Example: Step 3 - Update Centroids",
+      "readingTime": "2 min",
+      "content": "<strong>Step 3: Recompute centroids as mean of assigned points</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>New Centroids</h4><strong>Cluster 1</strong> contains: A(1,2), B(2,1)\n\n$$\\boldsymbol{\\mu}_1 = \\frac{1}{2}\\left[(1,2) + (2,1)\\right]$$\n$$= \\left(\\frac{1+2}{2}, \\frac{2+1}{2}\\right) = \\mathbf{(1.5, 1.5)}$$\n\n\n\n<strong>Cluster 2</strong> contains: C(4,3), D(5,4)\n\n$$\\boldsymbol{\\mu}_2 = \\frac{1}{2}\\left[(4,3) + (5,4)\\right]$$\n$$= \\left(\\frac{4+5}{2}, \\frac{3+4}{2}\\right) = \\mathbf{(4.5, 3.5)}$$</div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Data points\n\\fill[red!70] (1,2) circle (3pt) node[above left] {A};\n\\fill[red!70] (2,1) circle (3pt) node[below right] {B};\n\\fill[green!60!black] (4,3) circle (3pt) node[above left] {C};\n\\fill[green!60!black] (5,4) circle (3pt) node[above right] {D};\n\n% OLD centroids (dashed)\n\\draw[red, line width=1pt, dashed] (1,2) -- (1.3,2) -- (1.15,2.3) -- cycle;\n\\draw[green!60!black, line width=1pt, dashed] (5,4) -- (5.3,4) -- (5.15,4.3) -- cycle;\n\n% NEW centroids (solid)\n\\draw[red, line width=2pt] (1.5,1.5) -- (1.8,1.5) -- (1.65,1.8) -- cycle;\n\\node[red] at (1.0,1.0) {$\\boldsymbol{\\mu}_1$};\n\n\\draw[green!60!black, line width=2pt] (4.5,3.5) -- (4.8,3.5) -- (4.65,3.8) -- cycle;\n\\node[green!60!black] at (5.0,3.0) {$\\boldsymbol{\\mu}_2$};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Centroids moved!</h4>Old (dashed) $\\rightarrow$ New (solid)</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "K-Means Example: Iteration 2 - Assignment",
+      "readingTime": "3 min",
+      "content": "<strong>Iteration 2: Re-assign points to NEW centroids</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Distance Calculations</h4>\\small\nUsing new centroids $\\boldsymbol{\\mu}_1 = (1.5, 1.5)$, $\\boldsymbol{\\mu}_2 = (4.5, 3.5)$:\n\n\n\n<strong>Point A (1,2):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(1-1.5)^2 + (2-1.5)^2} = \\mathbf{0.71}$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(1-4.5)^2 + (2-3.5)^2} = 3.81$\n</li>\n<li>$\\Rightarrow$ Cluster 1 (no change)\n</li>\n</ul>\n\n<strong>Point B (2,1):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(2-1.5)^2 + (1-1.5)^2} = \\mathbf{0.71}$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(2-4.5)^2 + (1-3.5)^2} = 3.54$\n</li>\n<li>$\\Rightarrow$ Cluster 1 (no change)\n</li>\n</ul>\n\n<strong>Point C (4,3):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(4-1.5)^2 + (3-1.5)^2} = 2.92$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(4-4.5)^2 + (3-3.5)^2} = \\mathbf{0.71}$\n</li>\n<li>$\\Rightarrow$ Cluster 2 (no change)\n</li>\n</ul>\n\n<strong>Point D (5,4):</strong>\n<ul>\n\n<li>To $\\boldsymbol{\\mu}_1$: $\\sqrt{(5-1.5)^2 + (4-1.5)^2} = 4.30$\n</li>\n<li>To $\\boldsymbol{\\mu}_2$: $\\sqrt{(5-4.5)^2 + (4-3.5)^2} = \\mathbf{0.71}$\n</li>\n<li>$\\Rightarrow$ Cluster 2 (no change)\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Data points\n\\fill[red!70] (1,2) circle (3pt) node[above left] {A};\n\\fill[red!70] (2,1) circle (3pt) node[below right] {B};\n\\fill[green!60!black] (4,3) circle (3pt) node[above left] {C};\n\\fill[green!60!black] (5,4) circle (3pt) node[above right] {D};\n\n% Centroids\n\\draw[red, line width=2pt] (1.5,1.5) -- (1.8,1.5) -- (1.65,1.8) -- cycle;\n\\node[red] at (1.0,1.0) {$\\boldsymbol{\\mu}_1$};\n\n\\draw[green!60!black, line width=2pt] (4.5,3.5) -- (4.8,3.5) -- (4.65,3.8) -- cycle;\n\\node[green!60!black] at (5.0,3.0) {$\\boldsymbol{\\mu}_2$};\n\\end{tikzpicture}\n\n\n\n\\begin{exampleblock}{Result}\n<strong>No changes!</strong>\\\\\nAssignments: Same as before\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "K-Means Example: Convergence",
+      "readingTime": "2 min",
+      "content": "<strong>Step 4: Check convergence</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Convergence Achieved!</h4>Since no points changed clusters, the algorithm has converged.\n\n\n\n<strong>Final Clusters:</strong>\n<ul>\n<li><strong>Cluster 1:</strong> \\{A(1,2), B(2,1)\\}\n</li>\n<li><strong>Cluster 2:</strong> \\{C(4,3), D(5,4)\\}\n</li>\n</ul>\n\n\n\n<strong>Final Centroids:</strong>\n<ul>\n<li>$\\boldsymbol{\\mu}_1 = (1.5, 1.5)$\n</li>\n<li>$\\boldsymbol{\\mu}_2 = (4.5, 3.5)$\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=0.9]\n\\draw[-stealth] (0,0) -- (7,0) node[right] {$x_1$};\n\\draw[-stealth] (0,0) -- (0,6) node[above] {$x_2$};\n\n% Grid\n\\foreach \\x in {1,2,...,6}\n    \\draw[gray!30] (\\x,0) -- (\\x,6);\n\\foreach \\y in {1,2,...,5}\n    \\draw[gray!30] (0,\\y) -- (7,\\y);\n\n% Voronoi boundaries (perpendicular bisector)\n\\draw[blue, dashed, thick] (3,0) -- (3,6);\n\n% Data points\n\\fill[red!70] (1,2) circle (3pt) node[above left] {A};\n\\fill[red!70] (2,1) circle (3pt) node[below right] {B};\n\\fill[green!60!black] (4,3) circle (3pt) node[above left] {C};\n\\fill[green!60!black] (5,4) circle (3pt) node[above right] {D};\n\n% Centroids\n\\draw[red, line width=2pt] (1.5,1.5) -- (1.8,1.5) -- (1.65,1.8) -- cycle;\n\\node[red] at (1.0,1.0) {$\\boldsymbol{\\mu}_1$};\n\n\\draw[green!60!black, line width=2pt] (4.5,3.5) -- (4.8,3.5) -- (4.65,3.8) -- cycle;\n\\node[green!60!black] at (5.0,3.0) {$\\boldsymbol{\\mu}_2$};\n\n% Cluster regions\n\\node[red!70] at (1.5,4.5) {<strong>C1</strong>};\n\\node[green!60!black] at (4.5,1.5) {<strong>C2</strong>};\n\\end{tikzpicture}\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>K-Means partitions space with linear decision boundaries (Voronoi cells)</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "K-Means: Voronoi Tesselation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Geometric Interpretation</h4>K-Means creates a <strong>Voronoi diagram</strong>:\n<ul>\n\n<li>Space partitioned into regions\n</li>\n<li>Points closest to one centroid\n</li>\n<li>Decision boundaries are <strong>linear</strong>\n</li>\n<li>Forms convex, polygonal cells\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Implications}\n<ul>\n\n<li>Works well for spherical clusters\n</li>\n<li>Struggles with elongated shapes\n</li>\n<li>Assumes equal variance\n</li>\n<li>Sensitive to outliers\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/voronoi_diagram.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "K-Means Initialization: The Challenge",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/kmeans_initialization_comparison.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Problem</h4>Sensitive to initial centroids</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Random Init Issues</h4><ul>\n\n<li>Poor local minima\n</li>\n<li>High variance\n</li>\n<li>Multiple runs needed\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Practice}\nRun 10-100 times, keep best WCSS\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "K-Means++ Initialization",
+      "readingTime": "1 min",
+      "content": "<strong>Smarter initialization strategy (Arthur \\& Vassilvitskii, 2007)</strong>\n\n\n\n<div class=\"highlight\"><h4>K-Means++ Algorithm</h4><ol>\n\n<li>Choose first centroid $\\boldsymbol{\\mu}_1$ uniformly at random from data points\n</li>\n<li>For $k = 2, …, K$:\n<ul>\n</li>\n<li>For each point $\\mathbf{x}_i$, compute $D(\\mathbf{x}_i)$ = distance to nearest centroid\n</li>\n<li>Choose next centroid $\\boldsymbol{\\mu}_k$ with probability $\\propto D(\\mathbf{x}_i)^2$\n</li>\n</ul>\n<li>Run standard K-Means with these initial centroids\n</li>\n</ol></div>\n\n\n\n\\begin{exampleblock}{Advantages}\n<ul>\n\n<li>Spreads out initial centroids\n</li>\n<li>Provably better: $O(\\log K)$-competitive with optimal\n</li>\n<li>Lower variance, more consistent results\n</li>\n<li>Standard in scikit-learn and most libraries\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Recommendation</h4><strong>Always use K-Means++</strong> unless you have domain knowledge for better initialization.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Choosing K: The Elbow Method",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Elbow Method</h4><ol>\n\n<li>Run K-Means for $K = 1, 2, …, K_{\\max}$\n</li>\n<li>Plot WCSS vs $K$\n</li>\n<li>Look for the \"<strong>elbow</strong>\" point\n</li>\n<li>Choose $K$ with diminishing returns\n</li>\n</ol></div>\n\n\\begin{exampleblock}{Interpretation}\n<ul>\n\n<li>WCSS decreases as $K$ increases\n</li>\n<li>Elbow = fit vs complexity trade-off\n</li>\n<li>Not always clear/unique\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/elbow_method.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Choosing K: Silhouette Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Silhouette Coefficient</h4>For each point $\\mathbf{x}_i$:\n\n<strong>1.</strong> $a_i$ = avg distance to same cluster\n\n<strong>2.</strong> $b_i$ = avg distance to nearest other\n\n<strong>3.</strong> Silhouette:\n$$s_i = \\frac{b_i - a_i}{\\max(a_i, b_i)}$$\n\n<strong>Range:</strong> $s_i \\in [-1, 1]$\n<ul>\n\n<li>$s_i \\approx 1$: Well clustered\n</li>\n<li>$s_i \\approx 0$: On border\n</li>\n<li>$s_i < 0$: Wrong cluster\n</li>\n</ul></div>\n\n<div class=\"warning\"><h4>Usage</h4>Choose $K$ maximizing avg score</div>\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/silhouette_analysis.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Limitations of K-Means",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/gmm_soft_clustering.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Key Issues</h4><ul>\n\n<li><strong>Hard assignments</strong>: Binary membership\n</li>\n<li><strong>Spherical clusters</strong>: Equal variance assumed\n</li>\n<li><strong>No uncertainty</strong>: Can't express doubt\n</li>\n<li><strong>Outliers</strong>: Forced into clusters\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{When K-Means Struggles}\n<ul>\n\n<li>Elongated/elliptical clusters\n</li>\n<li>Different sizes/densities\n</li>\n<li>Overlapping clusters\n</li>\n<li>Need probability of membership\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>\n\n\n\n\\begin{tipblock}{Solution}\n<strong>Gaussian Mixture Models (GMM)</strong> provide soft, probabilistic clustering\n\\end{tipblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Gaussian Mixture Models: Formulation",
+      "readingTime": "1 min",
+      "content": "<strong>Model data as generated from mixture of $K$ Gaussian distributions</strong>\n\n\n\n<div class=\"highlight\"><h4>Generative Model</h4>$$p(\\mathbf{x}) = \\sum_{k=1}^{K} \\pi_k \\mathcal{N}(\\mathbf{x} | \\boldsymbol{\\mu}_k, \\boldsymbol{\\Sigma}_k)$$\n\nwhere:\n<ul>\n<li>$\\pi_k$ = mixing coefficient (prior probability of cluster $k$), $\\sum_k \\pi_k = 1$\n</li>\n<li>$\\boldsymbol{\\mu}_k$ = mean of Gaussian $k$\n</li>\n<li>$\\boldsymbol{\\Sigma}_k$ = covariance matrix of Gaussian $k$\n</li>\n<li>$\\mathcal{N}(\\mathbf{x} | \\boldsymbol{\\mu}, \\boldsymbol{\\Sigma})$ = multivariate Gaussian\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Soft Assignment}\nProbability that point $\\mathbf{x}_i$ belongs to cluster $k$:\n$$\\gamma_{ik} = p(z_i = k | \\mathbf{x}_i) = \\frac{\\pi_k \\mathcal{N}(\\mathbf{x}_i | \\boldsymbol{\\mu}_k, \\boldsymbol{\\Sigma}_k)}{\\sum_{j=1}^{K} \\pi_j \\mathcal{N}(\\mathbf{x}_i | \\boldsymbol{\\mu}_j, \\boldsymbol{\\Sigma}_j)}$$\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "GMM: Expectation-Maximization Algorithm",
+      "readingTime": "1 min",
+      "content": "<strong>Learn parameters $\\{\\pi_k, \\boldsymbol{\\mu</strong>_k, \\boldsymbol{\\Sigma}_k\\}$ using EM}\n\n\n\n<div class=\"highlight\"><h4>EM Algorithm</h4><strong>Initialize:</strong> Random $\\boldsymbol{\\mu}_k$, $\\boldsymbol{\\Sigma}_k = I$, $\\pi_k = 1/K$\n\n\n\n<strong>Repeat until convergence:</strong>\n\n\n\n<strong>E-step:</strong> Compute responsibilities (soft assignments)\n$$\\gamma_{ik} = \\frac{\\pi_k \\mathcal{N}(\\mathbf{x}_i | \\boldsymbol{\\mu}_k, \\boldsymbol{\\Sigma}_k)}{\\sum_{j=1}^{K} \\pi_j \\mathcal{N}(\\mathbf{x}_i | \\boldsymbol{\\mu}_j, \\boldsymbol{\\Sigma}_j)}$$\n\n<strong>M-step:</strong> Update parameters\n$$\\pi_k = \\frac{1}{n}\\sum_{i=1}^{n} \\gamma_{ik},  \n\\boldsymbol{\\mu}_k = \\frac{\\sum_i \\gamma_{ik} \\mathbf{x}_i}{\\sum_i \\gamma_{ik}},  \n\\boldsymbol{\\Sigma}_k = \\frac{\\sum_i \\gamma_{ik} (\\mathbf{x}_i - \\boldsymbol{\\mu}_k)(\\mathbf{x}_i - \\boldsymbol{\\mu}_k)^T}{\\sum_i \\gamma_{ik}}$$</div>\n\n\n\n<div class=\"warning\"><h4>Properties</h4>Monotonically increases likelihood. Guaranteed to converge to local maximum.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "GMM vs K-Means Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>K-Means</h4><strong>Pros:</strong>\n<ul>\n\n<li>Simple, fast, scalable\n</li>\n<li>Easy to implement\n</li>\n<li>Works well for spherical clusters\n</li>\n<li>Less parameters to tune\n</li>\n</ul>\n\n\n\n<strong>Cons:</strong>\n<ul>\n\n<li>Hard assignments only\n</li>\n<li>Assumes spherical clusters\n</li>\n<li>Sensitive to initialization\n</li>\n<li>No measure of uncertainty\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>GMM</h4><strong>Pros:</strong>\n<ul>\n\n<li>Soft probabilistic assignments\n</li>\n<li>Flexible cluster shapes (elliptical)\n</li>\n<li>Measures uncertainty\n</li>\n<li>Principled statistical model\n</li>\n</ul>\n\n\n\n<strong>Cons:</strong>\n<ul>\n\n<li>Slower than K-Means\n</li>\n<li>More parameters ($\\boldsymbol{\\Sigma}_k$)\n</li>\n<li>Can overfit with full covariance\n</li>\n<li>Also sensitive to initialization\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Note</h4>K-Means is special case of GMM with $\\boldsymbol{\\Sigma}_k = \\sigma^2 I$ and hard assignments!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Hierarchical Clustering: Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/hierarchical_dendrogram.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Agglomerative (Bottom-up)</h4><ul>\n\n<li>Start: Each point = cluster\n</li>\n<li>Merge closest clusters\n</li>\n<li>End: One cluster\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Divisive (Top-down)</h4><ul>\n\n<li>Start: All in one cluster\n</li>\n<li>Split clusters iteratively\n</li>\n<li>End: Each point separate\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n\\begin{exampleblock}{Key Advantage}\nNo need to specify $K$ upfront! Cut dendrogram at any height to get desired clusters.\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Agglomerative Clustering Algorithm",
+      "readingTime": "1 min",
+      "content": "<strong>Most common hierarchical method</strong>\n\n\n\n<div class=\"highlight\"><h4>Algorithm</h4><ol>\n\n<li><strong>Initialize</strong>: Each of $n$ points is own cluster\n</li>\n<li><strong>Compute</strong>: Distance matrix between all clusters\n</li>\n<li><strong>Repeat</strong> until one cluster remains:\n<ul>\n</li>\n<li>Find pair of closest clusters\n</li>\n<li>Merge them into single cluster\n</li>\n<li>Update distance matrix\n</li>\n</ul>\n<li><strong>Output</strong>: Dendrogram showing merge history\n</li>\n</ol></div>\n\n\n\n\\begin{exampleblock}{Complexity}\n<strong>Time:</strong> $O(n^2 \\log n)$ with efficient data structures\n\n<strong>Space:</strong> $O(n^2)$ for distance matrix\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Challenge</h4>How do we measure distance between <strong>clusters</strong> (not just points)?</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Hierarchical Clustering Example: Dataset",
+      "readingTime": "2 min",
+      "content": "<strong>Let's apply Agglomerative Clustering to 5 points (Single Linkage)</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Dataset (5 points, 1D)</h4>\n\\begin{tabular}{cc}\n\\toprule\nPoint & Position \\\\\n\\midrule\nA & 2 \\\\\nB & 4 \\\\\nC & 5 \\\\\nD & 10 \\\\\nE & 12 \\\\\n\\bottomrule\n\\end{tabular}\n</div>\n\n\n\n\\begin{exampleblock}{Goal}\nBuild dendrogram using <strong>Single Linkage</strong>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n\\begin{tikzpicture}[scale=1.1]\n% Number line\n\\draw[-stealth] (0,0) -- (14,0) node[right] {$x$};\n\n% Tick marks\n\\draw (0,0.1) -- (0,-0.1) node[below] {\\tiny 0};\n\\draw (2,0.1) -- (2,-0.1) node[below] {\\tiny 2};\n\\draw (4,0.1) -- (4,-0.1) node[below] {\\tiny 4};\n\\draw (6,0.1) -- (6,-0.1) node[below] {\\tiny 6};\n\\draw (8,0.1) -- (8,-0.1) node[below] {\\tiny 8};\n\\draw (10,0.1) -- (10,-0.1) node[below] {\\tiny 10};\n\\draw (12,0.1) -- (12,-0.1) node[below] {\\tiny 12};\n\n% Data points\n\\fill[blue] (2,0) circle (2.5pt) node[above=3pt] {A};\n\\fill[blue] (4,0) circle (2.5pt) node[above=3pt] {B};\n\\fill[blue] (5,0) circle (2.5pt) node[above=3pt] {C};\n\\fill[blue] (10,0) circle (2.5pt) node[above=3pt] {D};\n\\fill[blue] (12,0) circle (2.5pt) node[above=3pt] {E};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Initial State</h4>Each point = own cluster\\\\\n5 clusters: \\{A\\}, \\{B\\}, \\{C\\}, \\{D\\}, \\{E\\}</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Hierarchical Example: Step 1 - Distance Matrix",
+      "readingTime": "2 min",
+      "content": "<strong>Step 1: Compute pairwise distance matrix</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Distance Matrix</h4>\\small\n\n\\begin{tabular}{c|ccccc}\n & A & B & C & D & E \\\\\n\\hline\nA & 0 & <strong>2</strong> & 3 & 8 & 10 \\\\\nB & <strong>2</strong> & 0 & <strong>1</strong> & 6 & 8 \\\\\nC & 3 & <strong>1</strong> & 0 & 5 & 7 \\\\\nD & 8 & 6 & 5 & 0 & <strong>2</strong> \\\\\nE & 10 & 8 & 7 & <strong>2</strong> & 0 \\\\\n\\end{tabular}\n</div>\n\n\n\n\\begin{exampleblock}{Find Minimum}\nSmallest distance = <strong>1</strong> between B and C\n\n$\\Rightarrow$ Merge \\{B\\} and \\{C\\}\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n<strong>Dendrogram (Step 1)</strong>\n\n\n\n\\begin{tikzpicture}[scale=0.9]\n% Leaves\n\\node (A) at (0,0) {A};\n\\node (B) at (2,0) {B};\n\\node (C) at (3,0) {C};\n\\node (D) at (5,0) {D};\n\\node (E) at (6,0) {E};\n\n% First merge: B-C at height 1\n\\draw (B) -- (2.5,1);\n\\draw (C) -- (2.5,1);\n\\draw[blue, line width=1.5pt] (2.5,1) -- (2.5,1.5) node[right, black] {\\tiny h=1};\n\n% Y-axis\n\\draw[-stealth] (-0.5,0) -- (-0.5,5) node[above] {\\tiny height};\n\\draw (-0.6,0) -- (-0.4,0) node[left] {\\tiny 0};\n\\draw (-0.6,1) -- (-0.4,1) node[left] {\\tiny 1};\n\\draw (-0.6,2) -- (-0.4,2) node[left] {\\tiny 2};\n\\draw (-0.6,3) -- (-0.4,3) node[left] {\\tiny 3};\n\\draw (-0.6,4) -- (-0.4,4) node[left] {\\tiny 4};\n\\draw (-0.6,5) -- (-0.4,5) node[left] {\\tiny 5};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Current Clusters</h4>\\{A\\}, \\{B, C\\}, \\{D\\}, \\{E\\}\\\\\n4 clusters remain</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Hierarchical Example: Step 2 - Update Matrix",
+      "readingTime": "2 min",
+      "content": "<strong>Step 2: Update distance matrix using Single Linkage</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Single Linkage Rule</h4>$$d(\\{B,C\\}, X) = \\min(d(B,X), d(C,X))$$\n\n\n\nNew distances to cluster \\{B,C\\}:\n<ul>\n\n<li>$d(\\{B,C\\}, A) = \\min(2, 3) = \\mathbf{2}$\n</li>\n<li>$d(\\{B,C\\}, D) = \\min(6, 5) = \\mathbf{5}$\n</li>\n<li>$d(\\{B,C\\}, E) = \\min(8, 7) = \\mathbf{7}$\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Updated Matrix</h4>\\small\n\n\\begin{tabular}{c|cccc}\n & A & \\{B,C\\} & D & E \\\\\n\\hline\nA & 0 & <strong>2</strong> & 8 & 10 \\\\\n\\{B,C\\} & <strong>2</strong> & 0 & 5 & 7 \\\\\nD & 8 & 5 & 0 & <strong>2</strong> \\\\\nE & 10 & 7 & <strong>2</strong> & 0 \\\\\n\\end{tabular}\n</div>\n</div>\n\n<div class=\"column\">\n\n<strong>Dendrogram (Step 2)</strong>\n\n\n\n\\begin{tikzpicture}[scale=0.9]\n% Leaves\n\\node (A) at (0,0) {A};\n\\node (B) at (2,0) {B};\n\\node (C) at (3,0) {C};\n\\node (D) at (5,0) {D};\n\\node (E) at (6,0) {E};\n\n% First merge: B-C at height 1\n\\draw (B) -- (2.5,1);\n\\draw (C) -- (2.5,1);\n\\draw[blue, line width=1.5pt] (2.5,1) -- (2.5,1.5);\n\n% Second merge: D-E at height 2\n\\draw (D) -- (5.5,2);\n\\draw (E) -- (5.5,2);\n\\draw[green!60!black, line width=1.5pt] (5.5,2) -- (5.5,2.5) node[right, black] {\\tiny h=2};\n\n% Y-axis\n\\draw[-stealth] (-0.5,0) -- (-0.5,5) node[above] {\\tiny height};\n\\draw (-0.6,0) -- (-0.4,0) node[left] {\\tiny 0};\n\\draw (-0.6,1) -- (-0.4,1) node[left] {\\tiny 1};\n\\draw (-0.6,2) -- (-0.4,2) node[left] {\\tiny 2};\n\\draw (-0.6,3) -- (-0.4,3) node[left] {\\tiny 3};\n\\draw (-0.6,4) -- (-0.4,4) node[left] {\\tiny 4};\n\\draw (-0.6,5) -- (-0.4,5) node[left] {\\tiny 5};\n\\end{tikzpicture}\n\n\n\n\\begin{exampleblock}{Next Merge}\nMin distance = <strong>2</strong>\\\\\nMerge \\{D\\} and \\{E\\} at height 2\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Hierarchical Example: Steps 3-4",
+      "readingTime": "3 min",
+      "content": "<strong>Continue merging until one cluster remains</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Step 3</h4>Clusters: \\{A\\}, \\{B,C\\}, \\{D,E\\}\n\n\n\nUpdated distances:\n<ul>\n\n<li>$d(A, \\{B,C\\}) = 2$\n</li>\n<li>$d(A, \\{D,E\\}) = 8$\n</li>\n<li>$d(\\{B,C\\}, \\{D,E\\}) = 5$\n</li>\n</ul>\n\n\n\n<strong>Min = 2:</strong> Merge A with \\{B,C\\}\\\\\nNew cluster: \\{A, B, C\\} at height 2</div>\n\n\n\n<div class=\"highlight\"><h4>Step 4 (Final)</h4>Clusters: \\{A,B,C\\}, \\{D,E\\}\n\n\n\nDistance: $d(\\{A,B,C\\}, \\{D,E\\}) = 5$\n\n\n\n<strong>Final merge</strong> at height 5\\\\\nOne cluster: \\{A, B, C, D, E\\}</div>\n</div>\n\n<div class=\"column\">\n\n<strong>Complete Dendrogram</strong>\n\n\n\n\\begin{tikzpicture}[scale=0.85]\n% Leaves\n\\node (A) at (0,0) {A};\n\\node (B) at (2,0) {B};\n\\node (C) at (3,0) {C};\n\\node (D) at (5,0) {D};\n\\node (E) at (6,0) {E};\n\n% Merge B-C at h=1\n\\draw (B) -- (2.5,1);\n\\draw (C) -- (2.5,1);\n\\draw[blue, line width=1.2pt] (2.5,1) -- (2.5,2);\n\n% Merge D-E at h=2\n\\draw (D) -- (5.5,2);\n\\draw (E) -- (5.5,2);\n\\draw[green!60!black, line width=1.2pt] (5.5,2) -- (5.5,5);\n\n% Merge A with {B,C} at h=2\n\\draw (A) -- (0,2) -- (1.25,2);\n\\draw (2.5,2) -- (1.25,2);\n\\draw[red, line width=1.2pt] (1.25,2) -- (1.25,5);\n\n% Final merge at h=5\n\\draw[purple, line width=1.5pt] (1.25,5) -- (3.375,5) -- (5.5,5);\n\n% Height annotations\n\\node[right] at (3.375,5) {\\tiny h=5};\n\\node[left] at (1.25,2) {\\tiny h=2};\n\\node[left] at (2.5,1) {\\tiny h=1};\n\\node[right] at (5.5,2) {\\tiny h=2};\n\n% Y-axis\n\\draw[-stealth] (-0.8,0) -- (-0.8,5.5) node[above] {\\tiny height};\n\\draw (-0.9,0) -- (-0.7,0) node[left] {\\tiny 0};\n\\draw (-0.9,1) -- (-0.7,1) node[left] {\\tiny 1};\n\\draw (-0.9,2) -- (-0.7,2) node[left] {\\tiny 2};\n\\draw (-0.9,3) -- (-0.7,3) node[left] {\\tiny 3};\n\\draw (-0.9,4) -- (-0.7,4) node[left] {\\tiny 4};\n\\draw (-0.9,5) -- (-0.7,5) node[left] {\\tiny 5};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Interpretation</h4>Cut at different heights to get different K clusters</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Hierarchical Example: Cutting the Dendrogram",
+      "readingTime": "2 min",
+      "content": "<strong>Extract different numbers of clusters by cutting at different heights</strong>\n\n\n\n\n\\begin{tikzpicture}[scale=1.0]\n% Dendrogram\n\\node (A) at (0,0) {A};\n\\node (B) at (2,0) {B};\n\\node (C) at (3,0) {C};\n\\node (D) at (5,0) {D};\n\\node (E) at (6,0) {E};\n\n\\draw (B) -- (2.5,1);\n\\draw (C) -- (2.5,1);\n\\draw (2.5,1) -- (2.5,2);\n\n\\draw (D) -- (5.5,2);\n\\draw (E) -- (5.5,2);\n\\draw (5.5,2) -- (5.5,5);\n\n\\draw (A) -- (0,2) -- (1.25,2);\n\\draw (2.5,2) -- (1.25,2);\n\\draw (1.25,2) -- (1.25,5);\n\n\\draw (1.25,5) -- (3.375,5) -- (5.5,5);\n\n% Cut lines\n\\draw[red, dashed, line width=2pt] (-0.5,4.5) -- (6.5,4.5) node[right] {K=2: \\{A,B,C\\}, \\{D,E\\}};\n\\draw[blue, dashed, line width=2pt] (-0.5,2.5) -- (6.5,2.5) node[right] {K=3: \\{A,B,C\\}, \\{D\\}, \\{E\\}};\n\\draw[orange, dashed, line width=2pt] (-0.5,1.5) -- (6.5,1.5) node[right] {K=4: \\{A\\}, \\{B,C\\}, \\{D\\}, \\{E\\}};\n\n% Y-axis\n\\draw[-stealth] (-0.8,0) -- (-0.8,5.5) node[above] {height};\n\\draw (-0.9,0) -- (-0.7,0) node[left] {\\tiny 0};\n\\draw (-0.9,1) -- (-0.7,1) node[left] {\\tiny 1};\n\\draw (-0.9,2) -- (-0.7,2) node[left] {\\tiny 2};\n\\draw (-0.9,3) -- (-0.7,3) node[left] {\\tiny 3};\n\\draw (-0.9,4) -- (-0.7,4) node[left] {\\tiny 4};\n\\draw (-0.9,5) -- (-0.7,5) node[left] {\\tiny 5};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Key Advantage of Hierarchical Clustering</h4>No need to pre-specify K! The dendrogram shows the full hierarchy.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Linkage Criteria",
+      "readingTime": "1 min",
+      "content": "<strong>Different ways to measure inter-cluster distance</strong>\n\n\n\n<div class=\"highlight\"><h4>Common Linkage Methods</h4>For clusters $C_i$ and $C_j$:\n\n\n\n<strong>1. Single Linkage (MIN):</strong>\n$$d(C_i, C_j) = \\min_{\\mathbf{x} \\in C_i, \\mathbf{y} \\in C_j} d(\\mathbf{x}, \\mathbf{y})$$\n\n<strong>2. Complete Linkage (MAX):</strong>\n$$d(C_i, C_j) = \\max_{\\mathbf{x} \\in C_i, \\mathbf{y} \\in C_j} d(\\mathbf{x}, \\mathbf{y})$$\n\n<strong>3. Average Linkage:</strong>\n$$d(C_i, C_j) = \\frac{1}{|C_i||C_j|} \\sum_{\\mathbf{x} \\in C_i} \\sum_{\\mathbf{y} \\in C_j} d(\\mathbf{x}, \\mathbf{y})$$\n\n<strong>4. Ward's Linkage:</strong>\n$$d(C_i, C_j) = \\text{increase in WCSS when merging } C_i \\text{ and } C_j$$</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Linkage Methods: Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/linkage_methods_comparison.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Single</h4><ul>\n\n<li>Elongated\n</li>\n<li>Noise sensitive\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Complete</h4><ul>\n\n<li>Compact\n</li>\n<li>Outlier sensitive\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Average</h4><ul>\n\n<li>Compromise\n</li>\n<li>Robust\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Ward's</h4><ul>\n\n<li>Min variance\n</li>\n<li><strong>Most popular</strong>\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Dendrograms: Interpretation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Reading Dendrograms</h4><ul>\n\n<li><strong>Leaves</strong>: Individual points\n</li>\n<li><strong>Height</strong>: Merge distance\n</li>\n<li><strong>Branches</strong>: Relationships\n</li>\n<li><strong>Cut</strong>: Extract $K$ clusters\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Extracting Clusters}\nCut at height $h$:\n<ul>\n\n<li>Higher $\\rightarrow$ fewer clusters\n</li>\n<li>Lower $\\rightarrow$ more clusters\n</li>\n<li>Choose via validation\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Advantage</h4>Explore different $K$ without re-running!</div>\n</div>\n\n<div class=\"column\">\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/agglomerative_steps.png]</em></p></div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Types of Cluster Validation",
+      "readingTime": "1 min",
+      "content": "<strong>How do we assess clustering quality?</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Internal Validation</h4><strong>Use only the data itself</strong>\n\n\n\n<em>Measures:</em>\n<ul>\n\n<li>Silhouette coefficient\n</li>\n<li>Davies-Bouldin index\n</li>\n<li>Calinski-Harabasz score\n</li>\n<li>Dunn index\n</li>\n</ul>\n\n\n\n<em>Idea:</em> Good clusters are compact and well-separated</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>External Validation</h4><strong>Compare to ground truth labels</strong>\n\n\n\n<em>Measures:</em>\n<ul>\n\n<li>Adjusted Rand Index (ARI)\n</li>\n<li>Normalized Mutual Information (NMI)\n</li>\n<li>V-measure\n</li>\n<li>Purity\n</li>\n</ul>\n\n\n\n<em>Idea:</em> Good clustering agrees with true labels</div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>When to Use Each</h4><strong>Internal:</strong> Unsupervised setting (no labels)  \n<strong>External:</strong> When ground truth available (benchmarking)</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Internal Metrics: Formulas",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>1. Silhouette Coefficient</h4>$$s = \\frac{1}{n} \\sum_{i=1}^{n} \\frac{b_i - a_i}{\\max(a_i, b_i)}$$\nRange: $[-1, 1]$, higher is better</div>\n\n<div class=\"highlight\"><h4>2. Davies-Bouldin Index</h4>$$DB = \\frac{1}{K} \\sum_{k=1}^{K} \\max_{k' \\neq k} \\frac{\\sigma_k + \\sigma_{k'}}{d(\\boldsymbol{\\mu}_k, \\boldsymbol{\\mu}_{k'})}$$\nRange: $[0, \\infty)$, <strong>lower</strong> is better</div>\n\n<div class=\"highlight\"><h4>3. Calinski-Harabasz Score (Variance Ratio)</h4>$$CH = \\frac{\\text{Between-cluster variance}}{\\text{Within-cluster variance}} \\times \\frac{n - K}{K - 1}$$\nRange: $[0, \\infty)$, higher is better</div>\n\n<div class=\"warning\"><h4>Usage</h4>Use multiple metrics! Different metrics may favor different clusterings.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "Internal Validation: Visualization",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<strong>Metric Values vs K</strong>\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/internal_validation_metrics.png]</em></p></div>\n</div>\n\n<div class=\"column\">\n\n<strong>Optimal K Comparison</strong>\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/optimal_k_comparison.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Observation</h4>Different metrics may suggest different optimal $K$. Use domain knowledge!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 39,
+      "title": "External Metrics: Formulas",
+      "readingTime": "1 min",
+      "content": "<strong>Given true labels $Y$ and predicted labels $C$:</strong>\n\n\n\n<div class=\"highlight\"><h4>1. Adjusted Rand Index (ARI)</h4>$$ARI = \\frac{\\text{RI} - E[\\text{RI}]}{\\max(\\text{RI}) - E[\\text{RI}]}$$\n\n<ul>\n<li>Range: $[-1, 1]$, higher is better\n</li>\n<li>$ARI = 1$: Perfect agreement\n</li>\n<li>$ARI \\approx 0$: Random labeling\n</li>\n<li>Adjusted for chance\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>2. Normalized Mutual Information (NMI)</h4>$$NMI(Y, C) = \\frac{2 \\cdot I(Y; C)}{H(Y) + H(C)}$$\n\n<ul>\n<li>Range: $[0, 1]$, higher is better\n</li>\n<li>$NMI = 1$: Perfect agreement\n</li>\n<li>Based on information theory\n</li>\n<li>Normalized for different $K$\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 40,
+      "title": "External Validation: Example",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n\n<strong>Validation Metrics</strong>\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/external_validation_metrics.png]</em></p></div>\n</div>\n\n<div class=\"column\">\n\n<strong>Confusion Matrix</strong>\n\n\n<div class=\"figure\"><p><em>[Figure: ../figures/clustering_confusion_matrix.png]</em></p></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Note</h4>External validation only for benchmarking. In real unsupervised tasks, no ground truth!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 41,
+      "title": "Application: Customer Segmentation",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/customer_segmentation.png]</em></p></div>\n\n\n\n\\begin{exampleblock}{Business Impact}\n<ul>\n\n<li><strong>Targeted marketing</strong>: Strategies per segment\n</li>\n<li><strong>Product development</strong>: Tailor to groups\n</li>\n<li><strong>Resource allocation</strong>: Focus on high-value\n</li>\n<li><strong>Customer retention</strong>: Identify at-risk\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 42,
+      "title": "Application: Image Color Quantization",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/image_color_quantization.png]</em></p></div>\n\n\n\n\\begin{exampleblock}{Use Cases}\n<ul>\n\n<li><strong>Image compression</strong>: Reduce file size\n</li>\n<li><strong>Color palette</strong>: Identify dominant colors\n</li>\n<li><strong>Segmentation</strong>: Group similar pixels\n</li>\n<li><strong>Artistic effects</strong>: Posterization\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 43,
+      "title": "Application: Biological Data (Iris Dataset)",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/iris_species_clustering.png]</em></p></div>\n\n\n\n\\begin{exampleblock}{Bioinformatics Applications}\n<ul>\n\n<li><strong>Species classification</strong>: Taxonomic groups\n</li>\n<li><strong>Gene expression</strong>: Co-expressed genes\n</li>\n<li><strong>Protein structure</strong>: Protein families\n</li>\n<li><strong>Disease subtyping</strong>: Patient subtypes\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 44,
+      "title": "Application: Document Clustering",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/document_clustering.png]</em></p></div>\n\n\n\n\\begin{exampleblock}{Text Mining Applications}\n<ul>\n<li><strong>Topic discovery</strong>: Find themes in document collections\n</li>\n<li><strong>News organization</strong>: Group similar articles\n</li>\n<li><strong>Search results</strong>: Organize by topic clusters\n</li>\n<li><strong>Recommendation</strong>: Find similar documents\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 45,
+      "title": "Choosing a Clustering Algorithm",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Decision Guide</h4><strong>Use K-Means when:</strong>\n<ul>\n\n<li>You know $K$ (or can estimate it)\n</li>\n<li>Data has roughly spherical clusters\n</li>\n<li>Large dataset (scalability important)\n</li>\n<li>Want fast, simple method\n</li>\n</ul>\n\n\n\n<strong>Use GMM when:</strong>\n<ul>\n\n<li>Need probabilistic assignments\n</li>\n<li>Clusters have different shapes/variances\n</li>\n<li>Want to measure uncertainty\n</li>\n<li>Have computational resources\n</li>\n</ul>\n\n\n\n<strong>Use Hierarchical when:</strong>\n<ul>\n\n<li>Don't know $K$ in advance\n</li>\n<li>Want to explore multiple granularities\n</li>\n<li>Need interpretable hierarchy\n</li>\n<li>Small to medium dataset ($n < 10,000$)\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 46,
+      "title": "Common Pitfalls \\& Solutions",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Pitfall 1: Not Scaling Features</h4><strong>Problem:</strong> Features with large ranges dominate distance\n\n<strong>Solution:</strong> Standardize features: $z = \\frac{x - \\mu}{\\sigma}$</div>\n\n<div class=\"highlight\"><h4>Pitfall 2: Using Wrong Distance Metric</h4><strong>Problem:</strong> Euclidean not always appropriate\n\n<strong>Solution:</strong> Match metric to data type (cosine for text, custom for categorical)</div>\n\n<div class=\"highlight\"><h4>Pitfall 3: Ignoring Outliers</h4><strong>Problem:</strong> Outliers can distort clusters (especially K-Means)\n\n<strong>Solution:</strong> Detect and remove outliers, or use robust methods (DBSCAN, K-Medoids)</div>\n\n<div class=\"highlight\"><h4>Pitfall 4: Blindly Trusting One Metric</h4><strong>Problem:</strong> Single validation metric may be misleading\n\n<strong>Solution:</strong> Use multiple metrics + visual inspection + domain knowledge</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 47,
+      "title": "Best Practices: Practical Tips",
+      "readingTime": "1 min",
+      "content": "\\begin{exampleblock}{Data Preprocessing}\n<ul>\n\n<li><strong>Scale features</strong>: Use StandardScaler or MinMaxScaler\n</li>\n<li><strong>Handle missing values</strong>: Impute or remove\n</li>\n<li><strong>Remove duplicates</strong>: Can bias cluster centers\n</li>\n<li><strong>Consider dimensionality reduction</strong>: PCA for high-dimensional data\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{Model Selection}\n<ul>\n\n<li><strong>Try multiple K values</strong>: Use elbow + silhouette + domain knowledge\n</li>\n<li><strong>Run multiple times</strong>: Different initializations for K-Means\n</li>\n<li><strong>Validate results</strong>: Use both internal and visual validation\n</li>\n<li><strong>Compare algorithms</strong>: K-Means, GMM, Hierarchical\n</li>\n</ul>\n\\end{exampleblock}\n\n\\begin{exampleblock}{Interpretation}\n<ul>\n\n<li><strong>Visualize clusters</strong>: 2D projections (PCA, t-SNE)\n</li>\n<li><strong>Inspect cluster centers</strong>: What characterizes each cluster?\n</li>\n<li><strong>Verify with domain experts</strong>: Do clusters make sense?\n</li>\n<li><strong>Iterate</strong>: Clustering is exploratory - refine based on insights\n</li>\n</ul>\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 48,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Clustering Fundamentals</h4><ul>\n\n<li><strong>Unsupervised learning</strong>: Discover structure without labels\n</li>\n<li><strong>Distance metrics</strong>: Foundation of clustering (Euclidean, cosine, etc.)\n</li>\n<li><strong>Two main types</strong>: Partitional vs Hierarchical\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Key Algorithms</h4><ul>\n\n<li><strong>K-Means</strong>: Fast, simple, hard assignments, spherical clusters\n</li>\n<li><strong>GMM</strong>: Soft assignments, flexible shapes, probabilistic\n</li>\n<li><strong>Hierarchical</strong>: No need for K, produces dendrogram, $O(n^2)$\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Validation</h4><ul>\n\n<li><strong>Internal</strong>: Silhouette, Davies-Bouldin, Calinski-Harabasz\n</li>\n<li><strong>External</strong>: ARI, NMI (when ground truth available)\n</li>\n<li><strong>Selection</strong>: Elbow method, silhouette analysis, domain knowledge\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 49,
+      "title": "What We Covered",
+      "readingTime": "1 min",
+      "content": "<ol>\n\n<li><strong>Introduction</strong>: Motivation, applications, clustering types\n</li>\n<li><strong>Distance Metrics</strong>: Euclidean, Manhattan, cosine similarity\n</li>\n<li><strong>K-Means</strong>: Algorithm, initialization (K-Means++), choosing K\n</li>\n<li><strong>GMM</strong>: Soft clustering, EM algorithm, comparison with K-Means\n</li>\n<li><strong>Hierarchical</strong>: Agglomerative, linkage methods, dendrograms\n</li>\n<li><strong>Validation</strong>: Internal and external metrics\n</li>\n<li><strong>Applications</strong>: Customer segmentation, image processing, bioinformatics\n</li>\n<li><strong>Best Practices</strong>: Algorithm selection, preprocessing, pitfalls\n</li>\n</ol>\n\n\n\n<div class=\"warning\"><h4>Next Steps</h4><ul>\n<li><strong>Practice</strong>: Try clustering on real datasets\n</li>\n<li><strong>Experiment</strong>: Compare different algorithms and parameters\n</li>\n<li><strong>Read</strong>: Advanced topics - DBSCAN, spectral clustering, etc.\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 50,
+      "title": "Further Reading",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Textbooks</h4><ul>\n\n<li><strong>Bishop</strong>: Pattern Recognition \\& Machine Learning (Ch. 9)\n</li>\n<li><strong>Murphy</strong>: Probabilistic ML (Ch. 21)\n</li>\n<li><strong>Hastie et al.</strong>: Elements of Statistical Learning (Ch. 14)\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Key Papers</h4><ul>\n\n<li>Arthur \\& Vassilvitskii (2007): K-Means++\n</li>\n<li>Dempster et al. (1977): EM Algorithm\n</li>\n<li>Rousseeuw (1987): Silhouette Coefficient\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Implementations</h4><ul>\n\n<li><strong>scikit-learn</strong>: KMeans, GaussianMixture, AgglomerativeClustering\n</li>\n<li><strong>scipy</strong>: Hierarchical clustering (linkage, dendrogram)\n</li>\n<li><strong>R</strong>: kmeans, hclust, cluster package\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

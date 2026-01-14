@@ -1,0 +1,158 @@
+{#
+    UI Component Macros - Badges, states, modals
+    Usage: {% from 'macros/ui.html' import stage_badge, loading_state, empty_state, modal %}
+#}
+
+{# Stage Badge - Project stage indicator #}
+{% macro stage_badge(stage_number, label='') %}
+<span class="stage-badge stage-{{ stage_number }}" aria-label="Stage {{ stage_number }}{% if label %}: {{ label }}{% endif %}">
+    Stage {{ stage_number }}{% if label %} - {{ label }}{% endif %}
+</span>
+{% endmacro %}
+
+{# Status Badge - Generic status indicator #}
+{% macro status_badge(status, text='') %}
+{# status: submitted, pending, approved, rejected, in_progress #}
+<span class="status-badge status-{{ status }}">
+    {{ text if text else status|replace('_', ' ')|title }}
+</span>
+{% endmacro %}
+
+{# Loading State - Spinner with message #}
+{% macro loading_state(message='Loading...', size='md') %}
+<div class="loading-state" role="status" aria-live="polite">
+    <div class="spinner {{ size }}" aria-hidden="true"></div>
+    <p>{{ message }}</p>
+</div>
+{% endmacro %}
+
+{# Empty State - No data placeholder #}
+{% macro empty_state(message='No data found', icon='', action_text='', action_url='') %}
+<div class="empty-state">
+    {% if icon %}
+    <div class="empty-state-icon" aria-hidden="true">{{ icon }}</div>
+    {% endif %}
+    <p class="empty-state-text">{{ message }}</p>
+    {% if action_text and action_url %}
+    <a href="{{ action_url }}" class="btn btn-primary">{{ action_text }}</a>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Modal - Accessible dialog container #}
+{% macro modal(id, title, size='md', closable=true) %}
+<div
+    id="{{ id }}"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="{{ id }}-title"
+    style="display: none;"
+>
+    <div class="modal modal-{{ size }}">
+        <header class="modal-header">
+            <h2 id="{{ id }}-title" class="modal-title">{{ title }}</h2>
+            {% if closable %}
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeModal('{{ id }}')"
+                aria-label="Close modal"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% endif %}
+        </header>
+        <div id="{{ id }}-body" class="modal-body">
+            {{ caller() }}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# Confirm Dialog - Simple yes/no modal #}
+{% macro confirm_dialog(id, title, message, confirm_text='Confirm', cancel_text='Cancel', confirm_class='btn-danger') %}
+<div
+    id="{{ id }}"
+    class="modal-overlay"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="{{ id }}-title"
+    aria-describedby="{{ id }}-message"
+    style="display: none;"
+>
+    <div class="modal modal-sm">
+        <header class="modal-header">
+            <h2 id="{{ id }}-title" class="modal-title">{{ title }}</h2>
+        </header>
+        <div class="modal-body">
+            <p id="{{ id }}-message">{{ message }}</p>
+        </div>
+        <footer class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('{{ id }}')">
+                {{ cancel_text }}
+            </button>
+            <button type="button" class="btn {{ confirm_class }}" id="{{ id }}-confirm">
+                {{ confirm_text }}
+            </button>
+        </footer>
+    </div>
+</div>
+{% endmacro %}
+
+{# Progress Bar #}
+{% macro progress_bar(value=0, max=100, label='', show_percentage=true) %}
+<div class="progress-container">
+    {% if label %}
+    <div class="progress-label">{{ label }}</div>
+    {% endif %}
+    <div
+        class="progress-bar-container"
+        role="progressbar"
+        aria-valuenow="{{ value }}"
+        aria-valuemin="0"
+        aria-valuemax="{{ max }}"
+        {% if label %}aria-label="{{ label }}"{% endif %}
+    >
+        <div class="progress-bar" style="width: {{ (value / max * 100)|round }}%;">
+            {% if show_percentage %}
+            <span class="progress-text">{{ (value / max * 100)|round }}%</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# Breadcrumbs #}
+{% macro breadcrumbs(items) %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    {% for item in items %}
+        {% if loop.last %}
+        <span class="breadcrumb-current" aria-current="page">{{ item.label }}</span>
+        {% else %}
+        <a href="{{ item.url }}" class="breadcrumb-item">{{ item.label }}</a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        {% endif %}
+    {% endfor %}
+</nav>
+{% endmacro %}
+
+{# Icon Button #}
+{% macro icon_button(icon, label, onclick='', class='btn-ghost', type='button') %}
+<button
+    type="{{ type }}"
+    class="btn {{ class }} icon-btn"
+    {% if onclick %}onclick="{{ onclick }}"{% endif %}
+    aria-label="{{ label }}"
+    title="{{ label }}"
+>
+    <span aria-hidden="true">{{ icon }}</span>
+</button>
+{% endmacro %}
+
+{# Tooltip #}
+{% macro tooltip(text, position='top') %}
+<span class="tooltip tooltip-{{ position }}" data-tooltip="{{ text }}">
+    {{ caller() }}
+</span>
+{% endmacro %}

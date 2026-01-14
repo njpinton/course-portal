@@ -1,1920 +1,2083 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Submission Portal - CMSC 173</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% extends "base_layout.html" %}
 
-        body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 50%, #7A1E3F 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
+{% block title %}Group Submission Portal - CMSC 173{% endblock %}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
+{% block extra_head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+{% endblock %}
 
-        .header {
-            background: linear-gradient(135deg, #1B5E4F 0%, #7A1E3F 100%);
-            color: white;
-            padding: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+{% block extra_css %}
+<style>
+    .portal-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: var(--bg-white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        border: 1px solid var(--border);
+    }
 
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-        }
+    .portal-header {
+        background: linear-gradient(135deg, var(--up-green) 0%, var(--up-maroon) 100%);
+        color: white;
+        padding: 30px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .header p {
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
+    .portal-header h1 {
+        font-size: 1.8em;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
 
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
+    .portal-header p {
+        font-size: 0.95em;
+        opacity: 0.9;
+    }
 
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
+    .header-actions {
+        display: flex;
+        gap: 12px;
+    }
 
-        .btn-primary {
-            background-color: #D4AF37;
-            color: #1B5E4F;
-        }
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 0.9em;
+    }
 
-        .btn-primary:hover {
-            background-color: #FFC700;
-            transform: translateY(-2px);
-        }
+    .btn-primary {
+        background-color: var(--up-gold);
+        color: var(--up-green);
+    }
 
-        .btn-danger {
-            background-color: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-        }
+    .btn-primary:hover {
+        background-color: #E5B01F;
+        transform: translateY(-2px);
+    }
 
-        .btn-danger:hover {
-            background-color: rgba(255,255,255,0.3);
-        }
+    .btn-danger {
+        background-color: rgba(255,255,255,0.2);
+        color: white;
+        border: 2px solid white;
+    }
 
-        .content {
-            padding: 40px;
-        }
+    .btn-danger:hover {
+        background-color: rgba(255,255,255,0.3);
+    }
 
-        .error-message {
-            background: #ffcdd2;
-            border-left: 4px solid #dc3545;
-            color: #c62828;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
+    .btn-secondary {
+        background-color: rgba(255,255,255,0.2);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.5);
+        padding: 8px 14px;
+        font-size: 0.85em;
+    }
 
-        .group-info {
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border-left: 4px solid #1B5E4F;
+    .btn-secondary:hover {
+        background-color: rgba(255,255,255,0.3);
+        border-color: white;
+    }
+
+    .btn-info {
+        background: var(--up-green-light);
+        color: var(--up-green);
+        border: 1px solid var(--up-green);
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+
+    .btn-info:hover {
+        background: var(--up-green);
+        color: white;
+    }
+
+    /* Admin Banner */
+    .admin-banner {
+        background: linear-gradient(135deg, var(--up-maroon) 0%, var(--up-maroon-dark) 100%);
+        color: white;
+        padding: 12px 40px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 0.9em;
+    }
+
+    .admin-badge {
+        background: var(--up-gold);
+        color: var(--up-green);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.85em;
+        letter-spacing: 0.5px;
+    }
+
+    .admin-info {
+        opacity: 0.9;
+    }
+
+    /* Admin Score Summary Card */
+    .admin-score-summary {
+        background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        border: 2px solid var(--up-gold);
+        border-radius: var(--radius);
+        padding: 20px 25px;
+        margin-bottom: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .score-summary-item {
+        text-align: center;
+        padding: 10px;
+        background: white;
+        border-radius: var(--radius-sm);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .score-summary-item.scored {
+        border-left: 3px solid #4CAF50;
+    }
+
+    .score-summary-item.pending {
+        border-left: 3px solid #FF9800;
+    }
+
+    .score-summary-label {
+        font-size: 0.8em;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .score-summary-value {
+        font-size: 1.3em;
+        font-weight: 700;
+        color: var(--up-green);
+    }
+
+    .score-summary-value.pending {
+        color: #FF9800;
+    }
+
+    .content {
+        padding: 40px;
+    }
+
+    .error-message {
+        background: #ffcdd2;
+        border-left: 4px solid #dc3545;
+        color: #c62828;
+        padding: 20px;
+        border-radius: var(--radius);
+        margin-bottom: 20px;
+    }
+
+    .group-info {
+        background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        padding: 30px;
+        border-radius: var(--radius);
+        margin-bottom: 30px;
+        border-left: 4px solid var(--up-green);
+    }
+
+    .group-header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 20px;
+    }
+
+    .group-detail {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .group-detail label {
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 5px;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .group-detail value {
+        font-size: 1.2em;
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .feedback-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--up-maroon), var(--up-green));
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: var(--shadow-lg);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+    }
+
+    .feedback-button:hover {
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        transform: scale(1.1);
+    }
+
+    .feedback-button:active {
+        transform: scale(0.95);
+    }
+
+    .stages-container {
+        display: grid;
+        gap: 20px;
+    }
+
+    .stage-card {
+        background: #f9f9f9;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .stage-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .stage-header {
+        background: linear-gradient(135deg, var(--up-green) 0%, #238A79 100%);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .stage-header:hover {
+        background: linear-gradient(135deg, var(--up-green-dark) 0%, var(--up-green) 100%);
+    }
+
+    .stage-number {
+        width: 50px;
+        height: 50px;
+        background: var(--up-gold);
+        color: var(--up-green);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-right: 20px;
+    }
+
+    .stage-title {
+        flex: 1;
+    }
+
+    .stage-title h3 {
+        font-size: 1.3em;
+        margin-bottom: 5px;
+    }
+
+    .stage-weight {
+        font-size: 0.9em;
+        opacity: 0.9;
+    }
+
+    .stage-status {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85em;
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    .stage-content {
+        padding: 25px;
+        display: none;
+    }
+
+    .stage-content.active {
+        display: block;
+    }
+
+    .stage-description {
+        background: white;
+        padding: 15px;
+        border-radius: var(--radius-sm);
+        margin-bottom: 20px;
+        border-left: 3px solid #2196F3;
+    }
+
+    .stage-description h4 {
+        color: #2196F3;
+        margin-bottom: 10px;
+    }
+
+    .submission-area {
+        background: white;
+        padding: 20px;
+        border-radius: var(--radius-sm);
+        border: 2px dashed var(--border);
+        margin-bottom: 20px;
+    }
+
+    .submission-area h4 {
+        color: var(--up-green);
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    .form-group textarea,
+    .form-group input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-family: inherit;
+        font-size: 0.95em;
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .form-group textarea:focus,
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--up-green);
+        box-shadow: 0 0 0 3px var(--up-green-light);
+    }
+
+    .btn-submit {
+        background-color: var(--up-green);
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: var(--up-green-dark);
+    }
+
+    .markdown-btn {
+        background-color: #f0f0f0;
+        color: var(--text-primary);
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        font-size: 0.9em;
+    }
+
+    .markdown-btn:hover {
+        background-color: var(--up-green);
+        color: white;
+        border-color: var(--up-green);
+    }
+
+    .submission-status {
+        background: white;
+        padding: 15px;
+        border-radius: var(--radius-sm);
+        border-left: 3px solid #4CAF50;
+        margin-top: 15px;
+    }
+
+    .submission-status.submitted {
+        border-left-color: #4CAF50;
+        background: #e8f5e9;
+    }
+
+    .submission-status.pending {
+        border-left-color: #FF9800;
+        background: #fff3e0;
+    }
+
+    .submission-status.graded {
+        border-left-color: #2196F3;
+        background: #e3f2fd;
+    }
+
+    .submission-status h5 {
+        margin-bottom: 8px;
+        color: var(--text-primary);
+    }
+
+    .submission-meta {
+        font-size: 0.9em;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+
+    .admin-scoring-panel {
+        background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+        border: 2px solid var(--up-gold);
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-top: 20px;
+        display: none;
+    }
+
+    .admin-scoring-panel.active {
+        display: block;
+    }
+
+    .admin-scoring-panel h6 {
+        color: var(--up-green);
+        margin-bottom: 15px;
+        font-size: 1em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .score-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .score-input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .score-input-group label {
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .score-input-group input {
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 0.95em;
+    }
+
+    .score-input-group input:focus {
+        outline: none;
+        border-color: var(--up-green);
+        box-shadow: 0 0 0 3px var(--up-green-light);
+    }
+
+    .feedback-input-group {
+        margin-bottom: 15px;
+    }
+
+    .feedback-input-group label {
+        display: block;
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .feedback-input-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-family: inherit;
+        font-size: 0.95em;
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .feedback-input-group textarea:focus {
+        outline: none;
+        border-color: var(--up-green);
+        box-shadow: 0 0 0 3px var(--up-green-light);
+    }
+
+    .score-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .btn-save-score {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-save-score:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+    }
+
+    .btn-save-score:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .score-loading {
+        display: none;
+        font-size: 0.85em;
+        color: var(--text-muted);
+        padding: 10px;
+    }
+
+    .score-loading.show {
+        display: inline;
+    }
+
+    .btn-download {
+        display: inline-block;
+        background: #2196F3;
+        color: white;
+        padding: 6px 14px;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85em;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .btn-download:hover {
+        background: #1976D2;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+    }
+
+    .btn-download:active {
+        transform: translateY(0);
+    }
+
+    .btn-preview {
+        display: inline-block;
+        background: #FF9800;
+        color: white;
+        padding: 6px 14px;
+        border-radius: var(--radius-sm);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85em;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-preview:hover {
+        background: #F57C00;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+    }
+
+    .btn-preview:active {
+        transform: translateY(0);
+    }
+
+    .pdf-preview-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pdf-preview-modal.active {
+        display: flex;
+    }
+
+    .pdf-preview-container {
+        background: white;
+        border-radius: var(--radius);
+        width: 90%;
+        height: 90%;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .pdf-preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--border);
+        background: #f5f5f5;
+        border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .pdf-preview-header h3 {
+        font-size: 1.1em;
+        color: var(--text-primary);
+        margin: 0;
+        flex: 1;
+    }
+
+    .pdf-preview-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .pdf-page-info {
+        font-size: 0.9em;
+        color: var(--text-muted);
+        padding: 0 10px;
+    }
+
+    .pdf-nav-button {
+        background: #2196F3;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 0.85em;
+        transition: all 0.2s ease;
+    }
+
+    .pdf-nav-button:hover:not(:disabled) {
+        background: #1976D2;
+        transform: translateY(-1px);
+    }
+
+    .pdf-nav-button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .pdf-close-button {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        font-size: 0.85em;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .pdf-close-button:hover {
+        background: #c82333;
+        transform: translateY(-1px);
+    }
+
+    .pdf-preview-body {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e8e8e8;
+        padding: 20px;
+    }
+
+    #pdf-canvas {
+        max-width: 100%;
+        max-height: 100%;
+        box-shadow: var(--shadow);
+    }
+
+    .pdf-loading {
+        color: var(--text-muted);
+        font-size: 0.95em;
+    }
+
+    .grade-badge {
+        display: inline-block;
+        background: #4CAF50;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+    }
+
+    .feedback {
+        margin-top: 10px;
+        padding: 10px;
+        background: white;
+        border-radius: 3px;
+        border-left: 3px solid #2196F3;
+        font-size: 0.95em;
+    }
+
+    .feedback strong {
+        color: #2196F3;
+    }
+
+    .alert {
+        padding: 15px;
+        border-radius: var(--radius-sm);
+        margin-bottom: 15px;
+    }
+
+    .alert.success {
+        background: #c8e6c9;
+        border-left: 4px solid #4CAF50;
+        color: #2e7d32;
+    }
+
+    .alert.error {
+        background: #ffcdd2;
+        border-left: 4px solid #dc3545;
+        color: #c62828;
+    }
+
+    .portal-footer {
+        background: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+        .portal-header {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+            padding: 25px;
         }
 
         .group-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .group-detail {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .group-detail label {
-            font-weight: 600;
-            color: #666;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .group-detail value {
-            font-size: 1.2em;
-            color: #333;
-            font-weight: 600;
-        }
-
-        .feedback-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #7A1E3F, #1B5E4F);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-        }
-
-        .feedback-button:hover {
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-            transform: scale(1.1);
-        }
-
-        .feedback-button:active {
-            transform: scale(0.95);
-        }
-
-        .stages-container {
-            display: grid;
-            gap: 20px;
-        }
-
-        .stage-card {
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .stage-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
+            grid-template-columns: 1fr;
         }
 
         .stage-header {
-            background: linear-gradient(135deg, #1B5E4F 0%, #2D4F47 100%);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .stage-header:hover {
-            background: linear-gradient(135deg, #0F3E35 0%, #1B2A27 100%);
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .stage-number {
-            width: 50px;
-            height: 50px;
-            background: #D4AF37;
-            color: #1B5E4F;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-right: 20px;
-        }
-
-        .stage-title {
-            flex: 1;
-        }
-
-        .stage-title h3 {
-            font-size: 1.3em;
-            margin-bottom: 5px;
-        }
-
-        .stage-weight {
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .stage-status {
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85em;
-            background: rgba(255,255,255,0.2);
-            color: white;
-        }
-
-        .stage-content {
-            padding: 25px;
-            display: none;
-        }
-
-        .stage-content.active {
-            display: block;
-        }
-
-        .stage-description {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 3px solid #2196F3;
-        }
-
-        .stage-description h4 {
-            color: #2196F3;
             margin-bottom: 10px;
         }
 
-        .submission-area {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            border: 2px dashed #ddd;
-            margin-bottom: 20px;
-        }
-
-        .submission-area h4 {
-            color: #1B5E4F;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 0.95em;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .form-group textarea:focus,
-        .form-group input:focus {
-            outline: none;
-            border-color: #1B5E4F;
-            box-shadow: 0 0 0 3px rgba(27,94,79,0.1);
-        }
-
-        .btn-submit {
-            background-color: #1B5E4F;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
-
-        .btn-submit:hover {
-            background-color: #0F3E35;
-        }
-
-        .markdown-btn {
-            background-color: #f0f0f0;
-            color: #333;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            font-size: 0.9em;
-        }
-
-        .markdown-btn:hover {
-            background-color: #1B5E4F;
-            color: white;
-            border-color: #1B5E4F;
-        }
-
-        .submission-status {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 3px solid #4CAF50;
-            margin-top: 15px;
-        }
-
-        .submission-status.submitted {
-            border-left-color: #4CAF50;
-            background: #e8f5e9;
-        }
-
-        .submission-status.pending {
-            border-left-color: #FF9800;
-            background: #fff3e0;
-        }
-
-        .submission-status.graded {
-            border-left-color: #2196F3;
-            background: #e3f2fd;
-        }
-
-        .submission-status h5 {
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .submission-meta {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .admin-scoring-panel {
-            background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
-            border: 2px solid #D4AF37;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .admin-scoring-panel.active {
-            display: block;
-        }
-
-        .admin-scoring-panel h6 {
-            color: #1B5E4F;
-            margin-bottom: 15px;
-            font-size: 1em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .score-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .score-input-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .score-input-group label {
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .score-input-group input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-
-        .score-input-group input:focus {
-            outline: none;
-            border-color: #1B5E4F;
-            box-shadow: 0 0 0 3px rgba(27,94,79,0.1);
-        }
-
-        .feedback-input-group {
-            margin-bottom: 15px;
-        }
-
-        .feedback-input-group label {
-            display: block;
-            font-size: 0.85em;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .feedback-input-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 0.95em;
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .feedback-input-group textarea:focus {
-            outline: none;
-            border-color: #1B5E4F;
-            box-shadow: 0 0 0 3px rgba(27,94,79,0.1);
-        }
-
-        .score-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn-save-score {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-save-score:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-        }
-
-        .btn-save-score:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .score-loading {
-            display: none;
-            font-size: 0.85em;
-            color: #666;
-            padding: 10px;
-        }
-
-        .score-loading.show {
-            display: inline;
-        }
-
-        .btn-download {
-            display: inline-block;
-            background: #2196F3;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85em;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .btn-download:hover {
-            background: #1976D2;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
-        }
-
-        .btn-download:active {
-            transform: translateY(0);
-        }
-
-        .btn-preview {
-            display: inline-block;
-            background: #FF9800;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85em;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-preview:hover {
-            background: #F57C00;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
-        }
-
-        .btn-preview:active {
-            transform: translateY(0);
-        }
-
-        .pdf-preview-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pdf-preview-modal.active {
-            display: flex;
-        }
-
-        .pdf-preview-container {
-            background: white;
-            border-radius: 8px;
-            width: 90%;
-            height: 90%;
-            max-width: 1000px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .pdf-preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            background: #f5f5f5;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .pdf-preview-header h3 {
-            font-size: 1.1em;
-            color: #333;
-            margin: 0;
-            flex: 1;
-        }
-
-        .pdf-preview-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .pdf-page-info {
-            font-size: 0.9em;
-            color: #666;
-            padding: 0 10px;
-        }
-
-        .pdf-nav-button {
-            background: #2196F3;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85em;
-            transition: all 0.2s ease;
-        }
-
-        .pdf-nav-button:hover:not(:disabled) {
-            background: #1976D2;
-            transform: translateY(-1px);
-        }
-
-        .pdf-nav-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .pdf-close-button {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .pdf-close-button:hover {
-            background: #c82333;
-            transform: translateY(-1px);
-        }
-
-        .pdf-preview-body {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #e8e8e8;
+        .content {
             padding: 20px;
         }
+    }
+</style>
+{% endblock %}
 
-        #pdf-canvas {
-            max-width: 100%;
-            max-height: 100%;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Home</a>
+<span class="breadcrumb-separator">/</span>
+{% if is_admin_view %}
+<a href="/admin" class="breadcrumb-item">Dashboard</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">{{ group_name }}</span>
+{% else %}
+<a href="/group_portal" class="breadcrumb-item">Group Portal</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">Submission Portal</span>
+{% endif %}
+{% endblock %}
 
-        .pdf-loading {
-            color: #666;
-            font-size: 0.95em;
-        }
-
-        .grade-badge {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-
-        .feedback {
-            margin-top: 10px;
-            padding: 10px;
-            background: white;
-            border-radius: 3px;
-            border-left: 3px solid #2196F3;
-            font-size: 0.95em;
-        }
-
-        .feedback strong {
-            color: #2196F3;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        .alert.success {
-            background: #c8e6c9;
-            border-left: 4px solid #4CAF50;
-            color: #2e7d32;
-        }
-
-        .alert.error {
-            background: #ffcdd2;
-            border-left: 4px solid #dc3545;
-            color: #c62828;
-        }
-
-        .footer {
-            background: #f5f5f5;
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid #eee;
-            color: #999;
-        }
-
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .group-header {
-                grid-template-columns: 1fr;
-            }
-
-            .stage-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .stage-number {
-                margin-bottom: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div>
-                <h1>📚 {{ group_name }} - Submission Portal</h1>
-                <p>CMSC 173 - Machine Learning</p>
-            </div>
-            <div class="header-actions">
-                {% if is_admin_view %}
-                    <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
-                    <a href="/admin_logout" class="btn btn-danger">Logout Admin</a>
-                {% else %}
-                    <a href="/group_portal" class="btn btn-primary">← Back to Group Portal</a>
-                    <a href="/group_logout" class="btn btn-danger">Logout</a>
-                {% endif %}
-            </div>
+{% block content %}
+<div class="portal-container">
+    <div class="portal-header">
+        <div>
+            <h1>{{ group_name }} - Submission Portal</h1>
+            <p>CMSC 173 - Machine Learning</p>
         </div>
-
-        <div class="content">
-            {% if error %}
-            <div class="error-message">
-                <strong>⚠️ Error:</strong> {{ error }}
-            </div>
-            {% elif group %}
-            <!-- GROUP SUMMARY -->
-            <div class="group-info">
-                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center;">
-                    <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">📋</span>
-                    Group Information
-                </h2>
-                <div class="group-header">
-                    <div class="group-detail">
-                        <label>Group Name</label>
-                        <value>{{ group.group_name or 'N/A' }}</value>
-                    </div>
-                    <div class="group-detail">
-                        <label>Project Title</label>
-                        <value>{{ group.project_title or 'N/A' }}</value>
-                    </div>
-                </div>
-
-                {% if group.members and group.members|length > 0 %}
-                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
-                    <label style="font-weight: 600; color: #666; display: block; margin-bottom: 10px;">Members ({{ group.members|length }})</label>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
-                        {% for member in group.members %}
-                        <div style="background: white; padding: 12px; border-radius: 6px; border-left: 3px solid #1B5E4F; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-                            <p style="margin: 0; color: #1B5E4F; font-weight: 600; font-size: 0.95em;">{{ member.member_name or member.first_name or 'Unknown' }}</p>
-                            {% if member.email %}
-                            <p style="margin: 4px 0 0 0; color: #999; font-size: 0.85em;">{{ member.email }}</p>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% else %}
-                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: 4px;">
-                    <p style="margin: 0; color: #856404; font-size: 0.95em;">No members added to this group yet.</p>
-                </div>
+        <div class="header-actions">
+            {% if is_admin_view %}
+                <a href="/admin" class="btn btn-primary">Dashboard</a>
+                {% if prev_group_id %}
+                <a href="/admin/group/{{ prev_group_id }}" class="btn btn-secondary" title="Previous Group">Prev</a>
                 {% endif %}
+                {% if next_group_id %}
+                <a href="/admin/group/{{ next_group_id }}" class="btn btn-secondary" title="Next Group">Next</a>
+                {% endif %}
+            {% else %}
+                <a href="/group_portal" class="btn btn-primary">Group Portal</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if is_admin_view %}
+    <!-- Admin View Banner -->
+    <div class="admin-banner">
+        <span class="admin-badge">ADMIN VIEW</span>
+        <span class="admin-info">Viewing group as administrator - Read-only mode</span>
+    </div>
+    {% endif %}
+
+    <div class="content">
+        {% if error %}
+        <div class="error-message">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% elif group %}
+        <!-- GROUP SUMMARY -->
+        <div class="group-info">
+            <h2 style="color: var(--up-green); margin-bottom: 20px; display: flex; align-items: center;">
+                <span style="width: 40px; height: 40px; background: var(--up-gold); color: var(--up-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">i</span>
+                Group Information
+            </h2>
+            <div class="group-header">
+                <div class="group-detail">
+                    <label>Group Name</label>
+                    <value>{{ group.group_name or 'N/A' }}</value>
+                </div>
+                <div class="group-detail">
+                    <label>Project Title</label>
+                    <value>{{ group.project_title or 'N/A' }}</value>
+                </div>
+            </div>
+
+            {% if group.members and group.members|length > 0 %}
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);">
+                <label style="font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 10px;">Members ({{ group.members|length }})</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+                    {% for member in group.members %}
+                    <div style="background: white; padding: 12px; border-radius: var(--radius-sm); border-left: 3px solid var(--up-green); box-shadow: var(--shadow);">
+                        <p style="margin: 0; color: var(--up-green); font-weight: 600; font-size: 0.95em;">{{ member.member_name or member.first_name or 'Unknown' }}</p>
+                        {% if member.email %}
+                        <p style="margin: 4px 0 0 0; color: var(--text-muted); font-size: 0.85em;">{{ member.email }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: var(--radius-sm);">
+                <p style="margin: 0; color: #856404; font-size: 0.95em;">No members added to this group yet.</p>
             </div>
             {% endif %}
+        </div>
+        {% endif %}
 
-            {% if group %}
-            <!-- PROJECT STAGES & SUBMISSIONS -->
-            <h2 style="color: #1B5E4F; margin-bottom: 25px; display: flex; align-items: center;">
-                <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
-                Project Stages & Submissions
-            </h2>
+        {% if group %}
+        {% if is_admin_view %}
+        <!-- ADMIN SCORE SUMMARY -->
+        <div class="admin-score-summary">
+            <div class="score-summary-item" style="grid-column: span 2; border-left: 3px solid var(--up-green);">
+                <div class="score-summary-label">Group</div>
+                <div class="score-summary-value" style="font-size: 1.1em;">{{ group.group_name }}</div>
+            </div>
+            {% set stage_names_short = ["S1", "S2", "S3", "S4", "S5", "S6"] %}
+            {% for i in range(6) %}
+            <div class="score-summary-item {% if group.submissions and group.submissions[i] and group.scores and group.scores[i] %}scored{% elif group.submissions and group.submissions[i] %}pending{% else %}{% endif %}">
+                <div class="score-summary-label">Stage {{ i + 1 }}</div>
+                {% if group.submissions and group.submissions[i] %}
+                    {% if group.scores and group.scores[i] %}
+                    <div class="score-summary-value">{{ group.scores[i].score }}/{{ group.scores[i].max_score or 100 }}</div>
+                    {% else %}
+                    <div class="score-summary-value pending">Pending</div>
+                    {% endif %}
+                {% else %}
+                <div class="score-summary-value" style="color: var(--text-muted); font-size: 0.9em;">-</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-            <div class="stages-container">
-                {% set stage_names = ["Proposal", "Data & Preprocessing", "Model Training", "Evaluation", "Final Report", "Presentation"] %}
-                {% set stage_weights = [10, 15, 20, 20, 20, 15] %}
-                {% for i in range(6) %}
-                <div class="stage-card">
-                    <div class="stage-header" onclick="toggleStage({{ i }})">
-                        <div style="display: flex; align-items: center; flex: 1;">
-                            <div class="stage-number">{{ i + 1 }}</div>
-                            <div class="stage-title">
-                                <h3>{{ stage_names[i] }}</h3>
-                                <span class="stage-weight">{{ stage_weights[i] }}% of grade</span>
-                            </div>
-                        </div>
-                        <div class="stage-status" id="status-{{ i }}">
-                            {% if group.submissions and group.submissions[i] %}
-                                ✓ Submitted
-                            {% else %}
-                                ○ Not Submitted
-                            {% endif %}
+        <!-- PROJECT STAGES & SUBMISSIONS -->
+        <h2 style="color: var(--up-green); margin-bottom: 25px; display: flex; align-items: center;">
+            <span style="width: 40px; height: 40px; background: var(--up-gold); color: var(--up-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
+            Project Stages & Submissions
+        </h2>
+
+        <div class="stages-container">
+            {% set stage_names = ["Proposal", "Data & Preprocessing", "Model Training", "Evaluation", "Final Report", "Presentation"] %}
+            {% set stage_weights = [10, 15, 20, 20, 20, 15] %}
+            {% for i in range(6) %}
+            <div class="stage-card">
+                <div class="stage-header" onclick="toggleStage({{ i }})">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <div class="stage-number">{{ i + 1 }}</div>
+                        <div class="stage-title">
+                            <h3>{{ stage_names[i] }}</h3>
+                            <span class="stage-weight">{{ stage_weights[i] }}% of grade</span>
                         </div>
                     </div>
-
-                    <div class="stage-content" id="stage-{{ i }}">
-                        <!-- STAGE DESCRIPTION -->
-                        <div class="stage-description">
-                            <h4>📋 Description</h4>
-                            {% set descriptions = [
-                                "Define your project idea, objectives, and methodology. This should include a literature review and proposed approach.",
-                                "Gather, clean, and preprocess your data. Include exploratory data analysis and visualization.",
-                                "Train your machine learning model(s). Document your approach, hyperparameters, and training results.",
-                                "Evaluate your model's performance. Include metrics, comparisons, and analysis of results.",
-                                "Compile your final report with all findings, visualizations, and conclusions.",
-                                "Present your project to the class. Prepare slides and be ready to answer questions."
-                            ] %}
-                            <p>{{ descriptions[i] }}</p>
-                        </div>
-
-                        <!-- GUIDE QUESTIONS -->
-                        <div class="stage-description" style="background-color: #f9f3ff; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                            <h4>❓ Guide Questions</h4>
-                            {% set guide_questions = [
-                                [
-                                    "What is your project topic and why is it important?",
-                                    "What are your specific research objectives?",
-                                    "What dataset(s) will you use?",
-                                    "What machine learning techniques will you apply?",
-                                    "What are your expected outcomes?"
-                                ],
-                                [
-                                    "What is the source and size of your dataset?",
-                                    "What data quality issues did you encounter?",
-                                    "What preprocessing steps did you apply?",
-                                    "How did you handle missing values and outliers?",
-                                    "What insights did your exploratory analysis reveal?"
-                                ],
-                                [
-                                    "Which models did you train and why?",
-                                    "What were your hyperparameter choices?",
-                                    "How many epochs/iterations did you train?",
-                                    "What validation strategy did you use?",
-                                    "What was your training time and computational resources used?"
-                                ],
-                                [
-                                    "What metrics did you use to evaluate performance?",
-                                    "How does your model compare to baseline models?",
-                                    "What are the strengths and weaknesses of your model?",
-                                    "How did you handle class imbalance (if applicable)?",
-                                    "What are the practical implications of your results?"
-                                ],
-                                [
-                                    "What are your main findings and conclusions?",
-                                    "How do your results answer your research questions?",
-                                    "What limitations did you encounter?",
-                                    "What are potential applications of your work?",
-                                    "What improvements or future work would you recommend?"
-                                ],
-                                [
-                                    "Can you explain your methodology clearly?",
-                                    "Did you present your results with visualizations?",
-                                    "How did you address questions from the audience?",
-                                    "Did you stay within the time limit?",
-                                    "Did you demonstrate understanding of your work?"
-                                ]
-                            ] %}
-                            <ul style="margin-left: 20px;">
-                                {% for question in guide_questions[i] %}
-                                <li style="margin-bottom: 8px;">{{ question }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-
-                        <!-- SUBMISSION FORM -->
-                        <div class="submission-area">
-                            <h4>📤 Submit Work</h4>
-                            <div style="background-color: #fffacd; padding: 12px; border-radius: 5px; margin-bottom: 15px; border-left: 4px solid #ffa500;">
-                                <strong>Required Submission:</strong>
-                                <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Presentation Link (Required)</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, Figma, etc.)</li>
-                                    <li><strong>Summary (Required)</strong> - Write a markdown summary of your work for this stage</li>
-                                </ul>
-                                <br>
-                                <strong>Optional Submission:</strong>
-                                <ul style="margin-top: 0; margin-bottom: 0; padding-left: 20px;">
-                                    <li><strong>Attachment</strong> - Optionally attach a PDF (max 2 pages) of your work for this stage</li>
-                                </ul>
-                            </div>
-                            {% if not is_admin_view %}
-                            <form onsubmit="submitStageWork(event, {{ i + 1 }})">
-                                <div class="form-group">
-                                    <label><strong>🎯 Presentation Link (Required)</strong></label>
-                                    <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
-                                    <small style="color: #999; display: block; margin-top: 5px;">
-                                        ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.<br/>
-                                        📌 Include your summary, slides, and any supporting materials in the link
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>📝 Summary (Required)</strong></label>
-                                    <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '**bold text**', '**bold text**')" title="Bold">
-                                            <strong>B</strong>
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '*italic*', '*italic*')" title="Italic">
-                                            <em>I</em>
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '# Heading', '# Heading')" title="Heading">
-                                            H1
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '## Heading 2', '## Heading 2')" title="Heading 2">
-                                            H2
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '- Item', '- Item')" title="Bullet List">
-                                            •
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '1. Item', '1. Item')" title="Numbered List">
-                                            1.
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '[Link](url)', '[Link](url)')" title="Link">
-                                            🔗
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '`code`', '`code`')" title="Code">
-                                            &lt;&gt;
-                                        </button>
-                                        <button type="button" class="markdown-btn" onclick="togglePreview({{ i }})" title="Preview">
-                                            👁️ Preview
-                                        </button>
-                                    </div>
-                                    <textarea id="summary-{{ i }}" placeholder="Write a markdown summary of your work for this stage..." style="height: 200px; font-family: 'Courier New', monospace;" required></textarea>
-                                    <div id="preview-{{ i }}" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; margin-top: 10px; min-height: 100px;"></div>
-                                    <small style="color: #999; display: block; margin-top: 5px;">
-                                        ✅ Supports markdown formatting (bold, italic, headings, lists, links, code)
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label><strong>📎 Attachment (Optional - max 2 pages)</strong></label>
-                                    <input type="file" id="file-{{ i }}" accept=".pdf">
-                                    <small style="color: #999; display: block; margin-top: 5px;">
-                                        Optionally attach a PDF document (max 2 pages, keep file size under 2MB)<br/>
-                                        Can be omitted if your presentation link above includes all necessary information
-                                    </small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Additional Notes (Optional)</label>
-                                    <textarea id="content-{{ i }}" placeholder="Add any additional notes or details about your submission..."></textarea>
-                                </div>
-
-                                <button type="submit" class="btn-submit">Submit Stage {{ i + 1 }}</button>
-                            </form>
-                            {% else %}
-                            <div style="background: #fffacd; padding: 15px; border-radius: 5px; border-left: 4px solid #ffa500; margin-top: 15px;">
-                                <p style="margin: 0; color: #666;"><strong>📋 Admin View:</strong> Submission form is disabled. You are viewing this group's submissions as an administrator.</p>
-                            </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- SUBMISSION STATUS -->
+                    <div class="stage-status" id="status-{{ i }}">
                         {% if group.submissions and group.submissions[i] %}
-                        <div class="submission-status submitted">
-                            <h5>✓ Submission Recorded</h5>
-                            <div class="submission-meta">
-                                Submitted: {{ group.submissions[i].submitted_at[:19] }}
-                                {% if not is_admin_view %}
-                                <button class="btn btn-info" onclick="openEditSubmissionModal({{ i }}, {{ group.submissions[i] | tojson }})">✏️ Edit Submission</button>
-                                {% endif %}
-                            </div>
-
-                            <!-- SUBMISSION FILES DISPLAY -->
-                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
-                                {% if group.submissions[i].file_name %}
-                                <div style="margin-bottom: 12px;">
-                                    <strong>📋 Summary Document:</strong><br>
-                                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                                        <span style="color: #666; font-size: 0.9em;">{{ group.submissions[i].file_name }}</span>
-                                        <button class="btn-preview"
-                                                onclick="openPdfPreview('/api/submissions/{{ group.submissions[i].id }}/download/summary', '{{ group.submissions[i].file_name }}')"
-                                                title="Preview summary document">
-                                            👁️ Preview
-                                        </button>
-                                        <a href="/api/submissions/{{ group.submissions[i].id }}/download/summary"
-                                           class="btn-download"
-                                           target="_blank"
-                                           title="Download summary document">
-                                            ⬇️ Download
-                                        </a>
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                {% if group.submissions[i].presentation_file %}
-                                <div style="margin-bottom: 12px;">
-                                    <strong>🎤 Presentation File:</strong><br>
-                                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                                        <span style="color: #666; font-size: 0.9em;">{{ group.submissions[i].presentation_file }}</span>
-                                        <a href="/api/submissions/{{ group.submissions[i].id }}/download/presentation"
-                                           class="btn-download"
-                                           target="_blank"
-                                           title="Download presentation file">
-                                            ⬇️ Download
-                                        </a>
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                {% if group.submissions[i].presentation_link %}
-                                <div style="margin-bottom: 12px;">
-                                    <strong>🔗 Presentation Link:</strong><br>
-                                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                                        <a href="{{ group.submissions[i].presentation_link }}"
-                                           target="_blank"
-                                           style="color: #1B5E4F; text-decoration: none; word-break: break-all;"
-                                           title="Open presentation link">
-                                            {{ group.submissions[i].presentation_link | truncate(50) }}
-                                        </a>
-                                        <span style="color: #999;">🔗</span>
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                {% if group.submissions[i].summary_markdown %}
-                                <div style="margin-bottom: 12px;">
-                                    <strong>📋 Project Summary:</strong><br>
-                                    <div class="markdown-display" style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 8px; color: #333;">
-                                        <div id="summary-display-{{ i }}"></div>
-                                    </div>
-                                </div>
-                                <script>
-                                (function() {
-                                    const markdown = {{ group.submissions[i].summary_markdown | tojson }};
-                                    const container = document.getElementById('summary-display-{{ i }}');
-                                    if (markdown && container && window.markdownit) {
-                                        const md = window.markdownit();
-                                        container.innerHTML = md.render(markdown);
-                                    }
-                                })();
-                                </script>
-                                {% endif %}
-
-                                {% if group.submissions[i].submission_content %}
-                                <div>
-                                    <strong>📝 Additional Notes:</strong><br>
-                                    <div style="background: #f9f9f9; padding: 10px; border-radius: 5px; margin-top: 8px; color: #666; font-size: 0.9em;">
-                                        {{ group.submissions[i].submission_content }}
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-                            {% if group.feedback and group.feedback[i] %}
-                                {% if group.feedback[i].grade %}
-                                    <div style="margin-top: 10px;">
-                                        <span class="grade-badge">Grade: {{ group.feedback[i].grade }}/10</span>
-                                    </div>
-                                {% endif %}
-                                {% if group.feedback[i].feedback_text %}
-                                    <div class="feedback">
-                                        <strong>Instructor Feedback:</strong><br>
-                                        {{ group.feedback[i].feedback_text }}
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-
-                            <!-- ADMIN SCORING INTERFACE -->
-                            {% if is_admin_view %}
-                            <div class="admin-scoring-panel active">
-                                <h6>📊 Admin Scoring</h6>
-                                <div class="score-row">
-                                    <div class="score-input-group">
-                                        <label for="admin-score-{{ i }}">Score</label>
-                                        <input type="number" id="admin-score-{{ i }}" min="0" max="100" step="0.5" value="0" placeholder="0-100">
-                                    </div>
-                                    <div class="score-input-group">
-                                        <label for="admin-max-score-{{ i }}">Max Score</label>
-                                        <input type="number" id="admin-max-score-{{ i }}" min="0" step="0.5" value="100" placeholder="Default: 100">
-                                    </div>
-                                </div>
-                                <div class="feedback-input-group">
-                                    <label for="admin-feedback-{{ i }}">Feedback</label>
-                                    <textarea id="admin-feedback-{{ i }}" placeholder="Provide detailed feedback for the student submission..."></textarea>
-                                </div>
-                                <div class="feedback-input-group">
-                                    <label for="admin-notes-{{ i }}">Internal Notes (Admin Only)</label>
-                                    <textarea id="admin-notes-{{ i }}" placeholder="Internal notes visible only to administrators..."></textarea>
-                                </div>
-                                <div class="score-actions">
-                                    <button type="button" class="btn-save-score" onclick="saveSubmissionScore({{ i }}, '{{ group.submissions[i].id }}')">💾 Save Score</button>
-                                    <span class="score-loading" id="score-loading-{{ i }}">Saving...</span>
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
+                            Submitted
                         {% else %}
-                        <div class="submission-status pending">
-                            <h5>No submission yet</h5>
-                            <p style="color: #666;">Submit your work above to get started on this stage.</p>
-                        </div>
+                            Not Submitted
                         {% endif %}
                     </div>
                 </div>
-                {% endfor %}
-            </div>
 
-            <!-- GROUP MEMBER CONTRIBUTIONS -->
-            <div style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 30px; border-radius: 8px; margin-top: 40px; border-left: 4px solid #7A1E3F;">
-                <h2 style="color: #1B5E4F; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-                    <span style="display: flex; align-items: center;">
-                        <span style="width: 40px; height: 40px; background: #D4AF37; color: #1B5E4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">👥</span>
-                        Member Contributions
-                    </span>
-                    {% if not is_admin_view %}
-                    <button class="btn btn-primary" onclick="openAddMemberModal()">+ Add Member</button>
-                    {% endif %}
-                </h2>
-                <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
-                <div id="member-contributions-list" style="display: grid; gap: 15px;">
-                    {% if group.members and group.members|length > 0 %}
-                        {% for member in group.members %}
-                        <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                            <div style="flex: 0 0 auto; display: flex; align-items: center;">
-                                <p style="color: #1B5E4F; margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">{{ member.member_name or member.first_name or 'Unknown Member' }}</p>
+                <div class="stage-content" id="stage-{{ i }}">
+                    <!-- STAGE DESCRIPTION -->
+                    <div class="stage-description">
+                        <h4>Description</h4>
+                        {% set descriptions = [
+                            "Define your project idea, objectives, and methodology. This should include a literature review and proposed approach.",
+                            "Gather, clean, and preprocess your data. Include exploratory data analysis and visualization.",
+                            "Train your machine learning model(s). Document your approach, hyperparameters, and training results.",
+                            "Evaluate your model's performance. Include metrics, comparisons, and analysis of results.",
+                            "Compile your final report with all findings, visualizations, and conclusions.",
+                            "Present your project to the class. Prepare slides and be ready to answer questions."
+                        ] %}
+                        <p>{{ descriptions[i] }}</p>
+                    </div>
+
+                    <!-- GUIDE QUESTIONS -->
+                    <div class="stage-description" style="background-color: #f9f3ff; padding: 15px; border-radius: var(--radius-sm); margin-top: 15px;">
+                        <h4>Guide Questions</h4>
+                        {% set guide_questions = [
+                            [
+                                "What is your project topic and why is it important?",
+                                "What are your specific research objectives?",
+                                "What dataset(s) will you use?",
+                                "What machine learning techniques will you apply?",
+                                "What are your expected outcomes?"
+                            ],
+                            [
+                                "What is the source and size of your dataset?",
+                                "What data quality issues did you encounter?",
+                                "What preprocessing steps did you apply?",
+                                "How did you handle missing values and outliers?",
+                                "What insights did your exploratory analysis reveal?"
+                            ],
+                            [
+                                "Which models did you train and why?",
+                                "What were your hyperparameter choices?",
+                                "How many epochs/iterations did you train?",
+                                "What validation strategy did you use?",
+                                "What was your training time and computational resources used?"
+                            ],
+                            [
+                                "What metrics did you use to evaluate performance?",
+                                "How does your model compare to baseline models?",
+                                "What are the strengths and weaknesses of your model?",
+                                "How did you handle class imbalance (if applicable)?",
+                                "What are the practical implications of your results?"
+                            ],
+                            [
+                                "What are your main findings and conclusions?",
+                                "How do your results answer your research questions?",
+                                "What limitations did you encounter?",
+                                "What are potential applications of your work?",
+                                "What improvements or future work would you recommend?"
+                            ],
+                            [
+                                "Can you explain your methodology clearly?",
+                                "Did you present your results with visualizations?",
+                                "How did you address questions from the audience?",
+                                "Did you stay within the time limit?",
+                                "Did you demonstrate understanding of your work?"
+                            ]
+                        ] %}
+                        <ul style="margin-left: 20px;">
+                            {% for question in guide_questions[i] %}
+                            <li style="margin-bottom: 8px;">{{ question }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- SUBMISSION FORM -->
+                    <div class="submission-area">
+                        <h4>Submit Work</h4>
+                        <div style="background-color: #fffacd; padding: 12px; border-radius: var(--radius-sm); margin-bottom: 15px; border-left: 4px solid #ffa500;">
+                            <strong>Required Submission:</strong>
+                            <ul style="margin-top: 8px; margin-bottom: 0; padding-left: 20px;">
+                                <li><strong>Presentation Link (Required)</strong> - Share a link to your presentation (Google Slides, Canva, PowerPoint Online, Figma, etc.)</li>
+                                <li><strong>Summary (Required)</strong> - Write a markdown summary of your work for this stage</li>
+                            </ul>
+                            <br>
+                            <strong>Optional Submission:</strong>
+                            <ul style="margin-top: 0; margin-bottom: 0; padding-left: 20px;">
+                                <li><strong>Attachment</strong> - Optionally attach a PDF (max 2 pages) of your work for this stage</li>
+                            </ul>
+                        </div>
+                        {% if not is_admin_view %}
+                        <form onsubmit="submitStageWork(event, {{ i + 1 }})">
+                            <div class="form-group">
+                                <label><strong>Presentation Link (Required)</strong></label>
+                                <input type="url" id="presentation-link-{{ i }}" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);" required>
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                                    Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.<br/>
+                                    Include your summary, slides, and any supporting materials in the link
+                                </small>
                             </div>
-                            <textarea class="contribution-input" data-member-id="{{ member.id or member.student_id }}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
+
+                            <div class="form-group">
+                                <label><strong>Summary (Required)</strong></label>
+                                <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '**bold text**', '**bold text**')" title="Bold">
+                                        <strong>B</strong>
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '*italic*', '*italic*')" title="Italic">
+                                        <em>I</em>
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '# Heading', '# Heading')" title="Heading">
+                                        H1
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '## Heading 2', '## Heading 2')" title="Heading 2">
+                                        H2
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '- Item', '- Item')" title="Bullet List">
+                                        *
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '1. Item', '1. Item')" title="Numbered List">
+                                        1.
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '[Link](url)', '[Link](url)')" title="Link">
+                                        Link
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="insertMarkdown({{ i }}, '`code`', '`code`')" title="Code">
+                                        &lt;&gt;
+                                    </button>
+                                    <button type="button" class="markdown-btn" onclick="togglePreview({{ i }})" title="Preview">
+                                        Preview
+                                    </button>
+                                </div>
+                                <textarea id="summary-{{ i }}" placeholder="Write a markdown summary of your work for this stage..." style="height: 200px; font-family: 'Courier New', monospace;" required></textarea>
+                                <div id="preview-{{ i }}" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 10px; min-height: 100px;"></div>
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                                    Supports markdown formatting (bold, italic, headings, lists, links, code)
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label><strong>Attachment (Optional - max 2 pages)</strong></label>
+                                <input type="file" id="file-{{ i }}" accept=".pdf">
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                                    Optionally attach a PDF document (max 2 pages, keep file size under 2MB)<br/>
+                                    Can be omitted if your presentation link above includes all necessary information
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Additional Notes (Optional)</label>
+                                <textarea id="content-{{ i }}" placeholder="Add any additional notes or details about your submission..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Submit Stage {{ i + 1 }}</button>
+                        </form>
+                        {% else %}
+                        <div style="background: #fffacd; padding: 15px; border-radius: var(--radius-sm); border-left: 4px solid #ffa500; margin-top: 15px;">
+                            <p style="margin: 0; color: var(--text-muted);"><strong>Admin View:</strong> Submission form is disabled. You are viewing this group's submissions as an administrator.</p>
                         </div>
-                        {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    <!-- SUBMISSION STATUS -->
+                    {% if group.submissions and group.submissions[i] %}
+                    <div class="submission-status submitted">
+                        <h5>Submission Recorded</h5>
+                        <div class="submission-meta">
+                            Submitted: {{ group.submissions[i].submitted_at[:19] }}
+                            {% if not is_admin_view %}
+                            <button class="btn btn-info" onclick="openEditSubmissionModal({{ i }}, {{ group.submissions[i] | tojson }})">Edit Submission</button>
+                            {% endif %}
+                        </div>
+
+                        <!-- SUBMISSION FILES DISPLAY -->
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                            {% if group.submissions[i].file_name %}
+                            <div style="margin-bottom: 12px;">
+                                <strong>Summary Document:</strong><br>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                                    <span style="color: var(--text-muted); font-size: 0.9em;">{{ group.submissions[i].file_name }}</span>
+                                    <button class="btn-preview"
+                                            onclick="openPdfPreview('/api/submissions/{{ group.submissions[i].id }}/download/summary', '{{ group.submissions[i].file_name }}')"
+                                            title="Preview summary document">
+                                        Preview
+                                    </button>
+                                    <a href="/api/submissions/{{ group.submissions[i].id }}/download/summary"
+                                       class="btn-download"
+                                       target="_blank"
+                                       title="Download summary document">
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if group.submissions[i].presentation_file %}
+                            <div style="margin-bottom: 12px;">
+                                <strong>Presentation File:</strong><br>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                                    <span style="color: var(--text-muted); font-size: 0.9em;">{{ group.submissions[i].presentation_file }}</span>
+                                    <a href="/api/submissions/{{ group.submissions[i].id }}/download/presentation"
+                                       class="btn-download"
+                                       target="_blank"
+                                       title="Download presentation file">
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if group.submissions[i].presentation_link %}
+                            <div style="margin-bottom: 12px;">
+                                <strong>Presentation Link:</strong><br>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+                                    <a href="{{ group.submissions[i].presentation_link }}"
+                                       target="_blank"
+                                       style="color: var(--up-green); text-decoration: none; word-break: break-all;"
+                                       title="Open presentation link">
+                                        {{ group.submissions[i].presentation_link | truncate(50) }}
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if group.submissions[i].summary_markdown %}
+                            <div style="margin-bottom: 12px;">
+                                <strong>Project Summary:</strong><br>
+                                <div class="markdown-display" style="background: #f5f5f5; padding: 15px; border-radius: var(--radius-sm); margin-top: 8px; color: var(--text-primary);">
+                                    <div id="summary-display-{{ i }}"></div>
+                                </div>
+                            </div>
+                            <script>
+                            (function() {
+                                const markdown = {{ group.submissions[i].summary_markdown | tojson }};
+                                const container = document.getElementById('summary-display-{{ i }}');
+                                if (markdown && container && window.markdownit) {
+                                    const md = window.markdownit();
+                                    container.innerHTML = md.render(markdown);
+                                }
+                            })();
+                            </script>
+                            {% endif %}
+
+                            {% if group.submissions[i].submission_content %}
+                            <div>
+                                <strong>Additional Notes:</strong><br>
+                                <div style="background: #f9f9f9; padding: 10px; border-radius: var(--radius-sm); margin-top: 8px; color: var(--text-muted); font-size: 0.9em;">
+                                    {{ group.submissions[i].submission_content }}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if group.feedback and group.feedback[i] %}
+                            {% if group.feedback[i].grade %}
+                                <div style="margin-top: 10px;">
+                                    <span class="grade-badge">Grade: {{ group.feedback[i].grade }}/10</span>
+                                </div>
+                            {% endif %}
+                            {% if group.feedback[i].feedback_text %}
+                                <div class="feedback">
+                                    <strong>Instructor Feedback:</strong><br>
+                                    {{ group.feedback[i].feedback_text }}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <!-- ADMIN SCORING INTERFACE -->
+                        {% if is_admin_view %}
+                        {% set existing_score = group.scores.get(i) if group.scores else None %}
+                        <div class="admin-scoring-panel active">
+                            <h6>Admin Scoring {% if existing_score %}<span style="color: #4CAF50; font-size: 0.85em; margin-left: 10px;">Previously Scored</span>{% endif %}</h6>
+                            <div class="score-row">
+                                <div class="score-input-group">
+                                    <label for="admin-score-{{ i }}">Score</label>
+                                    <input type="number" id="admin-score-{{ i }}" min="0" max="100" step="0.5" value="{{ existing_score.score if existing_score else 0 }}" placeholder="0-100">
+                                </div>
+                                <div class="score-input-group">
+                                    <label for="admin-max-score-{{ i }}">Max Score</label>
+                                    <input type="number" id="admin-max-score-{{ i }}" min="0" step="0.5" value="{{ existing_score.max_score if existing_score else 100 }}" placeholder="Default: 100">
+                                </div>
+                            </div>
+                            <div class="feedback-input-group">
+                                <label for="admin-feedback-{{ i }}">Feedback</label>
+                                <textarea id="admin-feedback-{{ i }}" placeholder="Provide detailed feedback for the student submission...">{{ existing_score.feedback if existing_score else '' }}</textarea>
+                            </div>
+                            <div class="feedback-input-group">
+                                <label for="admin-notes-{{ i }}">Internal Notes (Admin Only)</label>
+                                <textarea id="admin-notes-{{ i }}" placeholder="Internal notes visible only to administrators...">{{ existing_score.admin_notes if existing_score else '' }}</textarea>
+                            </div>
+                            <div class="score-actions">
+                                <button type="button" class="btn-save-score" onclick="saveSubmissionScore({{ i }}, '{{ group.submissions[i].id }}')">{% if existing_score %}Update{% else %}Save{% endif %} Score</button>
+                                <span class="score-loading" id="score-loading-{{ i }}">Saving...</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
                     {% else %}
-                        <p style="color: #999;">No members found in this group.</p>
+                    <div class="submission-status pending">
+                        <h5>No submission yet</h5>
+                        <p style="color: var(--text-muted);">Submit your work above to get started on this stage.</p>
+                    </div>
                     {% endif %}
                 </div>
             </div>
-            {% endif %}
-            <!-- DELETE GROUP SECTION -->
-            {% if not is_admin_view %}
-            <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
-                <a href="javascript:openDeleteGroupModal()" style="color: #999; text-decoration: none; font-size: 0.85em; cursor: pointer; hover: color: #666;">Delete group</a>
-            </div>
-            {% endif %}
+            {% endfor %}
         </div>
 
-        <div class="footer">
-            <p>CMSC 173 Group Project Portal | © 2025 University of the Philippines Cebu</p>
-        </div>
-    </div>
-
-
-    <script>
-        function toggleStage(index) {
-            const content = document.getElementById(`stage-${index}`);
-            if (content) {
-                content.classList.toggle('active');
-            }
-        }
-
-        // Auto-expand first stage and load member contributions
-        document.addEventListener('DOMContentLoaded', () => {
-            const firstStage = document.getElementById('stage-0');
-            if (firstStage) {
-                firstStage.classList.add('active');
-            }
-            {% if group %}
-            loadMemberContributions();
-            {% endif %}
-        });
-
-        // Load and display member contributions
-        {% if group %}
-        function loadMemberContributions() {
-            const groupMembers = {{ group.members | tojson }};
-            const contributionsList = document.getElementById('member-contributions-list');
-
-            if (!groupMembers || groupMembers.length === 0) {
-                contributionsList.innerHTML = '<p style="color: #999;">No members found in this group.</p>';
-                return;
-            }
-
-            console.log('DEBUG: Group members data:', groupMembers);
-
-            const html = groupMembers.map(member => {
-                // Use member_id for data attribute (use ID or student_id)
-                const memberId = member.id || member.student_id || 'N/A';
-                const memberName = member.member_name || member.name || member.first_name || 'Unknown Member';
-
-                console.log('DEBUG: Processing member:', { memberId, memberName, memberData: member });
-
-                return `
-                <div style="background: white; padding: 18px; border-radius: 6px; border-left: 4px solid #1B5E4F; display: flex; gap: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                    <div style="flex: 0 0 auto; display: flex; align-items: center;">
-                        <p style="color: #1B5E4F; margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">${memberName}</p>
-                    </div>
-                    <textarea class="contribution-input" data-member-id="${memberId}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
-                </div>
-            `;
-            }).join('');
-
-            contributionsList.innerHTML = html;
-        }
-        {% endif %}
-
-        function togglePresentationInput(stageIndex) {
-            const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;
-            const uploadDiv = document.getElementById(`upload-presentation-${stageIndex}`);
-            const linkDiv = document.getElementById(`link-presentation-${stageIndex}`);
-
-            if (presentationType === 'upload') {
-                uploadDiv.style.display = 'block';
-                linkDiv.style.display = 'none';
-            } else if (presentationType === 'link') {
-                uploadDiv.style.display = 'none';
-                linkDiv.style.display = 'block';
-            } else {
-                uploadDiv.style.display = 'none';
-                linkDiv.style.display = 'none';
-            }
-        }
-
-        // Simple markdown-to-HTML converter
-        function markdownToHtml(markdown) {
-            let html = markdown
-                // Code blocks
-                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-                // Inline code
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                // Bold
-                .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>')
-                // Italic
-                .replace(/\*([^\*]+)\*/g, '<em>$1</em>')
-                // Headings
-                .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
-                .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
-                .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
-                // Links
-                .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-                // Lists
-                .replace(/^\- (.*?)$/gm, '<li>$1</li>')
-                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-                // Line breaks
-                .replace(/\n/g, '<br>')
-                // Remove extra br tags inside code blocks
-                .replace(/<pre><code>([^<]*)<br>([^<]*)<\/code><\/pre>/g, '<pre><code>$1\n$2</code></pre>');
-
-            return html;
-        }
-
-        function insertMarkdown(stageIndex, before, after) {
-            const textarea = document.getElementById(`summary-${stageIndex}`);
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const text = textarea.value;
-            const selectedText = text.substring(start, end);
-
-            let newText, cursorPos;
-            if (selectedText) {
-                newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
-                cursorPos = start + before.length + selectedText.length;
-            } else {
-                newText = text.substring(0, start) + before + ' ' + after + text.substring(end);
-                cursorPos = start + before.length + 1;
-            }
-
-            textarea.value = newText;
-            textarea.selectionStart = cursorPos;
-            textarea.selectionEnd = cursorPos;
-            textarea.focus();
-        }
-
-        function togglePreview(stageIndex) {
-            const textarea = document.getElementById(`summary-${stageIndex}`);
-            const preview = document.getElementById(`preview-${stageIndex}`);
-
-            if (preview.style.display === 'none') {
-                // Show preview
-                const markdown = textarea.value;
-                preview.innerHTML = markdownToHtml(markdown) || '<em>Empty preview</em>';
-                preview.style.display = 'block';
-            } else {
-                // Hide preview
-                preview.style.display = 'none';
-            }
-        }
-
-        async function submitStageWork(event, stageNumber) {
-            event.preventDefault();
-
-            const stageIndex = stageNumber - 1;
-            const summaryMarkdown = document.getElementById(`summary-${stageIndex}`).value;
-            const content = document.getElementById(`content-${stageIndex}`).value;
-            const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
-            const presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
-
-            if (!presentationLink) {
-                alert('Please provide a presentation link (Google Slides, Canva, PowerPoint Online, etc.)');
-                return;
-            }
-
-            try {
-                // Submit with presentation link and optional PDF file and markdown summary
-                const formData = new FormData();
-                if (summaryMarkdown) {
-                    formData.append('summary_markdown', summaryMarkdown);
-                }
-                if (summaryFile) {
-                    formData.append('file', summaryFile);
-                }
-                formData.append('presentation_link', presentationLink);
-                if (content) {
-                    formData.append('content', content);
-                }
-                formData.append('stage_number', stageNumber);
-
-                const response = await fetch('/api/group/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    try {
-                        const error = await response.json();
-                        alert('Error: ' + (error.error || 'Failed to submit'));
-                    } catch (jsonError) {
-                        // Response is not JSON (likely an error page)
-                        const statusText = response.statusText || 'Unknown Error';
-                        const status = response.status;
-                        let errorMsg = `Server error (${status} ${statusText})`;
-
-                        if (status === 413) {
-                            errorMsg = 'Files are too large. Please reduce file sizes and try again.';
-                        } else if (status === 400) {
-                            errorMsg = 'Invalid request. Please check your inputs and try again.';
-                        } else if (status === 401) {
-                            errorMsg = 'Your session has expired. Please log in again.';
-                        } else if (status >= 500) {
-                            errorMsg = 'Server error. Please try again in a moment.';
-                        }
-
-                        alert('Error submitting work: ' + errorMsg);
-                        console.error('Response status:', status, 'Text:', statusText);
-                    }
-                    return;
-                }
-
-                alert('Submission successful! Your work has been recorded.');
-                location.reload();
-
-            } catch (error) {
-                alert('Error submitting work: ' + error.message);
-                console.error('Submission error:', error);
-            }
-        }
-
-        // Edit Submission Functions
-        function openEditSubmissionModal(stageIndex, submission) {
-            const modal = document.getElementById('edit-submission-modal');
-            document.getElementById('edit-submission-id').value = submission.id;
-            document.getElementById('edit-submission-stage').value = submission.stage_number;
-            document.getElementById('edit-presentation-link').value = submission.presentation_link || '';
-            document.getElementById('edit-summary').value = submission.summary_markdown || '';
-            document.getElementById('edit-content').value = submission.submission_content || '';
-            document.getElementById('edit-submission-message').style.display = 'none';
-
-            modal.classList.add('active');
-        }
-
-        function closeEditSubmissionModal() {
-            const modal = document.getElementById('edit-submission-modal');
-            modal.classList.remove('active');
-        }
-
-        function insertMarkdownEdit(startText, endText) {
-            const textarea = document.getElementById('edit-summary');
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const text = textarea.value;
-            const selectedText = text.substring(start, end) || '';
-
-            const newText = text.substring(0, start) + startText + selectedText + endText + text.substring(end);
-            textarea.value = newText;
-
-            // Move cursor
-            setTimeout(() => {
-                textarea.focus();
-                textarea.selectionStart = textarea.selectionEnd = start + startText.length;
-            }, 0);
-        }
-
-        function toggleEditPreview() {
-            const preview = document.getElementById('edit-preview');
-            const textarea = document.getElementById('edit-summary');
-
-            if (preview.style.display === 'none') {
-                preview.style.display = 'block';
-                const md = window.markdownit();
-                preview.innerHTML = md.render(textarea.value);
-            } else {
-                preview.style.display = 'none';
-            }
-        }
-
-        // Handle edit submission form submission
-        document.addEventListener('DOMContentLoaded', () => {
-            const editSubmissionForm = document.getElementById('edit-submission-form');
-            if (editSubmissionForm) {
-                editSubmissionForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    const submissionId = document.getElementById('edit-submission-id').value;
-                    const stageNumber = document.getElementById('edit-submission-stage').value;
-                    const presentationLink = document.getElementById('edit-presentation-link').value.trim();
-                    const summaryMarkdown = document.getElementById('edit-summary').value.trim();
-                    const content = document.getElementById('edit-content').value.trim();
-                    const message = document.getElementById('edit-submission-message');
-
-                    if (!presentationLink) {
-                        showMessage(message, 'Please provide a presentation link', 'error');
-                        return;
-                    }
-
-                    if (!summaryMarkdown) {
-                        showMessage(message, 'Please provide a summary', 'error');
-                        return;
-                    }
-
-                    try {
-                        const response = await fetch(`/api/group/submission/${submissionId}`, {
-                            method: 'PUT',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({
-                                presentation_link: presentationLink,
-                                summary_markdown: summaryMarkdown,
-                                submission_content: content,
-                                stage_number: stageNumber
-                            })
-                        });
-
-                        const result = await response.json();
-
-                        if (!response.ok) {
-                            showMessage(message, result.error || 'Failed to save submission', 'error');
-                            return;
-                        }
-
-                        showMessage(message, 'Submission updated successfully!', 'success');
-                        setTimeout(() => {
-                            closeEditSubmissionModal();
-                            location.reload();
-                        }, 1500);
-
-                    } catch (error) {
-                        console.error('Error saving submission:', error);
-                        showMessage(message, 'Error: ' + error.message, 'error');
-                    }
-                });
-            }
-        });
-
-        // Close edit submission modal when clicking outside
-        document.addEventListener('DOMContentLoaded', () => {
-            const editSubmissionModal = document.getElementById('edit-submission-modal');
-            if (editSubmissionModal) {
-                editSubmissionModal.addEventListener('click', (event) => {
-                    if (event.target === editSubmissionModal) {
-                        closeEditSubmissionModal();
-                    }
-                });
-            }
-        });
-
-        function openFeedbackForm() {
-            const feedback = prompt(
-                'Please share your feedback or report an issue:\n\n' +
-                '(Your message will help us improve the application)',
-                ''
-            );
-            if (feedback && feedback.trim()) {
-                alert('Thank you for your feedback! We appreciate your input.');
-                console.log('Feedback:', feedback);
-            }
-        }
-
-        // PDF Preview functionality
-        let pdfDoc = null;
-        let currentPage = 1;
-        let totalPages = 1;
-
-        async function openPdfPreview(pdfUrl, fileName) {
-            const modal = document.getElementById('pdf-preview-modal');
-            const loadingDiv = document.getElementById('pdf-loading');
-            const canvas = document.getElementById('pdf-canvas');
-            const filenameElement = document.getElementById('pdf-filename');
-
-            modal.classList.add('active');
-            loadingDiv.style.display = 'block';
-            filenameElement.textContent = fileName;
-
-            try {
-                const pdfjsLib = window['pdfjs-dist/build/pdf'];
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-                const response = await fetch(pdfUrl);
-                const pdfData = await response.arrayBuffer();
-                pdfDoc = await pdfjsLib.getDocument({ data: pdfData }).promise;
-
-                totalPages = pdfDoc.numPages;
-                document.getElementById('total-pages').textContent = totalPages;
-
-                currentPage = 1;
-                await renderPage(currentPage);
-                loadingDiv.style.display = 'none';
-                updateNavButtons();
-            } catch (error) {
-                console.error('Error loading PDF:', error);
-                loadingDiv.textContent = 'Error loading PDF. Please try downloading instead.';
-                loadingDiv.style.display = 'block';
-            }
-        }
-
-        async function renderPage(pageNum) {
-            if (!pdfDoc) return;
-
-            try {
-                const page = await pdfDoc.getPage(pageNum);
-                const scale = 1.5;
-                const viewport = page.getViewport({ scale: scale });
-
-                const canvas = document.getElementById('pdf-canvas');
-                const context = canvas.getContext('2d');
-
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: context,
-                    viewport: viewport
-                };
-
-                await page.render(renderContext).promise;
-                document.getElementById('current-page').textContent = pageNum;
-                currentPage = pageNum;
-            } catch (error) {
-                console.error('Error rendering page:', error);
-            }
-        }
-
-        function nextPage() {
-            if (currentPage < totalPages) {
-                renderPage(currentPage + 1);
-                updateNavButtons();
-            }
-        }
-
-        function prevPage() {
-            if (currentPage > 1) {
-                renderPage(currentPage - 1);
-                updateNavButtons();
-            }
-        }
-
-        function updateNavButtons() {
-            document.getElementById('prev-page-btn').disabled = currentPage === 1;
-            document.getElementById('next-page-btn').disabled = currentPage === totalPages;
-        }
-
-        function closePdfPreview() {
-            const modal = document.getElementById('pdf-preview-modal');
-            modal.classList.remove('active');
-            pdfDoc = null;
-            currentPage = 1;
-            totalPages = 1;
-        }
-
-        // Close modal when clicking outside the container
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('pdf-preview-modal');
-            if (modal) {
-                modal.addEventListener('click', (event) => {
-                    if (event.target === modal) {
-                        closePdfPreview();
-                    }
-                });
-            }
-        });
-
-        // Add Member Modal Functions
-        const groupData = {{ group | tojson }};
-        const groupId = groupData.id;
-
-        async function openAddMemberModal() {
-            const modal = document.getElementById('add-member-modal');
-            const select = document.getElementById('student-select');
-            const message = document.getElementById('add-member-message');
-
-            // Reset
-            message.style.display = 'none';
-            select.innerHTML = '<option value="">Loading students...</option>';
-
-            // Show modal
-            modal.classList.add('active');
-
-            // Fetch available students for this group (excluding existing members)
-            try {
-                console.log('Fetching available students for group from /api/group/members/available');
-                const response = await fetch('/api/group/members/available');
-                console.log('Response status:', response.status, response.statusText);
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    console.error('Server error response:', errorData);
-                    throw new Error(errorData.error || 'Failed to fetch students');
-                }
-
-                const students = await response.json();
-                console.log('Received students:', students);
-                console.log('Number of students:', students.length);
-
-                // Log first student structure for debugging
-                if (students.length > 0) {
-                    console.log('First student structure:', students[0]);
-                    console.log('First student name parts:', {
-                        id: students[0].id,
-                        first_name: students[0].first_name,
-                        last_name: students[0].last_name,
-                        campus_id: students[0].campus_id
-                    });
-                }
-
-                if (students.length === 0) {
-                    select.innerHTML = '<option value="">No ungrouped students available</option>';
-                } else {
-                    select.innerHTML = '<option value="">-- Select a student --</option>' +
-                        students.map(s => {
-                            const displayName = `${s.first_name || ''} ${s.last_name || ''}`.trim() || 'Unnamed Student';
-                            const campusId = s.campus_id || 'No ID';
-                            console.log(`Mapping student: ${displayName} (${campusId})`);
-                            return `<option value="${s.id}">${displayName} (${campusId})</option>`;
-                        }).join('');
-                    console.log('Dropdown populated with', students.length, 'students');
-                }
-            } catch (error) {
-                console.error('Error fetching students:', error);
-                select.innerHTML = `<option value="">Error: ${error.message}</option>`;
-            }
-        }
-
-        function closeAddMemberModal() {
-            const modal = document.getElementById('add-member-modal');
-            modal.classList.remove('active');
-        }
-
-        async function addSelectedStudent() {
-            const select = document.getElementById('student-select');
-            const studentId = select.value;
-            const message = document.getElementById('add-member-message');
-
-            if (!studentId) {
-                showMessage(message, 'Please select a student', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/group/members/add', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ student_id: studentId })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    showMessage(message, result.error || 'Failed to add student', 'error');
-                    return;
-                }
-
-                showMessage(message, 'Student added successfully! Reloading...', 'success');
-                setTimeout(() => window.location.reload(), 1500);
-
-            } catch (error) {
-                console.error('Error adding student:', error);
-                showMessage(message, 'Error: ' + error.message, 'error');
-            }
-        }
-
-        function showMessage(element, text, type) {
-            element.textContent = text;
-            element.style.display = 'block';
-            element.style.background = type === 'error' ? '#ffcdd2' : '#c8e6c9';
-            element.style.color = type === 'error' ? '#c62828' : '#2e7d32';
-        }
-
-        // Close add member modal when clicking outside
-        document.addEventListener('DOMContentLoaded', () => {
-            const addMemberModal = document.getElementById('add-member-modal');
-            if (addMemberModal) {
-                addMemberModal.addEventListener('click', (event) => {
-                    if (event.target === addMemberModal) {
-                        closeAddMemberModal();
-                    }
-                });
-            }
-        });
-
-        // Admin scoring function
-        async function saveSubmissionScore(stageIndex, submissionId) {
-            const scoreInput = document.getElementById(`admin-score-${stageIndex}`);
-            const maxScoreInput = document.getElementById(`admin-max-score-${stageIndex}`);
-            const feedbackInput = document.getElementById(`admin-feedback-${stageIndex}`);
-            const notesInput = document.getElementById(`admin-notes-${stageIndex}`);
-            const loadingElement = document.getElementById(`score-loading-${stageIndex}`);
-            const saveButton = event.target;
-
-            const score = parseFloat(scoreInput.value) || 0;
-            const maxScore = parseFloat(maxScoreInput.value) || 100;
-            const feedback = feedbackInput.value.trim();
-            const adminNotes = notesInput.value.trim();
-
-            // Validate inputs
-            if (score < 0 || score > maxScore) {
-                alert(`Score must be between 0 and ${maxScore}`);
-                return;
-            }
-
-            // Show loading state
-            saveButton.disabled = true;
-            loadingElement.classList.add('show');
-
-            try {
-                const response = await fetch(`/api/admin/submissions/${submissionId}/score`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        score: score,
-                        max_score: maxScore,
-                        feedback: feedback,
-                        admin_notes: adminNotes
-                    })
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    alert('Error saving score: ' + (result.error || 'Unknown error'));
-                    return;
-                }
-
-                alert('✓ Score saved successfully!');
-                // Optionally reload the page to show updated scores
-                // location.reload();
-
-            } catch (error) {
-                alert('Error saving score: ' + error.message);
-                console.error('Error:', error);
-            } finally {
-                // Hide loading state
-                saveButton.disabled = false;
-                loadingElement.classList.remove('show');
-            }
-        }
-
-        // Delete Group Function
-        async function openDeleteGroupModal() {
-            if (!confirm('Are you sure you want to delete this group? This action cannot be undone.')) {
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/group/delete', {
-                    method: 'PUT',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({})
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    alert('Error: ' + (result.error || 'Failed to delete group'));
-                    return;
-                }
-
-                alert('Group deleted successfully. Redirecting...');
-                window.location.href = '/group_login';
-
-            } catch (error) {
-                console.error('Error deleting group:', error);
-                alert('Error: ' + error.message);
-            }
-        }
-    </script>
-
-    <!-- PDF Preview Modal -->
-    <div id="pdf-preview-modal" class="pdf-preview-modal">
-        <div class="pdf-preview-container">
-            <div class="pdf-preview-header">
-                <h3 id="pdf-filename">PDF Preview</h3>
-                <div class="pdf-preview-controls">
-                    <button class="pdf-nav-button" id="prev-page-btn" onclick="prevPage()" title="Previous page">← Prev</button>
-                    <span class="pdf-page-info"><span id="current-page">1</span> / <span id="total-pages">1</span></span>
-                    <button class="pdf-nav-button" id="next-page-btn" onclick="nextPage()" title="Next page">Next →</button>
-                    <button class="pdf-close-button" onclick="closePdfPreview()" title="Close preview">✕ Close</button>
-                </div>
-            </div>
-            <div class="pdf-preview-body">
-                <canvas id="pdf-canvas"></canvas>
-                <div id="pdf-loading" class="pdf-loading" style="display: none;">Loading PDF...</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Member Modal -->
-    <div id="add-member-modal" class="pdf-preview-modal"> <!-- Reusing styling of pdf-preview-modal -->
-        <div class="pdf-preview-container" style="max-width: 600px; height: auto;">
-            <div class="pdf-preview-header">
-                <h3>Add New Group Member</h3>
-                <button class="pdf-close-button" onclick="closeAddMemberModal()">✕ Close</button>
-            </div>
-            <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
-                <p style="margin-bottom: 15px; color: #555;">Select an ungrouped student to add to your group.</p>
-                <div class="form-group">
-                    <label for="student-select">Select Student:</label>
-                    <select id="student-select" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 1em;">
-                        <option value="">Loading students...</option>
-                    </select>
-                </div>
-                <button class="btn-submit" onclick="addSelectedStudent()">Add Student to Group</button>
-                <div id="add-member-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Submission Modal -->
-    <div id="edit-submission-modal" class="pdf-preview-modal">
-        <div class="pdf-preview-container" style="max-width: 800px; height: auto; max-height: 90vh; overflow-y: auto;">
-            <div class="pdf-preview-header">
-                <h3>Edit Submission</h3>
-                <button class="pdf-close-button" onclick="closeEditSubmissionModal()">✕ Close</button>
-            </div>
-            <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
-                <form id="edit-submission-form">
-                    <input type="hidden" id="edit-submission-id">
-                    <input type="hidden" id="edit-submission-stage">
-
-                    <div class="form-group">
-                        <label><strong>🎯 Presentation Link (Required)</strong></label>
-                        <input type="url" id="edit-presentation-link" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
-                        <small style="color: #999; display: block; margin-top: 5px;">
-                            ✅ Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.
-                        </small>
-                    </div>
-
-                    <div class="form-group">
-                        <label><strong>📝 Summary (Required - Markdown)</strong></label>
-                        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('**bold text**', '**bold text**')" title="Bold">
-                                <strong>B</strong>
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('*italic*', '*italic*')" title="Italic">
-                                <em>I</em>
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('# Heading', '# Heading')" title="Heading">
-                                H1
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('## Heading 2', '## Heading 2')" title="Heading 2">
-                                H2
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('- Item', '- Item')" title="Bullet List">
-                                •
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('1. Item', '1. Item')" title="Numbered List">
-                                1.
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('[Link](url)', '[Link](url)')" title="Link">
-                                🔗
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('`code`', '`code`')" title="Code">
-                                &lt;&gt;
-                            </button>
-                            <button type="button" class="markdown-btn" onclick="toggleEditPreview()" title="Preview">
-                                👁️ Preview
-                            </button>
+        <!-- GROUP MEMBER CONTRIBUTIONS -->
+        <div style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); padding: 30px; border-radius: var(--radius); margin-top: 40px; border-left: 4px solid var(--up-maroon);">
+            <h2 style="color: var(--up-green); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <span style="display: flex; align-items: center;">
+                    <span style="width: 40px; height: 40px; background: var(--up-gold); color: var(--up-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; font-size: 1.2em;">+</span>
+                    Member Contributions
+                </span>
+                <button class="btn btn-primary" onclick="openAddMemberModal()">+ Add Member</button>
+            </h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95em;">Track each member's contributions to the project:</p>
+            <div id="member-contributions-list" style="display: grid; gap: 15px;">
+                {% if group.members and group.members|length > 0 %}
+                    {% for member in group.members %}
+                    <div style="background: white; padding: 18px; border-radius: var(--radius-sm); border-left: 4px solid var(--up-green); display: flex; gap: 15px; box-shadow: var(--shadow);">
+                        <div style="flex: 0 0 auto; display: flex; align-items: center;">
+                            <p style="color: var(--up-green); margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">{{ member.member_name or member.first_name or 'Unknown Member' }}</p>
                         </div>
-                        <textarea id="edit-summary" placeholder="Write a markdown summary of your work for this stage..." style="width: 100%; height: 250px; font-family: 'Courier New', monospace; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required></textarea>
-                        <div id="edit-preview" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; margin-top: 10px; min-height: 100px;"></div>
+                        <textarea class="contribution-input" data-member-id="{{ member.id or member.student_id }}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
                     </div>
-
-                    <div class="form-group">
-                        <label>Additional Notes (Optional)</label>
-                        <textarea id="edit-content" placeholder="Add any additional notes or details about your submission..." style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                    </div>
-
-                    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
-                        <button type="button" class="btn btn-secondary" onclick="closeEditSubmissionModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                    <div id="edit-submission-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
-                </form>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-muted);">No members found in this group.</p>
+                {% endif %}
             </div>
+        </div>
+        {% endif %}
+        <!-- DELETE GROUP SECTION -->
+        <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+            {% if is_admin_view %}
+            <a href="javascript:openDeleteGroupModal()" style="color: #dc3545; text-decoration: none; font-size: 0.85em; cursor: pointer; font-weight: 600;">Delete Group (Admin)</a>
+            {% else %}
+            <a href="javascript:openDeleteGroupModal()" style="color: var(--text-muted); text-decoration: none; font-size: 0.85em; cursor: pointer;">Delete group</a>
+            {% endif %}
         </div>
     </div>
 
-    <!-- Feedback Button -->
-    <button class="feedback-button" onclick="openFeedbackForm()" title="Report issue or feedback">💬</button>
-</body>
-</html>
+    <div class="portal-footer">
+        <p>CMSC 173 Group Project Portal | University of the Philippines Cebu</p>
+    </div>
+</div>
+
+<!-- PDF Preview Modal -->
+<div id="pdf-preview-modal" class="pdf-preview-modal">
+    <div class="pdf-preview-container">
+        <div class="pdf-preview-header">
+            <h3 id="pdf-filename">PDF Preview</h3>
+            <div class="pdf-preview-controls">
+                <button class="pdf-nav-button" id="prev-page-btn" onclick="prevPage()" title="Previous page">Prev</button>
+                <span class="pdf-page-info"><span id="current-page">1</span> / <span id="total-pages">1</span></span>
+                <button class="pdf-nav-button" id="next-page-btn" onclick="nextPage()" title="Next page">Next</button>
+                <button class="pdf-close-button" onclick="closePdfPreview()" title="Close preview">Close</button>
+            </div>
+        </div>
+        <div class="pdf-preview-body">
+            <canvas id="pdf-canvas"></canvas>
+            <div id="pdf-loading" class="pdf-loading" style="display: none;">Loading PDF...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Member Modal -->
+<div id="add-member-modal" class="pdf-preview-modal">
+    <div class="pdf-preview-container" style="max-width: 600px; height: auto;">
+        <div class="pdf-preview-header">
+            <h3>Add New Group Member</h3>
+            <button class="pdf-close-button" onclick="closeAddMemberModal()">Close</button>
+        </div>
+        <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
+            <p style="margin-bottom: 15px; color: var(--text-secondary);">Select an ungrouped student to add to your group.</p>
+            <div class="form-group">
+                <label for="student-select">Select Student:</label>
+                <select id="student-select" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 1em;">
+                    <option value="">Loading students...</option>
+                </select>
+            </div>
+            <button class="btn-submit" onclick="addSelectedStudent()">Add Student to Group</button>
+            <div id="add-member-message" style="margin-top: 15px; padding: 10px; border-radius: var(--radius-sm); display: none;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Submission Modal -->
+<div id="edit-submission-modal" class="pdf-preview-modal">
+    <div class="pdf-preview-container" style="max-width: 800px; height: auto; max-height: 90vh; overflow-y: auto;">
+        <div class="pdf-preview-header">
+            <h3>Edit Submission</h3>
+            <button class="pdf-close-button" onclick="closeEditSubmissionModal()">Close</button>
+        </div>
+        <div class="pdf-preview-body" style="background: white; overflow-y: auto; display: block; padding: 20px;">
+            <form id="edit-submission-form">
+                <input type="hidden" id="edit-submission-id">
+                <input type="hidden" id="edit-submission-stage">
+
+                <div class="form-group">
+                    <label><strong>Presentation Link (Required)</strong></label>
+                    <input type="url" id="edit-presentation-link" placeholder="https://docs.google.com/presentation/d/... OR https://www.canva.com/design/..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);" required>
+                    <small style="color: var(--text-muted); display: block; margin-top: 5px;">
+                        Supported: Google Slides, Canva, PowerPoint Online, Figma, etc.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label><strong>Summary (Required - Markdown)</strong></label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('**bold text**', '**bold text**')" title="Bold">
+                            <strong>B</strong>
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('*italic*', '*italic*')" title="Italic">
+                            <em>I</em>
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('# Heading', '# Heading')" title="Heading">
+                            H1
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('## Heading 2', '## Heading 2')" title="Heading 2">
+                            H2
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('- Item', '- Item')" title="Bullet List">
+                            *
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('1. Item', '1. Item')" title="Numbered List">
+                            1.
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('[Link](url)', '[Link](url)')" title="Link">
+                            Link
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="insertMarkdownEdit('`code`', '`code`')" title="Code">
+                            &lt;&gt;
+                        </button>
+                        <button type="button" class="markdown-btn" onclick="toggleEditPreview()" title="Preview">
+                            Preview
+                        </button>
+                    </div>
+                    <textarea id="edit-summary" placeholder="Write a markdown summary of your work for this stage..." style="width: 100%; height: 250px; font-family: 'Courier New', monospace; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);" required></textarea>
+                    <div id="edit-preview" style="display: none; padding: 15px; background: #f5f5f5; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-top: 10px; min-height: 100px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Notes (Optional)</label>
+                    <textarea id="edit-content" placeholder="Add any additional notes or details about your submission..." style="width: 100%; height: 120px; padding: 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);"></textarea>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditSubmissionModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+                <div id="edit-submission-message" style="margin-top: 15px; padding: 10px; border-radius: var(--radius-sm); display: none;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Feedback Button -->
+<button class="feedback-button" onclick="openFeedbackForm()" title="Report issue or feedback">?</button>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleStage(index) {
+        const content = document.getElementById(`stage-${index}`);
+        if (content) {
+            content.classList.toggle('active');
+        }
+    }
+
+    // Auto-expand first stage and load member contributions
+    document.addEventListener('DOMContentLoaded', () => {
+        const firstStage = document.getElementById('stage-0');
+        if (firstStage) {
+            firstStage.classList.add('active');
+        }
+        {% if group %}
+        loadMemberContributions();
+        {% endif %}
+    });
+
+    // Load and display member contributions
+    {% if group %}
+    function loadMemberContributions() {
+        const groupMembers = {{ group.members | tojson }};
+        const contributionsList = document.getElementById('member-contributions-list');
+
+        if (!groupMembers || groupMembers.length === 0) {
+            contributionsList.innerHTML = '<p style="color: var(--text-muted);">No members found in this group.</p>';
+            return;
+        }
+
+        console.log('DEBUG: Group members data:', groupMembers);
+
+        const html = groupMembers.map(member => {
+            // Use member_id for data attribute (use ID or student_id)
+            const memberId = member.id || member.student_id || 'N/A';
+            const memberName = member.member_name || member.name || member.first_name || 'Unknown Member';
+
+            console.log('DEBUG: Processing member:', { memberId, memberName, memberData: member });
+
+            return `
+            <div style="background: white; padding: 18px; border-radius: var(--radius-sm); border-left: 4px solid var(--up-green); display: flex; gap: 15px; box-shadow: var(--shadow);">
+                <div style="flex: 0 0 auto; display: flex; align-items: center;">
+                    <p style="color: var(--up-green); margin: 0; font-size: 1em; font-weight: 600; min-width: 150px;">${memberName}</p>
+                </div>
+                <textarea class="contribution-input" data-member-id="${memberId}" placeholder="Enter contribution..." style="flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 0.95em; font-family: Arial, sans-serif; resize: vertical; min-height: 100px; max-height: 300px; overflow-y: auto;"></textarea>
+            </div>
+        `;
+        }).join('');
+
+        contributionsList.innerHTML = html;
+    }
+    {% endif %}
+
+    function togglePresentationInput(stageIndex) {
+        const presentationType = document.getElementById(`presentation-type-${stageIndex}`).value;
+        const uploadDiv = document.getElementById(`upload-presentation-${stageIndex}`);
+        const linkDiv = document.getElementById(`link-presentation-${stageIndex}`);
+
+        if (presentationType === 'upload') {
+            uploadDiv.style.display = 'block';
+            linkDiv.style.display = 'none';
+        } else if (presentationType === 'link') {
+            uploadDiv.style.display = 'none';
+            linkDiv.style.display = 'block';
+        } else {
+            uploadDiv.style.display = 'none';
+            linkDiv.style.display = 'none';
+        }
+    }
+
+    // Simple markdown-to-HTML converter
+    function markdownToHtml(markdown) {
+        let html = markdown
+            // Code blocks
+            .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+            // Inline code
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // Bold
+            .replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>')
+            // Italic
+            .replace(/\*([^\*]+)\*/g, '<em>$1</em>')
+            // Headings
+            .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
+            .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+            .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+            // Links
+            .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+            // Lists
+            .replace(/^\- (.*?)$/gm, '<li>$1</li>')
+            .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+            // Line breaks
+            .replace(/\n/g, '<br>')
+            // Remove extra br tags inside code blocks
+            .replace(/<pre><code>([^<]*)<br>([^<]*)<\/code><\/pre>/g, '<pre><code>$1\n$2</code></pre>');
+
+        return html;
+    }
+
+    function insertMarkdown(stageIndex, before, after) {
+        const textarea = document.getElementById(`summary-${stageIndex}`);
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selectedText = text.substring(start, end);
+
+        let newText, cursorPos;
+        if (selectedText) {
+            newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
+            cursorPos = start + before.length + selectedText.length;
+        } else {
+            newText = text.substring(0, start) + before + ' ' + after + text.substring(end);
+            cursorPos = start + before.length + 1;
+        }
+
+        textarea.value = newText;
+        textarea.selectionStart = cursorPos;
+        textarea.selectionEnd = cursorPos;
+        textarea.focus();
+    }
+
+    function togglePreview(stageIndex) {
+        const textarea = document.getElementById(`summary-${stageIndex}`);
+        const preview = document.getElementById(`preview-${stageIndex}`);
+
+        if (preview.style.display === 'none') {
+            // Show preview
+            const markdown = textarea.value;
+            preview.innerHTML = markdownToHtml(markdown) || '<em>Empty preview</em>';
+            preview.style.display = 'block';
+        } else {
+            // Hide preview
+            preview.style.display = 'none';
+        }
+    }
+
+    async function submitStageWork(event, stageNumber) {
+        event.preventDefault();
+
+        const stageIndex = stageNumber - 1;
+        const summaryMarkdown = document.getElementById(`summary-${stageIndex}`).value;
+        const content = document.getElementById(`content-${stageIndex}`).value;
+        const summaryFile = document.getElementById(`file-${stageIndex}`).files[0];
+        const presentationLink = document.getElementById(`presentation-link-${stageIndex}`).value.trim();
+
+        if (!presentationLink) {
+            alert('Please provide a presentation link (Google Slides, Canva, PowerPoint Online, etc.)');
+            return;
+        }
+
+        try {
+            // Submit with presentation link and optional PDF file and markdown summary
+            const formData = new FormData();
+            if (summaryMarkdown) {
+                formData.append('summary_markdown', summaryMarkdown);
+            }
+            if (summaryFile) {
+                formData.append('file', summaryFile);
+            }
+            formData.append('presentation_link', presentationLink);
+            if (content) {
+                formData.append('content', content);
+            }
+            formData.append('stage_number', stageNumber);
+
+            const response = await fetch('/api/group/submit', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                try {
+                    const error = await response.json();
+                    alert('Error: ' + (error.error || 'Failed to submit'));
+                } catch (jsonError) {
+                    // Response is not JSON (likely an error page)
+                    const statusText = response.statusText || 'Unknown Error';
+                    const status = response.status;
+                    let errorMsg = `Server error (${status} ${statusText})`;
+
+                    if (status === 413) {
+                        errorMsg = 'Files are too large. Please reduce file sizes and try again.';
+                    } else if (status === 400) {
+                        errorMsg = 'Invalid request. Please check your inputs and try again.';
+                    } else if (status === 401) {
+                        errorMsg = 'Your session has expired. Please log in again.';
+                    } else if (status >= 500) {
+                        errorMsg = 'Server error. Please try again in a moment.';
+                    }
+
+                    alert('Error submitting work: ' + errorMsg);
+                    console.error('Response status:', status, 'Text:', statusText);
+                }
+                return;
+            }
+
+            alert('Submission successful! Your work has been recorded.');
+            location.reload();
+
+        } catch (error) {
+            alert('Error submitting work: ' + error.message);
+            console.error('Submission error:', error);
+        }
+    }
+
+    // Edit Submission Functions
+    function openEditSubmissionModal(stageIndex, submission) {
+        const modal = document.getElementById('edit-submission-modal');
+        document.getElementById('edit-submission-id').value = submission.id;
+        document.getElementById('edit-submission-stage').value = submission.stage_number;
+        document.getElementById('edit-presentation-link').value = submission.presentation_link || '';
+        document.getElementById('edit-summary').value = submission.summary_markdown || '';
+        document.getElementById('edit-content').value = submission.submission_content || '';
+        document.getElementById('edit-submission-message').style.display = 'none';
+
+        modal.classList.add('active');
+    }
+
+    function closeEditSubmissionModal() {
+        const modal = document.getElementById('edit-submission-modal');
+        modal.classList.remove('active');
+    }
+
+    function insertMarkdownEdit(startText, endText) {
+        const textarea = document.getElementById('edit-summary');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selectedText = text.substring(start, end) || '';
+
+        const newText = text.substring(0, start) + startText + selectedText + endText + text.substring(end);
+        textarea.value = newText;
+
+        // Move cursor
+        setTimeout(() => {
+            textarea.focus();
+            textarea.selectionStart = textarea.selectionEnd = start + startText.length;
+        }, 0);
+    }
+
+    function toggleEditPreview() {
+        const preview = document.getElementById('edit-preview');
+        const textarea = document.getElementById('edit-summary');
+
+        if (preview.style.display === 'none') {
+            preview.style.display = 'block';
+            const md = window.markdownit();
+            preview.innerHTML = md.render(textarea.value);
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+
+    // Handle edit submission form submission
+    document.addEventListener('DOMContentLoaded', () => {
+        const editSubmissionForm = document.getElementById('edit-submission-form');
+        if (editSubmissionForm) {
+            editSubmissionForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const submissionId = document.getElementById('edit-submission-id').value;
+                const stageNumber = document.getElementById('edit-submission-stage').value;
+                const presentationLink = document.getElementById('edit-presentation-link').value.trim();
+                const summaryMarkdown = document.getElementById('edit-summary').value.trim();
+                const content = document.getElementById('edit-content').value.trim();
+                const message = document.getElementById('edit-submission-message');
+
+                if (!presentationLink) {
+                    showMessage(message, 'Please provide a presentation link', 'error');
+                    return;
+                }
+
+                if (!summaryMarkdown) {
+                    showMessage(message, 'Please provide a summary', 'error');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/group/submission/${submissionId}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            presentation_link: presentationLink,
+                            summary_markdown: summaryMarkdown,
+                            submission_content: content,
+                            stage_number: stageNumber
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        showMessage(message, result.error || 'Failed to save submission', 'error');
+                        return;
+                    }
+
+                    showMessage(message, 'Submission updated successfully!', 'success');
+                    setTimeout(() => {
+                        closeEditSubmissionModal();
+                        location.reload();
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Error saving submission:', error);
+                    showMessage(message, 'Error: ' + error.message, 'error');
+                }
+            });
+        }
+    });
+
+    // Close edit submission modal when clicking outside
+    document.addEventListener('DOMContentLoaded', () => {
+        const editSubmissionModal = document.getElementById('edit-submission-modal');
+        if (editSubmissionModal) {
+            editSubmissionModal.addEventListener('click', (event) => {
+                if (event.target === editSubmissionModal) {
+                    closeEditSubmissionModal();
+                }
+            });
+        }
+    });
+
+    function openFeedbackForm() {
+        const feedback = prompt(
+            'Please share your feedback or report an issue:\n\n' +
+            '(Your message will help us improve the application)',
+            ''
+        );
+        if (feedback && feedback.trim()) {
+            alert('Thank you for your feedback! We appreciate your input.');
+            console.log('Feedback:', feedback);
+        }
+    }
+
+    // PDF Preview functionality
+    let pdfDoc = null;
+    let currentPage = 1;
+    let totalPages = 1;
+
+    async function openPdfPreview(pdfUrl, fileName) {
+        const modal = document.getElementById('pdf-preview-modal');
+        const loadingDiv = document.getElementById('pdf-loading');
+        const canvas = document.getElementById('pdf-canvas');
+        const filenameElement = document.getElementById('pdf-filename');
+
+        modal.classList.add('active');
+        loadingDiv.style.display = 'block';
+        filenameElement.textContent = fileName;
+
+        try {
+            const pdfjsLib = window['pdfjs-dist/build/pdf'];
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            const response = await fetch(pdfUrl);
+            const pdfData = await response.arrayBuffer();
+            pdfDoc = await pdfjsLib.getDocument({ data: pdfData }).promise;
+
+            totalPages = pdfDoc.numPages;
+            document.getElementById('total-pages').textContent = totalPages;
+
+            currentPage = 1;
+            await renderPage(currentPage);
+            loadingDiv.style.display = 'none';
+            updateNavButtons();
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+            loadingDiv.textContent = 'Error loading PDF. Please try downloading instead.';
+            loadingDiv.style.display = 'block';
+        }
+    }
+
+    async function renderPage(pageNum) {
+        if (!pdfDoc) return;
+
+        try {
+            const page = await pdfDoc.getPage(pageNum);
+            const scale = 1.5;
+            const viewport = page.getViewport({ scale: scale });
+
+            const canvas = document.getElementById('pdf-canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+
+            await page.render(renderContext).promise;
+            document.getElementById('current-page').textContent = pageNum;
+            currentPage = pageNum;
+        } catch (error) {
+            console.error('Error rendering page:', error);
+        }
+    }
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            renderPage(currentPage + 1);
+            updateNavButtons();
+        }
+    }
+
+    function prevPage() {
+        if (currentPage > 1) {
+            renderPage(currentPage - 1);
+            updateNavButtons();
+        }
+    }
+
+    function updateNavButtons() {
+        document.getElementById('prev-page-btn').disabled = currentPage === 1;
+        document.getElementById('next-page-btn').disabled = currentPage === totalPages;
+    }
+
+    function closePdfPreview() {
+        const modal = document.getElementById('pdf-preview-modal');
+        modal.classList.remove('active');
+        pdfDoc = null;
+        currentPage = 1;
+        totalPages = 1;
+    }
+
+    // Close modal when clicking outside the container
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('pdf-preview-modal');
+        if (modal) {
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closePdfPreview();
+                }
+            });
+        }
+    });
+
+    // Add Member Modal Functions
+    const groupData = {{ group | tojson }};
+    const groupId = groupData.id;
+    const isAdminView = {{ 'true' if is_admin_view else 'false' }};
+
+    async function openAddMemberModal() {
+        const modal = document.getElementById('add-member-modal');
+        const select = document.getElementById('student-select');
+        const message = document.getElementById('add-member-message');
+
+        // Reset
+        message.style.display = 'none';
+        select.innerHTML = '<option value="">Loading students...</option>';
+
+        // Show modal
+        modal.classList.add('active');
+
+        // Fetch available students for this group (excluding existing members)
+        try {
+            // Include group_id for admin context
+            const url = isAdminView && groupId
+                ? `/api/group/members/available?group_id=${groupId}`
+                : '/api/group/members/available';
+            console.log('Fetching available students for group from', url);
+            const response = await fetch(url);
+            console.log('Response status:', response.status, response.statusText);
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Server error response:', errorData);
+                throw new Error(errorData.error || 'Failed to fetch students');
+            }
+
+            const students = await response.json();
+            console.log('Received students:', students);
+            console.log('Number of students:', students.length);
+
+            // Log first student structure for debugging
+            if (students.length > 0) {
+                console.log('First student structure:', students[0]);
+                console.log('First student name parts:', {
+                    id: students[0].id,
+                    first_name: students[0].first_name,
+                    last_name: students[0].last_name,
+                    campus_id: students[0].campus_id
+                });
+            }
+
+            if (students.length === 0) {
+                select.innerHTML = '<option value="">No ungrouped students available</option>';
+            } else {
+                select.innerHTML = '<option value="">-- Select a student --</option>' +
+                    students.map(s => {
+                        const displayName = `${s.first_name || ''} ${s.last_name || ''}`.trim() || 'Unnamed Student';
+                        const campusId = s.campus_id || 'No ID';
+                        console.log(`Mapping student: ${displayName} (${campusId})`);
+                        return `<option value="${s.id}">${displayName} (${campusId})</option>`;
+                    }).join('');
+                console.log('Dropdown populated with', students.length, 'students');
+            }
+        } catch (error) {
+            console.error('Error fetching students:', error);
+            select.innerHTML = `<option value="">Error: ${error.message}</option>`;
+        }
+    }
+
+    function closeAddMemberModal() {
+        const modal = document.getElementById('add-member-modal');
+        modal.classList.remove('active');
+    }
+
+    async function addSelectedStudent() {
+        const select = document.getElementById('student-select');
+        const studentId = select.value;
+        const message = document.getElementById('add-member-message');
+
+        if (!studentId) {
+            showMessage(message, 'Please select a student', 'error');
+            return;
+        }
+
+        try {
+            // Include group_id for admin context
+            const payload = { student_id: studentId };
+            if (isAdminView && groupId) {
+                payload.group_id = groupId;
+            }
+
+            const response = await fetch('/api/group/members/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                showMessage(message, result.error || 'Failed to add student', 'error');
+                return;
+            }
+
+            showMessage(message, 'Student added successfully! Reloading...', 'success');
+            setTimeout(() => window.location.reload(), 1500);
+
+        } catch (error) {
+            console.error('Error adding student:', error);
+            showMessage(message, 'Error: ' + error.message, 'error');
+        }
+    }
+
+    function showMessage(element, text, type) {
+        element.textContent = text;
+        element.style.display = 'block';
+        element.style.background = type === 'error' ? '#ffcdd2' : '#c8e6c9';
+        element.style.color = type === 'error' ? '#c62828' : '#2e7d32';
+    }
+
+    // Close add member modal when clicking outside
+    document.addEventListener('DOMContentLoaded', () => {
+        const addMemberModal = document.getElementById('add-member-modal');
+        if (addMemberModal) {
+            addMemberModal.addEventListener('click', (event) => {
+                if (event.target === addMemberModal) {
+                    closeAddMemberModal();
+                }
+            });
+        }
+    });
+
+    // Admin scoring function
+    async function saveSubmissionScore(stageIndex, submissionId) {
+        const scoreInput = document.getElementById(`admin-score-${stageIndex}`);
+        const maxScoreInput = document.getElementById(`admin-max-score-${stageIndex}`);
+        const feedbackInput = document.getElementById(`admin-feedback-${stageIndex}`);
+        const notesInput = document.getElementById(`admin-notes-${stageIndex}`);
+        const loadingElement = document.getElementById(`score-loading-${stageIndex}`);
+        const saveButton = event.target;
+
+        const score = parseFloat(scoreInput.value) || 0;
+        const maxScore = parseFloat(maxScoreInput.value) || 100;
+        const feedback = feedbackInput.value.trim();
+        const adminNotes = notesInput.value.trim();
+
+        // Validate inputs
+        if (score < 0 || score > maxScore) {
+            alert(`Score must be between 0 and ${maxScore}`);
+            return;
+        }
+
+        // Show loading state
+        saveButton.disabled = true;
+        loadingElement.classList.add('show');
+
+        try {
+            const response = await fetch(`/api/admin/submissions/${submissionId}/score`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    score: score,
+                    max_score: maxScore,
+                    feedback: feedback,
+                    admin_notes: adminNotes
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                alert('Error saving score: ' + (result.error || 'Unknown error'));
+                return;
+            }
+
+            alert('Score saved successfully!');
+            // Optionally reload the page to show updated scores
+            // location.reload();
+
+        } catch (error) {
+            alert('Error saving score: ' + error.message);
+            console.error('Error:', error);
+        } finally {
+            // Hide loading state
+            saveButton.disabled = false;
+            loadingElement.classList.remove('show');
+        }
+    }
+
+    // Delete Group Function
+    async function openDeleteGroupModal() {
+        const confirmMsg = isAdminView
+            ? 'ADMIN: Are you sure you want to delete this group? This will deactivate the group and all its submissions.'
+            : 'Are you sure you want to delete this group? This action cannot be undone.';
+
+        if (!confirm(confirmMsg)) {
+            return;
+        }
+
+        try {
+            // Include group_id for admin context
+            const payload = isAdminView && groupId ? { group_id: groupId } : {};
+
+            const response = await fetch('/api/group/delete', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                alert('Error: ' + (result.error || 'Failed to delete group'));
+                return;
+            }
+
+            alert('Group deleted successfully. Redirecting...');
+            // Redirect admin to dashboard, group to login
+            window.location.href = isAdminView ? '/admin' : '/group_login';
+
+        } catch (error) {
+            console.error('Error deleting group:', error);
+            alert('Error: ' + error.message);
+        }
+    }
+</script>
+{% endblock %}

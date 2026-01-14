@@ -1,0 +1,437 @@
+{
+  "module": {
+    "id": "13",
+    "title": "Advanced Neural Networks",
+    "subtitle": "Applications-Focused Introduction for Beginners\\\\CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 53,
+    "estimatedDuration": "106 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What are Advanced Neural Networks?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Basic Neural Networks</h4><ul>\n\n<li>Fully connected layers\n</li>\n<li>Good for tabular data\n</li>\n<li>Limited to simple patterns\n</li>\n<li>We learned these already!\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Advanced Architectures}\n<ul>\n\n<li><strong>CNNs:</strong> For images and spatial data\n</li>\n<li><strong>Transformers:</strong> For text and sequences\n</li>\n<li><strong>GANs:</strong> Generate new data\n</li>\n<li><strong>VAEs:</strong> Learn compressed representations\n</li>\n<li><strong>Diffusion:</strong> Create high-quality images\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Why Learn These?</h4><strong>They power the AI you use every day:</strong>\n<ul>\n\n<li>ChatGPT (Transformer)\n</li>\n<li>DALL-E 2 (Diffusion)\n</li>\n<li>Face unlock on phones (CNN)\n</li>\n<li>Google Translate (Transformer)\n</li>\n<li>AI art generators (GAN/Diffusion)\n</li>\n</ul></div>\n\n\n\n\\begin{tipblock}{This Module's Focus}\n<strong>Understanding applications</strong> rather than complex math!\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "Real-World Applications Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/cnn_applications.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Course Philosophy</h4><strong>Learn by seeing what's possible!</strong> We'll focus on understanding what these networks can do and how to use them, not deriving complex mathematics.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "CNNs: What Are They?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Simple Explanation</h4><strong>CNNs are neural networks designed for images.</strong> They work by:\n<ul>\n\n<li>Looking at small patches of the image\n</li>\n<li>Finding patterns (edges, shapes, textures)\n</li>\n<li>Building up to complex objects\n</li>\n<li>Making decisions based on what they see\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Why Not Regular NNs?}\n<ul>\n\n<li>Images have too many pixels\n</li>\n<li>Spatial relationships matter\n</li>\n<li>Same pattern appears in different places\n</li>\n<li>CNNs are much more efficient\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n\n<div class=\"figure\"><p><em>[Figure: ../figures/cnn_simple_intuition.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>CNNs learn to recognize patterns automatically - no manual feature engineering!</div>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "How CNNs Process Images",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/cnn_simple_architecture.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Processing Pipeline</h4><strong>Input Image</strong> $\\rightarrow$ <strong>Find Edges</strong> $\\rightarrow$ <strong>Find Shapes</strong> $\\rightarrow$ <strong>Find Objects</strong> $\\rightarrow$ <strong>Decision</strong></div>\n\n\\begin{exampleblock}{Analogy}\nLike how humans see: First we see lines and edges, then shapes, then we recognize \"this is a cat!\"\n\\end{exampleblock}",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "CNNs vs Traditional Computer Vision",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/cnn_vs_traditional.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Traditional Methods</h4><ul>\n\n<li>Manual feature design\n</li>\n<li>Hard to adapt to new tasks\n</li>\n<li>Limited accuracy\n</li>\n<li>Lots of expert knowledge needed\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{CNNs}\n<ul>\n\n<li>Automatic feature learning\n</li>\n<li>Easily adapt to new problems\n</li>\n<li>State-of-the-art accuracy\n</li>\n<li>Just need training data\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "CNN Applications: Medical Imaging",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Cancer Detection</h4><strong>Real Application:</strong>\n<ul>\n\n<li>Detect tumors in X-rays and MRIs\n</li>\n<li>Classify skin lesions (benign/malignant)\n</li>\n<li>Analyze mammograms for breast cancer\n</li>\n<li>Help radiologists work faster\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Impact}\n<ul>\n\n<li>Earlier disease detection\n</li>\n<li>Fewer missed diagnoses\n</li>\n<li>Reduced radiologist workload\n</li>\n<li>Available in rural areas\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Retinal Disease Diagnosis</h4><strong>Example: Google's Diabetic Retinopathy Detection</strong>\n<ul>\n\n<li>Analyzes eye scans\n</li>\n<li>Detects diabetes complications\n</li>\n<li>Matches expert doctor accuracy\n</li>\n<li>Used in India, Thailand\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Success Story</h4>FDA-approved AI systems now assist doctors in real hospitals!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "CNN Applications: Self-Driving Cars",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Lane Detection</h4><strong>What CNNs Do:</strong>\n<ul>\n\n<li>Identify road lane markings\n</li>\n<li>Track lane boundaries in real-time\n</li>\n<li>Work in various lighting conditions\n</li>\n<li>Handle curves and intersections\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Object Detection</h4><ul>\n\n<li>Detect pedestrians, cars, cyclists\n</li>\n<li>Recognize traffic signs and lights\n</li>\n<li>Estimate distance to objects\n</li>\n<li>Predict object movement\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Companies Using This}\n<ul>\n\n<li><strong>Tesla:</strong> Full Self-Driving (FSD)\n</li>\n<li><strong>Waymo:</strong> Autonomous taxis\n</li>\n<li><strong>Cruise:</strong> Robotaxis in SF\n</li>\n<li><strong>Mobileye:</strong> Driver assistance\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Real Deployment</h4>Over 1 million vehicles use CNN-based vision systems today!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "CNN Applications: Face Recognition",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Phone Unlock (Face ID)</h4><strong>How It Works:</strong>\n<ul>\n\n<li>CNN extracts facial features\n</li>\n<li>Creates unique \"face print\"\n</li>\n<li>Compares to stored template\n</li>\n<li>Works in different lighting\n</li>\n<li>Adapts to appearance changes\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Daily Use Cases}\n<ul>\n\n<li>iPhone/Android face unlock\n</li>\n<li>Photo organization (Google Photos)\n</li>\n<li>Security access control\n</li>\n<li>Airport immigration\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Social Media Applications</h4><ul>\n\n<li><strong>Facebook:</strong> Auto-tag friends in photos\n</li>\n<li><strong>Snapchat:</strong> Face filters and effects\n</li>\n<li><strong>Instagram:</strong> Beauty filters\n</li>\n<li><strong>TikTok:</strong> Face tracking for AR\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Privacy Note</h4>Face recognition raises important privacy concerns - always consider ethics!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "CNN Applications: Security \\& Surveillance",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Smart Security Cameras</h4><strong>Capabilities:</strong>\n<ul>\n\n<li>Detect people vs animals\n</li>\n<li>Recognize package delivery\n</li>\n<li>Identify suspicious behavior\n</li>\n<li>Track movement patterns\n</li>\n<li>Send targeted alerts\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Consumer Products}\n<ul>\n\n<li>Ring Doorbell cameras\n</li>\n<li>Nest security systems\n</li>\n<li>Arlo smart cameras\n</li>\n<li>Reduce false alarms by 90\\%\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Retail Applications</h4><strong>Amazon Go Stores:</strong>\n<ul>\n\n<li>Track what customers pick up\n</li>\n<li>Automatic checkout (no cashiers)\n</li>\n<li>Prevent shoplifting\n</li>\n<li>Analyze shopping behavior\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Industry Impact</h4>Checkout-free stores save 75\\% of labor costs while improving customer experience!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "CNN Applications: Satellite Imagery Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Environmental Monitoring</h4><strong>Applications:</strong>\n<ul>\n\n<li>Track deforestation in Amazon\n</li>\n<li>Monitor crop health\n</li>\n<li>Detect illegal fishing\n</li>\n<li>Assess disaster damage\n</li>\n<li>Map urban growth\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Projects}\n<ul>\n\n<li><strong>Planet Labs:</strong> Daily Earth imaging\n</li>\n<li><strong>Global Fishing Watch:</strong> Ocean monitoring\n</li>\n<li><strong>NASA:</strong> Climate change tracking\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Humanitarian Uses</h4><ul>\n\n<li>Count refugees in camps\n</li>\n<li>Assess natural disaster impact\n</li>\n<li>Map poverty indicators\n</li>\n<li>Monitor conflict zones\n</li>\n<li>Guide relief efforts\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Scale</h4>CNNs can analyze millions of satellite images - impossible for humans alone!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "What Are Generative Models?",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/generative_vs_discriminative.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Discriminative Models</h4><strong>What they do:</strong>\n<ul>\n\n<li>Classify/label existing data\n</li>\n<li>\"Is this a cat or dog?\"\n</li>\n<li>CNNs for image classification\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Generative Models}\n<strong>What they do:</strong>\n<ul>\n\n<li>Create new data\n</li>\n<li>\"Generate a new cat image\"\n</li>\n<li>GANs, VAEs, Diffusion models\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Generative Model Applications Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/generative_applications.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Three Main Types We'll Cover</h4><ol>\n<li><strong>GANs (Generative Adversarial Networks):</strong> Two networks compete to create realistic images\n</li>\n<li><strong>VAEs (Variational Autoencoders):</strong> Learn compressed representations, generate variations\n</li>\n<li><strong>Diffusion Models:</strong> Start with noise, gradually create detailed images\n</li>\n</ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "GANs: The Basic Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/gan_simple_concept.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Simple Explanation</h4><strong>Two neural networks compete:</strong>\n<ul>\n\n<li><strong>Generator:</strong> Creates fake images (like an art forger)\n</li>\n<li><strong>Discriminator:</strong> Tries to spot fakes (like an art detective)\n</li>\n<li>They get better by competing with each other\n</li>\n<li>Eventually, fakes become indistinguishable from real!\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "GAN Application: AI Art Generation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Artbreeder</h4><strong>What it does:</strong>\n<ul>\n\n<li>Generate unique portraits\n</li>\n<li>Mix different faces together\n</li>\n<li>Adjust age, gender, ethnicity\n</li>\n<li>Create landscapes, album covers\n</li>\n<li>Used by 10+ million users\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{How Artists Use It}\n<ul>\n\n<li>Book cover illustrations\n</li>\n<li>Character design for games\n</li>\n<li>Concept art for films\n</li>\n<li>Social media content\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>ThisPersonDoesNotExist.com</h4><ul>\n\n<li>Generates random faces\n</li>\n<li>100\\% synthetic people\n</li>\n<li>Photorealistic quality\n</li>\n<li>New face every refresh\n</li>\n<li>Built with StyleGAN\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Try It Yourself!</h4>Visit the website - every face you see was created by AI, not a photo!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "GAN Application: Deepfake Detection",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>The Problem</h4><strong>Malicious Uses:</strong>\n<ul>\n\n<li>Fake celebrity videos\n</li>\n<li>Misinformation campaigns\n</li>\n<li>Identity fraud\n</li>\n<li>Non-consensual content\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{The Solution}\n<strong>GANs fight GANs:</strong>\n<ul>\n\n<li>Train detectors on fake data\n</li>\n<li>Identify artifacts and inconsistencies\n</li>\n<li>Real-time video verification\n</li>\n<li>Protect public figures\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real Deployments</h4><ul>\n\n<li><strong>Facebook/Meta:</strong> Deepfake detection system\n</li>\n<li><strong>Microsoft:</strong> Video Authenticator tool\n</li>\n<li><strong>Intel:</strong> FakeCatcher (96\\% accuracy)\n</li>\n<li><strong>Adobe:</strong> Content Authenticity Initiative\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Arms Race</h4>Detection technology must constantly evolve as GANs improve!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "GAN Application: Synthetic Medical Data",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Why Generate Medical Data?</h4><strong>Privacy \\& Scarcity Issues:</strong>\n<ul>\n\n<li>Real patient data is private (HIPAA)\n</li>\n<li>Rare diseases lack training samples\n</li>\n<li>Hard to share data between hospitals\n</li>\n<li>Need diverse examples for AI training\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{What GANs Generate}\n<ul>\n\n<li>Synthetic X-rays\n</li>\n<li>Artificial MRI scans\n</li>\n<li>Fake patient records\n</li>\n<li>Privacy-preserving datasets\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real Research Applications</h4><ul>\n\n<li><strong>Mayo Clinic:</strong> Generate rare tumor samples\n</li>\n<li><strong>Stanford:</strong> Synthetic chest X-rays\n</li>\n<li><strong>MIT:</strong> Privacy-safe medical records\n</li>\n<li>Train better AI without compromising privacy\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Impact</h4>Enables medical AI research while protecting patient privacy!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "GAN Application: Game Character Creation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Modern Game Development</h4><strong>How GANs Help:</strong>\n<ul>\n\n<li>Generate unique NPC faces\n</li>\n<li>Create diverse character variations\n</li>\n<li>Design textures and materials\n</li>\n<li>Procedural content generation\n</li>\n<li>Speed up asset creation\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Game Studios}\n<ul>\n\n<li><strong>EA Sports:</strong> Generate realistic player faces\n</li>\n<li><strong>Ubisoft:</strong> NPC diversity in Assassin's Creed\n</li>\n<li>Reduce manual art time by 70\\%\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Player Customization</h4><ul>\n\n<li>Infinite character appearance options\n</li>\n<li>Realistic face generation\n</li>\n<li>Upload photo for custom avatar\n</li>\n<li>AI-assisted character design\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Industry Adoption</h4>Major game engines (Unity, Unreal) now integrate GAN-based tools!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "GAN Application: Fashion Design",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>AI Fashion Designers</h4><strong>What They Generate:</strong>\n<ul>\n\n<li>New clothing designs\n</li>\n<li>Pattern and texture variations\n</li>\n<li>Color scheme combinations\n</li>\n<li>Style transfer between eras\n</li>\n<li>Personalized recommendations\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Fashion Companies Using AI}\n<ul>\n\n<li><strong>Stitch Fix:</strong> Personalized designs\n</li>\n<li><strong>Tommy Hilfiger:</strong> IBM collaboration\n</li>\n<li><strong>Zalando:</strong> Generated fashion models\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Virtual Try-On</h4><ul>\n\n<li>Generate how clothes look on you\n</li>\n<li>Try outfits without physically wearing\n</li>\n<li>Reduce online shopping returns\n</li>\n<li>Personalized styling suggestions\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Business Impact</h4>AI-designed collections sell out 30\\% faster than traditional designs!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "VAEs: What Are They?",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/vae_simple_concept.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Simple Explanation</h4><strong>VAEs compress data into a small code, then decompress it:</strong>\n<ul>\n\n<li><strong>Encoder:</strong> Compress image into compact representation (like zip file)\n</li>\n<li><strong>Latent Space:</strong> The compressed \"code\" capturing key features\n</li>\n<li><strong>Decoder:</strong> Reconstruct image from the code\n</li>\n<li>Can generate new images by sampling random codes!\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "VAE Application: Anomaly Detection",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Manufacturing Quality Control</h4><strong>How It Works:</strong>\n<ul>\n\n<li>Train VAE on normal products\n</li>\n<li>VAE learns what \"normal\" looks like\n</li>\n<li>Defects reconstruct poorly\n</li>\n<li>High reconstruction error = defect!\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Applications}\n<ul>\n\n<li>Detect scratches on surfaces\n</li>\n<li>Find cracks in materials\n</li>\n<li>Identify missing components\n</li>\n<li>Automated quality inspection\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Other Anomaly Detection Uses</h4><ul>\n\n<li><strong>Cybersecurity:</strong> Detect network intrusions\n</li>\n<li><strong>Finance:</strong> Identify fraudulent transactions\n</li>\n<li><strong>Healthcare:</strong> Flag unusual patient vitals\n</li>\n<li><strong>IoT:</strong> Detect sensor failures\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Advantage</h4>Works without labeled defect examples - learns from normal data only!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "VAE Application: Image Compression",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Why VAEs for Compression?</h4><strong>Advantages over JPEG:</strong>\n<ul>\n\n<li>Better quality at low bitrates\n</li>\n<li>Learned compression (adapts to content)\n</li>\n<li>Can compress to tiny sizes\n</li>\n<li>Semantic preservation\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{How It Works}\n<ul>\n\n<li>Encoder compresses to latent code\n</li>\n<li>Store only the small code\n</li>\n<li>Decoder reconstructs when needed\n</li>\n<li>10-100x smaller than JPEG\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real-World Uses</h4><ul>\n\n<li>Store medical imaging archives\n</li>\n<li>Stream video at lower bandwidth\n</li>\n<li>Compress satellite imagery\n</li>\n<li>Mobile app image caching\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Research Example</h4>Google's neural image compression beats JPEG by 50\\% in quality metrics!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "VAE Application: Drug Molecule Generation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Pharmaceutical Discovery</h4><strong>Traditional Approach:</strong>\n<ul>\n\n<li>Test millions of molecules\n</li>\n<li>Takes 10+ years per drug\n</li>\n<li>Costs billions of dollars\n</li>\n<li>High failure rate\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{VAE Approach}\n<ul>\n\n<li>Learn from existing drugs\n</li>\n<li>Generate similar molecules\n</li>\n<li>Optimize for target properties\n</li>\n<li>Find candidates much faster\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real Pharmaceutical AI</h4><ul>\n\n<li><strong>Insilico Medicine:</strong> Generated novel molecules\n</li>\n<li><strong>Atomwise:</strong> AI drug discovery platform\n</li>\n<li><strong>BenevolentAI:</strong> COVID-19 drug repurposing\n</li>\n<li>Reduce discovery time by 75\\%\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Major Milestone</h4>First AI-discovered drug entered human trials in 2020!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Transformers: What Are They?",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/transformer_simple_architecture.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Simple Explanation</h4><strong>Transformers process sequences by paying attention to relevant parts:</strong>\n<ul>\n\n<li>Designed for text, but work on images/audio too\n</li>\n<li>Use \"attention\" to focus on important words\n</li>\n<li>Process entire sequence at once (fast!)\n</li>\n<li>Foundation of modern AI: GPT, BERT, ChatGPT\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Transformer Applications Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/transformer_applications.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Why Transformers Changed Everything</h4>Before 2017: RNNs struggled with long sequences. After 2017: Transformers enabled GPT, BERT, and the current AI revolution!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Transformer Application: ChatGPT",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>What ChatGPT Can Do</h4><strong>Capabilities:</strong>\n<ul>\n\n<li>Answer questions\n</li>\n<li>Write code and debug\n</li>\n<li>Compose essays and emails\n</li>\n<li>Explain complex topics\n</li>\n<li>Translate languages\n</li>\n<li>Creative writing\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Usage Statistics}\n<ul>\n\n<li>100+ million weekly users\n</li>\n<li>Fastest-growing consumer app\n</li>\n<li>Used in 185+ countries\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>How Students Use It</h4><ul>\n\n<li>Homework help and tutoring\n</li>\n<li>Research assistance\n</li>\n<li>Programming debugging\n</li>\n<li>Study guide creation\n</li>\n<li>Language learning\n</li>\n<li>Career advice\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Built With Transformers</h4>GPT-4 uses a massive transformer with 175+ billion parameters!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Transformer Application: Google Translate",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Old vs New Approach</h4><strong>Before Transformers (2016):</strong>\n<ul>\n\n<li>Phrase-based translation\n</li>\n<li>Limited context understanding\n</li>\n<li>Often awkward output\n</li>\n</ul>\n\n\n\n<strong>After Transformers (2017+):</strong>\n<ul>\n\n<li>Sentence-level context\n</li>\n<li>Natural, fluent translations\n</li>\n<li>60\\% reduction in errors\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Features Powered by Transformers}\n<ul>\n\n<li>133 languages supported\n</li>\n<li>Real-time conversation mode\n</li>\n<li>Camera translation (point and translate)\n</li>\n<li>Offline translation\n</li>\n<li>Context-aware results\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Daily Impact</h4>500+ million people use Google Translate every day!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Transformer Application: GitHub Copilot",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>AI Pair Programmer</h4><strong>What Copilot Does:</strong>\n<ul>\n\n<li>Suggests code as you type\n</li>\n<li>Writes entire functions\n</li>\n<li>Explains existing code\n</li>\n<li>Converts comments to code\n</li>\n<li>Generates tests\n</li>\n<li>Fixes bugs\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Developer Impact}\n<ul>\n\n<li>46\\% of code written by AI\n</li>\n<li>55\\% faster task completion\n</li>\n<li>Used by 1.2 million developers\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>How It Works</h4><ul>\n\n<li>Built on GPT (Codex model)\n</li>\n<li>Trained on billions of lines of code\n</li>\n<li>Understands context from your files\n</li>\n<li>Suggests in real-time\n</li>\n<li>Supports 12+ programming languages\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>For Students</h4>Great learning tool - see how experts solve problems!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Transformer Application: Email Auto-Complete",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Gmail Smart Compose</h4><strong>Features:</strong>\n<ul>\n\n<li>Suggests next words/sentences\n</li>\n<li>Learns your writing style\n</li>\n<li>Adapts to context\n</li>\n<li>Multi-language support\n</li>\n<li>Works on mobile too\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Time Savings}\n<ul>\n\n<li>Average user saves 1 billion characters/week\n</li>\n<li>Reduces writing time by 11\\%\n</li>\n<li>4+ billion emails use it daily\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Other Email AI Features</h4><ul>\n\n<li><strong>Smart Reply:</strong> Suggest full responses\n</li>\n<li><strong>Subject suggestions:</strong> Auto-generate subjects\n</li>\n<li><strong>Tone adjustment:</strong> Make emails more formal\n</li>\n<li><strong>Grammar correction:</strong> Fix mistakes\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>All Powered by Transformers</h4>These \"small\" conveniences use the same tech as ChatGPT!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Transformer Application: Document Summarization",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Automatic Summarization</h4><strong>What It Does:</strong>\n<ul>\n\n<li>Read long documents\n</li>\n<li>Extract key points\n</li>\n<li>Generate concise summary\n</li>\n<li>Preserve important details\n</li>\n<li>Save reading time\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Real Products}\n<ul>\n\n<li><strong>Microsoft Word:</strong> Auto-summarize\n</li>\n<li><strong>Slack:</strong> Thread summaries\n</li>\n<li><strong>Notion AI:</strong> Note summarization\n</li>\n<li><strong>Chrome extensions:</strong> Web page summaries\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Use Cases</h4><ul>\n\n<li>Research paper summaries\n</li>\n<li>News article digests\n</li>\n<li>Legal document review\n</li>\n<li>Meeting notes condensation\n</li>\n<li>Customer feedback analysis\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Productivity Boost</h4>Lawyers using AI summarization save 60\\% of document review time!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Vision Transformers: Images Meet Transformers",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/vision_transformer_concept.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Vision Transformers (ViT)</h4><strong>Applying transformers to images:</strong>\n<ul>\n\n<li>Break image into patches (like words)\n</li>\n<li>Apply transformer attention to patches\n</li>\n<li>Often better than CNNs with enough data\n</li>\n<li>Used in DALL-E, Imagen, latest AI systems\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Diffusion Models: How They Work",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/diffusion_simple_concept.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>Simple Explanation</h4><strong>Create images by gradually removing noise:</strong>\n<ul>\n\n<li>Start with pure random noise\n</li>\n<li>Gradually remove noise step-by-step\n</li>\n<li>Guided by text description\n</li>\n<li>End with high-quality image\n</li>\n<li>Like a sculptor revealing a statue from marble!\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Diffusion vs GANs vs VAEs",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/diffusion_vs_others.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>GANs</h4><strong>Pros:</strong> Fast generation\\\\\n<strong>Cons:</strong> Hard to train, mode collapse</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>VAEs</h4><strong>Pros:</strong> Stable, good latent space\\\\\n<strong>Cons:</strong> Blurry outputs</div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Diffusion}\n<strong>Pros:</strong> Best quality, stable\\\\\n<strong>Cons:</strong> Slower generation\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Diffusion Applications Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/diffusion_applications.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Why Diffusion Models Won</h4>They power DALL-E 2, Midjourney, Stable Diffusion - the best AI image generators today!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Diffusion Application: DALL-E 2",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>What DALL-E 2 Can Do</h4><strong>Text-to-Image Generation:</strong>\n<ul>\n\n<li>Type a description, get an image\n</li>\n<li>Photorealistic or artistic styles\n</li>\n<li>Combine multiple concepts\n</li>\n<li>Edit existing images\n</li>\n<li>Outpainting (extend images)\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Example Prompts}\n<ul>\n\n<li>\"A cat astronaut on Mars\"\n</li>\n<li>\"Oil painting of a sunset over Manila\"\n</li>\n<li>\"Teddy bear shopping for groceries\"\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real-World Uses</h4><ul>\n\n<li>Marketing content creation\n</li>\n<li>Concept art for entertainment\n</li>\n<li>Educational illustrations\n</li>\n<li>Social media graphics\n</li>\n<li>Product mockups\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>By OpenAI</h4>Same company behind ChatGPT - 1.5+ million users create images daily!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Diffusion Application: Midjourney",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>What Makes Midjourney Special</h4><strong>Artistic Focus:</strong>\n<ul>\n\n<li>Exceptionally beautiful outputs\n</li>\n<li>Strong artistic style\n</li>\n<li>Great for fantasy/sci-fi art\n</li>\n<li>Discord-based interface\n</li>\n<li>Community of 16+ million users\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Popular Use Cases}\n<ul>\n\n<li>Book cover designs\n</li>\n<li>Album artwork\n</li>\n<li>Game concept art\n</li>\n<li>NFT art generation\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Industry Impact</h4><ul>\n\n<li>Artists use it for inspiration\n</li>\n<li>Magazine covers created with AI\n</li>\n<li>Award-winning art competitions\n</li>\n<li>Commercial illustration work\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Controversy</h4>AI art won Colorado State Fair - sparked debate about AI creativity!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Diffusion Application: Stable Diffusion",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Why Stable Diffusion is Different</h4><strong>Open Source:</strong>\n<ul>\n\n<li>Free to use and modify\n</li>\n<li>Run on your own computer\n</li>\n<li>Customize and fine-tune\n</li>\n<li>No usage restrictions\n</li>\n<li>Active developer community\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Technical Details}\n<ul>\n\n<li>Can run on consumer GPUs\n</li>\n<li>Faster than DALL-E 2\n</li>\n<li>Extensible with plugins\n</li>\n<li>Multiple versions and variants\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Popular Applications Built With It</h4><ul>\n\n<li>DreamStudio (official interface)\n</li>\n<li>Automatic1111 (popular UI)\n</li>\n<li>ComfyUI (node-based editor)\n</li>\n<li>Mobile apps (Draw Things)\n</li>\n<li>Photoshop plugins\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Democratizing AI</h4>Anyone with a decent computer can now generate professional-quality images!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "Diffusion Application: Adobe Firefly",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Professional Image Editing</h4><strong>Firefly Features:</strong>\n<ul>\n\n<li>Text-to-image generation\n</li>\n<li>Generative fill (edit parts of images)\n</li>\n<li>Text effects (3D text styles)\n</li>\n<li>Generative recolor\n</li>\n<li>Integrated in Photoshop\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Key Advantages}\n<ul>\n\n<li>Trained on Adobe Stock (licensed data)\n</li>\n<li>Commercially safe to use\n</li>\n<li>Professional quality outputs\n</li>\n<li>Seamless Creative Cloud integration\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Real Designer Workflows</h4><ul>\n\n<li>Remove unwanted objects\n</li>\n<li>Extend backgrounds\n</li>\n<li>Generate variations quickly\n</li>\n<li>Create mockups from descriptions\n</li>\n<li>Speed up creative process 10x\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Industry Standard</h4>Adobe's AI tools are becoming essential for professional designers!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 39,
+      "title": "Diffusion Application: Video Generation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Text-to-Video AI</h4><strong>Emerging Applications:</strong>\n<ul>\n\n<li>Generate short video clips\n</li>\n<li>Animate static images\n</li>\n<li>Create transitions\n</li>\n<li>Style transfer for video\n</li>\n<li>AI-assisted editing\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Current Platforms}\n<ul>\n\n<li><strong>Runway Gen-2:</strong> Text-to-video\n</li>\n<li><strong>Pika Labs:</strong> Video generation\n</li>\n<li><strong>Stable Video Diffusion:</strong> Open source\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Use Cases</h4><ul>\n\n<li>Social media content\n</li>\n<li>Marketing videos\n</li>\n<li>Animated presentations\n</li>\n<li>Film pre-visualization\n</li>\n<li>Game cinematics\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Future is Coming</h4>Video generation is improving rapidly - expect major breakthroughs soon!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 40,
+      "title": "Text-to-Image Process Explained",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/text_to_image_process.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>How It All Works Together</h4><ol>\n\n<li><strong>Text Encoder (Transformer):</strong> Understand your description\n</li>\n<li><strong>Diffusion Model:</strong> Generate image from noise\n</li>\n<li><strong>Guidance:</strong> Steer generation toward text description\n</li>\n<li><strong>Refinement:</strong> Iteratively improve quality\n</li>\n</ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 41,
+      "title": "Ethical Considerations",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/generative_ethics.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Important Questions to Consider</h4>As these technologies become powerful, we must think carefully about their impact!</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 42,
+      "title": "Key Ethical Issues",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Misinformation \\& Deepfakes</h4><strong>Concerns:</strong>\n<ul>\n\n<li>Fake news and propaganda\n</li>\n<li>Identity fraud\n</li>\n<li>Non-consensual content\n</li>\n<li>Erosion of trust in media\n</li>\n</ul>\n\n\n\n<strong>Solutions:</strong>\n<ul>\n\n<li>Detection technology\n</li>\n<li>Digital watermarking\n</li>\n<li>Media literacy education\n</li>\n<li>Legal frameworks\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Bias \\& Fairness</h4><strong>Problems:</strong>\n<ul>\n\n<li>Biased training data\n</li>\n<li>Perpetuating stereotypes\n</li>\n<li>Unfair representation\n</li>\n<li>Discrimination in outputs\n</li>\n</ul>\n\n\n\n<strong>Mitigation:</strong>\n<ul>\n\n<li>Diverse training datasets\n</li>\n<li>Bias testing and auditing\n</li>\n<li>Responsible AI guidelines\n</li>\n<li>Inclusive development teams\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 43,
+      "title": "More Ethical Considerations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Copyright \\& Intellectual Property</h4><strong>Questions:</strong>\n<ul>\n\n<li>Who owns AI-generated content?\n</li>\n<li>Is training on copyrighted data fair use?\n</li>\n<li>Should artists be compensated?\n</li>\n<li>How to attribute AI creations?\n</li>\n</ul>\n\n\n\n<strong>Current Debates:</strong>\n<ul>\n\n<li>Ongoing lawsuits (artists vs AI companies)\n</li>\n<li>New legislation being proposed\n</li>\n<li>Industry opt-out mechanisms\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Job Displacement</h4><strong>Concerns:</strong>\n<ul>\n\n<li>Will AI replace creative jobs?\n</li>\n<li>Impact on artists, writers, designers\n</li>\n<li>Economic inequality\n</li>\n<li>Need for reskilling\n</li>\n</ul>\n\n\n\n<strong>Opportunities:</strong>\n<ul>\n\n<li>AI as a tool, not replacement\n</li>\n<li>New creative possibilities\n</li>\n<li>Democratization of creation\n</li>\n<li>Focus on uniquely human skills\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Your Responsibility</h4>As future AI practitioners, think critically about the impact of your work!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 44,
+      "title": "Understanding Attention",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/attention_simple_concept.png]</em></p></div>\n\n\n\n<div class=\"highlight\"><h4>What is Attention?</h4><strong>A mechanism that lets neural networks focus on relevant parts:</strong>\n<ul>\n\n<li>In text: Focus on important words in a sentence\n</li>\n<li>In images: Focus on relevant image regions\n</li>\n<li>Learns automatically what to pay attention to\n</li>\n<li>Core component of Transformers\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 45,
+      "title": "Attention Example: Language Translation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Problem Without Attention</h4><strong>Translating: \"The cat sat on the mat\"</strong>\n\nOld approach:\n<ul>\n\n<li>Process word by word left to right\n</li>\n<li>Forget earlier context\n</li>\n<li>Struggle with long sentences\n</li>\n<li>Poor word alignment\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{With Attention}\nFor each output word, the model:\n<ul>\n\n<li>Looks at ALL input words\n</li>\n<li>Focuses on relevant ones\n</li>\n<li>\"sat\" pays attention to \"cat\" and \"mat\"\n</li>\n<li>Handles long-distance dependencies\n</li>\n<li>Better translation quality\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Why It's Revolutionary</h4>Attention enabled Transformers to outperform all previous architectures!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 46,
+      "title": "Getting Started: Available Tools",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Free/Accessible Tools</h4><strong>Try these today:</strong>\n<ul>\n\n<li><strong>ChatGPT:</strong> Free tier available\n</li>\n<li><strong>Bing Image Creator:</strong> Free DALL-E access\n</li>\n<li><strong>Google Colab:</strong> Run Stable Diffusion free\n</li>\n<li><strong>Hugging Face:</strong> Try many models online\n</li>\n<li><strong>Runway:</strong> Free trial for video\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Learning Resources}\n<ul>\n\n<li>Fast.ai courses (free)\n</li>\n<li>Hugging Face tutorials\n</li>\n<li>Papers with Code\n</li>\n<li>YouTube: Two Minute Papers\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>For Developers</h4><strong>Build your own:</strong>\n<ul>\n\n<li>PyTorch or TensorFlow\n</li>\n<li>Hugging Face Transformers library\n</li>\n<li>Stable Diffusion on GitHub\n</li>\n<li>Pre-trained models available\n</li>\n<li>Fine-tune on your data\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Start Small</h4>Use existing models before building from scratch - learn by doing!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 47,
+      "title": "Tips for Using AI Image Generators",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Writing Good Prompts</h4><strong>Be specific:</strong>\n<ul>\n\n<li>Describe style (photorealistic, cartoon, oil painting)\n</li>\n<li>Specify details (colors, lighting, mood)\n</li>\n<li>Mention composition (close-up, wide shot)\n</li>\n<li>Add quality keywords (4K, detailed, masterpiece)\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Example Good Prompt}\n\"A majestic golden retriever sitting in a flower meadow at sunset, photorealistic, warm lighting, shallow depth of field, 4K quality\"\n\\end{exampleblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Iteration is Key</h4><ul>\n\n<li>Generate multiple variations\n</li>\n<li>Refine your prompt\n</li>\n<li>Use negative prompts (what to avoid)\n</li>\n<li>Adjust parameters (steps, guidance)\n</li>\n<li>Learn from community prompts\n</li>\n</ul></div>\n\n\n\n<div class=\"warning\"><h4>Pro Tip</h4>Check out prompt libraries (Lexica.art, PromptHero) to learn from others!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 48,
+      "title": "Common Challenges \\& Solutions",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Challenge: Poor Results</h4><strong>If outputs look bad:</strong>\n<ul>\n\n<li>Improve your prompt specificity\n</li>\n<li>Try different seed values\n</li>\n<li>Adjust generation parameters\n</li>\n<li>Use a different model/variant\n</li>\n<li>Increase generation steps\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Challenge: Wrong Anatomy/Details</h4><strong>Known limitations:</strong>\n<ul>\n\n<li>Hands and fingers often wrong\n</li>\n<li>Text in images unclear\n</li>\n<li>Physics may be incorrect\n</li>\n<li>Use inpainting to fix specific parts\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Challenge: Slow Generation</h4><strong>Speed up:</strong>\n<ul>\n\n<li>Use lower resolution first\n</li>\n<li>Reduce number of steps\n</li>\n<li>Try faster samplers\n</li>\n<li>Use GPU acceleration\n</li>\n<li>Consider paid services for speed\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Challenge: Reproducibility</h4><strong>Get consistent results:</strong>\n<ul>\n\n<li>Save your seed numbers\n</li>\n<li>Keep prompt exactly the same\n</li>\n<li>Note all parameters used\n</li>\n<li>Use img2img for variations\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 49,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>What We Learned</h4><strong>Five major architectures changing the world:</strong>\n<ol>\n\n<li><strong>CNNs:</strong> Revolutionized computer vision (medical imaging, self-driving cars, face recognition)\n</li>\n<li><strong>GANs:</strong> Generate realistic images (AI art, deepfakes, synthetic data)\n</li>\n<li><strong>VAEs:</strong> Compress and generate (anomaly detection, drug discovery)\n</li>\n<li><strong>Transformers:</strong> Dominated NLP (ChatGPT, translation, code generation)\n</li>\n<li><strong>Diffusion:</strong> Best image generation (DALL-E 2, Midjourney, Stable Diffusion)\n</li>\n</ol></div>\n\n\n\n<div class=\"warning\"><h4>Main Message</h4>These aren't just research projects - they're tools you can use TODAY in real applications!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 50,
+      "title": "Applications Summary",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>CNNs Applications</h4><ul>\n\n<li>Medical tumor detection\n</li>\n<li>Self-driving lane detection\n</li>\n<li>Phone face unlock\n</li>\n<li>Security cameras\n</li>\n<li>Satellite imagery analysis\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>GAN Applications</h4><ul>\n\n<li>Artbreeder AI art\n</li>\n<li>Deepfake detection\n</li>\n<li>Synthetic medical data\n</li>\n<li>Game character creation\n</li>\n<li>Fashion design\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Transformer Applications</h4><ul>\n\n<li>ChatGPT conversations\n</li>\n<li>Google Translate\n</li>\n<li>GitHub Copilot\n</li>\n<li>Email auto-complete\n</li>\n<li>Document summarization\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Diffusion Applications</h4><ul>\n\n<li>DALL-E 2 image generation\n</li>\n<li>Midjourney art creation\n</li>\n<li>Stable Diffusion (open source)\n</li>\n<li>Adobe Firefly editing\n</li>\n<li>Video generation (emerging)\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 51,
+      "title": "The Future is Here",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Trends to Watch</h4><strong>Next 1-2 years:</strong>\n<ul>\n\n<li><strong>Multimodal AI:</strong> Text, image, audio, video together\n</li>\n<li><strong>Better video generation:</strong> Movie-quality AI videos\n</li>\n<li><strong>3D generation:</strong> Create 3D models from text\n</li>\n<li><strong>Real-time generation:</strong> Instant results\n</li>\n<li><strong>Personalization:</strong> AI that learns your style\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Career Opportunities}\n<strong>Skills in demand:</strong>\n<ul>\n\n<li>AI/ML engineering\n</li>\n<li>Prompt engineering\n</li>\n<li>AI safety and ethics\n</li>\n<li>Creative AI applications\n</li>\n<li>AI product management\n</li>\n</ul>\n\\end{exampleblock}\n\n\n\n<div class=\"warning\"><h4>Get Involved</h4>The best way to learn is to experiment - start building today!</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 52,
+      "title": "How to Continue Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Hands-On Practice</h4><ul>\n\n<li>Try Stable Diffusion on Colab\n</li>\n<li>Build projects with Hugging Face\n</li>\n<li>Fine-tune models on your data\n</li>\n<li>Participate in Kaggle competitions\n</li>\n<li>Contribute to open source projects\n</li>\n</ul></div>\n\n\n\n<div class=\"highlight\"><h4>Online Courses</h4><ul>\n\n<li>Fast.ai: Practical Deep Learning\n</li>\n<li>Stanford CS230: Deep Learning\n</li>\n<li>Coursera: Deep Learning Specialization\n</li>\n<li>Hugging Face NLP Course (free)\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Stay Updated</h4><ul>\n\n<li>Follow Papers with Code\n</li>\n<li>Read AI newsletters (The Batch, etc.)\n</li>\n<li>Watch Two Minute Papers (YouTube)\n</li>\n<li>Join AI Discord communities\n</li>\n<li>Attend local meetups\n</li>\n</ul></div>\n\n\n\n\\begin{exampleblock}{Next Steps in This Course}\n<strong>Workshop:</strong> Hands-on coding with ResNet, GPT-2, Stable Diffusion - let's use these models!\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 53,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "{\\Large<strong>Thank you for your attention!</strong>}\n\n\n\n<div class=\"highlight\"><h4>Contact Information</h4><strong>Instructor:</strong> Noel Jeffrey Pinton\\\\\n<strong>Course:</strong> CMSC 173 - Machine Learning\\\\\n<strong>Institution:</strong> University of the Philippines - Cebu\\\\\n<strong>Department:</strong> Computer Science</div>\n\n\n\n<div class=\"warning\"><h4>Remember</h4>Advanced neural networks are tools that empower creativity and solve real problems. Use them responsibly and ethically!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

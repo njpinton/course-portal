@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}Learning Hub{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Skip Link for Keyboard Navigation (WCAG 2.4.1) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="app-layout">
+        <!-- Mobile Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()" aria-hidden="true"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <!-- Close button for mobile -->
+            <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close navigation menu">×</button>
+            <!-- Toggle button for desktop collapse -->
+            <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebarCollapse()" aria-label="Toggle sidebar" title="Toggle sidebar"></button>
+            <div class="sidebar-header">
+                <div class="sidebar-logos">
+                    <img src="{{ url_for('static', filename='images/up-logo.png') }}" alt="UP" onerror="this.style.display='none'">
+                    <img src="{{ url_for('static', filename='images/up-cebu-logo.png') }}" alt="UP Cebu" onerror="this.style.display='none'">
+                </div>
+                <a href="/" class="sidebar-logo">
+                    <div class="sidebar-logo-text">UP Cebu</div>
+                    <div class="sidebar-logo-subtitle">Department of Computer Science</div>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Overview</div>
+                    <a href="/" class="nav-item {% if active_page == 'hub' %}active{% endif %}">
+                        <span class="nav-item-icon">&#127968;</span>
+                        <span>Course Hub</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Courses</div>
+                    {% if courses %}
+                    {% for course_id, course in courses.items() %}
+                    {% if course.is_active %}
+                    <a href="/course/{{ course_id }}" class="nav-item {% if active_course == course_id %}active{% endif %}">
+                        <span class="nav-item-icon">&#128218;</span>
+                        <span>{{ course.code }}</span>
+                        <span class="nav-item-badge">{{ course.modules|length }}</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <a href="/course/cmsc173" class="nav-item">
+                        <span class="nav-item-icon">&#128218;</span>
+                        <span>CMSC 173</span>
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Quick Links</div>
+                    <a href="/group_portal" class="nav-item {% if active_page == 'group_portal' %}active{% endif %}">
+                        <span class="nav-item-icon">&#128101;</span>
+                        <span>Group Portal</span>
+                    </a>
+                </div>
+
+                {% if session.get('is_admin') %}
+                <div class="nav-section">
+                    <div class="nav-section-title">Admin</div>
+                    <a href="/admin" class="nav-item {% if active_page == 'admin_dashboard' %}active{% endif %}">
+                        <span class="nav-item-icon">&#128202;</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="/admin_roster" class="nav-item {% if active_page == 'admin_roster' %}active{% endif %}">
+                        <span class="nav-item-icon">&#128100;</span>
+                        <span>Student Roster</span>
+                    </a>
+                    <a href="/admin_submissions" class="nav-item {% if active_page == 'admin_submissions' %}active{% endif %}">
+                        <span class="nav-item-icon">&#128196;</span>
+                        <span>All Submissions</span>
+                    </a>
+                    <a href="/admin_resources" class="nav-item {% if active_page == 'admin_resources' %}active{% endif %}">
+                        <span class="nav-item-icon">&#127909;</span>
+                        <span>Resources</span>
+                    </a>
+                </div>
+                {% endif %}
+            </nav>
+
+            <div class="sidebar-footer">
+                {% if session.get('is_admin') %}
+                <a href="/admin_logout" class="user-menu">
+                    <div class="user-avatar" style="background: var(--up-maroon);">A</div>
+                    <div class="user-info">
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Logout →</div>
+                    </div>
+                </a>
+                {% else %}
+                <a href="/admin_login" class="user-menu">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <div class="user-name">Admin</div>
+                        <div class="user-role">Instructor</div>
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+            <header class="page-header">
+                <!-- Mobile Hamburger Button -->
+                <button class="mobile-menu-btn" onclick="openSidebar()" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+                    ☰
+                </button>
+                <nav class="breadcrumbs" aria-label="Breadcrumb">
+                    {% block breadcrumbs %}
+                    <span class="breadcrumb-current" aria-current="page">Home</span>
+                    {% endblock %}
+                </nav>
+                <div class="header-actions">
+                    {% block header_actions %}{% endblock %}
+                </div>
+            </header>
+
+            <div class="page-content" id="main-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/layout.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

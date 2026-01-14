@@ -1,0 +1,812 @@
+{% extends "base_layout.html" %}
+
+{% block title %}{{ course.code }}: {{ course.title }} - Learning Hub{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Hub</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">{{ course.code }}</span>
+{% endblock %}
+
+{% block header_actions %}
+<a href="/group_portal" class="btn btn-primary">
+    <span>&#128101;</span>
+    Group Portal
+</a>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Course Header with UP accent */
+    .course-header {
+        background: var(--bg-white);
+        margin: -32px -32px 32px -32px;
+        padding: 32px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+    }
+
+    .course-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--up-green) 0%, var(--up-maroon) 50%, var(--up-gold) 100%);
+    }
+
+    .course-header-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+
+    .course-info h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+    }
+
+    .course-info .course-code {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--up-green);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .course-info .course-description {
+        font-size: 15px;
+        color: var(--text-secondary);
+        margin-top: 8px;
+        max-width: 600px;
+    }
+
+    /* Tabs */
+    .course-tabs {
+        display: flex;
+        gap: 4px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 32px;
+    }
+
+    .course-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        transition: all var(--transition);
+        cursor: pointer;
+        background: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .course-tab:hover {
+        color: var(--text-primary);
+    }
+
+    .course-tab.active {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+    }
+
+    .course-tab .tab-icon {
+        font-size: 16px;
+    }
+
+    .course-tab .tab-count {
+        background: var(--bg-main);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .course-tab.active .tab-count {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+    /* Tab Content */
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* Module Timeline */
+    .modules-timeline {
+        max-width: 800px;
+    }
+
+    .module-category {
+        margin-bottom: 32px;
+    }
+
+    .category-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .category-title {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+    }
+
+    .category-count {
+        font-size: 12px;
+        color: var(--text-muted);
+        background: var(--bg-main);
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .module-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .module-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        transition: all var(--transition);
+    }
+
+    .module-item:hover {
+        border-color: var(--primary);
+        box-shadow: var(--shadow);
+        transform: translateX(4px);
+    }
+
+    .module-number {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-light);
+        color: var(--primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .module-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .module-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 2px;
+    }
+
+    .module-meta {
+        font-size: 13px;
+        color: var(--text-muted);
+    }
+
+    .module-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .module-arrow {
+        color: var(--text-muted);
+        font-size: 18px;
+    }
+
+    .module-item:hover .module-arrow {
+        color: var(--primary);
+    }
+
+    /* Projects Section */
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+    }
+
+    .project-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all var(--transition);
+    }
+
+    .project-card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary);
+    }
+
+    .project-card-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .project-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+    }
+
+    .project-description {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .project-card-body {
+        padding: 20px 24px;
+    }
+
+    .project-stages {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stage-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+    }
+
+    .stage-number {
+        width: 24px;
+        height: 24px;
+        background: var(--bg-main);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    .stage-name {
+        color: var(--text-secondary);
+    }
+
+    .project-card-footer {
+        padding: 16px 24px;
+        background: var(--bg-main);
+        border-top: 1px solid var(--border-light);
+    }
+
+    .project-action {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .project-action a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .project-action a:hover {
+        text-decoration: underline;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        font-size: 14px;
+    }
+
+    /* Loading State */
+    .loading-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+    }
+
+    .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--border);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 12px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Resources Grid */
+    .resources-container {
+        min-height: 200px;
+    }
+
+    .resources-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    /* Video Facade Pattern - Lightweight thumbnails, load iframe on click */
+    .video-facade {
+        position: relative;
+        background: #000;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 16 / 9;
+    }
+
+    .video-facade img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.2s;
+    }
+
+    .video-facade:hover img {
+        opacity: 0.85;
+    }
+
+    .video-facade .play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 68px;
+        height: 48px;
+        background: rgba(255, 0, 0, 0.9);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .video-facade:hover .play-btn {
+        background: #ff0000;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-facade .play-btn::before {
+        content: '';
+        border-style: solid;
+        border-width: 10px 0 10px 18px;
+        border-color: transparent transparent transparent #fff;
+        margin-left: 4px;
+    }
+
+    /* Video loaded state */
+    .video-facade.loaded {
+        cursor: default;
+    }
+
+    .video-facade.loaded img,
+    .video-facade.loaded .play-btn {
+        display: none;
+    }
+
+    .video-facade iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* Resource Card */
+    .resource-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all var(--transition);
+    }
+
+    .resource-card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary);
+    }
+
+    .resource-card-body {
+        padding: 16px 20px;
+    }
+
+    .resource-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+    }
+
+    .resource-description {
+        font-size: 14px;
+        color: var(--text-secondary);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Link/PDF Resources */
+    .resource-link {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        text-decoration: none;
+        transition: all var(--transition);
+    }
+
+    .resource-link:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary);
+        transform: translateY(-2px);
+    }
+
+    .resource-link-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--primary-light);
+        color: var(--primary);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+
+    .resource-link-icon.pdf {
+        background: #fef3f2;
+        color: #dc2626;
+    }
+
+    .resource-link-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .resource-link-arrow {
+        color: var(--text-muted);
+        font-size: 20px;
+    }
+
+    .resource-link:hover .resource-link-arrow {
+        color: var(--primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="course-header">
+    <div class="course-header-top">
+        <div class="course-info">
+            <div class="course-code">{{ course.code }}</div>
+            <h1>{{ course.title }}</h1>
+            <p class="course-description">{{ course.description }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Course Tabs -->
+<div class="course-tabs">
+    <button class="course-tab active" onclick="showTab('modules')">
+        <span class="tab-icon">&#128214;</span>
+        <span>Modules</span>
+        <span class="tab-count">{{ course.modules|length }}</span>
+    </button>
+    <button class="course-tab" onclick="showTab('projects')">
+        <span class="tab-icon">&#128101;</span>
+        <span>Group Projects</span>
+        <span class="tab-count">{{ projects|length }}</span>
+    </button>
+    <button class="course-tab" onclick="showTab('resources')">
+        <span class="tab-icon">&#128196;</span>
+        <span>Resources</span>
+    </button>
+</div>
+
+<!-- Modules Tab -->
+<div id="tab-modules" class="tab-content active">
+    <div class="modules-timeline">
+        {% for cat_id, cat_info in categories.items() %}
+        {% set cat_modules = [] %}
+        {% for num, mod in course.modules.items() %}
+            {% if mod.category == cat_id %}
+                {% set _ = cat_modules.append((num, mod)) %}
+            {% endif %}
+        {% endfor %}
+
+        {% if cat_modules %}
+        <div class="module-category">
+            <div class="category-header">
+                <span class="category-title">{{ cat_info.title }}</span>
+                <span class="category-count">{{ cat_modules|length }} modules</span>
+            </div>
+            <div class="module-list">
+                {% for num, mod in cat_modules %}
+                <a href="/course/{{ course_id }}/module/{{ num }}" class="module-item">
+                    <div class="module-number">{{ num }}</div>
+                    <div class="module-info">
+                        <div class="module-title">{{ mod.title }}</div>
+                        <div class="module-meta">Module {{ num }}</div>
+                    </div>
+                    <div class="module-status">
+                        <span class="module-arrow">&#8594;</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Projects Tab -->
+<div id="tab-projects" class="tab-content">
+    {% if projects %}
+    <div class="projects-grid">
+        {% for project in projects %}
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3 class="project-title">{{ project.title }}</h3>
+                <p class="project-description">{{ project.description }}</p>
+            </div>
+            <div class="project-card-body">
+                <div class="project-stages">
+                    {% for stage_name in project.stage_names %}
+                    <div class="stage-item">
+                        <span class="stage-number">{{ loop.index }}</span>
+                        <span class="stage-name">{{ stage_name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="project-card-footer">
+                <div class="project-action">
+                    <a href="/group_portal">
+                        Enter Group Portal
+                        <span>&#8594;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">&#128101;</div>
+        <h3>No Projects Yet</h3>
+        <p>Group projects for this course will appear here.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Resources Tab -->
+<div id="tab-resources" class="tab-content">
+    <div id="resourcesContainer" class="resources-container">
+        <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading resources...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const courseId = '{{ course_id }}';
+    let resourcesLoaded = false;
+
+    function showTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Deactivate all tabs
+        document.querySelectorAll('.course-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Show selected tab content
+        document.getElementById('tab-' + tabName).classList.add('active');
+
+        // Activate clicked tab
+        event.target.closest('.course-tab').classList.add('active');
+
+        // Load resources when tab is first shown
+        if (tabName === 'resources' && !resourcesLoaded) {
+            loadResources();
+        }
+    }
+
+    async function loadResources() {
+        const container = document.getElementById('resourcesContainer');
+
+        try {
+            const response = await fetch(`/api/courses/${courseId}/resources`);
+            if (!response.ok) throw new Error('Failed to load resources');
+
+            const resources = await response.json();
+            resourcesLoaded = true;
+
+            if (resources.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">&#128196;</div>
+                        <h3>No Resources Yet</h3>
+                        <p>Supplementary materials and resources will appear here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Separate YouTube videos and other resources
+            const videos = resources.filter(r => r.resource_type === 'youtube');
+            const others = resources.filter(r => r.resource_type !== 'youtube');
+
+            let html = '';
+
+            // Render videos in a grid
+            if (videos.length > 0) {
+                html += '<div class="resources-grid">';
+                videos.forEach(video => {
+                    html += renderVideoCard(video);
+                });
+                html += '</div>';
+            }
+
+            // Render other resources
+            if (others.length > 0) {
+                if (videos.length > 0) {
+                    html += '<div style="margin-top: 32px;"></div>';
+                }
+                others.forEach(resource => {
+                    html += renderLinkCard(resource);
+                });
+            }
+
+            container.innerHTML = html;
+
+            // Bind video click handlers
+            bindVideoFacades();
+
+        } catch (error) {
+            console.error('Error loading resources:', error);
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">&#9888;</div>
+                    <h3>Error Loading Resources</h3>
+                    <p>${escapeHtml(error.message)}</p>
+                </div>
+            `;
+        }
+    }
+
+    function renderVideoCard(resource) {
+        const videoId = resource.youtube_video_id;
+        const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
+
+        return `
+            <div class="resource-card">
+                <div class="video-facade" data-video-id="${escapeHtml(videoId)}">
+                    <img src="${thumbnailUrl}" alt="${escapeHtml(resource.title)}" loading="lazy">
+                    <button class="play-btn" aria-label="Play video"></button>
+                </div>
+                <div class="resource-card-body">
+                    <h3 class="resource-title">${escapeHtml(resource.title)}</h3>
+                    ${resource.description ? `<p class="resource-description">${escapeHtml(resource.description)}</p>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderLinkCard(resource) {
+        const isPdf = resource.resource_type === 'pdf';
+        const icon = isPdf ? '&#128196;' : '&#128279;';
+        const iconClass = isPdf ? 'pdf' : '';
+
+        return `
+            <a href="${escapeHtml(resource.external_url)}" target="_blank" rel="noopener noreferrer" class="resource-link">
+                <div class="resource-link-icon ${iconClass}">${icon}</div>
+                <div class="resource-link-info">
+                    <h3 class="resource-title">${escapeHtml(resource.title)}</h3>
+                    ${resource.description ? `<p class="resource-description">${escapeHtml(resource.description)}</p>` : ''}
+                </div>
+                <span class="resource-link-arrow">&#8594;</span>
+            </a>
+        `;
+    }
+
+    function bindVideoFacades() {
+        document.querySelectorAll('.video-facade').forEach(facade => {
+            facade.addEventListener('click', function() {
+                if (this.classList.contains('loaded')) return;
+
+                const videoId = this.dataset.videoId;
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+
+                this.appendChild(iframe);
+                this.classList.add('loaded');
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,123 @@
+{#
+    Card Component Macros
+    Usage: {% from 'macros/cards.html' import stat_card, form_card %}
+#}
+
+{# Statistic Card - Dashboard stats display #}
+{% macro stat_card(label, value='', icon='', subtext='', id='', loading=false, border_color='var(--up-green)') %}
+<div
+    class="stat-card{% if loading %} loading{% endif %}"
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if border_color %}style="border-left-color: {{ border_color }};"{% endif %}
+>
+    {% if icon %}
+    <div class="stat-icon" aria-hidden="true">{{ icon }}</div>
+    {% endif %}
+    <div class="stat-label">{{ label }}</div>
+    <div class="stat-value">
+        {% if loading %}
+        <span class="loading-spinner" aria-label="Loading"></span>
+        {% else %}
+        {{ value }}
+        {% endif %}
+    </div>
+    {% if subtext %}
+    <div class="stat-subtext">{{ subtext }}</div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Form Card - Card with title and content area #}
+{% macro form_card(title, icon='', class='') %}
+<div class="form-card{{ ' ' + class if class else '' }}">
+    <h3 class="form-card-title">
+        {% if icon %}<span aria-hidden="true">{{ icon }}</span> {% endif %}{{ title }}
+    </h3>
+    <div class="form-card-content">
+        {{ caller() }}
+    </div>
+</div>
+{% endmacro %}
+
+{# Group Card - For displaying group information #}
+{% macro group_card(name, project='', members=[], id='', onclick='') %}
+<div
+    class="group-card"
+    {% if id %}id="group-{{ id }}"{% endif %}
+    {% if onclick %}onclick="{{ onclick }}"{% endif %}
+    role="button"
+    tabindex="0"
+>
+    <h3 class="group-card-title">{{ name }}</h3>
+    {% if project %}
+    <div class="group-card-meta">
+        <span class="project-label">Project:</span> {{ project }}
+    </div>
+    {% endif %}
+    {% if members %}
+    <div class="group-card-team">
+        <span class="team-label">Members:</span>
+        <ul class="member-list">
+            {% for member in members %}
+            <li>{{ member }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Course Card - For course hub display #}
+{% macro course_card(code, title, description, modules_count=0, projects_count=0, url='#', active=true) %}
+<a href="{{ url }}" class="course-card{% if not active %} coming-soon{% endif %}">
+    <div class="course-card-header">
+        <div class="course-code">
+            {{ code }}
+            {% if not active %}
+            <span class="coming-soon-badge">Coming Soon</span>
+            {% endif %}
+        </div>
+        <h2 class="course-title">{{ title }}</h2>
+        <p class="course-description">{{ description }}</p>
+    </div>
+    <div class="course-card-footer">
+        <div class="course-stat">
+            <div class="course-stat-icon" aria-hidden="true">&#128214;</div>
+            <div class="course-stat-info">
+                <span class="course-stat-value">{{ modules_count }}</span>
+                <span class="course-stat-label">Modules</span>
+            </div>
+        </div>
+        <div class="course-stat">
+            <div class="course-stat-icon" aria-hidden="true">&#128101;</div>
+            <div class="course-stat-info">
+                <span class="course-stat-value">{{ projects_count }}</span>
+                <span class="course-stat-label">Projects</span>
+            </div>
+        </div>
+        <div class="course-card-action" aria-hidden="true">&#8594;</div>
+    </div>
+</a>
+{% endmacro %}
+
+{# Member Card - For displaying group members #}
+{% macro member_card(name, id='', student_id='', removable=false, on_remove='') %}
+<div class="member-card" {% if id %}data-member-id="{{ id }}"{% endif %}>
+    <div class="member-info">
+        <span class="member-name">{{ name }}</span>
+        {% if student_id %}
+        <span class="member-id">{{ student_id }}</span>
+        {% endif %}
+    </div>
+    {% if removable %}
+    <button
+        type="button"
+        class="member-remove"
+        {% if on_remove %}onclick="{{ on_remove }}"{% endif %}
+        aria-label="Remove {{ name }}"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {% endif %}
+</div>
+{% endmacro %}

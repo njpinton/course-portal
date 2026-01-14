@@ -1,0 +1,72 @@
+{#
+    Alert & Notification Macros
+    Usage: {% from 'macros/alerts.html' import alert_box, toast_container %}
+#}
+
+{# Alert Box - Static alert messages #}
+{% macro alert_box(message='', type='info', dismissible=false, id='', hidden=false, role='alert') %}
+{# type: info, success, error, warning #}
+<div
+    {% if id %}id="{{ id }}"{% endif %}
+    class="alert alert-{{ type }}{% if hidden %} hidden{% endif %}"
+    role="{{ role }}"
+    {% if hidden %}aria-hidden="true"{% endif %}
+>
+    <span class="alert-icon" aria-hidden="true">
+        {% if type == 'success' %}&#10004;{% elif type == 'error' %}&#10006;{% elif type == 'warning' %}&#9888;{% else %}&#8505;{% endif %}
+    </span>
+    <span class="alert-message">{{ message }}</span>
+    {% if dismissible %}
+    <button type="button" class="alert-dismiss" onclick="this.parentElement.remove()" aria-label="Dismiss alert">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Alert Box (Alternate Style) - Used in portals #}
+{% macro alert_box_alt(type='info', id='', hidden=true) %}
+{# type: info, success, error, warning #}
+<div
+    id="{{ id }}"
+    class="alert-box alert-box-{{ type }}{% if hidden %} hidden{% endif %}"
+    role="status"
+    {% if hidden %}aria-hidden="true"{% endif %}
+>
+    <span id="{{ id }}Text" class="alert-message"></span>
+</div>
+{% endmacro %}
+
+{# Toast Container - For dynamic notifications #}
+{% macro toast_container(id='toastContainer', position='top-right') %}
+<div
+    id="{{ id }}"
+    class="toast-container toast-{{ position }}"
+    role="alert"
+    aria-live="polite"
+    aria-atomic="true"
+></div>
+{% endmacro %}
+
+{# Inline Message - For form validation feedback #}
+{% macro inline_message(id, type='error', hidden=true) %}
+<div
+    id="{{ id }}"
+    class="inline-message inline-message-{{ type }}{% if hidden %} hidden{% endif %}"
+    role="alert"
+    {% if hidden %}aria-hidden="true"{% endif %}
+></div>
+{% endmacro %}
+
+{# Page-level Flash Messages #}
+{% macro flash_messages() %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        {{ alert_box(message, type=category, dismissible=true) }}
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+{% endmacro %}

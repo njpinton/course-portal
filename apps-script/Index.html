@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f5f5f5; color: #333; }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .header h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+    .header p { opacity: 0.9; font-size: 14px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 32px;
+    }
+    .tab {
+      padding: 16px 24px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab:hover { color: #667eea; background: #f8f9ff; }
+    .tab.active { color: #667eea; border-bottom-color: #667eea; }
+    .tab .material-icons { font-size: 20px; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 24px;
+      padding: 20px 32px;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+    .stat-item { display: flex; align-items: center; gap: 8px; }
+    .stat-item .material-icons { color: #667eea; font-size: 20px; }
+    .stat-value { font-size: 20px; font-weight: 600; color: #333; }
+    .stat-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Buttons */
+    .toolbar { padding: 16px 32px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .btn-primary { background: #667eea; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #5a6fd6; }
+    .btn-secondary { background: white; color: #333; border: 1px solid #ddd; }
+    .btn-secondary:hover:not(:disabled) { background: #f5f5f5; }
+    .btn-success { background: #10b981; color: white; }
+    .btn-success:hover:not(:disabled) { background: #059669; }
+    .btn-icon { padding: 6px; min-width: auto; }
+    .btn-export { background: #8b5cf6; color: white; }
+    .btn-export:hover:not(:disabled) { background: #7c3aed; }
+
+    .btn .spinner-small {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    /* Dropdown menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 4px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      z-index: 100;
+      min-width: 180px;
+      overflow: hidden;
+    }
+    .dropdown-content.show { display: block; }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+    }
+    .dropdown-item:hover { background: #f5f5f5; }
+    .dropdown-item .material-icons { font-size: 18px; color: #666; }
+    .dropdown-divider { height: 1px; background: #eee; margin: 4px 0; }
+
+    .container { padding: 0 32px 32px; }
+
+    /* Dashboard styles */
+    .dashboard-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .summary-card.submitted { border-left: 4px solid #10b981; }
+    .summary-card.pending { border-left: 4px solid #f59e0b; }
+    .summary-card.total { border-left: 4px solid #667eea; }
+    .summary-card .value { font-size: 32px; font-weight: 700; color: #333; }
+    .summary-card .label { font-size: 13px; color: #666; margin-top: 4px; }
+    .summary-card .percentage { font-size: 14px; color: #10b981; font-weight: 500; margin-top: 8px; }
+
+    /* Filters */
+    .filters-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+    }
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .filter-count {
+      font-size: 13px;
+      color: #888;
+      margin-left: auto;
+    }
+
+    /* Table */
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .student-table { width: 100%; border-collapse: collapse; }
+    .student-table th {
+      text-align: left;
+      padding: 14px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #eee;
+      background: #fafafa;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .student-table th:hover { background: #f0f0f0; }
+    .student-table th.sorted { color: #667eea; }
+    .student-table th .sort-icon {
+      font-size: 16px;
+      vertical-align: middle;
+      margin-left: 4px;
+      opacity: 0.5;
+    }
+    .student-table th.sorted .sort-icon { opacity: 1; }
+    .student-table th.no-sort { cursor: default; }
+    .student-table th.no-sort:hover { background: #fafafa; }
+    .student-table td {
+      padding: 12px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .student-table tr:hover { background: #f8f9ff; }
+    .student-table tr.submitted { background: #f0fdf4; }
+    .student-table tr.submitted:hover { background: #dcfce7; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .status-badge.submitted { background: #d1fae5; color: #059669; }
+    .status-badge.pending { background: #fef3c7; color: #d97706; }
+    .status-badge .material-icons { font-size: 14px; }
+
+    .student-name { font-weight: 500; }
+    .student-email { font-size: 12px; color: #888; margin-top: 2px; }
+    .submission-date { font-size: 13px; color: #666; }
+    .submission-date .material-icons { font-size: 14px; vertical-align: middle; margin-right: 4px; }
+
+    .section-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #e8ebff;
+      color: #667eea;
+    }
+
+    /* Files cell */
+    .files-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .files-count {
+      font-weight: 500;
+    }
+    .files-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #667eea;
+      text-decoration: none;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #f0f3ff;
+      transition: background 0.2s;
+    }
+    .files-link:hover {
+      background: #e0e5ff;
+      text-decoration: none;
+    }
+    .files-link .material-icons { font-size: 14px; }
+
+    /* Files dropdown */
+    .files-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .files-dropdown-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #667eea;
+      background: #f0f3ff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .files-dropdown-btn:hover { background: #e0e5ff; }
+    .files-dropdown-btn .material-icons { font-size: 14px; }
+    .files-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 4px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      z-index: 100;
+      min-width: 280px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .files-dropdown-content.show { display: block; }
+    .files-dropdown-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .files-dropdown-header a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .files-dropdown-header a:hover { text-decoration: underline; }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-bottom: 1px solid #f5f5f5;
+      font-size: 13px;
+    }
+    .file-item:last-child { border-bottom: none; }
+    .file-item:hover { background: #f8f9ff; }
+    .file-item .material-icons { font-size: 18px; color: #888; }
+    .file-item a {
+      color: #333;
+      text-decoration: none;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .file-item a:hover { color: #667eea; }
+    .file-item .file-size { color: #999; font-size: 11px; white-space: nowrap; }
+
+    /* Submissions list styles */
+    .submissions-list { display: flex; flex-direction: column; gap: 12px; }
+    .submission-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.2s;
+      border-left: 4px solid transparent;
+    }
+    .submission-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .submission-card.unread { border-left-color: #667eea; background: #fafbff; }
+    .submission-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .student-info h3 { font-size: 16px; font-weight: 600; color: #333; }
+    .student-info .email { font-size: 13px; color: #666; margin-top: 2px; }
+    .submission-date-header { font-size: 13px; color: #888; text-align: right; }
+    .submission-subject { font-size: 14px; color: #444; margin-bottom: 8px; font-weight: 500; }
+    .submission-preview { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 12px; }
+
+    .attachments-section { border-top: 1px solid #eee; padding-top: 12px; margin-top: 12px; }
+    .attachments-header { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: #555; margin-bottom: 8px; }
+    .attachment-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .attachment-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+    .attachment-item .material-icons { font-size: 18px; color: #667eea; }
+    .attachment-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .attachment-size { color: #888; font-size: 12px; }
+    .attachment-actions { display: flex; gap: 4px; margin-left: 8px; }
+    .attachment-actions button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      color: #667eea;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+    .attachment-actions button:hover { background: #e8ebff; }
+
+    /* Loading & Empty states */
+    .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; color: #666; }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-state { text-align: center; padding: 60px; color: #666; }
+    .empty-state .material-icons { font-size: 64px; color: #ccc; margin-bottom: 16px; }
+    .empty-state .btn { margin-top: 16px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+      z-index: 1001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .toast.show { display: block; animation: slideIn 0.3s ease; }
+    .toast.error { background: #ef4444; }
+    .toast.success { background: #10b981; }
+    @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 1000px;
+      max-height: 85vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+    .modal-header h2 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .modal-close:hover { background: #e0e0e0; }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .folder-link { display: flex; align-items: center; gap: 8px; color: #667eea; text-decoration: none; font-weight: 500; }
+    .folder-link:hover { text-decoration: underline; }
+
+    .files-table { width: 100%; border-collapse: collapse; }
+    .files-table th {
+      text-align: left;
+      padding: 12px 8px;
+      border-bottom: 2px solid #eee;
+      font-weight: 600;
+      font-size: 13px;
+      color: #555;
+      position: sticky;
+      top: 0;
+      background: white;
+    }
+    .files-table td { padding: 12px 8px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+    .files-table tr:hover { background: #fafafa; }
+    .file-link { color: #667eea; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .file-link:hover { text-decoration: underline; }
+
+    .progress-container { text-align: center; padding: 60px 40px; }
+    .progress-text { margin-top: 16px; color: #666; line-height: 1.6; }
+
+    .summary-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .summary-box .material-icons { font-size: 32px; }
+    .summary-box .summary-text { font-size: 15px; }
+    .summary-box .summary-text strong { font-size: 24px; display: block; margin-bottom: 2px; }
+
+    .type-badge {
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .type-badge.email { background: #e8ebff; color: #667eea; }
+    .type-badge.attachment { background: #d1fae5; color: #059669; }
+
+    .copy-all-btn { background: #e8ebff; color: #667eea; }
+    .copy-all-btn:hover { background: #d8ddff; }
+
+    .link-display { display: flex; align-items: center; gap: 8px; margin-top: 8px; width: 100%; }
+    .link-display a { color: #667eea; font-size: 12px; word-break: break-all; }
+
+    /* Focus styles for accessibility */
+    .btn:focus, .filter-select:focus, .tab:focus {
+      outline: 2px solid #667eea;
+      outline-offset: 2px;
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      .spinner, .spinner-small { animation: none; }
+      .toast { animation: none; }
+      * { transition: none !important; }
+    }
+
+    @media (max-width: 768px) {
+      .header, .stats-bar, .toolbar, .container, .tabs { padding-left: 16px; padding-right: 16px; }
+      .tab { padding: 12px 16px; font-size: 13px; }
+      .student-table th, .student-table td { padding: 10px 12px; font-size: 13px; }
+      .filters-bar { flex-direction: column; align-items: stretch; }
+      .filter-count { margin-left: 0; margin-top: 8px; }
+    }
+
+    /* Print styles */
+    @media print {
+      .toolbar, .tabs, .header, .modal-overlay, .toast { display: none; }
+      .table-card { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>CMSC 173 Midterm Submissions</h1>
+    <p>View and manage student midterm exam submissions</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="dashboard" onclick="switchTab('dashboard')">
+      <span class="material-icons">dashboard</span>
+      Dashboard
+    </div>
+    <div class="tab" data-tab="submissions" onclick="switchTab('submissions')">
+      <span class="material-icons">email</span>
+      Submissions
+    </div>
+  </div>
+
+  <!-- Dashboard Tab -->
+  <div id="dashboard-tab" class="tab-content active">
+    <div class="toolbar">
+      <button class="btn btn-primary" onclick="loadDashboard()" id="refresh-dashboard-btn">
+        <span class="material-icons">refresh</span>
+        Refresh
+      </button>
+      <button class="btn btn-secondary" onclick="exportDashboardCSV()">
+        <span class="material-icons">download</span>
+        Export CSV
+      </button>
+
+      <!-- New Export Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-export" onclick="toggleExportDropdown(event)" id="export-submissions-btn">
+          <span class="material-icons">file_download</span>
+          Export Submitted
+          <span class="material-icons">expand_more</span>
+        </button>
+        <div class="dropdown-content" id="export-dropdown">
+          <button class="dropdown-item" onclick="exportSubmittedStudents('csv')">
+            <span class="material-icons">table_chart</span>
+            CSV Format
+          </button>
+          <button class="dropdown-item" onclick="exportSubmittedStudents('txt')">
+            <span class="material-icons">article</span>
+            Text Format
+          </button>
+          <button class="dropdown-item" onclick="exportSubmittedStudents('json')">
+            <span class="material-icons">code</span>
+            JSON Format
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div id="dashboard-content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>Loading dashboard...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submissions Tab -->
+  <div id="submissions-tab" class="tab-content">
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item">
+        <span class="material-icons">email</span>
+        <div>
+          <div class="stat-value" id="stat-submissions">-</div>
+          <div class="stat-label">Submissions</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="material-icons">people</span>
+        <div>
+          <div class="stat-value" id="stat-students">-</div>
+          <div class="stat-label">Students</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="material-icons">attach_file</span>
+        <div>
+          <div class="stat-value" id="stat-attachments">-</div>
+          <div class="stat-label">Attachments</div>
+        </div>
+      </div>
+      <div class="stat-item">
+        <span class="material-icons">mark_email_unread</span>
+        <div>
+          <div class="stat-value" id="stat-unread">-</div>
+          <div class="stat-label">Unread</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn btn-primary" onclick="refresh()" id="refresh-submissions-btn">
+        <span class="material-icons">refresh</span>
+        Refresh
+      </button>
+      <button class="btn btn-success" onclick="saveAllToDrive()" id="save-all-btn">
+        <span class="material-icons">cloud_upload</span>
+        Save All to Drive
+      </button>
+    </div>
+
+    <div class="container">
+      <div id="content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>Loading submissions...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2><span class="material-icons">folder</span> <span id="modal-title">Saved Attachments</span></h2>
+        <button class="modal-close" onclick="closeModal()" aria-label="Close modal"><span class="material-icons">close</span></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer" style="display: none;">
+        <a href="#" id="folder-link" class="folder-link" target="_blank">
+          <span class="material-icons">folder_open</span> Open Drive Folder
+        </a>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn btn-secondary copy-all-btn" onclick="copyAllLinks()">
+            <span class="material-icons">content_copy</span> Copy All Links
+          </button>
+          <button class="btn btn-secondary" onclick="exportToCSV()">
+            <span class="material-icons">download</span> Export CSV
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let submissions = [];
+    let savedFilesData = [];
+    let dashboardData = null;
+    let allStudents = [];
+    let currentSort = { column: 'name', direction: 'asc' };
+    let currentFilters = { status: 'all', section: 'all' };
+    let openDropdown = null;
+    let dashboardRequestId = 0;
+    let submissionsRequestId = 0;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadDashboard();
+
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.files-dropdown') && !e.target.closest('.dropdown')) {
+          closeAllDropdowns();
+        }
+      });
+    });
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.files-dropdown-content.show, .dropdown-content.show').forEach(d => d.classList.remove('show'));
+      openDropdown = null;
+    }
+
+    function toggleFilesDropdown(email, event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById('files-dropdown-' + email);
+
+      if (openDropdown && openDropdown !== dropdown) {
+        openDropdown.classList.remove('show');
+      }
+
+      dropdown.classList.toggle('show');
+      openDropdown = dropdown.classList.contains('show') ? dropdown : null;
+    }
+
+    function toggleExportDropdown(event) {
+      event.stopPropagation();
+      const dropdown = document.getElementById('export-dropdown');
+
+      if (openDropdown && openDropdown !== dropdown) {
+        openDropdown.classList.remove('show');
+      }
+
+      dropdown.classList.toggle('show');
+      openDropdown = dropdown.classList.contains('show') ? dropdown : null;
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      document.querySelector('.tab[data-tab="' + tabName + '"]').classList.add('active');
+      document.getElementById(tabName + '-tab').classList.add('active');
+
+      if (tabName === 'submissions' && submissions.length === 0) {
+        loadStats();
+        loadSubmissions();
+      }
+    }
+
+    // Set button loading state
+    function setButtonLoading(btnId, loading, loadingText) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+
+      if (loading) {
+        btn.disabled = true;
+        btn.dataset.originalHtml = btn.innerHTML;
+        btn.innerHTML = '<div class="spinner-small"></div> ' + (loadingText || 'Loading...');
+      } else {
+        btn.disabled = false;
+        if (btn.dataset.originalHtml) {
+          btn.innerHTML = btn.dataset.originalHtml;
+        }
+      }
+    }
+
+    // Dashboard functions
+    function loadDashboard() {
+      const currentRequest = ++dashboardRequestId;
+
+      document.getElementById('dashboard-content').innerHTML = '\
+        <div class="loading">\
+          <div class="spinner"></div>\
+          <div>Loading dashboard...</div>\
+        </div>\
+      ';
+
+      setButtonLoading('refresh-dashboard-btn', true, 'Loading...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('refresh-dashboard-btn', false);
+          if (currentRequest !== dashboardRequestId) return; // Stale request
+
+          if (result.success === false) {
+            showError('dashboard-content', result.error, loadDashboard);
+            return;
+          }
+          renderDashboard(result);
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('refresh-dashboard-btn', false);
+          if (currentRequest !== dashboardRequestId) return;
+          showError('dashboard-content', err.message, loadDashboard);
+        })
+        .getDashboardData();
+    }
+
+    function showError(containerId, message, retryFn) {
+      document.getElementById(containerId).innerHTML = '\
+        <div class="empty-state">\
+          <span class="material-icons">error</span>\
+          <h3>Error loading data</h3>\
+          <p>' + escapeHtml(message) + '</p>\
+          <button class="btn btn-primary" onclick="' + retryFn.name + '()">\
+            <span class="material-icons">refresh</span>\
+            Try Again\
+          </button>\
+        </div>\
+      ';
+    }
+
+    function renderDashboard(data) {
+      dashboardData = data;
+      const sections = data.sections;
+      const summary = data.summary;
+
+      // Flatten all students with section info
+      allStudents = [];
+      for (var i = 0; i < sections.length; i++) {
+        var section = sections[i];
+        for (var j = 0; j < section.students.length; j++) {
+          var student = section.students[j];
+          allStudents.push({
+            name: student.name,
+            email: student.email,
+            campusId: student.campusId,
+            program: student.program,
+            submitted: student.submitted,
+            submissionDate: student.submissionDate,
+            attachmentCount: student.attachmentCount,
+            folderUrl: student.folderUrl,
+            files: student.files,
+            section: section.name,
+            schedule: section.schedule
+          });
+        }
+      }
+
+      // Build summary cards
+      var sectionOptions = sections.map(function(s) { return '<option value="' + s.name + '">' + s.name + '</option>'; }).join('');
+
+      var html = '\
+        <div class="dashboard-summary">\
+          <div class="summary-card total">\
+            <div class="value">' + summary.totalStudents + '</div>\
+            <div class="label">Total Students</div>\
+          </div>\
+          <div class="summary-card submitted">\
+            <div class="value">' + summary.totalSubmitted + '</div>\
+            <div class="label">Submitted</div>\
+            <div class="percentage">' + summary.submissionRate + '% submission rate</div>\
+          </div>\
+          <div class="summary-card pending">\
+            <div class="value">' + summary.totalPending + '</div>\
+            <div class="label">Pending</div>\
+          </div>\
+        </div>\
+        \
+        <div class="filters-bar">\
+          <div class="filter-group">\
+            <label for="filter-status">Status:</label>\
+            <select id="filter-status" class="filter-select" onchange="applyFilters()">\
+              <option value="all">All</option>\
+              <option value="submitted">Submitted</option>\
+              <option value="pending">Pending</option>\
+            </select>\
+          </div>\
+          <div class="filter-group">\
+            <label for="filter-section">Section:</label>\
+            <select id="filter-section" class="filter-select" onchange="applyFilters()">\
+              <option value="all">All Sections</option>\
+              ' + sectionOptions + '\
+            </select>\
+          </div>\
+          <div class="filter-count" id="filter-count">\
+            Showing ' + allStudents.length + ' of ' + allStudents.length + ' students\
+          </div>\
+        </div>\
+        \
+        <div class="table-card">\
+          <table class="student-table" id="students-table">\
+            <thead>\
+              <tr>\
+                <th data-column="status" onclick="sortTable(\'status\')">\
+                  Status\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="name" onclick="sortTable(\'name\')">\
+                  Student\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="section" onclick="sortTable(\'section\')">\
+                  Section\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="campusId" onclick="sortTable(\'campusId\')">\
+                  Campus ID\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="program" onclick="sortTable(\'program\')">\
+                  Program\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="submissionDate" onclick="sortTable(\'submissionDate\')">\
+                  Submission Date\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+                <th data-column="attachmentCount" onclick="sortTable(\'attachmentCount\')">\
+                  Files\
+                  <span class="material-icons sort-icon">unfold_more</span>\
+                </th>\
+              </tr>\
+            </thead>\
+            <tbody id="students-tbody">\
+            </tbody>\
+          </table>\
+        </div>\
+      ';
+
+      document.getElementById('dashboard-content').innerHTML = html;
+
+      // Apply initial sort and render
+      applyFilters();
+    }
+
+    function applyFilters() {
+      currentFilters.status = document.getElementById('filter-status').value;
+      currentFilters.section = document.getElementById('filter-section').value;
+
+      var filtered = allStudents.filter(function(student) {
+        // Status filter
+        if (currentFilters.status === 'submitted' && !student.submitted) return false;
+        if (currentFilters.status === 'pending' && student.submitted) return false;
+
+        // Section filter
+        if (currentFilters.section !== 'all' && student.section !== currentFilters.section) return false;
+
+        return true;
+      });
+
+      // Apply sort
+      filtered = sortStudents(filtered);
+
+      // Update count
+      document.getElementById('filter-count').textContent =
+        'Showing ' + filtered.length + ' of ' + allStudents.length + ' students';
+
+      // Render table
+      renderStudentsTable(filtered);
+    }
+
+    function sortTable(column) {
+      if (currentSort.column === column) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.column = column;
+        currentSort.direction = 'asc';
+      }
+
+      // Update header icons
+      document.querySelectorAll('#students-table th').forEach(function(th) {
+        th.classList.remove('sorted');
+        var icon = th.querySelector('.sort-icon');
+        if (icon) icon.textContent = 'unfold_more';
+      });
+
+      var activeHeader = document.querySelector('#students-table th[data-column="' + column + '"]');
+      if (activeHeader) {
+        activeHeader.classList.add('sorted');
+        var icon = activeHeader.querySelector('.sort-icon');
+        if (icon) icon.textContent = currentSort.direction === 'asc' ? 'arrow_upward' : 'arrow_downward';
+      }
+
+      applyFilters();
+    }
+
+    function sortStudents(students) {
+      var column = currentSort.column;
+      var direction = currentSort.direction;
+      var modifier = direction === 'asc' ? 1 : -1;
+
+      return students.slice().sort(function(a, b) {
+        var aVal, bVal;
+
+        switch (column) {
+          case 'status':
+            aVal = a.submitted ? 1 : 0;
+            bVal = b.submitted ? 1 : 0;
+            break;
+          case 'name':
+            aVal = a.name.toLowerCase();
+            bVal = b.name.toLowerCase();
+            break;
+          case 'section':
+            aVal = a.section;
+            bVal = b.section;
+            break;
+          case 'campusId':
+            aVal = a.campusId;
+            bVal = b.campusId;
+            break;
+          case 'program':
+            aVal = a.program;
+            bVal = b.program;
+            break;
+          case 'submissionDate':
+            aVal = a.submissionDate || '';
+            bVal = b.submissionDate || '';
+            break;
+          case 'attachmentCount':
+            aVal = a.attachmentCount || 0;
+            bVal = b.attachmentCount || 0;
+            break;
+          default:
+            aVal = a.name.toLowerCase();
+            bVal = b.name.toLowerCase();
+        }
+
+        if (typeof aVal === 'number' && typeof bVal === 'number') {
+          return (aVal - bVal) * modifier;
+        }
+
+        if (aVal < bVal) return -1 * modifier;
+        if (aVal > bVal) return 1 * modifier;
+        return 0;
+      });
+    }
+
+    function renderStudentsTable(students) {
+      var tbody = document.getElementById('students-tbody');
+
+      if (students.length === 0) {
+        tbody.innerHTML = '\
+          <tr>\
+            <td colspan="7" style="text-align: center; padding: 40px; color: #888;">\
+              <span class="material-icons" style="font-size: 48px; display: block; margin-bottom: 8px; color: #ccc;">search_off</span>\
+              No students match the current filters\
+            </td>\
+          </tr>\
+        ';
+        return;
+      }
+
+      var rows = students.map(function(student) {
+        var emailKey = student.email.replace(/[^a-zA-Z0-9]/g, '_');
+
+        var filesCell = '<span style="color: #999;">-</span>';
+        if (student.submitted && student.attachmentCount > 0) {
+          var fileItems = student.files.map(function(file) {
+            return '\
+              <div class="file-item">\
+                <span class="material-icons">' + getFileIcon(file.name) + '</span>\
+                <a href="' + escapeHtml(file.url) + '" target="_blank" title="' + escapeHtml(file.name) + '">' + escapeHtml(truncateFilename(file.name, 30)) + '</a>\
+                <span class="file-size">' + escapeHtml(file.size) + '</span>\
+              </div>\
+            ';
+          }).join('');
+
+          filesCell = '\
+            <div class="files-cell">\
+              <span class="files-count" style="color: #10b981;">' + student.attachmentCount + '</span>\
+              <div class="files-dropdown">\
+                <button class="files-dropdown-btn" onclick="toggleFilesDropdown(\'' + emailKey + '\', event)" aria-label="View files">\
+                  <span class="material-icons">folder_open</span>\
+                  View\
+                  <span class="material-icons">expand_more</span>\
+                </button>\
+                <div class="files-dropdown-content" id="files-dropdown-' + emailKey + '">\
+                  <div class="files-dropdown-header">\
+                    <span>' + student.attachmentCount + ' file' + (student.attachmentCount !== 1 ? 's' : '') + '</span>\
+                    ' + (student.folderUrl ? '<a href="' + escapeHtml(student.folderUrl) + '" target="_blank"><span class="material-icons" style="font-size: 14px;">open_in_new</span> Open Folder</a>' : '') + '\
+                  </div>\
+                  ' + fileItems + '\
+                </div>\
+              </div>\
+            </div>\
+          ';
+        }
+
+        return '\
+          <tr class="' + (student.submitted ? 'submitted' : '') + '">\
+            <td>\
+              <span class="status-badge ' + (student.submitted ? 'submitted' : 'pending') + '">\
+                <span class="material-icons">' + (student.submitted ? 'check_circle' : 'schedule') + '</span>\
+                ' + (student.submitted ? 'Submitted' : 'Pending') + '\
+              </span>\
+            </td>\
+            <td>\
+              <div class="student-name">' + escapeHtml(student.name) + '</div>\
+              <div class="student-email">' + escapeHtml(student.email) + '</div>\
+            </td>\
+            <td>\
+              <span class="section-badge">' + escapeHtml(student.section) + '</span>\
+            </td>\
+            <td>' + escapeHtml(student.campusId) + '</td>\
+            <td>' + escapeHtml(student.program) + '</td>\
+            <td>\
+              ' + (student.submitted && student.submissionDate ? '\
+                <div class="submission-date">\
+                  <span class="material-icons">event</span>\
+                  ' + escapeHtml(student.submissionDate) + '\
+                </div>\
+              ' : '<span style="color: #999;">-</span>') + '\
+            </td>\
+            <td>' + filesCell + '</td>\
+          </tr>\
+        ';
+      }).join('');
+
+      tbody.innerHTML = rows;
+    }
+
+    function getFileIcon(filename) {
+      var ext = filename.split('.').pop().toLowerCase();
+      if (['pdf'].includes(ext)) return 'picture_as_pdf';
+      if (['doc', 'docx'].includes(ext)) return 'description';
+      if (['xls', 'xlsx', 'csv'].includes(ext)) return 'table_chart';
+      if (['ppt', 'pptx'].includes(ext)) return 'slideshow';
+      if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image';
+      if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return 'folder_zip';
+      if (['txt'].includes(ext)) return 'article';
+      if (['py', 'js', 'html', 'css', 'ipynb'].includes(ext)) return 'code';
+      return 'insert_drive_file';
+    }
+
+    function truncateFilename(filename, maxLength) {
+      if (filename.length <= maxLength) return filename;
+      var ext = filename.split('.').pop();
+      var nameWithoutExt = filename.substring(0, filename.length - ext.length - 1);
+      var truncatedName = nameWithoutExt.substring(0, maxLength - ext.length - 4) + '...';
+      return truncatedName + '.' + ext;
+    }
+
+    function exportDashboardCSV() {
+      if (!allStudents || allStudents.length === 0) {
+        showToast('Please wait for dashboard to load', 'error');
+        return;
+      }
+
+      // Export currently filtered/sorted view
+      var filtered = allStudents.filter(function(student) {
+        if (currentFilters.status === 'submitted' && !student.submitted) return false;
+        if (currentFilters.status === 'pending' && student.submitted) return false;
+        if (currentFilters.section !== 'all' && student.section !== currentFilters.section) return false;
+        return true;
+      });
+      filtered = sortStudents(filtered);
+
+      var headers = ['Section', 'Campus ID', 'Name', 'Email', 'Program', 'Status', 'Submission Date', 'Files', 'Folder URL'];
+      var rows = filtered.map(function(student) {
+        return [
+          student.section,
+          student.campusId,
+          student.name,
+          student.email,
+          student.program,
+          student.submitted ? 'Submitted' : 'Pending',
+          student.submissionDate || '',
+          student.attachmentCount || 0,
+          student.folderUrl || ''
+        ];
+      });
+
+      var csv = [headers].concat(rows).map(function(row) {
+        return row.map(function(cell) { return '"' + String(cell).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+
+      downloadFile(csv, 'midterm_submission_status.csv', 'text/csv');
+      showToast('CSV exported!', 'success');
+    }
+
+    // New: Export submitted students list (reads from Drive)
+    function exportSubmittedStudents(format) {
+      closeAllDropdowns();
+      setButtonLoading('export-submissions-btn', true, 'Exporting...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('export-submissions-btn', false);
+
+          if (!result.success) {
+            showToast('Error: ' + result.error, 'error');
+            return;
+          }
+
+          var mimeType = 'text/plain';
+          if (format === 'csv') mimeType = 'text/csv';
+          if (format === 'json') mimeType = 'application/json';
+
+          downloadFile(result.content, result.filename, mimeType);
+          showToast(result.totalSubmitted + ' students exported to ' + format.toUpperCase(), 'success');
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('export-submissions-btn', false);
+          showToast('Error: ' + err.message, 'error');
+        })
+        .getSubmittedStudentsList(format);
+    }
+
+    function downloadFile(content, filename, mimeType) {
+      var blob = new Blob([content], { type: mimeType });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Submissions functions
+    function loadStats() {
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success === false) return;
+          document.getElementById('stat-submissions').textContent = result.totalSubmissions;
+          document.getElementById('stat-students').textContent = result.uniqueStudents;
+          document.getElementById('stat-attachments').textContent = result.totalAttachments;
+          document.getElementById('stat-unread').textContent = result.unreadCount;
+        })
+        .getStats();
+    }
+
+    function loadSubmissions() {
+      var currentRequest = ++submissionsRequestId;
+
+      document.getElementById('content').innerHTML = '\
+        <div class="loading">\
+          <div class="spinner"></div>\
+          <div>Loading submissions...</div>\
+        </div>\
+      ';
+
+      setButtonLoading('refresh-submissions-btn', true, 'Loading...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('refresh-submissions-btn', false);
+          if (currentRequest !== submissionsRequestId) return;
+
+          if (result.success === false) {
+            showError('content', result.error, loadSubmissions);
+            return;
+          }
+          renderSubmissions(result.submissions);
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('refresh-submissions-btn', false);
+          if (currentRequest !== submissionsRequestId) return;
+          showError('content', err.message, loadSubmissions);
+        })
+        .getSubmissions();
+    }
+
+    function renderSubmissions(data) {
+      submissions = data;
+
+      if (submissions.length === 0) {
+        document.getElementById('content').innerHTML = '\
+          <div class="empty-state">\
+            <span class="material-icons">inbox</span>\
+            <h3>No submissions found</h3>\
+            <p>No emails matching "midterm" in subject</p>\
+          </div>\
+        ';
+        return;
+      }
+
+      var html = submissions.map(function(sub, index) {
+        var attachmentsHtml = '';
+        if (sub.hasAttachments) {
+          var attachmentItems = sub.attachments.map(function(att, attIndex) {
+            return '\
+              <div class="attachment-item" id="att-' + index + '-' + attIndex + '">\
+                <span class="material-icons">description</span>\
+                <span class="attachment-name" title="' + escapeHtml(att.name) + '">' + escapeHtml(att.name) + '</span>\
+                <span class="attachment-size">' + escapeHtml(att.size) + '</span>\
+                <div class="attachment-actions">\
+                  <button onclick="getAttachmentLink(\'' + sub.id + '\', ' + attIndex + ', ' + index + ')" title="Get Drive Link" aria-label="Get Drive link for attachment">\
+                    <span class="material-icons">link</span>\
+                  </button>\
+                </div>\
+              </div>\
+            ';
+          }).join('');
+
+          attachmentsHtml = '\
+            <div class="attachments-section">\
+              <div class="attachments-header">\
+                <span class="material-icons">attach_file</span>\
+                ' + sub.attachmentCount + ' Attachment' + (sub.attachmentCount > 1 ? 's' : '') + '\
+              </div>\
+              <div class="attachment-list" id="attachments-' + index + '">\
+                ' + attachmentItems + '\
+              </div>\
+            </div>\
+          ';
+        }
+
+        return '\
+          <div class="submission-card ' + (sub.isRead ? '' : 'unread') + '">\
+            <div class="submission-header">\
+              <div class="student-info">\
+                <h3>' + escapeHtml(sub.fromName) + '</h3>\
+                <div class="email">' + escapeHtml(sub.fromEmail) + '</div>\
+              </div>\
+              <div class="submission-date-header">' + escapeHtml(sub.date) + '</div>\
+            </div>\
+            <div class="submission-subject">' + escapeHtml(sub.subject) + '</div>\
+            <div class="submission-preview">' + escapeHtml(sub.bodyPreview) + '...</div>\
+            ' + attachmentsHtml + '\
+          </div>\
+        ';
+      }).join('');
+
+      document.getElementById('content').innerHTML = '<div class="submissions-list">' + html + '</div>';
+    }
+
+    function getAttachmentLink(messageId, attachmentIndex, submissionIndex) {
+      var attEl = document.getElementById('att-' + submissionIndex + '-' + attachmentIndex);
+      attEl.style.opacity = '0.6';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          attEl.style.opacity = '1';
+          if (!result.success) {
+            showToast('Error: ' + result.error, 'error');
+            return;
+          }
+
+          // Use DOM methods instead of innerHTML with URLs (XSS fix)
+          var linkDisplay = attEl.querySelector('.link-display');
+          if (!linkDisplay) {
+            linkDisplay = document.createElement('div');
+            linkDisplay.className = 'link-display';
+            attEl.appendChild(linkDisplay);
+          }
+
+          // Clear existing content
+          linkDisplay.innerHTML = '';
+
+          // Create link element safely
+          var link = document.createElement('a');
+          link.href = result.url;
+          link.target = '_blank';
+          link.textContent = result.url;
+          linkDisplay.appendChild(link);
+
+          // Create copy button safely
+          var copyBtn = document.createElement('button');
+          copyBtn.style.cssText = 'background:none;border:none;cursor:pointer;color:#888;';
+          copyBtn.title = 'Copy';
+          copyBtn.setAttribute('aria-label', 'Copy link');
+          copyBtn.onclick = function() { copyToClipboard(result.url); };
+
+          var copyIcon = document.createElement('span');
+          copyIcon.className = 'material-icons';
+          copyIcon.style.fontSize = '16px';
+          copyIcon.textContent = 'content_copy';
+          copyBtn.appendChild(copyIcon);
+          linkDisplay.appendChild(copyBtn);
+
+          showToast('Link generated!', 'success');
+        })
+        .withFailureHandler(function(err) {
+          attEl.style.opacity = '1';
+          showToast('Error: ' + err.message, 'error');
+        })
+        .saveAttachmentToDrive(messageId, attachmentIndex);
+    }
+
+    function saveAllToDrive() {
+      document.getElementById('modal-title').textContent = 'Saved Attachments';
+      document.getElementById('modal-overlay').classList.add('show');
+      document.getElementById('modal-body').innerHTML = '\
+        <div class="progress-container">\
+          <div class="spinner"></div>\
+          <div class="progress-text">Saving all attachments and email bodies to Google Drive...</div>\
+        </div>\
+      ';
+      document.getElementById('modal-footer').style.display = 'none';
+
+      setButtonLoading('save-all-btn', true, 'Saving...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('save-all-btn', false);
+
+          if (!result.success) {
+            document.getElementById('modal-body').innerHTML = '\
+              <div class="empty-state">\
+                <span class="material-icons">error</span>\
+                <h3>Error saving files</h3>\
+                <p>' + escapeHtml(result.error) + '</p>\
+                <button class="btn btn-primary" onclick="closeModal(); saveAllToDrive();">\
+                  <span class="material-icons">refresh</span>\
+                  Try Again\
+                </button>\
+              </div>\
+            ';
+            return;
+          }
+
+          savedFilesData = result.files;
+          renderSavedFiles(result);
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('save-all-btn', false);
+          document.getElementById('modal-body').innerHTML = '\
+            <div class="empty-state">\
+              <span class="material-icons">error</span>\
+              <h3>Error saving files</h3>\
+              <p>' + escapeHtml(err.message) + '</p>\
+              <button class="btn btn-primary" onclick="closeModal(); saveAllToDrive();">\
+                <span class="material-icons">refresh</span>\
+                Try Again\
+              </button>\
+            </div>\
+          ';
+        })
+        .saveAllAttachmentsWithLinks();
+    }
+
+    function renderSavedFiles(result) {
+      if (result.files.length === 0) {
+        document.getElementById('modal-body').innerHTML = '\
+          <div class="empty-state">\
+            <span class="material-icons">inbox</span>\
+            <h3>No files found</h3>\
+          </div>\
+        ';
+        return;
+      }
+
+      document.getElementById('folder-link').href = result.folderUrl;
+      document.getElementById('modal-footer').style.display = 'flex';
+
+      var emailBodies = result.files.filter(function(f) { return f.isEmailBody; }).length;
+      var attachments = result.files.filter(function(f) { return !f.isEmailBody; }).length;
+      var byStudent = {};
+      result.files.forEach(function(f) {
+        if (!byStudent[f.studentEmail]) byStudent[f.studentEmail] = [];
+        byStudent[f.studentEmail].push(f);
+      });
+      var studentCount = Object.keys(byStudent).length;
+
+      var tableRows = result.files.map(function(f, idx) {
+        return '\
+          <tr>\
+            <td>\
+              <div style="font-weight:500;">' + escapeHtml(f.studentName) + '</div>\
+              <div style="font-size:11px;color:#888;">' + escapeHtml(f.studentEmail) + '</div>\
+            </td>\
+            <td style="font-size:12px;color:#666;">' + escapeHtml(f.submissionDate || '-') + '</td>\
+            <td>\
+              <span class="type-badge ' + (f.isEmailBody ? 'email' : 'attachment') + '">\
+                <span class="material-icons" style="font-size:14px;">' + (f.isEmailBody ? 'email' : 'attach_file') + '</span>\
+                ' + (f.isEmailBody ? 'Email' : 'File') + '\
+              </span>\
+            </td>\
+            <td>\
+              <a href="' + escapeHtml(f.fileUrl) + '" target="_blank" class="file-link">\
+                <span class="material-icons" style="font-size:16px;">description</span>\
+                ' + escapeHtml(f.fileName) + '\
+              </a>\
+            </td>\
+            <td style="color:#888;">' + escapeHtml(f.fileSize) + '</td>\
+            <td>\
+              <div style="display:flex;gap:4px;">\
+                <a href="' + escapeHtml(f.fileUrl) + '" target="_blank" class="btn btn-icon btn-secondary" title="View" aria-label="View file">\
+                  <span class="material-icons">visibility</span>\
+                </a>\
+                <a href="' + escapeHtml(f.downloadUrl) + '" target="_blank" class="btn btn-icon btn-secondary" title="Download" aria-label="Download file">\
+                  <span class="material-icons">download</span>\
+                </a>\
+                <button class="btn btn-icon btn-secondary" data-url="' + escapeHtml(f.fileUrl) + '" onclick="copyToClipboard(this.dataset.url)" title="Copy link" aria-label="Copy file link">\
+                  <span class="material-icons">link</span>\
+                </button>\
+              </div>\
+            </td>\
+          </tr>\
+        ';
+      }).join('');
+
+      document.getElementById('modal-body').innerHTML = '\
+        <div class="summary-box">\
+          <span class="material-icons">check_circle</span>\
+          <div class="summary-text">\
+            <strong>' + result.totalFiles + ' files saved</strong>\
+            ' + emailBodies + ' emails + ' + attachments + ' attachments from ' + studentCount + ' students\
+          </div>\
+        </div>\
+        <table class="files-table">\
+          <thead>\
+            <tr>\
+              <th>Student</th>\
+              <th>Date</th>\
+              <th>Type</th>\
+              <th>File</th>\
+              <th>Size</th>\
+              <th>Actions</th>\
+            </tr>\
+          </thead>\
+          <tbody>\
+            ' + tableRows + '\
+          </tbody>\
+        </table>\
+      ';
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('show');
+    }
+
+    function copyAllLinks() {
+      var links = savedFilesData.map(function(f) {
+        return f.studentName + ' (' + f.studentEmail + ') [' + f.submissionDate + ']: ' + f.fileUrl;
+      }).join('\n');
+
+      navigator.clipboard.writeText(links).then(function() {
+        showToast('All links copied!', 'success');
+      });
+    }
+
+    function exportToCSV() {
+      var headers = ['Type', 'Student', 'Email', 'Date', 'File', 'URL', 'Download URL', 'Size'];
+      var rows = savedFilesData.map(function(f) {
+        return [
+          f.isEmailBody ? 'Email' : 'Attachment',
+          f.studentName,
+          f.studentEmail,
+          f.submissionDate || '',
+          f.fileName,
+          f.fileUrl,
+          f.downloadUrl,
+          f.fileSize
+        ];
+      });
+
+      var csv = [headers].concat(rows).map(function(row) {
+        return row.map(function(cell) { return '"' + String(cell).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+
+      downloadFile(csv, 'midterm_files.csv', 'text/csv');
+      showToast('CSV exported!', 'success');
+    }
+
+    function refresh() {
+      loadStats();
+      loadSubmissions();
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(function() {
+        showToast('Copied!', 'success');
+      });
+    }
+
+    function showToast(msg, type) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = 'toast show';
+      if (type === 'error') toast.classList.add('error');
+      if (type === 'success') toast.classList.add('success');
+      setTimeout(function() { toast.className = 'toast'; }, 3000);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    document.getElementById('modal-overlay').addEventListener('click', function(e) {
+      if (e.target.id === 'modal-overlay') closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

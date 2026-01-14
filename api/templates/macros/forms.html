@@ -1,0 +1,131 @@
+{#
+    Form Macros - Reusable form components
+    Usage: {% from 'macros/forms.html' import form_input, form_select, form_textarea %}
+#}
+
+{# Text/Email/Password Input #}
+{% macro form_input(name, label, type='text', value='', placeholder='', required=false, help_text='', class='', disabled=false, readonly=false, maxlength='', pattern='', aria_label='') %}
+<div class="form-group">
+    <label for="{{ name }}" class="form-label{% if required %} required{% endif %}">
+        {{ label }}{% if required %}<span class="required-marker" aria-hidden="true">*</span>{% endif %}
+    </label>
+    <input
+        type="{{ type }}"
+        id="{{ name }}"
+        name="{{ name }}"
+        class="form-input{{ ' ' + class if class else '' }}"
+        value="{{ value }}"
+        {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+        {% if required %}required aria-required="true"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if readonly %}readonly{% endif %}
+        {% if maxlength %}maxlength="{{ maxlength }}"{% endif %}
+        {% if pattern %}pattern="{{ pattern }}"{% endif %}
+        {% if help_text %}aria-describedby="{{ name }}-help"{% endif %}
+        {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    >
+    {% if help_text %}
+    <span id="{{ name }}-help" class="form-help">{{ help_text }}</span>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Select Dropdown #}
+{% macro form_select(name, label, options=[], selected='', required=false, class='', disabled=false, aria_label='', placeholder='Select an option') %}
+<div class="form-group">
+    <label for="{{ name }}" class="form-label{% if required %} required{% endif %}">
+        {{ label }}{% if required %}<span class="required-marker" aria-hidden="true">*</span>{% endif %}
+    </label>
+    <select
+        id="{{ name }}"
+        name="{{ name }}"
+        class="form-select{{ ' ' + class if class else '' }}"
+        {% if required %}required aria-required="true"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    >
+        {% if placeholder %}
+        <option value="">{{ placeholder }}</option>
+        {% endif %}
+        {% for option in options %}
+            {% if option is mapping %}
+            <option value="{{ option.value }}" {% if option.value|string == selected|string %}selected{% endif %}>
+                {{ option.label }}
+            </option>
+            {% else %}
+            <option value="{{ option }}" {% if option|string == selected|string %}selected{% endif %}>
+                {{ option }}
+            </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}
+
+{# Textarea #}
+{% macro form_textarea(name, label, value='', placeholder='', required=false, rows=4, class='', disabled=false, readonly=false, maxlength='', help_text='') %}
+<div class="form-group">
+    <label for="{{ name }}" class="form-label{% if required %} required{% endif %}">
+        {{ label }}{% if required %}<span class="required-marker" aria-hidden="true">*</span>{% endif %}
+    </label>
+    <textarea
+        id="{{ name }}"
+        name="{{ name }}"
+        class="form-textarea{{ ' ' + class if class else '' }}"
+        rows="{{ rows }}"
+        {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+        {% if required %}required aria-required="true"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if readonly %}readonly{% endif %}
+        {% if maxlength %}maxlength="{{ maxlength }}"{% endif %}
+        {% if help_text %}aria-describedby="{{ name }}-help"{% endif %}
+    >{{ value }}</textarea>
+    {% if help_text %}
+    <span id="{{ name }}-help" class="form-help">{{ help_text }}</span>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Search Input with Dropdown #}
+{% macro search_input(name, placeholder='Search...', label='', aria_label='', dropdown_id='') %}
+<div class="search-container">
+    <span class="search-icon" aria-hidden="true">&#128269;</span>
+    <input
+        type="text"
+        id="{{ name }}"
+        name="{{ name }}"
+        class="search-input"
+        placeholder="{{ placeholder }}"
+        {% if aria_label %}aria-label="{{ aria_label }}"{% elif label %}aria-label="{{ label }}"{% endif %}
+        {% if dropdown_id %}
+        aria-expanded="false"
+        aria-controls="{{ dropdown_id }}"
+        role="combobox"
+        {% endif %}
+        autocomplete="off"
+    >
+    {% if dropdown_id %}
+    <ul id="{{ dropdown_id }}" class="search-dropdown" role="listbox"></ul>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{# Filter Select (Compact) #}
+{% macro filter_select(name, label, options=[], selected='', class='filter-select') %}
+<div class="filter-group">
+    <label for="{{ name }}" class="filter-label">{{ label }}</label>
+    <select id="{{ name }}" class="{{ class }}" aria-label="{{ label }}">
+        {% for option in options %}
+            {% if option is mapping %}
+            <option value="{{ option.value }}" {% if option.value|string == selected|string %}selected{% endif %}>
+                {{ option.label }}
+            </option>
+            {% else %}
+            <option value="{{ option }}" {% if option|string == selected|string %}selected{% endif %}>
+                {{ option }}
+            </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>
+{% endmacro %}

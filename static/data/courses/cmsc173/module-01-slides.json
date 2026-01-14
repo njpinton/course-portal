@@ -1,0 +1,241 @@
+{
+  "module": {
+    "id": "01",
+    "title": "Parameter Estimation",
+    "subtitle": "Method of Moments & Maximum Likelihood",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 38,
+    "estimatedDuration": "50 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "What We'll Cover",
+      "readingTime": "1 min",
+      "content": "<div class=\"card-grid\" style=\"grid-template-columns: repeat(2, 1fr);\">\n    <div class=\"info-card\">\n        <div class=\"icon blue\"><i class=\"fa-solid fa-bullseye\"></i></div>\n        <h4>Foundations</h4>\n        <p>What is parameter estimation?</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon green\"><i class=\"fa-solid fa-calculator\"></i></div>\n        <h4>Method of Moments</h4>\n        <p>Match sample to theory</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon purple\"><i class=\"fa-solid fa-chart-line\"></i></div>\n        <h4>Maximum Likelihood</h4>\n        <p>Optimal estimation</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon yellow\"><i class=\"fa-solid fa-code\"></i></div>\n        <h4>Applications</h4>\n        <p>Real-world ML examples</p>\n    </div>\n</div>"
+    },
+    {
+      "id": 2,
+      "title": "What is Parameter Estimation?",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept_left.png\" alt=\"Normal Distribution with Estimated Parameters\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept_right.png\" alt=\"Log-Likelihood Function\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-book\"></i> Definition</div>\n            <p>Inferring unknown distribution parameters from observed data samples.</p>\n        </div>\n        <div>\n            <strong>The Problem:</strong>\n            <ul>\n                <li>Data: $\\{x_1, x_2, \\ldots, x_n\\}$</li>\n                <li>Distribution: $f(x|\\theta)$</li>\n                <li>Find: $\\hat{\\theta}$</li>\n            </ul>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 3,
+      "title": "Why It Matters in ML",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/ml_applications_left.png\" alt=\"ML Applications - Supervised Learning\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/ml_applications_right.png\" alt=\"ML Applications - Unsupervised Learning\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <ul style=\"margin:0\">\n            <li><strong>Supervised:</strong> Model weights</li>\n            <li><strong>Unsupervised:</strong> Cluster parameters</li>\n            <li><strong>Time Series:</strong> ARIMA coefficients</li>\n            <li><strong>Deep Learning:</strong> Network weights</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 4,
+      "title": "Estimator Quality Criteria",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/estimator_properties_left.png\" alt=\"Estimator Properties - Bias\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/estimator_properties_right.png\" alt=\"Estimator Properties - Variance\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\">\n            <h4>Desirable Properties</h4>\n            <ul style=\"margin:8px 0 0 0\">\n                <li><strong>Unbiased:</strong> $E[\\hat{\\theta}] = \\theta$</li>\n                <li><strong>Consistent:</strong> $\\hat{\\theta} \\to \\theta$</li>\n                <li><strong>Efficient:</strong> Min variance</li>\n            </ul>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 5,
+      "title": "Bias-Variance Tradeoff",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/estimator_bias_variance_left.png\" alt=\"Bias-Variance Tradeoff - High Bias\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/estimator_bias_variance_right.png\" alt=\"Bias-Variance Tradeoff - High Variance\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\">\n            <h4>Mean Squared Error</h4>\n            $$MSE = Bias^2 + Variance$$\n        </div>\n        <div class=\"callout\" style=\"margin-top:16px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Key Insight</div>\n            <p>Sometimes a little bias can reduce overall error.</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 6,
+      "title": "Key Notation",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept_left.png\" alt=\"Normal Distribution with Parameters\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept_right.png\" alt=\"Estimation Process\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\">\n            <h4>Variables</h4>\n            <ul>\n                <li>$X$: Random variable</li>\n                <li>$\\theta$: True parameter</li>\n                <li>$\\hat{\\theta}$: Estimate</li>\n            </ul>\n        </div>\n        <div class=\"definition\" style=\"margin-top:16px\">\n            <h4>Functions</h4>\n            <ul>\n                <li>$f(x|\\theta)$: PDF/PMF</li>\n                <li>$L(\\theta|x)$: Likelihood</li>\n            </ul>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 7,
+      "title": "Understanding Moments",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/moments_illustration_left.png\" alt=\"First Moment - Mean\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/moments_illustration_right.png\" alt=\"Second Moment - Variance\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\">\n            <h4>$k$-th Moment</h4>\n            $$m_k = E[X^k]$$\n        </div>\n        <ul style=\"margin-top:16px\">\n            <li>$m_1 = \\mu$ (mean)</li>\n            <li>$\\mu_2 = \\sigma^2$ (variance)</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 8,
+      "title": "Method of Moments: Core Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"callout blue\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Core Principle</div>\n    <p>Match <strong>sample moments</strong> to <strong>theoretical moments</strong> to estimate parameters.</p>\n</div>\n<div class=\"card-grid\" style=\"grid-template-columns: repeat(2, 1fr);margin-top:20px\">\n    <div class=\"info-card\">\n        <div class=\"icon blue\"><i class=\"fa-solid fa-1\"></i></div>\n        <h4>Theory</h4>\n        <p>$m_k(\\theta)$</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon green\"><i class=\"fa-solid fa-2\"></i></div>\n        <h4>Sample</h4>\n        <p>$\\hat{m}_k = \\frac{1}{n}\\sum x_i^k$</p>\n    </div>\n</div>"
+    },
+    {
+      "id": 9,
+      "title": "MoM Algorithm",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_visualization_left.png\" alt=\"MoM - Sample Moments\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_visualization_right.png\" alt=\"MoM - Theoretical Moments\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <ol style=\"margin:0\">\n            <li>Express moments: $m_k(\\theta)$</li>\n            <li>Calculate sample: $\\hat{m}_k$</li>\n            <li>Set equal: $m_k(\\theta) = \\hat{m}_k$</li>\n            <li>Solve for $\\hat{\\theta}$</li>\n        </ol>\n    </div>\n</div>"
+    },
+    {
+      "id": 10,
+      "title": "MoM: Normal Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"callout blue\" style=\"margin-bottom:16px\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-chart-simple\"></i> Goal</div>\n    <p>Estimate $\\mu$ and $\\sigma^2$ for $N(\\mu, \\sigma^2)$</p>\n</div>\n<div class=\"two-col\">\n    <div>\n        <h4>Theory</h4>\n        <p>$m_1 = \\mu$</p>\n        <p>$m_2 = \\mu^2 + \\sigma^2$</p>\n    </div>\n    <div>\n        <h4>MoM Estimates</h4>\n        <p>$\\hat{\\mu} = \\bar{x}$</p>\n        <p>$\\hat{\\sigma}^2 = \\frac{1}{n}\\sum(x_i - \\bar{x})^2$</p>\n    </div>\n</div>"
+    },
+    {
+      "id": 11,
+      "title": "MoM: Poisson Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_poisson_example_left.png\" alt=\"Poisson Distribution\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_poisson_example_right.png\" alt=\"Poisson MoM Estimation\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-calculator\"></i> Poisson($\\lambda$)</div>\n            <p>Theory: $E[X] = \\lambda$</p>\n        </div>\n        <div class=\"definition\">\n            <h4>MoM Estimate</h4>\n            $$\\hat{\\lambda} = \\bar{x}$$\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 12,
+      "title": "MoM: Gamma Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"callout blue\" style=\"margin-bottom:16px\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-calculator\"></i> Gamma($\\alpha, \\beta$)</div>\n    <p>$E[X] = \\alpha\\beta$, $Var(X) = \\alpha\\beta^2$</p>\n</div>\n<div class=\"definition\">\n    <h4>MoM Estimates</h4>\n    $$\\hat{\\beta} = \\frac{\\hat{\\sigma}^2}{\\bar{x}}, \\quad \\hat{\\alpha} = \\frac{\\bar{x}^2}{\\hat{\\sigma}^2}$$\n</div>"
+    },
+    {
+      "id": 13,
+      "title": "MoM Properties",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_properties_left.png\" alt=\"MoM Advantages\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_properties_right.png\" alt=\"MoM Limitations\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout green\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-check\"></i> Pros</div>\n            <p>Simple, consistent, general</p>\n        </div>\n        <div class=\"callout pink\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-xmark\"></i> Cons</div>\n            <p>Not optimal, may give invalid estimates</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 14,
+      "title": "Maximum Likelihood: Core Idea",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/likelihood_concept_left.png\" alt=\"Likelihood Function\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/likelihood_concept_right.png\" alt=\"Maximum Likelihood Point\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Core Principle</div>\n            <p>Find parameters that make observed data <strong>most likely</strong>.</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 15,
+      "title": "The Likelihood Function",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/likelihood_concept_left.png\" alt=\"Likelihood Function\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/likelihood_concept_right.png\" alt=\"Log-Likelihood Function\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\" style=\"margin-bottom:16px\">\n            <h4>Likelihood</h4>\n            $$L(\\theta) = \\prod_{i=1}^n f(x_i | \\theta)$$\n        </div>\n        <div class=\"definition\">\n            <h4>Log-Likelihood</h4>\n            $$\\ell(\\theta) = \\sum_{i=1}^n \\log f(x_i | \\theta)$$\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 16,
+      "title": "Finding the MLE",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_visualization_left.png\" alt=\"Log-Likelihood Curve\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_visualization_right.png\" alt=\"MLE Optimization\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\">\n            <h4>MLE</h4>\n            $$\\hat{\\theta}_{MLE} = \\arg\\max_\\theta \\ell(\\theta)$$\n        </div>\n        <p style=\"margin-top:16px\"><strong>Method:</strong> Solve $\\frac{d\\ell}{d\\theta} = 0$</p>\n    </div>\n</div>"
+    },
+    {
+      "id": 17,
+      "title": "MLE: Normal Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"callout blue\" style=\"margin-bottom:16px\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-chart-simple\"></i> Goal</div>\n    <p>Estimate $\\mu$ and $\\sigma^2$ for $N(\\mu, \\sigma^2)$</p>\n</div>\n<div class=\"definition\">\n    <h4>MLE Solutions</h4>\n    $$\\hat{\\mu}_{MLE} = \\bar{x}$$\n    $$\\hat{\\sigma}^2_{MLE} = \\frac{1}{n}\\sum_{i=1}^n(x_i - \\bar{x})^2$$\n</div>"
+    },
+    {
+      "id": 18,
+      "title": "MLE: Poisson Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-col\">\n    <div>\n        <h4>Log-likelihood</h4>\n        <p>$\\ell(\\lambda) = (\\sum x_i)\\log\\lambda - n\\lambda$</p>\n        <h4 style=\"margin-top:16px\">Score</h4>\n        <p>$\\frac{d\\ell}{d\\lambda} = \\frac{\\sum x_i}{\\lambda} - n = 0$</p>\n    </div>\n    <div>\n        <div class=\"definition\">\n            <h4>MLE</h4>\n            $$\\hat{\\lambda} = \\bar{x}$$\n        </div>\n        <div class=\"callout\" style=\"margin-top:16px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Note</div>\n            <p>Same as MoM for Poisson!</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 19,
+      "title": "MLE: Exponential Distribution",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_exponential_left.png\" alt=\"Exponential Distribution\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_exponential_right.png\" alt=\"Exponential MLE\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-calculator\"></i> Exponential($\\lambda$)</div>\n            <p>$f(x) = \\lambda e^{-\\lambda x}$</p>\n        </div>\n        <div class=\"definition\">\n            <h4>MLE</h4>\n            $$\\hat{\\lambda} = \\frac{1}{\\bar{x}}$$\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 20,
+      "title": "MLE Properties",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_properties_left.png\" alt=\"MLE Consistency\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mle_properties_right.png\" alt=\"MLE Efficiency\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <ul>\n            <li><strong>Consistent:</strong> $\\hat{\\theta} \\to \\theta$</li>\n            <li><strong>Asymptotically Normal</strong></li>\n            <li><strong>Efficient:</strong> Min variance</li>\n            <li><strong>Invariant:</strong> $g(\\hat{\\theta})$ is MLE of $g(\\theta)$</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 21,
+      "title": "Fisher Information",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition\" style=\"margin-bottom:20px\">\n    <h4>Fisher Information</h4>\n    $$I(\\theta) = -E\\left[\\frac{d^2\\ell}{d\\theta^2}\\right]$$\n</div>\n<div class=\"two-col\">\n    <div>\n        <h4>Cramér-Rao Bound</h4>\n        <p>$Var(\\hat{\\theta}) \\geq \\frac{1}{I(\\theta)}$</p>\n    </div>\n    <div>\n        <div class=\"callout\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Insight</div>\n            <p>Higher information = lower variance</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 22,
+      "title": "Numerical MLE Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/numerical_mle_left.png\" alt=\"Numerical Optimization\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/numerical_mle_right.png\" alt=\"Convergence\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout pink\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-exclamation\"></i> When Needed</div>\n            <p>No closed-form solution</p>\n        </div>\n        <ul>\n            <li>Newton-Raphson</li>\n            <li>Gradient ascent</li>\n            <li>EM algorithm</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 23,
+      "title": "MoM vs MLE: Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_vs_mle_comparison_left.png\" alt=\"MoM Estimation\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/mom_vs_mle_comparison_right.png\" alt=\"MLE Estimation\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <table class=\"comparison-table\" style=\"font-size:13px\">\n            <thead><tr><th></th><th>MoM</th><th>MLE</th></tr></thead>\n            <tbody>\n                <tr><td>Speed</td><td>Fast</td><td>Varies</td></tr>\n                <tr><td>Efficiency</td><td>Lower</td><td>Optimal</td></tr>\n                <tr><td>Complexity</td><td>Simple</td><td>Complex</td></tr>\n            </tbody>\n        </table>\n    </div>\n</div>"
+    },
+    {
+      "id": 24,
+      "title": "Efficiency Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/efficiency_comparison_left.png\" alt=\"MoM Variance\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/efficiency_comparison_right.png\" alt=\"MLE Variance\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\" style=\"margin-bottom:12px\">\n            <h4>Relative Efficiency</h4>\n            $$ARE = \\frac{Var_{MLE}}{Var_{MoM}}$$\n        </div>\n        <ul style=\"font-size:13px\">\n            <li>Normal $\\mu$: ARE = 1</li>\n            <li>Normal $\\sigma^2$: ARE = 0.5</li>\n            <li>Gamma: MLE wins</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 25,
+      "title": "When to Use Which?",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-col\">\n    <div>\n        <div class=\"callout green\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-calculator\"></i> Use MoM</div>\n            <p>Quick estimates, starting values, simple distributions</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"callout purple\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-chart-line\"></i> Use MLE</div>\n            <p>Optimal estimates, inference, model comparison</p>\n        </div>\n    </div>\n</div>\n<div class=\"callout\" style=\"margin-top:20px\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Pro Tip</div>\n    <p>Use MoM estimates as starting values for MLE optimization.</p>\n</div>"
+    },
+    {
+      "id": 26,
+      "title": "Application: Linear Regression",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/linear_regression_estimation_left.png\" alt=\"Linear Regression Data\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/linear_regression_estimation_right.png\" alt=\"Linear Regression Fit\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-chart-line\"></i> Model</div>\n            <p>$y = \\beta_0 + \\beta_1 x + \\epsilon$</p>\n        </div>\n        <div class=\"definition\">\n            <h4>Estimates</h4>\n            <p>$\\hat{\\beta}_1 = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sum(x_i-\\bar{x})^2}$</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 27,
+      "title": "Application: Logistic Regression",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/logistic_regression_estimation_left.png\" alt=\"Logistic Data\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/logistic_regression_estimation_right.png\" alt=\"Logistic Curve\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-divide\"></i> Model</div>\n            <p>$P(Y=1) = \\frac{1}{1+e^{-(\\beta_0+\\beta_1 X)}}$</p>\n        </div>\n        <div class=\"callout pink\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-exclamation\"></i> Note</div>\n            <p>No closed-form; requires numerical optimization.</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 28,
+      "title": "Application: Gaussian Mixtures",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/gaussian_mixture_estimation_left.png\" alt=\"GMM Data\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/gaussian_mixture_estimation_right.png\" alt=\"GMM Clustering\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-layer-group\"></i> GMM</div>\n            <p>$f(x) = \\sum_k \\pi_k N(x|\\mu_k, \\sigma_k^2)$</p>\n        </div>\n        <div class=\"definition\">\n            <h4>EM Algorithm</h4>\n            <p><strong>E:</strong> Compute assignments<br><strong>M:</strong> Update params</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 29,
+      "title": "Application: Time Series (ARIMA)",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/arima_estimation_left.png\" alt=\"Time Series Data\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/arima_estimation_right.png\" alt=\"ARIMA Forecast\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"two-col\">\n            <div>\n                <h4>MoM</h4>\n                <p>Yule-Walker equations</p>\n            </div>\n            <div>\n                <h4>MLE</h4>\n                <p>Kalman filter + optimization</p>\n            </div>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 30,
+      "title": "Robust Estimation",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/robust_estimation_left.png\" alt=\"Standard Estimation with Outliers\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/robust_estimation_right.png\" alt=\"Robust Estimation\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout pink\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-triangle-exclamation\"></i> Problem</div>\n            <p>MLE sensitive to outliers</p>\n        </div>\n        <ul>\n            <li><strong>M-estimators</strong></li>\n            <li><strong>Huber loss</strong></li>\n            <li><strong>Trimmed means</strong></li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 31,
+      "title": "Bootstrap Estimation",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/bootstrap_estimation_left.png\" alt=\"Bootstrap Samples\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/bootstrap_estimation_right.png\" alt=\"Bootstrap Distribution\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout blue\" style=\"margin-bottom:12px\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-rotate\"></i> Principle</div>\n            <p>Resample from data to estimate uncertainty.</p>\n        </div>\n        <ol style=\"font-size:13px\">\n            <li>Draw $B$ bootstrap samples</li>\n            <li>Compute $\\hat{\\theta}_b^*$ for each</li>\n            <li>Use distribution for inference</li>\n        </ol>\n    </div>\n</div>"
+    },
+    {
+      "id": 32,
+      "title": "Model Selection Criteria",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/model_selection_left.png\" alt=\"AIC Comparison\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/model_selection_right.png\" alt=\"BIC Comparison\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"definition\" style=\"margin-bottom:12px\">\n            <h4>Information Criteria</h4>\n            <p>$AIC = -2\\ell + 2k$</p>\n            <p>$BIC = -2\\ell + k\\log n$</p>\n        </div>\n        <div class=\"callout\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-lightbulb\"></i> Rule</div>\n            <p>Lower is better</p>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 33,
+      "title": "Diagnostic Tools",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/diagnostic_tools_left.png\" alt=\"Residual Plot\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/diagnostic_tools_right.png\" alt=\"Q-Q Plot\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <ul>\n            <li><strong>Residual plots</strong></li>\n            <li><strong>Q-Q plots</strong></li>\n            <li><strong>Goodness-of-fit tests</strong></li>\n            <li><strong>Cross-validation</strong></li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 34,
+      "title": "Computational Tools",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/computational_tools_left.png\" alt=\"Python Tools\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/computational_tools_right.png\" alt=\"R Tools\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <ul>\n            <li><strong>Python:</strong> scipy, statsmodels</li>\n            <li><strong>R:</strong> optim(), maxLik</li>\n            <li><strong>Bayesian:</strong> Stan, PyMC</li>\n            <li><strong>DL:</strong> PyTorch, TensorFlow</li>\n        </ul>\n    </div>\n</div>"
+    },
+    {
+      "id": 35,
+      "title": "Common Pitfalls",
+      "readingTime": "1 min",
+      "content": "<div class=\"card-grid\" style=\"grid-template-columns: repeat(2, 1fr);\">\n    <div class=\"info-card\">\n        <div class=\"icon pink\"><i class=\"fa-solid fa-chart-pie\"></i></div>\n        <h4>Wrong Distribution</h4>\n        <p>Use EDA and goodness-of-fit tests</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon pink\"><i class=\"fa-solid fa-database\"></i></div>\n        <h4>Small Samples</h4>\n        <p>Use bootstrap or Bayesian</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon pink\"><i class=\"fa-solid fa-arrow-up-right-dots\"></i></div>\n        <h4>Outliers</h4>\n        <p>Use robust methods</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon pink\"><i class=\"fa-solid fa-wave-square\"></i></div>\n        <h4>Overfitting</h4>\n        <p>Use AIC/BIC, cross-validation</p>\n    </div>\n</div>"
+    },
+    {
+      "id": 36,
+      "title": "Best Practices",
+      "readingTime": "1 min",
+      "content": "<div class=\"side-by-side-layout\">\n    <div class=\"figures-row\">\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/diagnostic_tools_left.png\" alt=\"Diagnostic Workflow\">\n        </figure>\n        <figure>\n            <img src=\"/static/images/courses/cmsc173/module-01/diagnostic_tools_right.png\" alt=\"Validation Process\">\n        </figure>\n    </div>\n    <div class=\"text-row\">\n        <div class=\"callout green\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-check-double\"></i> Checklist</div>\n            <ul>\n                <li>Start with MoM estimates</li>\n                <li>Use MoM as MLE starting values</li>\n                <li>Validate assumptions</li>\n                <li>Report confidence intervals</li>\n                <li>Check diagnostics</li>\n            </ul>\n        </div>\n    </div>\n</div>"
+    },
+    {
+      "id": 37,
+      "title": "Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-col\">\n    <div>\n        <div class=\"callout blue\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-calculator\"></i> MoM</div>\n            <p>Match moments. Simple, quick, good for starting values.</p>\n        </div>\n    </div>\n    <div>\n        <div class=\"callout purple\">\n            <div class=\"callout-title\"><i class=\"fa-solid fa-chart-line\"></i> MLE</div>\n            <p>Maximize likelihood. Optimal, efficient, asymptotically normal.</p>\n        </div>\n    </div>\n</div>\n<div class=\"callout\" style=\"margin-top:20px\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-star\"></i> Remember</div>\n    <p>Parameter estimation is fundamental to statistical modeling and ML!</p>\n</div>"
+    },
+    {
+      "id": 38,
+      "title": "Next Steps",
+      "readingTime": "1 min",
+      "content": "<div class=\"card-grid\" style=\"grid-template-columns: repeat(2, 1fr);\">\n    <div class=\"info-card\">\n        <div class=\"icon purple\"><i class=\"fa-solid fa-graduation-cap\"></i></div>\n        <h4>Advanced Topics</h4>\n        <p>GMM, Regularization, Bayesian MCMC</p>\n    </div>\n    <div class=\"info-card\">\n        <div class=\"icon blue\"><i class=\"fa-solid fa-code\"></i></div>\n        <h4>Practice Tools</h4>\n        <p>scipy.optimize, statsmodels, PyMC</p>\n    </div>\n</div>\n<div class=\"callout\" style=\"margin-top:20px;text-align:center\">\n    <div class=\"callout-title\"><i class=\"fa-solid fa-comments\"></i> Questions?</div>\n    <p>Ready for Module 2: Linear Regression</p>\n</div>"
+    }
+  ]
+}

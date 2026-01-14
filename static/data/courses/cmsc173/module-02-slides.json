@@ -1,0 +1,129 @@
+{
+  "module": {
+    "id": "02",
+    "title": "Linear Regression",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "50 minutes",
+    "prerequisites": [
+      "Parameter Estimation",
+      "Basic calculus",
+      "Matrix operations"
+    ]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "What is Linear Regression?",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">Linear regression models the relationship between a <strong>dependent variable</strong> and one or more <strong>independent variables</strong> using a linear function.</div><div class=\"definition\"><strong>Simple Linear Regression:</strong> $$y = \\theta_0 + \\theta_1 x + \\epsilon$$</div><div class=\"two-column\"><div class=\"column\"><h4>Components</h4><ul><li>$y$ — target/output</li><li>$x$ — feature/input</li><li>$\\theta_0$ — intercept (bias)</li><li>$\\theta_1$ — slope (weight)</li><li>$\\epsilon$ — error term</li></ul></div><div class=\"column\"><h4>Goal</h4><ul><li>Find $\\theta_0, \\theta_1$ that best fit the data</li><li>Minimize prediction errors</li><li>Enable predictions on new data</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "The Cost Function",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Mean Squared Error (MSE):</strong> Measures how well our line fits the data.</div><div class=\"math-block\">$$J(\\theta_0, \\theta_1) = \\frac{1}{2m} \\sum_{i=1}^{m} \\left( y^{(i)} - (\\theta_0 + \\theta_1 x^{(i)}) \\right)^2$$</div><div class=\"two-column\"><div class=\"column\"><h4>Why This Formula?</h4><ul><li><strong>Squared errors:</strong> Penalizes large errors more</li><li><strong>Sum over all points:</strong> Considers entire dataset</li><li><strong>Factor of 1/2:</strong> Simplifies derivative</li></ul></div><div class=\"column\"><h4>Interpretation</h4><ul><li>$J = 0$ → Perfect fit</li><li>Large $J$ → Poor fit</li><li>Goal: Minimize $J$</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why do we square the errors instead of just summing them?",
+        "answer": "Squaring ensures all errors are positive (negative errors don't cancel positive ones) and penalizes larger errors more heavily, making the model focus on reducing big mistakes."
+      }
+    },
+    {
+      "id": 3,
+      "title": "Gradient Descent Algorithm",
+      "readingTime": "3 min",
+      "content": "<div class=\"key-point\">Gradient descent is an <strong>iterative optimization algorithm</strong> that finds the minimum of a function by following the negative gradient.</div><div class=\"highlight\"><h4>Update Rules</h4><p>$$\\theta_0 := \\theta_0 - \\alpha \\frac{\\partial J}{\\partial \\theta_0}$$</p><p>$$\\theta_1 := \\theta_1 - \\alpha \\frac{\\partial J}{\\partial \\theta_1}$$</p></div><div class=\"definition\"><strong>Learning Rate ($\\alpha$):</strong> Controls step size. Too large → overshoots. Too small → slow convergence.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Computing the Gradients",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">The partial derivatives tell us which direction to move each parameter.</div><div class=\"highlight\"><h4>Gradient Formulas</h4><p>$$\\frac{\\partial J}{\\partial \\theta_0} = \\frac{1}{m} \\sum_{i=1}^{m} \\left( \\hat{y}^{(i)} - y^{(i)} \\right)$$</p><p>$$\\frac{\\partial J}{\\partial \\theta_1} = \\frac{1}{m} \\sum_{i=1}^{m} \\left( \\hat{y}^{(i)} - y^{(i)} \\right) x^{(i)}$$</p></div><div class=\"key-point\">Where $\\hat{y}^{(i)} = \\theta_0 + \\theta_1 x^{(i)}$ is the prediction.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Gradient Descent in Action",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">Each iteration updates the regression line to better fit the data.</div><div class=\"highlight\"><h4>Algorithm Steps</h4><ol><li>Initialize $\\theta_0, \\theta_1$ (often to 0)</li><li>Compute predictions: $\\hat{y} = \\theta_0 + \\theta_1 x$</li><li>Calculate gradients</li><li>Update parameters</li><li>Repeat until convergence</li></ol></div><div class=\"warning\"><strong>Convergence:</strong> Stop when cost $J$ changes very little between iterations.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Feature Normalization",
+      "readingTime": "3 min",
+      "content": "<div class=\"warning\"><strong>Problem:</strong> When features have very different scales, gradient descent can be slow or unstable.</div><div class=\"definition\"><strong>Z-score Normalization:</strong> $$x_{norm} = \\frac{x - \\mu}{\\sigma}$$</div><div class=\"two-column\"><div class=\"column\"><h4>Without Normalization</h4><ul><li>Need very small $\\alpha$</li><li>Slow convergence</li><li>Risk of divergence</li></ul></div><div class=\"column\"><h4>With Normalization</h4><ul><li>Can use larger $\\alpha$</li><li>Faster convergence</li><li>More stable training</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "If house sizes range from 50-500 sqm, what would be a normalized value for a 200 sqm house?",
+        "answer": "Using z-score: if $\\mu = 275$ and $\\sigma = 130$, then $x_{norm} = (200 - 275) / 130 \\approx -0.58$. The negative value indicates it's below average size."
+      }
+    },
+    {
+      "id": 7,
+      "title": "Closed-Form Solution (OLS)",
+      "readingTime": "3 min",
+      "content": "<div class=\"key-point\">Linear regression has an <strong>analytical solution</strong> — no iteration needed!</div><div class=\"highlight\"><h4>Least Squares Formulas</h4><p>$$\\theta_1 = \\frac{\\sum_{i=1}^m (x^{(i)} - \\bar{x})(y^{(i)} - \\bar{y})}{\\sum_{i=1}^m (x^{(i)} - \\bar{x})^2}$$</p><p>$$\\theta_0 = \\bar{y} - \\theta_1 \\bar{x}$$</p></div><div class=\"definition\">Where $\\bar{x}$ and $\\bar{y}$ are the means of $x$ and $y$.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Matrix Form of Linear Regression",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Design Matrix:</strong> Stack all training examples with a column of 1s for the intercept.</div><div class=\"math-block\">$$X = \\begin{bmatrix} 1 & x^{(1)} \\\\ 1 & x^{(2)} \\\\ \\vdots & \\vdots \\\\ 1 & x^{(m)} \\end{bmatrix}, \\quad \\theta = \\begin{bmatrix} \\theta_0 \\\\ \\theta_1 \\end{bmatrix}$$</div><div class=\"highlight\"><h4>Normal Equation</h4><p>$$\\theta = (X^T X)^{-1} X^T y$$</p></div><div class=\"key-point\">This directly computes the optimal parameters in one step!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Gradient Descent vs Closed-Form",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><h4>Gradient Descent</h4><ul><li><strong>Pros:</strong></li><li>Works with large datasets</li><li>Scales to many features</li><li>Memory efficient</li><li><strong>Cons:</strong></li><li>Requires tuning $\\alpha$</li><li>Many iterations needed</li></ul></div><div class=\"column\"><h4>Normal Equation</h4><ul><li><strong>Pros:</strong></li><li>No hyperparameters</li><li>One-step solution</li><li>Exact answer</li><li><strong>Cons:</strong></li><li>Slow for large $n$ features</li><li>$(X^TX)^{-1}$ is $O(n^3)$</li></ul></div></div><div class=\"key-point\"><strong>Rule of thumb:</strong> Use normal equation if $n < 10,000$ features, otherwise use gradient descent.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "The Loss Surface",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">The cost function $J(\\theta_0, \\theta_1)$ forms a <strong>3D surface</strong> — gradient descent finds the lowest point.</div><div class=\"highlight\"><h4>Key Properties</h4><ul><li><strong>Convex surface:</strong> Bowl-shaped, one global minimum</li><li><strong>Gradient:</strong> Points uphill, we go opposite direction</li><li><strong>Path:</strong> Series of steps from initial guess to minimum</li></ul></div><div class=\"definition\">For linear regression with MSE, the surface is always convex — gradient descent is guaranteed to find the global minimum.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why is convexity important for optimization?",
+        "answer": "A convex function has only one minimum (the global minimum), so gradient descent will always converge to the best solution regardless of starting point. Non-convex functions may have local minima that trap the algorithm."
+      }
+    },
+    {
+      "id": 11,
+      "title": "Multiple Linear Regression",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition\"><strong>Multiple features:</strong> Extend to $n$ input variables.</div><div class=\"math-block\">$$y = \\theta_0 + \\theta_1 x_1 + \\theta_2 x_2 + \\cdots + \\theta_n x_n$$</div><div class=\"highlight\"><h4>Vector Notation</h4><p>$$h_\\theta(x) = \\theta^T x = \\sum_{j=0}^{n} \\theta_j x_j$$</p><p>where $x_0 = 1$ (bias term)</p></div><div class=\"key-point\">All the same techniques apply — gradient descent and normal equation work for any number of features.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Practical Considerations",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><h4>Debugging Tips</h4><ul><li>Plot $J$ vs iterations — should decrease</li><li>Try different learning rates</li><li>Check for feature scaling issues</li><li>Look for outliers in data</li></ul></div><div class=\"column\"><h4>Common Issues</h4><ul><li><strong>Divergence:</strong> $\\alpha$ too large</li><li><strong>Slow convergence:</strong> $\\alpha$ too small</li><li><strong>Poor fit:</strong> Need more features or different model</li></ul></div></div><div class=\"warning\"><strong>Always visualize!</strong> Plot predictions vs actual values to assess fit quality.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Key Takeaways</h4><ul><li><strong>Linear regression</strong> models relationships as $y = \\theta_0 + \\theta_1 x$</li><li><strong>Cost function</strong> (MSE) measures fit quality</li><li><strong>Gradient descent</strong> iteratively minimizes cost</li><li><strong>Normal equation</strong> gives closed-form solution</li><li><strong>Feature normalization</strong> improves convergence</li><li><strong>Multiple regression</strong> extends to many features</li></ul></div><div class=\"key-point\"><strong>Next:</strong> Regularization — handling overfitting in linear models.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

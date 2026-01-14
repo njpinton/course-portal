@@ -1,0 +1,237 @@
+{
+  "module": {
+    "id": "01",
+    "title": "Parameter Estimation",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 28,
+    "estimatedDuration": "90 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Course Overview",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Topics Covered</h4>\n<ol>\n<li>Mathematical Foundations of Estimation</li>\n<li>Method of Moments (MoM)</li>\n<li>Maximum Likelihood Estimation (MLE)</li>\n<li>Fisher Information & Cramér-Rao Lower Bound</li>\n<li>Asymptotic Theory of MLE</li>\n<li>Advanced Examples</li>\n</ol>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "Prerequisites & Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Prerequisites</h4><ul>\n<li><strong>Calculus:</strong> Differentiation, integration, optimization</li>\n<li><strong>Probability:</strong> PDFs, PMFs, expectations, variance</li>\n<li><strong>Linear Algebra:</strong> Matrices, vectors (for multivariate)</li>\n<li><strong>Statistics:</strong> Sample statistics, distributions</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Learning Objectives</h4><ul>\n<li>Derive estimators using Method of Moments</li>\n<li>Derive Maximum Likelihood Estimators from first principles</li>\n<li>Prove estimator properties (bias, consistency, efficiency)</li>\n<li>Apply Fisher Information and Cramér-Rao Lower Bound</li>\n<li>Understand asymptotic theory of MLE</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\"><h4>Topics Covered</h4>\n<ul>\n<li><strong>I.</strong> Mathematical Foundations</li>\n<li><strong>II.</strong> Method of Moments (MoM)</li>\n<li><strong>III.</strong> Maximum Likelihood Estimation</li>\n<li><strong>IV.</strong> Fisher Information & CRLB</li>\n<li><strong>V.</strong> Asymptotic Theory</li>\n<li><strong>VI.</strong> Advanced Examples</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "The Statistical Framework",
+      "readingTime": "2 min",
+      "content": "<div class=\"image-text-layout\">\n<div class=\"text-column\">\n<div class=\"definition\">\n<h4>The Setup</h4>\n<p>Let <strong>X₁, X₂, ..., Xₙ</strong> be independent and identically distributed (i.i.d.) random variables from a distribution with probability density (or mass) function:</p>\n$$f(x; \\theta) \\quad \\text{or} \\quad f(x | \\theta)$$\n<p>where <strong>θ ∈ Θ</strong> is an unknown parameter (or vector of parameters) in the parameter space Θ.</p>\n</div>\n\n<div class=\"highlight\">\n<h4>The Goal</h4>\n<p>Find a function <strong>θ̂ = g(X₁, X₂, ..., Xₙ)</strong> called an <em>estimator</em> such that θ̂ is \"close\" to the true parameter θ in some well-defined sense.</p>\n</div>\n\n<div class=\"example\">\n<h4>Key Distinction</h4>\n<p><strong>Estimator:</strong> A random variable (function of data)<br>\n<strong>Estimate:</strong> A specific numerical value after observing data</p>\n</div>\n</div>\n<div class=\"image-column\">\n<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-01/parameter_estimation_concept.png\" alt=\"Statistical Framework\">\n<figcaption>The estimation problem: from samples to parameters</figcaption>\n</figure>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Estimator Properties: Formal Definitions",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Unbiasedness</h4>\n<p>An estimator θ̂ is <strong>unbiased</strong> for θ if:</p>\n$$E[\\hat{\\theta}] = \\theta \\quad \\forall\\theta \\in \\Theta$$\n<p>The <strong>bias</strong> is defined as: Bias(θ̂) = E[θ̂] − θ</p>\n</div>\n\n<div class=\"definition\">\n<h4>Consistency</h4>\n<p>An estimator θ̂ₙ is <strong>consistent</strong> for θ if:</p>\n$$\\hat{\\theta}_n \\xrightarrow{p} \\theta \\quad \\text{as} \\quad n \\to \\infty$$\n<p>Equivalently: ∀ε > 0, P(|θ̂ₙ − θ| > ε) → 0</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Efficiency</h4>\n<p>Among unbiased estimators, θ̂ is <strong>efficient</strong> if:</p>\n$$\\text{Var}(\\hat{\\theta}) = \\text{CRLB} = \\frac{1}{I(\\theta)}$$\n<p>where I(θ) is the <strong>Fisher Information</strong></p>\n</div>\n\n<div class=\"definition\">\n<h4>Mean Squared Error</h4>\n<p>The <strong>MSE</strong> combines bias and variance:</p>\n$$\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta}) + [\\text{Bias}(\\hat{\\theta})]^2$$\n<p>This is the <strong>bias-variance tradeoff</strong></p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Part I: Method of Moments — Theory",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>PART I: METHOD OF MOMENTS</h4></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Population Moments</h4>\n<p>The <strong>k-th population moment</strong> about zero:</p>\n$$\\mu_k = E[X^k] = \\int x^k f(x; \\theta) dx$$\n<p>The <strong>k-th central moment</strong>:</p>\n$$\\mu'_k = E[(X - \\mu_1)^k]$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Sample Moments</h4>\n<p>The <strong>k-th sample moment</strong> about zero:</p>\n$$M_k = \\frac{1}{n} \\sum_{i=1}^n X_i^k$$\n<p>The <strong>k-th sample central moment</strong>:</p>\n$$M'_k = \\frac{1}{n} \\sum_{i=1}^n (X_i - \\bar{X})^k$$\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Method of Moments — The Algorithm",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>The MoM Procedure</h4>\n<p>For a distribution with <strong>p parameters</strong> θ = (θ₁, θ₂, ..., θₚ):</p>\n<ol>\n<li><strong>Step 1:</strong> Express population moments: μₖ = gₖ(θ₁, ..., θₚ) for k = 1, ..., p</li>\n<li><strong>Step 2:</strong> Equate sample to population: Mₖ = gₖ(θ̂₁, ..., θ̂ₚ) for k = 1, ..., p</li>\n<li><strong>Step 3:</strong> Solve the system for θ̂₁, ..., θ̂ₚ</li>\n</ol>\n</div>\n</div>\n\n<div class=\"column\">\n<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-01/mom_visualization.png\" alt=\"MoM Visualization\">\n<figcaption>By LLN: Mₖ → μₖ as n → ∞, ensuring consistency</figcaption>\n</figure>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "MoM Example 1: Normal Distribution (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ N(μ, σ²). Derive MoM estimators for μ and σ².</p></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 1: Population Moments</h4>\n<p>For X ~ N(μ, σ²):</p>\n<p><strong>First moment:</strong><br>\nμ₁ = E[X] = μ</p>\n<p><strong>Second moment:</strong><br>\nμ₂ = E[X²] = Var(X) + (E[X])² = σ² + μ²</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 2: Equate & Solve</h4>\n<p>Setting sample = population moments:</p>\n<p>M₁ = X̄ = μ̂<br>\n⟹ <strong>μ̂<sub>MoM</sub> = X̄ = (1/n)Σᵢ Xᵢ</strong></p>\n<p>M₂ = (1/n)Σᵢ Xᵢ² = σ̂² + μ̂²<br>\n⟹ <strong>σ̂²<sub>MoM</sub> = (1/n)Σᵢ(Xᵢ − X̄)²</strong></p>\n</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Note on Bias</h4><p>The MoM estimator σ̂²<sub>MoM</sub> = (1/n)Σ(Xᵢ − X̄)² is <strong>biased</strong>! E[σ̂²<sub>MoM</sub>] = ((n−1)/n)σ². The unbiased version uses (n−1) in the denominator.</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "MoM Example 2: Gamma Distribution (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ Gamma(α, β) with PDF: f(x) = (β<sup>α</sup>/Γ(α)) x<sup>α−1</sup> e<sup>−βx</sup>. Derive MoM estimators.</p></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 1: Population Moments</h4>\n<p>For Gamma(α, β):</p>\n<p>E[X] = α/β ⟹ μ₁ = α/β</p>\n<p>Var(X) = α/β²<br>\nE[X²] = Var(X) + (E[X])² = α/β² + α²/β² = α(1 + α)/β²</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 2: Solve the System</h4>\n<p>From μ₁ = M₁: α/β = X̄<br>\nFrom μ₂ = M₂: α(1+α)/β² = M₂</p>\n<p>Dividing: (1+α)/β = M₂/X̄<br>\nSubstituting: β = X̄·(1+α)·X̄/M₂</p>\n<p><strong>α̂ = X̄² / (M₂ − X̄²) = X̄² / S²</strong><br>\n<strong>β̂ = X̄ / (M₂ − X̄²) = X̄ / S²</strong></p>\n</div>\n</div>\n</div>\n\n<div class=\"example\"><h4>Verification</h4><p>Note that α̂/β̂ = X̄ ✓ and the sample variance S² = M₂ − X̄² appears naturally in both estimators.</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Part II: Maximum Likelihood Estimation — Theory",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>PART II: MAXIMUM LIKELIHOOD ESTIMATION</h4></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>The Likelihood Function</h4>\n<p>Given observations x₁, ..., xₙ, the <strong>likelihood function</strong> is:</p>\n$$L(\\theta) = L(\\theta; x_1, ..., x_n) = \\prod_{i=1}^n f(x_i; \\theta)$$\n<p>This is the <strong>joint probability</strong> of the observed data, viewed as a function of the parameter θ.</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\">\n<h4>The Log-Likelihood</h4>\n<p>The <strong>log-likelihood function</strong> is:</p>\n$$\\ell(\\theta) = \\log L(\\theta) = \\sum_{i=1}^n \\log f(x_i; \\theta)$$\n<p>Since log is <strong>monotonically increasing</strong>, maximizing L(θ) and ℓ(θ) yield the same θ̂.</p>\n</div>\n</div>\n</div>\n\n<div class=\"highlight\"><h4>Maximum Likelihood Estimator (MLE)</h4><p>The MLE is the parameter value that maximizes the likelihood: <strong>θ̂<sub>MLE</sub> = argmax<sub>θ∈Θ</sub> L(θ) = argmax<sub>θ∈Θ</sub> ℓ(θ)</strong></p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "MLE: The Calculus Approach",
+      "readingTime": "2 min",
+      "content": "<div class=\"image-text-layout\">\n<div class=\"text-column\">\n<div class=\"definition\">\n<h4>Finding the MLE</h4>\n<p>For differentiable log-likelihood, the MLE satisfies the <strong>Score Equation:</strong></p>\n$$\\frac{\\partial \\ell(\\theta)}{\\partial \\theta} = 0$$\n</div>\n\n<div class=\"highlight\">\n<h4>Verification Steps</h4>\n<ol>\n<li><strong>First-order condition:</strong> Solve ∂ℓ/∂θ = 0</li>\n<li><strong>Second-order condition:</strong> Verify ∂²ℓ/∂θ² < 0</li>\n<li><strong>Boundary check:</strong> Ensure it's a global maximum</li>\n</ol>\n</div>\n\n<div class=\"example\">\n<h4>Multivariate Case</h4>\n<p>For θ = (θ₁, ..., θₚ), solve the system:</p>\n<p>∂ℓ/∂θ₁ = 0, ∂ℓ/∂θ₂ = 0, ..., ∂ℓ/∂θₚ = 0</p>\n<p>Check that the Hessian matrix is negative definite.</p>\n</div>\n</div>\n<div class=\"image-column\">\n<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-01/mle_visualization.png\" alt=\"MLE Optimization\">\n<figcaption>Finding the maximum of the log-likelihood</figcaption>\n</figure>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "MLE Example 1: Normal Distribution (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ N(μ, σ²). Derive the MLEs for μ and σ².</p></div>\n\n<div class=\"highlight\">\n<h4>Step 1: Write the Log-Likelihood</h4>\n<p>f(xᵢ; μ, σ²) = (2πσ²)<sup>−1/2</sup> exp(−(xᵢ − μ)² / 2σ²)</p>\n<p>L(μ, σ²) = ∏ᵢ (2πσ²)<sup>−1/2</sup> exp(−(xᵢ − μ)² / 2σ²)</p>\n$$\\ell(\\mu, \\sigma^2) = -\\frac{n}{2}\\log(2\\pi) - \\frac{n}{2}\\log(\\sigma^2) - \\frac{1}{2\\sigma^2} \\sum_i(x_i - \\mu)^2$$\n</div>\n\n<div class=\"highlight\">\n<h4>Step 2: Differentiate and Solve</h4>\n<p><strong>∂ℓ/∂μ</strong> = (1/σ²) Σᵢ(xᵢ − μ) = 0 ⟹ Σᵢxᵢ = nμ ⟹ <strong>μ̂ = X̄</strong></p>\n<p><strong>∂ℓ/∂(σ²)</strong> = −n/(2σ²) + (1/2σ⁴) Σᵢ(xᵢ − μ)² = 0</p>\n<p>⟹ nσ² = Σᵢ(xᵢ − μ̂)² ⟹ <strong>σ̂² = (1/n) Σᵢ(xᵢ − X̄)²</strong></p>\n</div>\n\n<div class=\"warning\"><h4>Important Note</h4><p>The MLE σ̂² is biased (E[σ̂²] = (n−1)σ²/n), but it is <strong>asymptotically unbiased</strong> and <strong>consistent</strong>.</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "MLE Example 2: Exponential Distribution (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ Exp(λ) with PDF: f(x; λ) = λe<sup>−λx</sup> for x ≥ 0. Derive the MLE for λ.</p></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 1: Log-Likelihood</h4>\n<p>L(λ) = ∏ᵢ λe<sup>−λxᵢ</sup> = λⁿ exp(−λΣᵢxᵢ)</p>\n$$\\ell(\\lambda) = n \\cdot \\log(\\lambda) - \\lambda \\sum_i x_i$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 2: Differentiate & Solve</h4>\n<p>dℓ/dλ = n/λ − Σᵢxᵢ = 0</p>\n<p>⟹ n/λ = Σᵢxᵢ = nX̄</p>\n<p>⟹ <strong>λ̂<sub>MLE</sub> = 1/X̄</strong></p>\n</div>\n</div>\n</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 3: Verify Maximum</h4>\n<p>d²ℓ/dλ² = −n/λ² < 0 ✓</p>\n<p>Confirmed: it's a maximum!</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\">\n<h4>Properties</h4>\n<ul>\n<li><strong>Unbiased?</strong> No! E[1/X̄] ≠ λ</li>\n<li><strong>Consistent?</strong> Yes! 1/X̄ → λ</li>\n<li><strong>Efficient?</strong> Yes, asymptotically</li>\n</ul>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "MLE Example 3: Bernoulli/Binomial (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ Bernoulli(p). Derive the MLE for p.</p></div>\n\n<div class=\"highlight\">\n<h4>Step 1: Write the Likelihood</h4>\n<p>P(Xᵢ = xᵢ) = p<sup>xᵢ</sup>(1−p)<sup>1−xᵢ</sup> where xᵢ ∈ {0, 1}</p>\n<p>L(p) = ∏ᵢ p<sup>xᵢ</sup>(1−p)<sup>1−xᵢ</sup> = p<sup>Σxᵢ</sup>(1−p)<sup>n−Σxᵢ</sup></p>\n<p>Let S = Σᵢxᵢ (number of successes)</p>\n$$\\ell(p) = S \\cdot \\log(p) + (n-S) \\cdot \\log(1-p)$$\n</div>\n\n<div class=\"highlight\">\n<h4>Step 2: Differentiate and Solve</h4>\n<p>dℓ/dp = S/p − (n−S)/(1−p) = 0</p>\n<p>⟹ S(1−p) = (n−S)p<br>\n⟹ S − Sp = np − Sp<br>\n⟹ S = np</p>\n<p><strong>p̂<sub>MLE</sub> = S/n = X̄ = (sample proportion)</strong></p>\n</div>\n\n<div class=\"example\"><h4>Beautiful Result</h4><p>The MLE is the <strong>sample proportion</strong>! It is unbiased: E[p̂] = p, and has variance Var(p̂) = p(1−p)/n.</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "MLE Example 4: Poisson Distribution (Full Derivation)",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Problem</h4><p>Let X₁, ..., Xₙ ~ Poisson(λ) with PMF: P(X = k) = e<sup>−λ</sup>λᵏ/k! Derive the MLE for λ.</p></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 1: Log-Likelihood</h4>\n<p>L(λ) = ∏ᵢ (e<sup>−λ</sup>λ<sup>xᵢ</sup>/xᵢ!) = e<sup>−nλ</sup> · λ<sup>Σxᵢ</sup> / ∏ᵢxᵢ!</p>\n$$\\ell(\\lambda) = -n\\lambda + (\\sum_i x_i)\\log(\\lambda) - \\sum_i \\log(x_i!)$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Step 2: Differentiate & Solve</h4>\n<p>dℓ/dλ = −n + (Σᵢxᵢ)/λ = 0</p>\n<p>⟹ nλ = Σᵢxᵢ</p>\n<p><strong>λ̂<sub>MLE</sub> = (1/n)Σᵢxᵢ = X̄</strong></p>\n</div>\n</div>\n</div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>MoM = MLE!</h4>\n<p>For Poisson, both methods give the same estimator: λ̂ = X̄. This happens because E[X] = λ for Poisson.</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\">\n<h4>Properties of λ̂ = X̄</h4>\n<ul>\n<li><strong>Unbiased:</strong> E[X̄] = λ ✓</li>\n<li><strong>Variance:</strong> Var(X̄) = λ/n</li>\n<li><strong>Efficient:</strong> Achieves CRLB ✓</li>\n</ul>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Part III: Fisher Information",
+      "readingTime": "3 min",
+      "content": "<div class=\"highlight\"><h4>PART III: FISHER INFORMATION & CRLB</h4></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Fisher Information (Single Parameter)</h4>\n<p>The <strong>Fisher Information</strong> measures the amount of information that an observable random variable X carries about θ:</p>\n$$I(\\theta) = E\\left[\\left(\\frac{\\partial \\log f(X;\\theta)}{\\partial \\theta}\\right)^2\\right]$$\n<p>Equivalently (under regularity conditions):</p>\n$$I(\\theta) = -E\\left[\\frac{\\partial^2 \\log f(X;\\theta)}{\\partial \\theta^2}\\right]$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"definition\">\n<h4>For n i.i.d. Observations</h4>\n<p>The total Fisher Information from n observations:</p>\n$$I_n(\\theta) = n \\cdot I(\\theta)$$\n<p>Information is <strong>additive</strong> for independent observations!</p>\n</div>\n\n<div class=\"highlight\">\n<h4>Intuition</h4>\n<p>Higher Fisher Information means the likelihood function has a <strong>sharper peak</strong>, making it easier to pinpoint the true parameter.</p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Fisher Information: Examples",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"example\">\n<h4>Normal N(μ, σ²) — Known σ²</h4>\n<p>log f(x; μ) = −½log(2πσ²) − (x−μ)²/(2σ²)</p>\n<p>∂log f/∂μ = (x − μ)/σ²</p>\n<p>∂²log f/∂μ² = −1/σ²</p>\n<p><strong>I(μ) = 1/σ²</strong></p>\n<p>Higher variance σ² → less information about μ</p>\n</div>\n\n<div class=\"example\">\n<h4>Bernoulli(p)</h4>\n<p>log f(x; p) = x·log(p) + (1−x)·log(1−p)</p>\n<p>∂²log f/∂p² = −x/p² − (1−x)/(1−p)²</p>\n<p><strong>I(p) = 1/(p(1−p))</strong></p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\">\n<h4>Exponential Exp(λ)</h4>\n<p>log f(x; λ) = log(λ) − λx</p>\n<p>∂log f/∂λ = 1/λ − x</p>\n<p>∂²log f/∂λ² = −1/λ²</p>\n<p><strong>I(λ) = 1/λ²</strong></p>\n<p>Smaller λ → more information</p>\n</div>\n\n<div class=\"example\">\n<h4>Poisson(λ)</h4>\n<p>log f(x; λ) = −λ + x·log(λ) − log(x!)</p>\n<p>∂²log f/∂λ² = −x/λ²</p>\n<p><strong>I(λ) = E[X]/λ² = 1/λ</strong></p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Cramér-Rao Lower Bound (CRLB)",
+      "readingTime": "3 min",
+      "content": "<div class=\"image-text-layout\">\n<div class=\"text-column\">\n<div class=\"definition\">\n<h4>The Cramér-Rao Inequality</h4>\n<p>For any <strong>unbiased</strong> estimator θ̂ of θ:</p>\n$$\\text{Var}(\\hat{\\theta}) \\geq \\frac{1}{I_n(\\theta)} = \\frac{1}{n \\cdot I(\\theta)}$$\n<p>The right-hand side is called the <strong>Cramér-Rao Lower Bound</strong>.</p>\n</div>\n\n<div class=\"highlight\">\n<h4>Efficiency</h4>\n<p>An unbiased estimator is <strong>efficient</strong> (or UMVUE) if:</p>\n$$\\text{Var}(\\hat{\\theta}) = \\frac{1}{n \\cdot I(\\theta)} = \\text{CRLB}$$\n<p>Such estimators achieve the <strong>minimum possible variance</strong>.</p>\n</div>\n\n<div class=\"example\">\n<h4>Key Result</h4>\n<p>Under regularity conditions, the MLE is <strong>asymptotically efficient</strong>: its variance approaches the CRLB as n → ∞.</p>\n</div>\n</div>\n<div class=\"image-column\">\n<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-01/efficiency_comparison.png\" alt=\"CRLB Illustration\">\n<figcaption>The CRLB sets the fundamental limit on estimation precision</figcaption>\n</figure>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "CRLB: Worked Examples",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"example\">\n<h4>Normal Mean (σ² known)</h4>\n<p>For X₁,...,Xₙ ~ N(μ, σ²):</p>\n<p>I(μ) = 1/σ²</p>\n<p>CRLB = 1/(n·I(μ)) = <strong>σ²/n</strong></p>\n<p>Var(X̄) = σ²/n = CRLB ✓</p>\n<p><strong>X̄ is efficient!</strong> It achieves the CRLB exactly.</p>\n</div>\n\n<div class=\"example\">\n<h4>Poisson Rate</h4>\n<p>I(λ) = 1/λ</p>\n<p>CRLB = <strong>λ/n</strong></p>\n<p>Var(X̄) = λ/n = CRLB ✓</p>\n<p><strong>X̄ is efficient for Poisson!</strong></p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\">\n<h4>Bernoulli Proportion</h4>\n<p>For X₁,...,Xₙ ~ Bernoulli(p):</p>\n<p>I(p) = 1/(p(1−p))</p>\n<p>CRLB = 1/(n·I(p)) = <strong>p(1−p)/n</strong></p>\n<p>Var(p̂) = p(1−p)/n = CRLB ✓</p>\n<p><strong>p̂ = X̄ is efficient!</strong></p>\n</div>\n\n<div class=\"warning\">\n<h4>Exponential Rate</h4>\n<p>CRLB = λ²/n</p>\n<p>λ̂ = 1/X̄ is <strong>biased</strong>!</p>\n<p>Var(λ̂) > CRLB for finite n</p>\n<p>MLE is only <em>asymptotically</em> efficient here.</p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Part IV: Asymptotic Theory of MLE",
+      "readingTime": "3 min",
+      "content": "<div class=\"highlight\"><h4>PART IV: ASYMPTOTIC PROPERTIES OF MLE</h4></div>\n\n<div class=\"definition\">\n<h4>The Grand Theorem: Asymptotic Normality of MLE</h4>\n<p>Under regularity conditions, as n → ∞:</p>\n$$\\sqrt{n} (\\hat{\\theta}_{MLE} - \\theta) \\xrightarrow{d} N\\left(0, \\frac{1}{I(\\theta)}\\right)$$\n<p>Equivalently, for large n:</p>\n$$\\hat{\\theta}_{MLE} \\approx N\\left(\\theta, \\frac{1}{n \\cdot I(\\theta)}\\right)$$\n</div>\n\n<div class=\"code-example\">\n<h4>Key Properties of MLE</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Property</th><th>Description</th></tr></thead>\n<tbody>\n<tr><td><strong>Consistency</strong></td><td>θ̂<sub>MLE</sub> → θ in probability</td></tr>\n<tr><td><strong>Asymptotic Normality</strong></td><td>Distribution → Normal</td></tr>\n<tr><td><strong>Asymptotic Efficiency</strong></td><td>Variance → CRLB</td></tr>\n</tbody>\n</table>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Confidence Intervals from MLE",
+      "readingTime": "2 min",
+      "content": "<div class=\"image-text-layout\">\n<div class=\"text-column\">\n<div class=\"definition\">\n<h4>Asymptotic Confidence Intervals</h4>\n<p>Using the asymptotic normality of MLE, we can construct approximate confidence intervals:</p>\n<p><strong>100(1−α)% CI for θ:</strong></p>\n$$\\hat{\\theta} \\pm z_{\\alpha/2} \\cdot \\sqrt{\\frac{1}{n \\cdot I(\\hat{\\theta})}}$$\n<p>where z<sub>α/2</sub> is the (1−α/2) quantile of N(0,1).</p>\n</div>\n\n<div class=\"highlight\">\n<h4>Practical Formula</h4>\n<p>Often we use the <strong>observed Fisher Information</strong>:</p>\n<p>Î(θ̂) = −∂²ℓ(θ)/∂θ² |<sub>θ=θ̂</sub></p>\n<p>This gives the standard error: SE(θ̂) = 1/√Î(θ̂)</p>\n</div>\n\n<div class=\"example\">\n<h4>Example: Normal Mean</h4>\n<p>95% CI: X̄ ± 1.96 · σ/√n (or X̄ ± 1.96 · S/√n)</p>\n</div>\n</div>\n<div class=\"image-column\">\n<figure class=\"slide-figure\">\n<img src=\"/static/images/courses/cmsc173/module-01/mle_properties.png\" alt=\"Confidence Intervals\">\n<figcaption>Asymptotic normality enables confidence interval construction</figcaption>\n</figure>\n</div>\n</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Invariance Property of MLE",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Invariance Theorem</h4>\n<p>If θ̂ is the MLE of θ, then for any function g(·):</p>\n$$g(\\hat{\\theta}) \\text{ is the MLE of } g(\\theta)$$\n<p>This is called the <strong>invariance property</strong> or <strong>equivariance</strong> of MLE.</p>\n</div>\n\n<div class=\"highlight\">\n<h4>Why This Matters</h4>\n<p>You don't need to re-derive MLEs for transformations of parameters!</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"example\">\n<h4>Example 1: Normal Variance</h4>\n<p>If σ̂² is MLE of σ²</p>\n<p>Then σ̂ = √σ̂² is MLE of σ</p>\n</div>\n\n<div class=\"example\">\n<h4>Example 2: Exponential</h4>\n<p>λ̂ = 1/X̄ is MLE of λ</p>\n<p>X̄ is MLE of 1/λ = E[X]</p>\n</div>\n\n<div class=\"example\">\n<h4>Example 3: Odds</h4>\n<p>p̂ is MLE of p</p>\n<p>p̂/(1−p̂) is MLE of odds = p/(1−p)</p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Part V: MoM vs MLE — Comprehensive Comparison",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>PART V: METHOD COMPARISON</h4></div>\n\n<div class=\"code-example\">\n<h4>MoM vs MLE Comparison</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Property</th><th>Method of Moments</th><th>Maximum Likelihood</th></tr></thead>\n<tbody>\n<tr><td><strong>Core Principle</strong></td><td>Match sample moments to population moments</td><td>Maximize probability of observed data</td></tr>\n<tr><td><strong>Computation</strong></td><td>Usually closed-form, simple algebra</td><td>May require numerical optimization</td></tr>\n<tr><td><strong>Consistency</strong></td><td>Yes (by LLN)</td><td>Yes (under regularity)</td></tr>\n<tr><td><strong>Efficiency</strong></td><td>Generally not efficient</td><td>Asymptotically efficient (CRLB)</td></tr>\n<tr><td><strong>Asymp. Normality</strong></td><td>Yes (by CLT)</td><td>Yes (with known variance)</td></tr>\n<tr><td><strong>Invariance</strong></td><td>No</td><td>Yes</td></tr>\n<tr><td><strong>Invalid estimates</strong></td><td>Possible (e.g., σ̂² < 0)</td><td>Usually constrained to valid range</td></tr>\n<tr><td><strong>Small samples</strong></td><td>Can be poor</td><td>Generally better</td></tr>\n</tbody>\n</table>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "When MoM Beats MLE (Rare Cases)",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>MoM Advantages</h4>\n<ul>\n<li><strong>Computational simplicity</strong> when MLE requires iterative methods</li>\n<li><strong>Robustness</strong> in some cases to model misspecification</li>\n<li><strong>Good starting values</strong> for MLE optimization</li>\n<li><strong>Tractability</strong> when likelihood is intractable</li>\n</ul>\n</div>\n\n<div class=\"example\">\n<h4>Example: Mixture Models</h4>\n<p>For Gaussian mixtures, MLE requires EM algorithm. MoM provides quick initial estimates of means and variances.</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"warning\">\n<h4>When MLE Fails</h4>\n<ul>\n<li><strong>Unbounded likelihood:</strong> Some distributions have likelihood → ∞ at boundary</li>\n<li><strong>Multiple modes:</strong> Local maxima can trap optimization</li>\n<li><strong>Model misspecification:</strong> MLE can be sensitive</li>\n</ul>\n</div>\n\n<div class=\"example\">\n<h4>Practical Advice</h4>\n<ol>\n<li>Use MoM for initial estimates</li>\n<li>Refine with MLE</li>\n<li>Check for convergence issues</li>\n<li>Validate with bootstrap if unsure</li>\n</ol>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Advanced Example: Beta Distribution",
+      "readingTime": "3 min",
+      "content": "<div class=\"example\"><h4>Beta(α, β) Distribution</h4><p>PDF: f(x; α, β) = [Γ(α+β)/(Γ(α)Γ(β))] x<sup>α−1</sup>(1−x)<sup>β−1</sup> for x ∈ (0, 1)</p></div>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>MoM Solution</h4>\n<p>E[X] = α/(α+β) = μ₁<br>\nVar(X) = αβ/[(α+β)²(α+β+1)]</p>\n<p>Let m = X̄, v = S²</p>\n<p><strong>α̂ = m·[(m(1−m)/v) − 1]</strong><br>\n<strong>β̂ = (1−m)·[(m(1−m)/v) − 1]</strong></p>\n<p>Closed form! ✓</p>\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>MLE Solution</h4>\n<p>ℓ(α,β) = n·log Γ(α+β) − n·log Γ(α) − n·log Γ(β) + (α−1)Σlog(xᵢ) + (β−1)Σlog(1−xᵢ)</p>\n<p>∂ℓ/∂α involves <strong>digamma function</strong> ψ(·)</p>\n<p><strong>No closed form!</strong><br>\nRequires numerical optimization</p>\n</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Practical Strategy</h4><p>Use MoM estimates as starting values for numerical MLE optimization (e.g., Newton-Raphson or L-BFGS).</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Numerical Methods for MLE",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\">\n<h4>Newton-Raphson Method</h4>\n<p>Iterative update for finding MLE:</p>\n$$\\theta^{(t+1)} = \\theta^{(t)} - [\\ell''(\\theta^{(t)})]^{-1} \\cdot \\ell'(\\theta^{(t)})$$\n<p>Converges quadratically near the maximum!</p>\n</div>\n\n<div class=\"example\">\n<h4>Fisher Scoring</h4>\n<p>Replace observed information with expected:</p>\n$$\\theta^{(t+1)} = \\theta^{(t)} + I(\\theta^{(t)})^{-1} \\cdot \\ell'(\\theta^{(t)})$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Gradient Descent</h4>\n<p>θ<sup>(t+1)</sup> = θ<sup>(t)</sup> + η · ℓ'(θ<sup>(t)</sup>)</p>\n<p>Simple but slower convergence</p>\n</div>\n\n<div class=\"highlight\">\n<h4>EM Algorithm</h4>\n<p>For latent variable models:<br>\n<strong>E-step:</strong> Compute expected log-likelihood<br>\n<strong>M-step:</strong> Maximize</p>\n</div>\n\n<div class=\"highlight\">\n<h4>Quasi-Newton (BFGS)</h4>\n<p>Approximates Hessian. Good balance of speed and robustness.</p>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Summary: Key Formulas Reference",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\">\n<h4>Core Definitions</h4>\n<ul>\n<li><strong>Likelihood:</strong> L(θ) = ∏ᵢ f(xᵢ; θ)</li>\n<li><strong>Log-likelihood:</strong> ℓ(θ) = Σᵢ log f(xᵢ; θ)</li>\n<li><strong>Score:</strong> S(θ) = ∂ℓ/∂θ</li>\n<li><strong>Fisher Info:</strong> I(θ) = E[S(θ)²] = −E[∂²ℓ/∂θ²]</li>\n<li><strong>CRLB:</strong> Var(θ̂) ≥ 1/(n·I(θ))</li>\n</ul>\n</div>\n\n<div class=\"highlight\">\n<h4>MLE Asymptotics</h4>\n$$\\hat{\\theta}_{MLE} \\approx N\\left(\\theta, \\frac{1}{n \\cdot I(\\theta)}\\right)$$\n</div>\n</div>\n\n<div class=\"column\">\n<div class=\"code-example\">\n<h4>Common MLEs</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Distribution</th><th>MLE</th></tr></thead>\n<tbody>\n<tr><td>Normal μ</td><td>X̄</td></tr>\n<tr><td>Normal σ²</td><td>(1/n)Σ(Xᵢ−X̄)²</td></tr>\n<tr><td>Bernoulli p</td><td>X̄</td></tr>\n<tr><td>Poisson λ</td><td>X̄</td></tr>\n<tr><td>Exp λ</td><td>1/X̄</td></tr>\n<tr><td>Uniform [0,θ]</td><td>max(Xᵢ)</td></tr>\n</tbody>\n</table>\n</div>\n\n<div class=\"code-example\">\n<h4>Fisher Information</h4>\n<table class=\"comparison-table\">\n<thead><tr><th>Distribution</th><th>I(θ)</th></tr></thead>\n<tbody>\n<tr><td>N(μ,σ²)</td><td>1/σ²</td></tr>\n<tr><td>Bern(p)</td><td>1/(p(1−p))</td></tr>\n<tr><td>Pois(λ)</td><td>1/λ</td></tr>\n<tr><td>Exp(λ)</td><td>1/λ²</td></tr>\n</tbody>\n</table>\n</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>What We Covered Today</h4>\n<ol>\n<li><strong>Estimation is Fundamental:</strong> Every ML algorithm estimates parameters. MLE and MoM are the two main classical approaches.</li>\n<li><strong>MLE is Generally Optimal:</strong> Consistent, asymptotically normal, asymptotically efficient, and invariant under transformations.</li>\n<li><strong>Fisher Information Measures Precision:</strong> Higher I(θ) means sharper likelihood peak and lower variance possible. CRLB = 1/(n·I(θ)).</li>\n<li><strong>Practical Workflow:</strong> 1) Get MoM for initial guess → 2) Optimize MLE → 3) Compute SE from Fisher Info → 4) Build CIs</li>\n</ol>\n</div>\n\n<div class=\"example\">\n<h4>Connections to Machine Learning</h4>\n<ul>\n<li><strong>Linear Regression:</strong> MLE with Gaussian errors = Ordinary Least Squares</li>\n<li><strong>Logistic Regression:</strong> MLE with Bernoulli likelihood</li>\n<li><strong>Neural Networks:</strong> Cross-entropy loss = negative log-likelihood</li>\n<li><strong>Regularization:</strong> MAP estimation = MLE + prior (Bayesian connection)</li>\n</ul>\n</div>\n\n<div class=\"warning\"><h4>Next Lecture</h4><p><strong>Linear Regression</strong>: From parameter estimation to predictive modeling</p></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Check Your Understanding",
+      "readingTime": "3 min",
+      "content": "<div class=\"highlight\"><h4>Practice Questions</h4></div>\n\n<div class=\"example\">\n<h4>Question 1</h4>\n<p>Derive the MLE for the Uniform(0, θ) distribution where f(x) = 1/θ for 0 ≤ x ≤ θ.</p>\n<p><strong>Answer:</strong> L(θ) = (1/θ)ⁿ · I(max(xᵢ) ≤ θ). For θ ≥ max(xᵢ), L(θ) is decreasing in θ. So <strong>θ̂<sub>MLE</sub> = max(X₁, ..., Xₙ)</strong>. Note: This MLE is biased!</p>\n</div>\n\n<div class=\"example\">\n<h4>Question 2</h4>\n<p>Show that X̄ achieves the CRLB for estimating μ in N(μ, σ²) with known σ².</p>\n<p><strong>Answer:</strong> I(μ) = 1/σ². CRLB = σ²/n. Var(X̄) = σ²/n = CRLB. Therefore X̄ is efficient.</p>\n</div>\n\n<div class=\"example\">\n<h4>Question 3</h4>\n<p>If the MLE for λ in Exp(λ) is λ̂ = 1/X̄, what is the MLE for the median of the distribution?</p>\n<p><strong>Answer:</strong> For Exp(λ), median = log(2)/λ. By invariance: <strong>m̂<sub>MLE</sub> = log(2) · X̄ ≈ 0.693 · X̄</strong></p>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

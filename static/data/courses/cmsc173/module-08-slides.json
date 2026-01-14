@@ -1,0 +1,121 @@
+{
+  "module": {
+    "id": "08",
+    "title": "Logistic Regression",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "50 minutes",
+    "prerequisites": [
+      "Linear Regression",
+      "Gradient Descent",
+      "Basic probability"
+    ]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Binary Classification",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\">Classification problems involve predicting <strong>discrete categories</strong> rather than continuous values.</div><div class=\"definition\"><strong>Binary Classification:</strong> Predict one of two classes (positive/negative, yes/no, 1/0)</div><div class=\"two-column\"><div class=\"column\"><h4>Examples</h4><ul><li>Email spam detection</li><li>Disease diagnosis</li><li>Loan approval</li><li>Fraud detection</li><li>Image recognition (cat vs dog)</li></ul></div><div class=\"column\"><h4>Why Not Linear Regression?</h4><ul><li>Outputs should be probabilities [0,1]</li><li>Linear regression can give values outside this range</li><li>Decision boundaries are non-linear</li><li>Sensitive to outliers</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "The Sigmoid Function",
+      "readingTime": "3 min",
+      "content": "<div class=\"key-point\">The <strong>sigmoid (logistic) function</strong> maps any real number to the range (0,1), making it perfect for probability estimation.</div><div class=\"highlight\"><h4>Sigmoid Formula</h4><p>$$\\sigma(z) = \\frac{1}{1 + e^{-z}}$$</p></div><div class=\"two-column\"><div class=\"column\"><h4>Key Properties</h4><ul><li>Output range: $(0, 1)$</li><li>$\\sigma(0) = 0.5$</li><li>$\\sigma(-\\infty) \\to 0$</li><li>$\\sigma(+\\infty) \\to 1$</li><li>Smooth, differentiable</li></ul></div><div class=\"column\"><h4>Interpretation</h4><ul><li>S-shaped curve</li><li>Symmetric around 0.5</li><li>Steep gradient near 0</li><li>Saturates at extremes</li></ul></div></div><div class=\"definition\"><strong>Derivative:</strong> $\\sigma'(z) = \\sigma(z)(1 - \\sigma(z))$ — useful for gradient descent!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What is the output of the sigmoid function when z = 0?",
+        "answer": "When z = 0, $\\sigma(0) = \\frac{1}{1 + e^0} = \\frac{1}{2} = 0.5$. This is the neutral point where the model is equally uncertain between both classes."
+      }
+    },
+    {
+      "id": 3,
+      "title": "Logistic Regression Model",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Logistic Regression Hypothesis:</strong> Applies sigmoid to linear combination of features.</div><div class=\"highlight\"><h4>Model Equation</h4><p>$$h_\\theta(x) = \\sigma(\\theta^T x) = \\frac{1}{1 + e^{-\\theta^T x}}$$</p></div><div class=\"key-point\">This gives us $P(y=1|x;\\theta)$ — the probability that the output is class 1 given input $x$.</div><div class=\"two-column\"><div class=\"column\"><h4>Components</h4><ul><li>$x$ — feature vector</li><li>$\\theta$ — weight vector</li><li>$\\theta^T x$ — linear combination</li><li>$h_\\theta(x)$ — predicted probability</li></ul></div><div class=\"column\"><h4>Making Predictions</h4><ul><li>If $h_\\theta(x) \\geq 0.5$ → predict class 1</li><li>If $h_\\theta(x) < 0.5$ → predict class 0</li><li>Threshold can be adjusted</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Decision Boundaries",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Decision Boundary:</strong> The line/surface where $P(y=1) = P(y=0) = 0.5$</div><div class=\"key-point\">Since $\\sigma(0) = 0.5$, the decision boundary occurs where $\\theta^T x = 0$</div><div class=\"highlight\"><h4>Linear Decision Boundary</h4><p>For 2D: $\\theta_0 + \\theta_1 x_1 + \\theta_2 x_2 = 0$</p><p>This is a straight line separating the two classes.</p></div><div class=\"two-column\"><div class=\"column\"><h4>Linear Boundaries</h4><ul><li>Simple logistic regression</li><li>Straight lines/hyperplanes</li><li>Fast to compute</li><li>Works for linearly separable data</li></ul></div><div class=\"column\"><h4>Non-linear Boundaries</h4><ul><li>Add polynomial features</li><li>Example: $x_1^2, x_2^2, x_1 x_2$</li><li>Can create circular/curved boundaries</li><li>More flexible but risk overfitting</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "The Log Loss Function",
+      "readingTime": "3 min",
+      "content": "<div class=\"warning\"><strong>Problem:</strong> Mean squared error doesn't work well for classification — the cost surface is non-convex.</div><div class=\"definition\"><strong>Log Loss (Cross-Entropy):</strong> Penalizes confident wrong predictions heavily.</div><div class=\"highlight\"><h4>Cost Function</h4><p>$$J(\\theta) = -\\frac{1}{m} \\sum_{i=1}^{m} \\left[ y^{(i)} \\log(h_\\theta(x^{(i)})) + (1-y^{(i)}) \\log(1-h_\\theta(x^{(i)})) \\right]$$</p></div><div class=\"two-column\"><div class=\"column\"><h4>When $y=1$</h4><ul><li>Cost = $-\\log(h_\\theta(x))$</li><li>If $h_\\theta(x) \\to 1$: cost $\\to 0$ (good!)</li><li>If $h_\\theta(x) \\to 0$: cost $\\to \\infty$ (bad!)</li></ul></div><div class=\"column\"><h4>When $y=0$</h4><ul><li>Cost = $-\\log(1-h_\\theta(x))$</li><li>If $h_\\theta(x) \\to 0$: cost $\\to 0$ (good!)</li><li>If $h_\\theta(x) \\to 1$: cost $\\to \\infty$ (bad!)</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why do we use log loss instead of mean squared error for classification?",
+        "answer": "Log loss creates a convex cost surface, ensuring gradient descent finds the global minimum. MSE with sigmoid creates a non-convex surface with local minima. Log loss also heavily penalizes confident wrong predictions, which is desirable for classification."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Gradient Descent for Logistic Regression",
+      "readingTime": "3 min",
+      "content": "<div class=\"key-point\">Despite different cost functions, the gradient descent update rule looks identical to linear regression!</div><div class=\"highlight\"><h4>Gradient Formula</h4><p>$$\\frac{\\partial J}{\\partial \\theta_j} = \\frac{1}{m} \\sum_{i=1}^{m} (h_\\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$$</p></div><div class=\"highlight\"><h4>Update Rule</h4><p>$$\\theta_j := \\theta_j - \\alpha \\frac{1}{m} \\sum_{i=1}^{m} (h_\\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$$</p></div><div class=\"definition\">The key difference: $h_\\theta(x)$ now means $\\sigma(\\theta^T x)$, not $\\theta^T x$.</div><div class=\"warning\"><strong>Learning Rate:</strong> Typically smaller than linear regression (0.001 to 0.1). Monitor convergence carefully.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Regularization in Logistic Regression",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Regularization:</strong> Prevents overfitting by penalizing large parameter values.</div><div class=\"highlight\"><h4>Regularized Cost Function</h4><p>$$J(\\theta) = -\\frac{1}{m} \\sum_{i=1}^{m} \\left[ y^{(i)} \\log(h_\\theta(x^{(i)})) + (1-y^{(i)}) \\log(1-h_\\theta(x^{(i)})) \\right] + \\frac{\\lambda}{2m} \\sum_{j=1}^{n} \\theta_j^2$$</p></div><div class=\"two-column\"><div class=\"column\"><h4>L2 Regularization (Ridge)</h4><ul><li>Adds $\\frac{\\lambda}{2m} \\sum \\theta_j^2$</li><li>Shrinks all weights</li><li>Smooth decision boundaries</li><li>Note: Don't regularize $\\theta_0$</li></ul></div><div class=\"column\"><h4>Regularization Parameter $\\lambda$</h4><ul><li>$\\lambda = 0$: No regularization</li><li>Small $\\lambda$: Slight penalty</li><li>Large $\\lambda$: Strong penalty, underfitting</li><li>Use cross-validation to tune</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Multiclass Classification: One-vs-All",
+      "readingTime": "3 min",
+      "content": "<div class=\"key-point\">Extend binary logistic regression to <strong>K classes</strong> using multiple binary classifiers.</div><div class=\"definition\"><strong>One-vs-All (One-vs-Rest):</strong> Train K separate binary classifiers, each distinguishing one class from all others.</div><div class=\"highlight\"><h4>Algorithm</h4><ol><li>For each class $k$, train a classifier $h_\\theta^{(k)}(x)$</li><li>Treat class $k$ as positive, all others as negative</li><li>Results in K weight vectors: $\\theta^{(1)}, \\theta^{(2)}, ..., \\theta^{(K)}$</li><li>To predict: Choose class with highest probability</li></ol></div><div class=\"math-block\">$$\\text{prediction} = \\arg\\max_k h_\\theta^{(k)}(x)$$</div><div class=\"warning\"><strong>Note:</strong> The K probabilities may not sum to 1 since classifiers are independent.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "For 5-class classification, how many binary classifiers do we train with one-vs-all?",
+        "answer": "We train 5 binary classifiers, one for each class. Each classifier learns to distinguish one class from all the other 4 classes combined."
+      }
+    },
+    {
+      "id": 9,
+      "title": "Softmax Regression (Multinomial Logistic)",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\"><strong>Softmax Regression:</strong> Direct extension to multiclass that ensures probabilities sum to 1.</div><div class=\"highlight\"><h4>Softmax Function</h4><p>$$P(y=k|x) = \\frac{e^{\\theta_k^T x}}{\\sum_{j=1}^{K} e^{\\theta_j^T x}}$$</p></div><div class=\"key-point\">Each class has its own parameter vector $\\theta_k$. The denominator normalizes to ensure valid probabilities.</div><div class=\"two-column\"><div class=\"column\"><h4>Properties</h4><ul><li>Outputs sum to 1</li><li>Generalizes sigmoid</li><li>Single unified model</li><li>More elegant than one-vs-all</li></ul></div><div class=\"column\"><h4>Cost Function</h4><ul><li>Cross-entropy loss</li><li>$J(\\theta) = -\\frac{1}{m} \\sum_{i=1}^{m} \\sum_{k=1}^{K} \\mathbb{1}\\{y^{(i)}=k\\} \\log P(y^{(i)}=k|x^{(i)})$</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Model Evaluation Metrics",
+      "readingTime": "2 min",
+      "content": "<div class=\"warning\"><strong>Accuracy alone can be misleading,</strong> especially with imbalanced datasets!</div><div class=\"two-column\"><div class=\"column\"><h4>Basic Metrics</h4><ul><li><strong>Accuracy:</strong> Fraction of correct predictions</li><li><strong>Error rate:</strong> $1 - \\text{accuracy}$</li><li>Simple but insufficient</li></ul></div><div class=\"column\"><h4>Confusion Matrix Components</h4><ul><li>True Positives (TP)</li><li>True Negatives (TN)</li><li>False Positives (FP)</li><li>False Negatives (FN)</li></ul></div></div><div class=\"definition\"><strong>Example:</strong> 99% accuracy on spam detection sounds great, but if only 1% of emails are spam, predicting \"not spam\" for everything gives 99% accuracy while catching zero spam!</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Advanced Considerations",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><h4>Optimization Tips</h4><ul><li>Feature scaling is crucial</li><li>Use mini-batch or stochastic GD for large datasets</li><li>Monitor log loss during training</li><li>Early stopping to prevent overfitting</li></ul></div><div class=\"column\"><h4>Common Pitfalls</h4><ul><li>Forgetting to normalize features</li><li>Using MSE instead of log loss</li><li>Not regularizing with many features</li><li>Imbalanced class distributions</li></ul></div></div><div class=\"highlight\"><h4>When to Use Logistic Regression</h4><ul><li>Binary or multiclass classification</li><li>Need probabilistic predictions</li><li>Want interpretable model</li><li>Baseline before complex models</li></ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<div class=\"highlight\"><h4>Key Takeaways</h4><ul><li><strong>Sigmoid function</strong> maps linear output to probabilities [0,1]</li><li><strong>Log loss</strong> (cross-entropy) is the proper cost function</li><li><strong>Decision boundaries</strong> separate classes, can be non-linear with feature engineering</li><li><strong>Gradient descent</strong> optimizes parameters, similar update rule to linear regression</li><li><strong>Regularization</strong> prevents overfitting in high-dimensional spaces</li><li><strong>One-vs-all</strong> or <strong>softmax</strong> extend to multiclass problems</li><li><strong>Evaluation</strong> requires more than accuracy</li></ul></div><div class=\"key-point\"><strong>Next:</strong> Classification metrics and other classification algorithms.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

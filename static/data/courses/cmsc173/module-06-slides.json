@@ -1,0 +1,285 @@
+{
+  "module": {
+    "id": "06",
+    "title": "Cross Validation \\& Hyperparameter Tuning",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 34,
+    "estimatedDuration": "68 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "The Model Validation Problem",
+      "readingTime": "1 min",
+      "content": "<strong>Central Question: How do we assess model performance?</strong>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Training Error</h4><ul>\n\n<li>Error on data used to train the model\n</li>\n<li>Always optimistically biased\n</li>\n<li>Cannot be used for model selection\n</li>\n<li>Misleading indicator\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Test Error</h4><ul>\n\n<li>Error on unseen data\n</li>\n<li>True indicator of generalization\n</li>\n<li>Should only be used once\n</li>\n<li>Gold standard\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Problem</h4>We need to estimate generalization performance <strong>without</strong> using the test set during model development and hyperparameter tuning.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "The Three-Way Data Split",
+      "readingTime": "2 min",
+      "content": "\\begin{tikzpicture}[scale=1.0, every node/.style={scale=1.0}]\n    % Original dataset\n    \\node[rectangle, draw, fill=gray!20, minimum width=10cm, minimum height=1cm] (dataset) at (0,3) {};\n    \\node[above=0.1cm of dataset] {<strong>Original Dataset</strong>};\n\n    % Data split arrows\n    \\draw[fold arrow, very thick] (-3,2.3) -- (-3,1.7);\n    \\draw[fold arrow, very thick] (0,2.3) -- (0,1.7);\n    \\draw[fold arrow, very thick] (3,2.3) -- (3,1.7);\n\n    % Split proportions\n    \\node at (-3,2) {\\scriptsize 60\\%};\n    \\node at (0,2) {\\scriptsize 20\\%};\n    \\node at (3,2) {\\scriptsize 20\\%};\n\n    % Training set\n    \\node[train fold, minimum width=6cm, minimum height=1cm] (train) at (-3,1) {};\n    \\node[above=0.1cm of train] {<strong>Training Set</strong>};\n    \\node[below=0.1cm of train] {\\scriptsize Used to train models};\n\n    % Validation set\n    \\node[valid fold, minimum width=2cm, minimum height=1cm] (valid) at (0,1) {};\n    \\node[above=0.1cm of valid] {<strong>Validation Set</strong>};\n    \\node[below=0.1cm of valid] {\\scriptsize Model selection \\& tuning};\n\n    % Test set\n    \\node[test fold, minimum width=2cm, minimum height=1cm] (test) at (3,1) {};\n    \\node[above=0.1cm of test] {<strong>Test Set</strong>};\n    \\node[below=0.1cm of test] {\\scriptsize Final evaluation};\n\n    % Workflow arrows\n    \\draw[fold arrow, very thick] (train) to[bend left=20] (-1,-0.5);\n    \\draw[fold arrow, very thick] (valid) -- (0,-0.5);\n    \\draw[fold arrow, very thick] (test) to[bend right=20] (1,-0.5);\n\n    % Model development process\n    \\node[cv process, minimum width=3cm] (model) at (0,-1) {<strong>Model Development</strong>};\n    \\node[below=0.1cm of model] {\\scriptsize Training + Validation};\n\n    % Final evaluation\n    \\draw[fold arrow, very thick] (model) -- (0,-2.5);\n    \\node[cv process, fill=testcolor!20, minimum width=2.5cm] (final) at (0,-3) {<strong>Final Test</strong>};\n    \\node[below=0.1cm of final] {\\scriptsize Unbiased estimate};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4><strong>Validation set</strong> acts as a proxy for the test set during model development, allowing us to:\n<ul>\n<li>Compare different models\n</li>\n<li>Tune hyperparameters\n</li>\n<li>Avoid overfitting to the test set\n</li>\n</ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Holdout Validation Method",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Procedure:</strong>\n<ol>\n\n<li>Randomly split data into training and validation sets\n</li>\n<li>Train model on training set\n</li>\n<li>Evaluate on validation set\n</li>\n<li>Select best performing model/hyperparameters\n</li>\n<li>Final evaluation on held-out test set\n</li>\n</ol>\n\n\n\n<strong>Common Split Ratios:</strong>\n<ul>\n<li>70\\% Train, 15\\% Validation, 15\\% Test\n</li>\n<li>60\\% Train, 20\\% Validation, 20\\% Test\n</li>\n<li>80\\% Train, 10\\% Validation, 10\\% Test\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mathematical Formulation</h4>Given dataset $\\mathcal{D} = \\{(x_i, y_i)\\}_{i=1}^n$:\n\n$$\\begin{aligned}\\mathcal{D}_{train} \\cup \\mathcal{D}_{val} \\cup \\mathcal{D}_{test} = \\mathcal{D} \\\\ \\mathcal{D}_{train} \\cap \\mathcal{D}_{val} \\cap \\mathcal{D}_{test} = \\emptyset \\\\ |\\mathcal{D}_{train}| = \\alpha n \\\\ |\\mathcal{D}_{val}| = \\beta n \\\\ |\\mathcal{D}_{test}| = (1-\\alpha-\\beta) n\\end{aligned}$$\n\nwhere typically $\\alpha \\in [0.6, 0.8]$</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Advantage</h4>Simple, fast, and provides unbiased estimate when validation set is large enough.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Holdout Validation: Advantages \\& Disadvantages",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Computational efficiency</strong>: Train model only once\n</li>\n<li><strong>Simple implementation</strong>: Straightforward to understand and code\n</li>\n<li><strong>Fast evaluation</strong>: Quick assessment of model performance\n</li>\n<li><strong>Realistic simulation</strong>: Mimics real-world deployment scenario\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>When to Use</h4><ul>\n\n<li>Large datasets (n $>$ 10,000)\n</li>\n<li>Computationally expensive models\n</li>\n<li>Time-sensitive applications\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>High variance</strong>: Performance estimate depends on specific split\n</li>\n<li><strong>Data inefficiency</strong>: Reduces training data size\n</li>\n<li><strong>Unreliable for small datasets</strong>: Estimates can be very noisy\n</li>\n<li><strong>Potential bias</strong>: Unlucky splits can mislead model selection\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>When NOT to Use</h4><ul>\n\n<li>Small datasets (n $<$ 1,000)\n</li>\n<li>Need for robust performance estimates\n</li>\n<li>Critical applications requiring high confidence\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Key Takeaway</h4>Holdout validation trades robustness for computational efficiency.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "K-Fold Cross-Validation Method",
+      "readingTime": "3 min",
+      "content": "\\begin{tikzpicture}[scale=0.9, every node/.style={scale=0.9}]\n    % Title\n    \\node at (0,4.5) {<strong>5-Fold Cross-Validation Example</strong>};\n\n    % Original dataset\n    \\node[rectangle, draw, fill=gray!20, minimum width=10cm, minimum height=0.6cm] (dataset) at (0,4) {};\n    \\node[left=0.2cm of dataset] {\\scriptsize Original Data:};\n\n    % Fold 1\n    \\node[valid fold, minimum width=2cm, minimum height=0.6cm] (f1v) at (-4,3) {};\n    \\node[train fold, minimum width=8cm, minimum height=0.6cm] (f1t) at (0,3) {};\n    \\node[left=0.2cm of f1v] {\\scriptsize Fold 1:};\n    \\node[below=0.05cm of f1v] {\\tiny Valid};\n    \\node[below=0.05cm of f1t] {\\tiny Train};\n\n    % Fold 2\n    \\node[train fold, minimum width=2cm, minimum height=0.6cm] (f2t1) at (-4,2.2) {};\n    \\node[valid fold, minimum width=2cm, minimum height=0.6cm] (f2v) at (-2,2.2) {};\n    \\node[train fold, minimum width=6cm, minimum height=0.6cm] (f2t2) at (1,2.2) {};\n    \\node[left=0.2cm of f2t1] {\\scriptsize Fold 2:};\n    \\node[below=0.05cm of f2v] {\\tiny Valid};\n\n    % Fold 3\n    \\node[train fold, minimum width=4cm, minimum height=0.6cm] (f3t1) at (-3,1.4) {};\n    \\node[valid fold, minimum width=2cm, minimum height=0.6cm] (f3v) at (0,1.4) {};\n    \\node[train fold, minimum width=4cm, minimum height=0.6cm] (f3t2) at (3,1.4) {};\n    \\node[left=0.2cm of f3t1] {\\scriptsize Fold 3:};\n    \\node[below=0.05cm of f3v] {\\tiny Valid};\n\n    % Fold 4\n    \\node[train fold, minimum width=6cm, minimum height=0.6cm] (f4t1) at (-2,0.6) {};\n    \\node[valid fold, minimum width=2cm, minimum height=0.6cm] (f4v) at (2,0.6) {};\n    \\node[train fold, minimum width=2cm, minimum height=0.6cm] (f4t2) at (4,0.6) {};\n    \\node[left=0.2cm of f4t1] {\\scriptsize Fold 4:};\n    \\node[below=0.05cm of f4v] {\\tiny Valid};\n\n    % Fold 5\n    \\node[train fold, minimum width=8cm, minimum height=0.6cm] (f5t) at (-1,-0.2) {};\n    \\node[valid fold, minimum width=2cm, minimum height=0.6cm] (f5v) at (4,-0.2) {};\n    \\node[left=0.2cm of f5t] {\\scriptsize Fold 5:};\n    \\node[below=0.05cm of f5v] {\\tiny Valid};\n\n    % Results aggregation\n    \\draw[fold arrow, very thick] (-2,-0.8) -- (-2,-1.5);\n    \\draw[fold arrow, very thick] (0,-0.8) -- (0,-1.5);\n    \\draw[fold arrow, very thick] (2,-0.8) -- (2,-1.5);\n\n    \\node[cv process, minimum width=6cm] (aggregate) at (0,-2) {<strong>Average Results</strong>};\n    \\node[below=0.1cm of aggregate] {\\scriptsize $CV_{score} = \\frac{1}{k}\\sum_{i=1}^{k} Score_i$};\n\\end{tikzpicture}\n\n\n\n<div class=\"warning\"><h4>Core Idea</h4>Use <strong>all data</strong> for both training and validation by systematically rotating which portion serves as the validation set.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "K-Fold Cross-Validation: Mathematical Formulation",
+      "readingTime": "1 min",
+      "content": "<strong>Algorithm:</strong>\n<ol>\n\n<li>Partition dataset $\\mathcal{D}$ into $k$ equal-sized folds: $\\mathcal{D} = \\mathcal{D}_1 \\cup \\mathcal{D}_2 \\cup ⋯ \\cup \\mathcal{D}_k$\n</li>\n<li>For each fold $i = 1, …, k$:\n<ul>\n</li>\n<li>Training set: $\\mathcal{D}_{train}^{(i)} = \\mathcal{D} \\setminus \\mathcal{D}_i$\n</li>\n<li>Validation set: $\\mathcal{D}_{val}^{(i)} = \\mathcal{D}_i$\n</li>\n<li>Train model $f^{(i)}$ on $\\mathcal{D}_{train}^{(i)}$\n</li>\n<li>Compute validation error: $E^{(i)} = L(f^{(i)}, \\mathcal{D}_{val}^{(i)})$\n</li>\n</ul>\n<li>Estimate generalization error: $\\hat{E}_{CV} = \\frac{1}{k}\\sum_{i=1}^k E^{(i)}$\n</li>\n</ol>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Error Estimation</h4>$$\\hat{E}_{CV} = \\frac{1}{k}\\sum_{i=1}^k L(f^{(i)}, \\mathcal{D}_i)$$\n\n$$\\text{Var}(\\hat{E}_{CV}) = \\frac{1}{k^2}\\sum_{i=1}^k \\text{Var}(E^{(i)})$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Standard Error</h4>$$SE(\\hat{E}_{CV}) = \\sqrt{\\frac{1}{k}\\sum_{i=1}^k \\left(E^{(i)} - \\hat{E}_{CV}\\right)^2}$$\n\nConfidence interval: $\\hat{E}_{CV} \\pm 1.96 \\cdot SE$</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Choice of k in K-Fold Cross-Validation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Common Values:</strong>\n<ul>\n\n<li><strong>k = 5</strong>: Good balance, widely used\n</li>\n<li><strong>k = 10</strong>: Most popular, good bias-variance tradeoff\n</li>\n<li><strong>k = n (LOOCV)</strong>: Lowest bias, highest variance\n</li>\n</ul>\n\n\n\n<strong>Bias-Variance Tradeoff:</strong>\n$$\\begin{aligned}\\text{Bias} \\propto \\frac{k-1}{k} \\text{ (decreases with k)} \\\\ \\text{Variance} \\propto \\text{correlation between folds} \\\\ \\text{Computation} \\propto k \\text{ (increases with k)}\\end{aligned}$$\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Choosing k</h4><strong>Small k (k = 3-5):</strong>\n<ul>\n<li>Higher bias\n</li>\n<li>Lower variance\n</li>\n<li>Less computation\n</li>\n<li>Good for large datasets\n</li>\n</ul>\n\n\n\n<strong>Large k (k = 10-20):</strong>\n<ul>\n<li>Lower bias\n</li>\n<li>Higher variance\n</li>\n<li>More computation\n</li>\n<li>Good for small datasets\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Recommendation</h4>Use <strong>k = 10</strong> as default choice. It provides good bias-variance tradeoff for most practical scenarios.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "K-Fold vs Holdout: Performance Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/model_comparison_cv.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Observation</h4>K-fold cross-validation provides more robust and reliable performance estimates, especially important for model comparison and selection.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Leave-One-Out Cross-Validation (LOOCV)",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/loocv_validation.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mathematical Formulation</h4>LOOCV is k-fold CV with $k = n$:\n$$\\hat{E}_{LOOCV} = \\frac{1}{n}\\sum_{i=1}^n L(f^{(-i)}, (x_i, y_i))$$\n\nwhere $f^{(-i)}$ is trained on all data except $(x_i, y_i)$.</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Properties</h4><ul>\n\n<li><strong>Bias</strong>: Nearly unbiased (uses n-1 samples)\n</li>\n<li><strong>Variance</strong>: High (high correlation between folds)\n</li>\n<li><strong>Computation</strong>: Expensive (n model fits)\n</li>\n<li><strong>Deterministic</strong>: No randomness in splits\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>When to Use LOOCV</h4>Small datasets where every sample is precious, and computational cost is acceptable.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Stratified K-Fold Cross-Validation",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/stratified_kfold_comparison.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Advantage</h4>Maintains class distribution across folds, crucial for:\n<ul>\n<li><strong>Imbalanced datasets</strong>: Ensures each fold has representatives from all classes\n</li>\n<li><strong>Small datasets</strong>: Prevents folds with missing classes\n</li>\n<li><strong>Multiclass problems</strong>: Maintains proportional representation\n</li>\n</ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Specialized Cross-Validation Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Time Series Cross-Validation</h4><strong>Problem:</strong> Standard CV violates temporal order\n\n<strong>Solution:</strong> Forward chaining\n<ul>\n<li>Fold 1: Train[1:100], Test[101:150]\n</li>\n<li>Fold 2: Train[1:150], Test[151:200]\n</li>\n<li>Fold 3: Train[1:200], Test[201:250]\n</li>\n</ul>\n\n<strong>Preserves:</strong> Temporal dependencies</div>\n\n<div class=\"highlight\"><h4>Group K-Fold</h4><strong>Problem:</strong> Data points are grouped (e.g., patients, images from same source)\n\n<strong>Solution:</strong> Ensure entire groups stay together in splits\n\n<strong>Prevents:</strong> Data leakage between folds</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Monte Carlo Cross-Validation</h4><strong>Method:</strong> Random sampling approach\n<ul>\n<li>Randomly split data multiple times\n</li>\n<li>Average performance across all splits\n</li>\n<li>More flexible than k-fold\n</li>\n</ul>\n\n<strong>Advantage:</strong> Can control train/validation ratio</div>\n\n<div class=\"highlight\"><h4>Nested Cross-Validation</h4><strong>Purpose:</strong> Unbiased model selection + evaluation\n\n<strong>Structure:</strong>\n<ul>\n<li>Outer loop: Performance estimation\n</li>\n<li>Inner loop: Hyperparameter tuning\n</li>\n</ul>\n\n<strong>Result:</strong> True generalization estimate</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Guideline</h4>Choose validation method based on data characteristics and problem constraints.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "The Hyperparameter Optimization Problem",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>Goal:</strong> Find optimal hyperparameters $\\lambda^*$\n\n$$\\begin{aligned}\\lambda^* = \\arg\\min_{\\lambda \\in \\Lambda} \\hat{E}_{CV}(\\lambda) \\\\ \\hat{E}_{CV}(\\lambda) = \\frac{1}{k}\\sum_{i=1}^k L(f_\\lambda^{(i)}, \\mathcal{D}_i)\\end{aligned}$$\n\nwhere:\n<ul>\n<li>$\\lambda$: hyperparameter vector\n</li>\n<li>$\\Lambda$: search space\n</li>\n<li>$f_\\lambda^{(i)}$: model trained with $\\lambda$ on fold $i$\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Examples}\n<strong>SVM:</strong> $\\lambda = (C, \\gamma)$\n$$\\Lambda = [10^{-3}, 10^3] \\times [10^{-6}, 10^1]$$\n\n<strong>Random Forest:</strong>\n$$\\lambda = (n_{est}, \\text{depth}, \\text{features})$$\n\n<strong>Neural Network:</strong>\n$$\\lambda = (lr, \\text{batch}, \\text{layers}, \\text{dropout})$$\n\\end{exampleblock}\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Challenge</h4>Hyperparameter spaces are often high-dimensional, mixed-type, and expensive to evaluate.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Grid Search Method",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/grid_search_visualization.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Core Principle</h4><strong>Exhaustive search</strong> over a discrete grid of hyperparameter combinations.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Grid Search: Mathematical Formulation",
+      "readingTime": "1 min",
+      "content": "<strong>Algorithm:</strong>\n<ol>\n\n<li>Define search grid: $\\Lambda_{grid} = \\{\\lambda_1, \\lambda_2, …, \\lambda_m\\}$\n</li>\n<li>For each $\\lambda_j \\in \\Lambda_{grid}$:\n<ul>\n</li>\n<li>Compute $\\hat{E}_{CV}(\\lambda_j)$ using k-fold cross-validation\n</li>\n<li>Store result: $(\\lambda_j, \\hat{E}_{CV}(\\lambda_j))$\n</li>\n</ul>\n<li>Return: $\\lambda^* = \\arg\\min_{\\lambda_j} \\hat{E}_{CV}(\\lambda_j)$\n</li>\n</ol>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Grid Construction</h4>For parameter $\\lambda_i$ with range $[a_i, b_i]$:\n\n<strong>Linear spacing:</strong>\n$$\\lambda_i^{(j)} = a_i + \\frac{j-1}{n_i-1}(b_i - a_i)$$\n\n<strong>Log spacing (preferred for scale-invariant parameters):</strong>\n$$\\lambda_i^{(j)} = a_i \\cdot \\left(\\frac{b_i}{a_i}\\right)^{\\frac{j-1}{n_i-1}}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Computational Complexity</h4>Total evaluations: $\\prod_{i=1}^p n_i$\n\nWith k-fold CV:\n$$\\text{Total cost} = k \\cdot \\prod_{i=1}^p n_i \\cdot C_{train}$$\n\nwhere:\n<ul>\n<li>$p$: number of hyperparameters\n</li>\n<li>$n_i$: grid points for parameter $i$\n</li>\n<li>$C_{train}$: cost of training one model\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Grid Search: Advantages \\& Disadvantages",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Exhaustive</strong>: Guarantees finding the best combination on the grid\n</li>\n<li><strong>Parallel</strong>: Evaluations are independent\n</li>\n<li><strong>Reproducible</strong>: Deterministic results\n</li>\n<li><strong>Simple</strong>: Easy to implement and understand\n</li>\n<li><strong>Complete coverage</strong>: Systematic exploration\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Best Practices</h4><ul>\n\n<li>Use log-uniform grids for scale parameters (C, $\\gamma$, learning rate)\n</li>\n<li>Start with coarse grid, refine around promising regions\n</li>\n<li>Use domain knowledge for range selection\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>Curse of dimensionality</strong>: Exponential growth with parameters\n</li>\n<li><strong>Computational cost</strong>: Can be prohibitively expensive\n</li>\n<li><strong>Grid limitations</strong>: Optimal values might lie between grid points\n</li>\n<li><strong>Uniform sampling</strong>: Wastes effort in unpromising regions\n</li>\n<li><strong>Manual tuning</strong>: Requires careful grid design\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>When NOT to Use</h4><ul>\n\n<li>High-dimensional hyperparameter spaces ($p > 4$)\n</li>\n<li>Expensive model training ($C_{train}$ very large)\n</li>\n<li>Continuous optimization required\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Rule of Thumb</h4>Grid search is practical for $\\leq$ 3-4 hyperparameters with reasonable computational budget.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Random Search vs Grid Search",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/random_vs_grid_search.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Random search often finds better solutions than grid search with the same computational budget, especially in high dimensions.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Random Search: Method \\& Theory",
+      "readingTime": "1 min",
+      "content": "<strong>Algorithm:</strong>\n<ol>\n\n<li>Define parameter distributions: $\\lambda_i \\sim p_i(\\lambda_i)$\n</li>\n<li>For $j = 1$ to $m$ (budget):\n<ul>\n</li>\n<li>Sample: $\\lambda^{(j)} \\sim \\prod_{i=1}^p p_i(\\lambda_i)$\n</li>\n<li>Evaluate: $\\hat{E}_{CV}(\\lambda^{(j)})$\n</li>\n</ul>\n<li>Return: $\\lambda^* = \\arg\\min_j \\hat{E}_{CV}(\\lambda^{(j)})$\n</li>\n</ol>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Common Distributions</h4><strong>Continuous parameters:</strong>\n<ul>\n<li>Uniform: $\\lambda \\sim U(a, b)$\n</li>\n<li>Log-uniform: $\\log \\lambda \\sim U(\\log a, \\log b)$\n</li>\n<li>Normal: $\\lambda \\sim \\mathcal{N}(\\mu, \\sigma^2)$\n</li>\n</ul>\n\n<strong>Discrete parameters:</strong>\n<ul>\n<li>Uniform: $\\lambda \\sim \\text{Uniform}\\{v_1, v_2, …, v_k\\}$\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Theoretical Advantage</h4>If only $d$ out of $p$ parameters matter:\n\n<strong>Grid search:</strong> Need $n^p$ points for $n$-point resolution\n\n<strong>Random search:</strong> Need only $n$ points for same effective resolution in important dimensions\n\n<strong>Probability of good solution:</strong>\n$$P(\\text{success}) = 1 - (1 - \\epsilon)^m$$\nwhere $\\epsilon$ is fraction of good region</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Random Search: Advantages \\& Best Practices",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advantages</h4><ul>\n\n<li><strong>Dimension-friendly</strong>: Scales well to high dimensions\n</li>\n<li><strong>Efficient</strong>: Often finds good solutions quickly\n</li>\n<li><strong>Flexible</strong>: Works with any parameter distribution\n</li>\n<li><strong>Parallel</strong>: Evaluations are independent\n</li>\n<li><strong>Anytime</strong>: Can stop early if budget is limited\n</li>\n<li><strong>Robust</strong>: Less sensitive to irrelevant parameters\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Disadvantages</h4><ul>\n\n<li><strong>No guarantee</strong>: May miss optimal regions\n</li>\n<li><strong>Random</strong>: Results vary between runs\n</li>\n<li><strong>Distribution-dependent</strong>: Requires good prior knowledge\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Best Practices</h4><ul>\n\n<li><strong>Use log-uniform</strong> for scale parameters:\n$$C \\sim \\text{LogUniform}(10^{-3}, 10^3)$$\n</li>\n<li><strong>Set reasonable bounds</strong> based on domain knowledge\n</li>\n<li><strong>Run multiple times</strong> and take the best result\n</li>\n<li><strong>Start with random search</strong>, then refine with local methods\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Implementation</h4>\\begin{algorithmic}[1]\n\\STATE Set parameter ranges and distributions\n\\FOR{$i = 1$ to $n_{trials}$}\n\\STATE Sample $\\lambda^{(i)}$ from distributions\n\\STATE Evaluate $f(\\lambda^{(i)})$ using CV\n\\ENDFOR\n\\RETURN $\\arg\\min_i f(\\lambda^{(i)})$\n\\end{algorithmic}</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Recommendation</h4>Use random search as default for $> 3$ hyperparameters or when computational budget is limited.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Bayesian Optimization Intuition",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/optuna_optimization_trace.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Smart Search Strategy</h4><strong>Idea:</strong> Use past evaluations to guide future search, balancing exploitation (refine good areas) and exploration (discover new areas).</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Bayesian Optimization: Mathematical Framework",
+      "readingTime": "1 min",
+      "content": "<strong>Core Components:</strong>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>1. Surrogate Model</h4>Gaussian Process: $f(\\lambda) \\sim \\mathcal{GP}(m(\\lambda), k(\\lambda, \\lambda'))$\n\n<strong>Predictive distribution:</strong>\n$$\\begin{aligned}\\mu_n(\\lambda) = k_n^T K_n^{-1} \\mathbf{y}_n \\\\ \\sigma_n^2(\\lambda) = k(\\lambda, \\lambda) - k_n^T K_n^{-1} k_n\\end{aligned}$$\n\nwhere:\n<ul>\n<li>$k_n$: kernel vector at $\\lambda$\n</li>\n<li>$K_n$: kernel matrix of observed points\n</li>\n<li>$\\mathbf{y}_n$: observed function values\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>2. Acquisition Function</h4><strong>Expected Improvement (EI):</strong>\n$$\\begin{aligned}EI(\\lambda) = \\mathbb{E}[\\max(f^* - f(\\lambda), 0)] \\\\ = (f^* - \\mu(\\lambda))\\Phi(z) + \\sigma(\\lambda)\\phi(z)\\end{aligned}$$\n\nwhere $z = \\frac{f^* - \\mu(\\lambda)}{\\sigma(\\lambda)}$, $f^*$ is current best\n\n<strong>Upper Confidence Bound (UCB):</strong>\n$$UCB(\\lambda) = \\mu(\\lambda) + \\kappa \\sigma(\\lambda)$$</div>\n</div>\n</div>\n\n\n\n<strong>Algorithm:</strong>\n<ol>\n<li>Initialize with random evaluations\n</li>\n<li>Fit GP to observed data $\\{(\\lambda_i, f(\\lambda_i))\\}_{i=1}^n$\n</li>\n<li>Find $\\lambda_{n+1} = \\arg\\max_\\lambda \\text{Acquisition}(\\lambda)$\n</li>\n<li>Evaluate $f(\\lambda_{n+1})$ and update data\n</li>\n<li>Repeat until budget exhausted\n</li>\n</ol>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Optuna: Tree-Structured Parzen Estimator (TPE)",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<strong>TPE Algorithm:</strong>\n<ol>\n\n<li>Split observations by performance quantile $\\gamma$:\n<ul>\n</li>\n<li>Good: $\\mathcal{L} = \\{\\lambda: f(\\lambda) < Q_\\gamma\\}$\n</li>\n<li>Bad: $\\mathcal{G} = \\{\\lambda: f(\\lambda) \\geq Q_\\gamma\\}$\n</li>\n</ul>\n<li>Model densities:\n<ul>\n</li>\n<li>$p(\\lambda|\\mathcal{L})$: density of good configurations\n</li>\n<li>$p(\\lambda|\\mathcal{G})$: density of bad configurations\n</li>\n</ul>\n<li>Acquisition function:\n$$a(\\lambda) = \\frac{p(\\lambda|\\mathcal{L})}{p(\\lambda|\\mathcal{G})}$$\n</li>\n<li>Select: $\\lambda_{next} = \\arg\\max_\\lambda a(\\lambda)$\n</li>\n</ol>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>TPE Advantages</h4><ul>\n\n<li><strong>Efficient</strong>: Lower computational cost than GP\n</li>\n<li><strong>Flexible</strong>: Handles mixed parameter types\n</li>\n<li><strong>Scalable</strong>: Works well in high dimensions\n</li>\n<li><strong>Robust</strong>: Less sensitive to hyperparameters\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Optuna Features</h4><ul>\n\n<li>Pruning: Early stopping of unpromising trials\n</li>\n<li>Multi-objective optimization\n</li>\n<li>Distributed optimization\n</li>\n<li>Integration with ML frameworks\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>TPE focuses sampling on regions where good configurations are dense relative to bad ones.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Hyperparameter Search: Performance Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/search_efficiency_comparison.png]</em></p></div>\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Method Comparison</h4><ul>\n\n<li><strong>Grid Search</strong>: Systematic but inefficient\n</li>\n<li><strong>Random Search</strong>: Better exploration, good baseline\n</li>\n<li><strong>Bayesian Optimization</strong>: Fastest convergence, most efficient\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Recommendations</h4><ul>\n\n<li><strong>Few parameters ($\\leq 3$)</strong>: Grid search\n</li>\n<li><strong>Many parameters ($> 3$)</strong>: Random search\n</li>\n<li><strong>Expensive evaluations</strong>: Bayesian optimization (Optuna)\n</li>\n<li><strong>Mixed types</strong>: Optuna TPE\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Best Practice</h4>Start with random search for quick baseline, then use Bayesian optimization for refinement.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Learning Curves",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/learning_curves_cv.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Purpose</h4>Learning curves help diagnose <strong>bias</strong> (underfitting) vs <strong>variance</strong> (overfitting) and determine if more data would help.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Learning Curve Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>High Bias (Underfitting)</h4><strong>Symptoms:</strong>\n<ul>\n<li>Training and validation curves converge\n</li>\n<li>Both curves plateau at suboptimal level\n</li>\n<li>Large training error\n</li>\n<li>Small gap between curves\n</li>\n</ul>\n\n<strong>Solutions:</strong>\n<ul>\n<li>Increase model complexity\n</li>\n<li>Add more features\n</li>\n<li>Reduce regularization\n</li>\n<li>Use more flexible model\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>High Variance (Overfitting)</h4><strong>Symptoms:</strong>\n<ul>\n<li>Large gap between training and validation curves\n</li>\n<li>Training error very low\n</li>\n<li>Validation error high\n</li>\n<li>Curves don't converge\n</li>\n</ul>\n\n<strong>Solutions:</strong>\n<ul>\n<li>Get more training data\n</li>\n<li>Reduce model complexity\n</li>\n<li>Increase regularization\n</li>\n<li>Use ensemble methods\n</li>\n</ul></div>\n</div>\n</div>\n\n\n\n<div class=\"warning\"><h4>Mathematical Insight</h4>For a learning algorithm with $m$ training examples:\n$$\\text{Generalization Error} = \\text{Bias}^2 + \\text{Variance} + \\text{Noise}$$\n\nLearning curves show how this decomposes as $m$ increases.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Validation Curves",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/validation_curves.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Purpose</h4>Validation curves show how model performance varies with a single hyperparameter, helping identify optimal values and diagnose overfitting/underfitting.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Interpreting Validation Curves",
+      "readingTime": "1 min",
+      "content": "<strong>Typical Pattern Analysis:</strong>\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Regularization Parameters</h4>(e.g., SVM C parameter, Ridge $\\alpha$)\n\n<strong>Low values (high regularization):</strong>\n<ul>\n<li>High bias, low variance\n</li>\n<li>Training and validation errors both high\n</li>\n<li>Underfitting\n</li>\n</ul>\n\n<strong>High values (low regularization):</strong>\n<ul>\n<li>Low bias, high variance\n</li>\n<li>Large gap between curves\n</li>\n<li>Overfitting\n</li>\n</ul>\n\n<strong>Optimal region:</strong> Minimum validation error</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Model Complexity Parameters</h4>(e.g., Random Forest depth, SVM $\\gamma$)\n\n<strong>Mathematical relationship:</strong>\n$$\\text{Complexity} \\propto \\text{Overfitting Risk}$$\n\n<strong>Sweet spot identification:</strong>\n<ol>\n<li>Find minimum validation error\n</li>\n<li>Check if training error is reasonable\n</li>\n<li>Ensure curves are not diverging rapidly\n</li>\n</ol>\n\n<strong>Cross-validation confidence:</strong>\nError bars show $\\pm 1$ standard deviation across CV folds</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Best Practice</h4>Always plot both training and validation curves with error bars to make informed hyperparameter choices.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Bias-Variance Decomposition",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/bias_variance_tradeoff.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Fundamental Insight</h4>Cross-validation helps us navigate the bias-variance tradeoff by providing robust estimates of generalization performance across different model complexities.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Bias-Variance Mathematical Framework",
+      "readingTime": "1 min",
+      "content": "<strong>Decomposition of Expected Test Error:</strong>\n\nFor a target function $f(x)$ and prediction $\\hat{f}(x)$:\n\n$$\\mathbb{E}[(\\hat{f}(x) - f(x))^2] = \\text{Bias}^2[\\hat{f}(x)] + \\text{Var}[\\hat{f}(x)] + \\sigma^2$$\n\nwhere:\n\n$$\\begin{aligned}\\text{Bias}[\\hat{f}(x)] = \\mathbb{E}[\\hat{f}(x)] - f(x) \\\\ \\text{Var}[\\hat{f}(x)] = \\mathbb{E}[(\\hat{f}(x) - \\mathbb{E}[\\hat{f}(x)])^2] \\\\ \\sigma^2 = \\text{Irreducible error (noise)}\\end{aligned}$$\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Cross-Validation \\& Bias-Variance</h4>CV helps estimate:\n<ul>\n<li><strong>Bias</strong>: Through training error analysis\n</li>\n<li><strong>Variance</strong>: Through CV fold variability\n</li>\n<li><strong>Optimal complexity</strong>: Bias-variance tradeoff point\n</li>\n</ul>\n\n$$\\hat{E}_{CV} \\approx \\text{Bias}^2 + \\text{Var} + \\sigma^2$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Model Selection Strategy</h4><ol>\n<li>Compute $\\hat{E}_{CV}(\\lambda)$ for different complexities\n</li>\n<li>Plot learning/validation curves\n</li>\n<li>Identify minimum of validation curve\n</li>\n<li>Check bias-variance indicators:\n<ul>\n</li>\n<li>Training error (bias)\n</li>\n<li>CV std deviation (variance)\n</li>\n</ul>\n</ol></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Cross-Validation Best Practices",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Data Splitting</h4><ul>\n\n<li><strong>Stratify</strong> for classification tasks\n</li>\n<li><strong>Preserve temporal order</strong> for time series\n</li>\n<li><strong>Group-aware splitting</strong> for clustered data\n</li>\n<li><strong>Test set isolation</strong>: Never use for model selection\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Hyperparameter Search</h4><ul>\n\n<li>Start with <strong>random search</strong> for baseline\n</li>\n<li>Use <strong>Bayesian optimization</strong> for expensive evaluations\n</li>\n<li><strong>Log-uniform sampling</strong> for scale parameters\n</li>\n<li><strong>Early stopping</strong> for unpromising configurations\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Statistical Considerations</h4><ul>\n\n<li>Report <strong>mean $\\pm$ std</strong> of CV scores\n</li>\n<li>Use <strong>paired t-tests</strong> for model comparison\n</li>\n<li>Account for <strong>multiple testing</strong> when comparing many models\n</li>\n<li>Consider <strong>McNemar's test</strong> for classification\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Computational Efficiency</h4><ul>\n\n<li><strong>Parallel evaluation</strong> of CV folds\n</li>\n<li><strong>Caching</strong> of expensive preprocessing steps\n</li>\n<li><strong>Progressive validation</strong> for large datasets\n</li>\n<li><strong>Approximate methods</strong> when exact CV is too expensive\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Golden Rule</h4><strong>Never</strong> use the test set for any decision making during model development. Reserve it solely for final performance evaluation.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Common Pitfalls \\& How to Avoid Them",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Data Leakage</h4><strong>Problem:</strong> Information from validation/test leaks into training\n\n<strong>Examples:</strong>\n<ul>\n<li>Scaling on entire dataset before splitting\n</li>\n<li>Feature selection using all data\n</li>\n<li>Temporal leakage in time series\n</li>\n</ul>\n\n<strong>Solution:</strong> Apply preprocessing within each CV fold</div>\n\n<div class=\"highlight\"><h4>Look-ahead Bias</h4><strong>Problem:</strong> Using future information for prediction\n\n<strong>Example:</strong> Standard CV on time series data\n\n<strong>Solution:</strong> Time series CV with forward chaining</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Selection Bias</h4><strong>Problem:</strong> Multiple testing without correction\n\n<strong>Example:</strong> Comparing 100 models, reporting best CV score\n\n<strong>Solution:</strong> Bonferroni correction or separate validation set for selection</div>\n\n<div class=\"highlight\"><h4>Inappropriate CV Method</h4><strong>Problems:</strong>\n<ul>\n<li>LOOCV with large datasets (unstable)\n</li>\n<li>Standard CV with imbalanced data\n</li>\n<li>Ignoring data structure (groups, time)\n</li>\n</ul>\n\n<strong>Solution:</strong> Choose CV method based on data characteristics</div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Validation</h4>Always ask: <em>\"Does my validation procedure realistically simulate deployment conditions?\"</em></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Hyperparameter Search Space",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/hyperparameter_surface.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Hyperparameter optimization landscapes are often complex with multiple local optima, making smart search strategies essential for finding good solutions efficiently.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Summary: Model Validation Hierarchy",
+      "readingTime": "1 min",
+      "content": "<strong>Model Validation Hierarchy:</strong>\n\n\n\\begin{tabular}{c}\n<strong>Original Dataset</strong> \\\\\n$\\downarrow$ \\\\\n<strong>Train / Validation / Test Split</strong> \\\\\n$\\downarrow$   $\\downarrow$   $\\downarrow$ \\\\\n\\begin{tabular}{@{}c@{}c@{}c@{}}\n<strong>Training Set</strong> & <strong>Validation Set</strong> & <strong>Test Set</strong> \\\\\n(60-80\\%) & (10-20\\%) & (10-20\\%) \\\\\n$\\downarrow$ & $\\downarrow$ & $\\downarrow$ \\\\\n<strong>Cross-Validation</strong> & <strong>Hyperparameter</strong> & <strong>Final</strong> \\\\\n(Model Selection) & Tuning & Evaluation\n\\end{tabular}\n\\end{tabular}\n\n\n\n\n<div class=\"warning\"><h4>Best Practice Workflow</h4><ol>\n<li>Split data\n</li>\n<li>Use CV for model selection\n</li>\n<li>Tune hyperparameters on validation set\n</li>\n<li>Final evaluation on test set (once!)\n</li>\n</ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Validation Methods</h4><ul>\n\n<li><strong>Holdout</strong>: Fast but high variance\n</li>\n<li><strong>K-fold CV</strong>: Best general-purpose method\n</li>\n<li><strong>LOOCV</strong>: Unbiased but expensive\n</li>\n<li><strong>Stratified</strong>: Essential for imbalanced data\n</li>\n<li><strong>Time series CV</strong>: Preserves temporal order\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Method Selection Guide</h4><ul>\n\n<li>Small data (n < 1000): 10-fold CV or LOOCV\n</li>\n<li>Large data (n > 10000): 5-fold CV or holdout\n</li>\n<li>Imbalanced: Stratified k-fold\n</li>\n<li>Time series: Forward chaining\n</li>\n<li>Grouped data: Group k-fold\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Hyperparameter Search</h4><ul>\n\n<li><strong>Grid search</strong>: $\\leq$3 parameters, comprehensive\n</li>\n<li><strong>Random search</strong>: >3 parameters, efficient baseline\n</li>\n<li><strong>Bayesian optimization</strong>: Expensive evaluations, smart search\n</li>\n<li><strong>Use proper distributions</strong>: Log-uniform for scale parameters\n</li>\n</ul></div>\n\n<div class=\"highlight\"><h4>Critical Principles</h4><ul>\n\n<li>Never use test set for model selection\n</li>\n<li>Avoid data leakage at all costs\n</li>\n<li>Report confidence intervals (mean ± std)\n</li>\n<li>Match validation to deployment conditions\n</li>\n<li>Use learning curves to diagnose bias/variance\n</li>\n</ul></div>\n</div>\n</div>\n\n<div class=\"warning\"><h4>Remember</h4><strong>Cross-validation is not just about getting a number—it's about making principled decisions about model selection, hyperparameter tuning, and understanding model behavior.</strong></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

@@ -139,3 +139,25 @@ cython_debug/
 # Vercel
 .vercel
 .env*.local
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/

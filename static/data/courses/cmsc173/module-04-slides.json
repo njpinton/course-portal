@@ -1,0 +1,365 @@
+{
+  "module": {
+    "id": "04",
+    "title": "Exploratory Data Analysis (EDA)",
+    "subtitle": "CMSC 173 - Machine Learning",
+    "course": "CMSC 173",
+    "institution": "University of the Philippines - Cebu",
+    "totalSlides": 44,
+    "estimatedDuration": "88 minutes"
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Outline",
+      "readingTime": "1 min",
+      "content": "\\tableofcontents",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "What is Exploratory Data Analysis?",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Definition</h4><strong>EDA</strong> is the process of investigating datasets to summarize their main characteristics, often using statistical graphics and other data visualization methods.</div>\n\n\n<strong>Primary Goals:</strong>\n<ul>\n\n<li><strong>Understand</strong> data structure and quality\n</li>\n<li><strong>Discover</strong> patterns and relationships\n</li>\n<li><strong>Identify</strong> anomalies and outliers\n</li>\n<li><strong>Guide</strong> feature engineering decisions\n</li>\n<li><strong>Inform</strong> modeling strategy\n</li>\n</ul>\n\n\n<strong>Key Questions EDA Answers:</strong>\n<ul>\n\n<li>What does my data look like?\n</li>\n<li>Is my data clean and complete?\n</li>\n<li>What patterns exist?\n</li>\n<li>Which features are important?\n</li>\n</ul>\n</div>\n\n<div class=\"column\">\n<strong>EDA Process Overview:</strong>\n\n\n\\begin{tikzpicture}[node distance=0.8cm]\n\\node[rectangle, draw, fill=datacolor!20, text width=3cm, text centered, font=\\small] (data) {Raw Data};\n\\node[rectangle, draw, fill=trendcolor!20, text width=3cm, text centered, font=\\small, below=0.4cm of data] (explore) {Data Exploration};\n\\node[rectangle, draw, fill=featurecolor!20, text width=3cm, text centered, font=\\small, below=0.4cm of explore] (clean) {Data Cleaning};\n\\node[rectangle, draw, fill=outliercolor!20, text width=3cm, text centered, font=\\small, below=0.4cm of clean] (model) {Model Ready Data};\n\n\\draw[process arrow] (data) -- (explore);\n\\draw[process arrow] (explore) -- (clean);\n\\draw[process arrow] (clean) -- (model);\n\\draw[process arrow] (explore.east) .. controls +(right:0.8cm) and +(right:0.8cm) .. (data.east);\n\\end{tikzpicture}\n\n\n<div class=\"warning\"><h4>Key Insight</h4><strong>EDA is iterative!</strong> Insights from one analysis often lead to new questions and deeper investigations.</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "The EDA Workflow",
+      "readingTime": "1 min",
+      "content": "\\begin{tikzpicture}[node distance=1.5cm, scale=0.9, transform shape]\n% Main workflow nodes\n\\node[eda process, fill=datacolor!20] (load) {Data Loading};\n\\node[eda process, fill=trendcolor!20, right=of load] (inspect) {Initial Inspection};\n\\node[eda process, fill=featurecolor!20, right=of inspect] (clean) {Data Cleaning};\n\\node[eda process, fill=outliercolor!20, below=of clean] (viz) {Visualization};\n\\node[eda process, fill=tealaccent!20, left=of viz] (stats) {Statistical Analysis};\n\\node[eda process, fill=maizedark!20, left=of stats] (insights) {Insights \\& Patterns};\n\n% Arrows\n\\draw[process arrow] (load) -- (inspect);\n\\draw[process arrow] (inspect) -- (clean);\n\\draw[process arrow] (clean) -- (viz);\n\\draw[process arrow] (viz) -- (stats);\n\\draw[process arrow] (stats) -- (insights);\n\n% Feedback loops\n\\draw[process arrow, dashed] (viz) to[bend left=20] (clean);\n\\draw[process arrow, dashed] (stats) to[bend left=30] (inspect);\n\\draw[process arrow, dashed] (insights) to[bend left=40] (load);\n\\end{tikzpicture}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\"><h4>Data Loading</h4><ul>\n\n<li>Import datasets\n</li>\n<li>Check file formats\n</li>\n<li>Handle encoding issues\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{methodblock}{Statistical Analysis}\n<ul>\n\n<li>Descriptive statistics\n</li>\n<li>Correlation analysis\n</li>\n<li>Distribution testing\n</li>\n</ul>\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Key Outcome}\n<ul>\n\n<li>Clean, understood data\n</li>\n<li>Feature insights\n</li>\n<li>Modeling strategy\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 4,
+      "title": "Why EDA is Critical for Machine Learning",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Without EDA</h4><strong>Common Pitfalls:</strong>\n<ul>\n\n<li>Garbage In, Garbage Out\n</li>\n<li>Poor model performance\n</li>\n<li>Biased predictions\n</li>\n<li>Overfitting to noise\n</li>\n<li>Missing important patterns\n</li>\n<li>Wasted computational resources\n</li>\n</ul></div>\n\n\n<strong>Statistical Foundation:</strong>\n\\\\\nFor dataset $\\mathcal{D} = \\{(\\mathbf{x}_i, y_i)\\}_{i=1}^n$:\n$$\\begin{aligned}\\text{Data Quality} = f(\\text{Completeness, Accuracy, Consistency}) \\\\ \\text{Model Performance} \\propto \\text{Data Quality}\\end{aligned}$$\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{With Proper EDA}\n<strong>Benefits Achieved:</strong>\n<ul>\n\n<li>High-quality, clean data\n</li>\n<li>Optimal feature selection\n</li>\n<li>Appropriate model choice\n</li>\n<li>Better generalization\n</li>\n<li>Actionable insights\n</li>\n<li>Efficient resource usage\n</li>\n</ul>\n\\end{exampleblock}\n\n\n<strong>Impact Quantification:</strong>\n\\\\\nStudies show that proper EDA can improve model performance by 15-30\\% and reduce development time by 40-60\\%.\n\n\n\\begin{tikzpicture}[scale=0.7]\n\\draw[fill=outliercolor!20] (0,0) rectangle (2,1) node[pos=.5] {\\small No EDA};\n\\draw[fill=featurecolor!20] (0,1.2) rectangle (3,2.2) node[pos=.5] {\\small With EDA};\n\\node[right] at (2.1,0.5) {\\small 60\\% Accuracy};\n\\node[right] at (3.1,1.7) {\\small 85\\% Accuracy};\n\\end{tikzpicture}\n\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Understanding Your Dataset",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/01_data_types_overview.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>First Steps</h4>Always start with: \\texttt{df.info()}, \\texttt{df.describe()}, \\texttt{df.shape}, and \\texttt{df.head()}</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Data Types Classification",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Numerical Data</h4><strong>Continuous Variables:</strong>\n<ul>\n\n<li>Can take any value in a range\n</li>\n<li>Examples: age, salary, temperature\n</li>\n<li>Mathematical operations meaningful\n</li>\n</ul>\n\n<strong>Discrete Variables:</strong>\n<ul>\n\n<li>Countable, distinct values\n</li>\n<li>Examples: number of children, cars owned\n</li>\n<li>Often integers\n</li>\n</ul></div>\n\n\n\\begin{methodblock}{Mathematical Representation}\nFor numerical variable $X$:\n$$X \\in \\mathbb{R} \\text{ (continuous)} \\text{ or } X \\in \\mathbb{Z} \\text{ (discrete)}$$\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Categorical Data</h4><strong>Nominal Variables:</strong>\n<ul>\n\n<li>No natural ordering\n</li>\n<li>Examples: color, gender, city\n</li>\n<li>Cannot perform arithmetic\n</li>\n</ul>\n\n<strong>Ordinal Variables:</strong>\n<ul>\n\n<li>Natural ordering exists\n</li>\n<li>Examples: education level, rating\n</li>\n<li>Ranking meaningful, differences may not be\n</li>\n</ul></div>\n\n\n\\begin{methodblock}{Mathematical Representation}\nFor categorical variable $C$:\n$$C \\in \\{\\text{category}_1, \\text{category}_2, …, \\text{category}_k\\}$$\n\\end{methodblock}\n</div>\n</div>\n\n\n\\begin{tipblock}{Practical Tip}\n<strong>Encoding Strategy:</strong> Numerical $\\rightarrow$ Keep as-is; Nominal $\\rightarrow$ One-hot encoding; Ordinal $\\rightarrow$ Label encoding\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Sample Dataset: Titanic Survival Analysis",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>Dataset Overview</h4>Contains information on 891 passengers aboard the Titanic. Goal: Predict passenger survival based on their attributes.</div>\n\n\n\n\\tiny\n\\begin{tabular}{|c|c|c|c|c|c|c|c|c|}\n\\hline\n<strong>PassengerId</strong> & <strong>Survived</strong> & <strong>Pclass</strong> & <strong>Sex</strong> & <strong>Age</strong> & <strong>SibSp</strong> & <strong>Parch</strong> & <strong>Fare</strong> & <strong>Embarked</strong> \\\\\n\\hline\n1 & 0 & 3 & male & 22.0 & 1 & 0 & 7.25 & S \\\\\n2 & 1 & 1 & female & 38.0 & 1 & 0 & 71.28 & C \\\\\n3 & 1 & 3 & female & 26.0 & 0 & 0 & 7.92 & S \\\\\n4 & 1 & 1 & female & 35.0 & 1 & 0 & 53.10 & S \\\\\n5 & 0 & 3 & male & 35.0 & 0 & 0 & 8.05 & S \\\\\n\\hline\n\\end{tabular}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\"><h4>Numerical Features</h4><ul>\n\n<li><strong>Age:</strong> Continuous (0-80)\n</li>\n<li><strong>Fare:</strong> Continuous (0-512)\n</li>\n<li><strong>SibSp:</strong> Discrete count\n</li>\n<li><strong>Parch:</strong> Discrete count\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{methodblock}{Categorical Features}\n<ul>\n\n<li><strong>Sex:</strong> Nominal (M/F)\n</li>\n<li><strong>Embarked:</strong> Nominal (C/Q/S)\n</li>\n<li><strong>Pclass:</strong> Ordinal (1st, 2nd, 3rd)\n</li>\n</ul>\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Target Variable}\n<ul>\n\n<li><strong>Survived:</strong> Binary (0/1)\n</li>\n<li><strong>Classification Problem</strong>\n</li>\n<li>38.4\\% survival rate\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Sample Dataset: Iris Species Classification",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>Dataset Overview</h4>Classic dataset with 150 iris flowers from 3 species. Goal: Classify species based on flower measurements.</div>\n\n\n\n\\tiny\n\\begin{tabular}{|c|c|c|c|c|}\n\\hline\n<strong>Sepal Length</strong> & <strong>Sepal Width</strong> & <strong>Petal Length</strong> & <strong>Petal Width</strong> & <strong>Species</strong> \\\\\n\\hline\n5.1 & 3.5 & 1.4 & 0.2 & setosa \\\\\n4.9 & 3.0 & 1.4 & 0.2 & setosa \\\\\n6.2 & 2.9 & 4.3 & 1.3 & versicolor \\\\\n5.9 & 3.0 & 5.1 & 1.8 & virginica \\\\\n6.4 & 2.8 & 5.6 & 2.2 & virginica \\\\\n\\hline\n\\end{tabular}\n\n\n\n<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\"><h4>Numerical Features</h4><ul>\n\n<li><strong>Sepal Length:</strong> Continuous (4.3-7.9 cm)\n</li>\n<li><strong>Sepal Width:</strong> Continuous (2.0-4.4 cm)\n</li>\n<li><strong>Petal Length:</strong> Continuous (1.0-6.9 cm)\n</li>\n<li><strong>Petal Width:</strong> Continuous (0.1-2.5 cm)\n</li>\n</ul></div>\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Target Variable}\n<ul>\n\n<li><strong>Species:</strong> 3-class categorical\n</li>\n<li><strong>Classes:</strong> setosa, versicolor, virginica\n</li>\n<li><strong>Balanced:</strong> 50 samples per class\n</li>\n<li><strong>Clean:</strong> No missing values\n</li>\n</ul>\n\\end{tipblock}\n</div>\n</div>\n\n\n\\begin{methodblock}{EDA Advantages}\n<strong>Perfect for Learning:</strong> Small size, clean data, clear patterns, well-separated classes, interpretable features\n\\end{methodblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Iris Dataset: Advanced Visualization Techniques",
+      "readingTime": "4 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Correlogram Analysis</h4>\n\n\\begin{tikzpicture}[scale=0.8]\n% Draw correlation matrix\n\\draw[fill=blue!30] (0,0) rectangle (1,1);\n\\draw[fill=red!50] (1,0) rectangle (2,1);\n\\draw[fill=red!70] (2,0) rectangle (3,1);\n\\draw[fill=red!60] (3,0) rectangle (4,1);\n\n\\draw[fill=red!50] (0,1) rectangle (1,2);\n\\draw[fill=blue!30] (1,1) rectangle (2,2);\n\\draw[fill=blue!20] (2,1) rectangle (3,2);\n\\draw[fill=blue!10] (3,1) rectangle (4,2);\n\n\\draw[fill=red!70] (0,2) rectangle (1,3);\n\\draw[fill=blue!20] (1,2) rectangle (2,3);\n\\draw[fill=blue!30] (2,2) rectangle (3,3);\n\\draw[fill=red!90] (3,2) rectangle (4,3);\n\n\\draw[fill=red!60] (0,3) rectangle (1,4);\n\\draw[fill=blue!10] (1,3) rectangle (2,4);\n\\draw[fill=red!90] (2,3) rectangle (3,4);\n\\draw[fill=blue!30] (3,3) rectangle (4,4);\n\n% Labels\n\\node at (0.5,-0.3) {\\tiny Sep.L};\n\\node at (1.5,-0.3) {\\tiny Sep.W};\n\\node at (2.5,-0.3) {\\tiny Pet.L};\n\\node at (3.5,-0.3) {\\tiny Pet.W};\n\n\\node at (-0.3,0.5) {\\tiny Sep.L};\n\\node at (-0.3,1.5) {\\tiny Sep.W};\n\\node at (-0.3,2.5) {\\tiny Pet.L};\n\\node at (-0.3,3.5) {\\tiny Pet.W};\n\n% Correlation values\n\\node at (2.5,0.5) {\\tiny 0.96};\n\\node at (3.5,2.5) {\\tiny 0.96};\n\\node at (1.5,0.5) {\\tiny -0.12};\n\\end{tikzpicture}\n\n\n<strong>Strong correlation:</strong> Petal length ↔ Petal width (r=0.96)</div>\n</div>\n\n<div class=\"column\">\n<div class=\"warning\"><h4>Box Plot Insights</h4>\n\n\\begin{tikzpicture}[scale=0.7]\n% Three box plots for species\n\\foreach \\x/\\species/\\color in {1/setosa/green, 2.5/versicolor/blue, 4/virginica/red} {\n    % Box plot structure\n    \\draw[thick, \\color] (\\x-0.3,0.5) rectangle (\\x+0.3,1.5);\n    \\draw[thick, \\color] (\\x-0.3,1) -- (\\x+0.3,1);\n    \\draw[thick, \\color] (\\x,0.2) -- (\\x,0.5);\n    \\draw[thick, \\color] (\\x,1.5) -- (\\x,1.8);\n\n    % Species labels\n    \\node at (\\x,-0.2) {\\tiny \\species};\n\n    % Add some outliers for virginica\n    \\ifnum\\x=4\n        \\fill[\\color] (\\x,2.2) circle (0.05);\n        \\fill[\\color] (\\x,0.1) circle (0.05);\n    \\fi\n}\n\\node at (2.5,2.5) {\\small Petal Length by Species};\n\\end{tikzpicture}\n\n\n<strong>Clear separation:</strong> Species distinguishable by petal features</div>\n</div>\n</div>\n\n\n<div class=\"highlight\"><h4>Violin Plot Analysis</h4>\n\\begin{tikzpicture}[scale=0.9]\n% Draw three violin plots\n\\foreach \\x/\\species/\\color in {1.5/setosa/green!60, 3.5/versicolor/blue!60, 5.5/virginica/red!60} {\n    % Violin shape (ellipse approximation)\n    \\fill[\\color, opacity=0.7] (\\x,0.5) ellipse (0.4 and 0.8);\n    \\draw[thick] (\\x,0.5) ellipse (0.4 and 0.8);\n\n    % Center line\n    \\draw[thick, black] (\\x-0.1,0.5) -- (\\x+0.1,0.5);\n\n    % Species labels\n    \\node at (\\x,-0.1) {\\small \\species};\n}\n\n% Axis labels\n\\node at (0.5,0.5) [rotate=90] {\\small Sepal Width};\n\\node at (3.5,-0.5) {\\small Species};\n\n% Title\n\\node at (3.5,1.8) {<strong>Distribution Shape \\& Density by Species</strong>};\n\\end{tikzpicture}\n\n\n\\begin{methodblock}{Violin Plot Advantages}\n<strong>Combines:</strong> Box plot summary statistics + density estimation + distribution shape visualization\n\\end{methodblock}</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Univariate Analysis - Numerical Variables",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/02_univariate_numerical.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Observations</h4><strong>Age:</strong> Right-skewed, missing values; <strong>Fare:</strong> Heavy right tail, potential outliers</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Statistical Measures for Numerical Data",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Central Tendency</h4>For variable $X = \\{x_1, x_2, …, x_n\\}$:\n\n<strong>Mean (Arithmetic):</strong>\n$$\\bar{x} = \\frac{1}{n}\\sum_{i=1}^{n} x_i$$\n\n<strong>Median:</strong> Middle value when sorted\n$$\\text{Median} = \\begin{cases}\nx_{(n+1)/2} & \\text{if } n \\text{ odd} \\\\\n\\frac{x_{n/2} + x_{n/2+1}}{2} & \\text{if } n \\text{ even}\n\\end{cases}$$\n\n<strong>Mode:</strong> Most frequent value</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Dispersion Measures</h4><strong>Variance:</strong>\n$$\\sigma^2 = \\frac{1}{n-1}\\sum_{i=1}^{n}(x_i - \\bar{x})^2$$\n\n<strong>Standard Deviation:</strong>\n$$\\sigma = \\sqrt{\\sigma^2}$$\n\n<strong>Interquartile Range:</strong>\n$$\\text{IQR} = Q_3 - Q_1$$\n\n<strong>Range:</strong>\n$$\\text{Range} = x_{\\max} - x_{\\min}$$</div>\n</div>\n</div>\n\n\n\\begin{tipblock}{Practical Guidelines}\n<strong>Skewed data:</strong> Use median \\& IQR; <strong>Normal data:</strong> Use mean \\& standard deviation\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Univariate Analysis - Categorical Variables",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/03_univariate_categorical.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Insights</h4><strong>Gender imbalance:</strong> 65\\% male passengers; <strong>Class distribution:</strong> 55\\% third class; <strong>Embarkation:</strong> 72\\% from Southampton</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Statistical Measures for Categorical Data",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Frequency Analysis</h4>For categorical variable $C$ with categories $\\{c_1, c_2, …, c_k\\}$:\n\n<strong>Frequency:</strong>\n$$f_i = \\text{count}(C = c_i)$$\n\n<strong>Relative Frequency:</strong>\n$$p_i = \\frac{f_i}{n} \\text{ where } \\sum_{i=1}^{k} p_i = 1$$\n\n<strong>Mode:</strong> Category with highest frequency\n$$\\text{Mode} = \\arg\\max_{c_i} f_i$$</div>\n\n\n\\begin{methodblock}{Entropy Measure}\nInformation content:\n$$H(C) = -\\sum_{i=1}^{k} p_i \\log_2(p_i)$$\nHigher entropy = more uniform distribution\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Visualization Guidelines</h4><strong>Bar Charts:</strong>\n<ul>\n\n<li>Best for comparing categories\n</li>\n<li>Order by frequency for impact\n</li>\n<li>Use consistent colors\n</li>\n</ul>\n\n<strong>Pie Charts:</strong>\n<ul>\n\n<li>Good for showing proportions\n</li>\n<li>Limit to $\\leq 5$ categories\n</li>\n<li>Start largest slice at 12 o'clock\n</li>\n</ul></div>\n\n\n\\begin{exampleblock}{Chi-Square Test}\nTest for uniform distribution:\n$$\\chi^2 = \\sum_{i=1}^{k} \\frac{(O_i - E_i)^2}{E_i}$$\nwhere $O_i$ = observed, $E_i$ = expected\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Distribution Analysis \\& Normality Testing",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Common Distributions</h4><strong>Normal Distribution:</strong>\n$$f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$$\n\n<strong>Log-Normal Distribution:</strong>\n$$f(x) = \\frac{1}{x\\sigma\\sqrt{2\\pi}} e^{-\\frac{(\\ln x-\\mu)^2}{2\\sigma^2}}$$\n\n<strong>Skewness:</strong>\n$$\\text{Skew} = \\frac{E[(X-\\mu)^3]}{\\sigma^3}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Normality Tests</h4><strong>Shapiro-Wilk Test:</strong>\n$$W = \\frac{(\\sum_{i=1}^n a_i x_{(i)})^2}{\\sum_{i=1}^n (x_i - \\bar{x})^2}$$\n\n<strong>Kolmogorov-Smirnov Test:</strong>\n$$D = \\sup_x |F_n(x) - F(x)|$$\n\n<strong>Anderson-Darling Test:</strong>\nMore sensitive to tail deviations</div>\n</div>\n</div>\n\n\n<div class=\"warning\"><h4>Decision Rule</h4>If $p < 0.05$: Reject normality assumption; Consider transformations (log, square root, Box-Cox)</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Correlation Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/04_correlation_analysis.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Correlation Insights</h4><strong>Strong correlations:</strong> Fare-Survival (0.26), Age-Survival (-0.07); <strong>Weak correlations:</strong> SibSp-Parch (0.41)</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Correlation Coefficients \\& Interpretation",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Pearson Correlation</h4>For linear relationships:\n$$r = \\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y})}{\\sqrt{\\sum_{i=1}^{n}(x_i - \\bar{x})^2 \\sum_{i=1}^{n}(y_i - \\bar{y})^2}}$$\n\n<strong>Range:</strong> $r \\in [-1, 1]$\n<ul>\n\n<li>$r = 1$: Perfect positive correlation\n</li>\n<li>$r = 0$: No linear correlation\n</li>\n<li>$r = -1$: Perfect negative correlation\n</li>\n</ul></div>\n\n\n\\begin{methodblock}{Significance Test}\n$$t = r\\sqrt{\\frac{n-2}{1-r^2}} \\sim t_{n-2}$$\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Non-Linear Correlations</h4><strong>Spearman Rank Correlation:</strong>\n$$\\rho = 1 - \\frac{6\\sum d_i^2}{n(n^2-1)}$$\nwhere $d_i$ = rank difference\n\n<strong>Kendall's Tau:</strong>\n$$\\tau = \\frac{n_c - n_d}{\\frac{1}{2}n(n-1)}$$\nwhere $n_c$ = concordant pairs, $n_d$ = discordant pairs</div>\n\n\n\\begin{exampleblock}{Interpretation Guide}\n<ul>\n\n<li>$|r| < 0.3$: Weak relationship\n</li>\n<li>$0.3 \\leq |r| < 0.7$: Moderate relationship\n</li>\n<li>$|r| \\geq 0.7$: Strong relationship\n</li>\n</ul>\n\\end{exampleblock}\n</div>\n</div>\n\n<div class=\"warning\"><h4>Remember</h4><strong>Correlation $\\neq$ Causation!</strong> Always investigate the underlying mechanisms.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Bivariate Analysis - Feature Relationships",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/10_bivariate_analysis.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Key Patterns</h4><strong>Gender effect:</strong> Women had 74\\% survival rate vs men 19\\%; <strong>Class effect:</strong> 1st class 63\\% vs 3rd class 24\\%</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Cross-Tabulation \\& Contingency Tables",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Contingency Table</h4>For categorical variables $A$ and $B$:\n\n\n\\small\n\\begin{tabular}{|c|c|c|c|}\n\\hline\n & $B_1$ & $B_2$ & Total \\\\\n\\hline\n$A_1$ & $n_{11}$ & $n_{12}$ & $n_{1.}$ \\\\\n$A_2$ & $n_{21}$ & $n_{22}$ & $n_{2.}$ \\\\\n\\hline\nTotal & $n_{.1}$ & $n_{.2}$ & $n$ \\\\\n\\hline\n\\end{tabular}\n\n\n<strong>Joint Probability:</strong>\n$$P(A_i, B_j) = \\frac{n_{ij}}{n}$$\n\n<strong>Marginal Probability:</strong>\n$$P(A_i) = \\frac{n_{i.}}{n},   P(B_j) = \\frac{n_{.j}}{n}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Independence Test</h4><strong>Chi-Square Test:</strong>\n$$\\chi^2 = \\sum_{i,j} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}$$\n\nwhere $E_{ij} = \\frac{n_{i.} \\times n_{.j}}{n}$\n\n<strong>Degrees of freedom:</strong>\n$$df = (r-1)(c-1)$$\n\n<strong>Cramér's V (Effect Size):</strong>\n$$V = \\sqrt{\\frac{\\chi^2}{n \\times \\min(r-1, c-1)}}$$</div>\n\n\n\\begin{tipblock}{Interpretation}\n$V \\in [0,1]$: 0 = no association, 1 = perfect association\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Missing Data Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/05_missing_data_analysis.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Missing Data Impact</h4><strong>Age:</strong> 20\\% missing values; <strong>Pattern:</strong> May not be random - could be related to passenger class or survival</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Types of Missing Data",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>MCAR: Missing Completely at Random</h4><strong>Definition:</strong> Missing data is independent of both observed and unobserved data.\n\n<strong>Mathematical condition:</strong>\n$$P(\\text{Missing} | X, Y) = P(\\text{Missing})$$\n\n<strong>Example:</strong> Survey responses lost due to mail delivery issues.\n\n<strong>Implication:</strong> Can use any imputation method without bias.</div>\n\n\n\\begin{methodblock}{Test for MCAR}\n<strong>Little's MCAR Test:</strong>\nTests null hypothesis that data is MCAR using EM algorithm.\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>MAR: Missing at Random</h4><strong>Definition:</strong> Missing data depends on observed data, but not on unobserved data.\n\n<strong>Mathematical condition:</strong>\n$$P(\\text{Missing} | X, Y) = P(\\text{Missing} | X)$$\n\n<strong>Example:</strong> Older passengers more likely to have missing age data.\n\n<strong>MNAR: Missing Not at Random</strong>\nMissing data depends on unobserved data.\n\n<strong>Example:</strong> High-income individuals not reporting income.</div>\n\n\n<div class=\"warning\"><h4>Handling Strategy</h4><strong>MAR:</strong> Multiple imputation; <strong>MNAR:</strong> Domain expertise required</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Imputation Strategies",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Simple Imputation</h4><strong>Mean/Mode Imputation:</strong>\n$$x_{\\text{missing}} = \\bar{x} \\text{ or Mode}(x)$$\n\n<strong>Median Imputation:</strong>\n$$x_{\\text{missing}} = \\text{Median}(x)$$\n\n<strong>Forward/Backward Fill:</strong>\nFor time series data\n\n<strong>Constant Value:</strong>\nDomain-specific constant (e.g., 0, -1)</div>\n\n\n<div class=\"warning\"><h4>Limitations</h4>Simple methods reduce variance and can introduce bias</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advanced Imputation</h4><strong>KNN Imputation:</strong>\n$$x_{\\text{missing}} = \\frac{1}{k}\\sum_{i \\in \\text{k-nearest}} x_i$$\n\n<strong>Multiple Imputation:</strong>\nCreates multiple complete datasets, analyzes each, pools results.\n\n<strong>Model-based:</strong>\n- Linear regression\n- Random Forest\n- Deep learning approaches</div>\n\n\n\\begin{exampleblock}{Best Practice}\n<strong>Always analyze missing data pattern before choosing imputation method</strong>\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Outlier Detection Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/06_outlier_detection.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Outlier Findings</h4><strong>Fare:</strong> 20 outliers detected using IQR method; <strong>Age:</strong> Few extreme values at high ages</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Statistical Outlier Detection Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>IQR Method</h4><strong>Interquartile Range:</strong>\n$$\\text{IQR} = Q_3 - Q_1$$\n\n<strong>Outlier bounds:</strong>\n$$\\text{Lower bound} = Q_1 - 1.5 \\times \\text{IQR}$$\n$$\\text{Upper bound} = Q_3 + 1.5 \\times \\text{IQR}$$\n\n<strong>Outlier condition:</strong>\n$$x < \\text{Lower bound} \\text{ or } x > \\text{Upper bound}$$</div>\n\n\n\\begin{methodblock}{Modified Z-Score}\n$$M_i = \\frac{0.6745(x_i - \\text{median})}{\\text{MAD}}$$\nwhere MAD = median absolute deviation\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Z-Score Method</h4><strong>Standard Z-score:</strong>\n$$z_i = \\frac{x_i - \\bar{x}}{\\sigma}$$\n\n<strong>Outlier threshold:</strong>\n$$|z_i| > 2.5 \\text{ or } |z_i| > 3$$\n\n<strong>Limitation:</strong> Sensitive to outliers in mean and std calculation</div>\n\n\n\\begin{exampleblock}{Isolation Forest}\n<strong>Anomaly Score:</strong>\n$$s(x,n) = 2^{-\\frac{E(h(x))}{c(n)}}$$\nwhere $E(h(x))$ = average path length, $c(n)$ = average path length of BST\n\\end{exampleblock}\n</div>\n</div>\n\n\\begin{tipblock}{Decision Framework}\n<strong>Normal distribution:</strong> Z-score; <strong>Skewed distribution:</strong> IQR; <strong>Multivariate:</strong> Isolation Forest\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Multivariate Outlier Detection",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Mahalanobis Distance</h4>For multivariate data $\\mathbf{x} \\in \\mathbb{R}^p$:\n\n$$D_M(\\mathbf{x}) = \\sqrt{(\\mathbf{x} - \\boldsymbol{\\mu})^T \\boldsymbol{\\Sigma}^{-1} (\\mathbf{x} - \\boldsymbol{\\mu})}$$\n\nwhere:\n- $\\boldsymbol{\\mu}$ = sample mean vector\n- $\\boldsymbol{\\Sigma}$ = sample covariance matrix\n\n<strong>Outlier threshold:</strong>\n$$D_M(\\mathbf{x}) > \\sqrt{\\chi^2_{p,\\alpha}}$$</div>\n\n\n\\begin{methodblock}{Cook's Distance}\nMeasures influence of each observation on regression:\n$$D_i = \\frac{\\sum_{j=1}^n (\\hat{y}_j - \\hat{y}_{j(i)})^2}{p \\times \\text{MSE}}$$\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Local Outlier Factor (LOF)</h4><strong>Local Reachability Density:</strong>\n$$\\text{lrd}_k(A) = \\frac{1}{\\frac{\\sum_{B \\in N_k(A)} \\text{reach-dist}_k(A,B)}{|N_k(A)|}}$$\n\n<strong>LOF Score:</strong>\n$$\\text{LOF}_k(A) = \\frac{\\sum_{B \\in N_k(A)} \\frac{\\text{lrd}_k(B)}{\\text{lrd}_k(A)}}{|N_k(A)|}$$\n\n<strong>Interpretation:</strong>\n- LOF $\\approx 1$: Normal point\n- LOF $\\gg 1$: Outlier</div>\n\n\n<div class=\"warning\"><h4>Key Insight</h4>Multivariate outliers may not be outliers in any single dimension</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Feature Engineering Examples",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/07_feature_engineering.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Engineering Insights</h4><strong>Age binning:</strong> Creates interpretable groups; <strong>Family size:</strong> Combines multiple features; <strong>Title extraction:</strong> Captures social status</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Feature Creation Techniques",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Binning \\& Discretization</h4><strong>Equal-width binning:</strong>\n$$\\text{bin width} = \\frac{x_{\\max} - x_{\\min}}{k}$$\n\n<strong>Equal-frequency binning:</strong>\nEach bin contains $\\frac{n}{k}$ observations\n\n<strong>Quantile-based binning:</strong>\nBased on percentiles (quartiles, deciles)\n\n<strong>Domain-specific binning:</strong>\nUsing expert knowledge (e.g., age groups)</div>\n\n\n\\begin{methodblock}{Optimal Binning}\nUse information gain or chi-square test to determine optimal bin boundaries\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Feature Combinations</h4><strong>Arithmetic Operations:</strong>\n- Addition: $x_1 + x_2$ (total family size)\n- Multiplication: $x_1 \\times x_2$ (interaction terms)\n- Division: $x_1 / x_2$ (ratios, rates)\n\n<strong>Boolean Operations:</strong>\n- Logical AND: $x_1 \\land x_2$\n- Logical OR: $x_1 \\lor x_2$\n- Conditional: if $x_1 > \\text{threshold}$ then 1 else 0\n\n<strong>String Operations:</strong>\n- Length: $\\text{len}(\\text{string})$\n- Contains: pattern matching\n- Extract: regular expressions</div>\n</div>\n</div>\n\n\\begin{exampleblock}{Feature Engineering Guidelines}\n<strong>Domain Knowledge:</strong> Most important factor; <strong>Iterative Process:</strong> Create, test, refine; <strong>Validation:</strong> Always validate on holdout set\n\\end{exampleblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Mathematical Transformations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Power Transformations</h4><strong>Log Transformation:</strong>\n$$y = \\log(x + c)$$\nReduces right skewness, stabilizes variance\n\n<strong>Square Root:</strong>\n$$y = \\sqrt{x}$$\nModerate variance stabilization\n\n<strong>Box-Cox Transformation:</strong>\n$$y = \\begin{cases}\n\\frac{x^\\lambda - 1}{\\lambda} & \\text{if } \\lambda \\neq 0 \\\\\n\\ln(x) & \\text{if } \\lambda = 0\n\\end{cases}$$\n\nOptimal $\\lambda$ found via maximum likelihood</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Trigonometric Features</h4>For cyclical data (time, angles):\n\n<strong>Sine/Cosine encoding:</strong>\n$$\\sin\\left(\\frac{2\\pi \\times \\text{value}}{\\text{max\\_value}}\\right)$$\n$$\\cos\\left(\\frac{2\\pi \\times \\text{value}}{\\text{max\\_value}}\\right)$$\n\n<strong>Example for hour of day:</strong>\n$$\\text{hour\\_sin} = \\sin\\left(\\frac{2\\pi \\times \\text{hour}}{24}\\right)$$\n$$\\text{hour\\_cos} = \\cos\\left(\\frac{2\\pi \\times \\text{hour}}{24}\\right)$$</div>\n\n\n\\begin{tipblock}{When to Transform}\nTransform when: skewed data, non-linear relationships, or specific model requirements\n\\end{tipblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Feature Selection Methods",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/09_feature_selection.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Selection Results</h4><strong>Statistical:</strong> Gender and fare most important; <strong>Tree-based:</strong> Consistent with domain knowledge about survival factors</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Statistical Feature Selection",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Filter Methods</h4><strong>Correlation-based:</strong>\nSelect features with high correlation to target, low correlation to each other\n\n<strong>F-test (ANOVA):</strong>\n$$F = \\frac{\\text{MSB}}{\\text{MSW}} = \\frac{\\sum_{i=1}^k n_i(\\bar{x}_i - \\bar{x})^2/(k-1)}{\\sum_{i=1}^k \\sum_{j=1}^{n_i}(x_{ij} - \\bar{x}_i)^2/(n-k)}$$\n\n<strong>Chi-square test:</strong>\n$$\\chi^2 = \\sum_{i,j} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}$$\n\n<strong>Mutual Information:</strong>\n$$I(X;Y) = \\sum_{x,y} p(x,y) \\log \\frac{p(x,y)}{p(x)p(y)}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Wrapper Methods</h4><strong>Forward Selection:</strong>\nStart with empty set, add best features iteratively\n\n<strong>Backward Elimination:</strong>\nStart with all features, remove worst iteratively\n\n<strong>Recursive Feature Elimination:</strong>\n$$\\text{rank}_i = f(\\text{coef}_i, \\text{importance}_i)$$\n\n<strong>Genetic Algorithm:</strong>\nEvolutionary approach to feature subset selection</div>\n\n\n\\begin{methodblock}{Embedded Methods}\n<strong>L1 Regularization (Lasso):</strong>\n$$\\min_\\beta \\frac{1}{2n}||y - X\\beta||^2_2 + \\lambda||\\beta||_1$$\n\\end{methodblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Tree-based Feature Importance",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Random Forest Importance</h4><strong>Mean Decrease Impurity:</strong>\n$$\\text{Importance}(x_j) = \\frac{1}{T}\\sum_{t=1}^T \\sum_{v \\in \\text{splits}} p(v) \\times \\Delta I(v)$$\n\nwhere:\n- $T$ = number of trees\n- $p(v)$ = proportion of samples reaching node $v$\n- $\\Delta I(v)$ = impurity decrease at node $v$\n\n<strong>Mean Decrease Accuracy:</strong>\nPermutation-based importance measuring prediction accuracy drop when feature is shuffled</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Gradient Boosting Importance</h4><strong>Gain-based Importance:</strong>\n$$\\text{Importance}(x_j) = \\sum_{t=1}^T \\sum_{v \\in \\text{splits}_j} \\text{gain}(v)$$\n\n<strong>SHAP Values:</strong>\nShapley Additive exPlanations provide unified measure:\n$$\\phi_j = \\sum_{S \\subseteq N \\setminus \\{j\\}} \\frac{|S|!(|N|-|S|-1)!}{|N|!}[f(S \\cup \\{j\\}) - f(S)]$$</div>\n\n\n<div class=\"warning\"><h4>Caution</h4>Tree-based importance can be biased toward high-cardinality categorical features</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Normalization Comparison",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/08_normalization_comparison.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Normalization Effects</h4><strong>StandardScaler:</strong> Zero mean, unit variance; <strong>MinMaxScaler:</strong> [0,1] range; <strong>RobustScaler:</strong> Median-based, outlier resistant</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Scaling Methods Mathematical Formulations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Standard Scaling (Z-score)</h4>$$x_{\\text{scaled}} = \\frac{x - \\mu}{\\sigma}$$\n\nwhere $\\mu = \\frac{1}{n}\\sum_{i=1}^n x_i$ and $\\sigma = \\sqrt{\\frac{1}{n-1}\\sum_{i=1}^n (x_i - \\mu)^2}$\n\n<strong>Properties:</strong>\n- Mean = 0, Std = 1\n- Preserves distribution shape\n- Sensitive to outliers</div>\n\n\n<div class=\"highlight\"><h4>Min-Max Scaling</h4>$$x_{\\text{scaled}} = \\frac{x - x_{\\min}}{x_{\\max} - x_{\\min}}$$\n\n<strong>Properties:</strong>\n- Range: [0, 1]\n- Preserves relationships\n- Very sensitive to outliers</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Robust Scaling</h4>$$x_{\\text{scaled}} = \\frac{x - \\text{Median}(x)}{\\text{IQR}(x)}$$\n\nwhere $\\text{IQR} = Q_3 - Q_1$\n\n<strong>Properties:</strong>\n- Median-centered\n- Uses interquartile range\n- Robust to outliers</div>\n\n\n<div class=\"highlight\"><h4>Unit Vector Scaling</h4>$$x_{\\text{scaled}} = \\frac{x}{||x||_2}$$\n\nwhere $||x||_2 = \\sqrt{\\sum_{i=1}^n x_i^2}$\n\n<strong>Use case:</strong> When magnitude matters more than individual values</div>\n</div>\n</div>\n\n\\begin{tipblock}{Selection Guide}\n<strong>Normal data + no outliers:</strong> StandardScaler; <strong>Bounded range needed:</strong> MinMaxScaler; <strong>Outliers present:</strong> RobustScaler\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "When \\& Why to Normalize",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Algorithms Requiring Normalization</h4><strong>Distance-based:</strong>\n- k-NN, k-means clustering\n- SVM with RBF kernel\n- Neural networks\n\n<strong>Gradient-based:</strong>\n- Logistic regression\n- Linear regression with regularization\n- Deep learning\n\n<strong>Mathematical justification:</strong>\nFeatures with larger scales dominate distance calculations:\n$$d = \\sqrt{\\sum_{i=1}^p (x_i - y_i)^2}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Algorithms Not Requiring Normalization</h4><strong>Tree-based methods:</strong>\n- Decision trees\n- Random Forest\n- Gradient boosting\n\n<strong>Reason:</strong> Trees use split points, not absolute values\n\n<strong>Rule-based:</strong>\n- Naive Bayes\n- Association rules\n\n<strong>Statistical:</strong> Feature scales don't affect splitting decisions or probability calculations</div>\n</div>\n</div>\n\n\n<div class=\"warning\"><h4>Critical Rule</h4><strong>Always fit scaler on training data only!</strong> Apply same transformation to validation/test sets to avoid data leakage.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 34,
+      "title": "Target Variable Analysis",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/11_target_analysis.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Target Insights</h4><strong>Class imbalance:</strong> 62\\% non-survival; <strong>Gender-class interaction:</strong> First-class women had 97\\% survival rate</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 35,
+      "title": "Business Insights from EDA",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/12_business_insights.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Actionable Insights</h4><strong>Revenue impact:</strong> Higher-paying passengers had better survival rates; <strong>Port differences:</strong> Embarkation port correlates with survival</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 36,
+      "title": "Advanced Visualization Techniques",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Dimensionality Reduction</h4><strong>Principal Component Analysis:</strong>\n$$\\mathbf{Y} = \\mathbf{XW}$$\nwhere $\\mathbf{W}$ contains eigenvectors of covariance matrix\n\n<strong>t-SNE:</strong>\n$$p_{j|i} = \\frac{\\exp(-||\\mathbf{x}_i - \\mathbf{x}_j||^2/2\\sigma_i^2)}{\\sum_{k \\neq i} \\exp(-||\\mathbf{x}_i - \\mathbf{x}_k||^2/2\\sigma_i^2)}$$\n\n<strong>UMAP:</strong> Uniform Manifold Approximation\n- Preserves local and global structure\n- Faster than t-SNE\n- Better for clustering visualization</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Interactive Visualizations</h4><strong>Plotly Benefits:</strong>\n- Zoom, pan, hover information\n- 3D scatter plots\n- Animated visualizations\n- Dashboard creation\n\n<strong>Parallel Coordinates:</strong>\nVisualize high-dimensional data relationships\n\n<strong>Sankey Diagrams:</strong>\nShow flow between categorical variables\n\n<strong>Radar Charts:</strong>\nCompare multiple features simultaneously</div>\n</div>\n</div>\n\n\n\\begin{tipblock}{Best Practice}\n<strong>Progressive Disclosure:</strong> Start with simple plots, add complexity as needed for deeper insights\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 37,
+      "title": "Time Series EDA Considerations",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Time Series Components</h4><strong>Decomposition:</strong>\n$$y(t) = \\text{Trend}(t) + \\text{Seasonal}(t) + \\text{Noise}(t)$$\n\n<strong>Stationarity Testing:</strong>\nAugmented Dickey-Fuller test:\n$$\\Delta y_t = \\alpha + \\beta t + \\gamma y_{t-1} + \\delta_1 \\Delta y_{t-1} + ⋯ + \\epsilon_t$$\n\n<strong>Autocorrelation:</strong>\n$$\\rho_k = \\frac{\\text{Cov}(y_t, y_{t-k})}{\\text{Var}(y_t)}$$</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Seasonal Analysis</h4><strong>Seasonal Decomposition:</strong>\n- STL (Seasonal and Trend decomposition using Loess)\n- X-12-ARIMA\n- Classical decomposition\n\n<strong>Periodogram:</strong>\n$$I(\\omega) = \\frac{1}{n}\\left|\\sum_{t=1}^n y_t e^{-i\\omega t}\\right|^2$$\n\n<strong>Box-Cox for stabilization:</strong>\nHandle changing variance over time</div>\n</div>\n</div>\n\n\n<div class=\"warning\"><h4>Time Series EDA Goals</h4>Identify trends, seasonality, outliers, structural breaks, and appropriate transformation needs</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 38,
+      "title": "EDA to ML Pipeline Integration",
+      "readingTime": "1 min",
+      "content": "<div class=\"figure\"><p><em>[Figure: ../figures/13_ml_pipeline_demo.png]</em></p></div>\n\n\n\n<div class=\"warning\"><h4>Pipeline Success</h4><strong>EDA insights validated:</strong> Gender and class are top predictors; <strong>Model performance:</strong> 85\\% accuracy achieved through proper preprocessing</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 39,
+      "title": "From EDA to Model Development",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>EDA-Informed Decisions</h4><strong>Feature Engineering:</strong>\n- Age binning based on distribution analysis\n- Family size creation from SibSp + Parch\n- Title extraction from name patterns\n\n<strong>Preprocessing Choices:</strong>\n- Median imputation for age (right-skewed)\n- StandardScaler for fare (wide range)\n- One-hot encoding for categorical variables\n\n<strong>Model Selection:</strong>\n- Random Forest chosen for mixed data types\n- Handles non-linear relationships\n- Robust to outliers (detected in EDA)</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Validation Strategy</h4><strong>Cross-Validation Design:</strong>\nBased on data size (891 samples) → 5-fold CV\n\n<strong>Stratification:</strong>\nMaintain class balance (38.4\\% survival rate)\n\n<strong>Performance Metrics:</strong>\n- Accuracy: Overall performance\n- Precision/Recall: Handle class imbalance\n- F1-Score: Balanced measure\n- AUC-ROC: Threshold-independent\n\n<strong>Feature Importance Validation:</strong>\nEDA findings confirmed by model:\n1. Sex (gender) - highest importance\n2. Fare - economic status indicator\n3. Age - demographic factor</div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 40,
+      "title": "EDA Best Practices \\& Common Pitfalls",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Common Pitfalls</h4><strong>Data Leakage:</strong>\n- Using future information\n- Target leakage in features\n- Scaling on entire dataset\n\n<strong>Confirmation Bias:</strong>\n- Looking only for expected patterns\n- Ignoring contradictory evidence\n- Over-interpreting correlations\n\n<strong>Statistical Errors:</strong>\n- Multiple testing without correction\n- Assuming causation from correlation\n- Ignoring sample size effects</div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Best Practices}\n<strong>Systematic Approach:</strong>\n- Follow structured EDA workflow\n- Document all findings and decisions\n- Version control EDA notebooks\n\n<strong>Statistical Rigor:</strong>\n- Apply multiple testing corrections\n- Use appropriate statistical tests\n- Report confidence intervals\n\n<strong>Reproducibility:</strong>\n- Set random seeds\n- Save preprocessing parameters\n- Create reusable functions\n\n<strong>Communication:</strong>\n- Clear visualizations\n- Executive summaries\n- Actionable recommendations\n\\end{exampleblock}\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 41,
+      "title": "EDA Checklist \\& Quality Assurance",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"definition\"><h4>Data Quality Checklist</h4><ul>\n\n<li>[$\\checkmark$] <strong>Completeness:</strong> Missing value analysis\n</li>\n<li>[$\\checkmark$] <strong>Accuracy:</strong> Outlier detection \\& validation\n</li>\n<li>[$\\checkmark$] <strong>Consistency:</strong> Data type verification\n</li>\n<li>[$\\checkmark$] <strong>Uniqueness:</strong> Duplicate detection\n</li>\n<li>[$\\checkmark$] <strong>Validity:</strong> Range \\& format checking\n</li>\n<li>[$\\checkmark$] <strong>Timeliness:</strong> Temporal analysis\n</li>\n</ul></div>\n\n\n\\begin{methodblock}{Statistical Validation}\n<ul>\n\n<li>[$\\checkmark$] Distribution testing\n</li>\n<li>[$\\checkmark$] Correlation significance tests\n</li>\n<li>[$\\checkmark$] Independence assumptions\n</li>\n<li>[$\\checkmark$] Sample size adequacy\n</li>\n</ul>\n\\end{methodblock}\n</div>\n\n<div class=\"column\">\n\\begin{tipblock}{Visualization Checklist}\n<ul>\n\n<li>[$\\checkmark$] <strong>Clarity:</strong> Clear labels \\& legends\n</li>\n<li>[$\\checkmark$] <strong>Completeness:</strong> All data represented\n</li>\n<li>[$\\checkmark$] <strong>Accuracy:</strong> Correct scales \\& axes\n</li>\n<li>[$\\checkmark$] <strong>Aesthetics:</strong> Professional appearance\n</li>\n<li>[$\\checkmark$] <strong>Accessibility:</strong> Color-blind friendly\n</li>\n<li>[$\\checkmark$] <strong>Context:</strong> Meaningful titles \\& captions\n</li>\n</ul>\n\\end{tipblock}\n\n\n<div class=\"highlight\"><h4>Documentation Standards</h4><ul>\n\n<li>[$\\checkmark$] Data source \\& collection methods\n</li>\n<li>[$\\checkmark$] Preprocessing steps \\& rationale\n</li>\n<li>[$\\checkmark$] Key findings \\& insights\n</li>\n<li>[$\\checkmark$] Limitations \\& assumptions\n</li>\n<li>[$\\checkmark$] Next steps \\& recommendations\n</li>\n</ul></div>\n</div>\n</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 42,
+      "title": "Summary: Key Takeaways",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"warning\"><h4>Core EDA Principles</h4><strong>1. Systematic Approach</strong>\n- Start with data overview\n- Progress from simple to complex\n- Document everything\n\n<strong>2. Statistical Rigor</strong>\n- Use appropriate tests\n- Check assumptions\n- Report confidence intervals\n\n<strong>3. Visual Communication</strong>\n- Clear, interpretable plots\n- Multiple visualization types\n- Story-driven presentation</div>\n</div>\n\n<div class=\"column\">\n\\begin{exampleblock}{Practical Impact}\n<strong>Model Performance</strong>\n- 15-30\\% improvement typical\n- Better feature selection\n- Reduced overfitting\n\n<strong>Business Value</strong>\n- Actionable insights\n- Risk identification\n- Decision support\n\n<strong>Efficiency Gains</strong>\n- 40-60\\% time savings\n- Focused modeling efforts\n- Reduced iterations\n\\end{exampleblock}\n</div>\n</div>\n\n\n\n\\begin{tikzpicture}[scale=0.8]\n\\node[rectangle, draw, fill=datacolor!20, text width=2.5cm, text centered] (eda) {Quality EDA};\n\\node[rectangle, draw, fill=featurecolor!20, text width=2.5cm, text centered, right=1cm of eda] (model) {Better Models};\n\\node[rectangle, draw, fill=trendcolor!20, text width=2.5cm, text centered, right=1cm of model] (business) {Business Value};\n\n\\draw[process arrow, thick] (eda) -- (model);\n\\draw[process arrow, thick] (model) -- (business);\n\\end{tikzpicture}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 43,
+      "title": "Next Steps: Advanced EDA Topics",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Advanced Techniques</h4><strong>Automated EDA:</strong>\n- pandas-profiling\n- sweetviz\n- autoviz\n\n<strong>Big Data EDA:</strong>\n- Sampling strategies\n- Distributed computing\n- Stream processing\n\n<strong>Domain-Specific EDA:</strong>\n- Text data analysis\n- Image data exploration\n- Time series deep-dive</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Integration Topics</h4><strong>MLOps Integration:</strong>\n- Automated data quality checks\n- Feature store management\n- Drift detection\n\n<strong>Causal Inference:</strong>\n- Confounding variable identification\n- Causal graph construction\n- Treatment effect analysis\n\n<strong>Ethics \\& Fairness:</strong>\n- Bias detection in data\n- Fairness metrics\n- Responsible AI practices</div>\n</div>\n</div>\n\n\n\\begin{tipblock}{Learning Path}\n<strong>Practice:</strong> Apply EDA to diverse datasets; <strong>Study:</strong> Read domain literature; <strong>Share:</strong> Present findings to stakeholders\n\\end{tipblock}",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 44,
+      "title": "Resources \\& Further Reading",
+      "readingTime": "1 min",
+      "content": "<div class=\"two-column\">\n<div class=\"column\">\n<div class=\"highlight\"><h4>Essential Books</h4><strong>\"Exploratory Data Analysis\"</strong> - John Tukey\n\\\\[2pt]\nThe foundational text for EDA principles\n\n<strong>\"Python for Data Analysis\"</strong> - Wes McKinney\n\\\\[2pt]\nPractical pandas-based EDA\n\n<strong>\"The Elements of Statistical Learning\"</strong> - Hastie, Tibshirani, Friedman\n\\\\[2pt]\nStatistical foundations\n\n<strong>\"Fundamentals of Data Visualization\"</strong> - Claus Wilke\n\\\\[2pt]\nVisualization best practices</div>\n</div>\n\n<div class=\"column\">\n<div class=\"highlight\"><h4>Online Resources</h4><strong>Python Libraries:</strong>\n- pandas, seaborn, matplotlib\n- plotly, bokeh (interactive)\n- scipy, statsmodels (statistics)\n\n<strong>R Libraries:</strong>\n- ggplot2, dplyr\n- corrplot, VIM\n- DataExplorer, dlookr\n\n<strong>Courses:</strong>\n- Coursera: EDA with Python\n- edX: Data Science MicroMasters\n- Kaggle Learn: Data Visualization</div>\n</div>\n</div>\n\n\n\n<strong>Questions \\& Discussion</strong>\n\\\\[0.2cm]\n<em>\"The greatest value of a picture is when it forces us to notice what we never expected to see.\"</em> - John Tukey",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

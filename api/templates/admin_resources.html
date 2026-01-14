@@ -1,0 +1,155 @@
+{% extends "base_layout.html" %}
+
+{% block title %}Manage Resources - Admin{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin-resources.css') }}">
+{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Home</a>
+<span class="breadcrumb-separator">/</span>
+<a href="/admin" class="breadcrumb-item">Admin</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">Resources</span>
+{% endblock %}
+
+{% block content %}
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container" role="alert" aria-live="polite"></div>
+
+<!-- Page Header -->
+<div class="page-header-section">
+    <h1 class="page-title">Manage Course Resources</h1>
+    <p class="page-subtitle">Add and manage YouTube videos and other resources for courses</p>
+</div>
+
+<!-- Course Selector -->
+<div class="course-selector">
+    <label for="courseSelect" class="form-label">Select Course:</label>
+    <select id="courseSelect" class="form-select">
+        {% for course_id, course in courses.items() %}
+        {% if course.is_active %}
+        <option value="{{ course_id }}">{{ course.code }} - {{ course.title }}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Add Resource Button -->
+<div class="actions-bar">
+    <button type="button" id="addResourceBtn" class="btn btn-primary">
+        + Add Resource
+    </button>
+    <span id="resourceCount" class="resource-count"></span>
+</div>
+
+<!-- Resources List -->
+<div id="resourcesList" class="resources-list">
+    <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading resources...</p>
+    </div>
+</div>
+
+<!-- Add/Edit Resource Modal -->
+<div id="resourceModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" style="max-width: 600px;">
+        <header class="modal-header">
+            <h2 id="modalTitle" class="modal-title">Add Resource</h2>
+            <button type="button" class="modal-close" id="closeModalBtn" aria-label="Close modal">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <form id="resourceForm" novalidate>
+                <input type="hidden" id="resourceId" name="id">
+
+                <div class="form-group">
+                    <label for="resourceType" class="form-label required">Resource Type</label>
+                    <select id="resourceType" name="resource_type" class="form-select" required>
+                        <option value="youtube">YouTube Video</option>
+                        <option value="link">External Link</option>
+                        <option value="pdf">PDF Document</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="resourceTitle" class="form-label required">Title</label>
+                    <input type="text" id="resourceTitle" name="title" class="form-input"
+                           placeholder="e.g., Introduction to Machine Learning" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="resourceDescription" class="form-label">Description</label>
+                    <textarea id="resourceDescription" name="description" class="form-textarea" rows="2"
+                              placeholder="Brief description of this resource"></textarea>
+                </div>
+
+                <!-- YouTube-specific fields -->
+                <div id="youtubeFields" class="resource-type-fields">
+                    <div class="form-group">
+                        <label for="youtubeUrl" class="form-label required">YouTube URL</label>
+                        <input type="url" id="youtubeUrl" name="youtube_url" class="form-input"
+                               placeholder="https://www.youtube.com/watch?v=...">
+                        <span class="form-help">Paste any YouTube URL - we'll extract the video ID automatically</span>
+                    </div>
+
+                    <!-- Video Preview -->
+                    <div id="videoPreview" class="video-preview hidden">
+                        <img id="videoThumbnail" src="" alt="Video thumbnail">
+                        <div class="video-preview-info">
+                            <span id="videoIdDisplay" class="video-id"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Link/PDF fields -->
+                <div id="linkFields" class="resource-type-fields hidden">
+                    <div class="form-group">
+                        <label for="externalUrl" class="form-label required">URL</label>
+                        <input type="url" id="externalUrl" name="external_url" class="form-input"
+                               placeholder="https://example.com/resource">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="resourceActive" name="is_active" checked>
+                        <span>Active (visible to students)</span>
+                    </label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">Save Resource</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal" style="max-width: 400px;">
+        <header class="modal-header">
+            <h2 class="modal-title">Delete Resource</h2>
+            <button type="button" class="modal-close" id="closeDeleteModalBtn" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </header>
+        <div class="modal-body">
+            <p>Are you sure you want to delete "<span id="deleteResourceTitle"></span>"?</p>
+            <p class="text-muted">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Cancel</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/admin-resources.js') }}"></script>
+{% endblock %}
