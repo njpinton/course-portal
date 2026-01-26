@@ -202,3 +202,13 @@ vercel.json
 
 # Claude-generated documentation
 docs/
+
+# Supabase client (contains DB logic)
+supabase_client.py
+
+# Analysis/documentation MD files (keep only README.md)
+README_ANALYSIS.md
+SECURITY_FIXES.md
+SLIDE_ANALYSIS_DETAILED.md
+*_ANALYSIS*.md
+*_FIXES*.md
