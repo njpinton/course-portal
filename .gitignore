@@ -176,3 +176,14 @@ images/module12/
 
 # User uploads
 uploads/
+
+# Supabase local config
+supabase/
+
+# Documentation & analysis (not needed in repo)
+TEST_SUMMARY.md
+TESTING.md
+VERCEL_SETUP.md
+DEPLOYMENT.md
+MIGRATION_GUIDE.md
+OPTIMIZATION_PATTERNS_REFERENCE.md
