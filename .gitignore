@@ -165,3 +165,14 @@ node_modules/
 # Exam answer keys (sensitive)
 **/finals_exam/admin/
 *ANSWER_KEY*
+
+# Claude Code (local AI assistant config)
+.claude/
+CLAUDE.md
+
+# Development artifacts
+slide-reviews/
+images/module12/
+
+# User uploads
+uploads/

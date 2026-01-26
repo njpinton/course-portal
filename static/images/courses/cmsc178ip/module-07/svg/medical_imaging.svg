@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Feature extraction applications in medical imaging">
+  <title>Medical Imaging Feature Extraction</title>
+  <desc>Applications of feature extraction in medical imaging including tumor detection, retinal analysis, and histopathology</desc>
+
+  <defs>
+    <linearGradient id="medBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#medBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Medical Imaging Feature Extraction</text>
+
+  <!-- CT/MRI Tumor Detection -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="260" height="165" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="130" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">CT/MRI Tumor Detection</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Brain scan image -->
+      <g transform="translate(0, 0)">
+        <ellipse cx="45" cy="45" rx="42" ry="45" fill="#333"/>
+        <ellipse cx="45" cy="45" rx="35" ry="38" fill="#555"/>
+        <!-- Brain folds -->
+        <path d="M20,30 Q35,25 50,30 Q65,35 70,45" fill="none" stroke="#777" stroke-width="2"/>
+        <path d="M25,50 Q40,45 55,50 Q60,55 65,60" fill="none" stroke="#777" stroke-width="2"/>
+        <!-- Tumor region -->
+        <ellipse cx="60" cy="40" rx="12" ry="10" fill="#ef4444" opacity="0.6"/>
+        <ellipse cx="60" cy="40" rx="12" ry="10" fill="none" stroke="#ef4444" stroke-width="2"/>
+      </g>
+
+      <!-- Features extracted -->
+      <g transform="translate(105, 0)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Features:</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Shape descriptors</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Texture (GLCM)</text>
+        <text x="0" y="56" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Intensity statistics</text>
+        <text x="0" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Boundary features</text>
+        <text x="0" y="84" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Location features</text>
+      </g>
+    </g>
+
+    <rect x="15" y="140" width="230" height="18" fill="#dbeafe" rx="3"/>
+    <text x="130" y="153" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Automatic lesion detection &amp; classification</text>
+  </g>
+
+  <!-- Retinal Analysis -->
+  <g transform="translate(300, 55)">
+    <rect x="0" y="0" width="260" height="165" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="130" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Retinal Image Analysis</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Fundus image -->
+      <g transform="translate(0, 0)">
+        <circle cx="45" cy="45" r="42" fill="#8b4513"/>
+        <!-- Optic disc -->
+        <circle cx="60" cy="40" r="12" fill="#fbbf24"/>
+        <!-- Blood vessels -->
+        <g stroke="#ef4444" stroke-width="1.5" fill="none">
+          <path d="M60,40 Q45,30 25,25"/>
+          <path d="M60,40 Q50,50 30,65"/>
+          <path d="M60,40 Q70,55 75,70"/>
+          <path d="M60,40 Q55,25 50,15"/>
+        </g>
+        <!-- Fovea -->
+        <circle cx="30" cy="48" r="8" fill="#333" opacity="0.5"/>
+      </g>
+
+      <!-- Features -->
+      <g transform="translate(105, 0)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Features:</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Vessel tortuosity</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Optic disc shape</text>
+        <text x="0" y="56" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Microaneurysms</text>
+        <text x="0" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Hemorrhage areas</text>
+        <text x="0" y="84" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Cup-to-disc ratio</text>
+      </g>
+    </g>
+
+    <rect x="15" y="140" width="230" height="18" fill="#d1fae5" rx="3"/>
+    <text x="130" y="153" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Diabetic retinopathy &amp; glaucoma screening</text>
+  </g>
+
+  <!-- Histopathology -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="165" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="125" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Histopathology</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Tissue sample -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="90" height="90" fill="#fce7f3" rx="4"/>
+        <!-- Cell nuclei patterns -->
+        <g fill="#7c3aed" opacity="0.6">
+          <ellipse cx="20" cy="20" rx="8" ry="6"/>
+          <ellipse cx="45" cy="15" rx="6" ry="5"/>
+          <ellipse cx="70" cy="22" rx="9" ry="7"/>
+          <ellipse cx="15" cy="45" rx="7" ry="6"/>
+          <ellipse cx="40" cy="50" rx="10" ry="8"/>
+          <ellipse cx="65" cy="48" rx="8" ry="6"/>
+          <ellipse cx="25" cy="75" rx="6" ry="5"/>
+          <ellipse cx="55" cy="72" rx="9" ry="7"/>
+          <ellipse cx="80" cy="70" rx="7" ry="6"/>
+        </g>
+        <!-- Mitotic figures -->
+        <g fill="#ef4444">
+          <circle cx="40" cy="50" r="3"/>
+          <circle cx="65" cy="48" r="2"/>
+        </g>
+      </g>
+
+      <!-- Features -->
+      <g transform="translate(100, 0)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Features:</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Nuclear morphology</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Cell density</text>
+        <text x="0" y="56" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Mitotic count</text>
+        <text x="0" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Texture patterns</text>
+        <text x="0" y="84" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Spatial arrangement</text>
+      </g>
+    </g>
+
+    <rect x="15" y="140" width="220" height="18" fill="#f5f3ff" rx="3"/>
+    <text x="125" y="153" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Cancer grading &amp; diagnosis</text>
+  </g>
+
+  <!-- X-ray Analysis -->
+  <g transform="translate(30, 235)">
+    <rect x="0" y="0" width="260" height="140" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="130" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">X-ray Analysis</text>
+
+    <g transform="translate(20, 35)">
+      <!-- Chest X-ray -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="80" height="85" fill="#222" rx="4"/>
+        <!-- Rib cage outline -->
+        <ellipse cx="40" cy="30" rx="30" ry="20" fill="none" stroke="#666" stroke-width="1"/>
+        <!-- Lungs -->
+        <ellipse cx="25" cy="45" rx="15" ry="25" fill="#444"/>
+        <ellipse cx="55" cy="45" rx="15" ry="25" fill="#444"/>
+        <!-- Heart -->
+        <ellipse cx="45" cy="55" rx="12" ry="15" fill="#555"/>
+        <!-- Nodule -->
+        <circle cx="30" cy="40" r="5" fill="#ef4444" opacity="0.5"/>
+        <circle cx="30" cy="40" r="5" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+      </g>
+
+      <!-- Features -->
+      <g transform="translate(95, 0)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Applications:</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Nodule detection</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Cardiomegaly</text>
+        <text x="0" y="56" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Pneumonia patterns</text>
+        <text x="0" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Bone fractures</text>
+        <text x="0" y="84" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• COVID-19 screening</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Feature Pipeline -->
+  <g transform="translate(300, 235)">
+    <rect x="0" y="0" width="520" height="140" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="260" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Medical Image Analysis Pipeline</text>
+
+    <!-- Pipeline steps -->
+    <g transform="translate(20, 45)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="75" height="50" fill="#dbeafe" rx="4" stroke="#3b82f6"/>
+        <text x="37" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Preprocess</text>
+        <text x="37" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Denoise</text>
+        <text x="37" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Normalize</text>
+      </g>
+
+      <text x="87" y="25" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 2 -->
+      <g transform="translate(100, 0)">
+        <rect x="0" y="0" width="75" height="50" fill="#d1fae5" rx="4" stroke="#10b981"/>
+        <text x="37" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Segment</text>
+        <text x="37" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">ROI</text>
+        <text x="37" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Detection</text>
+      </g>
+
+      <text x="187" y="25" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 3 -->
+      <g transform="translate(200, 0)">
+        <rect x="0" y="0" width="75" height="50" fill="#fef2f2" rx="4" stroke="#ef4444"/>
+        <text x="37" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Extract</text>
+        <text x="37" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Shape/Texture</text>
+        <text x="37" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Intensity</text>
+      </g>
+
+      <text x="287" y="25" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 4 -->
+      <g transform="translate(300, 0)">
+        <rect x="0" y="0" width="75" height="50" fill="#f5f3ff" rx="4" stroke="#7c3aed"/>
+        <text x="37" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Classify</text>
+        <text x="37" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">ML/DL</text>
+        <text x="37" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Model</text>
+      </g>
+
+      <text x="387" y="25" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 5 -->
+      <g transform="translate(400, 0)">
+        <rect x="0" y="0" width="75" height="50" fill="#fef3c7" rx="4" stroke="#f59e0b"/>
+        <text x="37" y="20" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Diagnose</text>
+        <text x="37" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Report</text>
+        <text x="37" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">CAD assist</text>
+      </g>
+    </g>
+
+    <!-- Key libraries -->
+    <g transform="translate(20, 105)">
+      <rect x="0" y="0" width="480" height="22" fill="#f1f5f9" rx="3"/>
+      <text x="240" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Libraries: scikit-image, pyradiomics, SimpleITK, MONAI (deep learning)</text>
+    </g>
+  </g>
+</svg>

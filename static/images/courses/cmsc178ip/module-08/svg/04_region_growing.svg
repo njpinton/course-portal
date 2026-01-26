@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Region growing segmentation algorithm">
+  <title>Region Growing Segmentation</title>
+  <desc>Step-by-step visualization of the region growing algorithm for image segmentation starting from seed points</desc>
+
+  <defs>
+    <linearGradient id="rgBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#rgBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Region Growing Segmentation</text>
+
+  <!-- Algorithm steps visualization -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="790" height="165" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="395" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Growing Process</text>
+
+    <!-- Step 1: Initial -->
+    <g transform="translate(20, 40)">
+      <text x="55" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Step 1: Seed</text>
+      <rect x="0" y="10" width="110" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <!-- Grid -->
+      <g transform="translate(5, 15)">
+        <g stroke="#e5e7eb">
+          <line x1="0" y1="0" x2="100" y2="0"/>
+          <line x1="0" y1="17" x2="100" y2="17"/>
+          <line x1="0" y1="34" x2="100" y2="34"/>
+          <line x1="0" y1="51" x2="100" y2="51"/>
+          <line x1="0" y1="68" x2="100" y2="68"/>
+          <line x1="0" y1="85" x2="100" y2="85"/>
+          <line x1="0" y1="0" x2="0" y2="85"/>
+          <line x1="17" y1="0" x2="17" y2="85"/>
+          <line x1="34" y1="0" x2="34" y2="85"/>
+          <line x1="51" y1="0" x2="51" y2="85"/>
+          <line x1="68" y1="0" x2="68" y2="85"/>
+          <line x1="85" y1="0" x2="85" y2="85"/>
+          <line x1="100" y1="0" x2="100" y2="85"/>
+        </g>
+        <!-- Seed point -->
+        <circle cx="50" cy="42" r="6" fill="#ef4444"/>
+        <text x="50" y="46" fill="white" font-family="Segoe UI, sans-serif" font-size="6" text-anchor="middle">S</text>
+      </g>
+      <text x="55" y="118" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Place seed point</text>
+    </g>
+
+    <!-- Arrow -->
+    <text x="145" y="90" fill="#333" font-family="Segoe UI, sans-serif" font-size="18">→</text>
+
+    <!-- Step 2: Check neighbors -->
+    <g transform="translate(170, 40)">
+      <text x="55" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Step 2: Check</text>
+      <rect x="0" y="10" width="110" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <g transform="translate(5, 15)">
+        <g stroke="#e5e7eb">
+          <line x1="0" y1="0" x2="100" y2="0"/>
+          <line x1="0" y1="17" x2="100" y2="17"/>
+          <line x1="0" y1="34" x2="100" y2="34"/>
+          <line x1="0" y1="51" x2="100" y2="51"/>
+          <line x1="0" y1="68" x2="100" y2="68"/>
+          <line x1="0" y1="85" x2="100" y2="85"/>
+          <line x1="0" y1="0" x2="0" y2="85"/>
+          <line x1="17" y1="0" x2="17" y2="85"/>
+          <line x1="34" y1="0" x2="34" y2="85"/>
+          <line x1="51" y1="0" x2="51" y2="85"/>
+          <line x1="68" y1="0" x2="68" y2="85"/>
+          <line x1="85" y1="0" x2="85" y2="85"/>
+          <line x1="100" y1="0" x2="100" y2="85"/>
+        </g>
+        <!-- Seed and neighbors highlighted -->
+        <rect x="34" y="25" width="17" height="17" fill="#fbbf24" opacity="0.5"/>
+        <rect x="51" y="25" width="17" height="17" fill="#fbbf24" opacity="0.5"/>
+        <rect x="34" y="42" width="17" height="17" fill="#fbbf24" opacity="0.5"/>
+        <rect x="51" y="42" width="17" height="17" fill="#fbbf24" opacity="0.5"/>
+        <circle cx="50" cy="42" r="6" fill="#ef4444"/>
+      </g>
+      <text x="55" y="118" fill="#fbbf24" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">4-connected neighbors</text>
+    </g>
+
+    <!-- Arrow -->
+    <text x="295" y="90" fill="#333" font-family="Segoe UI, sans-serif" font-size="18">→</text>
+
+    <!-- Step 3: Add similar -->
+    <g transform="translate(320, 40)">
+      <text x="55" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Step 3: Add</text>
+      <rect x="0" y="10" width="110" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <g transform="translate(5, 15)">
+        <g stroke="#e5e7eb">
+          <line x1="0" y1="0" x2="100" y2="0"/>
+          <line x1="0" y1="17" x2="100" y2="17"/>
+          <line x1="0" y1="34" x2="100" y2="34"/>
+          <line x1="0" y1="51" x2="100" y2="51"/>
+          <line x1="0" y1="68" x2="100" y2="68"/>
+          <line x1="0" y1="85" x2="100" y2="85"/>
+          <line x1="0" y1="0" x2="0" y2="85"/>
+          <line x1="17" y1="0" x2="17" y2="85"/>
+          <line x1="34" y1="0" x2="34" y2="85"/>
+          <line x1="51" y1="0" x2="51" y2="85"/>
+          <line x1="68" y1="0" x2="68" y2="85"/>
+          <line x1="85" y1="0" x2="85" y2="85"/>
+          <line x1="100" y1="0" x2="100" y2="85"/>
+        </g>
+        <!-- Growing region -->
+        <rect x="34" y="25" width="34" height="34" fill="#10b981" opacity="0.5"/>
+        <circle cx="42" cy="34" r="3" fill="#10b981"/>
+        <circle cx="59" cy="34" r="3" fill="#10b981"/>
+        <circle cx="42" cy="51" r="3" fill="#10b981"/>
+        <circle cx="59" cy="51" r="3" fill="#10b981"/>
+        <circle cx="50" cy="42" r="6" fill="#ef4444"/>
+      </g>
+      <text x="55" y="118" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Similar pixels added</text>
+    </g>
+
+    <!-- Arrow -->
+    <text x="445" y="90" fill="#333" font-family="Segoe UI, sans-serif" font-size="18">→</text>
+
+    <!-- Step 4: Continue -->
+    <g transform="translate(470, 40)">
+      <text x="55" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Step 4: Grow</text>
+      <rect x="0" y="10" width="110" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <g transform="translate(5, 15)">
+        <g stroke="#e5e7eb">
+          <line x1="0" y1="0" x2="100" y2="0"/>
+          <line x1="0" y1="17" x2="100" y2="17"/>
+          <line x1="0" y1="34" x2="100" y2="34"/>
+          <line x1="0" y1="51" x2="100" y2="51"/>
+          <line x1="0" y1="68" x2="100" y2="68"/>
+          <line x1="0" y1="85" x2="100" y2="85"/>
+          <line x1="0" y1="0" x2="0" y2="85"/>
+          <line x1="17" y1="0" x2="17" y2="85"/>
+          <line x1="34" y1="0" x2="34" y2="85"/>
+          <line x1="51" y1="0" x2="51" y2="85"/>
+          <line x1="68" y1="0" x2="68" y2="85"/>
+          <line x1="85" y1="0" x2="85" y2="85"/>
+          <line x1="100" y1="0" x2="100" y2="85"/>
+        </g>
+        <!-- Larger growing region -->
+        <rect x="17" y="17" width="68" height="51" fill="#10b981" opacity="0.5"/>
+        <circle cx="50" cy="42" r="6" fill="#ef4444"/>
+      </g>
+      <text x="55" y="118" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Continue until stop</text>
+    </g>
+
+    <!-- Arrow -->
+    <text x="595" y="90" fill="#333" font-family="Segoe UI, sans-serif" font-size="18">→</text>
+
+    <!-- Step 5: Final -->
+    <g transform="translate(620, 40)">
+      <text x="70" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Step 5: Result</text>
+      <rect x="0" y="10" width="140" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <g transform="translate(5, 15)">
+        <!-- Final segmented image -->
+        <rect x="0" y="0" width="130" height="85" fill="#e5e7eb" rx="2"/>
+        <!-- Segmented region -->
+        <ellipse cx="65" cy="45" rx="45" ry="35" fill="#10b981" opacity="0.7"/>
+        <circle cx="65" cy="45" r="4" fill="#ef4444"/>
+      </g>
+      <text x="70" y="118" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Final segmented region</text>
+    </g>
+  </g>
+
+  <!-- Algorithm details -->
+  <g transform="translate(30, 235)">
+    <rect x="0" y="0" width="400" height="140" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="200" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Similarity Criteria</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Criteria options -->
+      <g>
+        <rect x="0" y="0" width="175" height="35" fill="#d1fae5" rx="4"/>
+        <text x="87" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Intensity Difference</text>
+        <text x="87" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">|I(x,y) - I(seed)| &lt; T</text>
+      </g>
+
+      <g transform="translate(185, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#d1fae5" rx="4"/>
+        <text x="87" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Region Mean</text>
+        <text x="87" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">|I(x,y) - μ_region| &lt; T</text>
+      </g>
+
+      <!-- Connectivity -->
+      <g transform="translate(0, 50)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Connectivity:</text>
+        <rect x="85" y="0" width="70" height="25" fill="#dbeafe" rx="3"/>
+        <text x="120" y="16" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">4-connected</text>
+        <rect x="165" y="0" width="70" height="25" fill="#dbeafe" rx="3"/>
+        <text x="200" y="16" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">8-connected</text>
+      </g>
+
+      <!-- Stop condition -->
+      <g transform="translate(0, 80)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Stop when:</text>
+        <text x="70" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">No more pixels meet similarity criteria</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code and considerations -->
+  <g transform="translate(445, 235)">
+    <rect x="0" y="0" width="375" height="140" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="187" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Implementation Notes</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Pros -->
+      <g>
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Advantages:</text>
+        <text x="0" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Conceptually simple</text>
+        <text x="0" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Can segment irregular shapes</text>
+        <text x="0" y="41" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Multiple seed points possible</text>
+      </g>
+
+      <!-- Cons -->
+      <g transform="translate(175, 0)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Challenges:</text>
+        <text x="0" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">✗ Manual seed selection</text>
+        <text x="0" y="28" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">✗ Threshold sensitivity</text>
+        <text x="0" y="41" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">✗ Sequential processing</text>
+      </g>
+
+      <!-- Code -->
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="345" height="30" fill="#1e293b" rx="4"/>
+        <text x="10" y="12" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># scikit-image</text>
+        <text x="10" y="24" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">from skimage.segmentation import flood_fill</text>
+      </g>
+    </g>
+  </g>
+</svg>

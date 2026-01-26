@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Morphological structuring elements">
+  <title>Structuring Elements</title>
+  <desc>Common structuring element shapes for morphological operations including square, cross, ellipse, and custom shapes</desc>
+
+  <defs>
+    <linearGradient id="seBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#seBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Structuring Elements (SE)</text>
+
+  <!-- Square/Rectangle SE -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="190" height="150" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="95" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MORPH_RECT</text>
+
+    <g transform="translate(30, 40)">
+      <!-- 5x5 square SE -->
+      <g transform="translate(0, 0)">
+        <g fill="#3b82f6">
+          <rect x="0" y="0" width="18" height="18" stroke="white"/>
+          <rect x="18" y="0" width="18" height="18" stroke="white"/>
+          <rect x="36" y="0" width="18" height="18" stroke="white"/>
+          <rect x="54" y="0" width="18" height="18" stroke="white"/>
+          <rect x="72" y="0" width="18" height="18" stroke="white"/>
+          <rect x="0" y="18" width="18" height="18" stroke="white"/>
+          <rect x="18" y="18" width="18" height="18" stroke="white"/>
+          <rect x="36" y="18" width="18" height="18" stroke="white"/>
+          <rect x="54" y="18" width="18" height="18" stroke="white"/>
+          <rect x="72" y="18" width="18" height="18" stroke="white"/>
+          <rect x="0" y="36" width="18" height="18" stroke="white"/>
+          <rect x="18" y="36" width="18" height="18" stroke="white"/>
+          <rect x="36" y="36" width="18" height="18" stroke="white" fill="#1d4ed8"/>
+          <rect x="54" y="36" width="18" height="18" stroke="white"/>
+          <rect x="72" y="36" width="18" height="18" stroke="white"/>
+          <rect x="0" y="54" width="18" height="18" stroke="white"/>
+          <rect x="18" y="54" width="18" height="18" stroke="white"/>
+          <rect x="36" y="54" width="18" height="18" stroke="white"/>
+          <rect x="54" y="54" width="18" height="18" stroke="white"/>
+          <rect x="72" y="54" width="18" height="18" stroke="white"/>
+          <rect x="0" y="72" width="18" height="18" stroke="white"/>
+          <rect x="18" y="72" width="18" height="18" stroke="white"/>
+          <rect x="36" y="72" width="18" height="18" stroke="white"/>
+          <rect x="54" y="72" width="18" height="18" stroke="white"/>
+          <rect x="72" y="72" width="18" height="18" stroke="white"/>
+        </g>
+        <text x="45" y="103" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">5×5</text>
+      </g>
+
+      <!-- Description -->
+      <g transform="translate(100, 15)">
+        <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Use for:</text>
+        <text x="0" y="14" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• General purpose</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• All directions</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Noise removal</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Cross SE -->
+  <g transform="translate(235, 60)">
+    <rect x="0" y="0" width="190" height="150" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="95" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MORPH_CROSS</text>
+
+    <g transform="translate(30, 40)">
+      <!-- 5x5 cross SE -->
+      <g transform="translate(0, 0)">
+        <g fill="#e5e7eb">
+          <rect x="0" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="72" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="72" width="18" height="18" stroke="#ccc"/>
+          <rect x="18" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="54" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="18" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="18" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="54" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="54" width="18" height="18" stroke="#ccc"/>
+          <rect x="18" y="72" width="18" height="18" stroke="#ccc"/>
+          <rect x="54" y="72" width="18" height="18" stroke="#ccc"/>
+        </g>
+        <g fill="#10b981">
+          <rect x="36" y="0" width="18" height="18" stroke="white"/>
+          <rect x="36" y="18" width="18" height="18" stroke="white"/>
+          <rect x="0" y="36" width="18" height="18" stroke="white"/>
+          <rect x="18" y="36" width="18" height="18" stroke="white"/>
+          <rect x="36" y="36" width="18" height="18" stroke="white" fill="#059669"/>
+          <rect x="54" y="36" width="18" height="18" stroke="white"/>
+          <rect x="72" y="36" width="18" height="18" stroke="white"/>
+          <rect x="36" y="54" width="18" height="18" stroke="white"/>
+          <rect x="36" y="72" width="18" height="18" stroke="white"/>
+        </g>
+        <text x="45" y="103" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">5×5</text>
+      </g>
+
+      <!-- Description -->
+      <g transform="translate(100, 15)">
+        <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Use for:</text>
+        <text x="0" y="14" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• 4-connectivity</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Thin line extract</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Less aggressive</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Ellipse SE -->
+  <g transform="translate(440, 60)">
+    <rect x="0" y="0" width="190" height="150" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="95" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MORPH_ELLIPSE</text>
+
+    <g transform="translate(30, 40)">
+      <!-- 5x5 ellipse SE -->
+      <g transform="translate(0, 0)">
+        <g fill="#e5e7eb">
+          <rect x="0" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="72" width="18" height="18" stroke="#ccc"/>
+          <rect x="72" y="72" width="18" height="18" stroke="#ccc"/>
+        </g>
+        <g fill="#7c3aed">
+          <rect x="18" y="0" width="18" height="18" stroke="white"/>
+          <rect x="36" y="0" width="18" height="18" stroke="white"/>
+          <rect x="54" y="0" width="18" height="18" stroke="white"/>
+          <rect x="0" y="18" width="18" height="18" stroke="white"/>
+          <rect x="18" y="18" width="18" height="18" stroke="white"/>
+          <rect x="36" y="18" width="18" height="18" stroke="white"/>
+          <rect x="54" y="18" width="18" height="18" stroke="white"/>
+          <rect x="72" y="18" width="18" height="18" stroke="white"/>
+          <rect x="0" y="36" width="18" height="18" stroke="white"/>
+          <rect x="18" y="36" width="18" height="18" stroke="white"/>
+          <rect x="36" y="36" width="18" height="18" stroke="white" fill="#6d28d9"/>
+          <rect x="54" y="36" width="18" height="18" stroke="white"/>
+          <rect x="72" y="36" width="18" height="18" stroke="white"/>
+          <rect x="0" y="54" width="18" height="18" stroke="white"/>
+          <rect x="18" y="54" width="18" height="18" stroke="white"/>
+          <rect x="36" y="54" width="18" height="18" stroke="white"/>
+          <rect x="54" y="54" width="18" height="18" stroke="white"/>
+          <rect x="72" y="54" width="18" height="18" stroke="white"/>
+          <rect x="18" y="72" width="18" height="18" stroke="white"/>
+          <rect x="36" y="72" width="18" height="18" stroke="white"/>
+          <rect x="54" y="72" width="18" height="18" stroke="white"/>
+        </g>
+        <text x="45" y="103" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">5×5</text>
+      </g>
+
+      <!-- Description -->
+      <g transform="translate(100, 15)">
+        <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Use for:</text>
+        <text x="0" y="14" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Smooth contours</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Round objects</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Natural shapes</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Custom SE -->
+  <g transform="translate(645, 60)">
+    <rect x="0" y="0" width="175" height="150" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="87" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Custom</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Custom SE (line) -->
+      <g transform="translate(0, 0)">
+        <g fill="#e5e7eb">
+          <rect x="0" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="18" width="18" height="18" stroke="#ccc"/>
+          <rect x="0" y="36" width="18" height="18" stroke="#ccc"/>
+          <rect x="18" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="36" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="54" y="0" width="18" height="18" stroke="#ccc"/>
+          <rect x="54" y="18" width="18" height="18" stroke="#ccc"/>
+          <rect x="54" y="36" width="18" height="18" stroke="#ccc"/>
+        </g>
+        <g fill="#f97316">
+          <rect x="36" y="18" width="18" height="18" stroke="white"/>
+          <rect x="18" y="36" width="18" height="18" stroke="white" fill="#ea580c"/>
+          <rect x="36" y="36" width="18" height="18" stroke="white"/>
+        </g>
+        <text x="36" y="70" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Diagonal</text>
+      </g>
+
+      <!-- Description -->
+      <g transform="translate(82, 5)">
+        <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Use for:</text>
+        <text x="0" y="14" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Directional</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Line detection</text>
+        <text x="0" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Special apps</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code examples -->
+  <g transform="translate(30, 225)">
+    <rect x="0" y="0" width="790" height="150" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="395" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Creating Structuring Elements in OpenCV</text>
+
+    <g transform="translate(20, 42)">
+      <rect x="0" y="0" width="750" height="95" fill="#1e293b" rx="4"/>
+
+      <text x="15" y="18" fill="#a78bfa" font-family="Consolas, monospace" font-size="10"># Built-in shapes</text>
+      <text x="15" y="35" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">rect = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))</text>
+      <text x="15" y="50" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">cross = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))</text>
+      <text x="15" y="65" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">ellipse = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))</text>
+
+      <text x="400" y="18" fill="#a78bfa" font-family="Consolas, monospace" font-size="10"># Custom SE</text>
+      <text x="400" y="35" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">custom = np.array([[0, 0, 1],</text>
+      <text x="400" y="50" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">                   [0, 1, 0],</text>
+      <text x="400" y="65" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">                   [1, 0, 0]], dtype=np.uint8)</text>
+
+      <text x="15" y="85" fill="#6ee7b7" font-family="Consolas, monospace" font-size="10"># Size typically odd: 3×3, 5×5, 7×7, etc.</text>
+    </g>
+  </g>
+</svg>

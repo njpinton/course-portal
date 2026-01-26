@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="CNN convolution operation showing kernel sliding over input to produce feature map">
+  <title>CNN Convolution Operation</title>
+  <desc>Visual demonstration of how a convolutional kernel slides over an input image to produce a feature map with element-wise multiplication and summation</desc>
+
+  <defs>
+    <linearGradient id="convBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#convBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">2D Convolution Operation in CNNs</text>
+
+  <!-- Main visualization -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="530" height="320" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="265" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Convolution: Input × Kernel = Feature Map</text>
+
+    <!-- Input matrix (5x5) -->
+    <g transform="translate(30, 50)">
+      <text x="60" y="0" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Input (5×5)</text>
+
+      <!-- Grid -->
+      <g fill="#f8f9fa" stroke="#ddd">
+        <rect x="0" y="10" width="24" height="24"/>
+        <rect x="24" y="10" width="24" height="24"/>
+        <rect x="48" y="10" width="24" height="24"/>
+        <rect x="72" y="10" width="24" height="24"/>
+        <rect x="96" y="10" width="24" height="24"/>
+
+        <rect x="0" y="34" width="24" height="24"/>
+        <rect x="24" y="34" width="24" height="24"/>
+        <rect x="48" y="34" width="24" height="24"/>
+        <rect x="72" y="34" width="24" height="24"/>
+        <rect x="96" y="34" width="24" height="24"/>
+
+        <rect x="0" y="58" width="24" height="24"/>
+        <rect x="24" y="58" width="24" height="24"/>
+        <rect x="48" y="58" width="24" height="24"/>
+        <rect x="72" y="58" width="24" height="24"/>
+        <rect x="96" y="58" width="24" height="24"/>
+
+        <rect x="0" y="82" width="24" height="24"/>
+        <rect x="24" y="82" width="24" height="24"/>
+        <rect x="48" y="82" width="24" height="24"/>
+        <rect x="72" y="82" width="24" height="24"/>
+        <rect x="96" y="82" width="24" height="24"/>
+
+        <rect x="0" y="106" width="24" height="24"/>
+        <rect x="24" y="106" width="24" height="24"/>
+        <rect x="48" y="106" width="24" height="24"/>
+        <rect x="72" y="106" width="24" height="24"/>
+        <rect x="96" y="106" width="24" height="24"/>
+      </g>
+
+      <!-- Highlighted region (3x3 at position 0,0) -->
+      <rect x="0" y="10" width="72" height="72" fill="none" stroke="#3b82f6" stroke-width="3"/>
+
+      <!-- Values -->
+      <g font-family="Consolas, monospace" font-size="9" text-anchor="middle">
+        <text x="12" y="26" fill="#3b82f6" font-weight="600">1</text>
+        <text x="36" y="26" fill="#3b82f6" font-weight="600">2</text>
+        <text x="60" y="26" fill="#3b82f6" font-weight="600">1</text>
+        <text x="84" y="26" fill="#666">0</text>
+        <text x="108" y="26" fill="#666">2</text>
+
+        <text x="12" y="50" fill="#3b82f6" font-weight="600">0</text>
+        <text x="36" y="50" fill="#3b82f6" font-weight="600">1</text>
+        <text x="60" y="50" fill="#3b82f6" font-weight="600">2</text>
+        <text x="84" y="50" fill="#666">1</text>
+        <text x="108" y="50" fill="#666">0</text>
+
+        <text x="12" y="74" fill="#3b82f6" font-weight="600">1</text>
+        <text x="36" y="74" fill="#3b82f6" font-weight="600">0</text>
+        <text x="60" y="74" fill="#3b82f6" font-weight="600">1</text>
+        <text x="84" y="74" fill="#666">2</text>
+        <text x="108" y="74" fill="#666">1</text>
+
+        <text x="12" y="98" fill="#666">2</text>
+        <text x="36" y="98" fill="#666">1</text>
+        <text x="60" y="98" fill="#666">0</text>
+        <text x="84" y="98" fill="#666">1</text>
+        <text x="108" y="98" fill="#666">2</text>
+
+        <text x="12" y="122" fill="#666">0</text>
+        <text x="36" y="122" fill="#666">1</text>
+        <text x="60" y="122" fill="#666">1</text>
+        <text x="84" y="122" fill="#666">0</text>
+        <text x="108" y="122" fill="#666">1</text>
+      </g>
+    </g>
+
+    <!-- Kernel (3x3) -->
+    <g transform="translate(175, 50)">
+      <text x="36" y="0" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Kernel (3×3)</text>
+
+      <g fill="#d1fae5" stroke="#10b981" stroke-width="1.5">
+        <rect x="0" y="10" width="24" height="24"/>
+        <rect x="24" y="10" width="24" height="24"/>
+        <rect x="48" y="10" width="24" height="24"/>
+        <rect x="0" y="34" width="24" height="24"/>
+        <rect x="24" y="34" width="24" height="24"/>
+        <rect x="48" y="34" width="24" height="24"/>
+        <rect x="0" y="58" width="24" height="24"/>
+        <rect x="24" y="58" width="24" height="24"/>
+        <rect x="48" y="58" width="24" height="24"/>
+      </g>
+
+      <g font-family="Consolas, monospace" font-size="10" text-anchor="middle" fill="#10b981" font-weight="600">
+        <text x="12" y="27">1</text>
+        <text x="36" y="27">0</text>
+        <text x="60" y="27">-1</text>
+        <text x="12" y="51">1</text>
+        <text x="36" y="51">0</text>
+        <text x="60" y="51">-1</text>
+        <text x="12" y="75">1</text>
+        <text x="36" y="75">0</text>
+        <text x="60" y="75">-1</text>
+      </g>
+
+      <text x="36" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(Edge detector)</text>
+    </g>
+
+    <!-- Operation symbol -->
+    <text x="290" y="95" fill="#333" font-family="Segoe UI, sans-serif" font-size="24">⊛</text>
+
+    <!-- Calculation -->
+    <g transform="translate(30, 175)">
+      <rect x="0" y="0" width="280" height="125" fill="#f8f9fa" rx="6" stroke="#ddd"/>
+      <text x="140" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Element-wise Multiplication + Sum</text>
+
+      <g font-family="Consolas, monospace" font-size="9" fill="#333">
+        <text x="15" y="40">(1×1) + (2×0) + (1×-1) +</text>
+        <text x="15" y="55">(0×1) + (1×0) + (2×-1) +</text>
+        <text x="15" y="70">(1×1) + (0×0) + (1×-1)</text>
+        <text x="15" y="90">= 1 + 0 - 1 + 0 + 0 - 2 + 1 + 0 - 1</text>
+        <text x="15" y="110" fill="#ef4444" font-weight="600">= -2</text>
+      </g>
+    </g>
+
+    <!-- Output (3x3) -->
+    <g transform="translate(340, 50)">
+      <text x="36" y="0" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Output (3×3)</text>
+
+      <g fill="#fef2f2" stroke="#ddd">
+        <rect x="0" y="10" width="24" height="24"/>
+        <rect x="24" y="10" width="24" height="24"/>
+        <rect x="48" y="10" width="24" height="24"/>
+        <rect x="0" y="34" width="24" height="24"/>
+        <rect x="24" y="34" width="24" height="24"/>
+        <rect x="48" y="34" width="24" height="24"/>
+        <rect x="0" y="58" width="24" height="24"/>
+        <rect x="24" y="58" width="24" height="24"/>
+        <rect x="48" y="58" width="24" height="24"/>
+      </g>
+
+      <!-- Highlighted output cell -->
+      <rect x="0" y="10" width="24" height="24" fill="#ef4444" stroke="#ef4444" stroke-width="2"/>
+
+      <g font-family="Consolas, monospace" font-size="10" text-anchor="middle">
+        <text x="12" y="27" fill="white" font-weight="600">-2</text>
+        <text x="36" y="27" fill="#999">?</text>
+        <text x="60" y="27" fill="#999">?</text>
+        <text x="12" y="51" fill="#999">?</text>
+        <text x="36" y="51" fill="#999">?</text>
+        <text x="60" y="51" fill="#999">?</text>
+        <text x="12" y="75" fill="#999">?</text>
+        <text x="36" y="75" fill="#999">?</text>
+        <text x="60" y="75" fill="#999">?</text>
+      </g>
+    </g>
+
+    <!-- Arrow indicating sliding -->
+    <g transform="translate(340, 135)">
+      <path d="M0,0 L60,0 M55,-5 L60,0 L55,5" stroke="#666" stroke-width="1.5" fill="none"/>
+      <text x="30" y="20" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Slide kernel</text>
+    </g>
+
+    <!-- Formula -->
+    <g transform="translate(320, 175)">
+      <rect x="0" y="0" width="180" height="125" fill="#dbeafe" rx="6"/>
+      <text x="90" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Output Size Formula</text>
+      <text x="90" y="45" fill="#333" font-family="Consolas, monospace" font-size="10" text-anchor="middle">out = (in - k + 2p)/s + 1</text>
+      <g font-family="Segoe UI, sans-serif" font-size="8" fill="#666">
+        <text x="15" y="65">in = input size</text>
+        <text x="15" y="80">k = kernel size</text>
+        <text x="15" y="95">p = padding</text>
+        <text x="15" y="110">s = stride</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Stride and Padding examples -->
+  <g transform="translate(575, 55)">
+    <rect x="0" y="0" width="245" height="155" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="122" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Stride &amp; Padding</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Stride 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="100" height="45" fill="#f5f3ff" rx="4"/>
+        <text x="50" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Stride = 1</text>
+        <text x="50" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Move 1 pixel each step</text>
+      </g>
+
+      <!-- Stride 2 -->
+      <g transform="translate(115, 0)">
+        <rect x="0" y="0" width="100" height="45" fill="#f5f3ff" rx="4"/>
+        <text x="50" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Stride = 2</text>
+        <text x="50" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Skip alternate pixels</text>
+      </g>
+
+      <!-- Padding -->
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="215" height="45" fill="#d1fae5" rx="4"/>
+        <text x="107" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Zero Padding</text>
+        <text x="107" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Add zeros around border to preserve size</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Multiple channels -->
+  <g transform="translate(575, 220)">
+    <rect x="0" y="0" width="245" height="155" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="122" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Multi-Channel Convolution</text>
+
+    <g transform="translate(15, 40)">
+      <!-- RGB input stack -->
+      <g transform="translate(0, 0)">
+        <rect x="8" y="8" width="40" height="40" fill="#fee2e2" stroke="#ef4444"/>
+        <rect x="4" y="4" width="40" height="40" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="0" y="0" width="40" height="40" fill="#dbeafe" stroke="#3b82f6"/>
+        <text x="24" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">RGB Input</text>
+        <text x="24" y="72" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(H×W×3)</text>
+      </g>
+
+      <!-- Arrow -->
+      <text x="70" y="30" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- 3D Kernel -->
+      <g transform="translate(90, 0)">
+        <rect x="8" y="8" width="30" height="30" fill="#fef3c7" stroke="#f97316"/>
+        <rect x="4" y="4" width="30" height="30" fill="#fef3c7" stroke="#f97316"/>
+        <rect x="0" y="0" width="30" height="30" fill="#fef3c7" stroke="#f97316"/>
+        <text x="19" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Kernel</text>
+        <text x="19" y="72" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(k×k×3)</text>
+      </g>
+
+      <!-- Arrow -->
+      <text x="145" y="30" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Single output -->
+      <g transform="translate(170, 5)">
+        <rect x="0" y="0" width="40" height="40" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+        <text x="20" y="55" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Feature Map</text>
+        <text x="20" y="67" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(H'×W'×1)</text>
+      </g>
+    </g>
+
+    <g transform="translate(15, 110)">
+      <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• N kernels → N feature maps</text>
+      <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Kernel depth = input channels</text>
+      <text x="0" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Output channels = number of kernels</text>
+    </g>
+  </g>
+</svg>

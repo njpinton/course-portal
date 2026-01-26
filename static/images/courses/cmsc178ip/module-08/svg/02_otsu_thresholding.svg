@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Otsu's automatic thresholding method">
+  <title>Otsu's Thresholding</title>
+  <desc>Visualization of Otsu's method for automatic threshold selection based on minimizing intra-class variance</desc>
+
+  <defs>
+    <linearGradient id="otsuBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#otsuBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Otsu's Automatic Thresholding</text>
+
+  <!-- Concept -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="400" height="155" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="200" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Finding Optimal Threshold</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Bimodal histogram -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="170" height="95" fill="#f8f9fa" rx="4"/>
+        <!-- Axes -->
+        <line x1="20" y1="80" x2="160" y2="80" stroke="#333" stroke-width="1"/>
+        <line x1="20" y1="10" x2="20" y2="80" stroke="#333" stroke-width="1"/>
+
+        <!-- First peak (background) -->
+        <path d="M30,75 Q45,30 60,75" fill="#3b82f6" opacity="0.5"/>
+        <!-- Second peak (foreground) -->
+        <path d="M100,75 Q120,25 140,75" fill="#ef4444" opacity="0.5"/>
+
+        <!-- Optimal threshold line -->
+        <line x1="80" y1="10" x2="80" y2="80" stroke="#10b981" stroke-width="2" stroke-dasharray="4,2"/>
+
+        <!-- Labels -->
+        <text x="45" y="88" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Class 0</text>
+        <text x="120" y="88" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Class 1</text>
+        <text x="80" y="8" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">T*</text>
+      </g>
+
+      <!-- Explanation -->
+      <g transform="translate(185, 0)">
+        <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Goal:</text>
+        <text x="0" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Find T that minimizes</text>
+        <text x="0" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">within-class variance</text>
+
+        <text x="0" y="70" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Equivalent to:</text>
+        <text x="0" y="87" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">Maximize between-class</text>
+        <text x="0" y="100" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">variance σ²_B</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Formula -->
+  <g transform="translate(440, 55)">
+    <rect x="0" y="0" width="380" height="155" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="190" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Mathematical Formulation</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Between-class variance formula -->
+      <rect x="0" y="0" width="350" height="50" fill="#f5f3ff" rx="4"/>
+      <text x="175" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle" font-weight="600">Between-class variance:</text>
+      <text x="175" y="40" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">σ²_B(T) = ω₀(T) · ω₁(T) · [μ₀(T) - μ₁(T)]²</text>
+
+      <!-- Variables explanation -->
+      <g transform="translate(0, 60)">
+        <g font-family="Segoe UI, sans-serif" font-size="9">
+          <text x="0" y="12" fill="#666">ω₀, ω₁ = class probabilities (weights)</text>
+          <text x="0" y="27" fill="#666">μ₀, μ₁ = class mean intensities</text>
+          <text x="0" y="42" fill="#666">T* = argmax σ²_B(T)</text>
+          <text x="200" y="42" fill="#10b981" font-weight="600">← Optimal threshold</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Algorithm Steps -->
+  <g transform="translate(30, 225)">
+    <rect x="0" y="0" width="530" height="150" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="265" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Otsu's Algorithm Steps</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Step boxes -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="90" height="55" fill="#d1fae5" rx="4"/>
+        <text x="45" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Step 1</text>
+        <text x="45" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Compute</text>
+        <text x="45" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">histogram</text>
+      </g>
+
+      <text x="100" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <g transform="translate(115, 0)">
+        <rect x="0" y="0" width="90" height="55" fill="#d1fae5" rx="4"/>
+        <text x="45" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Step 2</text>
+        <text x="45" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">For each T</text>
+        <text x="45" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(0-255)</text>
+      </g>
+
+      <text x="215" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <g transform="translate(230, 0)">
+        <rect x="0" y="0" width="90" height="55" fill="#d1fae5" rx="4"/>
+        <text x="45" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Step 3</text>
+        <text x="45" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Compute</text>
+        <text x="45" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">σ²_B(T)</text>
+      </g>
+
+      <text x="330" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <g transform="translate(345, 0)">
+        <rect x="0" y="0" width="90" height="55" fill="#d1fae5" rx="4"/>
+        <text x="45" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Step 4</text>
+        <text x="45" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Find T with</text>
+        <text x="45" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">max σ²_B</text>
+      </g>
+
+      <text x="445" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <g transform="translate(460, 0)">
+        <rect x="0" y="0" width="50" height="55" fill="#10b981" rx="4"/>
+        <text x="25" y="22" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">T*</text>
+        <text x="25" y="40" fill="#d1fae5" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Result</text>
+      </g>
+    </g>
+
+    <!-- Code -->
+    <g transform="translate(20, 110)">
+      <rect x="0" y="0" width="490" height="28" fill="#1e293b" rx="4"/>
+      <text x="10" y="18" fill="#a78bfa" font-family="Consolas, monospace" font-size="10">thresh, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)</text>
+    </g>
+  </g>
+
+  <!-- Variance Plot -->
+  <g transform="translate(575, 225)">
+    <rect x="0" y="0" width="245" height="150" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="122" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">σ²_B vs Threshold</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Axes -->
+      <line x1="0" y1="85" x2="195" y2="85" stroke="#333" stroke-width="1"/>
+      <line x1="0" y1="0" x2="0" y2="85" stroke="#333" stroke-width="1"/>
+
+      <!-- Variance curve -->
+      <path d="M0,80 Q30,75 60,50 Q90,10 120,10 Q140,10 150,35 Q170,60 195,75" fill="none" stroke="#ef4444" stroke-width="2"/>
+
+      <!-- Maximum point -->
+      <circle cx="120" cy="10" r="5" fill="#10b981"/>
+      <line x1="120" y1="10" x2="120" y2="85" stroke="#10b981" stroke-width="1" stroke-dasharray="3,3"/>
+
+      <!-- Labels -->
+      <text x="97" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Threshold (0-255)</text>
+      <text x="-8" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" transform="rotate(-90, -8, 45)">σ²_B</text>
+      <text x="120" y="108" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">T* = 127</text>
+    </g>
+  </g>
+</svg>

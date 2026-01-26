@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Perceptron architecture diagram showing inputs, weights, summation, and activation">
+  <title>Perceptron Diagram</title>
+  <desc>Single-layer perceptron showing input nodes, weighted connections, summation, bias, activation function, and output</desc>
+
+  <defs>
+    <linearGradient id="percBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#percBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">The Perceptron: Building Block of Neural Networks</text>
+
+  <!-- Main diagram -->
+  <g transform="translate(50, 60)">
+    <!-- Input layer -->
+    <g transform="translate(0, 50)">
+      <text x="40" y="-25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Inputs</text>
+
+      <!-- x1 -->
+      <circle cx="40" cy="0" r="25" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="40" y="5" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">x₁</text>
+
+      <!-- x2 -->
+      <circle cx="40" cy="80" r="25" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="40" y="85" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">x₂</text>
+
+      <!-- x3 -->
+      <circle cx="40" cy="160" r="25" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+      <text x="40" y="165" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">x₃</text>
+
+      <!-- Bias node -->
+      <circle cx="40" cy="240" r="20" fill="#fef3c7" stroke="#f97316" stroke-width="2"/>
+      <text x="40" y="245" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">1</text>
+      <text x="40" y="275" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(bias)</text>
+    </g>
+
+    <!-- Weights -->
+    <g transform="translate(65, 50)">
+      <!-- w1 connection -->
+      <line x1="0" y1="0" x2="145" y2="100" stroke="#666" stroke-width="2"/>
+      <text x="55" y="35" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">w₁</text>
+
+      <!-- w2 connection -->
+      <line x1="0" y1="80" x2="145" y2="100" stroke="#666" stroke-width="2"/>
+      <text x="55" y="95" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">w₂</text>
+
+      <!-- w3 connection -->
+      <line x1="0" y1="160" x2="145" y2="100" stroke="#666" stroke-width="2"/>
+      <text x="55" y="150" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">w₃</text>
+
+      <!-- bias connection -->
+      <line x1="0" y1="240" x2="145" y2="100" stroke="#f97316" stroke-width="2" stroke-dasharray="5,3"/>
+      <text x="55" y="195" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">b</text>
+    </g>
+
+    <!-- Summation node -->
+    <g transform="translate(210, 150)">
+      <circle cx="0" cy="0" r="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+      <text x="0" y="5" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Σ</text>
+      <text x="0" y="55" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Weighted Sum</text>
+    </g>
+
+    <!-- Arrow to activation -->
+    <line x1="245" y1="150" x2="295" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="270" y="140" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">z</text>
+
+    <!-- Activation function -->
+    <g transform="translate(300, 115)">
+      <rect x="0" y="0" width="80" height="70" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2" rx="8"/>
+      <text x="40" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Activation</text>
+      <text x="40" y="45" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">φ(z)</text>
+      <text x="40" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Step/Sigmoid</text>
+    </g>
+
+    <!-- Arrow to output -->
+    <line x1="380" y1="150" x2="430" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Output -->
+    <g transform="translate(435, 125)">
+      <circle cx="25" cy="25" r="30" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+      <text x="25" y="30" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">ŷ</text>
+      <text x="25" y="75" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Output</text>
+    </g>
+  </g>
+
+  <!-- Mathematical formulation -->
+  <g transform="translate(530, 70)">
+    <rect x="0" y="0" width="290" height="130" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="145" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Mathematical Formulation</text>
+
+    <text x="20" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="11">1. Weighted sum:</text>
+    <text x="30" y="70" fill="#10b981" font-family="Consolas, monospace" font-size="12">z = Σ wᵢxᵢ + b</text>
+
+    <text x="20" y="95" fill="#333" font-family="Segoe UI, sans-serif" font-size="11">2. Activation:</text>
+    <text x="30" y="115" fill="#7c3aed" font-family="Consolas, monospace" font-size="12">ŷ = φ(z)</text>
+  </g>
+
+  <!-- Activation functions -->
+  <g transform="translate(530, 210)">
+    <rect x="0" y="0" width="290" height="165" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="145" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Common Activation Functions</text>
+
+    <!-- Step function -->
+    <g transform="translate(15, 40)">
+      <rect x="0" y="0" width="80" height="50" fill="#f8f9fa" rx="4"/>
+      <polyline points="10,40 40,40 40,15 70,15" fill="none" stroke="#3b82f6" stroke-width="2"/>
+      <text x="40" y="65" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Step</text>
+    </g>
+
+    <!-- Sigmoid -->
+    <g transform="translate(105, 40)">
+      <rect x="0" y="0" width="80" height="50" fill="#f8f9fa" rx="4"/>
+      <path d="M10,40 Q25,40 40,25 Q55,10 70,10" fill="none" stroke="#10b981" stroke-width="2"/>
+      <text x="40" y="65" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Sigmoid</text>
+    </g>
+
+    <!-- ReLU -->
+    <g transform="translate(195, 40)">
+      <rect x="0" y="0" width="80" height="50" fill="#f8f9fa" rx="4"/>
+      <polyline points="10,40 40,40 70,10" fill="none" stroke="#f97316" stroke-width="2"/>
+      <text x="40" y="65" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">ReLU</text>
+    </g>
+
+    <!-- Historical note -->
+    <g transform="translate(15, 115)">
+      <rect x="0" y="0" width="260" height="38" fill="#dbeafe" rx="4"/>
+      <text x="130" y="15" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Historical: Rosenblatt (1958)</text>
+      <text x="130" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">First algorithmically-described neural network</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Feature extraction for document analysis and OCR">
+  <title>Document Analysis Feature Extraction</title>
+  <desc>Applications of feature extraction in document analysis including text detection, layout analysis, and OCR preprocessing</desc>
+
+  <defs>
+    <linearGradient id="docBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#docBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Document Analysis &amp; OCR Features</text>
+
+  <!-- Text Detection -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="260" height="160" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="130" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Text Detection</text>
+
+    <g transform="translate(15, 38)">
+      <!-- Document with text regions -->
+      <rect x="0" y="0" width="100" height="110" fill="#f5f5f5" stroke="#ccc" rx="3"/>
+      <!-- Text lines with bounding boxes -->
+      <rect x="8" y="8" width="85" height="12" fill="#3b82f6" opacity="0.2" stroke="#3b82f6" stroke-dasharray="2,2"/>
+      <rect x="8" y="8" width="85" height="12" fill="none" stroke="#3b82f6"/>
+      <line x1="10" y1="15" x2="90" y2="15" stroke="#333" stroke-width="2"/>
+
+      <rect x="8" y="28" width="60" height="12" fill="#3b82f6" opacity="0.2"/>
+      <line x1="10" y1="35" x2="65" y2="35" stroke="#333" stroke-width="2"/>
+
+      <rect x="8" y="48" width="85" height="12" fill="#3b82f6" opacity="0.2"/>
+      <line x1="10" y1="55" x2="90" y2="55" stroke="#333" stroke-width="2"/>
+
+      <rect x="8" y="68" width="70" height="12" fill="#3b82f6" opacity="0.2"/>
+      <line x1="10" y1="75" x2="75" y2="75" stroke="#333" stroke-width="2"/>
+
+      <rect x="8" y="88" width="50" height="12" fill="#3b82f6" opacity="0.2"/>
+      <line x1="10" y1="95" x2="55" y2="95" stroke="#333" stroke-width="2"/>
+
+      <!-- Features list -->
+      <g transform="translate(115, 5)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Methods:</text>
+        <text x="0" y="16" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• MSER regions</text>
+        <text x="0" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Stroke width transform</text>
+        <text x="0" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Connected components</text>
+        <text x="0" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Edge-based detection</text>
+        <text x="0" y="72" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• EAST detector (DL)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Character Recognition -->
+  <g transform="translate(300, 55)">
+    <rect x="0" y="0" width="260" height="160" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="130" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Character Features</text>
+
+    <g transform="translate(15, 38)">
+      <!-- Character example -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="60" height="70" fill="#1a1a2e" rx="4"/>
+        <text x="30" y="50" fill="white" font-family="Georgia, serif" font-size="40" text-anchor="middle">A</text>
+      </g>
+
+      <!-- Feature arrows -->
+      <text x="70" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <!-- Feature vector representation -->
+      <g transform="translate(85, 0)">
+        <rect x="0" y="0" width="60" height="70" fill="#d1fae5" rx="4"/>
+        <!-- HOG-like cells -->
+        <g transform="translate(5, 5)">
+          <rect x="0" y="0" width="15" height="15" fill="#10b981" opacity="0.3" stroke="#10b981"/>
+          <rect x="17" y="0" width="15" height="15" fill="#10b981" opacity="0.6" stroke="#10b981"/>
+          <rect x="34" y="0" width="15" height="15" fill="#10b981" opacity="0.4" stroke="#10b981"/>
+          <rect x="0" y="17" width="15" height="15" fill="#10b981" opacity="0.7" stroke="#10b981"/>
+          <rect x="17" y="17" width="15" height="15" fill="#10b981" opacity="0.2" stroke="#10b981"/>
+          <rect x="34" y="17" width="15" height="15" fill="#10b981" opacity="0.5" stroke="#10b981"/>
+          <rect x="0" y="34" width="15" height="15" fill="#10b981" opacity="0.5" stroke="#10b981"/>
+          <rect x="17" y="34" width="15" height="15" fill="#10b981" opacity="0.8" stroke="#10b981"/>
+          <rect x="34" y="34" width="15" height="15" fill="#10b981" opacity="0.4" stroke="#10b981"/>
+        </g>
+        <text x="30" y="65" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">HOG cells</text>
+      </g>
+
+      <!-- Features -->
+      <g transform="translate(155, 5)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Features:</text>
+        <text x="0" y="16" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• HOG descriptors</text>
+        <text x="0" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Zoning features</text>
+        <text x="0" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Contour profiles</text>
+        <text x="0" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Moment invariants</text>
+      </g>
+    </g>
+
+    <rect x="15" y="135" width="230" height="18" fill="#d1fae5" rx="3"/>
+    <text x="130" y="148" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Tesseract, EasyOCR, PaddleOCR</text>
+  </g>
+
+  <!-- Layout Analysis -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="160" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="125" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Layout Analysis</text>
+
+    <g transform="translate(15, 38)">
+      <!-- Document layout -->
+      <rect x="0" y="0" width="90" height="110" fill="#f5f5f5" stroke="#ccc" rx="3"/>
+      <!-- Header -->
+      <rect x="5" y="5" width="80" height="15" fill="#7c3aed" opacity="0.3" stroke="#7c3aed"/>
+      <text x="45" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="6" text-anchor="middle">HEADER</text>
+      <!-- Two columns -->
+      <rect x="5" y="25" width="35" height="50" fill="#3b82f6" opacity="0.2" stroke="#3b82f6"/>
+      <text x="22" y="52" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="5" text-anchor="middle">TEXT</text>
+      <rect x="45" y="25" width="40" height="35" fill="#10b981" opacity="0.2" stroke="#10b981"/>
+      <text x="65" y="45" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="5" text-anchor="middle">IMAGE</text>
+      <!-- Table -->
+      <rect x="45" y="65" width="40" height="20" fill="#f97316" opacity="0.2" stroke="#f97316"/>
+      <text x="65" y="78" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="5" text-anchor="middle">TABLE</text>
+      <!-- Footer -->
+      <rect x="5" y="90" width="80" height="15" fill="#ef4444" opacity="0.2" stroke="#ef4444"/>
+      <text x="45" y="100" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="5" text-anchor="middle">FOOTER</text>
+
+      <!-- Features -->
+      <g transform="translate(105, 5)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Elements:</text>
+        <text x="0" y="16" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8">• Headers/footers</text>
+        <text x="0" y="30" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8">• Text blocks</text>
+        <text x="0" y="44" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">• Images/figures</text>
+        <text x="0" y="58" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8">• Tables</text>
+        <text x="0" y="72" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Page numbers</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Preprocessing Pipeline -->
+  <g transform="translate(30, 230)">
+    <rect x="0" y="0" width="530" height="145" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="265" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Document Preprocessing Pipeline</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Step 1: Binarization -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#dbeafe" rx="4"/>
+        <text x="40" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Binarize</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Otsu / Sauvola</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">adaptive thresh</text>
+      </g>
+
+      <text x="90" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 2: Deskew -->
+      <g transform="translate(100, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#d1fae5" rx="4"/>
+        <text x="40" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Deskew</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Hough lines</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">projection profile</text>
+      </g>
+
+      <text x="190" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 3: Denoise -->
+      <g transform="translate(200, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#fef2f2" rx="4"/>
+        <text x="40" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Denoise</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">morphological</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">median filter</text>
+      </g>
+
+      <text x="290" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 4: Segment -->
+      <g transform="translate(300, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="40" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Segment</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">line/word</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">character</text>
+      </g>
+
+      <text x="390" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 5: OCR -->
+      <g transform="translate(400, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#fef3c7" rx="4"/>
+        <text x="40" y="18" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Recognize</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">OCR engine</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">post-process</text>
+      </g>
+    </g>
+
+    <!-- Code -->
+    <g transform="translate(20, 110)">
+      <rect x="0" y="0" width="490" height="25" fill="#1e293b" rx="3"/>
+      <text x="10" y="17" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">import pytesseract; text = pytesseract.image_to_string(preprocessed_img)</text>
+    </g>
+  </g>
+
+  <!-- Handwriting Features -->
+  <g transform="translate(570, 230)">
+    <rect x="0" y="0" width="250" height="145" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="125" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Handwriting Analysis</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Handwritten sample -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="85" height="50" fill="#fffbeb" stroke="#f97316" rx="3"/>
+        <path d="M10,35 Q25,15 40,35 Q50,45 65,25 L75,40" fill="none" stroke="#333" stroke-width="2"/>
+      </g>
+
+      <!-- Features -->
+      <g transform="translate(100, 0)">
+        <text x="0" y="10" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Features:</text>
+        <text x="0" y="26" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Stroke width/slant</text>
+        <text x="0" y="40" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Curvature profiles</text>
+        <text x="0" y="54" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Pen pressure</text>
+      </g>
+    </g>
+
+    <g transform="translate(15, 100)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Applications:</text>
+      <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Writer identification • Signature verification • Historical docs</text>
+    </g>
+
+    <rect x="15" y="120" width="220" height="18" fill="#fff7ed" rx="3"/>
+    <text x="125" y="133" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">CNN + RNN for sequence recognition</text>
+  </g>
+</svg>

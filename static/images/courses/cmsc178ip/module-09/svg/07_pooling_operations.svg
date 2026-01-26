@@ -1,0 +1,267 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Pooling operations showing max pooling and average pooling">
+  <title>Pooling Operations</title>
+  <desc>Comparison of max pooling and average pooling operations showing how they reduce spatial dimensions while preserving important features</desc>
+
+  <defs>
+    <linearGradient id="poolBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#poolBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Pooling Operations: Downsampling in CNNs</text>
+
+  <!-- Max Pooling -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="395" height="170" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="197" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Max Pooling (2×2, stride=2)</text>
+
+    <g transform="translate(25, 45)">
+      <!-- Input 4x4 -->
+      <g transform="translate(0, 0)">
+        <!-- Top-left 2x2 (highlighted) -->
+        <rect x="0" y="0" width="30" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="30" y="0" width="30" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="0" y="30" width="30" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="30" y="30" width="30" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+
+        <!-- Top-right 2x2 -->
+        <rect x="60" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="90" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="60" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="90" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+
+        <!-- Bottom-left 2x2 -->
+        <rect x="0" y="60" width="30" height="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+        <rect x="30" y="60" width="30" height="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+        <rect x="0" y="90" width="30" height="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+        <rect x="30" y="90" width="30" height="30" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+
+        <!-- Bottom-right 2x2 -->
+        <rect x="60" y="60" width="30" height="30" fill="#fef3c7" stroke="#f97316" stroke-width="1.5"/>
+        <rect x="90" y="60" width="30" height="30" fill="#fef3c7" stroke="#f97316" stroke-width="1.5"/>
+        <rect x="60" y="90" width="30" height="30" fill="#fef3c7" stroke="#f97316" stroke-width="1.5"/>
+        <rect x="90" y="90" width="30" height="30" fill="#fef3c7" stroke="#f97316" stroke-width="1.5"/>
+
+        <!-- Values -->
+        <g font-family="Consolas, monospace" font-size="11" text-anchor="middle">
+          <text x="15" y="20" fill="#3b82f6">1</text>
+          <text x="45" y="20" fill="#3b82f6">3</text>
+          <text x="75" y="20" fill="#10b981">2</text>
+          <text x="105" y="20" fill="#10b981">4</text>
+
+          <text x="15" y="50" fill="#3b82f6">5</text>
+          <text x="45" y="50" fill="#3b82f6" font-weight="600">6</text>
+          <text x="75" y="50" fill="#10b981" font-weight="600">8</text>
+          <text x="105" y="50" fill="#10b981">2</text>
+
+          <text x="15" y="80" fill="#7c3aed">3</text>
+          <text x="45" y="80" fill="#7c3aed" font-weight="600">9</text>
+          <text x="75" y="80" fill="#f97316">1</text>
+          <text x="105" y="80" fill="#f97316">0</text>
+
+          <text x="15" y="110" fill="#7c3aed">7</text>
+          <text x="45" y="110" fill="#7c3aed">2</text>
+          <text x="75" y="110" fill="#f97316">3</text>
+          <text x="105" y="110" fill="#f97316" font-weight="600">5</text>
+        </g>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(140, 45)">
+        <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">max</text>
+        <path d="M30,10 L60,10 M55,5 L60,10 L55,15" stroke="#333" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Output 2x2 -->
+      <g transform="translate(210, 30)">
+        <rect x="0" y="0" width="35" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+        <rect x="35" y="0" width="35" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <rect x="0" y="35" width="35" height="35" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+        <rect x="35" y="35" width="35" height="35" fill="#fef3c7" stroke="#f97316" stroke-width="2"/>
+
+        <g font-family="Consolas, monospace" font-size="14" text-anchor="middle" font-weight="600">
+          <text x="17" y="24" fill="#3b82f6">6</text>
+          <text x="52" y="24" fill="#10b981">8</text>
+          <text x="17" y="59" fill="#7c3aed">9</text>
+          <text x="52" y="59" fill="#f97316">5</text>
+        </g>
+      </g>
+
+      <!-- Labels -->
+      <text x="60" y="-8" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Input 4×4</text>
+      <text x="245" y="-8" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Output 2×2</text>
+    </g>
+
+    <!-- Explanation -->
+    <g transform="translate(295, 55)">
+      <rect x="0" y="0" width="85" height="70" fill="#f8f9fa" rx="4"/>
+      <text x="42" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Takes max</text>
+      <text x="42" y="32" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">value from</text>
+      <text x="42" y="46" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">each 2×2</text>
+      <text x="42" y="60" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">region</text>
+    </g>
+  </g>
+
+  <!-- Average Pooling -->
+  <g transform="translate(440, 55)">
+    <rect x="0" y="0" width="380" height="170" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="190" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Average Pooling (2×2, stride=2)</text>
+
+    <g transform="translate(25, 45)">
+      <!-- Input 4x4 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="30" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="60" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="90" y="0" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+
+        <rect x="0" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="30" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="60" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="90" y="30" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+
+        <rect x="0" y="60" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="30" y="60" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="60" y="60" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="90" y="60" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+
+        <rect x="0" y="90" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="30" y="90" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="60" y="90" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+        <rect x="90" y="90" width="30" height="30" fill="#d1fae5" stroke="#10b981"/>
+
+        <!-- Highlight first region -->
+        <rect x="0" y="0" width="60" height="60" fill="none" stroke="#10b981" stroke-width="3"/>
+
+        <g font-family="Consolas, monospace" font-size="11" text-anchor="middle" fill="#10b981">
+          <text x="15" y="20">1</text>
+          <text x="45" y="20">3</text>
+          <text x="75" y="20">2</text>
+          <text x="105" y="20">4</text>
+
+          <text x="15" y="50">5</text>
+          <text x="45" y="50">6</text>
+          <text x="75" y="50">8</text>
+          <text x="105" y="50">2</text>
+
+          <text x="15" y="80">3</text>
+          <text x="45" y="80">9</text>
+          <text x="75" y="80">1</text>
+          <text x="105" y="80">0</text>
+
+          <text x="15" y="110">7</text>
+          <text x="45" y="110">2</text>
+          <text x="75" y="110">3</text>
+          <text x="105" y="110">5</text>
+        </g>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(140, 45)">
+        <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">avg</text>
+        <path d="M30,10 L60,10 M55,5 L60,10 L55,15" stroke="#333" stroke-width="1.5" fill="none"/>
+      </g>
+
+      <!-- Output 2x2 -->
+      <g transform="translate(210, 30)">
+        <rect x="0" y="0" width="35" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <rect x="35" y="0" width="35" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <rect x="0" y="35" width="35" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+        <rect x="35" y="35" width="35" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+
+        <g font-family="Consolas, monospace" font-size="12" text-anchor="middle" fill="#10b981" font-weight="600">
+          <text x="17" y="22">3.75</text>
+          <text x="52" y="22">4.0</text>
+          <text x="17" y="57">5.25</text>
+          <text x="52" y="57">2.25</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- Calculation example -->
+    <g transform="translate(270, 65)">
+      <rect x="0" y="0" width="95" height="55" fill="#f8f9fa" rx="4"/>
+      <text x="47" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(1+3+5+6)/4</text>
+      <text x="47" y="30" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">= 15/4</text>
+      <text x="47" y="45" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">= 3.75</text>
+    </g>
+  </g>
+
+  <!-- Comparison table -->
+  <g transform="translate(30, 240)">
+    <rect x="0" y="0" width="400" height="135" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="200" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Max vs Average Pooling</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Header -->
+      <g font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">
+        <rect x="0" y="0" width="80" height="22" fill="#f1f5f9"/>
+        <text x="40" y="15" fill="#333" text-anchor="middle">Property</text>
+        <rect x="80" y="0" width="145" height="22" fill="#dbeafe"/>
+        <text x="152" y="15" fill="#3b82f6" text-anchor="middle">Max Pooling</text>
+        <rect x="225" y="0" width="145" height="22" fill="#d1fae5"/>
+        <text x="297" y="15" fill="#10b981" text-anchor="middle">Average Pooling</text>
+      </g>
+
+      <!-- Rows -->
+      <g font-family="Segoe UI, sans-serif" font-size="8">
+        <rect x="0" y="22" width="80" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="40" y="38" fill="#333" text-anchor="middle">Preserves</text>
+        <rect x="80" y="22" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="152" y="38" fill="#666" text-anchor="middle">Strongest activation</text>
+        <rect x="225" y="22" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="297" y="38" fill="#666" text-anchor="middle">Overall signal</text>
+
+        <rect x="0" y="47" width="80" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="40" y="63" fill="#333" text-anchor="middle">Best for</text>
+        <rect x="80" y="47" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="152" y="63" fill="#666" text-anchor="middle">Feature detection</text>
+        <rect x="225" y="47" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="297" y="63" fill="#666" text-anchor="middle">Smooth representations</text>
+
+        <rect x="0" y="72" width="80" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="40" y="88" fill="#333" text-anchor="middle">Usage</text>
+        <rect x="80" y="72" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="152" y="88" fill="#3b82f6" font-weight="600" text-anchor="middle">Most common</text>
+        <rect x="225" y="72" width="145" height="25" fill="white" stroke="#e5e7eb"/>
+        <text x="297" y="88" fill="#666" text-anchor="middle">Less common</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Benefits -->
+  <g transform="translate(445, 240)">
+    <rect x="0" y="0" width="375" height="135" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="187" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Why Use Pooling?</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="10">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="165" height="35" fill="#d1fae5" rx="4"/>
+        <text x="10" y="14" fill="#10b981" font-weight="600">1. Reduce dimensions</text>
+        <text x="10" y="28" fill="#666" font-size="9">Less computation, fewer params</text>
+      </g>
+
+      <g transform="translate(175, 0)">
+        <rect x="0" y="0" width="170" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="14" fill="#3b82f6" font-weight="600">2. Translation invariance</text>
+        <text x="10" y="28" fill="#666" font-size="9">Robust to small shifts</text>
+      </g>
+
+      <g transform="translate(0, 45)">
+        <rect x="0" y="0" width="165" height="35" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="14" fill="#7c3aed" font-weight="600">3. Prevent overfitting</text>
+        <text x="10" y="28" fill="#666" font-size="9">Fewer features to learn</text>
+      </g>
+
+      <g transform="translate(175, 45)">
+        <rect x="0" y="0" width="170" height="35" fill="#fef3c7" rx="4"/>
+        <text x="10" y="14" fill="#f97316" font-weight="600">4. Increase receptive field</text>
+        <text x="10" y="28" fill="#666" font-size="9">See larger image regions</text>
+      </g>
+    </g>
+  </g>
+</svg>

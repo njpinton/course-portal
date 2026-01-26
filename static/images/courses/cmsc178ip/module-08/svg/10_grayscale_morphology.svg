@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Grayscale morphological operations">
+  <title>Grayscale Morphology</title>
+  <desc>Morphological operations extended to grayscale images using min/max operations</desc>
+
+  <defs>
+    <linearGradient id="gsBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#gsBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Grayscale Morphological Operations</text>
+
+  <!-- Grayscale Erosion -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="400" height="160" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="200" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Grayscale Erosion = Minimum Filter</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Intensity profile before -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="140" height="90" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+        <text x="70" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Original</text>
+        <!-- Intensity curve -->
+        <path d="M10,70 L30,70 L40,40 L50,20 L60,20 L70,20 L80,45 L90,70 L130,70" fill="none" stroke="#333" stroke-width="2"/>
+        <!-- Axis -->
+        <line x1="10" y1="75" x2="130" y2="75" stroke="#999" stroke-width="1"/>
+      </g>
+
+      <!-- Arrow -->
+      <text x="155" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <!-- After erosion -->
+      <g transform="translate(175, 0)">
+        <rect x="0" y="0" width="140" height="90" fill="#fef2f2" stroke="#ef4444" rx="4"/>
+        <text x="70" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Eroded (darker peaks)</text>
+        <!-- Eroded curve - peaks reduced -->
+        <path d="M10,70 L30,70 L45,55 L55,35 L65,35 L75,55 L85,70 L130,70" fill="none" stroke="#ef4444" stroke-width="2"/>
+        <path d="M10,70 L30,70 L40,40 L50,20 L60,20 L70,20 L80,45 L90,70 L130,70" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <line x1="10" y1="75" x2="130" y2="75" stroke="#999" stroke-width="1"/>
+      </g>
+
+      <!-- Explanation -->
+      <g transform="translate(325, 10)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Effect:</text>
+        <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Darkens image</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Shrinks bright regions</text>
+        <text x="0" y="41" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Enlarges dark regions</text>
+        <text x="0" y="60" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">ε(f) = min{f(x+s) | s ∈ B}</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Grayscale Dilation -->
+  <g transform="translate(445, 55)">
+    <rect x="0" y="0" width="375" height="160" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="187" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Grayscale Dilation = Maximum Filter</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Intensity profile before -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="130" height="90" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+        <text x="65" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Original</text>
+        <!-- Intensity curve with valley -->
+        <path d="M10,20 L30,20 L40,50 L50,70 L60,70 L70,70 L80,45 L90,20 L120,20" fill="none" stroke="#333" stroke-width="2"/>
+        <line x1="10" y1="75" x2="120" y2="75" stroke="#999" stroke-width="1"/>
+      </g>
+
+      <!-- Arrow -->
+      <text x="142" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <!-- After dilation -->
+      <g transform="translate(160, 0)">
+        <rect x="0" y="0" width="130" height="90" fill="#d1fae5" stroke="#10b981" rx="4"/>
+        <text x="65" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Dilated (brighter valleys)</text>
+        <!-- Dilated curve - valleys raised -->
+        <path d="M10,20 L30,20 L35,35 L45,55 L55,55 L75,35 L85,20 L120,20" fill="none" stroke="#10b981" stroke-width="2"/>
+        <path d="M10,20 L30,20 L40,50 L50,70 L60,70 L70,70 L80,45 L90,20 L120,20" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+        <line x1="10" y1="75" x2="120" y2="75" stroke="#999" stroke-width="1"/>
+      </g>
+
+      <!-- Explanation -->
+      <g transform="translate(300, 10)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Effect:</text>
+        <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Brightens image</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Enlarges bright</text>
+        <text x="0" y="41" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Shrinks dark</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Applications -->
+  <g transform="translate(30, 230)">
+    <rect x="0" y="0" width="530" height="145" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="265" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Grayscale Applications</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Top-hat -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="155" height="80" fill="#f5f3ff" rx="4"/>
+        <text x="77" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Top-Hat (White)</text>
+        <text x="77" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">f − open(f)</text>
+        <text x="77" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Extracts bright peaks</text>
+        <text x="77" y="66" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">smaller than SE</text>
+      </g>
+
+      <!-- Black-hat -->
+      <g transform="translate(170, 0)">
+        <rect x="0" y="0" width="155" height="80" fill="#1e293b" rx="4"/>
+        <text x="77" y="18" fill="#a78bfa" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Bottom-Hat (Black)</text>
+        <text x="77" y="35" fill="#ddd" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">close(f) − f</text>
+        <text x="77" y="52" fill="#aaa" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Extracts dark valleys</text>
+        <text x="77" y="66" fill="#aaa" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">smaller than SE</text>
+      </g>
+
+      <!-- Contrast enhancement -->
+      <g transform="translate(340, 0)">
+        <rect x="0" y="0" width="155" height="80" fill="#dbeafe" rx="4"/>
+        <text x="77" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Contrast Enhance</text>
+        <text x="77" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">f + top - bottom</text>
+        <text x="77" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Local contrast boost</text>
+        <text x="77" y="66" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">via both hats</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code -->
+  <g transform="translate(575, 230)">
+    <rect x="0" y="0" width="245" height="145" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="122" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">OpenCV Code</text>
+
+    <g transform="translate(10, 38)">
+      <rect x="0" y="0" width="225" height="95" fill="#1e293b" rx="4"/>
+      <text x="10" y="15" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Grayscale morphology</text>
+      <text x="10" y="30" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">eroded = cv2.erode(gray, kernel)</text>
+      <text x="10" y="45" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">dilated = cv2.dilate(gray, kernel)</text>
+      <text x="10" y="60" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Top-hat / Bottom-hat</text>
+      <text x="10" y="75" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">tophat = cv2.morphologyEx(gray,</text>
+      <text x="20" y="88" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">cv2.MORPH_TOPHAT, kernel)</text>
+    </g>
+  </g>
+</svg>

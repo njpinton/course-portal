@@ -36,7 +36,7 @@
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Overview</div>
-                    <a href="/" class="nav-item {% if active_page == 'hub' %}active{% endif %}">
+                    <a href="/" class="nav-item {% if active_page == 'hub' %}active{% endif %}" title="Course Hub">
                         <span class="nav-item-icon">&#127968;</span>
                         <span>Course Hub</span>
                     </a>
@@ -47,7 +47,7 @@
                     {% if courses %}
                     {% for course_id, course in courses.items() %}
                     {% if course.is_active %}
-                    <a href="/course/{{ course_id }}" class="nav-item {% if active_course == course_id %}active{% endif %}">
+                    <a href="/course/{{ course_id }}" class="nav-item {% if active_course == course_id %}active{% endif %}" title="{{ course.code }} - {{ course.title }}">
                         <span class="nav-item-icon">&#128218;</span>
                         <span>{{ course.code }}</span>
                         <span class="nav-item-badge">{{ course.modules|length }}</span>
@@ -55,7 +55,7 @@
                     {% endif %}
                     {% endfor %}
                     {% else %}
-                    <a href="/course/cmsc173" class="nav-item">
+                    <a href="/course/cmsc173" class="nav-item" title="CMSC 173 - Machine Learning">
                         <span class="nav-item-icon">&#128218;</span>
                         <span>CMSC 173</span>
                     </a>
@@ -64,7 +64,7 @@
 
                 <div class="nav-section">
                     <div class="nav-section-title">Quick Links</div>
-                    <a href="/group_portal" class="nav-item {% if active_page == 'group_portal' %}active{% endif %}">
+                    <a href="/group_portal" class="nav-item {% if active_page == 'group_portal' %}active{% endif %}" title="Group Portal">
                         <span class="nav-item-icon">&#128101;</span>
                         <span>Group Portal</span>
                     </a>
@@ -73,19 +73,19 @@
                 {% if session.get('is_admin') %}
                 <div class="nav-section">
                     <div class="nav-section-title">Admin</div>
-                    <a href="/admin" class="nav-item {% if active_page == 'admin_dashboard' %}active{% endif %}">
+                    <a href="/admin" class="nav-item {% if active_page == 'admin_dashboard' %}active{% endif %}" title="Dashboard">
                         <span class="nav-item-icon">&#128202;</span>
                         <span>Dashboard</span>
                     </a>
-                    <a href="/admin_roster" class="nav-item {% if active_page == 'admin_roster' %}active{% endif %}">
+                    <a href="/admin_roster" class="nav-item {% if active_page == 'admin_roster' %}active{% endif %}" title="Student Roster">
                         <span class="nav-item-icon">&#128100;</span>
                         <span>Student Roster</span>
                     </a>
-                    <a href="/admin_submissions" class="nav-item {% if active_page == 'admin_submissions' %}active{% endif %}">
+                    <a href="/admin_submissions" class="nav-item {% if active_page == 'admin_submissions' %}active{% endif %}" title="All Submissions">
                         <span class="nav-item-icon">&#128196;</span>
                         <span>All Submissions</span>
                     </a>
-                    <a href="/admin_resources" class="nav-item {% if active_page == 'admin_resources' %}active{% endif %}">
+                    <a href="/admin_resources" class="nav-item {% if active_page == 'admin_resources' %}active{% endif %}" title="Resources">
                         <span class="nav-item-icon">&#127909;</span>
                         <span>Resources</span>
                     </a>

@@ -1,6 +1,6 @@
 {% extends "base_layout.html" %}
 
-{% block title %}Group Submission Portal - CMSC 173{% endblock %}
+{% block title %}Group Submission Portal - {{ course.code|default('CMSC 173') }}{% endblock %}
 
 {% block extra_head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -838,7 +838,7 @@
     <div class="portal-header">
         <div>
             <h1>{{ group_name }} - Submission Portal</h1>
-            <p>CMSC 173 - Machine Learning</p>
+            <p>{{ course.code|default('CMSC 173') }} - {{ course.title|default('Machine Learning') }}</p>
         </div>
         <div class="header-actions">
             {% if is_admin_view %}
@@ -916,8 +916,8 @@
                 <div class="score-summary-label">Group</div>
                 <div class="score-summary-value" style="font-size: 1.1em;">{{ group.group_name }}</div>
             </div>
-            {% set stage_names_short = ["S1", "S2", "S3", "S4", "S5", "S6"] %}
-            {% for i in range(6) %}
+            {% set num_stages = project.stages|default(5) %}
+            {% for i in range(num_stages) %}
             <div class="score-summary-item {% if group.submissions and group.submissions[i] and group.scores and group.scores[i] %}scored{% elif group.submissions and group.submissions[i] %}pending{% else %}{% endif %}">
                 <div class="score-summary-label">Stage {{ i + 1 }}</div>
                 {% if group.submissions and group.submissions[i] %}
@@ -935,22 +935,21 @@
         {% endif %}
 
         <!-- PROJECT STAGES & SUBMISSIONS -->
+        {% set num_stages = project.stages|default(5) %}
+        {% set stage_names = project.stage_names|default(["Problem Definition", "Data Collection & EDA", "Model Development", "Evaluation & Analysis", "Final Presentation"]) %}
         <h2 style="color: var(--up-green); margin-bottom: 25px; display: flex; align-items: center;">
-            <span style="width: 40px; height: 40px; background: var(--up-gold); color: var(--up-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">6</span>
+            <span style="width: 40px; height: 40px; background: var(--up-gold); color: var(--up-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px;">{{ num_stages }}</span>
             Project Stages & Submissions
         </h2>
 
         <div class="stages-container">
-            {% set stage_names = ["Proposal", "Data & Preprocessing", "Model Training", "Evaluation", "Final Report", "Presentation"] %}
-            {% set stage_weights = [10, 15, 20, 20, 20, 15] %}
-            {% for i in range(6) %}
+            {% for i in range(num_stages) %}
             <div class="stage-card">
                 <div class="stage-header" onclick="toggleStage({{ i }})">
                     <div style="display: flex; align-items: center; flex: 1;">
                         <div class="stage-number">{{ i + 1 }}</div>
                         <div class="stage-title">
                             <h3>{{ stage_names[i] }}</h3>
-                            <span class="stage-weight">{{ stage_weights[i] }}% of grade</span>
                         </div>
                     </div>
                     <div class="stage-status" id="status-{{ i }}">
@@ -1300,7 +1299,7 @@
     </div>
 
     <div class="portal-footer">
-        <p>CMSC 173 Group Project Portal | University of the Philippines Cebu</p>
+        <p>{{ course.code|default('CMSC 173') }} Group Project Portal | University of the Philippines Cebu</p>
     </div>
 </div>
 

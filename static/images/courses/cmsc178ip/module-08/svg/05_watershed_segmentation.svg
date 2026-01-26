@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Watershed segmentation algorithm">
+  <title>Watershed Segmentation</title>
+  <desc>Visualization of the watershed algorithm using topographic analogy for image segmentation</desc>
+
+  <defs>
+    <linearGradient id="waterBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="waterFill" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#93c5fd;stop-opacity:0.3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#waterBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Watershed Segmentation</text>
+
+  <!-- Topographic Analogy -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="400" height="175" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="200" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Topographic Analogy</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Terrain profile -->
+      <path d="M0,120 Q30,100 60,60 Q90,20 120,60 Q140,100 160,100 Q180,100 200,50 Q220,20 250,60 Q280,100 310,120 L310,130 L0,130 Z" fill="#d4a574" stroke="#92400e" stroke-width="2"/>
+
+      <!-- Catchment basins (water fill) -->
+      <path d="M10,120 Q30,100 60,70 Q80,85 100,85 Q130,85 150,100 L150,130 L10,130 Z" fill="url(#waterFill)"/>
+      <path d="M160,100 Q180,95 200,60 Q215,75 230,75 Q250,75 270,100 L270,130 L160,130 Z" fill="url(#waterFill)"/>
+
+      <!-- Watershed line (ridge) -->
+      <line x1="155" y1="100" x2="155" y2="20" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,3"/>
+
+      <!-- Labels -->
+      <text x="80" y="115" fill="white" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Basin 1</text>
+      <text x="215" y="90" fill="white" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Basin 2</text>
+      <text x="155" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Watershed</text>
+
+      <!-- Minima markers -->
+      <circle cx="80" cy="125" r="5" fill="#10b981"/>
+      <circle cx="225" cy="125" r="5" fill="#10b981"/>
+      <text x="320" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">Regional</text>
+      <text x="320" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">minima</text>
+      <circle cx="360" cy="35" r="4" fill="#10b981"/>
+    </g>
+  </g>
+
+  <!-- Image Interpretation -->
+  <g transform="translate(445, 55)">
+    <rect x="0" y="0" width="375" height="175" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="187" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Image Interpretation</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Gradient image concept -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="100" height="80" fill="#1a1a2e" rx="4"/>
+        <!-- Edge bright, flat dark -->
+        <path d="M20,20 L50,20 L50,60 L80,60" fill="none" stroke="#fbbf24" stroke-width="4"/>
+        <rect x="25" y="25" width="20" height="30" fill="#333"/>
+        <rect x="55" y="35" width="20" height="20" fill="#333"/>
+        <text x="50" y="98" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Gradient magnitude</text>
+      </g>
+
+      <!-- Mapping -->
+      <g transform="translate(120, 20)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">In image terms:</text>
+        <g transform="translate(0, 15)">
+          <rect x="0" y="0" width="120" height="20" fill="#fef3c7" rx="3"/>
+          <text x="60" y="14" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Edges = Ridges (high)</text>
+        </g>
+        <g transform="translate(0, 40)">
+          <rect x="0" y="0" width="120" height="20" fill="#d1fae5" rx="3"/>
+          <text x="60" y="14" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Regions = Basins (low)</text>
+        </g>
+        <g transform="translate(0, 65)">
+          <rect x="0" y="0" width="120" height="20" fill="#fef2f2" rx="3"/>
+          <text x="60" y="14" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Boundaries = Watersheds</text>
+        </g>
+      </g>
+
+      <!-- Result preview -->
+      <g transform="translate(260, 0)">
+        <rect x="0" y="0" width="80" height="80" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+        <rect x="5" y="5" width="30" height="35" fill="#3b82f6" opacity="0.5"/>
+        <rect x="40" y="5" width="35" height="30" fill="#10b981" opacity="0.5"/>
+        <rect x="5" y="45" width="35" height="30" fill="#f97316" opacity="0.5"/>
+        <rect x="45" y="40" width="30" height="35" fill="#7c3aed" opacity="0.5"/>
+        <!-- Boundary lines -->
+        <line x1="38" y1="5" x2="38" y2="75" stroke="#ef4444" stroke-width="2"/>
+        <line x1="5" y1="42" x2="75" y2="42" stroke="#ef4444" stroke-width="2"/>
+        <text x="40" y="98" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Segmented regions</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Process Steps -->
+  <g transform="translate(30, 245)">
+    <rect x="0" y="0" width="530" height="130" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="265" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Marker-Controlled Watershed Pipeline</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Step 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="40" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">1. Gradient</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Compute edge</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">magnitude</text>
+      </g>
+
+      <text x="92" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 2 -->
+      <g transform="translate(105, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="40" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">2. Markers</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Define foreground</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">&amp; background</text>
+      </g>
+
+      <text x="197" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 3 -->
+      <g transform="translate(210, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="40" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">3. Flooding</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Flood from</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">markers</text>
+      </g>
+
+      <text x="302" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 4 -->
+      <g transform="translate(315, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="40" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">4. Barriers</text>
+        <text x="40" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Build dams at</text>
+        <text x="40" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">meeting points</text>
+      </g>
+
+      <text x="407" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="14">→</text>
+
+      <!-- Step 5 -->
+      <g transform="translate(420, 0)">
+        <rect x="0" y="0" width="80" height="55" fill="#7c3aed" rx="4"/>
+        <text x="40" y="22" fill="white" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Result</text>
+        <text x="40" y="40" fill="#ddd6fe" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Segmented</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code -->
+  <g transform="translate(575, 245)">
+    <rect x="0" y="0" width="245" height="130" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="122" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">OpenCV Implementation</text>
+
+    <g transform="translate(10, 38)">
+      <rect x="0" y="0" width="225" height="80" fill="#1e293b" rx="4"/>
+      <text x="10" y="15" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Distance transform for markers</text>
+      <text x="10" y="28" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">dist = cv2.distanceTransform(binary)</text>
+      <text x="10" y="43" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">_, markers = cv2.connectedComponents(fg)</text>
+      <text x="10" y="58" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Apply watershed</text>
+      <text x="10" y="71" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">cv2.watershed(img, markers)</text>
+    </g>
+  </g>
+</svg>

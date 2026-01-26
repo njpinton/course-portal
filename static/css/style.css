@@ -200,12 +200,9 @@ body {
 
 .nav-item-badge {
     margin-left: auto;
-    background: var(--primary);
-    color: white;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .sidebar-footer {
@@ -358,58 +355,8 @@ body {
     margin-left: 68px;
 }
 
-/* Hover to expand temporarily */
-.sidebar.collapsed:hover {
-    width: var(--sidebar-width);
-    box-shadow: var(--shadow-lg);
-}
-
-.sidebar.collapsed:hover .sidebar-logos {
-    flex-direction: row;
-    gap: 12px;
-}
-
-.sidebar.collapsed:hover .sidebar-logos img {
-    height: 42px;
-}
-
-.sidebar.collapsed:hover .sidebar-logo-text,
-.sidebar.collapsed:hover .sidebar-logo-subtitle,
-.sidebar.collapsed:hover .nav-section-title,
-.sidebar.collapsed:hover .nav-item span:not(.nav-item-icon),
-.sidebar.collapsed:hover .nav-item-badge,
-.sidebar.collapsed:hover .user-info {
-    display: block;
-}
-
-.sidebar.collapsed:hover .sidebar-header {
-    padding: 16px 20px;
-}
-
-.sidebar.collapsed:hover .sidebar-nav {
-    padding: 16px 12px;
-}
-
-.sidebar.collapsed:hover .nav-item {
-    justify-content: flex-start;
-    padding: 10px 12px;
-}
-
-.sidebar.collapsed:hover .nav-item-icon {
-    font-size: 16px;
-}
-
-.sidebar.collapsed:hover .sidebar-footer {
-    padding: 16px;
-}
-
-.sidebar.collapsed:hover .user-menu {
-    justify-content: flex-start;
-    padding: 8px;
-}
-
 /* Desktop: Show toggle button */
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
     .sidebar-toggle {
         display: flex;
     }

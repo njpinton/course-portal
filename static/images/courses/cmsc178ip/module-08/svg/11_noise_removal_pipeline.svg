@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Morphological noise removal pipeline">
+  <title>Morphological Noise Removal</title>
+  <desc>Pipeline for removing noise using morphological opening and closing operations</desc>
+
+  <defs>
+    <linearGradient id="nrBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#nrBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Morphological Noise Removal Pipeline</text>
+
+  <!-- Pipeline visualization -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="790" height="170" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="395" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Opening → Closing Pipeline</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Original noisy image -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="120" height="95" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+        <text x="60" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Noisy Binary</text>
+        <!-- Object with noise -->
+        <rect x="30" y="30" width="60" height="45" fill="#333" rx="2"/>
+        <!-- Salt noise (white spots outside) -->
+        <rect x="10" y="35" width="6" height="6" fill="#333"/>
+        <rect x="100" y="50" width="5" height="5" fill="#333"/>
+        <rect x="15" y="65" width="7" height="7" fill="#333"/>
+        <rect x="105" y="35" width="6" height="6" fill="#333"/>
+        <!-- Pepper noise (black holes inside) -->
+        <rect x="45" y="40" width="5" height="5" fill="white"/>
+        <rect x="60" y="55" width="6" height="6" fill="white"/>
+        <rect x="75" y="45" width="4" height="4" fill="white"/>
+        <text x="60" y="108" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Salt + Pepper</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(135, 35)">
+        <rect x="0" y="0" width="70" height="30" fill="#d1fae5" rx="4"/>
+        <text x="35" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Opening</text>
+      </g>
+
+      <!-- After opening -->
+      <g transform="translate(215, 0)">
+        <rect x="0" y="0" width="120" height="95" fill="#d1fae5" stroke="#10b981" rx="4"/>
+        <text x="60" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">After Opening</text>
+        <rect x="30" y="30" width="60" height="45" fill="#333" rx="2"/>
+        <!-- Salt removed, holes remain -->
+        <rect x="45" y="40" width="5" height="5" fill="white"/>
+        <rect x="60" y="55" width="6" height="6" fill="white"/>
+        <rect x="75" y="45" width="4" height="4" fill="white"/>
+        <text x="60" y="108" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Salt removed ✓</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(350, 35)">
+        <rect x="0" y="0" width="70" height="30" fill="#f5f3ff" rx="4"/>
+        <text x="35" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Closing</text>
+      </g>
+
+      <!-- After closing (final) -->
+      <g transform="translate(430, 0)">
+        <rect x="0" y="0" width="120" height="95" fill="#f5f3ff" stroke="#7c3aed" rx="4"/>
+        <text x="60" y="15" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">After Closing</text>
+        <rect x="30" y="30" width="60" height="45" fill="#333" rx="2"/>
+        <!-- Clean result -->
+        <text x="60" y="108" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Holes filled ✓</text>
+      </g>
+
+      <!-- Final result -->
+      <text x="565" y="52" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">=</text>
+
+      <g transform="translate(590, 0)">
+        <rect x="0" y="0" width="120" height="95" fill="#10b981" opacity="0.2" stroke="#10b981" stroke-width="2" rx="4"/>
+        <text x="60" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Clean Result</text>
+        <rect x="30" y="30" width="60" height="45" fill="#333" rx="2"/>
+        <text x="60" y="108" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">Both noises removed</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Detailed explanation -->
+  <g transform="translate(30, 245)">
+    <rect x="0" y="0" width="400" height="130" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="200" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Noise Type vs Operation</text>
+
+    <g transform="translate(20, 40)">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="170" height="70" fill="#fef2f2" rx="4"/>
+        <text x="85" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Salt Noise (white spots)</text>
+        <text x="85" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Small bright regions outside</text>
+        <text x="85" y="55" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">→ Opening removes</text>
+      </g>
+
+      <g transform="translate(190, 0)">
+        <rect x="0" y="0" width="170" height="70" fill="#1e293b" rx="4"/>
+        <text x="85" y="18" fill="#a78bfa" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Pepper Noise (dark spots)</text>
+        <text x="85" y="38" fill="#aaa" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Small dark holes inside</text>
+        <text x="85" y="55" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">→ Closing fills</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code -->
+  <g transform="translate(445, 245)">
+    <rect x="0" y="0" width="375" height="130" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="187" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Complete Pipeline Code</text>
+
+    <g transform="translate(15, 38)">
+      <rect x="0" y="0" width="345" height="80" fill="#1e293b" rx="4"/>
+      <text x="10" y="15" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5,5))</text>
+      <text x="10" y="32" fill="#a78bfa" font-family="Consolas, monospace" font-size="9"># Opening removes small bright spots</text>
+      <text x="10" y="47" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">opened = cv2.morphologyEx(noisy, cv2.MORPH_OPEN, kernel)</text>
+      <text x="10" y="62" fill="#a78bfa" font-family="Consolas, monospace" font-size="9"># Closing fills small dark holes</text>
+      <text x="10" y="77" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">clean = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, kernel)</text>
+    </g>
+  </g>
+</svg>

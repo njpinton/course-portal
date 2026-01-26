@@ -246,8 +246,8 @@ def group_submission_portal():
         return redirect(url_for('groups.group_login'))
 
     try:
-        from supabase_client import get_group_with_submissions
-        from ..config import PROJECTS
+        from supabase_client import get_group_with_submissions, get_class_by_id
+        from ..config import PROJECTS, COURSES, COURSE_PROJECTS
 
         group_id = session.get('group_id')
         group_data = get_group_with_submissions(group_id)
@@ -256,12 +256,28 @@ def group_submission_portal():
             session.clear()
             return redirect(url_for('groups.group_login'))
 
-        project_id = group_data.get('project_id', 'ml-research-project')
+        # Derive project from group's class
+        project_id = 'ml-research-project'  # Default fallback
+        course_id = 'cmsc173'  # Default fallback
+
+        class_id = group_data.get('class_id')
+        if class_id:
+            class_data = get_class_by_id(class_id)
+            if class_data:
+                course_code = class_data.get('course_code', '')
+                # Map course_code to project_id
+                project_id = COURSE_PROJECTS.get(course_code, 'ml-research-project')
+                # Derive course_id from project
+                project_config = PROJECTS.get(project_id, {})
+                course_id = project_config.get('course', 'cmsc173')
+
         project = PROJECTS.get(project_id, PROJECTS.get('ml-research-project', {}))
+        course = COURSES.get(course_id, COURSES.get('cmsc173', {}))
 
         return render_template('group_submission_portal.html',
             group=group_data,
             project=project,
+            course=course,
             is_admin=False
         )
     except Exception as e:

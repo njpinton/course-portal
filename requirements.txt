@@ -4,6 +4,5 @@ flask-wtf
 flask-limiter
 flask-talisman
 supabase
-gotrue
 python-dotenv
 PyJWT

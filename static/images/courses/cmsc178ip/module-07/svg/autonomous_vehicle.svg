@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Feature extraction for autonomous vehicle perception">
+  <title>Autonomous Vehicle Perception Features</title>
+  <desc>Feature extraction applications in autonomous driving including lane detection, object detection, and scene understanding</desc>
+
+  <defs>
+    <linearGradient id="avBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="100%" style="stop-color:#E0F4FF"/>
+    </linearGradient>
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4b5563"/>
+      <stop offset="100%" style="stop-color:#374151"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#avBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Autonomous Vehicle Perception</text>
+
+  <!-- Main driving scene -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="530" height="200" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="265" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Scene Understanding</text>
+
+    <!-- Driving scene visualization -->
+    <g transform="translate(15, 30)">
+      <rect x="0" y="0" width="500" height="155" fill="url(#skyGrad)" rx="4"/>
+
+      <!-- Road (perspective) -->
+      <polygon points="0,155 500,155 350,60 150,60" fill="url(#roadGrad)"/>
+
+      <!-- Lane markings -->
+      <g stroke="#fbbf24" stroke-width="3" stroke-dasharray="15,10">
+        <line x1="180" y1="155" x2="220" y2="60"/>
+        <line x1="320" y1="155" x2="280" y2="60"/>
+      </g>
+      <g stroke="white" stroke-width="2">
+        <line x1="90" y1="155" x2="160" y2="60"/>
+        <line x1="410" y1="155" x2="340" y2="60"/>
+      </g>
+
+      <!-- Detected lane overlay -->
+      <polygon points="180,155 220,60 280,60 320,155" fill="#10b981" opacity="0.2"/>
+      <text x="250" y="145" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Lane Detected</text>
+
+      <!-- Cars with bounding boxes -->
+      <!-- Car 1 (ahead) -->
+      <g transform="translate(210, 65)">
+        <rect x="0" y="0" width="80" height="40" fill="#ef4444" opacity="0.3"/>
+        <rect x="0" y="0" width="80" height="40" fill="none" stroke="#ef4444" stroke-width="2"/>
+        <rect x="10" y="5" width="60" height="30" fill="#374151" rx="3"/>
+        <rect x="15" y="10" width="20" height="12" fill="#60a5fa"/>
+        <rect x="45" y="10" width="20" height="12" fill="#60a5fa"/>
+        <text x="40" y="55" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Car: 92%</text>
+      </g>
+
+      <!-- Car 2 (side) -->
+      <g transform="translate(380, 90)">
+        <rect x="0" y="0" width="70" height="45" fill="#f97316" opacity="0.3"/>
+        <rect x="0" y="0" width="70" height="45" fill="none" stroke="#f97316" stroke-width="2"/>
+        <rect x="5" y="5" width="60" height="35" fill="#1f2937" rx="3"/>
+        <text x="35" y="55" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Truck: 87%</text>
+      </g>
+
+      <!-- Pedestrian -->
+      <g transform="translate(100, 85)">
+        <rect x="0" y="0" width="25" height="55" fill="#7c3aed" opacity="0.3"/>
+        <rect x="0" y="0" width="25" height="55" fill="none" stroke="#7c3aed" stroke-width="2"/>
+        <ellipse cx="12" cy="10" rx="8" ry="10" fill="#d4a574"/>
+        <rect x="5" y="20" width="15" height="30" fill="#3b82f6"/>
+        <text x="12" y="65" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Ped: 95%</text>
+      </g>
+
+      <!-- Traffic sign -->
+      <g transform="translate(450, 30)">
+        <rect x="0" y="0" width="35" height="35" fill="#ef4444"/>
+        <polygon points="17,5 32,30 2,30" fill="white"/>
+        <text x="17" y="45" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Sign</text>
+      </g>
+
+      <!-- Distance markers -->
+      <g font-family="Segoe UI, sans-serif" font-size="8" fill="#10b981">
+        <text x="250" y="82">15m</text>
+        <text x="250" y="110">25m</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Sensor Fusion -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="200" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="125" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Sensor Fusion</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Camera -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="60" height="35" fill="#dbeafe" rx="4"/>
+        <text x="30" y="15" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Camera</text>
+        <text x="30" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">RGB/Semantic</text>
+      </g>
+
+      <!-- LiDAR -->
+      <g transform="translate(75, 0)">
+        <rect x="0" y="0" width="60" height="35" fill="#d1fae5" rx="4"/>
+        <text x="30" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">LiDAR</text>
+        <text x="30" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">3D Points</text>
+      </g>
+
+      <!-- Radar -->
+      <g transform="translate(150, 0)">
+        <rect x="0" y="0" width="60" height="35" fill="#fef2f2" rx="4"/>
+        <text x="30" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Radar</text>
+        <text x="30" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Velocity</text>
+      </g>
+
+      <!-- Fusion arrow -->
+      <g transform="translate(0, 45)">
+        <line x1="30" y1="0" x2="105" y2="20" stroke="#666" stroke-width="1"/>
+        <line x1="105" y1="0" x2="105" y2="20" stroke="#666" stroke-width="1"/>
+        <line x1="180" y1="0" x2="105" y2="20" stroke="#666" stroke-width="1"/>
+      </g>
+
+      <!-- Fusion block -->
+      <g transform="translate(55, 70)">
+        <rect x="0" y="0" width="100" height="40" fill="#7c3aed" rx="6"/>
+        <text x="50" y="18" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Sensor Fusion</text>
+        <text x="50" y="32" fill="#ddd6fe" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Multi-modal</text>
+      </g>
+
+      <!-- Output -->
+      <g transform="translate(55, 120)">
+        <rect x="0" y="0" width="100" height="35" fill="#fef3c7" rx="4" stroke="#f59e0b"/>
+        <text x="50" y="15" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">3D World Model</text>
+        <text x="50" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Objects + Trajectories</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Feature Types -->
+  <g transform="translate(30, 270)">
+    <rect x="0" y="0" width="400" height="105" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="200" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Key Perception Tasks</text>
+
+    <g transform="translate(20, 40)">
+      <!-- Lane Detection -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="85" height="50" fill="#dbeafe" rx="4"/>
+        <text x="42" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Lane Detect</text>
+        <text x="42" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Edge/Hough</text>
+        <text x="42" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Semantic seg</text>
+      </g>
+
+      <!-- Object Detection -->
+      <g transform="translate(95, 0)">
+        <rect x="0" y="0" width="85" height="50" fill="#fef2f2" rx="4"/>
+        <text x="42" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Object Detect</text>
+        <text x="42" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">YOLO/SSD</text>
+        <text x="42" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">PointPillars</text>
+      </g>
+
+      <!-- Tracking -->
+      <g transform="translate(190, 0)">
+        <rect x="0" y="0" width="85" height="50" fill="#d1fae5" rx="4"/>
+        <text x="42" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Tracking</text>
+        <text x="42" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Kalman filter</text>
+        <text x="42" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Deep SORT</text>
+      </g>
+
+      <!-- Depth -->
+      <g transform="translate(285, 0)">
+        <rect x="0" y="0" width="85" height="50" fill="#f5f3ff" rx="4"/>
+        <text x="42" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Depth Est</text>
+        <text x="42" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Stereo/Mono</text>
+        <text x="42" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">LiDAR fusion</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Frameworks -->
+  <g transform="translate(440, 270)">
+    <rect x="0" y="0" width="380" height="105" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="190" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Frameworks &amp; Datasets</text>
+
+    <g transform="translate(20, 38)">
+      <!-- Frameworks -->
+      <g>
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Frameworks:</text>
+        <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Apollo (Baidu)</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Autoware (ROS)</text>
+        <text x="0" y="41" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• OpenPilot</text>
+        <text x="0" y="54" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• CARLA (simulator)</text>
+      </g>
+
+      <!-- Datasets -->
+      <g transform="translate(130, 0)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Datasets:</text>
+        <text x="0" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• KITTI (benchmark)</text>
+        <text x="0" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• nuScenes (3D)</text>
+        <text x="0" y="41" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• Waymo Open</text>
+        <text x="0" y="54" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">• BDD100K</text>
+      </g>
+
+      <!-- Requirements -->
+      <g transform="translate(260, 0)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">Requirements:</text>
+        <text x="0" y="15" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">✓ Real-time (&lt;100ms)</text>
+        <text x="0" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">✓ High accuracy</text>
+        <text x="0" y="41" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">✓ All weather</text>
+        <text x="0" y="54" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">✓ Edge compute</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Comparison of morphological edge detection methods">
+  <title>Morphological Edge Detection</title>
+  <desc>Comparison of morphological methods for edge detection including gradient, internal, and external variants</desc>
+
+  <defs>
+    <linearGradient id="edgMorphBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#edgMorphBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Morphological Edge Detection Methods</text>
+
+  <!-- Original -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="170" height="150" fill="white" rx="8" stroke="#666" stroke-width="2"/>
+    <text x="85" y="22" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Original</text>
+
+    <g transform="translate(25, 35)">
+      <rect x="0" y="0" width="120" height="90" fill="#f8f9fa" stroke="#ddd" rx="4"/>
+      <rect x="30" y="20" width="60" height="50" fill="#333" rx="3"/>
+    </g>
+
+    <text x="85" y="142" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Binary input</text>
+  </g>
+
+  <!-- Basic Gradient -->
+  <g transform="translate(215, 60)">
+    <rect x="0" y="0" width="195" height="150" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="97" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Basic Gradient</text>
+
+    <g transform="translate(20, 35)">
+      <rect x="0" y="0" width="155" height="90" fill="#1a1a2e" rx="4"/>
+      <!-- Full edge (inside + outside) -->
+      <rect x="25" y="15" width="70" height="60" fill="none" stroke="white" stroke-width="8"/>
+      <rect x="35" y="25" width="50" height="40" fill="#1a1a2e"/>
+    </g>
+
+    <text x="97" y="135" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">δ(f) − ε(f)</text>
+    <text x="97" y="147" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Full edge (both sides)</text>
+  </g>
+
+  <!-- External Gradient -->
+  <g transform="translate(425, 60)">
+    <rect x="0" y="0" width="195" height="150" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="97" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">External Gradient</text>
+
+    <g transform="translate(20, 35)">
+      <rect x="0" y="0" width="155" height="90" fill="#1a1a2e" rx="4"/>
+      <!-- Outer edge only -->
+      <rect x="25" y="15" width="70" height="60" fill="none" stroke="white" stroke-width="5"/>
+      <rect x="30" y="20" width="60" height="50" fill="#1a1a2e"/>
+    </g>
+
+    <text x="97" y="135" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">δ(f) − f</text>
+    <text x="97" y="147" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Outer edge only</text>
+  </g>
+
+  <!-- Internal Gradient -->
+  <g transform="translate(635, 60)">
+    <rect x="0" y="0" width="185" height="150" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="92" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Internal Gradient</text>
+
+    <g transform="translate(15, 35)">
+      <rect x="0" y="0" width="155" height="90" fill="#1a1a2e" rx="4"/>
+      <!-- Inner edge only -->
+      <rect x="30" y="20" width="60" height="50" fill="#333"/>
+      <rect x="35" y="25" width="50" height="40" fill="#1a1a2e"/>
+    </g>
+
+    <text x="92" y="135" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">f − ε(f)</text>
+    <text x="92" y="147" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Inner edge only</text>
+  </g>
+
+  <!-- Comparison table -->
+  <g transform="translate(30, 225)">
+    <rect x="0" y="0" width="520" height="150" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="260" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Edge Detection Comparison</text>
+
+    <g transform="translate(15, 40)">
+      <!-- Header -->
+      <g font-family="Segoe UI, sans-serif" font-size="9" font-weight="600">
+        <rect x="0" y="0" width="100" height="22" fill="#f1f5f9"/>
+        <text x="50" y="15" fill="#333" text-anchor="middle">Method</text>
+        <rect x="100" y="0" width="130" height="22" fill="#f1f5f9"/>
+        <text x="165" y="15" fill="#333" text-anchor="middle">Formula</text>
+        <rect x="230" y="0" width="120" height="22" fill="#f1f5f9"/>
+        <text x="290" y="15" fill="#333" text-anchor="middle">Edge Location</text>
+        <rect x="350" y="0" width="130" height="22" fill="#f1f5f9"/>
+        <text x="415" y="15" fill="#333" text-anchor="middle">Use Case</text>
+      </g>
+
+      <!-- Rows -->
+      <g font-family="Segoe UI, sans-serif" font-size="8">
+        <!-- Basic -->
+        <rect x="0" y="22" width="100" height="28" fill="#dbeafe" stroke="#e5e7eb"/>
+        <text x="50" y="40" fill="#3b82f6" font-weight="600" text-anchor="middle">Basic Gradient</text>
+        <rect x="100" y="22" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="165" y="40" fill="#666" text-anchor="middle">dilate − erode</text>
+        <rect x="230" y="22" width="120" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="290" y="40" fill="#666" text-anchor="middle">Both sides</text>
+        <rect x="350" y="22" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="415" y="40" fill="#666" text-anchor="middle">Thick boundaries</text>
+
+        <!-- External -->
+        <rect x="0" y="50" width="100" height="28" fill="#d1fae5" stroke="#e5e7eb"/>
+        <text x="50" y="68" fill="#10b981" font-weight="600" text-anchor="middle">External</text>
+        <rect x="100" y="50" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="165" y="68" fill="#666" text-anchor="middle">dilate − original</text>
+        <rect x="230" y="50" width="120" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="290" y="68" fill="#666" text-anchor="middle">Outside object</text>
+        <rect x="350" y="50" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="415" y="68" fill="#666" text-anchor="middle">Object outlines</text>
+
+        <!-- Internal -->
+        <rect x="0" y="78" width="100" height="28" fill="#fef2f2" stroke="#e5e7eb"/>
+        <text x="50" y="96" fill="#ef4444" font-weight="600" text-anchor="middle">Internal</text>
+        <rect x="100" y="78" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="165" y="96" fill="#666" text-anchor="middle">original − erode</text>
+        <rect x="230" y="78" width="120" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="290" y="96" fill="#666" text-anchor="middle">Inside object</text>
+        <rect x="350" y="78" width="130" height="28" fill="white" stroke="#e5e7eb"/>
+        <text x="415" y="96" fill="#666" text-anchor="middle">Contour detection</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code -->
+  <g transform="translate(565, 225)">
+    <rect x="0" y="0" width="255" height="150" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="127" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Implementation</text>
+
+    <g transform="translate(10, 38)">
+      <rect x="0" y="0" width="235" height="100" fill="#1e293b" rx="4"/>
+      <text x="10" y="15" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Basic gradient</text>
+      <text x="10" y="28" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">grad = cv2.morphologyEx(img,</text>
+      <text x="20" y="41" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">cv2.MORPH_GRADIENT, kernel)</text>
+      <text x="10" y="58" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># External gradient</text>
+      <text x="10" y="71" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">ext = cv2.dilate(img,k) - img</text>
+      <text x="10" y="88" fill="#a78bfa" font-family="Consolas, monospace" font-size="8"># Internal gradient</text>
+      <text x="10" y="98" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">int = img - cv2.erode(img,k)</text>
+    </g>
+  </g>
+</svg>
