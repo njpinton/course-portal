@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Wiener filter analysis showing formula derivation and behavior">
+  <title>Wiener Filter Analysis</title>
+  <desc>Detailed explanation of Wiener filter including formula, frequency response, and parameter effects</desc>
+
+  <defs>
+    <linearGradient id="wienerBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#wienerBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Wiener Filter Analysis</text>
+
+  <!-- Main formula -->
+  <g transform="translate(150, 55)">
+    <rect x="0" y="0" width="550" height="70" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="275" y="28" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Wiener Filter Formula:</text>
+    <text x="275" y="55" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">W(u,v) = H*(u,v) / [ |H(u,v)|² + Sₙ(u,v)/Sᶠ(u,v) ]</text>
+  </g>
+
+  <!-- Three column layout -->
+  <g transform="translate(25, 145)">
+    <!-- Column 1: Components -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="260" height="250" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+      <text x="130" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Formula Components</text>
+
+      <g transform="translate(15, 45)">
+        <rect x="0" y="0" width="230" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">H*(u,v)</text>
+        <text x="10" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Complex conjugate of PSF</text>
+      </g>
+
+      <g transform="translate(15, 90)">
+        <rect x="0" y="0" width="230" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">|H(u,v)|²</text>
+        <text x="10" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Power spectrum of PSF</text>
+      </g>
+
+      <g transform="translate(15, 135)">
+        <rect x="0" y="0" width="230" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Sₙ(u,v)</text>
+        <text x="10" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Noise power spectrum</text>
+      </g>
+
+      <g transform="translate(15, 180)">
+        <rect x="0" y="0" width="230" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Sᶠ(u,v)</text>
+        <text x="10" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Signal power spectrum</text>
+      </g>
+
+      <text x="130" y="235" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Often simplified: K = Sₙ/Sᶠ (constant)</text>
+    </g>
+
+    <!-- Column 2: Frequency response -->
+    <g transform="translate(280, 0)">
+      <rect x="0" y="0" width="260" height="250" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+      <text x="130" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Frequency Response</text>
+
+      <!-- Graph -->
+      <g transform="translate(25, 45)">
+        <rect x="0" y="0" width="210" height="130" fill="#f8f9fa" rx="4"/>
+        <!-- Axes -->
+        <line x1="30" y1="115" x2="195" y2="115" stroke="#999" stroke-width="1"/>
+        <line x1="30" y1="115" x2="30" y2="15" stroke="#999" stroke-width="1"/>
+        <text x="112" y="128" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">frequency</text>
+        <text x="15" y="65" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" transform="rotate(-90, 15, 65)">gain</text>
+
+        <!-- Inverse filter (unstable) -->
+        <path d="M35,100 Q50,95 70,70 Q90,30 100,15 Q110,30 130,70 Q150,95 165,100 Q180,110 190,112" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="100" y="10" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8">Inverse (unstable)</text>
+
+        <!-- Wiener filter (stable) -->
+        <path d="M35,100 Q50,97 70,85 Q90,65 100,55 Q110,65 130,85 Q150,97 165,100 Q180,105 190,108" fill="none" stroke="#10b981" stroke-width="2"/>
+        <text x="175" y="95" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8">Wiener</text>
+      </g>
+
+      <!-- Explanation -->
+      <g transform="translate(15, 185)">
+        <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">• Avoids division by zero/small values</text>
+        <text x="0" y="28" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">• Reduces gain at high noise frequencies</text>
+        <text x="0" y="44" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">• Converges to inverse filter when K→0</text>
+      </g>
+    </g>
+
+    <!-- Column 3: K parameter effect -->
+    <g transform="translate(560, 0)">
+      <rect x="0" y="0" width="260" height="250" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+      <text x="130" y="25" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Effect of K Parameter</text>
+
+      <!-- K variations -->
+      <g transform="translate(20, 45)">
+        <rect x="0" y="0" width="220" height="55" fill="#fff3cd" rx="4" stroke="#ffc107"/>
+        <text x="10" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">K too small (K→0)</text>
+        <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">→ Like inverse filter</text>
+        <text x="10" y="46" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">⚠ Amplifies noise</text>
+      </g>
+
+      <g transform="translate(20, 110)">
+        <rect x="0" y="0" width="220" height="55" fill="#d1fae5" rx="4" stroke="#10b981"/>
+        <text x="10" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">K optimal</text>
+        <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">→ Balance blur &amp; noise</text>
+        <text x="10" y="46" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Best restoration</text>
+      </g>
+
+      <g transform="translate(20, 175)">
+        <rect x="0" y="0" width="220" height="55" fill="#fef3c7" rx="4" stroke="#f59e0b"/>
+        <text x="10" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">K too large</text>
+        <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">→ Over-smoothing</text>
+        <text x="10" y="46" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="9">⚠ Loses detail</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="100" y="380" width="650" height="28" fill="white" rx="6" stroke="#1a3a6e"/>
+  <text x="425" y="399" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Wiener filter minimizes Mean Square Error (MSE) between restored and original image</text>
+</svg>

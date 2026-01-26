@@ -1,0 +1,279 @@
+{
+  "module": {
+    "id": "07",
+    "title": "Feature Extraction",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "60 minutes",
+    "prerequisites": ["Module 06: Geometric Transformations"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Feature Extraction",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 07</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Detect edges using gradient-based methods</li><li>Find corners and interest points</li><li>Apply the Hough transform for line/circle detection</li><li>Understand feature descriptors (SIFT, ORB)</li><li>Perform feature matching between images</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Edge Detection",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Finding boundaries in images</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "Gradient Operators",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/gradient_operators.png\" alt=\"Gradient Operators\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Sobel</strong><pre><code>[[-1,0,1],\n [-2,0,2],\n [-1,0,1]]</code></pre></div><div><strong>Prewitt</strong><pre><code>[[-1,0,1],\n [-1,0,1],\n [-1,0,1]]</code></pre></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Edge Detection Comparison",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/edge_detection_comparison.png\" alt=\"Edge Detection Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Sobel, Prewitt, Roberts, and Canny edge detectors</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Canny Edge Detector",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition-box\"><p><strong>Canny Edge Detection</strong> - The \"optimal\" edge detector:</p><ol><li><strong>Gaussian smoothing</strong> - Reduce noise</li><li><strong>Gradient computation</strong> - Find edge strength and direction</li><li><strong>Non-maximum suppression</strong> - Thin edges to 1 pixel</li><li><strong>Hysteresis thresholding</strong> - Connect strong and weak edges</li></ol></div><div class=\"key-point\">Produces thin, well-connected edges with good noise rejection.</div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What is the purpose of non-maximum suppression in Canny edge detection?",
+        "answer": "Non-maximum suppression thins the edges to 1 pixel wide by keeping only the local maxima along the gradient direction, removing pixels that are not at the peak of the edge response."
+      }
+    },
+    {
+      "id": 7,
+      "title": "Corner Detection",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Interest points for matching</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 8,
+      "title": "Harris Corner Detection",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/corner_detection.png\" alt=\"Corner Detection\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Harris Corner Response:</strong></p><p class=\"math-block\">$$R = \\det(M) - k \\cdot \\text{trace}(M)^2$$</p><p>where M is the structure tensor. R > 0 indicates a corner.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "What Makes a Good Feature?",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p><strong>Good features are:</strong></p><ul><li><strong>Repeatable</strong> - Found in both images</li><li><strong>Distinctive</strong> - Unique in neighborhood</li><li><strong>Localized</strong> - Precise position</li><li><strong>Efficient</strong> - Fast to compute</li></ul></div><div class=\"two-columns\"><div><strong>Flat Region</strong><br>No change in any direction<br>❌ Bad feature</div><div><strong>Corner</strong><br>Change in all directions<br>✓ Good feature</div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Hough Transform",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Detecting lines and shapes</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 11,
+      "title": "Hough Transform",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/hough_transform_demo.png\" alt=\"Hough Transform\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Hough Transform:</strong> Convert from image space to parameter space.</p><p class=\"math-block\">$$\\rho = x \\cos\\theta + y \\sin\\theta$$</p><p>Each edge point votes for all lines passing through it. Peaks indicate detected lines.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "How does the Hough transform detect lines even with gaps or noise?",
+        "answer": "Each edge point independently votes in parameter space. Even if the line is broken by gaps or noise, enough points along the line will vote for the same (ρ, θ) parameters, creating a peak that can be detected."
+      }
+    },
+    {
+      "id": 12,
+      "title": "Feature Descriptors",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Describing local image regions</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 13,
+      "title": "SIFT Features",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/sift_features.png\" alt=\"SIFT Features\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>SIFT</strong> (Scale-Invariant Feature Transform):</p><ul><li>Scale-space extrema detection</li><li>Keypoint localization</li><li>Orientation assignment</li><li>128-dimensional descriptor</li></ul><p>Robust to scale, rotation, and illumination changes.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "ORB Features",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/orb_features.png\" alt=\"ORB Features\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>ORB</strong> (Oriented FAST and Rotated BRIEF):<ul><li>Fast keypoint detection (FAST)</li><li>Binary descriptor (BRIEF)</li><li>Rotation invariant</li><li><strong>Free alternative to SIFT</strong></li><li>Much faster than SIFT</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "HOG Features",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/hog_features.png\" alt=\"HOG Features\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>HOG</strong> (Histogram of Oriented Gradients):</p><p>Captures edge direction distribution in cells. Excellent for pedestrian detection and object recognition.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Texture Features",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/texture_analysis.png\" alt=\"Texture Analysis\" style=\"max-height: 60vh;\"><p class=\"caption\">LBP and other texture descriptors capture local patterns</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Advanced LBP",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/advanced_lbp.png\" alt=\"Advanced LBP\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Local Binary Patterns:</strong> Compare center pixel to neighbors, encode as binary number. Fast, robust texture descriptor.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Feature Matching",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Finding correspondences between images</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 19,
+      "title": "Feature Matching",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/feature_matching.png\" alt=\"Feature Matching\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Matching strategies:</strong><ul><li>Brute-force: Compare all pairs</li><li>FLANN: Fast approximate matching</li><li>Ratio test: Reject ambiguous matches</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is Lowe's ratio test and why is it effective?",
+        "answer": "The ratio test compares the distance to the best match vs the second-best match. If the ratio is below a threshold (e.g., 0.75), the match is accepted. This rejects ambiguous matches where multiple features look similar."
+      }
+    },
+    {
+      "id": 20,
+      "title": "Line Feature Matching",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/feature_matches_lines.png\" alt=\"Line Matching\" style=\"max-height: 65vh;\"><p class=\"caption\">Matched features showing correspondence between two views</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Bag of Features",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/bag_of_features.png\" alt=\"Bag of Features\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Bag of Visual Words:</strong></p><ol><li>Extract features from training images</li><li>Cluster into visual vocabulary</li><li>Represent images as histograms of visual words</li><li>Use for image classification/retrieval</li></ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Applications",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Real-world feature extraction applications</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 23,
+      "title": "Medical Imaging",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/medical_imaging.png\" alt=\"Medical Imaging\" style=\"max-height: 65vh;\"><p class=\"caption\">Feature extraction for tumor detection and tissue analysis</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Document Analysis",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/document_analysis.png\" alt=\"Document Analysis\" style=\"max-height: 65vh;\"><p class=\"caption\">OCR preprocessing and layout analysis using edge and corner detection</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Biometric Analysis",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/biometric_analysis.png\" alt=\"Biometrics\" style=\"max-height: 65vh;\"><p class=\"caption\">Fingerprint and face feature extraction for identification</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Industrial Inspection",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/industrial_inspection.png\" alt=\"Industrial Inspection\" style=\"max-height: 65vh;\"><p class=\"caption\">Defect detection in manufacturing using feature analysis</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Autonomous Vehicles",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-07/autonomous_vehicle.png\" alt=\"Autonomous Vehicles\" style=\"max-height: 65vh;\"><p class=\"caption\">Lane detection, obstacle recognition, and scene understanding</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import cv2\nimport numpy as np\n\nimg = cv2.imread('image.jpg', 0)\n\n# Canny edge detection\nedges = cv2.Canny(img, 100, 200)\n\n# Harris corners\ncorners = cv2.cornerHarris(img, 2, 3, 0.04)\n\n# ORB features\norb = cv2.ORB_create()\nkeypoints, descriptors = orb.detectAndCompute(img, None)\n\n# Feature matching\nbf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)\nmatches = bf.match(desc1, desc2)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 30,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Edge detection:</strong> Sobel, Canny - find boundaries</li><li><strong>Corner detection:</strong> Harris - find interest points</li><li><strong>Hough transform:</strong> Detect lines and shapes in parameter space</li><li><strong>SIFT/ORB:</strong> Scale and rotation invariant descriptors</li><li><strong>HOG/LBP:</strong> Gradient and texture features</li><li><strong>Feature matching:</strong> Brute-force, FLANN, ratio test</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 31,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 08 - Segmentation and Morphology</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

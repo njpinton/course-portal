@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="High-pass filter kernels comparison showing Laplacian and Sobel operators">
+  <title>High-Pass Filters Comparison</title>
+  <desc>Comparison of Laplacian and Sobel edge detection kernels with their properties</desc>
+
+  <defs>
+    <linearGradient id="hpBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="url(#hpBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">High-Pass Filters (Edge Detection Kernels)</text>
+
+  <!-- Left: Laplacian -->
+  <g transform="translate(40, 60)">
+    <rect x="0" y="0" width="350" height="310" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="175" y="28" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">Laplacian Operator</text>
+
+    <!-- 3x3 Kernels side by side -->
+    <g transform="translate(25, 50)">
+      <text x="70" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">4-connected</text>
+
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="0" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="0" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="0" y="30" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="30" width="46" height="30" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="30" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="0" y="60" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="60" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="60" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+
+        <text x="23" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="69" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="115" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="23" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="69" y="50" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-4</text>
+        <text x="115" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="23" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="69" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="115" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+      </g>
+    </g>
+
+    <g transform="translate(175, 50)">
+      <text x="70" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">8-connected</text>
+
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="0" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="0" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="0" y="30" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="30" width="46" height="30" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="30" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="0" y="60" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="60" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="60" width="46" height="30" fill="#fecaca" stroke="#ef4444" stroke-width="1"/>
+
+        <text x="23" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="69" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="115" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="23" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="69" y="50" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-8</text>
+        <text x="115" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="23" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="69" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+        <text x="115" y="80" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+      </g>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(25, 175)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Properties:</text>
+      <circle cx="10" cy="20" r="4" fill="#ef4444"/>
+      <text x="20" y="24" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Isotropic (direction-independent)</text>
+      <circle cx="10" cy="42" r="4" fill="#ef4444"/>
+      <text x="20" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Second derivative approximation</text>
+      <circle cx="10" cy="64" r="4" fill="#ef4444"/>
+      <text x="20" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Detects all edges equally</text>
+      <circle cx="10" cy="86" r="4" fill="#f97316"/>
+      <text x="20" y="90" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Sensitive to noise</text>
+    </g>
+
+    <!-- Use case -->
+    <g transform="translate(25, 275)">
+      <rect x="0" y="0" width="300" height="25" fill="#fee2e2" rx="4"/>
+      <text x="150" y="17" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Best for: Blob detection, general edge finding</text>
+    </g>
+  </g>
+
+  <!-- Right: Sobel -->
+  <g transform="translate(410, 60)">
+    <rect x="0" y="0" width="350" height="310" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="175" y="28" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">Sobel Operator</text>
+
+    <!-- Gx and Gy kernels -->
+    <g transform="translate(25, 50)">
+      <text x="70" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">G<tspan font-size="9" dy="3">x</tspan><tspan dy="-3"> (Horizontal)</tspan></text>
+
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="0" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="92" y="0" width="46" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="0" y="30" width="46" height="30" fill="#fca5a5" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="30" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="92" y="30" width="46" height="30" fill="#93c5fd" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="0" y="60" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="60" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="92" y="60" width="46" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+
+        <text x="23" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-1</text>
+        <text x="69" y="20" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="115" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+1</text>
+        <text x="23" y="50" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-2</text>
+        <text x="69" y="50" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="115" y="50" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+2</text>
+        <text x="23" y="80" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-1</text>
+        <text x="69" y="80" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="115" y="80" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+1</text>
+      </g>
+    </g>
+
+    <g transform="translate(175, 50)">
+      <text x="70" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">G<tspan font-size="9" dy="3">y</tspan><tspan dy="-3"> (Vertical)</tspan></text>
+
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="46" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="46" y="0" width="46" height="30" fill="#93c5fd" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="92" y="0" width="46" height="30" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="0" y="30" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="46" y="30" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="92" y="30" width="46" height="30" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+        <rect x="0" y="60" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+        <rect x="46" y="60" width="46" height="30" fill="#fca5a5" stroke="#ef4444" stroke-width="1"/>
+        <rect x="92" y="60" width="46" height="30" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+
+        <text x="23" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+1</text>
+        <text x="69" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+2</text>
+        <text x="115" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">+1</text>
+        <text x="23" y="50" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="69" y="50" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="115" y="50" fill="#999" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+        <text x="23" y="80" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-1</text>
+        <text x="69" y="80" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-2</text>
+        <text x="115" y="80" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">-1</text>
+      </g>
+    </g>
+
+    <!-- Magnitude formula -->
+    <text x="175" y="125" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">|G| = √(G<tspan font-size="9" dy="3">x</tspan><tspan dy="-3">² + G</tspan><tspan font-size="9" dy="3">y</tspan><tspan dy="-3">²)</tspan></text>
+
+    <!-- Properties -->
+    <g transform="translate(25, 175)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Properties:</text>
+      <circle cx="10" cy="20" r="4" fill="#3b82f6"/>
+      <text x="20" y="24" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Directional (separate X and Y)</text>
+      <circle cx="10" cy="42" r="4" fill="#3b82f6"/>
+      <text x="20" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">First derivative + smoothing</text>
+      <circle cx="10" cy="64" r="4" fill="#3b82f6"/>
+      <text x="20" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Gives edge direction (θ = atan2(Gy, Gx))</text>
+      <circle cx="10" cy="86" r="4" fill="#10b981"/>
+      <text x="20" y="90" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">More noise-resistant than Laplacian</text>
+    </g>
+
+    <!-- Use case -->
+    <g transform="translate(25, 275)">
+      <rect x="0" y="0" width="300" height="25" fill="#dbeafe" rx="4"/>
+      <text x="150" y="17" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Best for: Edge detection with direction info</text>
+    </g>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="400" y="388" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">High-pass filters enhance high frequencies (edges, details) while suppressing low frequencies (smooth regions)</text>
+</svg>

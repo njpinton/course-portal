@@ -1,0 +1,189 @@
+{
+  "module": {
+    "id": "04",
+    "title": "Image Enhancement and Filtering",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "50 minutes",
+    "prerequisites": ["Module 03: Image Processing Fundamentals"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Image Enhancement and Filtering",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 04</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Identify different types of image noise</li><li>Apply spatial domain smoothing filters</li><li>Implement frequency domain filtering</li><li>Use edge-preserving filters for denoising</li><li>Apply sharpening techniques to enhance edges</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Noise in Images",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Understanding image degradation</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "Types of Image Noise",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/noise_models_comparison.png\" alt=\"Noise Models\" style=\"max-height: 60vh;\"><div class=\"two-columns\" style=\"margin-top: 1em;\"><div><strong>Gaussian Noise</strong><br>Additive, bell-shaped distribution</div><div><strong>Salt & Pepper</strong><br>Random black/white pixels</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Noise Characteristics",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-columns\"><div><h3>Additive Noise</h3><p class=\"math-block\">$$g(x,y) = f(x,y) + n(x,y)$$</p><ul><li>Gaussian noise</li><li>Uniform noise</li></ul></div><div><h3>Multiplicative Noise</h3><p class=\"math-block\">$$g(x,y) = f(x,y) \\cdot n(x,y)$$</p><ul><li>Speckle noise</li><li>Film grain</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What type of noise is best removed by a median filter?",
+        "answer": "Salt and pepper (impulse) noise, because the median operation ignores extreme outlier values."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Smoothing Filters",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Spatial domain noise reduction</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 7,
+      "title": "Smoothing Filters Comparison",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/smoothing_filters_comparison.png\" alt=\"Smoothing Filters\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparison of mean, Gaussian, and median filters</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Low-Pass Filters",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/lowpass_filters_comparison.png\" alt=\"Lowpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Box Filter (Mean)</strong><pre><code>1/9 * [[1,1,1],\n       [1,1,1],\n       [1,1,1]]</code></pre></div><div><strong>Gaussian Filter</strong><pre><code>1/16 * [[1,2,1],\n        [2,4,2],\n        [1,2,1]]</code></pre></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Denoising Results",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/denoising_comparison.png\" alt=\"Denoising Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Different filters have different strengths for various noise types</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Edge-Preserving Filters",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Smoothing without blurring edges</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 11,
+      "title": "Bilateral Filter",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/bilateral_filter_demo.png\" alt=\"Bilateral Filter\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Bilateral Filter:</strong> Combines spatial proximity AND intensity similarity weights.</p><p class=\"math-block\">$$w(i,j,k,l) = \\exp\\left(-\\frac{(i-k)^2+(j-l)^2}{2\\sigma_s^2}\\right) \\cdot \\exp\\left(-\\frac{|I(i,j)-I(k,l)|^2}{2\\sigma_r^2}\\right)$$</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why does the bilateral filter preserve edges while smoothing?",
+        "answer": "It uses intensity similarity weighting - pixels with very different intensities (across edges) receive low weights, so edges are not blurred."
+      }
+    },
+    {
+      "id": 12,
+      "title": "Adaptive Filtering",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/adaptive_filtering_demo.png\" alt=\"Adaptive Filtering\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Adaptive filters</strong> adjust their behavior based on local image statistics (variance, mean).</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Sharpening Filters",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Enhancing edges and fine details</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 14,
+      "title": "High-Pass Filters",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/highpass_filters_comparison.png\" alt=\"Highpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Laplacian</strong><pre><code>[[ 0,-1, 0],\n [-1, 4,-1],\n [ 0,-1, 0]]</code></pre></div><div><strong>Sobel (X direction)</strong><pre><code>[[-1, 0, 1],\n [-2, 0, 2],\n [-1, 0, 1]]</code></pre></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Sharpening Techniques",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/sharpening_filters_comparison.png\" alt=\"Sharpening\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Unsharp Masking:</strong><p class=\"math-block\">$$g = f + k \\cdot (f - f_{blurred})$$</p><p>where k controls sharpening strength</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Edge Detection",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/edge_detection_comparison.png\" alt=\"Edge Detection\" style=\"max-height: 60vh;\"><p class=\"caption\">Comparison of Sobel, Prewitt, and Canny edge detectors</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What makes the Canny edge detector superior to simple gradient methods?",
+        "answer": "Canny uses non-maximum suppression and hysteresis thresholding to produce thin, connected edges with reduced noise sensitivity."
+      }
+    },
+    {
+      "id": 17,
+      "title": "Filter Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import cv2\nimport numpy as np\n\nimg = cv2.imread('image.jpg', 0)\n\n# Gaussian blur\nblurred = cv2.GaussianBlur(img, (5,5), 1.5)\n\n# Median filter (good for salt & pepper)\nmedian = cv2.medianBlur(img, 5)\n\n# Bilateral filter (edge-preserving)\nbilateral = cv2.bilateralFilter(img, 9, 75, 75)\n\n# Sharpening with Laplacian\nlaplacian = cv2.Laplacian(img, cv2.CV_64F)\nsharpened = img - 0.5 * laplacian</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 19,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Noise types:</strong> Gaussian (additive), salt & pepper (impulse), speckle (multiplicative)</li><li><strong>Smoothing filters:</strong> Mean, Gaussian, median - trade-off between noise reduction and blur</li><li><strong>Low-pass:</strong> Removes high frequencies (noise, edges)</li><li><strong>Bilateral filter:</strong> Edge-preserving smoothing using intensity similarity</li><li><strong>High-pass/sharpening:</strong> Enhances edges using Laplacian or unsharp masking</li><li><strong>Edge detection:</strong> Canny provides best results with non-maximum suppression</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 05 - Image Restoration</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

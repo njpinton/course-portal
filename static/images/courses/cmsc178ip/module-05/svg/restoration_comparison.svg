@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Comparison of different image restoration methods">
+  <title>Restoration Methods Comparison</title>
+  <desc>Grid comparison showing results of inverse filter, Wiener filter, constrained least squares, and Richardson-Lucy deconvolution</desc>
+
+  <defs>
+    <linearGradient id="restoreBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#restoreBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Restoration Methods Comparison</text>
+
+  <!-- Input reference -->
+  <g transform="translate(25, 55)">
+    <rect x="0" y="0" width="140" height="160" fill="white" rx="6" stroke="#666" stroke-width="2"/>
+    <text x="70" y="20" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Degraded Input</text>
+    <rect x="15" y="30" width="110" height="80" fill="#555" rx="4"/>
+    <!-- Blurred pattern -->
+    <ellipse cx="70" cy="70" rx="40" ry="30" fill="#888" opacity="0.6"/>
+    <text x="70" y="128" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Blur + Gaussian noise</text>
+    <text x="70" y="142" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">SNR = 30 dB</text>
+  </g>
+
+  <!-- Method 1: Inverse Filter -->
+  <g transform="translate(180, 55)">
+    <rect x="0" y="0" width="155" height="160" fill="white" rx="6" stroke="#ef4444" stroke-width="2"/>
+    <text x="77" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Inverse Filter</text>
+    <rect x="15" y="30" width="125" height="80" fill="#333" rx="4"/>
+    <!-- Noisy result -->
+    <g fill="white" opacity="0.3">
+      <circle cx="40" cy="50" r="2"/>
+      <circle cx="60" cy="65" r="1.5"/>
+      <circle cx="90" cy="55" r="2"/>
+      <circle cx="110" cy="70" r="1.5"/>
+      <circle cx="50" cy="80" r="2"/>
+      <circle cx="80" cy="45" r="1.5"/>
+      <circle cx="100" cy="90" r="2"/>
+    </g>
+    <rect x="50" y="55" width="40" height="25" fill="#999" opacity="0.5"/>
+
+    <rect x="10" y="115" width="135" height="38" fill="#fef2f2" rx="4"/>
+    <text x="77" y="130" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">PSNR: 12.3 dB</text>
+    <text x="77" y="145" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">⚠ Amplifies noise</text>
+  </g>
+
+  <!-- Method 2: Wiener Filter -->
+  <g transform="translate(350, 55)">
+    <rect x="0" y="0" width="155" height="160" fill="white" rx="6" stroke="#10b981" stroke-width="2"/>
+    <text x="77" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Wiener Filter</text>
+    <rect x="15" y="30" width="125" height="80" fill="#666" rx="4"/>
+    <!-- Good result -->
+    <rect x="50" y="55" width="40" height="25" fill="#bbb" stroke="#555" stroke-width="1"/>
+
+    <rect x="10" y="115" width="135" height="38" fill="#ecfdf5" rx="4"/>
+    <text x="77" y="130" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">PSNR: 28.7 dB</text>
+    <text x="77" y="145" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Optimal for known SNR</text>
+  </g>
+
+  <!-- Method 3: Constrained LS -->
+  <g transform="translate(520, 55)">
+    <rect x="0" y="0" width="155" height="160" fill="white" rx="6" stroke="#3b82f6" stroke-width="2"/>
+    <text x="77" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Constrained LS</text>
+    <rect x="15" y="30" width="125" height="80" fill="#666" rx="4"/>
+    <!-- Good result, slightly smoother -->
+    <rect x="50" y="55" width="40" height="25" fill="#aaa" stroke="#666" stroke-width="1"/>
+
+    <rect x="10" y="115" width="135" height="38" fill="#eff6ff" rx="4"/>
+    <text x="77" y="130" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">PSNR: 27.9 dB</text>
+    <text x="77" y="145" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Tunable smoothness</text>
+  </g>
+
+  <!-- Method 4: Richardson-Lucy -->
+  <g transform="translate(690, 55)">
+    <rect x="0" y="0" width="155" height="160" fill="white" rx="6" stroke="#7c3aed" stroke-width="2"/>
+    <text x="77" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Richardson-Lucy</text>
+    <rect x="15" y="30" width="125" height="80" fill="#666" rx="4"/>
+    <!-- Good result -->
+    <rect x="50" y="55" width="40" height="25" fill="#ccc" stroke="#444" stroke-width="1.5"/>
+
+    <rect x="10" y="115" width="135" height="38" fill="#f5f3ff" rx="4"/>
+    <text x="77" y="130" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">PSNR: 26.8 dB</text>
+    <text x="77" y="145" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Non-negative output</text>
+  </g>
+
+  <!-- Comparison table -->
+  <g transform="translate(25, 235)">
+    <rect x="0" y="0" width="800" height="170" fill="white" rx="6" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="400" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Method Characteristics</text>
+
+    <!-- Header -->
+    <g transform="translate(10, 40)">
+      <rect x="0" y="0" width="150" height="25" fill="#1a3a6e" rx="3"/>
+      <text x="75" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Criterion</text>
+      <rect x="160" y="0" width="150" height="25" fill="#ef4444" rx="3"/>
+      <text x="235" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Inverse</text>
+      <rect x="320" y="0" width="150" height="25" fill="#10b981" rx="3"/>
+      <text x="395" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Wiener</text>
+      <rect x="480" y="0" width="150" height="25" fill="#3b82f6" rx="3"/>
+      <text x="555" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Constrained LS</text>
+      <rect x="640" y="0" width="150" height="25" fill="#7c3aed" rx="3"/>
+      <text x="715" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">R-L</text>
+    </g>
+
+    <!-- Row 1: Noise handling -->
+    <g transform="translate(10, 70)">
+      <text x="75" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Noise Handling</text>
+      <text x="235" y="12" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Poor</text>
+      <text x="395" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Excellent</text>
+      <text x="555" y="12" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Very Good</text>
+      <text x="715" y="12" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Good</text>
+    </g>
+
+    <!-- Row 2: Computation -->
+    <g transform="translate(10, 95)">
+      <text x="75" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Speed</text>
+      <text x="235" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Fast</text>
+      <text x="395" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Fast</text>
+      <text x="555" y="12" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Medium</text>
+      <text x="715" y="12" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Slow (iterative)</text>
+    </g>
+
+    <!-- Row 3: Parameters -->
+    <g transform="translate(10, 120)">
+      <text x="75" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Parameters</text>
+      <text x="235" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">None</text>
+      <text x="395" y="12" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">K (NSR)</text>
+      <text x="555" y="12" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">γ (regularization)</text>
+      <text x="715" y="12" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle"># iterations</text>
+    </g>
+
+    <!-- Row 4: Best use -->
+    <g transform="translate(10, 145)">
+      <text x="75" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Best For</text>
+      <text x="235" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Low noise only</text>
+      <text x="395" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Known SNR</text>
+      <text x="555" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Edge preservation</text>
+      <text x="715" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Poisson noise</text>
+    </g>
+  </g>
+</svg>

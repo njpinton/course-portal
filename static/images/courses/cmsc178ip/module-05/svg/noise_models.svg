@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Common noise models and their probability distributions">
+  <title>Noise Models in Image Processing</title>
+  <desc>Four panels showing Gaussian, Salt and Pepper, Poisson, and Speckle noise distributions with their characteristics</desc>
+
+  <defs>
+    <linearGradient id="noiseBg2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#noiseBg2)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Common Noise Models</text>
+
+  <!-- Panel 1: Gaussian Noise -->
+  <g transform="translate(25, 55)">
+    <rect x="0" y="0" width="190" height="340" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="95" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Gaussian Noise</text>
+
+    <!-- Bell curve -->
+    <g transform="translate(20, 40)">
+      <rect x="0" y="0" width="150" height="100" fill="#f8f9fa" rx="4"/>
+      <!-- Axes -->
+      <line x1="20" y1="85" x2="140" y2="85" stroke="#999" stroke-width="1"/>
+      <line x1="20" y1="85" x2="20" y2="10" stroke="#999" stroke-width="1"/>
+      <!-- Bell curve -->
+      <path d="M20,85 Q40,80 55,60 Q75,15 95,60 Q110,80 130,85" fill="none" stroke="#3b82f6" stroke-width="3"/>
+      <text x="75" y="98" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">intensity</text>
+      <text x="10" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" transform="rotate(-90, 10, 50)">p(z)</text>
+      <!-- Mean line -->
+      <line x1="75" y1="10" x2="75" y2="85" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="75" y="8" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">μ</text>
+    </g>
+
+    <!-- Formula -->
+    <rect x="15" y="150" width="160" height="35" fill="#dbeafe" rx="4"/>
+    <text x="95" y="172" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">p(z) = (1/√2πσ²)e^(-(z-μ)²/2σ²)</text>
+
+    <!-- Properties -->
+    <g transform="translate(15, 195)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Properties:</text>
+      <text x="0" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Electronic sensor noise</text>
+      <text x="0" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Thermal noise</text>
+      <text x="0" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Additive, independent</text>
+      <text x="0" y="77" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Parameters: μ (mean), σ (std)</text>
+    </g>
+
+    <!-- Sample image -->
+    <rect x="35" y="280" width="120" height="45" fill="#888" rx="4"/>
+    <g fill="none" stroke="white" stroke-width="0.5" opacity="0.4">
+      <circle cx="60" cy="295" r="2"/>
+      <circle cx="90" cy="305" r="1.5"/>
+      <circle cx="110" cy="290" r="1"/>
+      <circle cx="70" cy="310" r="1.8"/>
+      <circle cx="130" cy="300" r="1.2"/>
+    </g>
+  </g>
+
+  <!-- Panel 2: Salt & Pepper -->
+  <g transform="translate(225, 55)">
+    <rect x="0" y="0" width="190" height="340" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="95" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Salt &amp; Pepper</text>
+
+    <!-- Impulse distribution -->
+    <g transform="translate(20, 40)">
+      <rect x="0" y="0" width="150" height="100" fill="#f8f9fa" rx="4"/>
+      <!-- Axes -->
+      <line x1="20" y1="85" x2="140" y2="85" stroke="#999" stroke-width="1"/>
+      <line x1="20" y1="85" x2="20" y2="10" stroke="#999" stroke-width="1"/>
+      <!-- Impulses -->
+      <line x1="30" y1="85" x2="30" y2="25" stroke="#333" stroke-width="4"/>
+      <line x1="125" y1="85" x2="125" y2="25" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+      <rect x="123" y="25" width="4" height="60" fill="none" stroke="#333" stroke-width="1"/>
+      <text x="30" y="98" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">0</text>
+      <text x="125" y="98" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">255</text>
+      <text x="30" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Ps</text>
+      <text x="125" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Pp</text>
+    </g>
+
+    <!-- Formula -->
+    <rect x="15" y="150" width="160" height="35" fill="#d1fae5" rx="4"/>
+    <text x="95" y="165" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">p(z) = Ps if z=0</text>
+    <text x="95" y="178" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">p(z) = Pp if z=255</text>
+
+    <!-- Properties -->
+    <g transform="translate(15, 195)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Properties:</text>
+      <text x="0" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Dead/saturated pixels</text>
+      <text x="0" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Transmission errors</text>
+      <text x="0" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Sparse, impulsive</text>
+      <text x="0" y="77" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Best removed: median filter</text>
+    </g>
+
+    <!-- Sample image -->
+    <rect x="35" y="280" width="120" height="45" fill="#888" rx="4"/>
+    <rect x="45" y="285" width="3" height="3" fill="white"/>
+    <rect x="80" y="295" width="3" height="3" fill="black"/>
+    <rect x="110" y="288" width="3" height="3" fill="white"/>
+    <rect x="65" y="310" width="3" height="3" fill="black"/>
+    <rect x="130" y="305" width="3" height="3" fill="white"/>
+    <rect x="95" y="315" width="3" height="3" fill="black"/>
+  </g>
+
+  <!-- Panel 3: Poisson Noise -->
+  <g transform="translate(425, 55)">
+    <rect x="0" y="0" width="190" height="340" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="95" y="25" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Poisson (Shot) Noise</text>
+
+    <!-- Poisson distribution -->
+    <g transform="translate(20, 40)">
+      <rect x="0" y="0" width="150" height="100" fill="#f8f9fa" rx="4"/>
+      <!-- Axes -->
+      <line x1="20" y1="85" x2="140" y2="85" stroke="#999" stroke-width="1"/>
+      <line x1="20" y1="85" x2="20" y2="10" stroke="#999" stroke-width="1"/>
+      <!-- Skewed distribution -->
+      <path d="M25,85 L35,80 L45,65 L55,40 L65,30 L75,35 L85,50 L95,62 L105,72 L115,78 L125,82 L135,84" fill="none" stroke="#f97316" stroke-width="3"/>
+      <text x="75" y="98" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">photon count</text>
+    </g>
+
+    <!-- Formula -->
+    <rect x="15" y="150" width="160" height="35" fill="#fed7aa" rx="4"/>
+    <text x="95" y="172" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">p(k;λ) = λᵏe⁻λ / k!</text>
+
+    <!-- Properties -->
+    <g transform="translate(15, 195)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Properties:</text>
+      <text x="0" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Photon counting noise</text>
+      <text x="0" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Signal-dependent</text>
+      <text x="0" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Variance = Mean</text>
+      <text x="0" y="77" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Low-light imaging</text>
+    </g>
+
+    <!-- Sample image -->
+    <rect x="35" y="280" width="120" height="45" fill="#888" rx="4"/>
+    <g fill="white" opacity="0.3">
+      <circle cx="50" cy="295" r="3"/>
+      <circle cx="70" cy="300" r="2"/>
+      <circle cx="100" cy="290" r="4"/>
+      <circle cx="120" cy="310" r="2.5"/>
+    </g>
+  </g>
+
+  <!-- Panel 4: Speckle Noise -->
+  <g transform="translate(625, 55)">
+    <rect x="0" y="0" width="190" height="340" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="95" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Speckle Noise</text>
+
+    <!-- Multiplicative distribution -->
+    <g transform="translate(20, 40)">
+      <rect x="0" y="0" width="150" height="100" fill="#f8f9fa" rx="4"/>
+      <!-- Axes -->
+      <line x1="20" y1="85" x2="140" y2="85" stroke="#999" stroke-width="1"/>
+      <line x1="20" y1="85" x2="20" y2="10" stroke="#999" stroke-width="1"/>
+      <!-- Rayleigh-like distribution -->
+      <path d="M25,85 L40,80 L55,55 L70,30 L85,40 L100,55 L115,68 L130,78" fill="none" stroke="#7c3aed" stroke-width="3"/>
+      <text x="75" y="98" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">intensity</text>
+    </g>
+
+    <!-- Formula -->
+    <rect x="15" y="150" width="160" height="35" fill="#ede9fe" rx="4"/>
+    <text x="95" y="172" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">g = f + f·n (multiplicative)</text>
+
+    <!-- Properties -->
+    <g transform="translate(15, 195)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Properties:</text>
+      <text x="0" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Coherent imaging (SAR)</text>
+      <text x="0" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Ultrasound, radar</text>
+      <text x="0" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Multiplicative model</text>
+      <text x="0" y="77" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Log transform helps</text>
+    </g>
+
+    <!-- Sample image -->
+    <rect x="35" y="280" width="120" height="45" fill="#888" rx="4"/>
+    <g opacity="0.5">
+      <ellipse cx="60" cy="295" rx="8" ry="5" fill="#aaa"/>
+      <ellipse cx="100" cy="305" rx="10" ry="6" fill="#666"/>
+      <ellipse cx="80" cy="315" rx="6" ry="4" fill="#bbb"/>
+      <ellipse cx="130" cy="290" rx="7" ry="4" fill="#777"/>
+    </g>
+  </g>
+</svg>

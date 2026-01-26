@@ -62,8 +62,8 @@ COURSES = {
         "projects": ["ml-research-project"],
         "is_active": True,
     },
-    "cmsc178": {
-        "code": "CMSC 178",
+    "cmsc178ip": {
+        "code": "CMSC 178IP",
         "title": "Digital Image Processing",
         "description": "Fundamentals of digital image processing and computer vision",
         "icon": "image",
@@ -72,7 +72,7 @@ COURSES = {
             1: {"title": "Introduction to Digital Image Processing", "filename": "01-introduction.html", "category": "fundamentals"},
             2: {"title": "Storage and Compression", "filename": "02-storage-compression.html", "category": "fundamentals"},
             3: {"title": "Image Processing Fundamentals", "filename": "03-fundamentals.html", "category": "fundamentals"},
-            4: {"title": "Image Enhancement and Filtering", "filename": "04-enhancement-filtering.html", "category": "enhancement"},
+            4: {"title": "Image Enhancement and Filtering", "filename": "04-enhancement.html", "category": "enhancement"},
             5: {"title": "Image Restoration", "filename": "05-restoration.html", "category": "enhancement"},
             6: {"title": "Geometric Transformations", "filename": "06-geometric-transformations.html", "category": "transformations"},
             7: {"title": "Feature Extraction", "filename": "07-feature-extraction.html", "category": "transformations"},
@@ -82,6 +82,30 @@ COURSES = {
             11: {"title": "Generative Models", "filename": "11-generative-models.html", "category": "deep-learning"},
         },
         "projects": ["dip-research-project"],
+        "is_active": True,
+    },
+    "cmsc178da": {
+        "code": "CMSC 178DA",
+        "title": "Data Analytics",
+        "description": "Principles and techniques of data analytics with Philippine context",
+        "icon": "chart-bar",
+        "color": "#2563EB",
+        "modules": {
+            "syllabus": {"title": "Course Syllabus", "filename": "syllabus.html", "category": "da-fundamentals"},
+            1: {"title": "Introduction to Data Analytics", "filename": "week-01.html", "category": "da-fundamentals"},
+            2: {"title": "Probability & Statistical Foundations", "filename": "week-02.html", "category": "da-fundamentals"},
+            3: {"title": "Data Wrangling & Cleaning", "filename": "week-03.html", "category": "da-fundamentals"},
+            4: {"title": "Exploratory Data Analysis", "filename": "week-04.html", "category": "da-eda"},
+            5: {"title": "Data Visualization Principles", "filename": "week-05.html", "category": "da-eda"},
+            6: {"title": "Data Storytelling & Dashboards", "filename": "week-06.html", "category": "da-eda"},
+            7: {"title": "Regression Analytics", "filename": "week-07.html", "category": "da-modeling"},
+            8: {"title": "Tree-Based Methods & Ensembles", "filename": "week-08.html", "category": "da-modeling"},
+            9: {"title": "Clustering & Segmentation", "filename": "week-09.html", "category": "da-modeling"},
+            10: {"title": "Time Series Analytics", "filename": "week-10.html", "category": "da-advanced"},
+            11: {"title": "Text Analytics & Ethics", "filename": "week-11.html", "category": "da-advanced"},
+            12: {"title": "Capstone Presentations", "filename": "week-12.html", "category": "da-advanced"},
+        },
+        "projects": ["da-capstone-project"],
         "is_active": True,
     },
 }
@@ -106,7 +130,7 @@ PROJECTS = {
         "id": "dip-research-project",
         "title": "DIP Research Project",
         "description": "Apply image processing techniques to a real-world problem",
-        "course": "cmsc178",
+        "course": "cmsc178ip",
         "stages": 5,
         "stage_names": [
             "Problem Definition",
@@ -116,21 +140,57 @@ PROJECTS = {
             "Final Presentation"
         ],
     },
+    "da-capstone-project": {
+        "id": "da-capstone-project",
+        "title": "Data Analytics Capstone",
+        "description": "End-to-end analytics project with Philippine context",
+        "course": "cmsc178da",
+        "stages": 4,
+        "stage_names": [
+            "Proposal & Data Acquisition",
+            "EDA & Feature Engineering",
+            "Modeling & Analysis",
+            "Dashboard & Presentation"
+        ],
+    },
 }
 
 # Module categories for grouping in UI
-# Note: Categories are shared across courses - add course-specific ones as needed
+# Note: Order in this dict determines display order in course pages
 MODULE_CATEGORIES = {
-    # Shared categories
+    # Shared - Fundamentals (always first)
     "fundamentals": {"title": "Fundamentals", "order": 1},
-    "deep-learning": {"title": "Deep Learning", "order": 4},
     # CMSC 173 - Machine Learning categories
     "model-selection": {"title": "Model Selection & Validation", "order": 2},
     "classification": {"title": "Classification Methods", "order": 3},
-    # CMSC 178 - Digital Image Processing categories
+    # CMSC 178IP - Digital Image Processing categories
     "enhancement": {"title": "Image Enhancement", "order": 2},
     "transformations": {"title": "Transformations & Features", "order": 3},
-    "segmentation": {"title": "Segmentation", "order": 3},
+    "segmentation": {"title": "Segmentation", "order": 4},
+    # Shared - Deep Learning (after course-specific categories)
+    "deep-learning": {"title": "Deep Learning", "order": 5},
+    # CMSC 178DA - Data Analytics categories
+    "da-fundamentals": {"title": "Foundations & Statistics", "order": 1},
+    "da-eda": {"title": "EDA & Visualization", "order": 2},
+    "da-modeling": {"title": "Modeling & Segmentation", "order": 3},
+    "da-advanced": {"title": "Advanced Topics & Capstone", "order": 4},
+}
+
+# Mapping from course_code (various formats) to project_id
+# Used to determine which project config to use for a group based on their class
+COURSE_PROJECTS = {
+    # CMSC 173 - Machine Learning
+    "CMSC173": "ml-research-project",
+    "CMSC 173": "ml-research-project",
+    "cmsc173": "ml-research-project",
+    # CMSC 178IP - Digital Image Processing
+    "CMSC178IP": "dip-research-project",
+    "CMSC 178IP": "dip-research-project",
+    "cmsc178ip": "dip-research-project",
+    # CMSC 178DA - Data Analytics
+    "CMSC178DA": "da-capstone-project",
+    "CMSC 178DA": "da-capstone-project",
+    "cmsc178da": "da-capstone-project",
 }
 
 

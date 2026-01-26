@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Image quality metrics PSNR and SSIM visualization">
+  <title>Image Quality Metrics</title>
+  <desc>Explanation of PSNR and SSIM metrics for evaluating restoration quality</desc>
+
+  <defs>
+    <linearGradient id="qualityBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#qualityBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Image Quality Metrics</text>
+
+  <!-- PSNR Section -->
+  <g transform="translate(25, 55)">
+    <rect x="0" y="0" width="395" height="320" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="197" y="28" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">PSNR (Peak Signal-to-Noise Ratio)</text>
+
+    <!-- Formula -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="355" height="60" fill="#dbeafe" rx="6"/>
+      <text x="177" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">MSE = (1/MN) Σ [f(x,y) - f̂(x,y)]²</text>
+      <text x="177" y="47" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">PSNR = 10 log₁₀(MAX² / MSE) dB</text>
+    </g>
+
+    <!-- Scale visualization -->
+    <g transform="translate(20, 120)">
+      <text x="177" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">PSNR Scale (8-bit images)</text>
+
+      <!-- Scale bar -->
+      <rect x="20" y="15" width="315" height="30" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+
+      <!-- Gradient fill -->
+      <defs>
+        <linearGradient id="psnrGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#ef4444"/>
+          <stop offset="33%" style="stop-color:#f97316"/>
+          <stop offset="66%" style="stop-color:#eab308"/>
+          <stop offset="100%" style="stop-color:#10b981"/>
+        </linearGradient>
+      </defs>
+      <rect x="25" y="20" width="305" height="20" fill="url(#psnrGrad)" rx="3"/>
+
+      <!-- Labels -->
+      <text x="30" y="58" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">&lt;20 dB</text>
+      <text x="30" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Poor</text>
+
+      <text x="120" y="58" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">20-25 dB</text>
+      <text x="120" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Fair</text>
+
+      <text x="220" y="58" fill="#eab308" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">25-30 dB</text>
+      <text x="220" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Good</text>
+
+      <text x="310" y="58" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">&gt;30 dB</text>
+      <text x="310" y="70" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Excellent</text>
+    </g>
+
+    <!-- Characteristics -->
+    <g transform="translate(20, 210)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Characteristics:</text>
+      <g transform="translate(0, 15)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Higher is better (logarithmic scale)</text>
+      </g>
+      <g transform="translate(0, 35)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Based on pixel-wise MSE</text>
+      </g>
+      <g transform="translate(0, 55)">
+        <circle cx="8" cy="8" r="4" fill="#f97316"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Doesn't capture perceptual quality</text>
+      </g>
+      <g transform="translate(0, 75)">
+        <circle cx="8" cy="8" r="4" fill="#f97316"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Sensitive to small shifts/rotations</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- SSIM Section -->
+  <g transform="translate(430, 55)">
+    <rect x="0" y="0" width="395" height="320" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="197" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">SSIM (Structural Similarity)</text>
+
+    <!-- Formula -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="355" height="60" fill="#d1fae5" rx="6"/>
+      <text x="177" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">SSIM = l(x,y) · c(x,y) · s(x,y)</text>
+      <text x="177" y="47" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">luminance × contrast × structure</text>
+    </g>
+
+    <!-- Components visualization -->
+    <g transform="translate(20, 120)">
+      <text x="177" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">SSIM Components</text>
+
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="110" height="55" fill="#e8f4fd" rx="4" stroke="#3b82f6"/>
+        <text x="55" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Luminance</text>
+        <text x="55" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Mean intensity</text>
+        <text x="55" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">comparison</text>
+      </g>
+
+      <g transform="translate(120, 15)">
+        <rect x="0" y="0" width="110" height="55" fill="#fef3c7" rx="4" stroke="#f59e0b"/>
+        <text x="55" y="18" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Contrast</text>
+        <text x="55" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Std deviation</text>
+        <text x="55" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">comparison</text>
+      </g>
+
+      <g transform="translate(240, 15)">
+        <rect x="0" y="0" width="110" height="55" fill="#ede9fe" rx="4" stroke="#7c3aed"/>
+        <text x="55" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Structure</text>
+        <text x="55" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Correlation</text>
+        <text x="55" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">coefficient</text>
+      </g>
+    </g>
+
+    <!-- Scale -->
+    <g transform="translate(20, 200)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">SSIM Scale [0, 1]:</text>
+      <rect x="0" y="10" width="355" height="20" fill="#f8f9fa" rx="3" stroke="#e5e7eb"/>
+      <defs>
+        <linearGradient id="ssimGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#ef4444"/>
+          <stop offset="50%" style="stop-color:#eab308"/>
+          <stop offset="100%" style="stop-color:#10b981"/>
+        </linearGradient>
+      </defs>
+      <rect x="5" y="13" width="345" height="14" fill="url(#ssimGrad)" rx="2"/>
+      <text x="5" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">0.0</text>
+      <text x="177" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">0.5</text>
+      <text x="350" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="end">1.0 (identical)</text>
+    </g>
+
+    <!-- Characteristics -->
+    <g transform="translate(20, 250)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Characteristics:</text>
+      <g transform="translate(0, 15)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Better perceptual correlation</text>
+      </g>
+      <g transform="translate(0, 35)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Captures structural information</text>
+      </g>
+      <g transform="translate(0, 55)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Computed on local windows</text>
+      </g>
+    </g>
+  </g>
+</svg>

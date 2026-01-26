@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 480" role="img" aria-label="5x5 confusion matrix heatmap showing classification results">
+  <title>Confusion Matrix</title>
+  <desc>Heatmap visualization of a confusion matrix for 5-class classification, with true labels on Y-axis and predicted labels on X-axis</desc>
+
+  <defs>
+    <linearGradient id="cmBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="cmScale" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#fee2e2"/>
+      <stop offset="50%" style="stop-color:#fef3c7"/>
+      <stop offset="100%" style="stop-color:#d1fae5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="550" height="480" fill="url(#cmBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="275" y="30" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="18" font-weight="600" text-anchor="middle">Confusion Matrix</text>
+
+  <!-- Matrix area -->
+  <g transform="translate(120, 60)">
+    <!-- Axis labels -->
+    <text x="175" y="-15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Predicted Label</text>
+    <text x="-50" y="175" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle" transform="rotate(-90, -50, 175)">True Label</text>
+
+    <!-- Class labels - X axis -->
+    <text x="35" y="-5" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Cat</text>
+    <text x="105" y="-5" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Dog</text>
+    <text x="175" y="-5" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Bird</text>
+    <text x="245" y="-5" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Fish</text>
+    <text x="315" y="-5" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Horse</text>
+
+    <!-- Class labels - Y axis -->
+    <text x="-10" y="40" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">Cat</text>
+    <text x="-10" y="110" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">Dog</text>
+    <text x="-10" y="180" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">Bird</text>
+    <text x="-10" y="250" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">Fish</text>
+    <text x="-10" y="320" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">Horse</text>
+
+    <!-- Row 1: Cat -->
+    <rect x="0" y="0" width="70" height="70" fill="#10b981" rx="4"/>
+    <text x="35" y="42" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">45</text>
+    <rect x="70" y="0" width="70" height="70" fill="#fbbf24" rx="4"/>
+    <text x="105" y="42" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">3</text>
+    <rect x="140" y="0" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="175" y="42" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="210" y="0" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="245" y="42" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">0</text>
+    <rect x="280" y="0" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="315" y="42" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+
+    <!-- Row 2: Dog -->
+    <rect x="0" y="70" width="70" height="70" fill="#fbbf24" rx="4"/>
+    <text x="35" y="112" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">4</text>
+    <rect x="70" y="70" width="70" height="70" fill="#10b981" rx="4"/>
+    <text x="105" y="112" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">42</text>
+    <rect x="140" y="70" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="175" y="112" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">2</text>
+    <rect x="210" y="70" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="245" y="112" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="280" y="70" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="315" y="112" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+
+    <!-- Row 3: Bird -->
+    <rect x="0" y="140" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="35" y="182" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="70" y="140" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="105" y="182" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="140" y="140" width="70" height="70" fill="#10b981" rx="4"/>
+    <text x="175" y="182" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">46</text>
+    <rect x="210" y="140" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="245" y="182" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">2</text>
+    <rect x="280" y="140" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="315" y="182" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">0</text>
+
+    <!-- Row 4: Fish -->
+    <rect x="0" y="210" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="35" y="252" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">0</text>
+    <rect x="70" y="210" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="105" y="252" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="140" y="210" width="70" height="70" fill="#fbbf24" rx="4"/>
+    <text x="175" y="252" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">3</text>
+    <rect x="210" y="210" width="70" height="70" fill="#10b981" rx="4"/>
+    <text x="245" y="252" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">44</text>
+    <rect x="280" y="210" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="315" y="252" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">2</text>
+
+    <!-- Row 5: Horse -->
+    <rect x="0" y="280" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="35" y="322" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">2</text>
+    <rect x="70" y="280" width="70" height="70" fill="#fbbf24" rx="4"/>
+    <text x="105" y="322" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">5</text>
+    <rect x="140" y="280" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="175" y="322" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">0</text>
+    <rect x="210" y="280" width="70" height="70" fill="#fee2e2" rx="4"/>
+    <text x="245" y="322" fill="#333" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">1</text>
+    <rect x="280" y="280" width="70" height="70" fill="#10b981" rx="4"/>
+    <text x="315" y="322" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">42</text>
+  </g>
+
+  <!-- Color scale -->
+  <g transform="translate(120, 430)">
+    <text x="0" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Low</text>
+    <rect x="35" y="-12" width="200" height="16" fill="url(#cmScale)" rx="3"/>
+    <text x="250" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">High</text>
+    <text x="350" y="0" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Accuracy: 87.6%</text>
+  </g>
+</svg>

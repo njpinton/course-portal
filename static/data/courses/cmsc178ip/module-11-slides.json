@@ -1,0 +1,286 @@
+{
+  "module": {
+    "id": "11",
+    "title": "Generative Models",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "65 minutes",
+    "prerequisites": ["Module 10: Computer Vision & Deep Learning II"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Generative Models",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 11</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Distinguish between generative and discriminative models</li><li>Understand autoencoder and VAE architectures</li><li>Explain GAN architecture and training dynamics</li><li>Implement image-to-image translation</li><li>Apply style transfer techniques</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Introduction to Generative Models",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Creating new data from learned distributions</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "Generative vs Discriminative",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/generative_vs_discriminative.png\" alt=\"Generative vs Discriminative\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Discriminative</strong><br>Learn P(y|x)<br>Classification, regression</div><div><strong>Generative</strong><br>Learn P(x) or P(x|y)<br>Sample new data</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Latent Space Concept",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/latent_space_concept.png\" alt=\"Latent Space\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Latent Space:</strong> Compressed representation where similar items are close together. Meaningful directions in latent space correspond to semantic attributes.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is the latent space important in generative models?",
+        "answer": "The latent space provides a compressed, structured representation of data. Points in latent space can be sampled to generate new data, and interpolating between points creates smooth transitions. Well-organized latent spaces also allow for semantic manipulation."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Autoencoders",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Learning compressed representations</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 7,
+      "title": "Autoencoder Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/autoencoder_architecture.png\" alt=\"Autoencoder\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Autoencoder:</strong> Learn identity function through bottleneck.</p><ul><li><strong>Encoder:</strong> Compress input to latent code</li><li><strong>Decoder:</strong> Reconstruct from latent code</li><li><strong>Loss:</strong> Reconstruction error (MSE)</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Variational Autoencoders",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Probabilistic latent representations</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 9,
+      "title": "VAE Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/vae_architecture.png\" alt=\"VAE Architecture\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>VAE:</strong> Encode to distribution (μ, σ), not single point.<br>Enables generation by sampling from latent distribution.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "VAE Encoder",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/vae_encoder.png\" alt=\"VAE Encoder\" style=\"max-height: 60vh;\"><div class=\"formula-box\"><p>Encoder outputs parameters of latent distribution:</p><p class=\"math-block\">$$q(z|x) = \\mathcal{N}(\\mu(x), \\sigma(x)^2)$$</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "VAE Sampling (Reparameterization)",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/vae_sampling_process.png\" alt=\"VAE Sampling\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Reparameterization Trick:</strong></p><p class=\"math-block\">$$z = \\mu + \\sigma \\cdot \\epsilon, \\quad \\epsilon \\sim \\mathcal{N}(0, 1)$$</p><p>Enables backpropagation through sampling operation.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is the reparameterization trick necessary in VAEs?",
+        "answer": "Sampling from a distribution is not differentiable. The reparameterization trick moves the stochasticity to an input (ε) so the model can backpropagate gradients through μ and σ, enabling end-to-end training."
+      }
+    },
+    {
+      "id": 12,
+      "title": "VAE Decoder",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/vae_decoder.png\" alt=\"VAE Decoder\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Decoder:</strong> Maps latent code z back to image space. Generation: sample z ~ N(0,1), decode to image.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "GANs",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Generative Adversarial Networks</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 14,
+      "title": "GAN Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/gan_architecture.png\" alt=\"GAN Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>GAN:</strong> Two networks in competition.</p><ul><li><strong>Generator:</strong> Creates fake images from noise</li><li><strong>Discriminator:</strong> Distinguishes real from fake</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "GAN Generator",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/gan_generator.png\" alt=\"GAN Generator\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Generator Goal:</strong> Learn to produce images indistinguishable from real data. Maps random noise z to image space.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "GAN Discriminator",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/gan_discriminator.png\" alt=\"GAN Discriminator\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Discriminator Goal:</strong> Correctly classify images as real or fake. Provides learning signal to generator.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "GAN Game Theory",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/gan_game_theory.png\" alt=\"GAN Game Theory\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Minimax Game:</strong></p><p class=\"math-block\">$$\\min_G \\max_D \\mathbb{E}[\\log D(x)] + \\mathbb{E}[\\log(1 - D(G(z)))]$$</p><p>G minimizes, D maximizes. Nash equilibrium when D can't distinguish.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "GAN Training Dynamics",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/gan_training_dynamics.png\" alt=\"Training Dynamics\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Alternating training:</strong><ol><li>Train D on real + fake (labeled)</li><li>Train G to fool D</li><li>Repeat</li></ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Mode Collapse",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/mode_collapse.png\" alt=\"Mode Collapse\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Mode Collapse:</strong> Generator produces limited variety. Only generates samples that easily fool discriminator.</p><p><strong>Solutions:</strong> Wasserstein loss, spectral normalization, progressive training.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is mode collapse and why is it problematic?",
+        "answer": "Mode collapse occurs when the generator learns to produce only a few types of outputs that fool the discriminator, ignoring the full diversity of the real data distribution. The generated samples lack variety and don't represent the true data distribution."
+      }
+    },
+    {
+      "id": 20,
+      "title": "Training Tips",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/training_tips.png\" alt=\"Training Tips\" style=\"max-height: 60vh;\"><div class=\"highlight-box\"><ul><li>Use batch normalization</li><li>Leaky ReLU in discriminator</li><li>Adam optimizer (low learning rate)</li><li>Label smoothing</li><li>Balance G and D training</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "VAE vs GAN",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/vae_vs_gan.png\" alt=\"VAE vs GAN\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>VAE</strong><br>Stable training<br>Blurry outputs<br>Explicit density</div><div><strong>GAN</strong><br>Harder to train<br>Sharp outputs<br>Implicit density</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Applications",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Real-world generative applications</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 23,
+      "title": "Generation Examples",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/generation_examples.png\" alt=\"Generation Examples\" style=\"max-height: 65vh;\"><p class=\"caption\">Faces, art, objects generated by modern GANs</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Latent Interpolation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/latent_interpolation.png\" alt=\"Latent Interpolation\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Interpolation:</strong> Smooth transitions between generated images by interpolating in latent space.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Conditional Generation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/conditional_generation.png\" alt=\"Conditional Generation\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Conditional GAN (cGAN):</strong> Control generation with class labels or other conditions. Generate specific types of images on demand.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Image-to-Image Translation",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/image_to_image_translation.png\" alt=\"Image Translation\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>pix2pix, CycleGAN:</strong><br>Sketch → Photo<br>Day → Night<br>Horse → Zebra<br>Satellite → Map</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 27,
+      "title": "Style Transfer",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/style_transfer_concept.png\" alt=\"Style Transfer\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Neural Style Transfer:</strong> Apply artistic style of one image to content of another.</p><p>Minimize: Content loss + Style loss (Gram matrices)</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Applications Overview",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-11/applications_overview.png\" alt=\"Applications\" style=\"max-height: 65vh;\"><p class=\"caption\">Generative models: art, entertainment, data augmentation, super-resolution</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import torch\nimport torch.nn as nn\n\nclass Generator(nn.Module):\n    def __init__(self, latent_dim=100):\n        super().__init__()\n        self.model = nn.Sequential(\n            nn.Linear(latent_dim, 256),\n            nn.LeakyReLU(0.2),\n            nn.Linear(256, 512),\n            nn.LeakyReLU(0.2),\n            nn.Linear(512, 784),\n            nn.Tanh()\n        )\n    \n    def forward(self, z):\n        return self.model(z).view(-1, 1, 28, 28)\n\n# Generate images\nz = torch.randn(16, 100)\nfake_images = generator(z)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 31,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Autoencoders:</strong> Learn compressed representations via reconstruction</li><li><strong>VAE:</strong> Probabilistic latent space enables generation</li><li><strong>GAN:</strong> Generator vs discriminator adversarial training</li><li><strong>Mode collapse:</strong> Major GAN training challenge</li><li><strong>Applications:</strong> Image generation, translation, style transfer</li><li><strong>Future:</strong> Diffusion models, large-scale generation</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Course Complete!",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Congratulations!</p><p style=\"color: #ccc;\">You've completed all modules of CMSC 178IP - Digital Image Processing</p><br><p style=\"color: #ccc;\"><small>Good luck with your final projects!</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

@@ -1,0 +1,967 @@
+/*
+ * Custom CSS for CMSC 178DA Presentations
+ * Data Analytics - University of the Philippines Cebu
+ * Department of Computer Science
+ */
+
+/* Data Analytics Color Palette */
+:root {
+    --da-primary: #2563EB;      /* Blue - data, charts */
+    --da-secondary: #7C3AED;    /* Purple - analytics, insights */
+    --da-accent: #10B981;       /* Green - success, positive */
+    --da-warning: #F59E0B;      /* Amber - attention, caution */
+    --da-dark: #1E293B;         /* Slate dark - backgrounds */
+    --da-light: #F1F5F9;        /* Slate light - backgrounds */
+    --up-maroon: #7b1113;       /* UP branding */
+    --up-gold: #ffd700;         /* UP branding */
+    --text-dark: #1E293B;
+    --text-light: #64748B;
+    --header-bg: #2563EB;
+    --header-bg-dark: #1D4ED8;
+}
+
+/* ===========================================
+   Header Bar (Fixed at top)
+   =========================================== */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.presenter-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: linear-gradient(135deg, var(--da-primary) 0%, var(--da-secondary) 100%);
+    color: white;
+    padding: 8px 16px;
+    border-bottom: 3px solid var(--up-gold);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(37, 99, 235, 0.3);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.presenter-header h1 {
+    font-size: 0.95em;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.home-button {
+    background: var(--up-gold);
+    color: var(--da-dark);
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.75em;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.home-button:hover {
+    background: white;
+    color: var(--da-primary);
+    transform: translateY(-1px);
+}
+
+.home-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.course-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+}
+
+.course-badge svg {
+    opacity: 0.9;
+}
+
+.slide-counter {
+    font-size: 0.9em;
+    color: var(--up-gold);
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.header-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ===========================================
+   Base typography (with header offset)
+   =========================================== */
+.reveal {
+    margin-top: 50px !important;
+    height: calc(100vh - 50px) !important;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 28px;
+    color: var(--text-dark);
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+    font-weight: 700;
+    color: var(--da-primary);
+    text-transform: none;
+    letter-spacing: -0.02em;
+}
+
+.reveal h1 {
+    font-size: 2.2em;
+    margin-bottom: 0.5em;
+}
+
+.reveal h2 {
+    font-size: 1.6em;
+    margin-bottom: 0.4em;
+    border-bottom: 4px solid var(--da-secondary);
+    padding-bottom: 0.2em;
+    display: inline-block;
+}
+
+.reveal h3 {
+    font-size: 1.3em;
+    color: var(--da-secondary);
+}
+
+/* Two column layout */
+.two-columns {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+.two-columns > div {
+    flex: 1;
+    text-align: left;
+}
+
+/* Three column layout */
+.three-columns {
+    display: flex;
+    gap: 1.5em;
+    align-items: flex-start;
+}
+
+.three-columns > div {
+    flex: 1;
+    text-align: left;
+}
+
+/* Lists */
+.reveal ul, .reveal ol {
+    text-align: left;
+    margin-left: 1em;
+}
+
+.reveal li {
+    margin-bottom: 0.3em;
+    line-height: 1.4;
+}
+
+.reveal li::marker {
+    color: var(--da-primary);
+}
+
+/* Code blocks - Data Analytics style */
+.reveal pre {
+    width: 100%;
+    font-size: 0.65em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.reveal code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.reveal pre code {
+    padding: 1.2em;
+    max-height: 450px;
+    background: #1e1e1e;
+    border-radius: 12px;
+}
+
+/* Inline code */
+.reveal p code, .reveal li code {
+    background: var(--da-light);
+    color: var(--da-primary);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Math display */
+.math-display {
+    font-size: 1.3em;
+    margin: 0.5em 0;
+    color: var(--da-dark);
+}
+
+/* Images */
+.reveal img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Captions */
+.caption {
+    font-size: 0.7em;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 0.5em;
+}
+
+/* Highlight box - for key points */
+.highlight-box {
+    background: linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%);
+    border-left: 5px solid var(--da-primary);
+    padding: 1em 1.5em;
+    border-radius: 0 12px 12px 0;
+    text-align: left;
+}
+
+/* Definition box - for definitions */
+.definition-box {
+    background: linear-gradient(135deg, #F5F3FF 0%, #FDF4FF 100%);
+    border: 2px solid var(--da-secondary);
+    padding: 1em 1.5em;
+    border-radius: 12px;
+    text-align: left;
+}
+
+/* Formula box - for equations */
+.formula-box {
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+    border: 2px solid var(--da-warning);
+    padding: 1em 1.5em;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* Success box - for positive outcomes */
+.success-box {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border: 2px solid var(--da-accent);
+    padding: 1em 1.5em;
+    border-radius: 12px;
+    text-align: left;
+}
+
+/* Case study box */
+.case-study-box {
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    border: 2px solid #CBD5E1;
+    padding: 1.5em;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.case-study-box h4 {
+    color: var(--da-primary);
+    margin-top: 0;
+    font-size: 1.1em;
+}
+
+/* Progress bar */
+.reveal .progress {
+    background: rgba(0, 0, 0, 0.2);
+    height: 4px;
+}
+
+.reveal .progress span {
+    background: linear-gradient(90deg, var(--da-primary) 0%, var(--da-secondary) 100%);
+    transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+}
+
+/* Slide numbers */
+.reveal .slide-number {
+    font-size: 14px;
+    color: var(--text-light);
+    background-color: transparent;
+}
+
+/* Section headers (vertical slides) */
+.reveal section[data-background-color] h1 {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Table styling - Data Analytics themed */
+.reveal table {
+    margin: 1em auto;
+    border-collapse: collapse;
+    font-size: 0.85em;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reveal table th {
+    background: linear-gradient(135deg, var(--da-primary) 0%, var(--da-secondary) 100%);
+    color: white;
+    padding: 0.7em 1em;
+    font-weight: 600;
+}
+
+.reveal table td {
+    padding: 0.5em 1em;
+    border: 1px solid #e2e8f0;
+}
+
+.reveal table tr:nth-child(even) {
+    background-color: var(--da-light);
+}
+
+.reveal table tr:hover {
+    background-color: #E0E7FF;
+}
+
+/* Fragment animations */
+.reveal .fragment.highlight-current-blue.current-fragment {
+    color: var(--da-primary);
+}
+
+/* Stat cards for KPIs */
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.2em;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+.stat-card .stat-value {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--da-primary);
+    line-height: 1.2;
+}
+
+.stat-card .stat-label {
+    font-size: 0.8em;
+    color: var(--text-light);
+    margin-top: 0.3em;
+}
+
+.stat-card .stat-change {
+    font-size: 0.75em;
+    margin-top: 0.3em;
+}
+
+.stat-card .stat-change.positive {
+    color: var(--da-accent);
+}
+
+.stat-card .stat-change.negative {
+    color: #EF4444;
+}
+
+/* Icon list items */
+.icon-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.icon-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+.icon-list li::before {
+    content: none;
+}
+
+.icon-list .icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--da-light);
+    border-radius: 6px;
+    color: var(--da-primary);
+}
+
+/* Timeline for process steps */
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 1em 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--da-primary) 0%, var(--da-secondary) 100%);
+    z-index: 0;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.timeline-item .number {
+    width: 40px;
+    height: 40px;
+    background: var(--da-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+.timeline-item .label {
+    font-size: 0.75em;
+    color: var(--text-dark);
+    text-align: center;
+    max-width: 100px;
+}
+
+/* Print styles */
+@media print {
+    .presenter-header {
+        display: none;
+    }
+
+    .reveal {
+        margin-top: 0 !important;
+        height: 100vh !important;
+    }
+
+    .reveal .slide-number {
+        display: none;
+    }
+
+    .reveal section {
+        page-break-after: always;
+    }
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .presenter-header {
+        padding: 6px 12px;
+    }
+
+    .presenter-header h1 {
+        display: none;
+    }
+
+    .course-badge span {
+        display: none;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .home-button span {
+        display: none;
+    }
+
+    .reveal {
+        font-size: 20px;
+        margin-top: 45px !important;
+        height: calc(100vh - 45px) !important;
+    }
+
+    .two-columns, .three-columns {
+        flex-direction: column;
+    }
+
+    .reveal pre {
+        font-size: 0.55em;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.5em;
+    }
+}
+
+/* Accessibility: Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .reveal .slides section {
+        transition: none !important;
+    }
+
+    .reveal .slide-background {
+        transition: none !important;
+    }
+
+    .reveal .fragment {
+        transition: none !important;
+    }
+
+    .reveal .slides section .fragment.visible {
+        transition: none !important;
+    }
+
+    /* Disable all Reveal.js animations */
+    .reveal .slides > section,
+    .reveal .slides > section > section {
+        transition: none !important;
+    }
+}
+
+/* ===========================================
+   Activity Boxes for Interactive Exercises
+   =========================================== */
+.activity-box {
+    background: linear-gradient(135deg, #DBEAFE 0%, #E0E7FF 100%);
+    border: 3px solid var(--da-primary);
+    border-radius: 16px;
+    padding: 1.5em 2em;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.activity-box h4 {
+    color: var(--da-primary);
+    margin-top: 0;
+    margin-bottom: 0.8em;
+    font-size: 1.1em;
+}
+
+.activity-box p {
+    margin-bottom: 0.8em;
+}
+
+.activity-box .timer {
+    font-size: 0.85em;
+    color: var(--da-warning);
+    font-weight: 700;
+    text-align: right;
+    margin-top: 1em;
+    padding: 0.4em 0.8em;
+    background: rgba(245, 158, 11, 0.15);
+    border-radius: 8px;
+    display: inline-block;
+    float: right;
+}
+
+.activity-box .timer::before {
+    content: "⏱ ";
+}
+
+.activity-box table {
+    margin: 1em 0;
+    width: 100%;
+}
+
+.activity-box table input[type="text"] {
+    width: 60px;
+    padding: 0.3em;
+    text-align: center;
+    border: 2px solid var(--da-primary);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* ===========================================
+   Simple Inline Charts (SVG-based)
+   =========================================== */
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1.5em;
+    height: 280px;
+    padding: 1.5em;
+    background: var(--da-light);
+    border-radius: 12px;
+    margin: 1em 0;
+}
+
+.chart-bar {
+    width: 70px;
+    background: linear-gradient(180deg, var(--da-primary) 0%, var(--da-secondary) 100%);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 0.5em;
+    color: white;
+    font-weight: 600;
+    font-size: 0.85em;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.chart-bar:hover {
+    transform: scaleY(1.02);
+}
+
+.chart-bar .bar-value {
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.chart-bar .bar-label {
+    position: absolute;
+    bottom: -2em;
+    font-size: 0.75em;
+    color: var(--text-dark);
+    text-align: center;
+    width: 100%;
+}
+
+.chart-bar.positive {
+    background: linear-gradient(180deg, var(--da-accent) 0%, #059669 100%);
+}
+
+.chart-bar.negative {
+    background: linear-gradient(180deg, #EF4444 0%, #B91C1C 100%);
+}
+
+.chart-bar.warning {
+    background: linear-gradient(180deg, var(--da-warning) 0%, #D97706 100%);
+}
+
+/* Line chart styling (SVG-based) */
+.line-chart {
+    width: 100%;
+    max-width: 700px;
+    margin: 1em auto;
+    background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    padding: 1em 1.5em;
+    box-sizing: border-box;
+}
+
+.line-chart svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.line-chart .grid-line {
+    stroke: #e2e8f0;
+    stroke-width: 1;
+}
+
+.line-chart .grid-line-dashed {
+    stroke: #e2e8f0;
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+}
+
+.line-chart .chart-line {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.line-chart .data-point {
+    fill: white;
+    stroke-width: 3;
+}
+
+.line-chart .data-point:hover {
+    r: 7;
+}
+
+.line-chart .axis-label {
+    font-size: 11px;
+    fill: #64748b;
+    font-family: 'Inter', sans-serif;
+}
+
+.line-chart .data-label {
+    font-size: 10px;
+    font-weight: 600;
+    fill: #1e293b;
+    font-family: 'Inter', sans-serif;
+}
+
+.line-chart .y-axis-label {
+    font-size: 10px;
+    fill: #94a3b8;
+    font-family: 'Inter', sans-serif;
+}
+
+.line-chart .chart-title {
+    font-size: 14px;
+    font-weight: 600;
+    fill: #1e293b;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Horizontal bar chart (SVG-based) */
+.horizontal-bar-chart {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    padding: 0.5em;
+}
+
+.horizontal-bar-chart .bar-label-h {
+    font-size: 10px;
+    fill: #374151;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.horizontal-bar-chart .bar-value-h {
+    font-size: 10px;
+    fill: #1e293b;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.horizontal-bar-chart .axis-tick {
+    font-size: 9px;
+    fill: #94a3b8;
+    font-family: 'Inter', sans-serif;
+}
+
+.horizontal-bar-chart rect {
+    transition: opacity 0.2s ease;
+}
+
+.horizontal-bar-chart rect:hover {
+    opacity: 0.85;
+    filter: brightness(1.1);
+}
+
+/* Vertical bar chart (SVG-based) */
+.vertical-bar-chart-container {
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+}
+
+.vertical-bar-chart {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    padding: 0.5em;
+}
+
+.vertical-bar-chart .axis-label-v {
+    font-size: 11px;
+    fill: #94a3b8;
+    font-family: 'Inter', sans-serif;
+}
+
+.vertical-bar-chart .bar-value-v {
+    font-size: 14px;
+    fill: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.vertical-bar-chart .bar-label-v {
+    font-size: 12px;
+    fill: #1e293b;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+}
+
+.vertical-bar-chart .bar-sublabel {
+    font-size: 10px;
+    fill: #64748b;
+    font-family: 'Inter', sans-serif;
+}
+
+.vertical-bar-chart rect {
+    transition: opacity 0.2s ease;
+}
+
+.vertical-bar-chart rect:hover {
+    opacity: 0.85;
+}
+
+/* Chart legend */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    margin-top: 1em;
+    font-size: 0.8em;
+}
+
+.chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.chart-legend-item .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.chart-legend-item .dot.primary {
+    background: var(--da-primary);
+}
+
+.chart-legend-item .dot.secondary {
+    background: var(--da-secondary);
+}
+
+.chart-legend-item .dot.accent {
+    background: var(--da-accent);
+}
+
+/* ===========================================
+   Discussion/Think-Pair-Share boxes
+   =========================================== */
+.discussion-box {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border: 3px solid var(--da-warning);
+    border-radius: 16px;
+    padding: 1.5em 2em;
+    text-align: left;
+}
+
+.discussion-box h4 {
+    color: #B45309;
+    margin-top: 0;
+}
+
+.discussion-box .prompt {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 1em 0;
+}
+
+.discussion-box .instructions {
+    font-size: 0.85em;
+    color: var(--text-light);
+}
+
+/* ===========================================
+   Code output styling
+   =========================================== */
+.code-output {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 1em;
+    border-radius: 0 0 12px 12px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.75em;
+    margin-top: -12px;
+    border-top: 2px dashed #3c3c3c;
+}
+
+.code-output::before {
+    content: "Output:";
+    display: block;
+    color: #6A9955;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+/* Pandas DataFrame output styling */
+.dataframe-output {
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.dataframe-output table {
+    font-size: 0.7em;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.dataframe-output th {
+    background: var(--da-primary);
+    color: white;
+    padding: 0.5em;
+    font-weight: 600;
+}
+
+.dataframe-output td {
+    padding: 0.4em 0.6em;
+    border: 1px solid #e2e8f0;
+}
+
+.dataframe-output tr:nth-child(even) {
+    background: var(--da-light);
+}

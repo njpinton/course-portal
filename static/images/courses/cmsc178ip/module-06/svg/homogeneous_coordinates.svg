@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Homogeneous coordinates for unified transformation representation">
+  <title>Homogeneous Coordinates</title>
+  <desc>Explanation of homogeneous coordinates allowing all transformations to be represented as matrix multiplication</desc>
+
+  <defs>
+    <linearGradient id="homoBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#homoBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Homogeneous Coordinates</text>
+  <text x="425" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Unified representation for all 2D transformations</text>
+
+  <!-- Regular vs Homogeneous -->
+  <g transform="translate(30, 75)">
+    <!-- Regular coordinates -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="230" height="140" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+      <text x="115" y="25" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Cartesian (2D)</text>
+
+      <g transform="translate(20, 45)">
+        <text x="95" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Point P = (x, y)</text>
+
+        <rect x="30" y="30" width="130" height="30" fill="#fef2f2" rx="4"/>
+        <text x="95" y="50" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Translation ≠ Matrix</text>
+
+        <text x="95" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">x' = x + tx (addition)</text>
+      </g>
+    </g>
+
+    <!-- Arrow -->
+    <g transform="translate(245, 60)">
+      <polygon points="0,10 25,0 25,20" fill="#1a3a6e"/>
+    </g>
+
+    <!-- Homogeneous coordinates -->
+    <g transform="translate(285, 0)">
+      <rect x="0" y="0" width="230" height="140" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+      <text x="115" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Homogeneous (3D)</text>
+
+      <g transform="translate(20, 45)">
+        <text x="95" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Point P = (x, y, 1)</text>
+
+        <rect x="30" y="30" width="130" height="30" fill="#ecfdf5" rx="4"/>
+        <text x="95" y="50" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">All = Matrix Multiply</text>
+
+        <text x="95" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">p' = T · p (multiplication)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Transformation matrices -->
+  <g transform="translate(540, 75)">
+    <rect x="0" y="0" width="280" height="300" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="140" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">3×3 Transformation Matrices</text>
+
+    <!-- Translation matrix -->
+    <g transform="translate(15, 40)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Translation:</text>
+      <rect x="90" y="0" width="100" height="55" fill="#dbeafe" rx="4"/>
+      <text x="108" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">1  0  tx</text>
+      <text x="108" y="33" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0  1  ty</text>
+      <text x="108" y="48" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0  0  1</text>
+    </g>
+
+    <!-- Rotation matrix -->
+    <g transform="translate(15, 105)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Rotation:</text>
+      <rect x="90" y="0" width="140" height="55" fill="#d1fae5" rx="4"/>
+      <text x="108" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">cosθ  -sinθ  0</text>
+      <text x="108" y="33" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">sinθ   cosθ  0</text>
+      <text x="108" y="48" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0      0     1</text>
+    </g>
+
+    <!-- Scaling matrix -->
+    <g transform="translate(15, 170)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Scaling:</text>
+      <rect x="90" y="0" width="100" height="55" fill="#fed7aa" rx="4"/>
+      <text x="108" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">sx  0  0</text>
+      <text x="108" y="33" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0  sy  0</text>
+      <text x="108" y="48" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0   0  1</text>
+    </g>
+
+    <!-- Shear matrix -->
+    <g transform="translate(15, 235)">
+      <text x="0" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Shear:</text>
+      <rect x="90" y="0" width="100" height="55" fill="#ede9fe" rx="4"/>
+      <text x="108" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">1  shx  0</text>
+      <text x="108" y="33" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">shy  1  0</text>
+      <text x="108" y="48" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">0    0  1</text>
+    </g>
+  </g>
+
+  <!-- Benefits -->
+  <g transform="translate(30, 235)">
+    <rect x="0" y="0" width="485" height="140" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="242" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Why Homogeneous Coordinates?</text>
+
+    <g transform="translate(20, 45)">
+      <g transform="translate(0, 0)">
+        <circle cx="8" cy="8" r="5" fill="#10b981"/>
+        <text x="20" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">All transformations as matrix multiplication</text>
+      </g>
+      <g transform="translate(0, 25)">
+        <circle cx="8" cy="8" r="5" fill="#10b981"/>
+        <text x="20" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Easy composition: T₃ = T₂ × T₁</text>
+      </g>
+      <g transform="translate(0, 50)">
+        <circle cx="8" cy="8" r="5" fill="#10b981"/>
+        <text x="20" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Single matrix for complex sequences</text>
+      </g>
+      <g transform="translate(0, 75)">
+        <circle cx="8" cy="8" r="5" fill="#10b981"/>
+        <text x="20" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">GPU-friendly (parallel matrix ops)</text>
+      </g>
+
+      <g transform="translate(250, 0)">
+        <text x="0" y="12" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Convert back:</text>
+      </g>
+      <g transform="translate(250, 25)">
+        <rect x="0" y="0" width="200" height="60" fill="#f8f9fa" rx="4"/>
+        <text x="100" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(x', y', w) → (x'/w, y'/w)</text>
+        <text x="100" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Divide by w to get 2D point</text>
+        <text x="100" y="55" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">(usually w=1 for affine)</text>
+      </g>
+    </g>
+  </g>
+</svg>

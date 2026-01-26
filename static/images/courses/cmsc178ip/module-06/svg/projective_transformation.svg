@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Projective transformation and homography">
+  <title>Projective Transformation (Homography)</title>
+  <desc>Visualization of projective transformations showing perspective effects and the homography matrix</desc>
+
+  <defs>
+    <linearGradient id="projBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#projBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Projective Transformation (Homography)</text>
+
+  <!-- Visual demonstration -->
+  <g transform="translate(30, 65)">
+    <rect x="0" y="0" width="400" height="300" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="200" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Perspective Effect</text>
+
+    <!-- Original rectangle -->
+    <g transform="translate(40, 50)">
+      <text x="60" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Original (front view)</text>
+      <rect x="0" y="15" width="120" height="90" fill="#3b82f6" opacity="0.2" stroke="#3b82f6" stroke-width="2"/>
+      <!-- Grid lines -->
+      <line x1="0" y1="45" x2="120" y2="45" stroke="#3b82f6" stroke-width="1"/>
+      <line x1="0" y1="75" x2="120" y2="75" stroke="#3b82f6" stroke-width="1"/>
+      <line x1="40" y1="15" x2="40" y2="105" stroke="#3b82f6" stroke-width="1"/>
+      <line x1="80" y1="15" x2="80" y2="105" stroke="#3b82f6" stroke-width="1"/>
+      <!-- Corner labels -->
+      <circle cx="0" cy="15" r="4" fill="#3b82f6"/>
+      <circle cx="120" cy="15" r="4" fill="#3b82f6"/>
+      <circle cx="0" cy="105" r="4" fill="#3b82f6"/>
+      <circle cx="120" cy="105" r="4" fill="#3b82f6"/>
+    </g>
+
+    <!-- Arrow -->
+    <g transform="translate(175, 95)">
+      <text x="25" y="15" fill="#333" font-family="Segoe UI, sans-serif" font-size="24">→</text>
+      <text x="25" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">H</text>
+    </g>
+
+    <!-- Transformed (perspective) -->
+    <g transform="translate(220, 50)">
+      <text x="75" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Projective (angled view)</text>
+      <polygon points="20,25 140,10 150,110 0,100" fill="#7c3aed" opacity="0.2" stroke="#7c3aed" stroke-width="2"/>
+      <!-- Grid lines showing perspective -->
+      <line x1="10" y1="62" x2="145" y2="60" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="7" y1="82" x2="147" y2="85" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="50" y1="21" x2="40" y2="102" stroke="#7c3aed" stroke-width="1"/>
+      <line x1="100" y1="15" x2="105" y2="105" stroke="#7c3aed" stroke-width="1"/>
+      <!-- Corner labels -->
+      <circle cx="20" cy="25" r="4" fill="#7c3aed"/>
+      <circle cx="140" cy="10" r="4" fill="#7c3aed"/>
+      <circle cx="0" cy="100" r="4" fill="#7c3aed"/>
+      <circle cx="150" cy="110" r="4" fill="#7c3aed"/>
+    </g>
+
+    <!-- Key differences from affine -->
+    <g transform="translate(30, 180)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Key Differences from Affine:</text>
+
+      <g transform="translate(0, 15)">
+        <circle cx="8" cy="8" r="4" fill="#ef4444"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Parallel lines may converge (vanishing point)</text>
+      </g>
+      <g transform="translate(0, 35)">
+        <circle cx="8" cy="8" r="4" fill="#ef4444"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Rectangles become general quadrilaterals</text>
+      </g>
+      <g transform="translate(0, 55)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Straight lines remain straight</text>
+      </g>
+      <g transform="translate(0, 75)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Cross-ratio preserved (projective invariant)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Homography matrix -->
+  <g transform="translate(450, 65)">
+    <rect x="0" y="0" width="370" height="300" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="185" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Homography Matrix (3×3)</text>
+
+    <!-- Matrix structure -->
+    <g transform="translate(50, 50)">
+      <rect x="0" y="0" width="270" height="100" fill="#f5f3ff" rx="6"/>
+
+      <!-- Matrix brackets -->
+      <text x="25" y="65" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="48">[</text>
+      <text x="220" y="65" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="48">]</text>
+
+      <!-- Matrix elements -->
+      <g font-family="Segoe UI, sans-serif" font-size="14" fill="#333" text-anchor="middle">
+        <text x="85" y="35">h₁₁</text>
+        <text x="135" y="35">h₁₂</text>
+        <text x="185" y="35">h₁₃</text>
+        <text x="85" y="60">h₂₁</text>
+        <text x="135" y="60">h₂₂</text>
+        <text x="185" y="60">h₂₃</text>
+        <text x="85" y="85">h₃₁</text>
+        <text x="135" y="85">h₃₂</text>
+        <text x="185" y="85">h₃₃</text>
+      </g>
+
+      <!-- Labels -->
+      <rect x="60" y="15" width="80" height="75" fill="none" stroke="#3b82f6" stroke-width="1" stroke-dasharray="3,2" rx="3"/>
+      <text x="100" y="100" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Affine part</text>
+
+      <rect x="155" y="15" width="50" height="75" fill="none" stroke="#f97316" stroke-width="1" stroke-dasharray="3,2" rx="3"/>
+      <text x="180" y="100" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Translation</text>
+
+      <rect x="60" y="68" width="145" height="22" fill="none" stroke="#7c3aed" stroke-width="1" stroke-dasharray="3,2" rx="3"/>
+      <text x="135" y="115" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Perspective (h₃₁, h₃₂ ≠ 0)</text>
+    </g>
+
+    <!-- Application formula -->
+    <g transform="translate(30, 175)">
+      <rect x="0" y="0" width="310" height="50" fill="#dbeafe" rx="4"/>
+      <text x="155" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">[x', y', w'] = H × [x, y, 1]ᵀ</text>
+      <text x="155" y="40" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Then normalize: (x'/w', y'/w')</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(30, 235)">
+      <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Properties:</text>
+      <text x="0" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• 8 DOF (9 elements - 1 for scale)</text>
+      <text x="0" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Need 4 point correspondences to solve</text>
+      <text x="0" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Used for: perspective correction, panoramas, AR</text>
+    </g>
+  </g>
+</svg>

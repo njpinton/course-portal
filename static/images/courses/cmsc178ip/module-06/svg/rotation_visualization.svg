@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="Rotation transformation with matrix representation">
+  <title>Rotation Visualization</title>
+  <desc>Detailed visualization of 2D rotation including rotation matrix and angle effects</desc>
+
+  <defs>
+    <linearGradient id="rotBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="380" fill="url(#rotBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">2D Rotation Transformation</text>
+
+  <!-- Rotation visualization -->
+  <g transform="translate(50, 60)">
+    <rect x="0" y="0" width="350" height="290" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="175" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Rotation Around Origin</text>
+
+    <!-- Coordinate system -->
+    <g transform="translate(50, 50)">
+      <!-- Grid -->
+      <g stroke="#e5e7eb" stroke-width="0.5">
+        <line x1="0" y1="0" x2="250" y2="0"/>
+        <line x1="0" y1="50" x2="250" y2="50"/>
+        <line x1="0" y1="100" x2="250" y2="100"/>
+        <line x1="0" y1="150" x2="250" y2="150"/>
+        <line x1="0" y1="200" x2="250" y2="200"/>
+        <line x1="0" y1="0" x2="0" y2="200"/>
+        <line x1="50" y1="0" x2="50" y2="200"/>
+        <line x1="100" y1="0" x2="100" y2="200"/>
+        <line x1="150" y1="0" x2="150" y2="200"/>
+        <line x1="200" y1="0" x2="200" y2="200"/>
+        <line x1="250" y1="0" x2="250" y2="200"/>
+      </g>
+
+      <!-- Axes -->
+      <line x1="0" y1="150" x2="250" y2="150" stroke="#666" stroke-width="2"/>
+      <line x1="50" y1="200" x2="50" y2="0" stroke="#666" stroke-width="2"/>
+      <text x="245" y="165" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">x</text>
+      <text x="35" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">y</text>
+
+      <!-- Origin -->
+      <circle cx="50" cy="150" r="5" fill="#1a3a6e"/>
+      <text x="60" y="165" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9">O</text>
+
+      <!-- Original point P -->
+      <circle cx="200" cy="100" r="6" fill="#3b82f6"/>
+      <text x="210" y="95" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">P(x,y)</text>
+      <line x1="50" y1="150" x2="200" y2="100" stroke="#3b82f6" stroke-width="2"/>
+
+      <!-- Rotated point P' (45 degrees) -->
+      <circle cx="115" cy="40" r="6" fill="#10b981"/>
+      <text x="95" y="30" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">P'(x',y')</text>
+      <line x1="50" y1="150" x2="115" y2="40" stroke="#10b981" stroke-width="2"/>
+
+      <!-- Rotation arc -->
+      <path d="M170,110 A80,80 0 0,0 100,55" fill="none" stroke="#ef4444" stroke-width="2"/>
+      <text x="150" y="70" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">θ</text>
+
+      <!-- Angle labels -->
+      <text x="220" y="140" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9">r = √(x²+y²)</text>
+    </g>
+  </g>
+
+  <!-- Matrix representation -->
+  <g transform="translate(420, 60)">
+    <rect x="0" y="0" width="350" height="290" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="175" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Rotation Matrix</text>
+
+    <!-- Matrix -->
+    <g transform="translate(30, 50)">
+      <rect x="0" y="0" width="290" height="80" fill="#dbeafe" rx="6"/>
+      <text x="145" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">R(θ) =</text>
+
+      <!-- Matrix brackets -->
+      <text x="80" y="55" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="36">[</text>
+      <text x="250" y="55" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="36">]</text>
+
+      <!-- Matrix elements -->
+      <text x="120" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">cos θ</text>
+      <text x="185" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">-sin θ</text>
+      <text x="120" y="72" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">sin θ</text>
+      <text x="185" y="72" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">cos θ</text>
+    </g>
+
+    <!-- Application -->
+    <g transform="translate(30, 145)">
+      <rect x="0" y="0" width="290" height="50" fill="#d1fae5" rx="6"/>
+      <text x="145" y="20" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">[x']   [cos θ  -sin θ] [x]</text>
+      <text x="145" y="38" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">[y'] = [sin θ   cos θ] [y]</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 210)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Properties:</text>
+      <g transform="translate(0, 15)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Preserves distances (rigid)</text>
+      </g>
+      <g transform="translate(0, 35)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Preserves angles</text>
+      </g>
+      <g transform="translate(0, 55)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Determinant = 1 (area preserved)</text>
+      </g>
+      <g transform="translate(155, 15)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Orthogonal matrix</text>
+      </g>
+      <g transform="translate(155, 35)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">R⁻¹ = Rᵀ = R(-θ)</text>
+      </g>
+    </g>
+  </g>
+</svg>

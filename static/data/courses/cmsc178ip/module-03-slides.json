@@ -1,0 +1,299 @@
+{
+  "module": {
+    "id": "03",
+    "title": "Image Processing Fundamentals",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "60 minutes",
+    "prerequisites": ["Module 01: Introduction to DIP", "Module 02: Storage and Compression"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Image Processing Fundamentals",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 03</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Apply point operations and intensity transformations to images</li><li>Perform histogram equalization for contrast enhancement</li><li>Understand and implement 2D convolution operations</li><li>Distinguish between convolution and correlation</li><li>Apply the 2D Fourier Transform for frequency analysis</li><li>Perform basic frequency domain filtering</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Point Operations",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Pixel-wise intensity transformations</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "What are Point Operations?",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition-box\"><p><strong>Point Operation:</strong> A transformation where each output pixel depends <em>only</em> on the corresponding input pixel.</p></div><p class=\"math-block\">$$g(x,y) = T[f(x,y)]$$</p><ul><li>No spatial context needed</li><li>Highly parallelizable</li><li>Examples: brightness, contrast, gamma correction</li></ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why are point operations highly parallelizable?",
+        "answer": "Because each output pixel depends only on the corresponding input pixel, all pixels can be processed independently and simultaneously."
+      }
+    },
+    {
+      "id": 5,
+      "title": "Intensity Transformations",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/intensity_transformations.svg\" alt=\"Intensity Transformations\" style=\"max-height: 65vh;\"><p class=\"caption\">Common intensity transformation functions: linear, logarithmic, power-law (gamma)</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Common Point Operations",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-columns\"><div><h3>Linear Transformations</h3><p class=\"math-block\">$$g = \\alpha \\cdot f + \\beta$$</p><ul><li><strong>α > 1:</strong> Increase contrast</li><li><strong>α < 1:</strong> Decrease contrast</li><li><strong>β > 0:</strong> Increase brightness</li><li><strong>β < 0:</strong> Decrease brightness</li></ul></div><div><h3>Power-Law (Gamma)</h3><p class=\"math-block\">$$g = c \\cdot f^\\gamma$$</p><ul><li><strong>γ < 1:</strong> Brighten dark regions</li><li><strong>γ > 1:</strong> Darken bright regions</li><li><strong>γ = 1:</strong> Identity transform</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Point Operations Demo",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/point_operations_demo.png\" alt=\"Point Operations Demo\" style=\"max-height: 65vh;\"><p class=\"caption\">Effects of brightness, contrast, and gamma adjustments on an image</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Histogram Processing",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Enhancing contrast through histogram manipulation</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 9,
+      "title": "Image Histograms",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition-box\"><p><strong>Histogram:</strong> A graphical representation of the distribution of pixel intensities in an image.</p></div><ul><li><strong>X-axis:</strong> Intensity values (0-255 for 8-bit)</li><li><strong>Y-axis:</strong> Number of pixels at each intensity</li><li>Reveals contrast, brightness, and exposure information</li></ul><p class=\"key-point\">Low contrast images have narrow histograms; high contrast images span the full range.</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Histogram Equalization",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/histogram_equalization.png\" alt=\"Histogram Equalization\" style=\"max-height: 60vh;\"><p class=\"caption\">Histogram equalization spreads intensities to utilize the full dynamic range</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is the goal of histogram equalization?",
+        "answer": "To redistribute pixel intensities so that they are more uniformly distributed across the available range, thereby enhancing image contrast."
+      }
+    },
+    {
+      "id": 11,
+      "title": "Histogram Equalization Algorithm",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-columns\"><div><h3>Steps</h3><ol><li>Compute histogram h(k)</li><li>Compute CDF: $C(k) = \\sum_{j=0}^{k} h(j)$</li><li>Normalize CDF to [0, L-1]</li><li>Map intensities: $g = round(\\frac{(L-1)\\cdot C(f)}{N})$</li></ol></div><div><pre><code class=\"language-python\">import cv2\nimport numpy as np\n\n# Equalize histogram\nimg = cv2.imread('image.jpg', 0)\neq = cv2.equalizeHist(img)\n\n# Using NumPy\nhist, bins = np.histogram(img.flatten(), 256, [0,256])\ncdf = hist.cumsum()\ncdf_normalized = cdf * 255 / cdf.max()</code></pre></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Adaptive Histogram Equalization (CLAHE)",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/adaptive_histogram_equalization.png\" alt=\"CLAHE\" style=\"max-height: 60vh;\"><p class=\"caption\">CLAHE applies equalization locally, preventing over-amplification of noise</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "CLAHE Implementation",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition-box\"><p><strong>CLAHE:</strong> Contrast Limited Adaptive Histogram Equalization - divides image into tiles and applies equalization with clipping.</p></div><pre><code class=\"language-python\">import cv2\n\n# Create CLAHE object\nclahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))\n\n# Apply to grayscale image\nimg = cv2.imread('image.jpg', 0)\ncl_img = clahe.apply(img)\n\n# For color images, apply to L channel in LAB\nlab = cv2.cvtColor(color_img, cv2.COLOR_BGR2LAB)\nlab[:,:,0] = clahe.apply(lab[:,:,0])\nresult = cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Convolution",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">The fundamental operation in image filtering</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 15,
+      "title": "What is Convolution?",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition-box\"><p><strong>2D Convolution:</strong> A mathematical operation that combines an image with a kernel (filter) to produce a filtered output.</p></div><p class=\"math-block\">$$g(x,y) = \\sum_{i=-k}^{k} \\sum_{j=-k}^{k} f(x-i, y-j) \\cdot h(i,j)$$</p><ul><li><strong>f:</strong> Input image</li><li><strong>h:</strong> Kernel/filter</li><li><strong>g:</strong> Output image</li></ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Convolution Step by Step",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_step_by_step.png\" alt=\"Convolution Step by Step\" style=\"max-height: 65vh;\"><p class=\"caption\">The kernel slides over the image, computing weighted sums at each position</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What happens at each position during convolution?",
+        "answer": "The kernel is centered at a pixel, corresponding values are multiplied, and all products are summed to produce the output pixel value."
+      }
+    },
+    {
+      "id": 17,
+      "title": "Convolution vs Correlation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_vs_correlation.png\" alt=\"Convolution vs Correlation\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><h3>Convolution</h3><p>Kernel is flipped (180°)</p><p>$g = f * h$</p></div><div><h3>Correlation</h3><p>Kernel is not flipped</p><p>$g = f \\star h$</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Padding Strategies",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/padding_strategies.png\" alt=\"Padding Strategies\" style=\"max-height: 65vh;\"><p class=\"caption\">Different padding strategies: zero, replicate, reflect, wrap</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Padding Effects",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/padding_effects.png\" alt=\"Padding Effects\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Note:</strong> Choice of padding affects border artifacts. Reflect padding often produces the most natural results.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Separable Convolution",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/separable_convolution.png\" alt=\"Separable Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Efficiency:</strong> A separable n×n kernel reduces complexity from O(n²) to O(2n) per pixel.<br>Example: 9×9 kernel: 81 operations → 18 operations</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "The Convolution Theorem",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_theorem.png\" alt=\"Convolution Theorem\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Convolution Theorem:</strong></p><p class=\"math-block\">$$f * h = \\mathcal{F}^{-1}\\{\\mathcal{F}\\{f\\} \\cdot \\mathcal{F}\\{h\\}\\}$$</p><p>Convolution in spatial domain = Multiplication in frequency domain</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is the convolution theorem useful for large kernels?",
+        "answer": "For large kernels, performing FFT, multiplication, and inverse FFT is faster than direct spatial convolution. The crossover point is typically around 11×11 kernel size."
+      }
+    },
+    {
+      "id": 22,
+      "title": "Fourier Transform",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Frequency domain analysis of images</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 23,
+      "title": "The 2D Fourier Transform",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition-box\"><p><strong>2D DFT:</strong> Decomposes an image into its constituent frequency components (sinusoidal patterns).</p></div><p class=\"math-block\">$$F(u,v) = \\sum_{x=0}^{M-1} \\sum_{y=0}^{N-1} f(x,y) \\cdot e^{-j2\\pi(ux/M + vy/N)}$$</p><ul><li><strong>Low frequencies:</strong> Slow intensity changes (smooth regions)</li><li><strong>High frequencies:</strong> Rapid intensity changes (edges, noise)</li></ul>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "2D Fourier Transform Visualization",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/fourier_transform_2d.png\" alt=\"2D Fourier Transform\" style=\"max-height: 65vh;\"><p class=\"caption\">Image and its magnitude spectrum (log scale, centered)</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Fourier Transform Properties",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/fourier_properties.png\" alt=\"Fourier Properties\" style=\"max-height: 65vh;\"><p class=\"caption\">Key properties: linearity, shift, rotation, scaling</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "Frequency Components",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/frequency_components.png\" alt=\"Frequency Components\" style=\"max-height: 65vh;\"><p class=\"caption\">Decomposing an image into low and high frequency components</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What image features correspond to high frequencies?",
+        "answer": "Edges, fine details, textures, and noise - anywhere there are rapid changes in pixel intensity."
+      }
+    },
+    {
+      "id": 27,
+      "title": "Frequency Domain Filtering",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/frequency_filtering_basics.png\" alt=\"Frequency Filtering\" style=\"max-height: 60vh;\"><div class=\"two-columns\"><div><strong>Low-pass filter:</strong><br>Keeps low frequencies<br>Blurs/smooths image</div><div><strong>High-pass filter:</strong><br>Keeps high frequencies<br>Enhances edges</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "FFT in Python",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import numpy as np\nimport cv2\n\n# Read grayscale image\nimg = cv2.imread('image.jpg', 0)\n\n# Compute 2D FFT\nf = np.fft.fft2(img)\nfshift = np.fft.fftshift(f)  # Center the spectrum\n\n# Magnitude spectrum (log scale for display)\nmagnitude = 20 * np.log(np.abs(fshift) + 1)\n\n# Apply a simple low-pass filter\nrows, cols = img.shape\ncrow, ccol = rows//2, cols//2\nmask = np.zeros((rows, cols), np.uint8)\nmask[crow-30:crow+30, ccol-30:ccol+30] = 1\n\n# Apply filter and inverse FFT\nfiltered = fshift * mask\nf_ishift = np.fft.ifftshift(filtered)\nresult = np.abs(np.fft.ifft2(f_ishift))</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Sampling and Aliasing",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/sampling_aliasing.png\" alt=\"Sampling and Aliasing\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Nyquist Theorem:</strong> Sample rate must be at least 2× the highest frequency to avoid aliasing.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 30,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 31,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Point operations</strong> transform pixels independently (brightness, contrast, gamma)</li><li><strong>Histogram equalization</strong> enhances contrast by redistributing intensities</li><li><strong>CLAHE</strong> applies adaptive equalization to avoid noise amplification</li><li><strong>Convolution</strong> applies a kernel to compute weighted neighborhood sums</li><li><strong>Separable kernels</strong> reduce computational complexity from O(n²) to O(2n)</li><li><strong>Fourier Transform</strong> reveals frequency content of images</li><li><strong>Frequency filtering</strong> enables smoothing (low-pass) and edge enhancement (high-pass)</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 32,
+      "title": "Next Module Preview",
+      "readingTime": "1 min",
+      "content": "<div class=\"definition-box\"><h3>Module 04: Image Enhancement and Filtering</h3><ul><li>Noise models and types</li><li>Spatial domain filters (mean, median, Gaussian)</li><li>Edge-preserving filters (bilateral)</li><li>Sharpening and edge detection</li></ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 33,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Interactive notebook available for hands-on practice</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

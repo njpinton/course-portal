@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Harris corner detection algorithm and response visualization">
+  <title>Harris Corner Detection</title>
+  <desc>Visualization of Harris corner detector showing flat, edge, and corner regions with response function</desc>
+
+  <defs>
+    <linearGradient id="cornerBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#cornerBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Harris Corner Detection</text>
+
+  <!-- Three regions illustration -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="500" height="170" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="250" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Window Shift Analysis</text>
+
+    <!-- Flat region -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="130" height="100" fill="#e5e7eb" rx="4"/>
+      <rect x="40" y="35" width="50" height="40" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+      <!-- Arrows showing no change -->
+      <g stroke="#666" stroke-width="1" fill="none">
+        <path d="M65,35 L65,25 M65,75 L65,85"/>
+        <path d="M40,55 L30,55 M90,55 L100,55"/>
+      </g>
+      <text x="65" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Flat Region</text>
+      <text x="65" y="128" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">No change in any direction</text>
+    </g>
+
+    <!-- Edge region -->
+    <g transform="translate(180, 45)">
+      <rect x="0" y="0" width="130" height="100" fill="#e5e7eb" rx="4"/>
+      <!-- Vertical edge -->
+      <line x1="65" y1="0" x2="65" y2="100" stroke="#333" stroke-width="3"/>
+      <rect x="40" y="35" width="50" height="40" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="4,2"/>
+      <!-- Arrows showing change in one direction -->
+      <g stroke="#10b981" stroke-width="2">
+        <path d="M40,55 L25,55" marker-end="url(#arrowGreen)"/>
+        <path d="M90,55 L105,55" marker-end="url(#arrowGreen)"/>
+      </g>
+      <defs>
+        <marker id="arrowGreen" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+          <polygon points="0 0, 6 2, 0 4" fill="#10b981"/>
+        </marker>
+      </defs>
+      <text x="65" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Edge</text>
+      <text x="65" y="128" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Change along one axis</text>
+    </g>
+
+    <!-- Corner region -->
+    <g transform="translate(335, 45)">
+      <rect x="0" y="0" width="130" height="100" fill="#e5e7eb" rx="4"/>
+      <!-- Corner -->
+      <path d="M65,0 L65,50 L130,50" stroke="#333" stroke-width="3" fill="none"/>
+      <rect x="40" y="25" width="50" height="50" fill="none" stroke="#10b981" stroke-width="3"/>
+      <!-- Arrows showing change in all directions -->
+      <g stroke="#10b981" stroke-width="2">
+        <path d="M65,25 L65,10"/>
+        <path d="M65,75 L65,90"/>
+        <path d="M40,50 L25,50"/>
+        <path d="M90,50 L105,50"/>
+      </g>
+      <circle cx="65" cy="50" r="5" fill="#10b981"/>
+      <text x="65" y="115" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Corner ✓</text>
+      <text x="65" y="128" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Change in all directions</text>
+    </g>
+  </g>
+
+  <!-- Harris Response -->
+  <g transform="translate(550, 60)">
+    <rect x="0" y="0" width="270" height="170" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="135" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Harris Response</text>
+
+    <!-- Formula -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="230" height="55" fill="#f5f3ff" rx="4"/>
+      <text x="115" y="22" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">R = det(M) - k·trace(M)²</text>
+      <text x="115" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">M = structure tensor, k ≈ 0.04-0.06</text>
+    </g>
+
+    <!-- Response interpretation -->
+    <g transform="translate(20, 110)">
+      <text x="0" y="12" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10">R ≈ 0: Flat region</text>
+      <text x="0" y="28" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10">R &lt; 0: Edge</text>
+      <text x="0" y="44" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10">R &gt; threshold: Corner!</text>
+    </g>
+  </g>
+
+  <!-- Eigenvalue plot -->
+  <g transform="translate(30, 250)">
+    <rect x="0" y="0" width="350" height="130" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="175" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Eigenvalue Analysis (λ₁, λ₂)</text>
+
+    <g transform="translate(30, 40)">
+      <!-- Axes -->
+      <line x1="0" y1="70" x2="280" y2="70" stroke="#999" stroke-width="1"/>
+      <line x1="50" y1="80" x2="50" y2="0" stroke="#999" stroke-width="1"/>
+      <text x="275" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">λ₁</text>
+      <text x="35" y="10" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">λ₂</text>
+
+      <!-- Regions -->
+      <!-- Flat (near origin) -->
+      <circle cx="70" cy="60" r="15" fill="#e5e7eb" opacity="0.7"/>
+      <text x="70" y="65" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Flat</text>
+
+      <!-- Edge (along axes) -->
+      <ellipse cx="180" cy="60" rx="40" ry="10" fill="#fed7aa" opacity="0.7"/>
+      <text x="180" y="65" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Edge</text>
+
+      <ellipse cx="70" cy="25" rx="10" ry="20" fill="#fed7aa" opacity="0.7"/>
+      <text x="70" y="28" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Edge</text>
+
+      <!-- Corner (high both) -->
+      <ellipse cx="220" cy="15" rx="35" ry="15" fill="#d1fae5" opacity="0.8"/>
+      <text x="220" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Corner</text>
+    </g>
+  </g>
+
+  <!-- Example result -->
+  <g transform="translate(400, 250)">
+    <rect x="0" y="0" width="420" height="130" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="210" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Detection Example</text>
+
+    <!-- Image with corners marked -->
+    <g transform="translate(20, 40)">
+      <rect x="0" y="0" width="160" height="75" fill="#666" rx="4"/>
+      <!-- Building outline -->
+      <polygon points="20,60 20,20 80,20 80,40 140,40 140,60" fill="#888" stroke="#aaa"/>
+      <!-- Corner markers -->
+      <circle cx="20" cy="20" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+      <circle cx="80" cy="20" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+      <circle cx="80" cy="40" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+      <circle cx="140" cy="40" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+      <circle cx="20" cy="60" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+      <circle cx="140" cy="60" r="4" fill="#10b981" stroke="white" stroke-width="1"/>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(200, 40)">
+      <text x="0" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Harris Properties:</text>
+      <text x="0" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">✓ Rotation invariant</text>
+      <text x="0" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">✗ Not scale invariant</text>
+      <text x="0" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">✓ Good repeatability</text>
+      <text x="0" y="75" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Use: cv2.cornerHarris()</text>
+    </g>
+  </g>
+</svg>

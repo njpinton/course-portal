@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="Low-pass filter kernels showing box filter and Gaussian filter with frequency response">
+  <title>Low-Pass Filters Comparison</title>
+  <desc>Comparison of box filter and Gaussian filter kernels with their frequency domain representations</desc>
+
+  <defs>
+    <linearGradient id="lpBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="380" fill="url(#lpBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Low-Pass Filters</text>
+
+  <!-- Left: Box (Mean) Filter -->
+  <g transform="translate(40, 55)">
+    <rect x="0" y="0" width="350" height="290" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="175" y="28" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">Box Filter (Mean)</text>
+
+    <!-- Kernel grid -->
+    <g transform="translate(20, 45)">
+      <text x="65" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">5×5 Kernel</text>
+      <g transform="translate(0, 10)">
+        <!-- 5x5 grid -->
+        <g fill="#dbeafe" stroke="#3b82f6" stroke-width="1">
+          <rect x="0" y="0" width="26" height="22"/>
+          <rect x="26" y="0" width="26" height="22"/>
+          <rect x="52" y="0" width="26" height="22"/>
+          <rect x="78" y="0" width="26" height="22"/>
+          <rect x="104" y="0" width="26" height="22"/>
+          <rect x="0" y="22" width="26" height="22"/>
+          <rect x="26" y="22" width="26" height="22"/>
+          <rect x="52" y="22" width="26" height="22"/>
+          <rect x="78" y="22" width="26" height="22"/>
+          <rect x="104" y="22" width="26" height="22"/>
+          <rect x="0" y="44" width="26" height="22"/>
+          <rect x="26" y="44" width="26" height="22"/>
+          <rect x="52" y="44" width="26" height="22"/>
+          <rect x="78" y="44" width="26" height="22"/>
+          <rect x="104" y="44" width="26" height="22"/>
+          <rect x="0" y="66" width="26" height="22"/>
+          <rect x="26" y="66" width="26" height="22"/>
+          <rect x="52" y="66" width="26" height="22"/>
+          <rect x="78" y="66" width="26" height="22"/>
+          <rect x="104" y="66" width="26" height="22"/>
+          <rect x="0" y="88" width="26" height="22"/>
+          <rect x="26" y="88" width="26" height="22"/>
+          <rect x="52" y="88" width="26" height="22"/>
+          <rect x="78" y="88" width="26" height="22"/>
+          <rect x="104" y="88" width="26" height="22"/>
+        </g>
+        <!-- All 1s text -->
+        <text x="13" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">1</text>
+        <text x="39" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">1</text>
+        <text x="65" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">1</text>
+        <text x="91" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">1</text>
+        <text x="117" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">1</text>
+        <text x="65" y="60" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">...</text>
+      </g>
+      <text x="65" y="125" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">All values = 1/25</text>
+    </g>
+
+    <!-- Frequency response -->
+    <g transform="translate(175, 45)">
+      <text x="75" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Frequency Response</text>
+      <g transform="translate(0, 15)">
+        <!-- Axes -->
+        <line x1="10" y1="100" x2="150" y2="100" stroke="#1a3a6e" stroke-width="1.5"/>
+        <line x1="80" y1="10" x2="80" y2="100" stroke="#1a3a6e" stroke-width="1.5"/>
+
+        <!-- Sinc function (box frequency response) -->
+        <path d="M10,25 Q25,25 35,90 Q40,100 45,90 Q55,25 65,25 Q70,25 75,90 Q80,25 85,90 Q90,25 95,25 Q105,90 115,90 Q120,25 125,25 Q135,90 140,90 L150,90"
+              fill="none" stroke="#3b82f6" stroke-width="2"/>
+
+        <!-- Labels -->
+        <text x="80" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">0</text>
+        <text x="155" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">f</text>
+        <text x="5" y="25" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">H(f)</text>
+      </g>
+      <text x="75" y="135" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Sinc function (ringing)</text>
+    </g>
+
+    <!-- Characteristics -->
+    <g transform="translate(20, 200)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Characteristics:</text>
+      <circle cx="10" cy="20" r="4" fill="#3b82f6"/>
+      <text x="20" y="24" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Fast computation (separable)</text>
+      <circle cx="10" cy="42" r="4" fill="#3b82f6"/>
+      <text x="20" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Uniform blur in all directions</text>
+      <circle cx="10" cy="64" r="4" fill="#ef4444"/>
+      <text x="20" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Can cause ringing artifacts</text>
+    </g>
+  </g>
+
+  <!-- Right: Gaussian Filter -->
+  <g transform="translate(410, 55)">
+    <rect x="0" y="0" width="350" height="290" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="175" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">Gaussian Filter</text>
+
+    <!-- Kernel visualization (3D-like) -->
+    <g transform="translate(20, 45)">
+      <text x="65" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Kernel Shape</text>
+      <g transform="translate(0, 15)">
+        <!-- 2D Gaussian bell shape -->
+        <ellipse cx="65" cy="90" rx="55" ry="15" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+        <path d="M10,90 Q15,85 25,70 Q40,40 65,20 Q90,40 105,70 Q115,85 120,90"
+              fill="#6ee7b7" stroke="#10b981" stroke-width="2"/>
+        <ellipse cx="65" cy="20" rx="20" ry="5" fill="#34d399" stroke="#10b981" stroke-width="1"/>
+      </g>
+      <text x="65" y="125" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">G(x,y) = e^(-(x²+y²)/2σ²)</text>
+    </g>
+
+    <!-- Frequency response -->
+    <g transform="translate(175, 45)">
+      <text x="75" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Frequency Response</text>
+      <g transform="translate(0, 15)">
+        <!-- Axes -->
+        <line x1="10" y1="100" x2="150" y2="100" stroke="#1a3a6e" stroke-width="1.5"/>
+        <line x1="80" y1="10" x2="80" y2="100" stroke="#1a3a6e" stroke-width="1.5"/>
+
+        <!-- Gaussian frequency response (smooth decay) -->
+        <path d="M10,95 Q30,90 50,70 Q65,45 80,25 Q95,45 110,70 Q130,90 150,95"
+              fill="#d1fae5" fill-opacity="0.5" stroke="#10b981" stroke-width="2"/>
+
+        <!-- Labels -->
+        <text x="80" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">0</text>
+        <text x="155" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">f</text>
+        <text x="5" y="25" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">H(f)</text>
+      </g>
+      <text x="75" y="135" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Gaussian (no ringing!)</text>
+    </g>
+
+    <!-- Characteristics -->
+    <g transform="translate(20, 200)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Characteristics:</text>
+      <circle cx="10" cy="20" r="4" fill="#10b981"/>
+      <text x="20" y="24" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Smooth, natural-looking blur</text>
+      <circle cx="10" cy="42" r="4" fill="#10b981"/>
+      <text x="20" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">No ringing artifacts</text>
+      <circle cx="10" cy="64" r="4" fill="#10b981"/>
+      <text x="20" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">σ controls blur amount</text>
+    </g>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="400" y="365" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Low-pass filters attenuate high frequencies (details/edges) while preserving low frequencies (smooth regions)</text>
+</svg>

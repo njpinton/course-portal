@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Comparison of interpolation methods: nearest neighbor, bilinear, and bicubic">
+  <title>Interpolation Methods</title>
+  <desc>Comparison of nearest neighbor, bilinear, and bicubic interpolation for image resampling</desc>
+
+  <defs>
+    <linearGradient id="interpBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#interpBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Interpolation Methods</text>
+  <text x="425" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">Computing pixel values at non-integer coordinates</text>
+
+  <!-- Nearest Neighbor -->
+  <g transform="translate(25, 75)">
+    <rect x="0" y="0" width="260" height="320" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="130" y="25" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Nearest Neighbor</text>
+
+    <!-- Grid visualization -->
+    <g transform="translate(30, 45)">
+      <!-- Pixel grid -->
+      <g fill="#e5e7eb" stroke="#999" stroke-width="0.5">
+        <rect x="0" y="0" width="50" height="50"/>
+        <rect x="50" y="0" width="50" height="50"/>
+        <rect x="100" y="0" width="50" height="50"/>
+        <rect x="150" y="0" width="50" height="50"/>
+        <rect x="0" y="50" width="50" height="50"/>
+        <rect x="50" y="50" width="50" height="50" fill="#ef4444" opacity="0.3"/>
+        <rect x="100" y="50" width="50" height="50"/>
+        <rect x="150" y="50" width="50" height="50"/>
+        <rect x="0" y="100" width="50" height="50"/>
+        <rect x="50" y="100" width="50" height="50"/>
+        <rect x="100" y="100" width="50" height="50"/>
+        <rect x="150" y="100" width="50" height="50"/>
+      </g>
+
+      <!-- Pixel centers -->
+      <g fill="#333">
+        <circle cx="25" cy="25" r="3"/>
+        <circle cx="75" cy="25" r="3"/>
+        <circle cx="125" cy="25" r="3"/>
+        <circle cx="175" cy="25" r="3"/>
+        <circle cx="25" cy="75" r="3"/>
+        <circle cx="75" cy="75" r="5" fill="#ef4444"/>
+        <circle cx="125" cy="75" r="3"/>
+        <circle cx="175" cy="75" r="3"/>
+        <circle cx="25" cy="125" r="3"/>
+        <circle cx="75" cy="125" r="3"/>
+        <circle cx="125" cy="125" r="3"/>
+        <circle cx="175" cy="125" r="3"/>
+      </g>
+
+      <!-- Query point -->
+      <circle cx="85" cy="85" r="4" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="95" y="95" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9">query</text>
+
+      <!-- Arrow to nearest -->
+      <line x1="85" y1="85" x2="78" y2="78" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,2"/>
+    </g>
+
+    <!-- Formula and info -->
+    <g transform="translate(15, 210)">
+      <rect x="0" y="0" width="230" height="45" fill="#fef2f2" rx="4"/>
+      <text x="115" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">f(x,y) = f(round(x), round(y))</text>
+      <text x="115" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Uses value of closest pixel</text>
+    </g>
+
+    <!-- Pros/Cons -->
+    <g transform="translate(15, 265)">
+      <text x="0" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Fastest (no computation)</text>
+      <text x="0" y="27" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Preserves original values</text>
+      <text x="0" y="45" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">✗ Blocky/jagged edges</text>
+    </g>
+  </g>
+
+  <!-- Bilinear -->
+  <g transform="translate(295, 75)">
+    <rect x="0" y="0" width="260" height="320" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="130" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Bilinear</text>
+
+    <!-- Grid visualization -->
+    <g transform="translate(30, 45)">
+      <!-- Pixel grid -->
+      <g fill="#e5e7eb" stroke="#999" stroke-width="0.5">
+        <rect x="0" y="0" width="50" height="50"/>
+        <rect x="50" y="0" width="50" height="50"/>
+        <rect x="100" y="0" width="50" height="50"/>
+        <rect x="150" y="0" width="50" height="50"/>
+        <rect x="0" y="50" width="50" height="50"/>
+        <rect x="50" y="50" width="50" height="50" fill="#10b981" opacity="0.2"/>
+        <rect x="100" y="50" width="50" height="50" fill="#10b981" opacity="0.2"/>
+        <rect x="150" y="50" width="50" height="50"/>
+        <rect x="0" y="100" width="50" height="50"/>
+        <rect x="50" y="100" width="50" height="50" fill="#10b981" opacity="0.2"/>
+        <rect x="100" y="100" width="50" height="50" fill="#10b981" opacity="0.2"/>
+        <rect x="150" y="100" width="50" height="50"/>
+      </g>
+
+      <!-- 4 neighbors highlighted -->
+      <circle cx="75" cy="75" r="5" fill="#10b981"/>
+      <circle cx="125" cy="75" r="5" fill="#10b981"/>
+      <circle cx="75" cy="125" r="5" fill="#10b981"/>
+      <circle cx="125" cy="125" r="5" fill="#10b981"/>
+
+      <!-- Query point -->
+      <circle cx="95" cy="95" r="4" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+
+      <!-- Connection lines -->
+      <line x1="75" y1="75" x2="95" y2="95" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="125" y1="75" x2="95" y2="95" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="75" y1="125" x2="95" y2="95" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="125" y1="125" x2="95" y2="95" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2"/>
+    </g>
+
+    <!-- Formula and info -->
+    <g transform="translate(15, 210)">
+      <rect x="0" y="0" width="230" height="45" fill="#ecfdf5" rx="4"/>
+      <text x="115" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Linear interpolation in x, then y</text>
+      <text x="115" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Uses 4 nearest neighbors (2×2)</text>
+    </g>
+
+    <!-- Pros/Cons -->
+    <g transform="translate(15, 265)">
+      <text x="0" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Smooth results</text>
+      <text x="0" y="27" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Good speed/quality tradeoff</text>
+      <text x="0" y="45" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9">~ Slight blurring</text>
+    </g>
+  </g>
+
+  <!-- Bicubic -->
+  <g transform="translate(565, 75)">
+    <rect x="0" y="0" width="260" height="320" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="130" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Bicubic</text>
+
+    <!-- Grid visualization -->
+    <g transform="translate(30, 45)">
+      <!-- Pixel grid (4x4 neighborhood) -->
+      <g fill="#7c3aed" opacity="0.1" stroke="#999" stroke-width="0.5">
+        <rect x="0" y="0" width="50" height="50"/>
+        <rect x="50" y="0" width="50" height="50"/>
+        <rect x="100" y="0" width="50" height="50"/>
+        <rect x="150" y="0" width="50" height="50"/>
+        <rect x="0" y="50" width="50" height="50"/>
+        <rect x="50" y="50" width="50" height="50"/>
+        <rect x="100" y="50" width="50" height="50"/>
+        <rect x="150" y="50" width="50" height="50"/>
+        <rect x="0" y="100" width="50" height="50"/>
+        <rect x="50" y="100" width="50" height="50"/>
+        <rect x="100" y="100" width="50" height="50"/>
+        <rect x="150" y="100" width="50" height="50"/>
+        <rect x="0" y="150" width="50" height="50"/>
+        <rect x="50" y="150" width="50" height="50"/>
+        <rect x="100" y="150" width="50" height="50"/>
+        <rect x="150" y="150" width="50" height="50"/>
+      </g>
+
+      <!-- 16 neighbors -->
+      <g fill="#7c3aed">
+        <circle cx="25" cy="25" r="4"/>
+        <circle cx="75" cy="25" r="4"/>
+        <circle cx="125" cy="25" r="4"/>
+        <circle cx="175" cy="25" r="4"/>
+        <circle cx="25" cy="75" r="4"/>
+        <circle cx="75" cy="75" r="4"/>
+        <circle cx="125" cy="75" r="4"/>
+        <circle cx="175" cy="75" r="4"/>
+        <circle cx="25" cy="125" r="4"/>
+        <circle cx="75" cy="125" r="4"/>
+        <circle cx="125" cy="125" r="4"/>
+        <circle cx="175" cy="125" r="4"/>
+        <circle cx="25" cy="175" r="4"/>
+        <circle cx="75" cy="175" r="4"/>
+        <circle cx="125" cy="175" r="4"/>
+        <circle cx="175" cy="175" r="4"/>
+      </g>
+
+      <!-- Query point -->
+      <circle cx="95" cy="95" r="5" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+      <text x="70" y="92" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8">4×4</text>
+    </g>
+
+    <!-- Formula and info -->
+    <g transform="translate(15, 210)">
+      <rect x="0" y="0" width="230" height="45" fill="#f5f3ff" rx="4"/>
+      <text x="115" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Cubic polynomial interpolation</text>
+      <text x="115" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Uses 16 neighbors (4×4)</text>
+    </g>
+
+    <!-- Pros/Cons -->
+    <g transform="translate(15, 265)">
+      <text x="0" y="12" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Sharpest results</text>
+      <text x="0" y="27" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Best for enlargement</text>
+      <text x="0" y="45" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9">✗ Slowest computation</text>
+    </g>
+  </g>
+</svg>

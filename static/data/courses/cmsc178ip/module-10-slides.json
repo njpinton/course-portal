@@ -1,0 +1,225 @@
+{
+  "module": {
+    "id": "10",
+    "title": "Computer Vision & Deep Learning II",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "60 minutes",
+    "prerequisites": ["Module 09: Computer Vision & Deep Learning I"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Computer Vision & Deep Learning II",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 10</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Build image classification systems</li><li>Understand object detection architectures (YOLO, Faster R-CNN)</li><li>Implement semantic segmentation with U-Net</li><li>Evaluate models using IoU, mAP, and other metrics</li><li>Apply transfer learning for computer vision tasks</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Image Classification",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Assigning labels to images</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "MNIST Dataset",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/mnist_samples.png\" alt=\"MNIST\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>MNIST:</strong> 70,000 handwritten digits (28×28 grayscale). The \"Hello World\" of deep learning.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "CIFAR-10 Dataset",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/cifar10_samples.png\" alt=\"CIFAR-10\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>CIFAR-10:</strong> 60,000 color images (32×32) in 10 classes. More challenging than MNIST.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "CNN for Classification",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/cnn_architecture.png\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Classification Pipeline:</strong><br>Conv layers → Feature extraction<br>FC layers → Classification<br>Softmax → Probability distribution over classes</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Feature Maps Visualization",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/feature_maps.png\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><p class=\"caption\">What the CNN learns at different layers</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Training and Evaluation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/training_curves.png\" alt=\"Training Curves\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Monitor:</strong> Loss and accuracy on train/val sets. Gap indicates overfitting.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Confusion Matrix",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/confusion_matrix.png\" alt=\"Confusion Matrix\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Metrics from confusion matrix:</strong></p><ul><li>Precision = TP / (TP + FP)</li><li>Recall = TP / (TP + FN)</li><li>F1 = 2 × (Precision × Recall) / (Precision + Recall)</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Multiclass Predictions",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/multiclass_predictions.png\" alt=\"Predictions\" style=\"max-height: 65vh;\"><p class=\"caption\">Sample predictions showing correct classifications and errors</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Object Detection",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Finding and localizing objects</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 12,
+      "title": "Object Detection Task",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/detection_example.png\" alt=\"Detection Example\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Object Detection:</strong> Not just \"what\" but \"where\".</p><p>Output: Class label + Bounding box (x, y, width, height)</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "YOLO Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/yolo_grid.png\" alt=\"YOLO Grid\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>YOLO</strong> (You Only Look Once):</p><ul><li>Single-shot detector - very fast</li><li>Divides image into grid cells</li><li>Each cell predicts B boxes + class probabilities</li><li>Real-time detection possible</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is YOLO faster than two-stage detectors like Faster R-CNN?",
+        "answer": "YOLO processes the entire image in one forward pass through the network, directly predicting bounding boxes and classes. Two-stage detectors first generate region proposals, then classify each proposal, requiring multiple network evaluations."
+      }
+    },
+    {
+      "id": 14,
+      "title": "Faster R-CNN",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/faster_rcnn_pipeline.png\" alt=\"Faster R-CNN\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Two-stage detector:</strong><ol><li><strong>Region Proposal Network (RPN):</strong> Generate candidate boxes</li><li><strong>Classification head:</strong> Classify and refine boxes</li></ol><p>More accurate but slower than YOLO.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "IoU (Intersection over Union)",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/iou_visualization.svg\" alt=\"IoU\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>IoU:</strong> Measures overlap between predicted and ground truth boxes.</p><p class=\"math-block\">$$IoU = \\frac{\\text{Area of Intersection}}{\\text{Area of Union}}$$</p><p>IoU > 0.5 typically considered a \"correct\" detection.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Non-Maximum Suppression",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/nms_visualization.png\" alt=\"NMS\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>NMS:</strong> Remove duplicate detections.</p><ol><li>Sort boxes by confidence</li><li>Keep highest confidence box</li><li>Remove boxes with IoU > threshold</li><li>Repeat for remaining boxes</li></ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Mean Average Precision",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/map_curve.svg\" alt=\"mAP\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>mAP:</strong> Standard metric for object detection.<br>Average of Average Precision (AP) across all classes.<br>AP = Area under Precision-Recall curve.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Semantic Segmentation",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Pixel-level classification</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 19,
+      "title": "Segmentation Types",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/segmentation_types.png\" alt=\"Segmentation Types\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Semantic</strong><br>Classify every pixel<br>No instance distinction</div><div><strong>Instance</strong><br>Separate each object<br>Distinguishes individuals</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is the difference between semantic and instance segmentation?",
+        "answer": "Semantic segmentation labels each pixel with a class but doesn't distinguish between different instances of the same class. Instance segmentation identifies each individual object separately (e.g., person 1, person 2)."
+      }
+    },
+    {
+      "id": 20,
+      "title": "U-Net Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/unet_architecture.png\" alt=\"U-Net\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>U-Net:</strong> Encoder-decoder with skip connections.</p><ul><li><strong>Encoder:</strong> Downsample, extract features</li><li><strong>Decoder:</strong> Upsample, recover spatial detail</li><li><strong>Skip connections:</strong> Preserve fine details</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Segmentation Example",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/segmentation_example.png\" alt=\"Segmentation Example\" style=\"max-height: 65vh;\"><p class=\"caption\">Input image and pixel-wise segmentation output</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import torch\nimport torchvision.models as models\n\n# Transfer learning with pretrained ResNet\nmodel = models.resnet18(pretrained=True)\n\n# Freeze feature extractor\nfor param in model.parameters():\n    param.requires_grad = False\n\n# Replace classifier for new task\nmodel.fc = torch.nn.Linear(512, num_classes)\n\n# Object detection with torchvision\nfrom torchvision.models.detection import fasterrcnn_resnet50_fpn\ndetector = fasterrcnn_resnet50_fpn(pretrained=True)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 24,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Classification:</strong> Assign single label per image</li><li><strong>Object Detection:</strong> YOLO (fast), Faster R-CNN (accurate)</li><li><strong>IoU & NMS:</strong> Essential for evaluating and refining detections</li><li><strong>mAP:</strong> Standard detection evaluation metric</li><li><strong>Segmentation:</strong> Pixel-level classification (U-Net)</li><li><strong>Transfer learning:</strong> Leverage pretrained models</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 11 - Generative Models</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

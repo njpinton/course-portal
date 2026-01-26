@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Richardson-Lucy iterative deconvolution showing progressive improvement">
+  <title>Richardson-Lucy Iterations</title>
+  <desc>Visualization of iterative Richardson-Lucy deconvolution algorithm showing improvement over iterations</desc>
+
+  <defs>
+    <linearGradient id="rlBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="arrow5" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#rlBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Richardson-Lucy Iterative Deconvolution</text>
+
+  <!-- Formula -->
+  <rect x="200" y="45" width="450" height="35" fill="white" rx="6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="425" y="69" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">f̂ₙ₊₁ = f̂ₙ · [ (g / (h * f̂ₙ)) * h* ]</text>
+
+  <!-- Iteration visualization -->
+  <g transform="translate(30, 100)">
+    <!-- Iteration 0: Blurred input -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#ef4444" rx="6" stroke="#dc2626" stroke-width="2"/>
+      <rect x="15" y="15" width="100" height="70" fill="#666" rx="3"/>
+      <!-- Very blurred content -->
+      <ellipse cx="65" cy="50" rx="35" ry="25" fill="#999" opacity="0.5"/>
+      <text x="65" y="115" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Input (blurred)</text>
+      <text x="65" y="130" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">n = 0</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M135,50 L160,50" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow5)"/>
+
+    <!-- Iteration 5 -->
+    <g transform="translate(170, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#f97316" rx="6" stroke="#ea580c" stroke-width="2"/>
+      <rect x="15" y="15" width="100" height="70" fill="#666" rx="3"/>
+      <!-- Slightly sharper -->
+      <ellipse cx="65" cy="50" rx="28" ry="20" fill="#aaa" opacity="0.7"/>
+      <text x="65" y="115" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Iteration 5</text>
+      <text x="65" y="130" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">n = 5</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M305,50 L330,50" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow5)"/>
+
+    <!-- Iteration 20 -->
+    <g transform="translate(340, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#3b82f6" rx="6" stroke="#2563eb" stroke-width="2"/>
+      <rect x="15" y="15" width="100" height="70" fill="#666" rx="3"/>
+      <!-- Sharper -->
+      <ellipse cx="65" cy="50" rx="22" ry="15" fill="#bbb" stroke="#888" stroke-width="1"/>
+      <text x="65" y="115" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Iteration 20</text>
+      <text x="65" y="130" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">n = 20</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M475,50 L500,50" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow5)"/>
+
+    <!-- Iteration 50 (optimal) -->
+    <g transform="translate(510, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#10b981" rx="6" stroke="#059669" stroke-width="3"/>
+      <rect x="15" y="15" width="100" height="70" fill="#666" rx="3"/>
+      <!-- Sharp -->
+      <ellipse cx="65" cy="50" rx="18" ry="12" fill="#ccc" stroke="#444" stroke-width="2"/>
+      <text x="65" y="115" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Optimal (50)</text>
+      <text x="65" y="130" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">n = 50</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M645,50 L670,50" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow5)"/>
+
+    <!-- Over-iteration -->
+    <g transform="translate(680, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#ef4444" rx="6" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,2"/>
+      <rect x="15" y="15" width="100" height="70" fill="#666" rx="3"/>
+      <!-- Noisy/ringing -->
+      <ellipse cx="65" cy="50" rx="15" ry="10" fill="#ddd" stroke="#222" stroke-width="2"/>
+      <circle cx="45" cy="40" r="3" fill="#fff" opacity="0.5"/>
+      <circle cx="85" cy="60" r="2" fill="#fff" opacity="0.5"/>
+      <text x="65" y="115" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Over-iterated</text>
+      <text x="65" y="130" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">n = 200</text>
+    </g>
+  </g>
+
+  <!-- Convergence graph -->
+  <g transform="translate(50, 250)">
+    <rect x="0" y="0" width="350" height="130" fill="white" rx="6" stroke="#3b82f6" stroke-width="2"/>
+    <text x="175" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Convergence Behavior</text>
+
+    <g transform="translate(40, 35)">
+      <!-- Graph area -->
+      <rect x="0" y="0" width="280" height="80" fill="#f8f9fa" rx="4"/>
+      <!-- Axes -->
+      <line x1="30" y1="70" x2="270" y2="70" stroke="#999" stroke-width="1"/>
+      <line x1="30" y1="70" x2="30" y2="10" stroke="#999" stroke-width="1"/>
+      <text x="150" y="92" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Iterations</text>
+      <text x="10" y="40" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" transform="rotate(-90, 10, 40)">Quality</text>
+
+      <!-- Quality curve -->
+      <path d="M35,65 Q60,55 80,40 Q100,28 120,22 Q150,18 180,20 Q210,25 240,35 Q260,45 265,55" fill="none" stroke="#10b981" stroke-width="2"/>
+
+      <!-- Optimal point -->
+      <circle cx="165" cy="18" r="5" fill="#10b981"/>
+      <text x="165" y="8" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">optimal</text>
+
+      <!-- Iteration labels -->
+      <text x="35" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">0</text>
+      <text x="100" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">20</text>
+      <text x="165" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">50</text>
+      <text x="230" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="8">100</text>
+    </g>
+  </g>
+
+  <!-- Properties -->
+  <g transform="translate(430, 250)">
+    <rect x="0" y="0" width="380" height="130" fill="white" rx="6" stroke="#7c3aed" stroke-width="2"/>
+    <text x="190" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Algorithm Properties</text>
+
+    <g transform="translate(15, 35)">
+      <g transform="translate(0, 0)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Non-negativity preserved</text>
+      </g>
+      <g transform="translate(0, 22)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Good for Poisson noise</text>
+      </g>
+      <g transform="translate(0, 44)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">No matrix inversion needed</text>
+      </g>
+      <g transform="translate(0, 66)">
+        <circle cx="8" cy="8" r="4" fill="#f97316"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Needs stopping criterion</text>
+      </g>
+    </g>
+
+    <g transform="translate(200, 35)">
+      <g transform="translate(0, 0)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Used in astronomy</text>
+      </g>
+      <g transform="translate(0, 22)">
+        <circle cx="8" cy="8" r="4" fill="#10b981"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Medical imaging (CT/PET)</text>
+      </g>
+      <g transform="translate(0, 44)">
+        <circle cx="8" cy="8" r="4" fill="#f97316"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Can amplify noise (late)</text>
+      </g>
+      <g transform="translate(0, 66)">
+        <circle cx="8" cy="8" r="4" fill="#f97316"/>
+        <text x="18" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="10">Slow convergence</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,265 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Bag of Visual Words model for image classification">
+  <title>Bag of Features / Visual Words</title>
+  <desc>Visualization of the Bag of Visual Words model showing feature extraction, vocabulary creation, and histogram encoding</desc>
+
+  <defs>
+    <linearGradient id="bovwBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#bovwBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Bag of Visual Words (BoVW)</text>
+
+  <!-- Pipeline overview -->
+  <g transform="translate(30, 55)">
+    <!-- Step 1: Extract Features -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="150" height="130" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+      <text x="75" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">1. Extract Features</text>
+
+      <!-- Training images with keypoints -->
+      <g transform="translate(15, 35)">
+        <rect x="0" y="0" width="50" height="40" fill="#dbeafe" rx="3"/>
+        <circle cx="15" cy="15" r="4" fill="#3b82f6"/>
+        <circle cx="35" cy="12" r="4" fill="#3b82f6"/>
+        <circle cx="25" cy="30" r="4" fill="#3b82f6"/>
+
+        <rect x="60" y="0" width="50" height="40" fill="#dbeafe" rx="3"/>
+        <circle cx="75" cy="18" r="4" fill="#3b82f6"/>
+        <circle cx="95" cy="25" r="4" fill="#3b82f6"/>
+        <circle cx="80" cy="35" r="4" fill="#3b82f6"/>
+
+        <rect x="0" y="50" width="50" height="40" fill="#dbeafe" rx="3"/>
+        <circle cx="20" cy="65" r="4" fill="#3b82f6"/>
+        <circle cx="40" cy="70" r="4" fill="#3b82f6"/>
+        <circle cx="30" cy="82" r="4" fill="#3b82f6"/>
+
+        <text x="55" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">SIFT/ORB</text>
+      </g>
+    </g>
+
+    <!-- Arrow -->
+    <text x="165" y="70" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+
+    <!-- Step 2: Cluster to Vocabulary -->
+    <g transform="translate(185, 0)">
+      <rect x="0" y="0" width="160" height="130" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+      <text x="80" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">2. Build Vocabulary</text>
+
+      <!-- K-means clustering visualization -->
+      <g transform="translate(20, 35)">
+        <!-- Cluster 1 -->
+        <g fill="#ef4444" opacity="0.3">
+          <circle cx="25" cy="20" r="20"/>
+        </g>
+        <g fill="#ef4444">
+          <circle cx="20" cy="15" r="3"/>
+          <circle cx="30" cy="18" r="3"/>
+          <circle cx="25" cy="25" r="3"/>
+          <circle cx="22" cy="20" r="3"/>
+        </g>
+        <circle cx="25" cy="20" r="5" fill="none" stroke="#ef4444" stroke-width="2"/>
+
+        <!-- Cluster 2 -->
+        <g fill="#10b981" opacity="0.3">
+          <circle cx="85" cy="25" r="22"/>
+        </g>
+        <g fill="#10b981">
+          <circle cx="80" cy="20" r="3"/>
+          <circle cx="90" cy="28" r="3"/>
+          <circle cx="78" cy="30" r="3"/>
+          <circle cx="92" cy="22" r="3"/>
+          <circle cx="85" cy="18" r="3"/>
+        </g>
+        <circle cx="85" cy="25" r="5" fill="none" stroke="#10b981" stroke-width="2"/>
+
+        <!-- Cluster 3 -->
+        <g fill="#3b82f6" opacity="0.3">
+          <circle cx="55" cy="60" r="18"/>
+        </g>
+        <g fill="#3b82f6">
+          <circle cx="50" cy="55" r="3"/>
+          <circle cx="60" cy="58" r="3"/>
+          <circle cx="55" cy="65" r="3"/>
+        </g>
+        <circle cx="55" cy="60" r="5" fill="none" stroke="#3b82f6" stroke-width="2"/>
+
+        <text x="60" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">K-means clustering</text>
+      </g>
+    </g>
+
+    <!-- Arrow -->
+    <text x="360" y="70" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+
+    <!-- Step 3: Visual Vocabulary -->
+    <g transform="translate(380, 0)">
+      <rect x="0" y="0" width="140" height="130" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+      <text x="70" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">3. Visual Words</text>
+
+      <!-- Visual word patches -->
+      <g transform="translate(15, 35)">
+        <g transform="translate(0, 0)">
+          <rect x="0" y="0" width="30" height="30" fill="#ef4444" opacity="0.3" rx="3"/>
+          <text x="15" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle" font-weight="600">W₁</text>
+        </g>
+        <g transform="translate(38, 0)">
+          <rect x="0" y="0" width="30" height="30" fill="#10b981" opacity="0.3" rx="3"/>
+          <text x="15" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle" font-weight="600">W₂</text>
+        </g>
+        <g transform="translate(76, 0)">
+          <rect x="0" y="0" width="30" height="30" fill="#3b82f6" opacity="0.3" rx="3"/>
+          <text x="15" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle" font-weight="600">W₃</text>
+        </g>
+        <g transform="translate(0, 38)">
+          <rect x="0" y="0" width="30" height="30" fill="#f97316" opacity="0.3" rx="3"/>
+          <text x="15" y="20" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle" font-weight="600">W₄</text>
+        </g>
+        <g transform="translate(38, 38)">
+          <rect x="0" y="0" width="30" height="30" fill="#a855f7" opacity="0.3" rx="3"/>
+          <text x="15" y="20" fill="#a855f7" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle" font-weight="600">W₅</text>
+        </g>
+        <text x="55" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">K visual words</text>
+      </g>
+    </g>
+
+    <!-- Arrow -->
+    <text x="535" y="70" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+
+    <!-- Step 4: Histogram Encoding -->
+    <g transform="translate(555, 0)">
+      <rect x="0" y="0" width="235" height="130" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+      <text x="117" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">4. Histogram Encoding</text>
+
+      <!-- Image with features -->
+      <g transform="translate(15, 35)">
+        <rect x="0" y="0" width="70" height="55" fill="#fed7aa" rx="4"/>
+        <circle cx="15" cy="15" r="5" fill="#ef4444"/>
+        <circle cx="45" cy="20" r="5" fill="#10b981"/>
+        <circle cx="25" cy="35" r="5" fill="#10b981"/>
+        <circle cx="55" cy="40" r="5" fill="#3b82f6"/>
+        <circle cx="35" cy="48" r="5" fill="#ef4444"/>
+      </g>
+
+      <!-- Arrow -->
+      <text x="100" y="65" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <!-- Histogram -->
+      <g transform="translate(115, 35)">
+        <rect x="0" y="0" width="105" height="55" fill="#fff7ed" rx="4"/>
+        <g transform="translate(5, 5)">
+          <rect x="0" y="30" width="18" height="20" fill="#ef4444"/>
+          <rect x="20" y="15" width="18" height="35" fill="#10b981"/>
+          <rect x="40" y="35" width="18" height="15" fill="#3b82f6"/>
+          <rect x="60" y="45" width="18" height="5" fill="#f97316"/>
+          <rect x="80" y="40" width="18" height="10" fill="#a855f7"/>
+        </g>
+        <g font-family="Segoe UI, sans-serif" font-size="7" fill="#666" text-anchor="middle">
+          <text x="14" y="53">W1</text>
+          <text x="34" y="53">W2</text>
+          <text x="54" y="53">W3</text>
+          <text x="74" y="53">W4</text>
+          <text x="94" y="53">W5</text>
+        </g>
+      </g>
+
+      <text x="117" y="110" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Count word occurrences</text>
+    </g>
+  </g>
+
+  <!-- Classification section -->
+  <g transform="translate(30, 200)">
+    <rect x="0" y="0" width="480" height="175" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="240" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Classification Pipeline</text>
+
+    <!-- Training histograms -->
+    <g transform="translate(20, 45)">
+      <text x="65" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Training Histograms</text>
+
+      <!-- Cat class -->
+      <g transform="translate(0, 15)">
+        <rect x="0" y="0" width="60" height="35" fill="#dbeafe" rx="3"/>
+        <rect x="5" y="20" width="8" height="10" fill="#3b82f6"/>
+        <rect x="15" y="10" width="8" height="20" fill="#3b82f6"/>
+        <rect x="25" y="15" width="8" height="15" fill="#3b82f6"/>
+        <rect x="35" y="5" width="8" height="25" fill="#3b82f6"/>
+        <rect x="45" y="22" width="8" height="8" fill="#3b82f6"/>
+        <text x="30" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Cat</text>
+      </g>
+
+      <!-- Dog class -->
+      <g transform="translate(75, 15)">
+        <rect x="0" y="0" width="60" height="35" fill="#fef2f2" rx="3"/>
+        <rect x="5" y="8" width="8" height="22" fill="#ef4444"/>
+        <rect x="15" y="18" width="8" height="12" fill="#ef4444"/>
+        <rect x="25" y="5" width="8" height="25" fill="#ef4444"/>
+        <rect x="35" y="15" width="8" height="15" fill="#ef4444"/>
+        <rect x="45" y="10" width="8" height="20" fill="#ef4444"/>
+        <text x="30" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Dog</text>
+      </g>
+    </g>
+
+    <!-- Arrow and classifier -->
+    <g transform="translate(175, 55)">
+      <text x="0" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+
+      <g transform="translate(30, 0)">
+        <rect x="0" y="0" width="100" height="45" fill="#7c3aed" rx="6"/>
+        <text x="50" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Classifier</text>
+        <text x="50" y="35" fill="#ddd6fe" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">SVM / k-NN</text>
+      </g>
+
+      <text x="145" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+    </g>
+
+    <!-- Prediction -->
+    <g transform="translate(360, 55)">
+      <rect x="0" y="0" width="100" height="45" fill="#d1fae5" rx="6" stroke="#10b981" stroke-width="2"/>
+      <text x="50" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Prediction:</text>
+      <text x="50" y="35" fill="#059669" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">"Cat" (87%)</text>
+    </g>
+
+    <!-- Code example -->
+    <g transform="translate(20, 115)">
+      <rect x="0" y="0" width="440" height="50" fill="#1e293b" rx="4"/>
+      <text x="10" y="18" fill="#a78bfa" font-family="Consolas, monospace" font-size="9"># Bag of Words with sklearn</text>
+      <text x="10" y="33" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">kmeans = KMeans(n_clusters=500).fit(all_descriptors)</text>
+      <text x="10" y="45" fill="#a78bfa" font-family="Consolas, monospace" font-size="9">histogram = np.histogram(kmeans.predict(img_desc), bins=500)</text>
+    </g>
+  </g>
+
+  <!-- Advantages/Considerations -->
+  <g transform="translate(525, 200)">
+    <rect x="0" y="0" width="295" height="175" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="147" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Properties &amp; Variants</text>
+
+    <g transform="translate(15, 45)">
+      <!-- Advantages -->
+      <g>
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Advantages:</text>
+        <text x="0" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Fixed-length representation</text>
+        <text x="0" y="33" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Invariant to image size</text>
+        <text x="0" y="48" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9">✓ Works with any local feature</text>
+      </g>
+
+      <!-- Variants -->
+      <g transform="translate(140, 0)">
+        <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Variants:</text>
+        <text x="0" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• TF-IDF weighting</text>
+        <text x="0" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• Spatial pyramid</text>
+        <text x="0" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">• VLAD encoding</text>
+      </g>
+    </g>
+
+    <!-- Limitations -->
+    <g transform="translate(15, 110)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">Limitations:</text>
+      <text x="0" y="18" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9">• Loses spatial information</text>
+      <text x="0" y="33" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9">• Vocabulary size tuning required</text>
+      <text x="140" y="18" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9">• Superseded by deep learning</text>
+    </g>
+  </g>
+</svg>

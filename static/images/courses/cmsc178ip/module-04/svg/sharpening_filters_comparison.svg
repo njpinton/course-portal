@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Image sharpening techniques showing unsharp masking process">
+  <title>Sharpening Filters Comparison</title>
+  <desc>Visualization of unsharp masking technique for image sharpening</desc>
+
+  <defs>
+    <linearGradient id="sharpBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="url(#sharpBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Image Sharpening: Unsharp Masking</text>
+
+  <!-- Formula -->
+  <g transform="translate(150, 55)">
+    <rect x="0" y="0" width="500" height="40" fill="white" rx="6" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="250" y="27" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">
+      Sharpened = Original + k × (Original - Blurred)
+    </text>
+  </g>
+
+  <!-- Visual process -->
+  <g transform="translate(40, 115)">
+    <!-- Step 1: Original -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#666" rx="4" stroke="#1a3a6e" stroke-width="2"/>
+      <!-- Sharp edge in original -->
+      <rect x="65" y="0" width="65" height="100" fill="#999" rx="0 4 4 0"/>
+      <line x1="65" y1="0" x2="65" y2="100" stroke="#333" stroke-width="2"/>
+      <text x="65" y="120" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Original</text>
+      <text x="65" y="135" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(with edge)</text>
+    </g>
+
+    <!-- Minus sign -->
+    <g transform="translate(145, 40)">
+      <text x="0" y="20" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="30" font-weight="600">−</text>
+    </g>
+
+    <!-- Step 2: Blurred -->
+    <g transform="translate(180, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#777" rx="4" stroke="#3b82f6" stroke-width="2"/>
+      <!-- Blurred edge -->
+      <defs>
+        <linearGradient id="blurEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="30%" style="stop-color:#777"/>
+          <stop offset="50%" style="stop-color:#888"/>
+          <stop offset="70%" style="stop-color:#999"/>
+        </linearGradient>
+      </defs>
+      <rect x="40" y="0" width="50" height="100" fill="url(#blurEdge)"/>
+      <rect x="90" y="0" width="40" height="100" fill="#999" rx="0 4 4 0"/>
+      <text x="65" y="120" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Blurred</text>
+      <text x="65" y="135" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(low-pass)</text>
+    </g>
+
+    <!-- Equals sign -->
+    <g transform="translate(325, 40)">
+      <text x="0" y="20" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="30" font-weight="600">=</text>
+    </g>
+
+    <!-- Step 3: Edge mask -->
+    <g transform="translate(360, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#888" rx="4" stroke="#f97316" stroke-width="2"/>
+      <!-- Edge highlight -->
+      <rect x="55" y="0" width="20" height="100" fill="white"/>
+      <text x="65" y="120" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Edge Mask</text>
+      <text x="65" y="135" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(high-pass)</text>
+    </g>
+
+    <!-- Arrow to final -->
+    <g transform="translate(505, 30)">
+      <text x="0" y="20" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14">+ k ×</text>
+      <polygon points="55,25 70,20 70,30" fill="#1a3a6e"/>
+    </g>
+
+    <!-- Step 4: Sharpened result -->
+    <g transform="translate(585, 0)">
+      <rect x="0" y="0" width="130" height="100" fill="#555" rx="4" stroke="#10b981" stroke-width="3"/>
+      <!-- Enhanced edge -->
+      <rect x="65" y="0" width="65" height="100" fill="#bbb" rx="0 4 4 0"/>
+      <line x1="65" y1="0" x2="65" y2="100" stroke="#222" stroke-width="4"/>
+      <text x="65" y="120" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Sharpened!</text>
+      <text x="65" y="135" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">(enhanced edges)</text>
+    </g>
+  </g>
+
+  <!-- Effect of k parameter -->
+  <g transform="translate(40, 270)">
+    <text x="360" y="0" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Effect of Sharpening Amount (k)</text>
+
+    <!-- k = 0.5 -->
+    <g transform="translate(0, 20)">
+      <rect x="0" y="0" width="160" height="80" fill="white" rx="6" stroke="#e5e7eb"/>
+      <rect x="10" y="10" width="140" height="50" fill="#666" rx="4"/>
+      <rect x="80" y="10" width="70" height="50" fill="#999" rx="0 4 4 0"/>
+      <line x1="80" y1="10" x2="80" y2="60" stroke="#444" stroke-width="2"/>
+      <text x="80" y="75" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">k = 0.5 (subtle)</text>
+    </g>
+
+    <!-- k = 1.0 -->
+    <g transform="translate(180, 20)">
+      <rect x="0" y="0" width="160" height="80" fill="white" rx="6" stroke="#3b82f6"/>
+      <rect x="10" y="10" width="140" height="50" fill="#555" rx="4"/>
+      <rect x="80" y="10" width="70" height="50" fill="#aaa" rx="0 4 4 0"/>
+      <line x1="80" y1="10" x2="80" y2="60" stroke="#333" stroke-width="3"/>
+      <text x="80" y="75" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">k = 1.0 (moderate)</text>
+    </g>
+
+    <!-- k = 2.0 -->
+    <g transform="translate(360, 20)">
+      <rect x="0" y="0" width="160" height="80" fill="white" rx="6" stroke="#10b981"/>
+      <rect x="10" y="10" width="140" height="50" fill="#444" rx="4"/>
+      <rect x="80" y="10" width="70" height="50" fill="#bbb" rx="0 4 4 0"/>
+      <line x1="80" y1="10" x2="80" y2="60" stroke="#222" stroke-width="4"/>
+      <text x="80" y="75" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">k = 2.0 (strong)</text>
+    </g>
+
+    <!-- k = 4.0 (over-sharpened) -->
+    <g transform="translate(540, 20)">
+      <rect x="0" y="0" width="160" height="80" fill="white" rx="6" stroke="#ef4444"/>
+      <rect x="10" y="10" width="140" height="50" fill="#333" rx="4"/>
+      <rect x="80" y="10" width="70" height="50" fill="#ddd" rx="0 4 4 0"/>
+      <line x1="80" y1="10" x2="80" y2="60" stroke="black" stroke-width="5"/>
+      <!-- Halo artifacts -->
+      <line x1="75" y1="10" x2="75" y2="60" stroke="white" stroke-width="2"/>
+      <line x1="85" y1="10" x2="85" y2="60" stroke="black" stroke-width="1"/>
+      <text x="80" y="75" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">k = 4.0 (halo artifacts!)</text>
+    </g>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="400" y="385" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Unsharp masking enhances edges by adding scaled high-frequency content back to the original image</text>
+</svg>

@@ -1,0 +1,265 @@
+{
+  "module": {
+    "id": "02",
+    "title": "Image Types, Storage Formats, Coding & Compression",
+    "course": "CMSC 178",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "60 minutes",
+    "prerequisites": [
+      "Module 1: Introduction to Digital Image Processing",
+      "Basic understanding of binary and decimal number systems"
+    ]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Today's Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><div class=\"highlight\"><h4>Core Concepts</h4><ul><li><strong>Image Types:</strong> Binary, grayscale, color, indexed</li><li><strong>Bit Depth:</strong> 1-bit, 8-bit, 16-bit, 24-bit systems</li><li><strong>Color Models:</strong> RGB, CMYK, HSV representations</li><li><strong>Resolution:</strong> Spatial vs. intensity resolution</li></ul></div><p><strong>Real-world Applications:</strong></p><ul><li>Web graphics, mobile photography</li><li>Medical imaging systems</li><li>Satellite imagery processing</li><li>Social media platforms</li></ul></div><div class=\"column\"><div class=\"highlight\"><h4>Storage & Compression</h4><ul><li><strong>Formats:</strong> BMP, JPEG, PNG, GIF, TIFF</li><li><strong>Compression:</strong> Lossless vs. lossy techniques</li><li><strong>Algorithms:</strong> Huffman, LZW, DCT, wavelets</li><li><strong>Trade-offs:</strong> Quality vs. file size analysis</li></ul></div><div class=\"key-point\">From raw pixels to optimized storage solutions!</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 2,
+      "title": "Course Context - Where We Are",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\"><strong>Digital Image Processing Pipeline</strong></div><table class=\"info-table\"><tr><th>Raw Image Capture</th><th style=\"background-color: var(--primary); color: white;\">Image Types & Storage</th><th>Enhancement</th><th>Analysis</th><th>Applications</th></tr><tr><td>Sensors CCD/CMOS</td><td style=\"background-color: var(--primary); color: white;\">Formats, Compression</td><td>Filtering, Correction</td><td>Feature Detection</td><td>Recognition, AI</td></tr></table><div class=\"highlight\"><h4>Key Questions We'll Answer Today:</h4><ul><li>How are different image types represented in memory?</li><li>What are the advantages/disadvantages of each storage format?</li><li>How do compression algorithms reduce file sizes?</li><li>When should we use lossless vs. lossy compression?</li></ul></div><p><em>Foundation knowledge for all subsequent image processing techniques</em></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 3,
+      "title": "What is a Digital Image?",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">A digital image is a <strong>2D array of pixels</strong> (picture elements), where each pixel contains discrete intensity values representing color or brightness information at specific spatial locations.</div><div class=\"two-column\"><div class=\"column\"><h4>Mathematical Foundation</h4><ul><li>Image function: $f(x, y)$</li><li>Spatial coordinates: $x \\in [0, M-1], y \\in [0, N-1]$</li><li>Intensity levels: $L = 2^k$ (k = bit depth)</li><li>Pixel values: $0 \\leq f(x,y) \\leq L-1$</li></ul><h4>Digital Characteristics</h4><ul><li><strong>Discrete:</strong> Finite pixel locations</li><li><strong>Quantized:</strong> Limited intensity levels</li><li><strong>Rectangular:</strong> Grid-based sampling</li><li><strong>Finite:</strong> Bounded image dimensions</li></ul></div><div class=\"column\"><h4>Common Bit Depths & Ranges</h4><ul><li><strong>1-bit:</strong> Binary (0-1)<br>File size = M × N bits</li><li><strong>8-bit:</strong> Grayscale (0-255)<br>File size = M × N bytes</li><li><strong>24-bit:</strong> RGB Color (16.7M colors)<br>File size = 3 × M × N bytes</li></ul><div class=\"math-block\">$$\\text{File Size} = M \\times N \\times \\frac{\\text{bit depth}}{8} \\text{ bytes}$$</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What is the file size formula for an uncompressed digital image?",
+        "answer": "File Size = Width × Height × (bit depth / 8) bytes. For example, an 8-bit grayscale 1024×768 image = 786,432 bytes (768 KB)."
+      }
+    },
+    {
+      "id": 4,
+      "title": "Image Types - Detailed Classification",
+      "readingTime": "2 min",
+      "content": "<div class=\"key-point\"><strong>Four Main Image Categories</strong></div><img src=\"/static/images/courses/cmsc178ip/module-02/image_types_comparison.png\" alt=\"Image Types Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>1. Binary Images (1-bit)</h4><ul><li>Values: 0 (black), 1 (white)</li><li>Applications: OCR, barcode scanning</li><li>Size: Smallest storage requirement</li></ul><h4>2. Grayscale Images (8-16 bit)</h4><ul><li>8-bit: 256 gray levels (0-255)</li><li>16-bit: 65,536 levels (medical imaging)</li><li>Size: 1/3 of equivalent color image</li></ul></div><div class=\"column\"><h4>3. Color Images (24-32 bit)</h4><ul><li>RGB: 8 bits per channel (16.7M colors)</li><li>RGBA: Additional alpha channel</li><li>Size: Largest uncompressed storage</li></ul><h4>4. Indexed Color (8-bit)</h4><ul><li>Palette-based: 256 colors max</li><li>Color lookup table (CLUT)</li><li>Applications: GIF animations, icons</li></ul></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Binary Images - Detailed Analysis",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Binary images contain only <strong>two intensity values</strong>: 0 (black) and 1 (white). Each pixel requires exactly <strong>1 bit</strong> of storage.</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>Pixel values: $f(x,y) \\in \\{0, 1\\}$</li><li>Storage: $\\frac{M \\times N}{8}$ bytes</li><li>Memory efficiency: 8:1 vs grayscale</li><li>Bit packing: 8 pixels per byte</li></ul><h4>Creation Methods</h4><ul><li><strong>Thresholding:</strong> $f(x,y) = \\begin{cases} 1 & \\text{if } g(x,y) > T \\\\ 0 & \\text{otherwise} \\end{cases}$</li><li><strong>Dithering:</strong> Floyd-Steinberg algorithm</li><li><strong>Edge detection:</strong> Canny, Sobel operators</li></ul></div><div class=\"column\"><h4>Applications</h4><ul><li>OCR systems</li><li>Barcode reading</li><li>Medical bone analysis</li><li>Industrial inspection</li></ul><div class=\"highlight\"><h4>Trade-offs</h4><p><strong>Advantages:</strong> Fast processing, minimal storage, simple algorithms</p><p><strong>Disadvantages:</strong> Loss of detail, limited applications, threshold sensitivity</p></div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "How many bytes are needed to store a 1024×768 binary image?",
+        "answer": "Storage = (1024 × 768) / 8 = 98,304 bytes = 96 KB. Since each bit represents one pixel, we divide by 8 to convert bits to bytes."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Grayscale Images - Comprehensive Analysis",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition\">Grayscale images represent intensity using shades of gray, typically <strong>8-bit</strong> (256 levels) or <strong>16-bit</strong> (65,536 levels).</div><div class=\"two-column\"><div class=\"column\"><h4>Bit Depth Comparison</h4><ul><li><strong>8-bit:</strong> 0-255, standard photography</li><li><strong>12-bit:</strong> 0-4095, digital cameras</li><li><strong>16-bit:</strong> 0-65535, scientific imaging</li><li><strong>32-bit:</strong> Floating point, HDR</li></ul><h4>RGB Conversion</h4><ul><li><strong>Luminance:</strong> $Y = 0.299R + 0.587G + 0.114B$</li><li><strong>Average:</strong> Gray = $\\frac{R+G+B}{3}$</li></ul></div><div class=\"column\"><h4>Applications</h4><ul><li>Medical X-rays</li><li>Satellite imagery</li><li>Security systems</li><li>Scientific imaging</li></ul><div class=\"key-point\"><strong>Storage: M×N bytes (8-bit)</strong><br><em>Critical for scientific applications</em></div></div></div><img src=\"/static/images/courses/cmsc178ip/module-02/bit_depth_comparison.png\" alt=\"Bit Depth Comparison\" style=\"max-width: 100%; border-radius: 8px; margin-top: 1rem;\">",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Color Images - RGB Color Model",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">RGB uses <strong>additive color mixing</strong> with Red, Green, Blue channels. Standard: <strong>24-bit color</strong> (8 bits per channel).</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>Each channel: 0-255 (8-bit)</li><li>Total colors: $256^3 = 16,777,216$</li><li>Storage: $3 \\times M \\times N$ bytes</li><li>Memory layout: Interleaved/planar</li></ul><h4>Extended Formats</h4><ul><li><strong>RGB565:</strong> Mobile displays (16-bit)</li><li><strong>RGB888:</strong> Standard 24-bit</li><li><strong>ARGB8888:</strong> 32-bit with alpha</li><li><strong>RGB48:</strong> Professional (16-bit/channel)</li></ul></div><div class=\"column\"><img src=\"/static/images/courses/cmsc178ip/module-02/color_spaces_demo.png\" alt=\"Color Spaces\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><p><strong>Advantage:</strong> Direct display compatibility</p><p><strong>Challenge:</strong> Large file sizes</p></div></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 8,
+      "title": "Alternative Color Models - Beyond RGB",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><h4>CMYK (Subtractive Model)</h4><ul><li>Channels: Cyan, Magenta, Yellow, Black</li><li>Application: Printing industry</li><li>Color mixing: Ink absorption</li><li>Smaller gamut than RGB</li></ul><h4>HSV/HSB (Perceptual Model)</h4><ul><li>Hue: Color wheel (0-360°)</li><li>Saturation: Purity (0-100%)</li><li>Value: Brightness (0-100%)</li><li>Intuitive color selection</li></ul><h4>Specialized Spaces</h4><ul><li><strong>YUV:</strong> Video compression (luminance/chrominance)</li><li><strong>LAB:</strong> Perceptually uniform</li><li><strong>XYZ:</strong> CIE standard foundation</li></ul></div><div class=\"column\"><h4>RGB to HSV Conversion</h4><div class=\"math-block\">$$V = \\max(R, G, B)$$</div><div class=\"math-block\">$$S = \\frac{V - \\min(R,G,B)}{V}$$</div><div class=\"highlight\"><h4>Model Selection</h4><ul><li><strong>Display:</strong> RGB color model</li><li><strong>Print:</strong> CMYK color model</li><li><strong>Perception:</strong> HSV color model</li><li><strong>Compression:</strong> YUV color model</li></ul></div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "Why is YUV preferred for video compression over RGB?",
+        "answer": "YUV separates luminance (Y) from chrominance (U, V). Human eyes are more sensitive to brightness than color, so we can compress chrominance channels more aggressively without noticeable quality loss."
+      }
+    },
+    {
+      "id": 9,
+      "title": "Indexed Color & Palette Systems",
+      "readingTime": "2 min",
+      "content": "<div class=\"definition\">Indexed color uses a <strong>Color Lookup Table (CLUT)</strong> with limited colors. Each pixel stores an <strong>index</strong> (8-bit) to the palette.</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Structure</h4><ul><li>Pixel values: 0-255 (indices)</li><li>Palette: Up to 256 colors</li><li>Storage: $M \\times N + 256 \\times 3$ bytes</li><li>Effective when colors < 256</li></ul><h4>Palette Algorithms</h4><ul><li><strong>Median Cut:</strong> Recursive division</li><li><strong>Octree:</strong> Tree-based quantization</li><li><strong>K-means:</strong> Color space clustering</li></ul></div><div class=\"column\"><h4>Applications</h4><ul><li>GIF animations</li><li>Retro games</li><li>Scientific visualization</li><li>Embedded systems</li></ul><h4>Trade-offs</h4><ul><li><span style=\"color: green;\">+</span> Reduced file size</li><li><span style=\"color: green;\">+</span> Fast palette swaps</li><li><span style=\"color: red;\">-</span> Limited color range</li><li><span style=\"color: red;\">-</span> Posterization effects</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Image Storage Formats - Overview",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Image storage formats define how pixel data is organized, encoded, and stored in files. They determine <strong>compression</strong>, <strong>metadata handling</strong>, and <strong>compatibility</strong>.</div><div class=\"two-column\"><div class=\"column\"><h4>Format Classification</h4><ul><li><strong>Raster vs Vector:</strong> Pixel-based vs mathematical shapes</li><li><strong>Compressed vs Uncompressed:</strong> File size optimization</li><li><strong>Lossless vs Lossy:</strong> Quality preservation approach</li><li><strong>Single vs Multi-frame:</strong> Static images vs animations</li></ul><h4>Key Selection Criteria</h4><ul><li><strong>File Size:</strong> Storage and bandwidth requirements</li><li><strong>Quality:</strong> Acceptable degradation level</li><li><strong>Compatibility:</strong> Software and device support</li><li><strong>Features:</strong> Transparency, animation, metadata</li></ul></div><div class=\"column\"><h4>Common Format Categories</h4><ul><li><strong>Uncompressed:</strong> BMP, PPM<br><em>Maximum quality, large files</em></li><li><strong>Lossless Compressed:</strong> PNG, GIF, TIFF<br><em>Quality preserved, moderate compression</em></li><li><strong>Lossy Compressed:</strong> JPEG, WebP<br><em>High compression, quality trade-offs</em></li><li><strong>Professional:</strong> RAW, TIFF, PSD<br><em>Maximum flexibility and quality</em></li></ul><div class=\"key-point\"><strong>No single format is optimal for all applications</strong><br><em>Context determines the best choice</em></div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Storage Formats - File Size Comparison",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/storage_formats_comparison.png\" alt=\"Storage Formats Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Insights</h4><ul><li><strong>BMP:</strong> Largest file size, no compression, maximum quality</li><li><strong>PNG:</strong> Moderate size, lossless compression, preserves quality</li><li><strong>JPEG:</strong> Smallest size, lossy compression, quality trade-offs</li></ul></div><div class=\"key-point\">Choose format based on application requirements: file size vs quality</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "BMP Format - Windows Bitmap",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Windows Bitmap is Microsoft's native raster format, typically storing <strong>uncompressed pixel data</strong> with simple file structure.</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>File Structure: Header + Pixel data</li><li>Color Support: 1, 4, 8, 16, 24, 32-bit</li><li>Compression: Usually none (RLE available)</li><li>Max Dimensions: Limited by 32-bit integers</li><li>Byte Order: Little-endian (Intel format)</li></ul><h4>File Structure Details</h4><ul><li><strong>File Header:</strong> 14 bytes (signature, file size)</li><li><strong>Info Header:</strong> 40+ bytes (dimensions, bit depth)</li><li><strong>Color Palette:</strong> Optional for ≤8-bit images</li><li><strong>Pixel Data:</strong> Row-by-row, bottom-to-top</li><li><strong>Row Padding:</strong> Aligned to 4-byte boundaries</li></ul></div><div class=\"column\"><h4>Advantages</h4><ul><li>Simple structure</li><li>No compression artifacts</li><li>Universal Windows support</li><li>Fast loading</li></ul><h4>Disadvantages</h4><ul><li>Very large file sizes</li><li>Limited web support</li><li>No transparency support</li><li>Minimal metadata</li></ul><div class=\"key-point\"><strong>Best for:</strong> Maximum quality when file size is not a concern</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "JPEG Format - Lossy Compression",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Joint Photographic Experts Group format uses <strong>DCT-based lossy compression</strong> optimized for photographic images with smooth color transitions.</div><div class=\"two-column\"><div class=\"column\"><h4>Compression Pipeline</h4><ol><li><strong>Color Space:</strong> RGB → YCbCr conversion</li><li><strong>Subsampling:</strong> Reduce chrominance resolution</li><li><strong>DCT Transform:</strong> 8×8 block frequency analysis</li><li><strong>Quantization:</strong> Discard high-frequency data</li><li><strong>Huffman Coding:</strong> Entropy-based compression</li></ol><h4>Quality Control</h4><ul><li>Quality Setting: 1-100 scale (higher = better)</li><li>Quantization Tables: Control frequency removal</li><li>Compression Ratio: 10:1 to 50:1 typical</li><li>Artifacts: Blocking, ringing, mosquito noise</li></ul></div><div class=\"column\"><h4>Technical Features</h4><ul><li><strong>Progressive:</strong> Interlaced loading capability</li><li><strong>EXIF Data:</strong> Camera metadata support</li><li><strong>Color Profiles:</strong> ICC profile embedding</li></ul><h4>Advantages</h4><ul><li>Excellent compression ratios</li><li>Universal support</li><li>Adjustable quality</li><li>Suitable for photographs</li></ul><h4>Disadvantages</h4><ul><li>Lossy compression</li><li>Compression artifacts</li><li>Poor for text/graphics</li><li>No transparency</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "JPEG Compression - Quality Comparison",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/jpeg_compression_quality.png\" alt=\"JPEG Quality Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Quality vs File Size Trade-offs</h4><ul><li><strong>Quality 10%:</strong> Smallest file, visible artifacts, suitable for thumbnails</li><li><strong>Quality 30%:</strong> Moderate compression, some artifacts, web use</li><li><strong>Quality 60%:</strong> Good balance, minimal artifacts, general photography</li><li><strong>Quality 90%:</strong> High quality, larger files, professional use</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why does JPEG produce artifacts on images with sharp edges or text?",
+        "answer": "JPEG uses 8×8 DCT blocks which are designed for smooth gradients in photographs. Sharp edges and text have high-frequency components that get heavily quantized, causing visible blocking artifacts at block boundaries."
+      }
+    },
+    {
+      "id": 15,
+      "title": "JPEG Compression - Artifacts Analysis",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/compression_artifacts.png\" alt=\"Compression Artifacts\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Common JPEG Artifacts</h4><ul><li><strong>Blocking:</strong> 8×8 DCT block boundaries become visible</li><li><strong>Ringing:</strong> Oscillations near sharp edges</li><li><strong>Mosquito Noise:</strong> Random variations around edges</li><li><strong>Color Bleeding:</strong> Chrominance subsampling effects</li></ul></div><div class=\"key-point\">Artifacts increase with higher compression ratios</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "JPEG Compression - Step-by-Step Procedure",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/jpeg_procedure_steps.png\" alt=\"JPEG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "PNG Format - Portable Network Graphics",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Portable Network Graphics provides <strong>lossless compression</strong> with advanced features like transparency and gamma correction, designed as a GIF replacement.</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>Color Types: Grayscale, RGB, Palette, Grayscale+Alpha, RGB+Alpha</li><li>Bit Depths: 1, 2, 4, 8, 16 bits per channel</li><li>Compression: DEFLATE algorithm (LZ77 + Huffman)</li><li>Interlacing: Adam7 progressive display</li><li>Transparency: Full alpha channel support</li></ul><h4>PNG Chunk Structure</h4><ul><li><strong>Critical Chunks:</strong> IHDR, PLTE, IDAT, IEND</li><li><strong>Ancillary Chunks:</strong> tEXt, gAMA, cHRM, tIME</li><li><strong>CRC Protection:</strong> Error detection for each chunk</li></ul></div><div class=\"column\"><h4>Compression Techniques</h4><ul><li><strong>Filtering:</strong> Pre-processing for better compression</li><li><strong>DEFLATE:</strong> Dictionary-based compression</li><li><strong>Palette Optimization:</strong> Reduce colors when possible</li></ul><h4>Advantages</h4><ul><li>Lossless compression</li><li>Full transparency support</li><li>Robust error detection</li><li>Wide format support</li></ul><h4>Disadvantages</h4><ul><li>Larger than JPEG for photos</li><li>No animation support</li><li>Limited metadata</li></ul></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "PNG Compression - Lossless Procedure",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/png_procedure_steps.png\" alt=\"PNG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "GIF & TIFF Formats - Specialized Applications",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><div class=\"highlight\"><h4>GIF - Graphics Interchange Format</h4><p>Legacy format with <strong>256-color limitation</strong>, famous for animation support and LZW compression.</p></div><h4>GIF Characteristics</h4><ul><li>Color Limit: 256 colors per frame</li><li>Compression: LZW lossless algorithm</li><li>Animation: Multiple frame support</li><li>Transparency: 1-bit (on/off only)</li><li>Interlacing: Progressive display</li></ul></div><div class=\"column\"><div class=\"highlight\"><h4>TIFF - Tagged Image File Format</h4><p>Professional format supporting multiple compression methods, extensive metadata, and multi-page documents.</p></div><h4>TIFF Features</h4><ul><li>Flexibility: Multiple compression options</li><li>Color Support: 1-bit to 32-bit per channel</li><li>Metadata: Extensive tag system</li><li>Multi-page: Document scanning support</li><li>Compression: None, LZW, ZIP, JPEG, PackBits</li></ul></div></div><div class=\"highlight\"><h4>Applications</h4><ul><li><strong>GIF:</strong> Web animations, simple graphics, logos</li><li><strong>TIFF:</strong> Professional photography, medical imaging, document archival, scientific data</li></ul></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Compression Fundamentals",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Image compression reduces file sizes by <strong>eliminating redundancy</strong> and exploiting <strong>perceptual limitations</strong> of human vision.</div><div class=\"two-column\"><div class=\"column\"><h4>Types of Redundancy</h4><ul><li><strong>Spatial:</strong> Neighboring pixels often similar</li><li><strong>Spectral:</strong> Color channels correlated</li><li><strong>Temporal:</strong> Video frame similarities</li><li><strong>Psychovisual:</strong> Human eye limitations</li></ul><h4>Compression Classification</h4><ul><li><strong>Lossless:</strong> Perfect reconstruction possible</li><li><strong>Lossy:</strong> Some information permanently lost</li><li><strong>Near-lossless:</strong> Small controlled loss</li><li><strong>Visually lossless:</strong> Imperceptible quality loss</li></ul></div><div class=\"column\"><h4>Performance Metrics</h4><ul><li><strong>Compression Ratio:</strong> Original size / Compressed size</li><li><strong>Bit Rate:</strong> Bits per pixel (bpp)</li><li><strong>PSNR:</strong> Peak Signal-to-Noise Ratio</li><li><strong>SSIM:</strong> Structural Similarity Index</li></ul><div class=\"key-point\"><strong>Quality vs Size Trade-off</strong><br>Higher compression = smaller file but lower quality</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": {
+        "question": "What are the four types of redundancy that compression algorithms exploit?",
+        "answer": "1) Spatial redundancy (neighboring pixels similar), 2) Spectral redundancy (color channels correlated), 3) Temporal redundancy (video frames similar), 4) Psychovisual redundancy (human visual limitations)."
+      }
+    },
+    {
+      "id": 21,
+      "title": "Lossless Compression - Perfect Reconstruction",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Lossless compression achieves <strong>perfect reconstruction</strong> by exploiting statistical redundancy without discarding information.</div><div class=\"two-column\"><div class=\"column\"><h4>Huffman Coding</h4><ul><li>Principle: Variable-length codes based on frequency</li><li>Algorithm: Build binary tree from symbol probabilities</li><li>Efficiency: Optimal for symbol-by-symbol coding</li><li>Applications: JPEG (AC coefficients), PNG</li></ul><h4>LZW (Lempel-Ziv-Welch)</h4><ul><li>Principle: Dictionary-based pattern matching</li><li>Algorithm: Build dictionary during encoding</li><li>Advantage: Adaptive, no prior knowledge needed</li><li>Applications: GIF, TIFF, PostScript</li></ul></div><div class=\"column\"><h4>Run-Length Encoding (RLE)</h4><ul><li>Principle: Replace repeated values with count</li><li>Example: AAABBBBCC → 3A4B2C</li><li>Efficiency: Excellent for binary images</li><li>Applications: BMP, PCX, some TIFF variants</li></ul><h4>Other Methods</h4><ul><li><strong>Arithmetic Coding:</strong> Better than Huffman</li><li><strong>DEFLATE:</strong> LZ77 + Huffman (PNG)</li><li><strong>LZMA:</strong> Advanced dictionary compression</li></ul><div class=\"key-point\"><strong>Perfect quality preservation</strong><br><em>Moderate compression ratios</em></div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Huffman Encoding - Algorithm Demonstration",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/huffman_encoding_demo.png\" alt=\"Huffman Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Benefits</h4><ul><li><strong>Optimal:</strong> Minimizes average code length for given symbol frequencies</li><li><strong>Variable Length:</strong> Frequent symbols get shorter codes</li><li><strong>Prefix-Free:</strong> No code is prefix of another (unambiguous decoding)</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Huffman Encoding - Complete Procedure",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/huffman_procedure_steps.png\" alt=\"Huffman Procedure\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 24,
+      "title": "Run Length Encoding - Simple but Effective",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/rle_encoding_demo.png\" alt=\"RLE Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Best Applications</h4><ul><li><strong>Binary Images:</strong> Excellent compression for text, line art</li><li><strong>Simple Graphics:</strong> Images with large uniform areas</li><li><strong>Preprocessing:</strong> Often combined with other algorithms</li><li><strong>Fax Machines:</strong> Standard for document transmission</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Lossy Compression - Quality vs Size",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Lossy compression achieves <strong>high compression ratios</strong> by permanently removing information that has <strong>minimal perceptual impact</strong>.</div><div class=\"two-column\"><div class=\"column\"><h4>Transform-Based Compression</h4><ul><li><strong>DCT (Discrete Cosine Transform):</strong> JPEG standard</li><li>Principle: Convert spatial to frequency domain</li><li>8×8 Blocks: Process image in small segments</li><li>Quantization: Remove high-frequency components</li><li>Entropy Coding: Huffman encode remaining data</li></ul><h4>Wavelet-Based Compression</h4><ul><li><strong>JPEG 2000:</strong> Modern wavelet standard</li><li>Multi-resolution: Analyze multiple scales</li><li>Better Quality: Less blocking artifacts</li><li>Progressive: Quality/resolution scalability</li><li>Applications: Medical, satellite imagery</li></ul></div><div class=\"column\"><h4>Quantization Strategies</h4><ul><li><strong>Uniform:</strong> Equal step sizes</li><li><strong>Non-uniform:</strong> Perceptually-based steps</li><li><strong>Adaptive:</strong> Content-dependent adjustment</li></ul><h4>Advantages</h4><ul><li>High compression ratios</li><li>Adjustable quality</li><li>Suitable for photos</li></ul><h4>Disadvantages</h4><ul><li>Irreversible loss</li><li>Compression artifacts</li><li>Quality degradation</li></ul><div class=\"key-point\"><strong>Trade-off:</strong> File size vs Visual quality</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 26,
+      "title": "DCT (Discrete Cosine Transform) - JPEG Foundation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/dct_demonstration.png\" alt=\"DCT Demonstration\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>DCT Process Steps</h4><ul><li><strong>Spatial → Frequency:</strong> Transform 8×8 pixel blocks to frequency domain</li><li><strong>Energy Compaction:</strong> Most energy concentrated in low frequencies (top-left)</li><li><strong>Quantization:</strong> Remove high-frequency details (human vision less sensitive)</li><li><strong>Reconstruction:</strong> Inverse DCT with some information loss</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why does DCT concentrate most image energy in the top-left corner of the frequency block?",
+        "answer": "The top-left corner represents low-frequency components (DC and near-DC coefficients). Natural images typically have smooth areas with gradual changes, which correspond to low frequencies. High-frequency components (fine details, edges) are less common and concentrated in specific areas."
+      }
+    },
+    {
+      "id": 27,
+      "title": "Advanced Compression - Modern Standards",
+      "readingTime": "3 min",
+      "content": "<div class=\"definition\">Contemporary image compression algorithms balance <strong>compression efficiency</strong>, <strong>computational complexity</strong>, and <strong>visual quality</strong> for specific applications.</div><div class=\"two-column\"><div class=\"column\"><h4>Next-Generation Formats</h4><ul><li><strong>WebP:</strong> Google's VP8-based format</li><li><strong>HEIF:</strong> High Efficiency (H.265-based)</li><li><strong>AVIF:</strong> AV1-based open standard</li><li><strong>JPEG XL:</strong> Latest JPEG committee standard</li></ul><h4>Performance Comparison</h4><ul><li>Compression Ratio: AVIF > HEIF > WebP > JPEG</li><li>Quality (SSIM): JPEG XL > AVIF > HEIF > WebP</li><li>Encode Speed: JPEG > WebP > HEIF > AVIF</li><li>Decode Speed: JPEG > WebP > HEIF > AVIF</li><li>Browser Support: JPEG > WebP > AVIF > HEIF</li></ul></div><div class=\"column\"><h4>Specialized Applications</h4><ul><li><strong>Medical Imaging:</strong> JPEG-LS, JPEG 2000 (lossless)</li><li><strong>Satellite Data:</strong> Custom wavelets, CCSDS standards</li><li><strong>Mobile Photography:</strong> HEIF with computational photography</li></ul><h4>Future Trends</h4><ul><li>AI-based compression</li><li>Perceptual quality metrics</li><li>Real-time optimization</li><li>Edge computing integration</li></ul><div class=\"key-point\"><strong>Evolution continues:</strong> Better quality at smaller sizes</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 28,
+      "title": "Real-World Applications & Case Studies",
+      "readingTime": "3 min",
+      "content": "<div class=\"two-column\"><div class=\"column\"><h4>Medical Imaging Systems</h4><ul><li><strong>DICOM Standard:</strong> JPEG-LS, JPEG 2000 lossless</li><li>Requirements: No diagnostic information loss</li><li>Storage: Petabytes of patient data</li><li>Transmission: PACS networks, telemedicine</li><li>Example: 16-bit CT scans, 12-bit X-rays</li></ul><h4>Social Media Platforms</h4><ul><li><strong>Facebook:</strong> WebP for web, HEIF mobile uploads</li><li><strong>Instagram:</strong> Aggressive JPEG compression with AI enhancement</li><li><strong>TikTok:</strong> H.264 video, JPEG thumbnails</li><li>Challenges: Billions of images, mobile bandwidth</li><li>Innovation: Neural super-resolution post-processing</li></ul></div><div class=\"column\"><h4>E-commerce & Product Photography</h4><ul><li><strong>Amazon:</strong> Multi-format delivery (WebP, JPEG, AVIF)</li><li>Requirements: Fast loading, zoom capability</li><li>Progressive Loading: Low-quality → high-quality</li><li>Mobile Optimization: Responsive images, lazy loading</li></ul><h4>Scientific & Satellite Imagery</h4><ul><li><strong>NASA:</strong> Custom wavelets, lossless compression</li><li><strong>Google Earth:</strong> Multi-resolution pyramids</li><li><strong>Weather Services:</strong> Real-time compression for radar</li></ul></div></div><div class=\"key-point\"><strong>Compression enables the digital imaging revolution</strong><br><em>From medical diagnosis to social media</em></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 29,
+      "title": "Summary - Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight\"><h4>What We've Learned Today</h4><p>Comprehensive understanding of digital image representation, storage formats, and compression techniques that form the foundation of modern digital imaging.</p></div><div class=\"two-column\"><div class=\"column\"><h4>Core Concepts Mastered</h4><ul><li><strong>Image Types:</strong> Binary, grayscale, color, indexed representations</li><li><strong>Storage Formats:</strong> BMP, JPEG, PNG, GIF, TIFF characteristics</li><li><strong>Color Models:</strong> RGB, YUV, color space conversions</li><li><strong>Compression:</strong> Lossless vs lossy trade-offs and algorithms</li></ul><h4>Critical Decision Framework</h4><ul><li>Quality Requirements: Medical = lossless, Web = acceptable loss</li><li>Storage Constraints: Mobile vs server storage capabilities</li><li>Processing Power: Real-time vs offline compression</li><li>Compatibility: Universal support vs cutting-edge efficiency</li></ul></div><div class=\"column\"><h4>Practical Guidelines</h4><ul><li><strong>Photography:</strong> JPEG for sharing, RAW+lossless for archival</li><li><strong>Graphics/Logos:</strong> PNG for transparency, SVG for scalability</li><li><strong>Web Development:</strong> Progressive enhancement (AVIF→WebP→JPEG)</li><li><strong>Scientific Data:</strong> Always preserve original, compress copies</li></ul><div class=\"key-point\"><strong>Next:</strong> Module 3 - Image Processing Fundamentals</div></div></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    }
+  ]
+}

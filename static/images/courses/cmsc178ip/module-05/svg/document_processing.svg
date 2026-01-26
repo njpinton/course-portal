@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="Document image restoration and enhancement">
+  <title>Document Image Processing</title>
+  <desc>Restoration techniques for scanned documents including binarization, denoising, and deskewing</desc>
+
+  <defs>
+    <linearGradient id="docBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="380" fill="url(#docBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Document Image Restoration</text>
+
+  <!-- Original degraded document -->
+  <g transform="translate(30, 60)">
+    <text x="95" y="0" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Degraded Document</text>
+
+    <rect x="0" y="15" width="190" height="140" fill="#f5f0e6" rx="4" stroke="#ccc" stroke-width="1" transform="rotate(-3, 95, 85)"/>
+    <!-- Degraded text lines -->
+    <g fill="#666" opacity="0.6" transform="rotate(-3, 95, 85)">
+      <rect x="15" y="30" width="140" height="6" rx="1"/>
+      <rect x="15" y="45" width="160" height="6" rx="1"/>
+      <rect x="15" y="60" width="130" height="6" rx="1"/>
+      <rect x="15" y="75" width="155" height="6" rx="1"/>
+      <rect x="15" y="90" width="120" height="6" rx="1"/>
+      <rect x="15" y="105" width="145" height="6" rx="1"/>
+      <rect x="15" y="120" width="135" height="6" rx="1"/>
+    </g>
+    <!-- Noise spots -->
+    <g fill="#999" opacity="0.4">
+      <circle cx="50" cy="55" r="3"/>
+      <circle cx="120" cy="80" r="2"/>
+      <circle cx="80" cy="110" r="2.5"/>
+      <circle cx="150" cy="45" r="2"/>
+    </g>
+
+    <g transform="translate(0, 165)">
+      <text x="95" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Issues:</text>
+      <text x="95" y="30" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Skewed scan</text>
+      <text x="95" y="43" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Noise/artifacts</text>
+      <text x="95" y="56" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Low contrast</text>
+    </g>
+  </g>
+
+  <!-- Processing steps -->
+  <g transform="translate(250, 60)">
+    <rect x="0" y="0" width="300" height="290" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="150" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Restoration Pipeline</text>
+
+    <!-- Step 1 -->
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="270" height="50" fill="#dbeafe" rx="4"/>
+      <circle cx="20" cy="25" r="12" fill="#3b82f6"/>
+      <text x="20" y="30" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">1</text>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Deskewing</text>
+      <text x="45" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Hough transform, projection profile</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M150,100 L150,115" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <defs>
+      <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+      </marker>
+    </defs>
+
+    <!-- Step 2 -->
+    <g transform="translate(15, 110)">
+      <rect x="0" y="0" width="270" height="50" fill="#d1fae5" rx="4"/>
+      <circle cx="20" cy="25" r="12" fill="#10b981"/>
+      <text x="20" y="30" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">2</text>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Noise Removal</text>
+      <text x="45" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Median filter, morphological operations</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M150,165 L150,180" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+
+    <!-- Step 3 -->
+    <g transform="translate(15, 175)">
+      <rect x="0" y="0" width="270" height="50" fill="#fef3c7" rx="4"/>
+      <circle cx="20" cy="25" r="12" fill="#f59e0b"/>
+      <text x="20" y="30" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">3</text>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Contrast Enhancement</text>
+      <text x="45" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Adaptive histogram equalization</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M150,230 L150,245" stroke="#3b82f6" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+
+    <!-- Step 4 -->
+    <g transform="translate(15, 240)">
+      <rect x="0" y="0" width="270" height="40" fill="#ede9fe" rx="4"/>
+      <circle cx="20" cy="20" r="12" fill="#7c3aed"/>
+      <text x="20" y="25" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">4</text>
+      <text x="45" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Binarization (Otsu/Adaptive)</text>
+      <text x="45" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">For OCR readiness</text>
+    </g>
+  </g>
+
+  <!-- Restored document -->
+  <g transform="translate(580, 60)">
+    <text x="95" y="0" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Restored Document</text>
+
+    <rect x="0" y="15" width="190" height="140" fill="white" rx="4" stroke="#10b981" stroke-width="2"/>
+    <!-- Clean text lines -->
+    <g fill="#333">
+      <rect x="15" y="30" width="140" height="6" rx="1"/>
+      <rect x="15" y="45" width="160" height="6" rx="1"/>
+      <rect x="15" y="60" width="130" height="6" rx="1"/>
+      <rect x="15" y="75" width="155" height="6" rx="1"/>
+      <rect x="15" y="90" width="120" height="6" rx="1"/>
+      <rect x="15" y="105" width="145" height="6" rx="1"/>
+      <rect x="15" y="120" width="135" height="6" rx="1"/>
+    </g>
+
+    <g transform="translate(0, 165)">
+      <text x="95" y="15" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Results:</text>
+      <text x="95" y="30" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Properly aligned</text>
+      <text x="95" y="43" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Clean background</text>
+      <text x="95" y="56" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ OCR ready</text>
+    </g>
+  </g>
+
+  <!-- OCR improvement note -->
+  <rect x="30" y="340" width="740" height="28" fill="white" rx="6" stroke="#1a3a6e"/>
+  <text x="400" y="358" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Document restoration can improve OCR accuracy from ~70% to &gt;95% on degraded historical documents</text>
+</svg>

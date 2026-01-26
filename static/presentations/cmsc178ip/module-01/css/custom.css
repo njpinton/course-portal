@@ -1,0 +1,374 @@
+/*
+ * Custom CSS for CMSC 178IP Presentations
+ * University of the Philippines Cebu
+ * Department of Computer Science
+ */
+
+/* UP Cebu Color Palette */
+:root {
+    --up-maroon: #7b1113;
+    --up-gold: #ffd700;
+    --navy-blue: #1a3a6e;
+    --steel-blue: #7eb8da;
+    --light-gray: #f8f9fa;
+    --dark-gray: #2c3e50;
+    --text-dark: #333;
+    --text-light: #666;
+    --header-bg: #4A90A4;
+    --header-bg-dark: #3a7a94;
+}
+
+/* ===========================================
+   Header Bar (Fixed at top)
+   =========================================== */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.presenter-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--header-bg);
+    color: white;
+    padding: 8px 16px;
+    border-bottom: 3px solid var(--up-gold);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.presenter-header h1 {
+    font-size: 0.95em;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.home-button {
+    background: var(--up-gold);
+    color: var(--header-bg-dark);
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.75em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.home-button:hover {
+    background: white;
+    color: var(--header-bg-dark);
+}
+
+.home-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.course-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.course-badge svg {
+    opacity: 0.9;
+}
+
+.slide-counter {
+    font-size: 0.9em;
+    color: var(--up-gold);
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.header-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ===========================================
+   Base typography (with header offset)
+   =========================================== */
+.reveal {
+    margin-top: 50px !important;
+    height: calc(100vh - 50px) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 28px;
+    color: var(--text-dark);
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+    font-weight: 600;
+    color: var(--navy-blue);
+    text-transform: none;
+    letter-spacing: -0.02em;
+}
+
+.reveal h1 {
+    font-size: 2.2em;
+    margin-bottom: 0.5em;
+}
+
+.reveal h2 {
+    font-size: 1.6em;
+    margin-bottom: 0.4em;
+    border-bottom: 3px solid var(--steel-blue);
+    padding-bottom: 0.2em;
+}
+
+.reveal h3 {
+    font-size: 1.3em;
+    color: var(--steel-blue);
+}
+
+/* Two column layout */
+.two-columns {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+.two-columns > div {
+    flex: 1;
+    text-align: left;
+}
+
+/* Lists */
+.reveal ul, .reveal ol {
+    text-align: left;
+    margin-left: 1em;
+}
+
+.reveal li {
+    margin-bottom: 0.3em;
+    line-height: 1.4;
+}
+
+/* Code blocks */
+.reveal pre {
+    width: 100%;
+    font-size: 0.7em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.reveal code {
+    font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+.reveal pre code {
+    padding: 1em;
+    max-height: 400px;
+}
+
+/* Math display */
+.math-display {
+    font-size: 1.3em;
+    margin: 0.5em 0;
+    color: var(--navy-blue);
+}
+
+/* Images */
+.reveal img {
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Captions */
+.caption {
+    font-size: 0.7em;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 0.5em;
+}
+
+/* Highlight box */
+.highlight-box {
+    background-color: var(--light-gray);
+    border-left: 4px solid var(--navy-blue);
+    padding: 1em 1.5em;
+    border-radius: 0 8px 8px 0;
+    text-align: left;
+}
+
+/* Definition box */
+.definition-box {
+    background-color: #e8f4fd;
+    border: 2px solid var(--steel-blue);
+    padding: 1em 1.5em;
+    border-radius: 8px;
+    text-align: left;
+}
+
+/* Formula box */
+.formula-box {
+    background-color: #fff3cd;
+    border: 2px solid #ffc107;
+    padding: 1em 1.5em;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Progress bar */
+.reveal .progress {
+    background: rgba(0, 0, 0, 0.2);
+    height: 4px;
+}
+
+.reveal .progress span {
+    background: var(--navy-blue);
+    transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+}
+
+/* Slide numbers */
+.reveal .slide-number {
+    font-size: 14px;
+    color: var(--text-light);
+    background-color: transparent;
+}
+
+/* Section headers (vertical slides) */
+.reveal section[data-background-color] h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Table styling */
+.reveal table {
+    margin: 1em auto;
+    border-collapse: collapse;
+}
+
+.reveal table th {
+    background-color: var(--navy-blue);
+    color: white;
+    padding: 0.5em 1em;
+}
+
+.reveal table td {
+    padding: 0.4em 1em;
+    border: 1px solid #ddd;
+}
+
+.reveal table tr:nth-child(even) {
+    background-color: var(--light-gray);
+}
+
+/* Fragment animations */
+.reveal .fragment.highlight-current-blue.current-fragment {
+    color: var(--navy-blue);
+}
+
+/* Print styles */
+@media print {
+    .presenter-header {
+        display: none;
+    }
+
+    .reveal {
+        margin-top: 0 !important;
+        height: 100vh !important;
+    }
+
+    .reveal .slide-number {
+        display: none;
+    }
+
+    .reveal section {
+        page-break-after: always;
+    }
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .presenter-header {
+        padding: 6px 12px;
+    }
+
+    .presenter-header h1 {
+        display: none;
+    }
+
+    .course-badge span {
+        display: none;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .home-button span {
+        display: none;
+    }
+
+    .reveal {
+        font-size: 20px;
+        margin-top: 45px !important;
+        height: calc(100vh - 45px) !important;
+    }
+
+    .two-columns {
+        flex-direction: column;
+    }
+
+    .reveal pre {
+        font-size: 0.6em;
+    }
+}

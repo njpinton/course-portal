@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178IP - Introduction to Digital Image Processing</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178ip" class="home-button" aria-label="Return to course page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Course
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                </svg>
+                <span>CMSC 178IP</span>
+            </div>
+            <h1>Introduction to Digital Image Processing</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">35</span>
+            </div>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background-color="#1a3a6e">
+                <h1 style="color: white; font-size: 2.5em;">Introduction to<br>Digital Image Processing</h1>
+                <h3 style="color: #7eb8da;">CMSC 178IP - Module 01</h3>
+                <p style="color: #ccc; margin-top: 2em;">
+                    <strong>Noel Jeffrey Pinton</strong><br>
+                    Department of Computer Science<br>
+                    University of the Philippines Cebu
+                </p>
+            </section>
+
+            <!-- What is DIP -->
+            <section>
+                <h2>What is Digital Image Processing?</h2>
+                <div class="two-columns">
+                    <div>
+                        <p><strong>Definition:</strong></p>
+                        <p>The use of computer algorithms to perform image processing on <em>digital images</em>.</p>
+                        <ul>
+                            <li><strong>Input:</strong> Digital image(s)</li>
+                            <li><strong>Output:</strong> Enhanced image or extracted information</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p><strong>Key Applications:</strong></p>
+                        <ul>
+                            <li>Medical Imaging (CT, MRI)</li>
+                            <li>Satellite & Remote Sensing</li>
+                            <li>Autonomous Vehicles</li>
+                            <li>Face Recognition</li>
+                            <li>Social Media Filters</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Applications Collage -->
+            <section>
+                <h2>Real-World Applications</h2>
+                <img src="/static/images/courses/cmsc178ip/module-01/applications_collage.png" alt="DIP Applications" style="max-height: 70vh;">
+            </section>
+
+            <!-- Learning Objectives -->
+            <section data-background-color="#f8f9fa">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p>By the end of this module, you will be able to:</p>
+                    <ol>
+                        <li>Explain how digital images are represented as 2D arrays</li>
+                        <li>Describe the processes of sampling and quantization</li>
+                        <li>Distinguish between binary, grayscale, and color images</li>
+                        <li>Understand RGB and HSV color models</li>
+                        <li>Calculate memory requirements for different image types</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Section: Digital Image Fundamentals -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Digital Image Fundamentals</h1>
+                    <p style="color: #7eb8da;">The mathematical representation of images</p>
+                </section>
+
+                <!-- Image as a Function -->
+                <section>
+                    <h2>Image as a 2D Function</h2>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Continuous Image:</strong></p>
+                            <p class="math-display">
+                                \( f(x, y) \)
+                            </p>
+                            <p>where:</p>
+                            <ul>
+                                <li>\( x, y \) are spatial coordinates</li>
+                                <li>\( f \) is the intensity (brightness)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Digital Image:</strong></p>
+                            <p class="math-display">
+                                \( f[m, n] \)
+                            </p>
+                            <p>where:</p>
+                            <ul>
+                                <li>\( m, n \) are discrete indices</li>
+                                <li>\( m \in \{0, 1, ..., M-1\} \)</li>
+                                <li>\( n \in \{0, 1, ..., N-1\} \)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pixel Grid -->
+                <section>
+                    <h2>From Continuous to Discrete</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/pixel_grid_visualization.png" alt="Pixel Grid" style="max-height: 65vh;">
+                    <p class="caption">Sampling creates a grid of pixels, each with a discrete intensity value</p>
+                </section>
+
+                <!-- Coordinate System -->
+                <section>
+                    <h2>Image Coordinate System</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/coordinate_system.png" alt="Coordinate System" style="max-height: 65vh;">
+                    <p class="caption">Origin at top-left; x increases right, y increases down</p>
+                </section>
+
+                <!-- Sampling -->
+                <section>
+                    <h2>Spatial Sampling</h2>
+                    <div class="definition-box">
+                        <p><strong>Sampling:</strong> The process of converting continuous spatial coordinates into discrete pixel locations.</p>
+                    </div>
+                    <ul>
+                        <li>Higher sampling rate = more pixels = more detail</li>
+                        <li>Lower sampling rate = fewer pixels = aliasing artifacts</li>
+                    </ul>
+                    <p class="math-display">
+                        \( \text{Nyquist Theorem: } f_s \geq 2 \cdot f_{max} \)
+                    </p>
+                </section>
+
+                <!-- Sampling Demo -->
+                <section>
+                    <h2>Effect of Sampling Rate</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/sampling_demonstration.png" alt="Sampling Demo" style="max-height: 65vh;">
+                    <p class="caption">Lower sampling rates lose fine details and introduce aliasing</p>
+                </section>
+
+                <!-- Resolution Comparison -->
+                <section>
+                    <h2>Spatial Resolution</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/resolution_comparison.png" alt="Resolution Comparison" style="max-height: 65vh;">
+                    <p class="caption">Higher resolution preserves more detail but requires more storage</p>
+                </section>
+
+                <!-- Quantization -->
+                <section>
+                    <h2>Intensity Quantization</h2>
+                    <div class="definition-box">
+                        <p><strong>Quantization:</strong> The process of mapping continuous intensity values to discrete levels.</p>
+                    </div>
+                    <ul>
+                        <li><strong>8-bit:</strong> 256 levels (0-255)</li>
+                        <li><strong>4-bit:</strong> 16 levels</li>
+                        <li><strong>1-bit:</strong> 2 levels (binary)</li>
+                    </ul>
+                    <p class="math-display">
+                        \( L = 2^k \text{ levels, where } k = \text{bits per pixel} \)
+                    </p>
+                </section>
+
+                <!-- Quantization Demo -->
+                <section>
+                    <h2>Effect of Quantization</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/quantization_effects.png" alt="Quantization Effects" style="max-height: 65vh;">
+                    <p class="caption">Fewer bits = visible banding (posterization effect)</p>
+                </section>
+            </section>
+
+            <!-- Section: Image Types -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Image Types</h1>
+                    <p style="color: #7eb8da;">Binary, Grayscale, and Color</p>
+                </section>
+
+                <!-- Image Types Comparison -->
+                <section>
+                    <h2>Common Image Types</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/image_types_comparison.png" alt="Image Types" style="max-height: 65vh;">
+                </section>
+
+                <!-- Binary Images -->
+                <section>
+                    <h2>Binary Images (1-bit)</h2>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li>Only two values: 0 (black) or 1 (white)</li>
+                                <li>1 bit per pixel</li>
+                                <li>Used for: Documents, masks, morphological operations</li>
+                            </ul>
+                            <pre><code class="language-python"># Thresholding to binary
+binary = (gray > 128).astype(np.uint8) * 255</code></pre>
+                        </div>
+                        <div>
+                            <p><strong>Memory:</strong></p>
+                            <p class="math-display">
+                                \( \text{Size} = \frac{W \times H}{8} \text{ bytes} \)
+                            </p>
+                            <p>Example: 640x480 = 38.4 KB</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grayscale Images -->
+                <section>
+                    <h2>Grayscale Images (8-bit)</h2>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li>256 intensity levels (0-255)</li>
+                                <li>1 byte per pixel</li>
+                                <li>0 = black, 255 = white</li>
+                            </ul>
+                            <pre><code class="language-python"># RGB to Grayscale (luminosity)
+gray = 0.299*R + 0.587*G + 0.114*B</code></pre>
+                        </div>
+                        <div>
+                            <p><strong>Memory:</strong></p>
+                            <p class="math-display">
+                                \( \text{Size} = W \times H \text{ bytes} \)
+                            </p>
+                            <p>Example: 640x480 = 307.2 KB</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Color Images -->
+                <section>
+                    <h2>Color Images (24-bit RGB)</h2>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li>3 channels: Red, Green, Blue</li>
+                                <li>8 bits per channel = 24 bits total</li>
+                                <li>16.7 million possible colors</li>
+                            </ul>
+                            <pre><code class="language-python"># Access RGB channels
+R = image[:, :, 0]
+G = image[:, :, 1]
+B = image[:, :, 2]</code></pre>
+                        </div>
+                        <div>
+                            <p><strong>Memory:</strong></p>
+                            <p class="math-display">
+                                \( \text{Size} = W \times H \times 3 \text{ bytes} \)
+                            </p>
+                            <p>Example: 640x480 = 921.6 KB</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bit Depth Comparison -->
+                <section>
+                    <h2>Bit Depth Comparison</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/bit_depth_comparison.png" alt="Bit Depth" style="max-height: 65vh;">
+                    <p class="caption">Higher bit depth = smoother gradients, larger files</p>
+                </section>
+            </section>
+
+            <!-- Section: Color Models -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Color Models</h1>
+                    <p style="color: #7eb8da;">RGB, HSV, and Color Spaces</p>
+                </section>
+
+                <!-- RGB Color Model -->
+                <section>
+                    <h2>RGB Color Model</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/rgb_color_model.png" alt="RGB Model" style="max-height: 65vh;">
+                </section>
+
+                <!-- RGB Details -->
+                <section>
+                    <h2>RGB: Additive Color Mixing</h2>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li><strong>Red + Green</strong> = Yellow</li>
+                                <li><strong>Green + Blue</strong> = Cyan</li>
+                                <li><strong>Red + Blue</strong> = Magenta</li>
+                                <li><strong>R + G + B</strong> = White</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <pre><code class="language-python"># Pixel color tuple
+pixel = (R, G, B)  # Each 0-255
+
+# Pure colors
+red = (255, 0, 0)
+green = (0, 255, 0)
+blue = (0, 0, 255)
+white = (255, 255, 255)
+black = (0, 0, 0)</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- HSV Color Model -->
+                <section>
+                    <h2>HSV Color Model</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/hsv_color_model.png" alt="HSV Model" style="max-height: 65vh;">
+                </section>
+
+                <!-- HSV Details -->
+                <section>
+                    <h2>HSV: More Intuitive for Humans</h2>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li><strong>H (Hue):</strong> Color type (0-360deg)</li>
+                                <li><strong>S (Saturation):</strong> Color purity (0-100%)</li>
+                                <li><strong>V (Value):</strong> Brightness (0-100%)</li>
+                            </ul>
+                            <p><strong>Advantages:</strong></p>
+                            <ul>
+                                <li>Intuitive color selection</li>
+                                <li>Better for thresholding</li>
+                                <li>Separates luminance from color</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <pre><code class="language-python">import cv2
+
+# Convert BGR to HSV
+hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+# Extract channels
+H = hsv[:, :, 0]  # 0-180 in OpenCV
+S = hsv[:, :, 1]  # 0-255
+V = hsv[:, :, 2]  # 0-255</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Color Space Conversion -->
+                <section>
+                    <h2>Color Space Conversion</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/color_space_conversion.png" alt="Color Conversion" style="max-height: 65vh;">
+                </section>
+            </section>
+
+            <!-- Section: Bit Depth & Memory -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Bit Depth & Memory</h1>
+                    <p style="color: #7eb8da;">Storage requirements</p>
+                </section>
+
+                <!-- Bit Depth Detailed -->
+                <section>
+                    <h2>Bit Depth Impact</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/bit_depth_detailed.png" alt="Bit Depth Detailed" style="max-height: 65vh;">
+                </section>
+
+                <!-- Memory Table -->
+                <section>
+                    <h2>Memory Requirements</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/memory_calculation_table.png" alt="Memory Table" style="max-height: 65vh;">
+                </section>
+
+                <!-- Quality vs Size -->
+                <section>
+                    <h2>Quality vs Storage Trade-off</h2>
+                    <img src="/static/images/courses/cmsc178ip/module-01/quality_size_tradeoff.png" alt="Quality vs Size" style="max-height: 65vh;">
+                </section>
+
+                <!-- Memory Formula -->
+                <section>
+                    <h2>Memory Calculation</h2>
+                    <div class="formula-box">
+                        <p><strong>Uncompressed Image Size:</strong></p>
+                        <p class="math-display" style="font-size: 1.5em;">
+                            \( \text{Bytes} = \text{Width} \times \text{Height} \times \frac{\text{Bits per Pixel}}{8} \)
+                        </p>
+                    </div>
+                    <br>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li>1920x1080 grayscale: 1920 x 1080 x 1 = 2.07 MB</li>
+                        <li>1920x1080 RGB: 1920 x 1080 x 3 = 6.22 MB</li>
+                        <li>4K RGB: 3840 x 2160 x 3 = 24.88 MB</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <section data-background-color="#2c3e50">
+                    <h1 style="color: white;">Summary</h1>
+                </section>
+
+                <section>
+                    <h2>Key Takeaways</h2>
+                    <div class="highlight-box">
+                        <ol>
+                            <li><strong>Digital images</strong> are 2D arrays of discrete pixel values</li>
+                            <li><strong>Sampling</strong> determines spatial resolution (pixels)</li>
+                            <li><strong>Quantization</strong> determines intensity levels (bit depth)</li>
+                            <li><strong>Image types:</strong> Binary (1-bit), Grayscale (8-bit), Color (24-bit)</li>
+                            <li><strong>Color models:</strong> RGB (additive) vs HSV (intuitive)</li>
+                            <li><strong>Trade-off:</strong> Higher quality = more storage</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Next Module Preview</h2>
+                    <div class="definition-box">
+                        <h3>Module 02: Storage and Compression</h3>
+                        <ul>
+                            <li>Image file formats (JPEG, PNG, BMP, TIFF)</li>
+                            <li>Lossless compression (Huffman, LZW)</li>
+                            <li>Lossy compression (DCT, JPEG)</li>
+                            <li>Quality vs file size optimization</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Questions -->
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Questions?</h1>
+                    <p style="color: #7eb8da; font-size: 1.5em;">Thank you for your attention!</p>
+                    <br>
+                    <p style="color: #ccc;">
+                        <small>Interactive notebook available for hands-on practice</small>
+                    </p>
+                </section>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: false, // We handle this in the header
+            transition: 'slide',
+            backgroundTransition: 'fade',
+
+            // Math plugin configuration
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                TeX: {
+                    Macros: {
+                        R: '\\mathbb{R}',
+                        set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+                    }
+                }
+            },
+
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+        });
+
+        // Update slide counter in header
+        function updateSlideCounter() {
+            const indices = Reveal.getIndices();
+            const totalSlides = Reveal.getTotalSlides();
+            // Calculate flat slide number (accounting for vertical slides)
+            let currentNum = 0;
+            const slides = Reveal.getSlides();
+            for (let i = 0; i < slides.length; i++) {
+                const slide = slides[i];
+                const h = parseInt(slide.getAttribute('data-index-h') || 0);
+                const v = parseInt(slide.getAttribute('data-index-v') || 0);
+                if (h < indices.h || (h === indices.h && v <= indices.v)) {
+                    currentNum++;
+                }
+                if (h === indices.h && v === indices.v) break;
+            }
+            document.getElementById('current-slide').textContent = currentNum || (indices.h + 1);
+            document.getElementById('total-slides').textContent = totalSlides;
+        }
+
+        // Listen for slide changes
+        Reveal.on('slidechanged', updateSlideCounter);
+        Reveal.on('ready', updateSlideCounter);
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>

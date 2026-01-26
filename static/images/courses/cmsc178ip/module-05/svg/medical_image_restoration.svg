@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="Medical imaging restoration applications">
+  <title>Medical Image Restoration</title>
+  <desc>Applications of image restoration in medical imaging including CT, MRI, and X-ray enhancement</desc>
+
+  <defs>
+    <linearGradient id="medBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="380" fill="url(#medBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Medical Image Restoration</text>
+
+  <!-- Application 1: CT Reconstruction -->
+  <g transform="translate(25, 60)">
+    <rect x="0" y="0" width="240" height="295" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="120" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">CT Reconstruction</text>
+
+    <!-- Before/After -->
+    <g transform="translate(20, 40)">
+      <text x="50" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Noisy</text>
+      <rect x="0" y="8" width="100" height="80" fill="#222" rx="4"/>
+      <!-- CT slice simulation with noise -->
+      <ellipse cx="50" cy="48" rx="35" ry="30" fill="#555" opacity="0.8"/>
+      <ellipse cx="45" cy="45" rx="10" ry="8" fill="#777"/>
+      <g fill="white" opacity="0.2">
+        <circle cx="25" cy="35" r="2"/>
+        <circle cx="70" cy="55" r="1.5"/>
+        <circle cx="40" cy="65" r="2"/>
+      </g>
+
+      <text x="155" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Restored</text>
+      <rect x="105" y="8" width="100" height="80" fill="#222" rx="4"/>
+      <!-- Clean CT slice -->
+      <ellipse cx="155" cy="48" rx="35" ry="30" fill="#666" stroke="#888" stroke-width="1"/>
+      <ellipse cx="150" cy="45" rx="10" ry="8" fill="#888" stroke="#aaa" stroke-width="1"/>
+    </g>
+
+    <!-- Techniques -->
+    <g transform="translate(15, 145)">
+      <rect x="0" y="0" width="210" height="70" fill="#dbeafe" rx="4"/>
+      <text x="105" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Techniques Used:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Filtered back-projection</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Iterative reconstruction (R-L)</text>
+      <text x="10" y="65" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Deep learning denoising</text>
+    </g>
+
+    <!-- Benefit -->
+    <g transform="translate(15, 225)">
+      <rect x="0" y="0" width="210" height="55" fill="#d1fae5" rx="4"/>
+      <text x="105" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Benefits:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Lower radiation dose possible</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Improved lesion detection</text>
+    </g>
+  </g>
+
+  <!-- Application 2: MRI Enhancement -->
+  <g transform="translate(280, 60)">
+    <rect x="0" y="0" width="240" height="295" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="120" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">MRI Enhancement</text>
+
+    <!-- Before/After -->
+    <g transform="translate(20, 40)">
+      <text x="50" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Blurred</text>
+      <rect x="0" y="8" width="100" height="80" fill="#111" rx="4"/>
+      <!-- MRI brain slice blurred -->
+      <ellipse cx="50" cy="48" rx="38" ry="32" fill="#333" opacity="0.7"/>
+      <ellipse cx="50" cy="48" rx="30" ry="25" fill="#444" opacity="0.6"/>
+      <path d="M35,35 Q50,25 65,35 Q70,50 65,65 Q50,72 35,65 Q30,50 35,35" fill="#555" opacity="0.5"/>
+
+      <text x="155" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Enhanced</text>
+      <rect x="105" y="8" width="100" height="80" fill="#111" rx="4"/>
+      <!-- MRI brain slice sharp -->
+      <ellipse cx="155" cy="48" rx="38" ry="32" fill="#444" stroke="#555" stroke-width="1"/>
+      <ellipse cx="155" cy="48" rx="30" ry="25" fill="#555" stroke="#666" stroke-width="1"/>
+      <path d="M140,35 Q155,25 170,35 Q175,50 170,65 Q155,72 140,65 Q135,50 140,35" fill="#666" stroke="#777" stroke-width="1"/>
+    </g>
+
+    <!-- Techniques -->
+    <g transform="translate(15, 145)">
+      <rect x="0" y="0" width="210" height="70" fill="#d1fae5" rx="4"/>
+      <text x="105" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Techniques Used:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Wiener deconvolution</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Motion artifact correction</text>
+      <text x="10" y="65" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Super-resolution techniques</text>
+    </g>
+
+    <!-- Benefit -->
+    <g transform="translate(15, 225)">
+      <rect x="0" y="0" width="210" height="55" fill="#fef3c7" rx="4"/>
+      <text x="105" y="18" fill="#f59e0b" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Benefits:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Sharper tissue boundaries</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Faster scan times possible</text>
+    </g>
+  </g>
+
+  <!-- Application 3: X-ray Enhancement -->
+  <g transform="translate(535, 60)">
+    <rect x="0" y="0" width="240" height="295" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="120" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">X-ray Enhancement</text>
+
+    <!-- Before/After -->
+    <g transform="translate(20, 40)">
+      <text x="50" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Low Contrast</text>
+      <rect x="0" y="8" width="100" height="80" fill="#555" rx="4"/>
+      <!-- X-ray chest low contrast -->
+      <ellipse cx="50" cy="50" rx="30" ry="35" fill="#666" opacity="0.6"/>
+      <rect x="45" y="30" width="10" height="45" fill="#777" opacity="0.5"/>
+
+      <text x="155" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Enhanced</text>
+      <rect x="105" y="8" width="100" height="80" fill="#444" rx="4"/>
+      <!-- X-ray enhanced -->
+      <ellipse cx="155" cy="50" rx="30" ry="35" fill="#777" stroke="#999" stroke-width="1"/>
+      <rect x="150" y="30" width="10" height="45" fill="#999" stroke="#bbb" stroke-width="1"/>
+    </g>
+
+    <!-- Techniques -->
+    <g transform="translate(15, 145)">
+      <rect x="0" y="0" width="210" height="70" fill="#f5f3ff" rx="4"/>
+      <text x="105" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Techniques Used:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Histogram equalization</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Unsharp masking</text>
+      <text x="10" y="65" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Noise reduction filters</text>
+    </g>
+
+    <!-- Benefit -->
+    <g transform="translate(15, 225)">
+      <rect x="0" y="0" width="210" height="55" fill="#ede9fe" rx="4"/>
+      <text x="105" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Benefits:</text>
+      <text x="10" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Better bone/soft tissue visibility</text>
+      <text x="10" y="50" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">• Improved diagnostic accuracy</text>
+    </g>
+  </g>
+</svg>

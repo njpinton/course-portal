@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178DA - Data Analytics | Course Syllabus | UP Cebu</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --secondary: #7C3AED;
+            --accent: #10B981;
+            --warning: #F59E0B;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --bg-light: #f9fafb;
+            --up-maroon: #7b1113;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            background: white;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 0;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        header a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Title Block */
+        .title-block {
+            text-align: center;
+            padding: 48px 0 32px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .title-block .institution {
+            font-size: 0.9em;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .title-block h1 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 8px 0;
+        }
+
+        .title-block .course-title {
+            font-size: 1.4em;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .title-block .semester {
+            font-size: 0.95em;
+            color: var(--text-light);
+        }
+
+        /* Main Content */
+        main {
+            padding-bottom: 64px;
+        }
+
+        /* Section Headings */
+        h2 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 48px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: var(--text);
+            margin: 24px 0 12px 0;
+        }
+
+        /* Paragraphs */
+        p {
+            margin: 0 0 16px 0;
+        }
+
+        /* Info Box (for key info) */
+        .info-box {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+
+        .info-box h3 {
+            margin-top: 0;
+        }
+
+        /* Two Column Info */
+        .two-col {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 8px 16px;
+            margin: 16px 0;
+        }
+
+        .two-col dt {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .two-col dd {
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        tr:hover {
+            background: var(--bg-light);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 0 0 16px 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Emphasis boxes */
+        .note {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-size: 0.95em;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid var(--warning);
+            padding: 12px 16px;
+            margin: 16px 0;
+            font-size: 0.95em;
+        }
+
+        /* Code */
+        code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: var(--bg-light);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: var(--primary);
+        }
+
+        /* Print */
+        @media print {
+            header, footer {
+                display: none;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            h2 {
+                page-break-after: avoid;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .title-block h1 {
+                font-size: 1.8em;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .two-col dt {
+                margin-top: 8px;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/course/cmsc178da">&larr; Course Home</a>
+            <span class="breadcrumb">CMSC 178DA &bull; Course Syllabus</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="title-block">
+            <p class="institution">University of the Philippines Cebu<br>College of Science &bull; Department of Computer Science</p>
+            <h1>CMSC 178DA</h1>
+            <p class="course-title">Data Analytics</p>
+        </div>
+
+        <main>
+            <!-- Course Information -->
+            <h2>Course Information</h2>
+            <dl class="two-col">
+                <dt>Course Code</dt>
+                <dd>CMSC 178DA</dd>
+                <dt>Title</dt>
+                <dd>Data Analytics</dd>
+                <dt>Description</dt>
+                <dd>Special Topic</dd>
+                <dt>Units</dt>
+                <dd>3 units (3 contact hours)</dd>
+                <dt>Pre-requisites</dt>
+                <dd>None</dd>
+                <dt>Semester Offered</dt>
+                <dd>Second Semester</dd>
+                <dt>Teaching Mode</dt>
+                <dd>Hybrid (Face-to-Face + Online)</dd>
+                <dt>Repeatable</dt>
+                <dd>Yes</dd>
+            </dl>
+
+            <div class="note">
+                <strong>About this course:</strong> CMSC 178DA is a special topics course in the BS Computer Science
+                curriculum. It may be repeated for credit when different topics are offered.
+            </div>
+
+            <!-- Instructor -->
+            <h2>Instructor</h2>
+            <dl class="two-col">
+                <dt>Name</dt>
+                <dd><strong>Prof. Noel Jeffrey Pinton</strong></dd>
+                <dt>Email</dt>
+                <dd><a href="mailto:nppinton@up.edu.ph">nppinton@up.edu.ph</a></dd>
+                <dt>Office Hours</dt>
+                <dd>By appointment</dd>
+                <dt>Consultation</dt>
+                <dd>Via email or during class hours</dd>
+            </dl>
+
+            <!-- About the Program -->
+            <h2>About the Program</h2>
+            <p>
+                The <strong>Department of Computer Science</strong> at UP Cebu has been recognized as a
+                <strong>Center of Excellence in Information Technology</strong> since 2007. The BS Computer Science
+                curriculum builds from mathematical and theoretical foundations to core CS professional skills,
+                culminating in emerging technologies such as <strong>AI, Machine Learning, and Data Analytics</strong>.
+            </p>
+            <p>
+                This course is part of the department's commitment to producing competitive, innovative, and
+                responsible leaders in computer science. Research activities are supported by the department's
+                <strong>Center for Research in Intelligent Systems</strong>.
+            </p>
+
+            <!-- Course Description -->
+            <h2>Course Description</h2>
+            <p>
+                This course introduces the principles and techniques of data analytics with emphasis on
+                real-world applications in the <strong>Philippine context</strong>. Students will learn to collect, clean,
+                explore, visualize, and model data to extract actionable insights for decision-making.
+            </p>
+            <p>
+                Topics include statistical foundations, data wrangling, exploratory data analysis,
+                visualization principles, regression and classification, clustering, time series analysis,
+                and text analytics. <strong>Ethical considerations</strong> in data science are integrated throughout,
+                including the Philippine Data Privacy Act (RA 10173).
+            </p>
+
+            <!-- Learning Outcomes -->
+            <h2>Learning Outcomes</h2>
+            <p>By the end of this course, students should be able to:</p>
+            <ol>
+                <li>Apply statistical concepts to analyze and interpret data</li>
+                <li>Clean, transform, and prepare data for analysis</li>
+                <li>Conduct exploratory data analysis and create effective visualizations</li>
+                <li>Build and evaluate predictive models (regression, classification, clustering)</li>
+                <li>Analyze time series data and perform basic forecasting</li>
+                <li>Apply text analytics techniques for unstructured data</li>
+                <li>Communicate data insights through storytelling and dashboards</li>
+                <li>Apply ethical principles in data collection, analysis, and reporting</li>
+            </ol>
+
+            <!-- Tools & Technologies -->
+            <h2>Tools & Technologies</h2>
+            <h3>Programming Environment</h3>
+            <ul>
+                <li><strong>Python 3.x</strong> &mdash; Primary programming language</li>
+                <li><strong>Jupyter Notebooks</strong> &mdash; Interactive analysis environment</li>
+                <li><strong>Google Colab</strong> &mdash; Cloud-based notebooks (free GPU access)</li>
+            </ul>
+
+            <h3>Python Libraries</h3>
+            <ul>
+                <li><code>pandas</code> &mdash; Data manipulation and analysis</li>
+                <li><code>numpy</code> &mdash; Numerical computing</li>
+                <li><code>matplotlib</code>, <code>seaborn</code> &mdash; Data visualization</li>
+                <li><code>scikit-learn</code> &mdash; Machine learning</li>
+                <li><code>statsmodels</code> &mdash; Statistical modeling</li>
+                <li><code>plotly</code> &mdash; Interactive visualizations</li>
+            </ul>
+
+            <h3>Dashboard Tools</h3>
+            <ul>
+                <li><strong>Streamlit</strong> &mdash; Building interactive web apps</li>
+                <li><strong>Tableau Public</strong> &mdash; Business intelligence dashboards</li>
+            </ul>
+
+            <!-- Course Schedule -->
+            <h2>Course Schedule</h2>
+            <p>This schedule is tentative and may be adjusted based on class progress.</p>
+
+            <h3>Phase 1: Foundations (Weeks 1-4)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Topic</th>
+                        <th>Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Introduction to Data Analytics</td>
+                        <td>Case studies, Python setup</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Probability & Statistical Foundations</td>
+                        <td>Descriptive statistics, distributions</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Data Wrangling & Cleaning</td>
+                        <td>pandas lab, handling missing data</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Exploratory Data Analysis</td>
+                        <td>Philippine dataset analysis</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Phase 2: Visualization & Modeling (Weeks 5-8)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Topic</th>
+                        <th>Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5</td>
+                        <td>Data Visualization Principles</td>
+                        <td>matplotlib, seaborn, Plotly</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Data Storytelling & Dashboards</td>
+                        <td>Streamlit dashboard project</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Regression Analytics</td>
+                        <td>Linear & logistic regression</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Tree-Based Methods & Ensembles</td>
+                        <td>Decision trees, Random Forest</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Phase 3: Advanced Topics (Weeks 9-12)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Week</th>
+                        <th>Topic</th>
+                        <th>Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>9</td>
+                        <td>Clustering & Segmentation</td>
+                        <td>K-means, customer segmentation</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Time Series Analytics</td>
+                        <td>ARIMA, forecasting</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Text Analytics & Ethics</td>
+                        <td>NLP basics, bias detection</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Capstone Presentations</td>
+                        <td>Final project demonstrations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Grading -->
+            <h2>Grading</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Weight</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Laboratory Exercises</td>
+                        <td>25%</td>
+                        <td>Weekly hands-on Python labs</td>
+                    </tr>
+                    <tr>
+                        <td>Quizzes</td>
+                        <td>15%</td>
+                        <td>Concept checks throughout the course</td>
+                    </tr>
+                    <tr>
+                        <td>Midterm Exam</td>
+                        <td>15%</td>
+                        <td>Covers Weeks 1-6</td>
+                    </tr>
+                    <tr>
+                        <td>Final Exam</td>
+                        <td>15%</td>
+                        <td>Comprehensive exam</td>
+                    </tr>
+                    <tr>
+                        <td>Capstone Project</td>
+                        <td>30%</td>
+                        <td>End-to-end analytics project</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>UP Grading Scale</h3>
+            <table>
+                <tbody>
+                    <tr><td>1.00</td><td>96-100</td><td>2.25</td><td>77-80</td></tr>
+                    <tr><td>1.25</td><td>93-95</td><td>2.50</td><td>73-76</td></tr>
+                    <tr><td>1.50</td><td>89-92</td><td>2.75</td><td>69-72</td></tr>
+                    <tr><td>1.75</td><td>85-88</td><td>3.00</td><td>65-68</td></tr>
+                    <tr><td>2.00</td><td>81-84</td><td>5.00</td><td>Below 65</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Laboratory Exercises -->
+            <h2>Laboratory Exercises</h2>
+            <p>
+                Weekly hands-on labs using Philippine datasets. Labs are submitted as Jupyter Notebooks.
+                You are expected to spend 2-3 hours per lab outside of class time.
+            </p>
+            <p><strong>Sample lab topics:</strong></p>
+            <ul>
+                <li>Lab 1: Python & pandas basics with PSA population data</li>
+                <li>Lab 4: EDA on Philippine tourism arrivals</li>
+                <li>Lab 7: Predicting house prices in Metro Manila</li>
+                <li>Lab 10: Forecasting OFW remittances with ARIMA</li>
+            </ul>
+
+            <div class="warning">
+                <strong>Submission Policy:</strong> Labs are due by 11:59 PM on the specified deadline.
+                Late submissions receive a 10% deduction per day. No submissions accepted more than 3 days late.
+            </div>
+
+            <!-- Capstone Project -->
+            <h2>Capstone Project</h2>
+            <p>
+                An end-to-end analytics project using Philippine data that demonstrates your ability to
+                collect, clean, analyze, model, and visualize data. Projects are done in groups of 2-3 students.
+            </p>
+
+            <h3>Project Stages</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Deliverable</th>
+                        <th>Due</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Proposal & Data</td>
+                        <td>Problem statement, data sources identified</td>
+                        <td>Week 4</td>
+                    </tr>
+                    <tr>
+                        <td>2. EDA Report</td>
+                        <td>Exploratory analysis notebook</td>
+                        <td>Week 7</td>
+                    </tr>
+                    <tr>
+                        <td>3. Modeling</td>
+                        <td>Model development and evaluation</td>
+                        <td>Week 10</td>
+                    </tr>
+                    <tr>
+                        <td>4. Final</td>
+                        <td>Dashboard, report, presentation</td>
+                        <td>Week 12</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Sample Project Topics</h3>
+            <ul>
+                <li>Regional GDP growth forecasting</li>
+                <li>OFW remittance pattern analysis</li>
+                <li>Disease outbreak prediction (Dengue)</li>
+                <li>Tourist arrival forecasting</li>
+                <li>Air quality trends in Metro Manila</li>
+                <li>E-commerce customer segmentation</li>
+            </ul>
+
+            <!-- Textbooks -->
+            <h2>Textbooks & References</h2>
+            <h3>Required Textbook</h3>
+            <p>
+                McKinney, W. (2022). <em>Python for Data Analysis</em>, 3rd Edition. O'Reilly Media.
+            </p>
+
+            <h3>Supplementary References (Free Online)</h3>
+            <ul>
+                <li>VanderPlas, J. <em>Python Data Science Handbook</em> &mdash; <a href="https://jakevdp.github.io/PythonDataScienceHandbook/" target="_blank">Free online</a></li>
+                <li>James, G. et al. <em>An Introduction to Statistical Learning</em> &mdash; <a href="https://www.statlearning.com/" target="_blank">Free PDF</a></li>
+                <li>Knaflic, C.N. <em>Storytelling with Data</em>. Wiley.</li>
+            </ul>
+
+            <h3>Data Sources</h3>
+            <ul>
+                <li><a href="https://openstat.psa.gov.ph/" target="_blank">PSA OpenSTAT</a> &mdash; Philippine Statistics Authority</li>
+                <li><a href="https://www.bsp.gov.ph/statistics" target="_blank">BSP Statistics</a> &mdash; Bangko Sentral ng Pilipinas</li>
+                <li><a href="https://www.kaggle.com/learn" target="_blank">Kaggle</a> &mdash; Datasets and competitions</li>
+            </ul>
+
+            <!-- Course Policies -->
+            <h2>Course Policies</h2>
+
+            <h3>Attendance</h3>
+            <p>
+                Attendance is required for all lectures and laboratories. Students with more than 20% absences
+                may be dropped from the course. Please inform me in advance if you need to miss class.
+            </p>
+
+            <h3>Honor Code</h3>
+            <p>
+                As a student of the University of the Philippines, you are expected to uphold the highest standards
+                of academic integrity. All submitted work must represent your own understanding and effort.
+            </p>
+
+            <h3>AI Use Policy</h3>
+            <p>
+                <strong>AI tools (ChatGPT, Claude, GitHub Copilot, etc.) are allowed</strong> in this course,
+                but must be used responsibly. AI is a powerful tool for learning and productivity—learning to
+                use it effectively is a valuable skill for data analysts.
+            </p>
+            <p><strong>Responsible AI use:</strong></p>
+            <ul>
+                <li>Use AI to <em>understand</em> concepts, not to bypass learning</li>
+                <li>Use AI to debug and improve code you've written</li>
+                <li>Use AI to explore alternative approaches and learn best practices</li>
+                <li>Always verify AI outputs—they can be wrong or outdated</li>
+                <li><strong>Cite your AI usage</strong> in your submissions (e.g., "Used Claude to debug my pandas code")</li>
+            </ul>
+            <p><strong>Not acceptable:</strong></p>
+            <ul>
+                <li>Submitting AI-generated work without understanding it</li>
+                <li>Using AI during exams or quizzes (unless explicitly allowed)</li>
+                <li>Copying AI outputs verbatim without verification or attribution</li>
+                <li>Using AI to complete work for others</li>
+            </ul>
+            <div class="note">
+                <strong>Why this policy?</strong> In the real world, you'll use AI tools daily. The goal is to
+                learn <em>with</em> AI, not to have AI learn <em>for</em> you. If you can't explain your code
+                or analysis, you haven't learned.
+            </div>
+
+            <h3>Academic Integrity</h3>
+            <p>Violations of academic integrity will result in disciplinary action per UP rules:</p>
+            <ul>
+                <li>Plagiarism (copying without attribution)</li>
+                <li>Cheating on exams or quizzes</li>
+                <li>Submitting others' work as your own</li>
+                <li>Fabricating data or results</li>
+            </ul>
+
+            <h3>Communication</h3>
+            <p>
+                Course announcements, materials, and submissions will be handled through the designated
+                course platform (to be announced at the start of the semester). For questions, use the
+                class group chat or email me directly. I will respond to emails within 48 hours on weekdays.
+            </p>
+
+            <!-- Data Privacy -->
+            <h2>Data Privacy & Ethics</h2>
+            <p>
+                This course adheres to <strong>RA 10173 (Data Privacy Act of 2012)</strong>. As a data analyst,
+                you have responsibilities to:
+            </p>
+            <ul>
+                <li>Use only publicly available or properly anonymized datasets</li>
+                <li>Never collect personal data without consent</li>
+                <li>Report findings responsibly and avoid causing harm</li>
+                <li>Acknowledge data sources and limitations</li>
+                <li>Consider potential biases in your data and models</li>
+            </ul>
+
+            <!-- Resources -->
+            <h2>Student Resources</h2>
+            <h3>UP Cebu</h3>
+            <ul>
+                <li><a href="https://cs.upcebu.edu.ph/" target="_blank">College of Science</a> &mdash; Department of Computer Science</li>
+                <li><a href="https://our.upcebu.edu.ph/" target="_blank">Office of the University Registrar</a> &mdash; Academic records and enrollment</li>
+            </ul>
+            <h3>Technical Resources</h3>
+            <ul>
+                <li><a href="https://colab.research.google.com/" target="_blank">Google Colab</a> &mdash; Free cloud-based Jupyter notebooks</li>
+                <li><a href="https://github.com/" target="_blank">GitHub</a> &mdash; Version control and code hosting</li>
+                <li><a href="https://www.kaggle.com/learn" target="_blank">Kaggle Learn</a> &mdash; Free data science courses</li>
+            </ul>
+
+            <div class="note">
+                <strong>Questions?</strong> Don't hesitate to reach out. I'm here to help you succeed in this course.
+                Email me at <a href="mailto:nppinton@up.edu.ph">nppinton@up.edu.ph</a> or visit during office hours.
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>
+                CMSC 178DA &bull; Data Analytics<br>
+                University of the Philippines Cebu &bull; Department of Computer Science
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

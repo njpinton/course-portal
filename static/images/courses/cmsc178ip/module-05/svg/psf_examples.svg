@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Examples of Point Spread Functions including motion blur, defocus, and atmospheric turbulence">
+  <title>Point Spread Function (PSF) Examples</title>
+  <desc>Three types of PSF: motion blur (linear), defocus blur (disk), and atmospheric turbulence (Gaussian-like)</desc>
+
+  <defs>
+    <linearGradient id="psfBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#psfBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Point Spread Functions (PSF)</text>
+  <text x="425" y="55" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">How a point source spreads in the degraded image</text>
+
+  <!-- Panel 1: Motion Blur -->
+  <g transform="translate(25, 75)">
+    <rect x="0" y="0" width="260" height="300" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="130" y="28" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Motion Blur</text>
+
+    <!-- PSF visualization -->
+    <g transform="translate(30, 45)">
+      <rect x="0" y="0" width="200" height="80" fill="#1a3a6e" rx="4"/>
+      <!-- Motion blur line -->
+      <rect x="40" y="35" width="120" height="10" fill="white" rx="2"/>
+      <text x="100" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Linear PSF (direction + length)</text>
+    </g>
+
+    <!-- 3D profile -->
+    <g transform="translate(30, 155)">
+      <text x="100" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Profile View:</text>
+      <rect x="0" y="10" width="200" height="60" fill="#f8f9fa" rx="4"/>
+      <!-- Flat top profile -->
+      <polyline points="20,60 60,60 60,25 140,25 140,60 180,60" fill="none" stroke="#3b82f6" stroke-width="2"/>
+      <text x="100" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Box function (uniform)</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 245)">
+      <circle cx="8" cy="8" r="4" fill="#3b82f6"/>
+      <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Camera/object motion</text>
+      <circle cx="8" cy="28" r="4" fill="#3b82f6"/>
+      <text x="18" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Parameters: angle, length</text>
+      <circle cx="8" cy="48" r="4" fill="#3b82f6"/>
+      <text x="18" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Often estimable from image</text>
+    </g>
+  </g>
+
+  <!-- Panel 2: Defocus Blur -->
+  <g transform="translate(295, 75)">
+    <rect x="0" y="0" width="260" height="300" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="130" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Defocus (Out-of-Focus)</text>
+
+    <!-- PSF visualization -->
+    <g transform="translate(30, 45)">
+      <rect x="0" y="0" width="200" height="80" fill="#1a3a6e" rx="4"/>
+      <!-- Disk blur -->
+      <circle cx="100" cy="40" r="30" fill="white"/>
+      <text x="100" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Disk PSF (pillbox function)</text>
+    </g>
+
+    <!-- 3D profile -->
+    <g transform="translate(30, 155)">
+      <text x="100" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Profile View:</text>
+      <rect x="0" y="10" width="200" height="60" fill="#f8f9fa" rx="4"/>
+      <!-- Circular profile -->
+      <path d="M30,60 L30,60 Q50,55 70,30 L130,30 Q150,55 170,60" fill="none" stroke="#10b981" stroke-width="2"/>
+      <text x="100" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Cylinder (uniform disk)</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 245)">
+      <circle cx="8" cy="8" r="4" fill="#10b981"/>
+      <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Out-of-focus optical system</text>
+      <circle cx="8" cy="28" r="4" fill="#10b981"/>
+      <text x="18" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Parameter: disk radius</text>
+      <circle cx="8" cy="48" r="4" fill="#10b981"/>
+      <text x="18" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Depth-dependent in scene</text>
+    </g>
+  </g>
+
+  <!-- Panel 3: Atmospheric Turbulence -->
+  <g transform="translate(565, 75)">
+    <rect x="0" y="0" width="260" height="300" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="130" y="28" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Atmospheric Turbulence</text>
+
+    <!-- PSF visualization -->
+    <g transform="translate(30, 45)">
+      <rect x="0" y="0" width="200" height="80" fill="#1a3a6e" rx="4"/>
+      <!-- Gaussian blur with rings -->
+      <circle cx="100" cy="40" r="30" fill="white" opacity="0.3"/>
+      <circle cx="100" cy="40" r="20" fill="white" opacity="0.5"/>
+      <circle cx="100" cy="40" r="10" fill="white" opacity="0.8"/>
+      <circle cx="100" cy="40" r="4" fill="white"/>
+      <text x="100" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Gaussian-like PSF</text>
+    </g>
+
+    <!-- 3D profile -->
+    <g transform="translate(30, 155)">
+      <text x="100" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Profile View:</text>
+      <rect x="0" y="10" width="200" height="60" fill="#f8f9fa" rx="4"/>
+      <!-- Gaussian profile -->
+      <path d="M20,60 Q50,58 70,50 Q90,30 100,20 Q110,30 130,50 Q150,58 180,60" fill="none" stroke="#f97316" stroke-width="2"/>
+      <text x="100" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Bell curve (Gaussian)</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 245)">
+      <circle cx="8" cy="8" r="4" fill="#f97316"/>
+      <text x="18" y="12" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Air turbulence, long distance</text>
+      <circle cx="8" cy="28" r="4" fill="#f97316"/>
+      <text x="18" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Parameter: σ (spread)</text>
+      <circle cx="8" cy="48" r="4" fill="#f97316"/>
+      <text x="18" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">Spatially varying possible</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus | CMSC 178IP - Digital Image Processing</title>
+    <link rel="stylesheet" href="/static/css/lecture-presenter.css">
+    <style>
+        :root {
+            --primary: #4A90A4;
+            --primary-dark: #3a7a94;
+            --navy: #1a3a6e;
+            --gold: #ffd700;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .syllabus-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--navy) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .syllabus-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .syllabus-header .course-code {
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .syllabus-header .subtitle {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: var(--navy);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        .section h3 {
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: var(--navy);
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: var(--navy);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .module-row td:first-child {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .grading-bar {
+            display: flex;
+            height: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .grading-bar div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .book {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .book-icon {
+            font-size: 2rem;
+        }
+
+        .book-info h4 {
+            margin: 0 0 0.25rem 0;
+            color: var(--navy);
+        }
+
+        .book-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .required-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .policy-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .policy-box strong {
+            color: #856404;
+        }
+
+        @media print {
+            .back-link { display: none; }
+            .syllabus-header { background: var(--navy); }
+            .section { box-shadow: none; border: 1px solid #ddd; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .section { padding: 1rem; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="syllabus-header" style="position: relative;">
+        <a href="/course/cmsc178ip" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Course
+        </a>
+        <div class="course-code">CMSC 178IP</div>
+        <h1>Digital Image Processing</h1>
+        <div class="subtitle">Course Syllabus • 2nd Semester, AY 2024-2025</div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>Course Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Credits</label>
+                    3 units
+                </div>
+                <div class="info-item">
+                    <label>Institution</label>
+                    University of the Philippines Cebu
+                </div>
+                <div class="info-item">
+                    <label>Department</label>
+                    Computer Science
+                </div>
+                <div class="info-item">
+                    <label>Instructor</label>
+                    Noel Jeffrey Pinton
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Course Description</h2>
+            <p>This course covers the fundamental concepts and techniques in digital image processing and computer vision. Topics include image representation, enhancement, restoration, segmentation, feature extraction, and an introduction to deep learning for computer vision applications.</p>
+
+            <h3>Prerequisites</h3>
+            <ul>
+                <li>CMSC 21 - Fundamentals of Programming</li>
+                <li>CMSC 123 - Data Structures</li>
+                <li>Math 23 - Linear Algebra (recommended)</li>
+            </ul>
+
+            <h3>Learning Objectives</h3>
+            <ol>
+                <li>Understand the mathematical foundations of digital image representation</li>
+                <li>Apply image enhancement and filtering techniques</li>
+                <li>Implement image restoration and geometric transformation algorithms</li>
+                <li>Extract features and perform image segmentation</li>
+                <li>Apply deep learning techniques to computer vision problems</li>
+                <li>Develop practical skills using Python, OpenCV, and deep learning frameworks</li>
+            </ol>
+        </section>
+
+        <section class="section">
+            <h2>Course Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Topic</th>
+                        <th>Weeks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="module-row">
+                        <td>1</td>
+                        <td>Introduction to Digital Image Processing</td>
+                        <td>1</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>2</td>
+                        <td>Storage and Compression</td>
+                        <td>2</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>3</td>
+                        <td>Image Processing Fundamentals</td>
+                        <td>3-4</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>4</td>
+                        <td>Image Enhancement and Filtering</td>
+                        <td>5</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>5</td>
+                        <td>Image Restoration</td>
+                        <td>6</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>6</td>
+                        <td>Geometric Transformations</td>
+                        <td>7</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>7</td>
+                        <td>Feature Extraction</td>
+                        <td>8-9</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>8</td>
+                        <td>Segmentation and Morphology</td>
+                        <td>10</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>9</td>
+                        <td>Computer Vision & Deep Learning I</td>
+                        <td>11-12</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>10</td>
+                        <td>Computer Vision & Deep Learning II</td>
+                        <td>13-14</td>
+                    </tr>
+                    <tr class="module-row">
+                        <td>11</td>
+                        <td>Generative Models</td>
+                        <td>15-16</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>Grading System</h2>
+            <div class="grading-bar">
+                <div style="width: 30%; background: #4A90A4;">MPs 30%</div>
+                <div style="width: 20%; background: #2c3e50;">Quiz 20%</div>
+                <div style="width: 20%; background: #1a3a6e;">Midterm 20%</div>
+                <div style="width: 30%; background: #28a745;">Project 30%</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grade</th>
+                        <th>Range</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1.00</td><td>92-100</td><td>Excellent</td></tr>
+                    <tr><td>1.25</td><td>88-91</td><td>Excellent</td></tr>
+                    <tr><td>1.50</td><td>84-87</td><td>Very Good</td></tr>
+                    <tr><td>1.75</td><td>80-83</td><td>Very Good</td></tr>
+                    <tr><td>2.00</td><td>76-79</td><td>Good</td></tr>
+                    <tr><td>2.25</td><td>72-75</td><td>Good</td></tr>
+                    <tr><td>2.50</td><td>68-71</td><td>Satisfactory</td></tr>
+                    <tr><td>2.75</td><td>64-67</td><td>Satisfactory</td></tr>
+                    <tr><td>3.00</td><td>60-63</td><td>Passing</td></tr>
+                    <tr><td>5.00</td><td>Below 60</td><td>Failing</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>Resources</h2>
+
+            <h3>Textbooks</h3>
+            <div class="book">
+                <div class="book-icon">📘</div>
+                <div class="book-info">
+                    <h4>Digital Image Processing <span class="required-badge">Required</span></h4>
+                    <p>Rafael C. Gonzalez, Richard E. Woods • 4th Edition • Pearson, 2018</p>
+                </div>
+            </div>
+            <div class="book">
+                <div class="book-icon">📗</div>
+                <div class="book-info">
+                    <h4>Computer Vision: Algorithms and Applications</h4>
+                    <p>Richard Szeliski • 2nd Edition • Springer, 2022 • <a href="https://szeliski.org/Book/" target="_blank">Free online</a></p>
+                </div>
+            </div>
+
+            <h3>Software Requirements</h3>
+            <ul>
+                <li>Python 3.10+</li>
+                <li>OpenCV</li>
+                <li>NumPy, SciPy, Matplotlib</li>
+                <li>PyTorch or TensorFlow</li>
+                <li>Jupyter Notebook</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Course Policies</h2>
+
+            <div class="policy-box">
+                <strong>Attendance:</strong> Regular attendance is expected. More than 3 unexcused absences may result in a grade of 5.0.
+            </div>
+
+            <div class="policy-box">
+                <strong>Academic Integrity:</strong> All submitted work must be your own. Plagiarism and cheating will result in a failing grade and disciplinary action.
+            </div>
+
+            <div class="policy-box">
+                <strong>Late Submissions:</strong> Late submissions will be penalized 10% per day, up to a maximum of 3 days. After 3 days, submissions will not be accepted.
+            </div>
+
+            <div class="policy-box">
+                <strong>Collaboration:</strong> Discussion of concepts is encouraged, but code must be written individually unless explicitly stated as a group project.
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Final Project</h2>
+            <p><strong>Digital Image Processing Research Project</strong></p>
+            <p>Students will work in groups of 3-4 to implement and evaluate a DIP/CV technique on a real-world problem.</p>
+
+            <h3>Project Stages</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Due</th>
+                        <th>Weight</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Problem Definition</td><td>Week 4</td><td>10%</td></tr>
+                    <tr><td>Data Collection & Preprocessing</td><td>Week 8</td><td>15%</td></tr>
+                    <tr><td>Algorithm Implementation</td><td>Week 12</td><td>25%</td></tr>
+                    <tr><td>Evaluation & Analysis</td><td>Week 14</td><td>25%</td></tr>
+                    <tr><td>Final Presentation</td><td>Week 16</td><td>25%</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Suggested Topics</h3>
+            <ul>
+                <li>Medical image analysis (X-ray, MRI, CT)</li>
+                <li>Document digitization and OCR</li>
+                <li>Face detection and recognition</li>
+                <li>Object tracking in video</li>
+                <li>Image super-resolution</li>
+                <li>Autonomous vehicle perception</li>
+                <li>Agricultural crop monitoring</li>
+                <li>Art style transfer</li>
+                <li>Image forensics and tampering detection</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

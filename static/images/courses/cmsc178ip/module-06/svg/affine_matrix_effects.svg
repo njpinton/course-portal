@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Affine transformation matrix and its effects on images">
+  <title>Affine Matrix Effects</title>
+  <desc>Visualization of how affine transformation matrix components affect image geometry</desc>
+
+  <defs>
+    <linearGradient id="affineBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#affineBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Affine Transformation Matrix</text>
+
+  <!-- General matrix structure -->
+  <g transform="translate(30, 60)">
+    <rect x="0" y="0" width="300" height="165" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="150" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">General Affine Matrix</text>
+
+    <g transform="translate(30, 45)">
+      <!-- Matrix brackets -->
+      <text x="20" y="50" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="48">[</text>
+      <text x="200" y="50" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="48">]</text>
+
+      <!-- Matrix elements with color coding -->
+      <rect x="55" y="15" width="35" height="25" fill="#3b82f6" opacity="0.3" rx="3"/>
+      <text x="72" y="33" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">a</text>
+
+      <rect x="100" y="15" width="35" height="25" fill="#10b981" opacity="0.3" rx="3"/>
+      <text x="117" y="33" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">b</text>
+
+      <rect x="145" y="15" width="35" height="25" fill="#f97316" opacity="0.3" rx="3"/>
+      <text x="162" y="33" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">tx</text>
+
+      <rect x="55" y="45" width="35" height="25" fill="#10b981" opacity="0.3" rx="3"/>
+      <text x="72" y="63" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">c</text>
+
+      <rect x="100" y="45" width="35" height="25" fill="#3b82f6" opacity="0.3" rx="3"/>
+      <text x="117" y="63" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">d</text>
+
+      <rect x="145" y="45" width="35" height="25" fill="#f97316" opacity="0.3" rx="3"/>
+      <text x="162" y="63" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle" font-weight="600">ty</text>
+
+      <text x="72" y="93" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+      <text x="117" y="93" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">0</text>
+      <text x="162" y="93" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1</text>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(20, 130)">
+      <rect x="0" y="0" width="12" height="12" fill="#3b82f6" opacity="0.5" rx="2"/>
+      <text x="18" y="10" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Scale/Rotate</text>
+      <rect x="90" y="0" width="12" height="12" fill="#10b981" opacity="0.5" rx="2"/>
+      <text x="108" y="10" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Shear/Rotate</text>
+      <rect x="185" y="0" width="12" height="12" fill="#f97316" opacity="0.5" rx="2"/>
+      <text x="203" y="10" fill="#666" font-family="Segoe UI, sans-serif" font-size="9">Translation</text>
+    </g>
+  </g>
+
+  <!-- Component effects -->
+  <g transform="translate(350, 60)">
+    <rect x="0" y="0" width="475" height="165" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="237" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Matrix Components Breakdown</text>
+
+    <!-- Component explanations -->
+    <g transform="translate(20, 45)">
+      <!-- Row 1 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="210" height="50" fill="#dbeafe" rx="4"/>
+        <text x="105" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">a, d (diagonal)</text>
+        <text x="105" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Scaling in X and Y directions</text>
+        <text x="105" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">a=d=1: no scale, a=2: 2× horizontal</text>
+      </g>
+
+      <g transform="translate(225, 0)">
+        <rect x="0" y="0" width="210" height="50" fill="#d1fae5" rx="4"/>
+        <text x="105" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">b, c (off-diagonal)</text>
+        <text x="105" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Shear and rotation coupling</text>
+        <text x="105" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">b=c=0: no shear/rotation</text>
+      </g>
+
+      <!-- Row 2 -->
+      <g transform="translate(0, 60)">
+        <rect x="0" y="0" width="210" height="50" fill="#fed7aa" rx="4"/>
+        <text x="105" y="18" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">tx, ty (translation)</text>
+        <text x="105" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Shift in X and Y directions</text>
+        <text x="105" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">tx=100: shift 100px right</text>
+      </g>
+
+      <g transform="translate(225, 60)">
+        <rect x="0" y="0" width="210" height="50" fill="#f3f4f6" rx="4"/>
+        <text x="105" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Bottom row [0, 0, 1]</text>
+        <text x="105" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Required for homogeneous coords</text>
+        <text x="105" y="46" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Always fixed for affine transforms</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Visual examples -->
+  <g transform="translate(30, 245)">
+    <text x="395" y="0" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Visual Examples of Affine Effects</text>
+
+    <!-- Original -->
+    <g transform="translate(0, 20)">
+      <rect x="0" y="0" width="145" height="130" fill="white" rx="6" stroke="#666"/>
+      <text x="72" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Original</text>
+      <rect x="40" y="35" width="60" height="60" fill="#1a3a6e" rx="4"/>
+      <text x="70" y="70" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">F</text>
+      <text x="72" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Identity matrix</text>
+    </g>
+
+    <!-- Scale X -->
+    <g transform="translate(160, 20)">
+      <rect x="0" y="0" width="145" height="130" fill="white" rx="6" stroke="#3b82f6"/>
+      <text x="72" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Scale X (a=1.5)</text>
+      <rect x="20" y="35" width="90" height="60" fill="#3b82f6" rx="4"/>
+      <text x="65" y="70" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">F</text>
+      <text x="72" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Stretched horizontally</text>
+    </g>
+
+    <!-- Shear -->
+    <g transform="translate(320, 20)">
+      <rect x="0" y="0" width="145" height="130" fill="white" rx="6" stroke="#10b981"/>
+      <text x="72" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Shear (b=0.5)</text>
+      <polygon points="55,35 115,35 85,95 25,95" fill="#10b981"/>
+      <text x="70" y="70" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">F</text>
+      <text x="72" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Slanted/skewed</text>
+    </g>
+
+    <!-- Rotation -->
+    <g transform="translate(480, 20)">
+      <rect x="0" y="0" width="145" height="130" fill="white" rx="6" stroke="#f97316"/>
+      <text x="72" y="18" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Rotate (30°)</text>
+      <g transform="translate(72, 65) rotate(-30)">
+        <rect x="-30" y="-30" width="60" height="60" fill="#f97316" rx="4"/>
+        <text x="0" y="5" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">F</text>
+      </g>
+      <text x="72" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">a=cos, b=-sin, c=sin, d=cos</text>
+    </g>
+
+    <!-- Combined -->
+    <g transform="translate(640, 20)">
+      <rect x="0" y="0" width="145" height="130" fill="white" rx="6" stroke="#7c3aed"/>
+      <text x="72" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Combined</text>
+      <g transform="translate(72, 65) rotate(-20) scale(1.2, 0.8)">
+        <polygon points="-25,-25 35,-25 15,30 -45,30" fill="#7c3aed"/>
+        <text x="-5" y="5" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">F</text>
+      </g>
+      <text x="72" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Scale + Rotate + Shear</text>
+    </g>
+  </g>
+</svg>

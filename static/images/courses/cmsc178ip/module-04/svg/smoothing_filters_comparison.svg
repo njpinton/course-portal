@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 420" role="img" aria-label="Comparison of mean, Gaussian, and median smoothing filters showing kernels and results">
+  <title>Smoothing Filters Comparison</title>
+  <desc>Three-column comparison of mean filter (box filter), Gaussian filter, and median filter showing their kernels and smoothing effects</desc>
+
+  <defs>
+    <linearGradient id="smoothBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="420" fill="url(#smoothBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Smoothing Filters Comparison</text>
+
+  <!-- Column 1: Mean Filter -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="250" height="340" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="125" y="28" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Mean (Box) Filter</text>
+
+    <!-- 3x3 Kernel -->
+    <g transform="translate(50, 45)">
+      <text x="75" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">3×3 Kernel</text>
+      <g transform="translate(0, 10)">
+        <rect x="0" y="0" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="50" y="0" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="100" y="0" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="0" y="35" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="50" y="35" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="100" y="35" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="0" y="70" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="50" y="70" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <rect x="100" y="70" width="50" height="35" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+        <!-- Values -->
+        <text x="25" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="75" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="125" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="25" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="75" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="125" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="25" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="75" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+        <text x="125" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">1/9</text>
+      </g>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 175)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Properties:</text>
+      <text x="10" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Equal weights</text>
+      <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Simple average</text>
+      <text x="10" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Blurs edges</text>
+      <text x="10" y="63" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Fast computation</text>
+    </g>
+
+    <!-- Effect visualization -->
+    <g transform="translate(20, 250)">
+      <text x="105" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Effect</text>
+      <rect x="15" y="10" width="80" height="60" fill="#333" rx="4"/>
+      <rect x="95" y="35" width="20" height="10" fill="#3b82f6"/>
+      <polygon points="110,40 125,35 125,45" fill="#3b82f6"/>
+      <rect x="125" y="10" width="80" height="60" fill="#555" rx="4"/>
+      <text x="55" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Sharp edge</text>
+      <text x="165" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Blurred</text>
+    </g>
+  </g>
+
+  <!-- Column 2: Gaussian Filter -->
+  <g transform="translate(300, 55)">
+    <rect x="0" y="0" width="250" height="340" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="125" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Gaussian Filter</text>
+
+    <!-- 3x3 Kernel -->
+    <g transform="translate(50, 45)">
+      <text x="75" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">3×3 Kernel (σ=1)</text>
+      <g transform="translate(0, 10)">
+        <rect x="0" y="0" width="50" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+        <rect x="50" y="0" width="50" height="35" fill="#a7f3d0" stroke="#10b981" stroke-width="1"/>
+        <rect x="100" y="0" width="50" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+        <rect x="0" y="35" width="50" height="35" fill="#a7f3d0" stroke="#10b981" stroke-width="1"/>
+        <rect x="50" y="35" width="50" height="35" fill="#6ee7b7" stroke="#10b981" stroke-width="1"/>
+        <rect x="100" y="35" width="50" height="35" fill="#a7f3d0" stroke="#10b981" stroke-width="1"/>
+        <rect x="0" y="70" width="50" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+        <rect x="50" y="70" width="50" height="35" fill="#a7f3d0" stroke="#10b981" stroke-width="1"/>
+        <rect x="100" y="70" width="50" height="35" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+        <!-- Values -->
+        <text x="25" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">1</text>
+        <text x="75" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">2</text>
+        <text x="125" y="23" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">1</text>
+        <text x="25" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">2</text>
+        <text x="75" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">4</text>
+        <text x="125" y="58" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">2</text>
+        <text x="25" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">1</text>
+        <text x="75" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">2</text>
+        <text x="125" y="93" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">1</text>
+      </g>
+      <text x="75" y="120" fill="#666" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">÷ 16</text>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 175)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Properties:</text>
+      <text x="10" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Weighted by distance</text>
+      <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Smooth falloff</text>
+      <text x="10" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Better edge preservation</text>
+      <text x="10" y="63" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Separable (fast)</text>
+    </g>
+
+    <!-- Effect visualization -->
+    <g transform="translate(20, 250)">
+      <text x="105" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Effect</text>
+      <rect x="15" y="10" width="80" height="60" fill="#333" rx="4"/>
+      <rect x="95" y="35" width="20" height="10" fill="#10b981"/>
+      <polygon points="110,40 125,35 125,45" fill="#10b981"/>
+      <rect x="125" y="10" width="80" height="60" fill="#4a4a4a" rx="4"/>
+      <text x="55" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Sharp edge</text>
+      <text x="165" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Soft blur</text>
+    </g>
+  </g>
+
+  <!-- Column 3: Median Filter -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="340" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="125" y="28" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Median Filter</text>
+
+    <!-- Operation visualization -->
+    <g transform="translate(25, 45)">
+      <text x="100" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Sort → Select Middle</text>
+      <g transform="translate(0, 15)">
+        <!-- Unsorted values -->
+        <rect x="0" y="0" width="200" height="25" fill="#fff7ed" stroke="#f97316" stroke-width="1" rx="4"/>
+        <text x="100" y="17" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">15, 230, 18, 22, 20, 17, 255, 19, 21</text>
+
+        <!-- Arrow -->
+        <polygon points="100,30 95,40 105,40" fill="#f97316"/>
+
+        <!-- Sorted values -->
+        <rect x="0" y="45" width="200" height="25" fill="#fed7aa" stroke="#f97316" stroke-width="1" rx="4"/>
+        <text x="100" y="62" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">15, 17, 18, 19, <tspan fill="#f97316" font-weight="600">20</tspan>, 21, 22, 230, 255</text>
+
+        <!-- Result -->
+        <text x="100" y="90" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Output: 20</text>
+      </g>
+    </g>
+
+    <!-- Properties -->
+    <g transform="translate(20, 175)">
+      <text x="0" y="0" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Properties:</text>
+      <text x="10" y="18" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Non-linear filter</text>
+      <text x="10" y="33" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Removes outliers</text>
+      <text x="10" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Preserves edges well</text>
+      <text x="10" y="63" fill="#666" font-family="Segoe UI, sans-serif" font-size="10">• Best for S&amp;P noise</text>
+    </g>
+
+    <!-- Effect visualization -->
+    <g transform="translate(20, 250)">
+      <text x="105" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Effect on S&amp;P</text>
+      <rect x="15" y="10" width="80" height="60" fill="#666" rx="4"/>
+      <circle cx="35" cy="30" r="3" fill="white"/>
+      <circle cx="55" cy="50" r="3" fill="black"/>
+      <circle cx="75" cy="35" r="3" fill="white"/>
+      <rect x="95" y="35" width="20" height="10" fill="#f97316"/>
+      <polygon points="110,40 125,35 125,45" fill="#f97316"/>
+      <rect x="125" y="10" width="80" height="60" fill="#666" rx="4"/>
+      <text x="55" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">With noise</text>
+      <text x="165" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Clean!</text>
+    </g>
+  </g>
+
+  <!-- Bottom summary -->
+  <text x="425" y="410" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Mean: Simple/fast | Gaussian: Natural blur | Median: Noise removal + edge preservation</text>
+</svg>

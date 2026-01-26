@@ -1,10 +1,11 @@
-from flask import Flask, render_template, send_from_directory, request, jsonify, session, redirect, url_for
+from flask import Flask, render_template, send_from_directory, send_file, request, jsonify, session, redirect, url_for
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_talisman import Talisman
 import os
+import json
 import logging
 import sys
 from datetime import datetime, timezone
@@ -31,7 +32,7 @@ load_dotenv('.env')
 # Import from organized modules
 from .config import (
     MAX_FILE_SIZE, ALLOWED_EXTENSIONS, UPLOAD_FOLDER, MODULES,
-    JWT_EXPIRATION_HOURS, COURSES, PROJECTS, MODULE_CATEGORIES
+    JWT_EXPIRATION_HOURS, COURSES, PROJECTS, MODULE_CATEGORIES, COURSE_PROJECTS
 )
 from .utils.validation import allowed_file, validate_input
 from .utils.auth import (
@@ -54,7 +55,7 @@ try:
         get_stage_documents, add_stage_document, update_group_project_info,
         update_group_credentials, get_group_by_username, update_group_last_login,
         get_group_with_submissions, submit_group_stage_work, get_group_feedback,
-        get_class_by_code_section, get_students_by_class, get_ungrouped_students,
+        get_class_by_code_section, get_class_by_id, get_students_by_class, get_ungrouped_students,
         get_grouped_students, assign_student_to_group, get_student_by_campus_id, get_student_by_id,
         get_group_members, unassign_student_from_group,
         upload_submission_file, get_submission_file_url, delete_submission_file,
@@ -320,13 +321,40 @@ def course_detail(course_id):
     # Get projects for this course
     course_projects = [PROJECTS[pid] for pid in course.get('projects', []) if pid in PROJECTS]
 
+    # For CMSC 178IP, load exam notebook data for inline viewing
+    exam_notebook = None
+    answer_key_notebook = None
+    if course_id == 'cmsc178ip':
+        notebook_path = os.path.join(
+            app.root_path, '..', 'static', 'data', 'courses',
+            'cmsc178ip', 'finals_exam', 'student_template',
+            'CMSC178IP_Finals_Unified.ipynb'
+        )
+        if os.path.exists(notebook_path):
+            with open(notebook_path, 'r') as f:
+                exam_notebook = json.load(f)
+
+        # Load answer key for admins
+        if session.get('is_admin'):
+            answer_key_path = os.path.join(
+                app.root_path, '..', 'static', 'data', 'courses',
+                'cmsc178ip', 'finals_exam', 'admin',
+                'CMSC178IP_Finals_ANSWER_KEY.ipynb'
+            )
+            if os.path.exists(answer_key_path):
+                with open(answer_key_path, 'r') as f:
+                    answer_key_notebook = json.load(f)
+
     return render_template('course_detail.html',
         course=course,
         course_id=course_id,
         projects=course_projects,
         categories=MODULE_CATEGORIES,
         courses=COURSES,
-        active_course=course_id
+        active_course=course_id,
+        is_admin=session.get('is_admin', False),
+        exam_notebook=exam_notebook,
+        answer_key_notebook=answer_key_notebook
     )
 
 @app.route('/course/<course_id>/module/<module_id>')
@@ -383,6 +411,159 @@ def show_module(course_id, module_id):
     # Use course-scoped template path
     template_path = f"courses/{course_id}/{module['filename']}"
     return render_template(template_path, view_count=view_count, course=course, course_id=course_id, courses=COURSES)
+
+@app.route('/course/<course_id>/syllabus')
+def show_syllabus(course_id):
+    """Display the syllabus for a course."""
+    course = COURSES.get(course_id)
+    if not course:
+        return render_template('error.html',
+            error_title="Course Not Found",
+            error_message=f"Course '{course_id}' does not exist.",
+            back_url="/",
+            back_text="Back to Course Hub",
+            courses=COURSES
+        ), 404
+
+    template_path = f"courses/{course_id}/syllabus.html"
+    return render_template(template_path, course=course, course_id=course_id, courses=COURSES)
+
+@app.route('/course/<course_id>/exam/download')
+def download_exam(course_id):
+    """Download the finals exam notebook for a course."""
+    # Currently only cmsc178ip has a finals exam
+    if course_id != 'cmsc178ip':
+        return render_template('error.html',
+            error_title="Exam Not Available",
+            error_message=f"No finals exam is available for this course.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    # Path to the exam notebook
+    exam_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)),
+        'static', 'data', 'courses', 'cmsc178ip', 'finals_exam',
+        'student_template', 'CMSC178IP_Finals_Unified.ipynb'
+    )
+
+    if not os.path.exists(exam_path):
+        logger.error(f"Exam file not found: {exam_path}")
+        return render_template('error.html',
+            error_title="File Not Found",
+            error_message="The exam file could not be found. Please contact the instructor.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    return send_file(
+        exam_path,
+        as_attachment=True,
+        download_name='CMSC178IP_Finals_Exam.ipynb',
+        mimetype='application/x-ipynb+json'
+    )
+
+@app.route('/course/<course_id>/exam/answer-key')
+def download_answer_key(course_id):
+    """Download the answer key (admin only - requires session)."""
+    # Check if user is admin
+    if not session.get('is_admin'):
+        return render_template('error.html',
+            error_title="Access Denied",
+            error_message="You must be logged in as admin to access the answer key.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 403
+
+    if course_id != 'cmsc178ip':
+        return render_template('error.html',
+            error_title="Not Available",
+            error_message="No answer key available for this course.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    answer_key_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)),
+        'static', 'data', 'courses', 'cmsc178ip', 'finals_exam',
+        'admin', 'CMSC178IP_Finals_ANSWER_KEY.ipynb'
+    )
+
+    if not os.path.exists(answer_key_path):
+        return render_template('error.html',
+            error_title="File Not Found",
+            error_message="Answer key file not found.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    return send_file(
+        answer_key_path,
+        as_attachment=True,
+        download_name='CMSC178IP_Finals_ANSWER_KEY.ipynb',
+        mimetype='application/x-ipynb+json'
+    )
+
+@app.route('/course/<course_id>/exam/view')
+def view_exam_notebook(course_id):
+    """View the exam notebook in the browser."""
+    if course_id != 'cmsc178ip':
+        return render_template('error.html',
+            error_title="Not Available",
+            error_message="No exam available for this course.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    # Determine which notebook to show
+    is_admin = session.get('is_admin', False)
+    show_answer_key = request.args.get('key') == '1' and is_admin
+
+    if show_answer_key:
+        notebook_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            'static', 'data', 'courses', 'cmsc178ip', 'finals_exam',
+            'admin', 'CMSC178IP_Finals_ANSWER_KEY.ipynb'
+        )
+        title = "Finals Exam - ANSWER KEY"
+    else:
+        notebook_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            'static', 'data', 'courses', 'cmsc178ip', 'finals_exam',
+            'student_template', 'CMSC178IP_Finals_Unified.ipynb'
+        )
+        title = "Finals Exam"
+
+    if not os.path.exists(notebook_path):
+        return render_template('error.html',
+            error_title="File Not Found",
+            error_message="Notebook file not found.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    # Read notebook JSON
+    import json
+    with open(notebook_path, 'r') as f:
+        notebook_data = json.load(f)
+
+    course = COURSES.get(course_id)
+    return render_template('notebook_viewer.html',
+        notebook=notebook_data,
+        title=title,
+        course=course,
+        course_id=course_id,
+        is_admin=is_admin,
+        show_answer_key=show_answer_key,
+        courses=COURSES
+    )
 
 @app.route('/favicon.ico')
 def favicon():
@@ -1192,7 +1373,29 @@ def group_submission_portal():
         if not group:
             return render_template('group_submission_portal.html', error='Group not found', group=None, courses=COURSES)
 
-        return render_template('group_submission_portal.html', group=group, group_name=session.get('group_name'), courses=COURSES)
+        # Derive project from group's class
+        project_id = 'ml-research-project'  # Default fallback
+        course_id = 'cmsc173'  # Default fallback
+
+        class_id = group.get('class_id')
+        if class_id:
+            class_data = get_class_by_id(class_id)
+            if class_data:
+                course_code = class_data.get('course_code', '')
+                project_id = COURSE_PROJECTS.get(course_code, 'ml-research-project')
+                project_config = PROJECTS.get(project_id, {})
+                course_id = project_config.get('course', 'cmsc173')
+
+        project = PROJECTS.get(project_id, PROJECTS.get('ml-research-project', {}))
+        course = COURSES.get(course_id, COURSES.get('cmsc173', {}))
+
+        return render_template('group_submission_portal.html',
+            group=group,
+            group_name=session.get('group_name'),
+            project=project,
+            course=course,
+            courses=COURSES
+        )
     except Exception as e:
         logger.error(f"Error loading group submission portal: {e}", exc_info=True)
         return render_template('group_submission_portal.html', error='An error occurred', group=None, courses=COURSES)
@@ -1206,6 +1409,22 @@ def admin_view_group(group_id):
         group = get_group_with_submissions(group_id)
         if not group:
             return render_template('group_submission_portal.html', error='Group not found', courses=COURSES)
+
+        # Derive project from group's class
+        project_id = 'ml-research-project'  # Default fallback
+        course_id = 'cmsc173'  # Default fallback
+
+        class_id = group.get('class_id')
+        if class_id:
+            class_data = get_class_by_id(class_id)
+            if class_data:
+                course_code = class_data.get('course_code', '')
+                project_id = COURSE_PROJECTS.get(course_code, 'ml-research-project')
+                project_config = PROJECTS.get(project_id, {})
+                course_id = project_config.get('course', 'cmsc173')
+
+        project = PROJECTS.get(project_id, PROJECTS.get('ml-research-project', {}))
+        course = COURSES.get(course_id, COURSES.get('cmsc173', {}))
 
         # Get all groups for prev/next navigation
         prev_group_id = None
@@ -1246,6 +1465,8 @@ def admin_view_group(group_id):
         return render_template('group_submission_portal.html',
                              group=group,
                              group_name=group.get('group_name'),
+                             project=project,
+                             course=course,
                              is_admin_view=True,
                              prev_group_id=prev_group_id,
                              next_group_id=next_group_id,

@@ -1,0 +1,229 @@
+{
+  "module": {
+    "id": "08",
+    "title": "Segmentation and Morphology",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "55 minutes",
+    "prerequisites": ["Module 07: Feature Extraction"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Segmentation and Morphology",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 08</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Apply thresholding techniques (global, Otsu, adaptive)</li><li>Implement region-based segmentation methods</li><li>Use the watershed algorithm for complex segmentation</li><li>Apply morphological operations (erosion, dilation, opening, closing)</li><li>Use morphology for noise removal and object extraction</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Thresholding",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Converting grayscale to binary</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "Global Thresholding",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/01_global_thresholding.png\" alt=\"Global Thresholding\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Binary Thresholding:</strong></p><p class=\"math-block\">$$g(x,y) = \\begin{cases} 1 & \\text{if } f(x,y) > T \\\\ 0 & \\text{otherwise} \\end{cases}$$</p><p>Simple but requires manual threshold selection.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Otsu's Thresholding",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/02_otsu_thresholding.png\" alt=\"Otsu Thresholding\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Otsu's Method:</strong> Automatically find optimal threshold by maximizing between-class variance.</p><p class=\"math-block\">$$\\sigma^2_B = \\omega_0 \\omega_1 (\\mu_0 - \\mu_1)^2$$</p><p>Works well for bimodal histograms.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "When does Otsu's method work well, and when might it fail?",
+        "answer": "Otsu's works well when the histogram is bimodal (two distinct peaks). It may fail with uneven illumination, multiple objects at different intensities, or when foreground/background have similar intensities."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Adaptive Thresholding",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/03_local_thresholding.png\" alt=\"Adaptive Thresholding\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Adaptive (Local) Thresholding:</strong><br>Compute threshold for each pixel based on local neighborhood. Handles uneven illumination.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Region-Based Segmentation",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Grouping similar pixels</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 8,
+      "title": "Region Growing",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/04_region_growing.png\" alt=\"Region Growing\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Region Growing Algorithm:</strong></p><ol><li>Start from seed point(s)</li><li>Examine neighboring pixels</li><li>Add if similar (within threshold)</li><li>Repeat until no more pixels can be added</li></ol></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Watershed Segmentation",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/05_watershed_segmentation.png\" alt=\"Watershed\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Watershed:</strong> Treat gradient image as topography. \"Flood\" from markers - watershed lines form where waters meet. Excellent for separating touching objects.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is over-segmentation in watershed, and how can it be addressed?",
+        "answer": "Over-segmentation occurs when noise creates too many basins, resulting in many small regions. It can be addressed by: 1) pre-smoothing the image, 2) using marker-based watershed with fewer seed points, 3) merging small regions post-processing."
+      }
+    },
+    {
+      "id": 10,
+      "title": "Morphological Operations",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Shape-based image processing</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 11,
+      "title": "Structuring Elements",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/08_structuring_elements.png\" alt=\"Structuring Elements\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Structuring Element:</strong> Small shape used as a probe. Common shapes: square, disk, cross, diamond.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Erosion and Dilation",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/06_binary_erosion_dilation.png\" alt=\"Erosion Dilation\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Erosion</strong><p class=\"math-block\">$$A \\ominus B$$</p><p>Shrinks objects, removes small protrusions</p></div><div><strong>Dilation</strong><p class=\"math-block\">$$A \\oplus B$$</p><p>Expands objects, fills small holes</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 13,
+      "title": "Opening and Closing",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/07_binary_opening_closing.png\" alt=\"Opening Closing\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Opening</strong><p class=\"math-block\">$$A \\circ B = (A \\ominus B) \\oplus B$$</p><p>Removes small objects, smooths contours</p></div><div><strong>Closing</strong><p class=\"math-block\">$$A \\bullet B = (A \\oplus B) \\ominus B$$</p><p>Fills small holes, connects nearby objects</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What is the difference between erosion and opening?",
+        "answer": "Erosion shrinks ALL parts of the object uniformly. Opening (erosion + dilation) removes small protrusions and noise but largely preserves the size of larger objects, since dilation restores the eroded boundaries."
+      }
+    },
+    {
+      "id": 14,
+      "title": "Morphological Gradient",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/09_morphological_gradient.png\" alt=\"Morphological Gradient\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Morphological Gradient:</strong></p><p class=\"math-block\">$$G = (A \\oplus B) - (A \\ominus B)$$</p><p>Dilation minus erosion = edge detection using morphology</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Grayscale Morphology",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/10_grayscale_morphology.png\" alt=\"Grayscale Morphology\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Grayscale Morphology:</strong> Same operations applied to grayscale images. Useful for top-hat transforms and contrast enhancement.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Applications",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Practical uses of segmentation and morphology</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 17,
+      "title": "Noise Removal Pipeline",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/11_noise_removal_pipeline.png\" alt=\"Noise Removal\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Morphological Filtering:</strong> Opening removes salt noise (white specks), closing removes pepper noise (black specks).</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Edge Detection with Morphology",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/12_edge_detection_comparison.png\" alt=\"Morphological Edges\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparing morphological gradient with other edge detection methods</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Object Extraction",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/13_object_extraction.png\" alt=\"Object Extraction\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Connected Component Analysis:</strong> Label distinct objects after segmentation. Extract properties: area, centroid, bounding box.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Texture Enhancement",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/14_texture_enhancement.png\" alt=\"Texture Enhancement\" style=\"max-height: 65vh;\"><p class=\"caption\">Top-hat and bottom-hat transforms for texture analysis</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Multi-Scale Segmentation",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-08/15_multi_scale_segmentation.png\" alt=\"Multi-Scale\" style=\"max-height: 65vh;\"><p class=\"caption\">Different structuring element sizes capture features at different scales</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import cv2\nimport numpy as np\n\nimg = cv2.imread('image.jpg', 0)\n\n# Otsu's thresholding\n_, binary = cv2.threshold(img, 0, 255, \n    cv2.THRESH_BINARY + cv2.THRESH_OTSU)\n\n# Adaptive thresholding\nadaptive = cv2.adaptiveThreshold(img, 255,\n    cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)\n\n# Morphological operations\nkernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5,5))\nopened = cv2.morphologyEx(binary, cv2.MORPH_OPEN, kernel)\nclosed = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 24,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Thresholding:</strong> Global, Otsu (automatic), adaptive (local)</li><li><strong>Region growing:</strong> Expand from seeds based on similarity</li><li><strong>Watershed:</strong> Separate touching objects using markers</li><li><strong>Erosion/Dilation:</strong> Basic morphological operations</li><li><strong>Opening/Closing:</strong> Remove noise, fill holes</li><li><strong>Applications:</strong> Noise removal, edge detection, object extraction</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 09 - Computer Vision & Deep Learning I</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

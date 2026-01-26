@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Comparison of neural network activation functions">
+  <title>Activation Functions Comparison</title>
+  <desc>Line chart comparing Sigmoid, Tanh, ReLU, and Leaky ReLU activation functions across input range -6 to 6</desc>
+
+  <defs>
+    <linearGradient id="actBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="400" fill="url(#actBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Activation Functions</text>
+
+  <!-- Chart area -->
+  <g transform="translate(80, 60)">
+    <!-- Grid lines -->
+    <g stroke="#dee2e6" stroke-width="1" opacity="0.5">
+      <line x1="0" y1="0" x2="400" y2="0"/>
+      <line x1="0" y1="80" x2="400" y2="80"/>
+      <line x1="0" y1="160" x2="400" y2="160"/>
+      <line x1="0" y1="240" x2="400" y2="240"/>
+      <line x1="0" y1="320" x2="400" y2="320"/>
+      <line x1="0" y1="0" x2="0" y2="320"/>
+      <line x1="100" y1="0" x2="100" y2="320"/>
+      <line x1="200" y1="0" x2="200" y2="320"/>
+      <line x1="300" y1="0" x2="300" y2="320"/>
+      <line x1="400" y1="0" x2="400" y2="320"/>
+    </g>
+
+    <!-- Axes -->
+    <line x1="0" y1="160" x2="400" y2="160" stroke="#1a3a6e" stroke-width="2"/>
+    <line x1="200" y1="0" x2="200" y2="320" stroke="#1a3a6e" stroke-width="2"/>
+
+    <!-- Axis labels -->
+    <text x="200" y="355" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="500" text-anchor="middle">Input (x)</text>
+    <text x="-25" y="160" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="500" text-anchor="middle" transform="rotate(-90, -25, 160)">Output</text>
+
+    <!-- X-axis ticks -->
+    <text x="0" y="180" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">-6</text>
+    <text x="100" y="180" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">-3</text>
+    <text x="200" y="180" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">0</text>
+    <text x="300" y="180" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">3</text>
+    <text x="400" y="180" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">6</text>
+
+    <!-- Y-axis ticks -->
+    <text x="-10" y="5" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">1</text>
+    <text x="-10" y="85" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">0.5</text>
+    <text x="-10" y="165" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">0</text>
+    <text x="-10" y="245" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">-0.5</text>
+    <text x="-10" y="325" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="end">-1</text>
+
+    <!-- Sigmoid (blue) - S-curve from 0 to 1 -->
+    <path d="M0,155 Q50,155 100,150 Q150,140 175,120 Q200,80 225,40 Q250,20 275,12 Q325,5 400,5" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Tanh (green) - S-curve from -1 to 1 -->
+    <path d="M0,315 Q50,310 100,290 Q150,240 175,200 Q200,160 225,120 Q250,80 275,40 Q325,10 400,5" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- ReLU (orange) - flat then linear -->
+    <path d="M0,160 L200,160 L400,0" fill="none" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- Leaky ReLU (purple) - slight negative slope then linear -->
+    <path d="M0,176 L200,160 L400,0" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round" stroke-dasharray="8,4"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(520, 80)">
+    <rect x="-15" y="-20" width="260" height="200" fill="white" rx="8" stroke="#e5e7eb"/>
+    <text x="115" y="5" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Functions</text>
+
+    <!-- Sigmoid -->
+    <g transform="translate(0, 35)">
+      <line x1="0" y1="0" x2="35" y2="0" stroke="#3b82f6" stroke-width="3"/>
+      <text x="45" y="5" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="500">Sigmoid: 1/(1+e^-x)</text>
+    </g>
+
+    <!-- Tanh -->
+    <g transform="translate(0, 70)">
+      <line x1="0" y1="0" x2="35" y2="0" stroke="#10b981" stroke-width="3"/>
+      <text x="45" y="5" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="500">Tanh: (e^x-e^-x)/(e^x+e^-x)</text>
+    </g>
+
+    <!-- ReLU -->
+    <g transform="translate(0, 105)">
+      <line x1="0" y1="0" x2="35" y2="0" stroke="#f97316" stroke-width="3"/>
+      <text x="45" y="5" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="500">ReLU: max(0, x)</text>
+    </g>
+
+    <!-- Leaky ReLU -->
+    <g transform="translate(0, 140)">
+      <line x1="0" y1="0" x2="35" y2="0" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="8,4"/>
+      <text x="45" y="5" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="500">Leaky ReLU: max(0.1x, x)</text>
+    </g>
+  </g>
+</svg>

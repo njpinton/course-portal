@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Hierarchy of geometric transformations from rigid to projective">
+  <title>Transformation Hierarchy</title>
+  <desc>Classification of geometric transformations showing the relationship between rigid, similarity, affine, and projective transformations</desc>
+
+  <defs>
+    <linearGradient id="hierBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="hierArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#hierBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Transformation Hierarchy</text>
+  <text x="425" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">More general → More degrees of freedom</text>
+
+  <!-- Hierarchy levels -->
+  <!-- Level 1: Rigid/Euclidean (innermost) -->
+  <g transform="translate(65, 85)">
+    <rect x="0" y="0" width="170" height="280" fill="#10b981" opacity="0.15" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="85" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Rigid (Euclidean)</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="140" height="60" fill="white" rx="4"/>
+      <text x="70" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">DOF: 3</text>
+      <text x="70" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Rotation + Translation</text>
+      <text x="70" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">(θ, tx, ty)</text>
+    </g>
+
+    <g transform="translate(15, 115)">
+      <text x="70" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Preserves:</text>
+      <text x="70" y="28" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Distances</text>
+      <text x="70" y="42" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Angles</text>
+      <text x="70" y="56" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Areas</text>
+      <text x="70" y="70" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Shape</text>
+    </g>
+
+    <!-- Shape example -->
+    <g transform="translate(45, 200)">
+      <rect x="0" y="0" width="30" height="30" fill="#10b981" rx="2"/>
+      <text x="50" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+      <g transform="translate(70, 0) rotate(30, 15, 15)">
+        <rect x="0" y="0" width="30" height="30" fill="#10b981" rx="2"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Level 2: Similarity -->
+  <g transform="translate(245, 85)">
+    <rect x="0" y="0" width="170" height="280" fill="#3b82f6" opacity="0.15" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="85" y="25" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Similarity</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="140" height="60" fill="white" rx="4"/>
+      <text x="70" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">DOF: 4</text>
+      <text x="70" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Rigid + Uniform Scale</text>
+      <text x="70" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">(s, θ, tx, ty)</text>
+    </g>
+
+    <g transform="translate(15, 115)">
+      <text x="70" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Preserves:</text>
+      <text x="70" y="28" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Distances</text>
+      <text x="70" y="42" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Angles</text>
+      <text x="70" y="56" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Areas</text>
+      <text x="70" y="70" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Shape (ratios)</text>
+    </g>
+
+    <!-- Shape example -->
+    <g transform="translate(40, 200)">
+      <rect x="0" y="0" width="30" height="30" fill="#3b82f6" rx="2"/>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+      <rect x="65" y="-10" width="45" height="45" fill="#3b82f6" rx="2"/>
+    </g>
+  </g>
+
+  <!-- Level 3: Affine -->
+  <g transform="translate(425, 85)">
+    <rect x="0" y="0" width="170" height="280" fill="#f97316" opacity="0.15" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="85" y="25" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Affine</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="140" height="60" fill="white" rx="4"/>
+      <text x="70" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">DOF: 6</text>
+      <text x="70" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Similarity + Shear</text>
+      <text x="70" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">(a,b,c,d, tx, ty)</text>
+    </g>
+
+    <g transform="translate(15, 115)">
+      <text x="70" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Preserves:</text>
+      <text x="70" y="28" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Distances</text>
+      <text x="70" y="42" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Angles</text>
+      <text x="70" y="56" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Areas (ratios ok)</text>
+      <text x="70" y="70" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Parallel lines</text>
+    </g>
+
+    <!-- Shape example -->
+    <g transform="translate(40, 200)">
+      <rect x="0" y="0" width="30" height="30" fill="#f97316" rx="2"/>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+      <polygon points="65,25 110,15 95,45 60,50" fill="#f97316"/>
+    </g>
+  </g>
+
+  <!-- Level 4: Projective -->
+  <g transform="translate(605, 85)">
+    <rect x="0" y="0" width="170" height="280" fill="#7c3aed" opacity="0.15" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="85" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Projective</text>
+
+    <g transform="translate(15, 45)">
+      <rect x="0" y="0" width="140" height="60" fill="white" rx="4"/>
+      <text x="70" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">DOF: 8</text>
+      <text x="70" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Full homography</text>
+      <text x="70" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">(3×3 matrix, -1 scale)</text>
+    </g>
+
+    <g transform="translate(15, 115)">
+      <text x="70" y="12" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Preserves:</text>
+      <text x="70" y="28" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Parallel lines</text>
+      <text x="70" y="42" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✗ Ratios</text>
+      <text x="70" y="56" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Straight lines</text>
+      <text x="70" y="70" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">✓ Cross-ratio</text>
+    </g>
+
+    <!-- Shape example -->
+    <g transform="translate(35, 200)">
+      <rect x="0" y="0" width="30" height="30" fill="#7c3aed" rx="2"/>
+      <text x="45" y="20" fill="#333" font-family="Segoe UI, sans-serif" font-size="20">→</text>
+      <polygon points="65,30 105,20 100,50 55,55" fill="#7c3aed"/>
+    </g>
+  </g>
+
+  <!-- Arrows showing containment -->
+  <g transform="translate(0, 380)">
+    <text x="425" y="0" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">Rigid ⊂ Similarity ⊂ Affine ⊂ Projective (each includes all transformations of the previous)</text>
+  </g>
+</svg>

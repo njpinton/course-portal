@@ -1,0 +1,255 @@
+{
+  "course": {
+    "code": "CMSC 178IP",
+    "title": "Digital Image Processing",
+    "credits": 3,
+    "semester": "2nd Semester, AY 2024-2025",
+    "schedule": "TBA",
+    "room": "TBA",
+    "institution": "University of the Philippines Cebu",
+    "department": "Department of Computer Science"
+  },
+  "instructor": {
+    "name": "Noel Jeffrey Pinton",
+    "email": "njpinton@up.edu.ph",
+    "office": "Department of Computer Science",
+    "consultation": "By appointment"
+  },
+  "description": "This course covers the fundamental concepts and techniques in digital image processing and computer vision. Topics include image representation, enhancement, restoration, segmentation, feature extraction, and an introduction to deep learning for computer vision applications.",
+  "prerequisites": [
+    "CMSC 21 - Fundamentals of Programming",
+    "CMSC 123 - Data Structures",
+    "Math 23 - Linear Algebra (recommended)"
+  ],
+  "objectives": [
+    "Understand the mathematical foundations of digital image representation",
+    "Apply image enhancement and filtering techniques",
+    "Implement image restoration and geometric transformation algorithms",
+    "Extract features and perform image segmentation",
+    "Apply deep learning techniques to computer vision problems",
+    "Develop practical skills using Python, OpenCV, and deep learning frameworks"
+  ],
+  "modules": [
+    {
+      "number": 1,
+      "title": "Introduction to Digital Image Processing",
+      "weeks": "1",
+      "topics": [
+        "What is digital image processing?",
+        "Image representation as 2D arrays",
+        "Sampling and quantization",
+        "Image types: binary, grayscale, color",
+        "Color models: RGB, HSV",
+        "Memory requirements"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Storage and Compression",
+      "weeks": "2",
+      "topics": [
+        "Image file formats (JPEG, PNG, BMP, TIFF)",
+        "Lossless compression (Huffman, RLE, LZW)",
+        "Lossy compression (DCT, JPEG)",
+        "Quality vs file size trade-offs"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Image Processing Fundamentals",
+      "weeks": "3-4",
+      "topics": [
+        "Point operations and intensity transformations",
+        "Histogram processing and equalization",
+        "2D convolution and correlation",
+        "Padding strategies",
+        "Fourier Transform and frequency domain"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Image Enhancement and Filtering",
+      "weeks": "5",
+      "topics": [
+        "Noise models",
+        "Spatial domain filters (mean, median, Gaussian)",
+        "Frequency domain filters",
+        "Edge-preserving filters (bilateral)",
+        "Sharpening and unsharp masking"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Image Restoration",
+      "weeks": "6",
+      "topics": [
+        "Degradation models",
+        "Point spread function (PSF)",
+        "Inverse filtering",
+        "Wiener filtering",
+        "Richardson-Lucy deconvolution"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Geometric Transformations",
+      "weeks": "7",
+      "topics": [
+        "Translation, rotation, scaling",
+        "Affine transformations",
+        "Projective transformations (homography)",
+        "Interpolation methods",
+        "Image registration"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "Feature Extraction",
+      "weeks": "8-9",
+      "topics": [
+        "Edge detection (Sobel, Canny)",
+        "Corner detection (Harris)",
+        "Hough transform",
+        "Feature descriptors (SIFT, ORB)",
+        "Feature matching"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Segmentation and Morphology",
+      "weeks": "10",
+      "topics": [
+        "Thresholding (global, Otsu, adaptive)",
+        "Region-based segmentation",
+        "Watershed algorithm",
+        "Morphological operations",
+        "Connected component analysis"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Computer Vision & Deep Learning I",
+      "weeks": "11-12",
+      "topics": [
+        "Neural network fundamentals",
+        "Convolutional Neural Networks (CNNs)",
+        "CNN architectures",
+        "Training and optimization",
+        "Transfer learning"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Computer Vision & Deep Learning II",
+      "weeks": "13-14",
+      "topics": [
+        "Image classification",
+        "Object detection (YOLO, Faster R-CNN)",
+        "Semantic segmentation (U-Net)",
+        "Evaluation metrics (IoU, mAP)"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Generative Models",
+      "weeks": "15-16",
+      "topics": [
+        "Autoencoders",
+        "Variational Autoencoders (VAE)",
+        "Generative Adversarial Networks (GAN)",
+        "Image-to-image translation",
+        "Style transfer"
+      ]
+    }
+  ],
+  "grading": {
+    "components": [
+      {"name": "Machine Problems / Lab Exercises", "weight": 30},
+      {"name": "Quizzes", "weight": 20},
+      {"name": "Midterm Exam", "weight": 20},
+      {"name": "Final Project", "weight": 30}
+    ],
+    "scale": [
+      {"grade": "1.00", "range": "92-100", "description": "Excellent"},
+      {"grade": "1.25", "range": "88-91", "description": "Excellent"},
+      {"grade": "1.50", "range": "84-87", "description": "Very Good"},
+      {"grade": "1.75", "range": "80-83", "description": "Very Good"},
+      {"grade": "2.00", "range": "76-79", "description": "Good"},
+      {"grade": "2.25", "range": "72-75", "description": "Good"},
+      {"grade": "2.50", "range": "68-71", "description": "Satisfactory"},
+      {"grade": "2.75", "range": "64-67", "description": "Satisfactory"},
+      {"grade": "3.00", "range": "60-63", "description": "Passing"},
+      {"grade": "5.00", "range": "Below 60", "description": "Failing"}
+    ]
+  },
+  "resources": {
+    "textbooks": [
+      {
+        "title": "Digital Image Processing",
+        "authors": "Rafael C. Gonzalez, Richard E. Woods",
+        "edition": "4th Edition",
+        "publisher": "Pearson",
+        "year": 2018,
+        "required": true
+      },
+      {
+        "title": "Computer Vision: Algorithms and Applications",
+        "authors": "Richard Szeliski",
+        "edition": "2nd Edition",
+        "publisher": "Springer",
+        "year": 2022,
+        "required": false,
+        "note": "Free online at szeliski.org/Book"
+      }
+    ],
+    "software": [
+      "Python 3.10+",
+      "OpenCV",
+      "NumPy, SciPy, Matplotlib",
+      "PyTorch or TensorFlow",
+      "Jupyter Notebook"
+    ],
+    "online": [
+      {
+        "title": "OpenCV Documentation",
+        "url": "https://docs.opencv.org/"
+      },
+      {
+        "title": "PyTorch Tutorials",
+        "url": "https://pytorch.org/tutorials/"
+      },
+      {
+        "title": "Papers With Code - Computer Vision",
+        "url": "https://paperswithcode.com/area/computer-vision"
+      }
+    ]
+  },
+  "policies": {
+    "attendance": "Regular attendance is expected. More than 3 unexcused absences may result in a grade of 5.0.",
+    "academic_integrity": "All submitted work must be your own. Plagiarism and cheating will result in a failing grade and disciplinary action.",
+    "late_submissions": "Late submissions will be penalized 10% per day, up to a maximum of 3 days. After 3 days, submissions will not be accepted.",
+    "collaboration": "Discussion of concepts is encouraged, but code must be written individually unless explicitly stated as a group project."
+  },
+  "project": {
+    "title": "Digital Image Processing Research Project",
+    "description": "Students will work in groups of 3-4 to implement and evaluate a DIP/CV technique on a real-world problem.",
+    "stages": [
+      {"name": "Problem Definition", "week": 4, "weight": 10},
+      {"name": "Data Collection & Preprocessing", "week": 8, "weight": 15},
+      {"name": "Algorithm Implementation", "week": 12, "weight": 25},
+      {"name": "Evaluation & Analysis", "week": 14, "weight": 25},
+      {"name": "Final Presentation", "week": 16, "weight": 25}
+    ],
+    "suggested_topics": [
+      "Medical image analysis (X-ray, MRI, CT)",
+      "Document digitization and OCR",
+      "Face detection and recognition",
+      "Object tracking in video",
+      "Image super-resolution",
+      "Autonomous vehicle perception",
+      "Agricultural crop monitoring",
+      "Art style transfer",
+      "Image forensics and tampering detection"
+    ]
+  }
+}

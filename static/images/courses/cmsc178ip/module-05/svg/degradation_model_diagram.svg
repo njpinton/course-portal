@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 350" role="img" aria-label="Image degradation model showing g = h*f + n">
+  <title>Image Degradation Model</title>
+  <desc>Block diagram showing how an original image f is degraded by convolution with PSF h and addition of noise n to produce observed image g</desc>
+
+  <defs>
+    <linearGradient id="degradeBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1a3a6e"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="350" fill="url(#degradeBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="35" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Image Degradation Model</text>
+
+  <!-- Formula -->
+  <rect x="275" y="50" width="300" height="35" fill="white" rx="6" stroke="#1a3a6e" stroke-width="2"/>
+  <text x="425" y="75" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">g(x,y) = h(x,y) * f(x,y) + n(x,y)</text>
+
+  <!-- Block diagram -->
+  <g transform="translate(50, 120)">
+    <!-- Original Image f(x,y) -->
+    <rect x="0" y="50" width="100" height="80" fill="#10b981" rx="8" stroke="#059669" stroke-width="2"/>
+    <text x="50" y="85" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Original</text>
+    <text x="50" y="105" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">f(x,y)</text>
+
+    <!-- Arrow to PSF -->
+    <line x1="100" y1="90" x2="155" y2="90" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Convolution with PSF h(x,y) -->
+    <rect x="160" y="50" width="100" height="80" fill="#3b82f6" rx="8" stroke="#2563eb" stroke-width="2"/>
+    <text x="210" y="80" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Blur PSF</text>
+    <text x="210" y="100" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">h(x,y)</text>
+    <text x="210" y="120" fill="white" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">convolution *</text>
+
+    <!-- Arrow to addition -->
+    <line x1="260" y1="90" x2="315" y2="90" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Addition node -->
+    <circle cx="350" cy="90" r="30" fill="white" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="350" y="97" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="24" font-weight="600" text-anchor="middle">+</text>
+
+    <!-- Noise input from above -->
+    <rect x="300" y="0" width="100" height="50" fill="#f97316" rx="8" stroke="#ea580c" stroke-width="2"/>
+    <text x="350" y="30" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Noise n(x,y)</text>
+    <line x1="350" y1="50" x2="350" y2="55" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Arrow to output -->
+    <line x1="380" y1="90" x2="435" y2="90" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Degraded Image g(x,y) -->
+    <rect x="440" y="50" width="100" height="80" fill="#ef4444" rx="8" stroke="#dc2626" stroke-width="2"/>
+    <text x="490" y="85" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Degraded</text>
+    <text x="490" y="105" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">g(x,y)</text>
+
+    <!-- Restoration arrow -->
+    <line x1="540" y1="90" x2="595" y2="90" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Restoration process -->
+    <rect x="600" y="50" width="120" height="80" fill="#7c3aed" rx="8" stroke="#6d28d9" stroke-width="2"/>
+    <text x="660" y="80" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Restoration</text>
+    <text x="660" y="100" fill="white" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">estimate f̂(x,y)</text>
+    <text x="660" y="118" fill="white" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">from g(x,y)</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(50, 280)">
+    <rect x="0" y="0" width="750" height="55" fill="white" rx="6" stroke="#e5e7eb"/>
+    <text x="20" y="25" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600">Key:</text>
+    <rect x="60" y="12" width="20" height="20" fill="#10b981" rx="3"/>
+    <text x="85" y="27" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Original (unknown)</text>
+    <rect x="195" y="12" width="20" height="20" fill="#3b82f6" rx="3"/>
+    <text x="220" y="27" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">PSF (may be known)</text>
+    <rect x="345" y="12" width="20" height="20" fill="#f97316" rx="3"/>
+    <text x="370" y="27" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Noise (random)</text>
+    <rect x="475" y="12" width="20" height="20" fill="#ef4444" rx="3"/>
+    <text x="500" y="27" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Observed</text>
+    <rect x="580" y="12" width="20" height="20" fill="#7c3aed" rx="3"/>
+    <text x="605" y="27" fill="#666" font-family="Segoe UI, sans-serif" font-size="11">Restoration (goal)</text>
+    <text x="375" y="48" fill="#666" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">The goal of image restoration is to recover f(x,y) from the observed g(x,y), given some knowledge of h and n</text>
+  </g>
+</svg>

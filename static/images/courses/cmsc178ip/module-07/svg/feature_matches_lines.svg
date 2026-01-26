@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Feature match visualization showing correspondences between two images">
+  <title>Feature Matches Visualization</title>
+  <desc>Visualization of feature correspondences between two images with match lines and keypoint indicators</desc>
+
+  <defs>
+    <linearGradient id="matchVisBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#matchVisBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Feature Matches Visualization</text>
+
+  <!-- Main visualization area -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="790" height="220" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+
+    <!-- Left image (Query) -->
+    <g transform="translate(20, 20)">
+      <rect x="0" y="0" width="350" height="180" fill="#1a1a2e" rx="6"/>
+      <text x="175" y="-8" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Query Image</text>
+
+      <!-- Simulated building/scene -->
+      <rect x="50" y="60" width="100" height="80" fill="#374151" rx="2"/>
+      <rect x="180" y="40" width="120" height="120" fill="#4b5563" rx="2"/>
+      <rect x="60" y="70" width="20" height="25" fill="#60a5fa"/>
+      <rect x="95" y="70" width="20" height="25" fill="#60a5fa"/>
+      <rect x="200" y="55" width="25" height="30" fill="#60a5fa"/>
+      <rect x="250" y="55" width="25" height="30" fill="#60a5fa"/>
+      <rect x="200" y="100" width="25" height="30" fill="#60a5fa"/>
+      <rect x="250" y="100" width="25" height="30" fill="#60a5fa"/>
+
+      <!-- Keypoints with circles -->
+      <g fill="none" stroke-width="2">
+        <circle cx="70" cy="82" r="8" stroke="#10b981"/>
+        <circle cx="105" cy="82" r="8" stroke="#10b981"/>
+        <circle cx="50" cy="60" r="8" stroke="#10b981"/>
+        <circle cx="150" cy="140" r="8" stroke="#10b981"/>
+        <circle cx="212" cy="70" r="8" stroke="#10b981"/>
+        <circle cx="262" cy="70" r="8" stroke="#10b981"/>
+        <circle cx="212" cy="115" r="8" stroke="#10b981"/>
+        <circle cx="262" cy="115" r="8" stroke="#10b981"/>
+        <circle cx="180" cy="40" r="8" stroke="#10b981"/>
+        <circle cx="300" cy="40" r="8" stroke="#10b981"/>
+      </g>
+      <!-- Keypoint centers -->
+      <g fill="#10b981">
+        <circle cx="70" cy="82" r="3"/>
+        <circle cx="105" cy="82" r="3"/>
+        <circle cx="50" cy="60" r="3"/>
+        <circle cx="150" cy="140" r="3"/>
+        <circle cx="212" cy="70" r="3"/>
+        <circle cx="262" cy="70" r="3"/>
+        <circle cx="212" cy="115" r="3"/>
+        <circle cx="262" cy="115" r="3"/>
+        <circle cx="180" cy="40" r="3"/>
+        <circle cx="300" cy="40" r="3"/>
+      </g>
+    </g>
+
+    <!-- Right image (Train) -->
+    <g transform="translate(420, 20)">
+      <rect x="0" y="0" width="350" height="180" fill="#1a1a2e" rx="6"/>
+      <text x="175" y="-8" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Train Image (Rotated + Scaled)</text>
+
+      <!-- Same scene but transformed -->
+      <g transform="rotate(-10, 175, 90) scale(0.9) translate(30, 15)">
+        <rect x="50" y="60" width="100" height="80" fill="#374151" rx="2"/>
+        <rect x="180" y="40" width="120" height="120" fill="#4b5563" rx="2"/>
+        <rect x="60" y="70" width="20" height="25" fill="#60a5fa"/>
+        <rect x="95" y="70" width="20" height="25" fill="#60a5fa"/>
+        <rect x="200" y="55" width="25" height="30" fill="#60a5fa"/>
+        <rect x="250" y="55" width="25" height="30" fill="#60a5fa"/>
+        <rect x="200" y="100" width="25" height="30" fill="#60a5fa"/>
+        <rect x="250" y="100" width="25" height="30" fill="#60a5fa"/>
+      </g>
+
+      <!-- Keypoints (matched positions) -->
+      <g fill="none" stroke-width="2">
+        <circle cx="75" cy="90" r="8" stroke="#f97316"/>
+        <circle cx="108" cy="88" r="8" stroke="#f97316"/>
+        <circle cx="58" cy="70" r="8" stroke="#f97316"/>
+        <circle cx="145" cy="145" r="8" stroke="#f97316"/>
+        <circle cx="200" cy="78" r="8" stroke="#f97316"/>
+        <circle cx="248" cy="75" r="8" stroke="#f97316"/>
+        <circle cx="198" cy="120" r="8" stroke="#f97316"/>
+        <circle cx="246" cy="118" r="8" stroke="#f97316"/>
+        <circle cx="175" cy="52" r="8" stroke="#f97316"/>
+        <circle cx="285" cy="48" r="8" stroke="#f97316"/>
+      </g>
+      <g fill="#f97316">
+        <circle cx="75" cy="90" r="3"/>
+        <circle cx="108" cy="88" r="3"/>
+        <circle cx="58" cy="70" r="3"/>
+        <circle cx="145" cy="145" r="3"/>
+        <circle cx="200" cy="78" r="3"/>
+        <circle cx="248" cy="75" r="3"/>
+        <circle cx="198" cy="120" r="3"/>
+        <circle cx="246" cy="118" r="3"/>
+        <circle cx="175" cy="52" r="3"/>
+        <circle cx="285" cy="48" r="3"/>
+      </g>
+    </g>
+
+    <!-- Match lines connecting keypoints -->
+    <g stroke="#10b981" stroke-width="1.5" opacity="0.7">
+      <line x1="90" y1="102" x2="495" y2="110"/>
+      <line x1="125" y1="102" x2="528" y2="108"/>
+      <line x1="70" y1="80" x2="478" y2="90"/>
+      <line x1="170" y1="160" x2="565" y2="165"/>
+      <line x1="232" y1="90" x2="620" y2="98"/>
+      <line x1="282" y1="90" x2="668" y2="95"/>
+      <line x1="232" y1="135" x2="618" y2="140"/>
+      <line x1="282" y1="135" x2="666" y2="138"/>
+      <line x1="200" y1="60" x2="595" y2="72"/>
+      <line x1="320" y1="60" x2="705" y2="68"/>
+    </g>
+  </g>
+
+  <!-- Match quality indicators -->
+  <g transform="translate(30, 295)">
+    <rect x="0" y="0" width="260" height="85" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="130" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Match Quality</text>
+
+    <g transform="translate(15, 35)">
+      <g transform="translate(0, 0)">
+        <line x1="0" y1="5" x2="30" y2="5" stroke="#10b981" stroke-width="3"/>
+        <text x="40" y="10" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Good match (ratio &lt; 0.75)</text>
+      </g>
+      <g transform="translate(0, 22)">
+        <line x1="0" y1="5" x2="30" y2="5" stroke="#fbbf24" stroke-width="3"/>
+        <text x="40" y="10" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Tentative (0.75 &lt; ratio &lt; 0.85)</text>
+      </g>
+      <g transform="translate(0, 44)">
+        <line x1="0" y1="5" x2="30" y2="5" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,3"/>
+        <text x="40" y="10" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Rejected (ratio &gt; 0.85)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Visualization code -->
+  <g transform="translate(305, 295)">
+    <rect x="0" y="0" width="260" height="85" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="130" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">OpenCV Drawing</text>
+
+    <g transform="translate(10, 35)">
+      <rect x="0" y="0" width="240" height="42" fill="#1e293b" rx="4"/>
+      <text x="10" y="15" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">result = cv2.drawMatches(</text>
+      <text x="20" y="28" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">img1, kp1, img2, kp2, matches,</text>
+      <text x="20" y="38" fill="#a78bfa" font-family="Consolas, monospace" font-size="8">None, flags=cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS)</text>
+    </g>
+  </g>
+
+  <!-- Statistics -->
+  <g transform="translate(580, 295)">
+    <rect x="0" y="0" width="240" height="85" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="120" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Match Statistics</text>
+
+    <g transform="translate(15, 38)">
+      <g font-family="Segoe UI, sans-serif" font-size="10">
+        <text x="0" y="0" fill="#333">Total keypoints (Query):</text>
+        <text x="150" y="0" fill="#10b981" font-weight="600">523</text>
+        <text x="0" y="18" fill="#333">Total keypoints (Train):</text>
+        <text x="150" y="18" fill="#f97316" font-weight="600">487</text>
+        <text x="0" y="36" fill="#333">Good matches:</text>
+        <text x="150" y="36" fill="#3b82f6" font-weight="600">156 (32%)</text>
+      </g>
+    </g>
+  </g>
+</svg>

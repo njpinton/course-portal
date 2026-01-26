@@ -1,0 +1,202 @@
+{
+  "module": {
+    "id": "05",
+    "title": "Image Restoration",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "55 minutes",
+    "prerequisites": ["Module 04: Image Enhancement and Filtering"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Image Restoration",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 05</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Understand the image degradation model</li><li>Characterize point spread functions (PSF)</li><li>Apply inverse and Wiener filtering</li><li>Implement iterative restoration methods</li><li>Evaluate restoration quality using metrics</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Degradation Model",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Understanding how images become degraded</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "Image Degradation Model",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/degradation_model_diagram.png\" alt=\"Degradation Model\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$g(x,y) = h(x,y) * f(x,y) + n(x,y)$$</p><p><strong>g</strong> = degraded image, <strong>h</strong> = PSF, <strong>f</strong> = original, <strong>n</strong> = noise</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Noise Models",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/noise_models.png\" alt=\"Noise Models\" style=\"max-height: 65vh;\"><p class=\"caption\">Common noise distributions: Gaussian, Poisson, salt & pepper</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 6,
+      "title": "Point Spread Function (PSF)",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/psf_examples.png\" alt=\"PSF Examples\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>PSF:</strong> The impulse response of the imaging system - how a point source is blurred.</p><ul><li><strong>Motion blur:</strong> Linear PSF in direction of motion</li><li><strong>Out-of-focus:</strong> Circular (pillbox) PSF</li><li><strong>Atmospheric:</strong> Gaussian-like PSF</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is knowing the PSF important for image restoration?",
+        "answer": "The PSF describes exactly how the image was blurred. Restoration algorithms use this knowledge to reverse (deconvolve) the blurring process."
+      }
+    },
+    {
+      "id": 7,
+      "title": "Restoration Methods",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Recovering the original image</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 8,
+      "title": "Spatial Filtering for Restoration",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/spatial_filtering.png\" alt=\"Spatial Filtering\" style=\"max-height: 65vh;\"><p class=\"caption\">Simple spatial filters can reduce some types of degradation</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Frequency Domain Restoration",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/frequency_domain_restoration.png\" alt=\"Frequency Domain\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Inverse Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{G(u,v)}{H(u,v)}$$</p><p class=\"warning\">Problem: Amplifies noise where H(u,v) is small!</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 10,
+      "title": "Wiener Filter",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/wiener_filter_analysis.png\" alt=\"Wiener Filter\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Wiener Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{H^*(u,v)}{|H(u,v)|^2 + \\frac{S_n}{S_f}} \\cdot G(u,v)$$</p><p>Balances deconvolution against noise amplification</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What advantage does the Wiener filter have over simple inverse filtering?",
+        "answer": "It incorporates noise statistics to avoid amplifying noise in frequency regions where the signal-to-noise ratio is low."
+      }
+    },
+    {
+      "id": 11,
+      "title": "Motion Blur Restoration",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/motion_blur_restoration.png\" alt=\"Motion Blur Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring images degraded by camera or object motion</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Iterative Methods",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Richardson-Lucy and other iterative approaches</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 13,
+      "title": "Richardson-Lucy Algorithm",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/richardson_lucy_iterations.png\" alt=\"Richardson-Lucy\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Richardson-Lucy:</strong> Iterative ML estimation for Poisson noise.</p><p class=\"math-block\">$$f^{(k+1)} = f^{(k)} \\cdot \\left( h(-x,-y) * \\frac{g}{h * f^{(k)}} \\right)$$</p><p>Converges to maximum likelihood solution; good for astronomical images.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Restoration Comparison",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/restoration_comparison.png\" alt=\"Restoration Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparing different restoration methods on the same degraded image</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 15,
+      "title": "Quality Metrics",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/quality_metrics.png\" alt=\"Quality Metrics\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>PSNR</strong><p class=\"math-block\">$$PSNR = 10\\log_{10}\\frac{MAX^2}{MSE}$$</p></div><div><strong>SSIM</strong><p>Structural similarity considering luminance, contrast, structure</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Applications",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Real-world restoration applications</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 17,
+      "title": "Medical Image Restoration",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/medical_image_restoration.png\" alt=\"Medical Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Enhancing CT, MRI, and X-ray images for better diagnosis</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 18,
+      "title": "Document Processing",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/document_processing.png\" alt=\"Document Processing\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring degraded historical documents and improving OCR accuracy</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Image Inpainting",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/image_inpainting.png\" alt=\"Inpainting\" style=\"max-height: 65vh;\"><div class=\"key-point\"><strong>Inpainting:</strong> Filling in missing or damaged regions using surrounding information.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 21,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Degradation model:</strong> g = h*f + n (blur + noise)</li><li><strong>PSF:</strong> Characterizes the blur - motion, defocus, atmospheric</li><li><strong>Inverse filter:</strong> Simple but amplifies noise</li><li><strong>Wiener filter:</strong> Optimal linear filter balancing deconvolution and noise</li><li><strong>Richardson-Lucy:</strong> Iterative method for Poisson noise</li><li><strong>Quality metrics:</strong> PSNR and SSIM for objective evaluation</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 06 - Geometric Transformations</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}

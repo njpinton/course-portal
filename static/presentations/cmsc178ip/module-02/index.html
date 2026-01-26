@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178IP - Image Types, Storage Formats, Coding & Compression</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178ip" class="home-button" aria-label="Return to course page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Course
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                </svg>
+                <span>CMSC 178IP</span>
+            </div>
+            <h1>Storage and Compression</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">45</span>
+            </div>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background-color="#1a3a6e">
+                <h1 style="color: white; font-size: 2.2em;">Image Types, Storage Formats,<br>Coding & Compression</h1>
+                <h3 style="color: #7eb8da;">CMSC 178IP - Module 02</h3>
+                <p style="color: #ccc; margin-top: 2em;">
+                    <strong>Noel Jeffrey Pinton</strong><br>
+                    Department of Computer Science<br>
+                    University of the Philippines Cebu
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section data-background-color="#f8f9fa">
+                <h2>Learning Objectives</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Core Concepts</h4>
+                            <ul>
+                                <li><strong>Image Types:</strong> Binary, grayscale, color, indexed</li>
+                                <li><strong>Bit Depth:</strong> 1-bit, 8-bit, 16-bit, 24-bit</li>
+                                <li><strong>Color Models:</strong> RGB, CMYK, HSV</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Storage & Compression</h4>
+                            <ul>
+                                <li><strong>Formats:</strong> BMP, JPEG, PNG, GIF, TIFF</li>
+                                <li><strong>Compression:</strong> Lossless vs. lossy</li>
+                                <li><strong>Algorithms:</strong> Huffman, LZW, DCT</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Course Context -->
+            <section>
+                <h2>Course Context - Where We Are</h2>
+                <div class="definition-box">
+                    <p><strong>Digital Image Processing Pipeline</strong></p>
+                </div>
+                <table style="width: 100%; font-size: 0.8em; text-align: center;">
+                    <tr>
+                        <td>Raw Image Capture</td>
+                        <td style="background-color: #1a3a6e; color: white; font-weight: bold;">Image Types & Storage</td>
+                        <td>Enhancement</td>
+                        <td>Analysis</td>
+                        <td>Applications</td>
+                    </tr>
+                    <tr>
+                        <td><small>Sensors, CCD/CMOS</small></td>
+                        <td style="background-color: #1a3a6e; color: white;"><small>Formats, Compression</small></td>
+                        <td><small>Filtering, Correction</small></td>
+                        <td><small>Feature Detection</small></td>
+                        <td><small>Recognition, AI</small></td>
+                    </tr>
+                </table>
+                <br>
+                <ul>
+                    <li>How are different image types represented in memory?</li>
+                    <li>What are the advantages/disadvantages of each storage format?</li>
+                    <li>How do compression algorithms reduce file sizes?</li>
+                    <li>When should we use lossless vs. lossy compression?</li>
+                </ul>
+            </section>
+
+            <!-- Section: Image Types -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Image Types</h1>
+                    <p style="color: #7eb8da;">Understanding digital image representations</p>
+                </section>
+
+                <!-- Digital Image Definition -->
+                <section>
+                    <h2>What is a Digital Image?</h2>
+                    <div class="definition-box">
+                        <p>A digital image is a <strong>2D array of pixels</strong>, where each pixel contains discrete intensity values representing color or brightness at specific spatial locations.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Mathematical Foundation:</strong></p>
+                            <ul>
+                                <li>Image function: \( f(x, y) \)</li>
+                                <li>Intensity levels: \( L = 2^k \)</li>
+                                <li>Pixel values: \( 0 \leq f(x,y) \leq L-1 \)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>File Size Formula:</strong></p>
+                            <p class="math-display">
+                                \( \text{Size} = M \times N \times \frac{\text{bits}}{8} \)
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Image Types Comparison -->
+                <section>
+                    <h2>Four Main Image Categories</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/image_types_comparison.png" alt="Image Types Comparison" style="max-height: 65vh;">
+                </section>
+
+                <!-- Binary Images -->
+                <section>
+                    <h2>Binary Images (1-bit)</h2>
+                    <div class="two-columns">
+                        <div>
+                            <div class="definition-box">
+                                <p>Only <strong>two intensity values</strong>: 0 (black) and 1 (white). Each pixel requires 1 bit.</p>
+                            </div>
+                            <ul>
+                                <li>Pixel values: \( f(x,y) \in \{0, 1\} \)</li>
+                                <li>Storage: \( \frac{M \times N}{8} \) bytes</li>
+                                <li>8:1 memory efficiency vs grayscale</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Applications:</strong></p>
+                            <ul>
+                                <li>OCR systems</li>
+                                <li>Barcode reading</li>
+                                <li>Medical bone analysis</li>
+                                <li>Industrial inspection</li>
+                            </ul>
+                            <p><strong>Creation:</strong> Thresholding, dithering, edge detection</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grayscale Images -->
+                <section>
+                    <h2>Grayscale Images (8-16 bit)</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/bit_depth_comparison.png" alt="Bit Depth Comparison" style="max-height: 50vh;">
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li><strong>8-bit:</strong> 0-255 (standard)</li>
+                                <li><strong>12-bit:</strong> 0-4095 (cameras)</li>
+                                <li><strong>16-bit:</strong> 0-65535 (scientific)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>RGB Conversion:</strong></p>
+                            <p class="math-display" style="font-size: 0.9em;">
+                                \( Y = 0.299R + 0.587G + 0.114B \)
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Color Images -->
+                <section>
+                    <h2>Color Images - RGB Model</h2>
+                    <div class="two-columns">
+                        <div>
+                            <div class="definition-box">
+                                <p>RGB uses <strong>additive color mixing</strong> with 8 bits per channel = 24-bit color.</p>
+                            </div>
+                            <ul>
+                                <li>Each channel: 0-255</li>
+                                <li>Total colors: \( 256^3 = 16,777,216 \)</li>
+                                <li>Storage: \( 3 \times M \times N \) bytes</li>
+                            </ul>
+                            <p><strong>Extended Formats:</strong></p>
+                            <ul>
+                                <li>RGB565: Mobile (16-bit)</li>
+                                <li>ARGB8888: 32-bit with alpha</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img src="/static/images/courses/cmsc178/module-02/color_spaces_demo.png" alt="Color Spaces" style="max-height: 45vh;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Alternative Color Models -->
+                <section>
+                    <h2>Alternative Color Models</h2>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>CMYK (Subtractive):</strong></p>
+                            <ul>
+                                <li>Cyan, Magenta, Yellow, Black</li>
+                                <li>Used for printing</li>
+                            </ul>
+                            <p><strong>HSV (Perceptual):</strong></p>
+                            <ul>
+                                <li>Hue: 0-360deg</li>
+                                <li>Saturation: 0-100%</li>
+                                <li>Value: 0-100%</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="highlight-box">
+                                <p><strong>Model Selection:</strong></p>
+                                <ul>
+                                    <li><strong>Display:</strong> RGB</li>
+                                    <li><strong>Print:</strong> CMYK</li>
+                                    <li><strong>Perception:</strong> HSV</li>
+                                    <li><strong>Compression:</strong> YUV</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Indexed Color -->
+                <section>
+                    <h2>Indexed Color & Palette Systems</h2>
+                    <div class="definition-box">
+                        <p>Uses a <strong>Color Lookup Table (CLUT)</strong> with up to 256 colors. Each pixel stores an index to the palette.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <ul>
+                                <li>Pixel values: 0-255 (indices)</li>
+                                <li>Storage: \( M \times N + 768 \) bytes</li>
+                                <li>Algorithms: Median Cut, Octree, K-means</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Applications:</strong> GIF, retro games, scientific visualization</p>
+                            <p><strong>Trade-off:</strong> Reduced size vs limited colors</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Section: Storage Formats -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Storage Formats</h1>
+                    <p style="color: #7eb8da;">BMP, JPEG, PNG, GIF, TIFF</p>
+                </section>
+
+                <!-- Formats Overview -->
+                <section>
+                    <h2>Image Storage Formats - Overview</h2>
+                    <div class="definition-box">
+                        <p>Formats define how pixel data is organized, encoded, and stored. They determine <strong>compression</strong>, <strong>metadata</strong>, and <strong>compatibility</strong>.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Classification:</strong></p>
+                            <ul>
+                                <li>Raster vs Vector</li>
+                                <li>Compressed vs Uncompressed</li>
+                                <li>Lossless vs Lossy</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Categories:</strong></p>
+                            <ul>
+                                <li><strong>Uncompressed:</strong> BMP, PPM</li>
+                                <li><strong>Lossless:</strong> PNG, GIF, TIFF</li>
+                                <li><strong>Lossy:</strong> JPEG, WebP</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- File Size Comparison -->
+                <section>
+                    <h2>Storage Formats - File Size Comparison</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/storage_formats_comparison.png" alt="Storage Formats Comparison" style="max-height: 65vh;">
+                </section>
+
+                <!-- BMP Format -->
+                <section>
+                    <h2>BMP Format - Windows Bitmap</h2>
+                    <div class="two-columns">
+                        <div>
+                            <div class="definition-box">
+                                <p>Microsoft's native raster format with <strong>uncompressed pixel data</strong>.</p>
+                            </div>
+                            <p><strong>File Structure:</strong></p>
+                            <ul>
+                                <li>File Header: 14 bytes</li>
+                                <li>Info Header: 40+ bytes</li>
+                                <li>Color Palette (optional)</li>
+                                <li>Pixel Data: bottom-to-top</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Advantages:</strong></p>
+                            <ul>
+                                <li>Simple structure</li>
+                                <li>No compression artifacts</li>
+                                <li>Fast loading</li>
+                            </ul>
+                            <p><strong>Disadvantages:</strong></p>
+                            <ul>
+                                <li>Very large file sizes</li>
+                                <li>No transparency</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- JPEG Format -->
+                <section>
+                    <h2>JPEG Format - Lossy Compression</h2>
+                    <div class="definition-box">
+                        <p>Uses <strong>DCT-based lossy compression</strong> optimized for photographs with smooth color transitions.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Compression Pipeline:</strong></p>
+                            <ol>
+                                <li>RGB to YCbCr conversion</li>
+                                <li>Chrominance subsampling</li>
+                                <li>8x8 DCT transform</li>
+                                <li>Quantization</li>
+                                <li>Huffman coding</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <p><strong>Quality Control:</strong></p>
+                            <ul>
+                                <li>Quality: 1-100 scale</li>
+                                <li>Ratio: 10:1 to 50:1</li>
+                                <li>Artifacts: Blocking, ringing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- JPEG Quality Demo -->
+                <section>
+                    <h2>JPEG Quality Comparison</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/jpeg_compression_quality.png" alt="JPEG Quality" style="max-height: 65vh;">
+                </section>
+
+                <!-- JPEG Artifacts -->
+                <section>
+                    <h2>JPEG Compression Artifacts</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/compression_artifacts.png" alt="Compression Artifacts" style="max-height: 55vh;">
+                    <ul style="font-size: 0.8em;">
+                        <li><strong>Blocking:</strong> 8x8 DCT block boundaries visible</li>
+                        <li><strong>Ringing:</strong> Oscillations near sharp edges</li>
+                        <li><strong>Color Bleeding:</strong> Chrominance subsampling effects</li>
+                    </ul>
+                </section>
+
+                <!-- JPEG Procedure -->
+                <section>
+                    <h2>JPEG Compression Procedure</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/jpeg_procedure_steps.png" alt="JPEG Procedure" style="max-height: 70vh;">
+                </section>
+
+                <!-- PNG Format -->
+                <section>
+                    <h2>PNG Format - Lossless Compression</h2>
+                    <div class="definition-box">
+                        <p><strong>Lossless compression</strong> with transparency and gamma correction. Designed as GIF replacement.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Specifications:</strong></p>
+                            <ul>
+                                <li>Color: Grayscale, RGB, Palette, Alpha</li>
+                                <li>Bit Depths: 1, 2, 4, 8, 16 bits</li>
+                                <li>Compression: DEFLATE (LZ77 + Huffman)</li>
+                                <li>Interlacing: Adam7 progressive</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Advantages:</strong></p>
+                            <ul>
+                                <li>Lossless compression</li>
+                                <li>Full alpha transparency</li>
+                                <li>Error detection (CRC)</li>
+                            </ul>
+                            <p><strong>Disadvantages:</strong></p>
+                            <ul>
+                                <li>Larger than JPEG for photos</li>
+                                <li>No animation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PNG Procedure -->
+                <section>
+                    <h2>PNG Compression Procedure</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/png_procedure_steps.png" alt="PNG Procedure" style="max-height: 70vh;">
+                </section>
+
+                <!-- GIF & TIFF -->
+                <section>
+                    <h2>GIF & TIFF Formats</h2>
+                    <div class="two-columns">
+                        <div>
+                            <div class="highlight-box">
+                                <h4>GIF - Graphics Interchange Format</h4>
+                                <ul>
+                                    <li>256 colors per frame</li>
+                                    <li>LZW compression</li>
+                                    <li>Animation support</li>
+                                    <li>1-bit transparency</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="highlight-box">
+                                <h4>TIFF - Tagged Image File Format</h4>
+                                <ul>
+                                    <li>Multiple compression options</li>
+                                    <li>1-bit to 32-bit per channel</li>
+                                    <li>Extensive metadata</li>
+                                    <li>Multi-page support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p><strong>Use cases:</strong> GIF for animations/logos; TIFF for professional/medical imaging</p>
+                </section>
+            </section>
+
+            <!-- Section: Compression -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Compression</h1>
+                    <p style="color: #7eb8da;">Fundamentals & Techniques</p>
+                </section>
+
+                <!-- Compression Fundamentals -->
+                <section>
+                    <h2>Compression Fundamentals</h2>
+                    <div class="definition-box">
+                        <p>Compression reduces file sizes by <strong>eliminating redundancy</strong> and exploiting <strong>perceptual limitations</strong> of human vision.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Types of Redundancy:</strong></p>
+                            <ul>
+                                <li><strong>Spatial:</strong> Neighboring pixels similar</li>
+                                <li><strong>Spectral:</strong> Color channels correlated</li>
+                                <li><strong>Temporal:</strong> Video frame similarities</li>
+                                <li><strong>Psychovisual:</strong> Human eye limitations</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Performance Metrics:</strong></p>
+                            <ul>
+                                <li><strong>Compression Ratio:</strong> Original / Compressed</li>
+                                <li><strong>Bit Rate:</strong> Bits per pixel (bpp)</li>
+                                <li><strong>PSNR:</strong> Peak Signal-to-Noise Ratio</li>
+                                <li><strong>SSIM:</strong> Structural Similarity</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lossless Compression -->
+                <section>
+                    <h2>Lossless Compression</h2>
+                    <div class="definition-box">
+                        <p>Achieves <strong>perfect reconstruction</strong> by exploiting statistical redundancy without discarding information.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Huffman Coding:</strong></p>
+                            <ul>
+                                <li>Variable-length codes</li>
+                                <li>Frequency-based assignment</li>
+                                <li>Used in JPEG, PNG</li>
+                            </ul>
+                            <p><strong>LZW:</strong></p>
+                            <ul>
+                                <li>Dictionary-based patterns</li>
+                                <li>Used in GIF, TIFF</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>RLE (Run-Length Encoding):</strong></p>
+                            <ul>
+                                <li>Replace repeated values</li>
+                                <li>Example: AAABBBBCC &rarr; 3A4B2C</li>
+                                <li>Great for binary images</li>
+                            </ul>
+                            <p><strong>DEFLATE:</strong></p>
+                            <ul>
+                                <li>LZ77 + Huffman</li>
+                                <li>Used in PNG</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Huffman Demo -->
+                <section>
+                    <h2>Huffman Encoding</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/huffman_encoding_demo.png" alt="Huffman Encoding" style="max-height: 60vh;">
+                    <ul style="font-size: 0.8em;">
+                        <li><strong>Optimal:</strong> Minimizes average code length</li>
+                        <li><strong>Variable Length:</strong> Frequent symbols get shorter codes</li>
+                        <li><strong>Prefix-Free:</strong> No code is prefix of another</li>
+                    </ul>
+                </section>
+
+                <!-- Huffman Procedure -->
+                <section>
+                    <h2>Huffman Encoding Procedure</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/huffman_procedure_steps.png" alt="Huffman Procedure" style="max-height: 70vh;">
+                </section>
+
+                <!-- RLE Demo -->
+                <section>
+                    <h2>Run-Length Encoding (RLE)</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/rle_encoding_demo.png" alt="RLE Demo" style="max-height: 60vh;">
+                    <ul style="font-size: 0.8em;">
+                        <li><strong>Binary Images:</strong> Excellent compression for text, line art</li>
+                        <li><strong>Simple Graphics:</strong> Images with large uniform areas</li>
+                        <li><strong>Fax Machines:</strong> Standard for document transmission</li>
+                    </ul>
+                </section>
+
+                <!-- Lossy Compression -->
+                <section>
+                    <h2>Lossy Compression</h2>
+                    <div class="definition-box">
+                        <p>Achieves <strong>high compression ratios</strong> by permanently removing information with minimal perceptual impact.</p>
+                    </div>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Transform-Based (DCT):</strong></p>
+                            <ul>
+                                <li>JPEG standard</li>
+                                <li>Spatial to frequency domain</li>
+                                <li>8x8 block processing</li>
+                                <li>Quantize high frequencies</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Wavelet-Based:</strong></p>
+                            <ul>
+                                <li>JPEG 2000</li>
+                                <li>Multi-resolution analysis</li>
+                                <li>Less blocking artifacts</li>
+                                <li>Medical, satellite imagery</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- DCT Demo -->
+                <section>
+                    <h2>DCT - JPEG Foundation</h2>
+                    <img src="/static/images/courses/cmsc178/module-02/dct_demonstration.png" alt="DCT Demo" style="max-height: 55vh;">
+                    <ul style="font-size: 0.8em;">
+                        <li><strong>Spatial &rarr; Frequency:</strong> Transform 8x8 blocks</li>
+                        <li><strong>Energy Compaction:</strong> Most energy in low frequencies (top-left)</li>
+                        <li><strong>Quantization:</strong> Remove high-frequency details</li>
+                    </ul>
+                </section>
+
+                <!-- Advanced Compression -->
+                <section>
+                    <h2>Advanced Compression Standards</h2>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Next-Generation Formats:</strong></p>
+                            <ul>
+                                <li><strong>WebP:</strong> Google's VP8-based</li>
+                                <li><strong>HEIF:</strong> H.265-based</li>
+                                <li><strong>AVIF:</strong> AV1-based open standard</li>
+                                <li><strong>JPEG XL:</strong> Latest JPEG standard</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Performance Comparison:</strong></p>
+                            <ul>
+                                <li>Compression: AVIF > HEIF > WebP > JPEG</li>
+                                <li>Encode Speed: JPEG > WebP > HEIF</li>
+                                <li>Browser Support: JPEG > WebP > AVIF</li>
+                            </ul>
+                            <p><strong>Future:</strong> AI-based compression, perceptual metrics</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Section: Real-World Applications -->
+            <section>
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Real-World Applications</h1>
+                    <p style="color: #7eb8da;">Industry Case Studies</p>
+                </section>
+
+                <!-- Applications -->
+                <section>
+                    <h2>Industry Applications</h2>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Medical Imaging:</strong></p>
+                            <ul>
+                                <li>DICOM: JPEG-LS, JPEG 2000 lossless</li>
+                                <li>No diagnostic information loss</li>
+                                <li>16-bit CT scans, 12-bit X-rays</li>
+                            </ul>
+                            <p><strong>Social Media:</strong></p>
+                            <ul>
+                                <li>Facebook: WebP, HEIF</li>
+                                <li>Instagram: Aggressive JPEG + AI</li>
+                                <li>Billions of images daily</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>E-commerce:</strong></p>
+                            <ul>
+                                <li>Multi-format delivery</li>
+                                <li>Progressive loading</li>
+                                <li>Responsive images</li>
+                            </ul>
+                            <p><strong>Scientific/Satellite:</strong></p>
+                            <ul>
+                                <li>NASA: Custom wavelets</li>
+                                <li>Google Earth: Multi-resolution</li>
+                                <li>Lossless compression required</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Summary -->
+            <section>
+                <section data-background-color="#2c3e50">
+                    <h1 style="color: white;">Summary</h1>
+                </section>
+
+                <section>
+                    <h2>Key Takeaways</h2>
+                    <div class="highlight-box">
+                        <ol>
+                            <li><strong>Image Types:</strong> Binary, grayscale, color, indexed representations</li>
+                            <li><strong>Storage Formats:</strong> BMP (uncompressed), JPEG (lossy), PNG (lossless)</li>
+                            <li><strong>Color Models:</strong> RGB for display, CMYK for print, HSV for perception</li>
+                            <li><strong>Lossless Compression:</strong> Huffman, LZW, RLE - perfect reconstruction</li>
+                            <li><strong>Lossy Compression:</strong> DCT, wavelets - trade quality for size</li>
+                            <li><strong>Trade-off:</strong> Quality vs file size depends on application</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Practical Guidelines</h2>
+                    <div class="two-columns">
+                        <div>
+                            <div class="highlight-box">
+                                <h4>Format Selection</h4>
+                                <ul>
+                                    <li><strong>Photos:</strong> JPEG for sharing, RAW for archival</li>
+                                    <li><strong>Graphics:</strong> PNG for transparency</li>
+                                    <li><strong>Web:</strong> WebP/AVIF for modern browsers</li>
+                                    <li><strong>Medical:</strong> Always lossless</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="definition-box">
+                                <h4>Decision Framework</h4>
+                                <ul>
+                                    <li>Quality needs?</li>
+                                    <li>Storage constraints?</li>
+                                    <li>Processing power?</li>
+                                    <li>Compatibility required?</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Next Module Preview</h2>
+                    <div class="definition-box">
+                        <h3>Module 03: Image Processing Fundamentals</h3>
+                        <ul>
+                            <li>Point operations and histogram processing</li>
+                            <li>Spatial filtering and convolution</li>
+                            <li>Image enhancement techniques</li>
+                            <li>Noise reduction methods</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Questions -->
+                <section data-background-color="#1a3a6e">
+                    <h1 style="color: white;">Questions?</h1>
+                    <p style="color: #7eb8da; font-size: 1.5em;">Thank you for your attention!</p>
+                    <br>
+                    <p style="color: #ccc;">
+                        <small>Interactive notebook available for hands-on practice</small>
+                    </p>
+                </section>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: false,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+
+            math: {
+                mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                config: 'TeX-AMS_HTML-full',
+                TeX: {
+                    Macros: {
+                        R: '\\mathbb{R}',
+                        set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+                    }
+                }
+            },
+
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+        });
+
+        function updateSlideCounter() {
+            const indices = Reveal.getIndices();
+            const totalSlides = Reveal.getTotalSlides();
+            let currentNum = 0;
+            const slides = Reveal.getSlides();
+            for (let i = 0; i < slides.length; i++) {
+                const slide = slides[i];
+                const h = parseInt(slide.getAttribute('data-index-h') || 0);
+                const v = parseInt(slide.getAttribute('data-index-v') || 0);
+                if (h < indices.h || (h === indices.h && v <= indices.v)) {
+                    currentNum++;
+                }
+                if (h === indices.h && v === indices.v) break;
+            }
+            document.getElementById('current-slide').textContent = currentNum || (indices.h + 1);
+            document.getElementById('total-slides').textContent = totalSlides;
+        }
+
+        Reveal.on('slidechanged', updateSlideCounter);
+        Reveal.on('ready', updateSlideCounter);
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>

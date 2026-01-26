@@ -1,0 +1,229 @@
+{
+  "module": {
+    "id": "09",
+    "title": "Computer Vision & Deep Learning I",
+    "course": "CMSC 178IP",
+    "institution": "University of the Philippines - Cebu",
+    "estimatedDuration": "60 minutes",
+    "prerequisites": ["Module 08: Segmentation and Morphology"]
+  },
+  "slides": [
+    {
+      "id": 1,
+      "title": "Computer Vision & Deep Learning I",
+      "readingTime": "1 min",
+      "content": "<h3 style=\"color: #7eb8da;\">CMSC 178IP - Module 09</h3><p style=\"color: #ccc; margin-top: 2em;\"><strong>Noel Jeffrey Pinton</strong><br>Department of Computer Science<br>University of the Philippines Cebu</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 2,
+      "title": "Learning Objectives",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><p>By the end of this module, you will be able to:</p><ol><li>Understand neural network fundamentals (perceptron, MLP)</li><li>Explain activation functions and their purposes</li><li>Describe gradient descent and backpropagation</li><li>Understand CNN architecture (convolution, pooling)</li><li>Prepare data for deep learning models</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#f8f9fa"
+    },
+    {
+      "id": 3,
+      "title": "Neural Network Basics",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">From perceptron to deep networks</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 4,
+      "title": "The Perceptron",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/02_perceptron_diagram.png\" alt=\"Perceptron\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Perceptron:</strong></p><p class=\"math-block\">$$y = \\sigma\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)$$</p><p>Weighted sum of inputs + bias, passed through activation function</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 5,
+      "title": "Activation Functions",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/activation_functions.svg\" alt=\"Activation Functions\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Sigmoid</strong><p class=\"math-block\">$$\\sigma(x) = \\frac{1}{1+e^{-x}}$$</p></div><div><strong>ReLU</strong><p class=\"math-block\">$$f(x) = \\max(0, x)$$</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "Why is ReLU preferred over sigmoid in deep networks?",
+        "answer": "ReLU helps avoid the vanishing gradient problem (sigmoid gradients become very small for large inputs). ReLU also computes faster and introduces sparsity. However, it can cause 'dead neurons' if inputs are always negative."
+      }
+    },
+    {
+      "id": 6,
+      "title": "Multi-Layer Perceptron",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/03_mlp_architecture.png\" alt=\"MLP Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>MLP:</strong> Multiple layers of neurons connected in sequence.</p><ul><li><strong>Input layer:</strong> Receives data</li><li><strong>Hidden layers:</strong> Learn representations</li><li><strong>Output layer:</strong> Produces predictions</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 7,
+      "title": "Training Neural Networks",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Learning from data</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 8,
+      "title": "Loss Functions",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/loss_functions.svg\" alt=\"Loss Functions\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>MSE (Regression)</strong><p class=\"math-block\">$$L = \\frac{1}{n}\\sum(y - \\hat{y})^2$$</p></div><div><strong>Cross-Entropy (Classification)</strong><p class=\"math-block\">$$L = -\\sum y \\log(\\hat{y})$$</p></div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 9,
+      "title": "Gradient Descent",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/gradient_descent.svg\" alt=\"Gradient Descent\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Parameter Update:</strong></p><p class=\"math-block\">$$w = w - \\eta \\frac{\\partial L}{\\partial w}$$</p><p>η = learning rate. Move in direction that reduces loss.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What happens if the learning rate is too large or too small?",
+        "answer": "Too large: oscillates around minimum or diverges. Too small: very slow convergence, may get stuck in local minima. Finding the right learning rate (or using adaptive methods like Adam) is crucial."
+      }
+    },
+    {
+      "id": 10,
+      "title": "Learning Curves",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/learning_curves.svg\" alt=\"Learning Curves\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Monitor:</strong> Training loss, validation loss, accuracy over epochs to detect overfitting.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 11,
+      "title": "Overfitting",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/15_overfitting_example.png\" alt=\"Overfitting\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Overfitting:</strong> Model memorizes training data but fails on new data.</p><p><strong>Solutions:</strong> Regularization (L1/L2), dropout, early stopping, data augmentation, more data.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 12,
+      "title": "Convolutional Neural Networks",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Designed for image data</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 13,
+      "title": "Convolution Operation",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/06_convolution_operation.png\" alt=\"Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Convolution in CNNs:</strong> Learnable filters slide across image, producing feature maps. Captures local patterns like edges, textures.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 14,
+      "title": "Pooling Operations",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/07_pooling_operations.png\" alt=\"Pooling\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Max Pooling</strong><br>Takes maximum value in window<br>Preserves strongest features</div><div><strong>Average Pooling</strong><br>Takes average value in window<br>Smoother downsampling</div></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": {
+        "question": "What are the benefits of pooling layers?",
+        "answer": "1) Reduces spatial dimensions (computational efficiency), 2) Provides translation invariance (small shifts don't change output), 3) Increases receptive field of subsequent layers, 4) Helps prevent overfitting by reducing parameters."
+      }
+    },
+    {
+      "id": 15,
+      "title": "CNN Architecture",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/08_cnn_architecture.png\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Typical CNN:</strong></p><p>Input → [Conv → ReLU → Pool] × N → Flatten → FC → Output</p><p>Early layers: edges, textures. Deeper layers: complex patterns, objects.</p></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 16,
+      "title": "Feature Maps",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/09_feature_maps.png\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Visualization:</strong> What does the CNN see? Feature maps show learned representations at each layer.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 17,
+      "title": "Data Preparation",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.2em;\">Getting your data ready</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    },
+    {
+      "id": 18,
+      "title": "Preprocessing Pipeline",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/11_preprocessing_pipeline.png\" alt=\"Preprocessing\" style=\"max-height: 55vh;\"><div class=\"highlight-box\"><p><strong>Essential steps:</strong></p><ul><li>Resize to consistent dimensions</li><li>Normalize pixel values (0-1 or -1 to 1)</li><li>Split: train/validation/test sets</li><li>Batch loading for memory efficiency</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 19,
+      "title": "Data Augmentation",
+      "readingTime": "3 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/12_data_augmentation.png\" alt=\"Data Augmentation\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Augmentation:</strong> Artificially expand training set by applying transformations.</p><ul><li>Rotation, flipping, cropping</li><li>Brightness, contrast adjustments</li><li>Scaling, shearing</li><li>Random erasing, cutout</li></ul></div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 20,
+      "title": "Classification Example",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/13_classification_example.png\" alt=\"Classification\" style=\"max-height: 60vh;\"><p class=\"caption\">End-to-end image classification with a CNN</p>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 21,
+      "title": "Confusion Matrix",
+      "readingTime": "2 min",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/confusion_matrix.svg\" alt=\"Confusion Matrix\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Evaluation:</strong> Confusion matrix shows true positives, false positives, true negatives, false negatives for each class. Useful for understanding model errors.</div>",
+      "hasVisualization": true,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 22,
+      "title": "Implementation",
+      "readingTime": "2 min",
+      "content": "<pre><code class=\"language-python\">import torch\nimport torch.nn as nn\n\nclass SimpleCNN(nn.Module):\n    def __init__(self, num_classes=10):\n        super().__init__()\n        self.features = nn.Sequential(\n            nn.Conv2d(3, 32, kernel_size=3, padding=1),\n            nn.ReLU(),\n            nn.MaxPool2d(2, 2),\n            nn.Conv2d(32, 64, kernel_size=3, padding=1),\n            nn.ReLU(),\n            nn.MaxPool2d(2, 2)\n        )\n        self.classifier = nn.Sequential(\n            nn.Flatten(),\n            nn.Linear(64 * 8 * 8, 128),\n            nn.ReLU(),\n            nn.Linear(128, num_classes)\n        )</code></pre>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 23,
+      "title": "Summary",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da;\">Key Takeaways</p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#2c3e50"
+    },
+    {
+      "id": 24,
+      "title": "Key Takeaways",
+      "readingTime": "2 min",
+      "content": "<div class=\"highlight-box\"><ol><li><strong>Perceptron:</strong> Basic unit - weighted sum + activation</li><li><strong>Activation functions:</strong> ReLU (most common), sigmoid, softmax</li><li><strong>Training:</strong> Minimize loss using gradient descent</li><li><strong>CNN:</strong> Convolution + pooling for spatial features</li><li><strong>Overfitting:</strong> Combat with regularization, dropout, augmentation</li><li><strong>Data prep:</strong> Normalize, augment, split properly</li></ol></div>",
+      "hasVisualization": false,
+      "knowledgeCheck": null
+    },
+    {
+      "id": 25,
+      "title": "Questions?",
+      "readingTime": "1 min",
+      "content": "<p style=\"color: #7eb8da; font-size: 1.5em;\">Thank you for your attention!</p><br><p style=\"color: #ccc;\"><small>Next: Module 10 - Computer Vision & Deep Learning II</small></p>",
+      "hasVisualization": false,
+      "knowledgeCheck": null,
+      "background": "#1a3a6e"
+    }
+  ]
+}
