@@ -195,3 +195,10 @@ playwright.config.js
 pytest.ini
 tests/
 scripts/
+
+# Vercel deployment config
+vercel.json
+.vercelignore
+
+# Claude-generated documentation
+docs/
