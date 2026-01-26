@@ -187,3 +187,11 @@ VERCEL_SETUP.md
 DEPLOYMENT.md
 MIGRATION_GUIDE.md
 OPTIMIZATION_PATTERNS_REFERENCE.md
+
+# Dev/build files (not needed for showcase)
+package.json
+package-lock.json
+playwright.config.js
+pytest.ini
+tests/
+scripts/
