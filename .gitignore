@@ -161,3 +161,7 @@ node_modules/
 *.tmp
 *.temp
 /tmp/
+
+# Exam answer keys (sensitive)
+**/finals_exam/admin/
+*ANSWER_KEY*
