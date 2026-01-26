@@ -224,7 +224,8 @@ if is_production:
         strict_transport_security=True,
         strict_transport_security_max_age=31536000,  # 1 year
         content_security_policy=csp,
-        content_security_policy_nonce_in=['script-src'],
+        # Note: nonce requirement removed to allow 'unsafe-inline' for inline scripts
+        # If nonce is present, CSP ignores 'unsafe-inline' per spec
         referrer_policy='strict-origin-when-cross-origin',
         feature_policy={
             'geolocation': "'none'",
