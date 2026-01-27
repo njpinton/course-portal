@@ -91,7 +91,6 @@ COURSES = {
         "icon": "chart-bar",
         "color": "#2563EB",
         "modules": {
-            "syllabus": {"title": "Course Syllabus", "filename": "syllabus.html", "category": "da-fundamentals"},
             1: {"title": "Introduction to Data Analytics", "filename": "week-01.html", "category": "da-fundamentals"},
             2: {"title": "Probability & Statistical Foundations", "filename": "week-02.html", "category": "da-fundamentals"},
             3: {"title": "Data Wrangling & Cleaning", "filename": "week-03.html", "category": "da-fundamentals"},
@@ -105,8 +104,32 @@ COURSES = {
             11: {"title": "Text Analytics & Ethics", "filename": "week-11.html", "category": "da-advanced"},
             12: {"title": "Capstone Presentations", "filename": "week-12.html", "category": "da-advanced"},
         },
+        "labs": {
+            1: {"title": "Python Basics & Data Structures"},
+            2: {"title": "Probability & Statistical Testing"},
+            3: {"title": "Data Wrangling with Pandas"},
+            4: {"title": "Exploratory Data Analysis"},
+            5: {"title": "Data Visualization Techniques"},
+            6: {"title": "Building Interactive Dashboards"},
+            7: {"title": "Regression Modeling"},
+            8: {"title": "Tree-Based Models"},
+            9: {"title": "Clustering & Segmentation"},
+            10: {"title": "Time Series Analysis"},
+            11: {"title": "Text Analytics"},
+        },
         "projects": ["da-capstone-project"],
         "is_active": True,
+    },
+    "cmsc194.2": {
+        "code": "CMSC 194.2",
+        "title": "Special Problems / Research",
+        "description": "Guided research, internship, or laboratory work under faculty supervision",
+        "icon": "flask",
+        "color": "#7C3AED",
+        "modules": {},
+        "projects": [],
+        "is_active": False,  # Not shown in public course hub
+        "admin_only": True,  # Only visible in admin sections (roster, records)
     },
 }
 

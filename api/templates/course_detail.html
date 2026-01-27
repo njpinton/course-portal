@@ -1028,6 +1028,88 @@
         font-size: 14px;
         margin: 0;
     }
+
+    /* Lab Cards */
+    .lab-card {
+        background: var(--bg-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: all var(--transition);
+    }
+
+    .lab-card:hover {
+        box-shadow: var(--shadow-md);
+        border-color: #2563EB;
+        transform: translateY(-2px);
+    }
+
+    .btn-colab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: #F9AB00;
+        color: #000;
+        font-weight: 600;
+        padding: 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .btn-colab:hover {
+        background: #E69A00;
+        transform: scale(1.02);
+    }
+
+    .btn-solution {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #10B981;
+        color: white;
+        font-weight: 500;
+        padding: 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+    .btn-solution:hover {
+        background: #059669;
+        transform: scale(1.02);
+    }
+
+    .btn-secondary {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+        font-size: 13px;
+        border-radius: 6px;
+        text-decoration: none;
+        background: var(--bg-main);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+        background: var(--bg-white);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+        .labs-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -1064,6 +1146,13 @@
     <button class="course-tab" onclick="showTab('exam', event)">
         <span class="tab-icon">&#128221;</span>
         <span>Finals Exam</span>
+    </button>
+    {% endif %}
+    {% if course_id == 'cmsc178da' %}
+    <button class="course-tab" onclick="showTab('labs', event)">
+        <span class="tab-icon">&#128187;</span>
+        <span>Labs</span>
+        <span class="tab-count">{{ course.labs|length }}</span>
     </button>
     {% endif %}
 </div>
@@ -1381,6 +1470,86 @@
         </div>
     </div>
     {% endif %}
+</div>
+{% endif %}
+
+{% if course_id == 'cmsc178da' %}
+<!-- Labs Tab -->
+<div id="tab-labs" class="tab-content">
+    <div class="labs-container" style="max-width: 900px; margin: 0 auto;">
+        <div class="labs-header" style="margin-bottom: 2em;">
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Weekly Lab Exercises</h2>
+            <p style="color: var(--text-secondary); font-size: 15px;">
+                Practice exercises for each week's lecture (30-60 min each). Solutions available immediately for self-study.
+            </p>
+        </div>
+
+        <div class="labs-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+            {% for week_num, lab in course.labs.items() %}
+            <div class="lab-card">
+                <!-- Week Badge -->
+                <div style="background: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%); padding: 16px 20px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: white;">
+                            {{ week_num }}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.8);">Week {{ week_num }} Lab</div>
+                            <div style="font-size: 15px; font-weight: 600; color: white; margin-top: 2px; line-height: 1.3;">{{ lab.title }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lab Actions -->
+                <div style="padding: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- Colab Button -->
+                        <a href="https://colab.research.google.com/github/njpinton/course-portal/blob/master/static/data/courses/cmsc178da/labs/week-{{ '%02d' % week_num }}-lab.ipynb"
+                           target="_blank" class="btn-colab">
+                            <img src="https://colab.research.google.com/img/colab_favicon_256px.png" width="20" height="20" alt="Colab">
+                            Open in Colab
+                        </a>
+
+                        <!-- Solution Button -->
+                        <a href="https://colab.research.google.com/github/njpinton/course-portal/blob/master/static/data/courses/cmsc178da/labs/week-{{ '%02d' % week_num }}-solution.ipynb"
+                           target="_blank" class="btn-solution">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                            </svg>
+                            View Solution
+                        </a>
+
+                        <!-- Secondary Actions -->
+                        <div style="display: flex; gap: 8px;">
+                            <a href="https://github.com/njpinton/course-portal/blob/master/static/data/courses/cmsc178da/labs/week-{{ '%02d' % week_num }}-lab.ipynb"
+                               target="_blank" class="btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                GitHub
+                            </a>
+                            <a href="/course/cmsc178da/lab/{{ week_num }}/download" class="btn-secondary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                                </svg>
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Usage Note -->
+        <div style="margin-top: 2em; padding: 16px 20px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px;">
+            <p style="margin: 0; font-size: 14px; color: #1E40AF; line-height: 1.6;">
+                <strong>💡 Tip:</strong> Open in Colab → File → Save a copy in Drive to keep your work.
+                Try exercises first, then check solutions to verify your approach.
+            </p>
+        </div>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

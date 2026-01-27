@@ -64,7 +64,11 @@ try:
         get_course_resources, get_resource_by_id, create_resource,
         update_resource, delete_resource, reorder_resources, get_resource_counts_by_course,
         # Class Records
-        get_all_classes, get_class_records, update_student_exam_status, bulk_update_exam_status
+        get_all_classes, get_class_records, update_student_exam_status, bulk_update_exam_status,
+        # Assessments
+        get_assessments_by_class, create_assessment, update_assessment, delete_assessment,
+        get_grades_by_assessment, get_student_grades_for_class, upsert_student_grade,
+        bulk_upsert_grades, get_assessment_stats
     )
     logger.debug("Successfully imported supabase_client")
 except Exception as e:
@@ -564,6 +568,94 @@ def view_exam_notebook(course_id):
         is_admin=is_admin,
         show_answer_key=show_answer_key,
         courses=COURSES
+    )
+
+@app.route('/course/<course_id>/lab/<int:week_num>/download')
+def download_lab(course_id, week_num):
+    """Download lab notebook."""
+    if course_id != 'cmsc178da':
+        return render_template('error.html',
+            error_title="Labs Not Available",
+            error_message="Labs are only available for CMSC 178DA.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    if not (1 <= week_num <= 11):
+        return render_template('error.html',
+            error_title="Invalid Week",
+            error_message=f"Labs are available for weeks 1-11 only.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    lab_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)),
+        'static', 'data', 'courses', 'cmsc178da', 'labs',
+        f'week-{week_num:02d}-lab.ipynb'
+    )
+
+    if not os.path.exists(lab_path):
+        logger.error(f"Lab file not found: {lab_path}")
+        return render_template('error.html',
+            error_title="Lab Not Found",
+            error_message=f"Lab for week {week_num} is not yet available.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    return send_file(
+        lab_path,
+        as_attachment=True,
+        download_name=f'CMSC178DA_Week{week_num:02d}_Lab.ipynb',
+        mimetype='application/x-ipynb+json'
+    )
+
+@app.route('/course/<course_id>/lab/<int:week_num>/solution')
+def download_lab_solution(course_id, week_num):
+    """Download lab solution (publicly accessible for practice)."""
+    if course_id != 'cmsc178da':
+        return render_template('error.html',
+            error_title="Not Available",
+            error_message="Lab solutions are only available for CMSC 178DA.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    if not (1 <= week_num <= 11):
+        return render_template('error.html',
+            error_title="Invalid Week",
+            error_message=f"Solutions are available for weeks 1-11 only.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    solution_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)),
+        'static', 'data', 'courses', 'cmsc178da', 'labs',
+        f'week-{week_num:02d}-solution.ipynb'
+    )
+
+    if not os.path.exists(solution_path):
+        logger.error(f"Solution file not found: {solution_path}")
+        return render_template('error.html',
+            error_title="Solution Not Found",
+            error_message=f"Solution for week {week_num} is not yet available.",
+            back_url=f"/course/{course_id}",
+            back_text="Back to Course",
+            courses=COURSES
+        ), 404
+
+    return send_file(
+        solution_path,
+        as_attachment=True,
+        download_name=f'CMSC178DA_Week{week_num:02d}_Solution.ipynb',
+        mimetype='application/x-ipynb+json'
     )
 
 @app.route('/favicon.ico')
@@ -2731,6 +2823,198 @@ def bulk_update_exam_api():
 
     except Exception as e:
         logger.error(f"Error bulk updating exam status: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+# --- Assessment API Endpoints ---
+
+@app.route('/api/admin/assessments/<class_id>', methods=['GET'])
+@admin_required
+def get_assessments_api(class_id):
+    """Get all assessments for a class."""
+    try:
+        assessments = get_assessments_by_class(class_id)
+        return jsonify(assessments), 200
+    except Exception as e:
+        logger.error(f"Error fetching assessments: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/assessments', methods=['POST'])
+@csrf.exempt
+@admin_required
+def create_assessment_api():
+    """Create a new assessment for a class."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Request body must be JSON"}), 400
+
+        class_id = data.get('class_id')
+        name = data.get('name')
+
+        if not class_id or not name:
+            return jsonify({"error": "class_id and name are required"}), 400
+
+        assessment = create_assessment(
+            class_id=class_id,
+            name=name,
+            assessment_type=data.get('type', 'exam'),
+            max_score=data.get('max_score', 100),
+            weight=data.get('weight'),
+            due_date=data.get('due_date'),
+            description=data.get('description')
+        )
+
+        if assessment:
+            return jsonify(assessment), 201
+        else:
+            return jsonify({"error": "Failed to create assessment"}), 500
+
+    except Exception as e:
+        logger.error(f"Error creating assessment: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/assessments/<assessment_id>', methods=['PUT'])
+@csrf.exempt
+@admin_required
+def update_assessment_api(assessment_id):
+    """Update an assessment."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Request body must be JSON"}), 400
+
+        success = update_assessment(assessment_id, **data)
+
+        if success:
+            return jsonify({"message": "Assessment updated successfully"}), 200
+        else:
+            return jsonify({"error": "Failed to update assessment"}), 500
+
+    except Exception as e:
+        logger.error(f"Error updating assessment: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/assessments/<assessment_id>', methods=['DELETE'])
+@csrf.exempt
+@admin_required
+def delete_assessment_api(assessment_id):
+    """Delete an assessment."""
+    try:
+        success = delete_assessment(assessment_id)
+
+        if success:
+            return jsonify({"message": "Assessment deleted successfully"}), 200
+        else:
+            return jsonify({"error": "Failed to delete assessment"}), 500
+
+    except Exception as e:
+        logger.error(f"Error deleting assessment: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/assessments/<assessment_id>/stats', methods=['GET'])
+@admin_required
+def get_assessment_stats_api(assessment_id):
+    """Get statistics for an assessment."""
+    try:
+        stats = get_assessment_stats(assessment_id)
+        return jsonify(stats), 200
+    except Exception as e:
+        logger.error(f"Error fetching assessment stats: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+# --- Grade API Endpoints ---
+
+@app.route('/api/admin/grades/<assessment_id>', methods=['GET'])
+@admin_required
+def get_grades_api(assessment_id):
+    """Get all grades for an assessment."""
+    try:
+        grades = get_grades_by_assessment(assessment_id)
+        return jsonify(grades), 200
+    except Exception as e:
+        logger.error(f"Error fetching grades: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/grades/class/<class_id>', methods=['GET'])
+@admin_required
+def get_class_grades_api(class_id):
+    """Get all students with their grades for a class."""
+    try:
+        assessment_id = request.args.get('assessment_id')
+        students = get_student_grades_for_class(class_id, assessment_id)
+        return jsonify(students), 200
+    except Exception as e:
+        logger.error(f"Error fetching class grades: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/grades', methods=['POST'])
+@csrf.exempt
+@admin_required
+def upsert_grade_api():
+    """Create or update a student grade."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Request body must be JSON"}), 400
+
+        student_id = data.get('student_id')
+        assessment_id = data.get('assessment_id')
+
+        if not student_id or not assessment_id:
+            return jsonify({"error": "student_id and assessment_id are required"}), 400
+
+        grade = upsert_student_grade(
+            student_id=student_id,
+            assessment_id=assessment_id,
+            score=data.get('score'),
+            submitted_at=data.get('submitted_at'),
+            notes=data.get('notes'),
+            feedback=data.get('feedback'),
+            file_path=data.get('file_path')
+        )
+
+        if grade:
+            return jsonify(grade), 200
+        else:
+            return jsonify({"error": "Failed to save grade"}), 500
+
+    except Exception as e:
+        logger.error(f"Error upserting grade: {e}", exc_info=True)
+        return jsonify({"error": "An internal error occurred"}), 500
+
+
+@app.route('/api/admin/grades/bulk', methods=['POST'])
+@csrf.exempt
+@admin_required
+def bulk_upsert_grades_api():
+    """Bulk create/update grades for an assessment."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Request body must be JSON"}), 400
+
+        assessment_id = data.get('assessment_id')
+        grades = data.get('grades', [])
+
+        if not assessment_id:
+            return jsonify({"error": "assessment_id is required"}), 400
+
+        if not isinstance(grades, list):
+            return jsonify({"error": "grades must be a list"}), 400
+
+        result = bulk_upsert_grades(assessment_id, grades)
+        return jsonify(result), 200
+
+    except Exception as e:
+        logger.error(f"Error bulk upserting grades: {e}", exc_info=True)
         return jsonify({"error": "An internal error occurred"}), 500
 
 
