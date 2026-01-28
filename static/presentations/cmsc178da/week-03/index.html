@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178DA - Week 3: Data Wrangling</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178da" class="home-button" aria-label="Return to course page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Course
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18 17V9"/>
+                    <path d="M13 17V5"/>
+                    <path d="M8 17v-3"/>
+                </svg>
+                <span>CMSC 178DA</span>
+            </div>
+            <h1>Week 3: Data Wrangling</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">48</span>
+            </div>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ==========================================
+                 TITLE SLIDE
+                 ========================================== -->
+            <section data-background="linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)">
+                <h1 style="color: white; font-size: 2.2em;">Data Wrangling</h1>
+                <h3 style="color: #FCD34D;">CMSC 178DA - Week 03</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-top: 2em;">
+                    <strong>Noel Jeffrey Pinton</strong><br>
+                    Department of Computer Science<br>
+                    University of the Philippines Cebu
+                </p>
+            </section>
+
+            <!-- ==========================================
+                 LECTURE 5: DATA COLLECTION & SQL
+                 ========================================== -->
+
+            <!-- Learning Objectives - Lecture 5 -->
+            <section data-background-color="#F8FAFC">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>Lecture 5: Data Collection & SQL</strong></p>
+                    <ol>
+                        <li>Understand data collection methodologies</li>
+                        <li>Master SQL fundamentals for data extraction</li>
+                        <li>Work with Philippine government data sources</li>
+                        <li>Apply best practices for data acquisition</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Why Data Wrangling? -->
+            <section>
+                <h2>Why Data Wrangling?</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Data Wrangling</strong>: The process of transforming raw data into a format suitable for analysis</p>
+                </div>
+                <div class="two-column">
+                    <div>
+                        <h4>Reality Check 📊</h4>
+                        <ul>
+                            <li>80% of analytics time = data prep</li>
+                            <li>Raw data is messy, incomplete</li>
+                            <li>Multiple sources, formats</li>
+                            <li>"Garbage in, garbage out"</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>The Pipeline</h4>
+                        <ol>
+                            <li><strong>Collect</strong> → Acquire data</li>
+                            <li><strong>Clean</strong> → Fix issues</li>
+                            <li><strong>Transform</strong> → Reshape</li>
+                            <li><strong>Validate</strong> → Verify quality</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Collection Methods -->
+            <section>
+                <h2>Data Collection Methods</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>APIs</strong></td>
+                            <td>Programmatic access</td>
+                            <td>Twitter API, PSA OpenSTAT</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Web Scraping</strong></td>
+                            <td>Extract from websites</td>
+                            <td>News articles, prices</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Databases</strong></td>
+                            <td>SQL queries</td>
+                            <td>Company data warehouse</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Files</strong></td>
+                            <td>CSV, Excel, JSON</td>
+                            <td>Government datasets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Surveys</strong></td>
+                            <td>Primary collection</td>
+                            <td>Google Forms, interviews</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Philippine Data Sources -->
+            <section>
+                <h2>Philippine Data Sources 🇵🇭</h2>
+                <div class="highlight-box">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Data Types</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>PSA OpenSTAT</strong></td>
+                                <td>Demographics, labor, prices</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BSP Statistics</strong></td>
+                                <td>Financial, monetary, banking</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PAGASA</strong></td>
+                                <td>Weather, climate, disasters</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DOH</strong></td>
+                                <td>Health statistics, epidemiology</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PSE EDGE</strong></td>
+                                <td>Stock market, company filings</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SQL Fundamentals -->
+            <section>
+                <h2>SQL Fundamentals</h2>
+                <div class="definition-box">
+                    <p><strong>SQL</strong> (Structured Query Language): The standard language for interacting with relational databases</p>
+                </div>
+                <pre><code class="language-sql">-- Basic SELECT statement
+SELECT column1, column2
+FROM table_name
+WHERE condition
+ORDER BY column1;</code></pre>
+                <p class="fragment">SQL is essential for extracting data from databases in organizations</p>
+            </section>
+
+            <!-- SELECT Statement -->
+            <section>
+                <h2>SELECT: Choosing Columns</h2>
+                <pre><code class="language-sql">-- Select all columns
+SELECT * FROM employees;
+
+-- Select specific columns
+SELECT first_name, last_name, salary
+FROM employees;
+
+-- Select with alias
+SELECT first_name AS name, 
+       salary * 12 AS annual_salary
+FROM employees;</code></pre>
+            </section>
+
+            <!-- WHERE Clause -->
+            <section>
+                <h2>WHERE: Filtering Rows</h2>
+                <pre><code class="language-sql">-- Comparison operators
+SELECT * FROM products WHERE price > 1000;
+
+-- Multiple conditions
+SELECT * FROM employees 
+WHERE department = 'IT' 
+  AND salary >= 50000;
+
+-- IN operator
+SELECT * FROM regions 
+WHERE province IN ('Cebu', 'Bohol', 'Leyte');
+
+-- LIKE for pattern matching
+SELECT * FROM customers 
+WHERE name LIKE 'Maria%';</code></pre>
+            </section>
+
+            <!-- ORDER BY and LIMIT -->
+            <section>
+                <h2>ORDER BY & LIMIT</h2>
+                <pre><code class="language-sql">-- Sort ascending (default)
+SELECT * FROM products 
+ORDER BY price;
+
+-- Sort descending
+SELECT * FROM employees 
+ORDER BY salary DESC;
+
+-- Multiple columns
+SELECT * FROM sales 
+ORDER BY region, date DESC;
+
+-- Limit results (top N)
+SELECT * FROM products 
+ORDER BY price DESC 
+LIMIT 10;</code></pre>
+            </section>
+
+            <!-- Aggregate Functions -->
+            <section>
+                <h2>Aggregate Functions</h2>
+                <pre><code class="language-sql">-- Common aggregates
+SELECT 
+    COUNT(*) AS total_employees,
+    AVG(salary) AS avg_salary,
+    SUM(salary) AS total_payroll,
+    MIN(salary) AS min_salary,
+    MAX(salary) AS max_salary
+FROM employees;</code></pre>
+                <div class="highlight-box fragment">
+                    <p><strong>Key Aggregates:</strong> COUNT, SUM, AVG, MIN, MAX, STDDEV</p>
+                </div>
+            </section>
+
+            <!-- GROUP BY -->
+            <section>
+                <h2>GROUP BY: Aggregating Groups</h2>
+                <pre><code class="language-sql">-- Group by single column
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department;
+
+-- Group by multiple columns
+SELECT region, product_category, 
+       SUM(sales) AS total_sales
+FROM transactions
+GROUP BY region, product_category;
+
+-- Filter groups with HAVING
+SELECT department, COUNT(*) AS emp_count
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 10;</code></pre>
+            </section>
+
+            <!-- JOINs Introduction -->
+            <section>
+                <h2>JOINs: Combining Tables</h2>
+                <div class="two-column">
+                    <div>
+                        <h4>Types of JOINs</h4>
+                        <ul>
+                            <li><strong>INNER</strong>: Match in both</li>
+                            <li><strong>LEFT</strong>: All from left</li>
+                            <li><strong>RIGHT</strong>: All from right</li>
+                            <li><strong>FULL</strong>: All from both</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <pre><code class="language-sql">SELECT e.name, d.dept_name
+FROM employees e
+INNER JOIN departments d
+  ON e.dept_id = d.id;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- JOIN Example -->
+            <section>
+                <h2>JOIN Example: Philippine Regions</h2>
+                <pre><code class="language-sql">-- Combine province data with regional info
+SELECT 
+    p.province_name,
+    r.region_name,
+    p.population,
+    p.land_area
+FROM provinces p
+LEFT JOIN regions r 
+    ON p.region_code = r.region_code
+WHERE r.island_group = 'Visayas'
+ORDER BY p.population DESC;</code></pre>
+            </section>
+
+            <!-- Subqueries -->
+            <section>
+                <h2>Subqueries</h2>
+                <pre><code class="language-sql">-- Subquery in WHERE
+SELECT * FROM employees
+WHERE salary > (
+    SELECT AVG(salary) FROM employees
+);
+
+-- Subquery in FROM
+SELECT dept, avg_sal
+FROM (
+    SELECT department AS dept, 
+           AVG(salary) AS avg_sal
+    FROM employees
+    GROUP BY department
+) AS dept_averages
+WHERE avg_sal > 50000;</code></pre>
+            </section>
+
+            <!-- Python + SQL -->
+            <section>
+                <h2>Python + SQL Integration</h2>
+                <pre><code class="language-python">import pandas as pd
+import sqlite3
+
+# Connect to database
+conn = sqlite3.connect('ph_data.db')
+
+# Execute query and load to DataFrame
+query = """
+SELECT region, province, population
+FROM census_2020
+WHERE population > 1000000
+ORDER BY population DESC
+"""
+df = pd.read_sql(query, conn)
+
+# Close connection
+conn.close()
+print(df.head())</code></pre>
+            </section>
+
+            <!-- API Data Collection -->
+            <section>
+                <h2>API Data Collection</h2>
+                <pre><code class="language-python">import requests
+import pandas as pd
+
+# PSA OpenSTAT API example
+url = "https://openstat.psa.gov.ph/api/data"
+params = {
+    'indicator': 'population',
+    'year': 2020,
+    'format': 'json'
+}
+
+response = requests.get(url, params=params)
+data = response.json()
+
+# Convert to DataFrame
+df = pd.DataFrame(data['results'])
+print(df.head())</code></pre>
+            </section>
+
+            <!-- Reading Various Formats -->
+            <section>
+                <h2>Reading Various File Formats</h2>
+                <pre><code class="language-python">import pandas as pd
+
+# CSV files
+df_csv = pd.read_csv('ph_population.csv')
+
+# Excel files
+df_excel = pd.read_excel('census_data.xlsx', 
+                          sheet_name='2020')
+
+# JSON files
+df_json = pd.read_json('api_response.json')
+
+# Multiple files
+import glob
+files = glob.glob('data/*.csv')
+df = pd.concat([pd.read_csv(f) for f in files])</code></pre>
+            </section>
+
+            <!-- Lecture 5 Summary -->
+            <section data-background-color="#F8FAFC">
+                <h2>Lecture 5 Summary</h2>
+                <div class="highlight-box">
+                    <h4>Key Takeaways</h4>
+                    <ol>
+                        <li>Multiple data collection methods exist</li>
+                        <li>Philippine has rich public data sources</li>
+                        <li>SQL is essential for database extraction</li>
+                        <li>Python integrates seamlessly with SQL</li>
+                        <li>Always validate data after collection</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 LECTURE 6: DATA CLEANING & TRANSFORMATION
+                 ========================================== -->
+
+            <!-- Learning Objectives - Lecture 6 -->
+            <section data-background-color="#F8FAFC">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>Lecture 6: Data Cleaning & Transformation</strong></p>
+                    <ol>
+                        <li>Identify and handle missing values</li>
+                        <li>Detect and treat outliers</li>
+                        <li>Perform data type conversions</li>
+                        <li>Apply data transformation techniques</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Data Quality Issues -->
+            <section>
+                <h2>Common Data Quality Issues</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Issue</th>
+                            <th>Example</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Missing Values</strong></td>
+                            <td>Empty cells, NaN</td>
+                            <td>Biased analysis</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Duplicates</strong></td>
+                            <td>Repeated rows</td>
+                            <td>Inflated counts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inconsistent</strong></td>
+                            <td>"Cebu" vs "CEBU"</td>
+                            <td>Wrong grouping</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Outliers</strong></td>
+                            <td>Age = 999</td>
+                            <td>Skewed statistics</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Wrong Types</strong></td>
+                            <td>Dates as strings</td>
+                            <td>Failed operations</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Exploring Data Quality -->
+            <section>
+                <h2>Exploring Data Quality</h2>
+                <pre><code class="language-python">import pandas as pd
+
+# Load Philippine economic data
+df = pd.read_csv('ph_economic_indicators.csv')
+
+# Basic info
+print(df.info())
+
+# Missing values
+print(df.isnull().sum())
+
+# Unique values per column
+print(df.nunique())
+
+# Statistical summary
+print(df.describe())</code></pre>
+            </section>
+
+            <!-- Handling Missing Values -->
+            <section>
+                <h2>Handling Missing Values</h2>
+                <pre><code class="language-python"># Check missing values
+print(df.isnull().sum())
+
+# Drop rows with any missing
+df_clean = df.dropna()
+
+# Drop rows where specific column is missing
+df_clean = df.dropna(subset=['income'])
+
+# Fill with constant
+df['income'].fillna(0, inplace=True)
+
+# Fill with mean/median
+df['income'].fillna(df['income'].median(), inplace=True)
+
+# Forward/backward fill (time series)
+df['price'].fillna(method='ffill', inplace=True)</code></pre>
+            </section>
+
+            <!-- Missing Value Strategies -->
+            <section>
+                <h2>When to Use Each Strategy</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>When to Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Drop rows</strong></td>
+                            <td>Few missing, random pattern</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mean/Median</strong></td>
+                            <td>Numeric, roughly normal</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mode</strong></td>
+                            <td>Categorical variables</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forward fill</strong></td>
+                            <td>Time series data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Imputation</strong></td>
+                            <td>Preserve relationships</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Handling Duplicates -->
+            <section>
+                <h2>Handling Duplicates</h2>
+                <pre><code class="language-python"># Check for duplicates
+print(f"Duplicates: {df.duplicated().sum()}")
+
+# View duplicate rows
+print(df[df.duplicated(keep=False)])
+
+# Remove duplicates
+df_clean = df.drop_duplicates()
+
+# Remove based on specific columns
+df_clean = df.drop_duplicates(
+    subset=['id', 'date'], 
+    keep='last'
+)</code></pre>
+            </section>
+
+            <!-- Data Type Conversion -->
+            <section>
+                <h2>Data Type Conversion</h2>
+                <pre><code class="language-python"># Check current types
+print(df.dtypes)
+
+# Convert to numeric
+df['price'] = pd.to_numeric(df['price'], errors='coerce')
+
+# Convert to datetime
+df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
+
+# Convert to category (memory efficient)
+df['region'] = df['region'].astype('category')
+
+# Convert to string
+df['code'] = df['code'].astype(str)</code></pre>
+            </section>
+
+            <!-- String Cleaning -->
+            <section>
+                <h2>String Cleaning</h2>
+                <pre><code class="language-python"># Remove whitespace
+df['name'] = df['name'].str.strip()
+
+# Standardize case
+df['city'] = df['city'].str.title()  # "cebu" → "Cebu"
+df['code'] = df['code'].str.upper()  # "ph" → "PH"
+
+# Replace values
+df['province'] = df['province'].str.replace(
+    'Cebu City', 'Cebu'
+)
+
+# Extract patterns
+df['area_code'] = df['phone'].str.extract(r'\((\d+)\)')</code></pre>
+            </section>
+
+            <!-- Outlier Detection -->
+            <section>
+                <h2>Outlier Detection</h2>
+                <div class="two-column">
+                    <div>
+                        <h4>IQR Method</h4>
+                        <pre><code class="language-python">Q1 = df['salary'].quantile(0.25)
+Q3 = df['salary'].quantile(0.75)
+IQR = Q3 - Q1
+
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+
+outliers = df[
+    (df['salary'] < lower) | 
+    (df['salary'] > upper)
+]</code></pre>
+                    </div>
+                    <div>
+                        <h4>Z-Score Method</h4>
+                        <pre><code class="language-python">from scipy import stats
+
+z_scores = stats.zscore(df['salary'])
+outliers = df[abs(z_scores) > 3]</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Handling Outliers -->
+            <section>
+                <h2>Handling Outliers</h2>
+                <pre><code class="language-python"># Option 1: Remove outliers
+df_clean = df[
+    (df['salary'] >= lower) & 
+    (df['salary'] <= upper)
+]
+
+# Option 2: Cap outliers (winsorization)
+df['salary'] = df['salary'].clip(lower=lower, upper=upper)
+
+# Option 3: Transform (log)
+import numpy as np
+df['log_salary'] = np.log1p(df['salary'])
+
+# Option 4: Keep but flag
+df['is_outlier'] = (df['salary'] < lower) | (df['salary'] > upper)</code></pre>
+            </section>
+
+            <!-- Data Transformation -->
+            <section>
+                <h2>Data Transformation</h2>
+                <pre><code class="language-python"># Create new columns
+df['gdp_per_capita'] = df['gdp'] / df['population']
+
+# Binning continuous variables
+df['age_group'] = pd.cut(
+    df['age'], 
+    bins=[0, 18, 35, 50, 65, 100],
+    labels=['Child', 'Young Adult', 'Adult', 'Middle Age', 'Senior']
+)
+
+# One-hot encoding
+df_encoded = pd.get_dummies(df, columns=['region'])
+
+# Label encoding
+df['region_code'] = df['region'].astype('category').cat.codes</code></pre>
+            </section>
+
+            <!-- Reshaping Data -->
+            <section>
+                <h2>Reshaping: Pivot & Melt</h2>
+                <pre><code class="language-python"># Wide to long (melt)
+df_long = pd.melt(
+    df, 
+    id_vars=['region', 'year'],
+    value_vars=['q1_sales', 'q2_sales', 'q3_sales', 'q4_sales'],
+    var_name='quarter',
+    value_name='sales'
+)
+
+# Long to wide (pivot)
+df_wide = df_long.pivot_table(
+    index='region',
+    columns='year',
+    values='sales',
+    aggfunc='sum'
+)</code></pre>
+            </section>
+
+            <!-- Merging DataFrames -->
+            <section>
+                <h2>Merging DataFrames</h2>
+                <pre><code class="language-python"># Inner merge (SQL INNER JOIN)
+df_merged = pd.merge(df1, df2, on='id', how='inner')
+
+# Left merge (SQL LEFT JOIN)
+df_merged = pd.merge(
+    population_df, 
+    income_df,
+    left_on='province_code',
+    right_on='prov_id',
+    how='left'
+)
+
+# Concatenate (stack)
+df_combined = pd.concat([df_2020, df_2021, df_2022])</code></pre>
+            </section>
+
+            <!-- Complete Cleaning Pipeline -->
+            <section>
+                <h2>Complete Cleaning Pipeline</h2>
+                <pre><code class="language-python">def clean_philippine_data(df):
+    """Standard cleaning pipeline for PH datasets"""
+    # 1. Remove duplicates
+    df = df.drop_duplicates()
+    
+    # 2. Standardize column names
+    df.columns = df.columns.str.lower().str.replace(' ', '_')
+    
+    # 3. Handle missing values
+    df['income'] = df['income'].fillna(df['income'].median())
+    
+    # 4. Standardize text
+    df['province'] = df['province'].str.title().str.strip()
+    
+    # 5. Convert types
+    df['date'] = pd.to_datetime(df['date'])
+    
+    # 6. Remove outliers
+    df = df[df['age'].between(0, 120)]
+    
+    return df</code></pre>
+            </section>
+
+            <!-- Philippine Case Study -->
+            <section data-background-color="#F8FAFC">
+                <h2>Case Study: Cleaning PSA Data 🇵🇭</h2>
+                <pre><code class="language-python"># Load PSA regional population data
+df = pd.read_csv('psa_population_2020.csv')
+
+# Common issues in PH government data:
+# 1. Region names inconsistent
+region_mapping = {
+    'NCR': 'National Capital Region',
+    'CAR': 'Cordillera Administrative Region',
+    'BARMM': 'Bangsamoro Autonomous Region'
+}
+df['region'] = df['region'].replace(region_mapping)
+
+# 2. Numbers with commas
+df['population'] = df['population'].str.replace(',', '').astype(int)
+
+# 3. Date formats vary
+df['census_date'] = pd.to_datetime(df['date'], dayfirst=True)</code></pre>
+            </section>
+
+            <!-- Validation -->
+            <section>
+                <h2>Data Validation</h2>
+                <pre><code class="language-python">def validate_data(df):
+    """Validate cleaned data"""
+    assert df.duplicated().sum() == 0, "Duplicates found!"
+    assert df.isnull().sum().sum() == 0, "Missing values found!"
+    assert df['age'].between(0, 120).all(), "Invalid ages!"
+    assert df['population'].ge(0).all(), "Negative population!"
+    
+    print("✅ All validations passed!")
+    return True
+
+# Run validation
+validate_data(df_clean)</code></pre>
+            </section>
+
+            <!-- Lecture 6 Summary -->
+            <section data-background-color="#F8FAFC">
+                <h2>Lecture 6 Summary</h2>
+                <div class="highlight-box">
+                    <h4>Key Takeaways</h4>
+                    <ol>
+                        <li>Always explore data quality first</li>
+                        <li>Choose appropriate missing value strategies</li>
+                        <li>Detect outliers with IQR or Z-score</li>
+                        <li>Transform data to suit analysis needs</li>
+                        <li>Validate data after cleaning</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Week 3 Summary -->
+            <section data-background="linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)">
+                <h2 style="color: white;">Week 3 Complete! 🎉</h2>
+                <div style="color: rgba(255,255,255,0.9);">
+                    <p><strong>What we covered:</strong></p>
+                    <ul style="text-align: left; margin: 0 auto; width: fit-content;">
+                        <li>Data collection methods</li>
+                        <li>Philippine data sources</li>
+                        <li>SQL fundamentals</li>
+                        <li>Data cleaning techniques</li>
+                        <li>Data transformation</li>
+                    </ul>
+                    <p style="margin-top: 1em;"><strong>Next Week:</strong> Exploratory Data Analysis</p>
+                </div>
+            </section>
+
+            <!-- Lab Preview -->
+            <section>
+                <h2>Lab 3: Data Wrangling Practice</h2>
+                <div class="highlight-box">
+                    <h4>This Week's Lab</h4>
+                    <ul>
+                        <li>Clean a messy Philippine Census dataset</li>
+                        <li>Write SQL queries to extract regional data</li>
+                        <li>Handle missing values and outliers</li>
+                        <li>Transform data for analysis</li>
+                    </ul>
+                    <p><strong>Due:</strong> Before next lecture</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: false,
+            transition: 'fade',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'fade',
+            center: true,
+            navigationMode: 'linear',
+            plugins: [RevealNotes, RevealMarkdown, RevealHighlight, RevealMath.MathJax3]
+        });
+
+        // Update slide counter
+        Reveal.on('slidechanged', event => {
+            document.getElementById('current-slide').textContent = event.indexh + 1;
+            document.getElementById('total-slides').textContent = Reveal.getTotalSlides();
+        });
+
+        // Initialize counter
+        document.getElementById('total-slides').textContent = Reveal.getTotalSlides();
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
