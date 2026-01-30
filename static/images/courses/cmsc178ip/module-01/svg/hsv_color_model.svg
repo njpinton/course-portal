@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 450" role="img" aria-label="HSV Color Model">
+  <title>HSV Color Model</title>
+  <desc>Hue, Saturation, and Value color model representation</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+  <rect width="750" height="450" fill="url(#bgGrad)"/>
+  <text x="375" y="35" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e" text-anchor="middle">HSV Color Model</text>
+  <text x="180" y="70" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="middle">Hue (0°-360°)</text>
+  <path d="M 180 210 L 280.0 210.0 A 100 100 0 0 1 266.6025403784439 260.0 Z" fill="#ff0000"/>
+  <path d="M 180 210 L 266.6025403784439 260.0 A 100 100 0 0 1 230.0 296.60254037844385 Z" fill="#ff8000"/>
+  <path d="M 180 210 L 230.0 296.60254037844385 A 100 100 0 0 1 180.0 310.0 Z" fill="#ffff00"/>
+  <path d="M 180 210 L 180.0 310.0 A 100 100 0 0 1 130.0 296.6025403784439 Z" fill="#80ff00"/>
+  <path d="M 180 210 L 130.0 296.6025403784439 A 100 100 0 0 1 93.39745962155612 260.0 Z" fill="#00ff00"/>
+  <path d="M 180 210 L 93.39745962155612 260.0 A 100 100 0 0 1 80.0 210.0 Z" fill="#00ff80"/>
+  <path d="M 180 210 L 80.0 210.0 A 100 100 0 0 1 93.39745962155614 160.0 Z" fill="#00ffff"/>
+  <path d="M 180 210 L 93.39745962155614 160.0 A 100 100 0 0 1 129.99999999999994 123.39745962155617 Z" fill="#0080ff"/>
+  <path d="M 180 210 L 129.99999999999994 123.39745962155617 A 100 100 0 0 1 179.99999999999997 110.0 Z" fill="#0000ff"/>
+  <path d="M 180 210 L 179.99999999999997 110.0 A 100 100 0 0 1 230.0 123.39745962155614 Z" fill="#8000ff"/>
+  <path d="M 180 210 L 230.0 123.39745962155614 A 100 100 0 0 1 266.60254037844385 159.99999999999994 Z" fill="#ff00ff"/>
+  <path d="M 180 210 L 266.60254037844385 159.99999999999994 A 100 100 0 0 1 280.0 209.99999999999997 Z" fill="#ff0080"/>
+  <circle cx="180" cy="210" r="30" fill="#ffffff"/>
+  <text x="180" y="215" font-family="Segoe UI, sans-serif" font-size="12" fill="#1f2937" text-anchor="middle">H</text>
+  <text x="420" y="100" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="middle">Saturation (0-100%)</text>
+  <defs><linearGradient id="satGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#ffffff"/><stop offset="100%" style="stop-color:#ff0000"/></linearGradient></defs>
+  <rect x="320" y="120" width="200" height="40" fill="url(#satGrad)" stroke="#6b7280" rx="4"/>
+  <text x="320" y="180" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">Gray</text>
+  <text x="520" y="180" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280" text-anchor="end">Vivid</text>
+  <text x="630" y="100" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="middle">Value (0-100%)</text>
+  <defs><linearGradient id="valGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000000"/><stop offset="100%" style="stop-color:#ff0000"/></linearGradient></defs>
+  <rect x="530" y="120" width="200" height="40" fill="url(#valGrad)" stroke="#6b7280" rx="4"/>
+  <text x="530" y="180" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">Dark</text>
+  <text x="730" y="180" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280" text-anchor="end">Bright</text>
+  <text x="500" y="230" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="middle">HSV Color Cone</text>
+  <ellipse cx="500" cy="280" rx="100" ry="30" fill="url(#coneTop)" stroke="#6b7280"/>
+  <line x1="400" y1="280" x2="500" y2="380" stroke="#6b7280" stroke-width="2"/>
+  <line x1="600" y1="280" x2="500" y2="380" stroke="#6b7280" stroke-width="2"/>
+  <circle cx="500" cy="380" r="5" fill="#000000"/>
+  <text x="500" y="400" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937" text-anchor="middle">V=0 (Black)</text>
+  <defs><radialGradient id="coneTop" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#ffffff"/><stop offset="100%" style="stop-color:#ff0000"/></radialGradient></defs>
+  <rect x="50" y="350" width="250" height="85" rx="8" fill="#e8f4fd" stroke="#7eb8da" stroke-width="2"/>
+  <text x="175" y="375" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Advantages</text>
+  <text x="60" y="395" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">• Intuitive for humans</text>
+  <text x="60" y="415" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">• Easy color manipulation</text>
+  <text x="60" y="430" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">• Separates color from intensity</text>
+</svg>

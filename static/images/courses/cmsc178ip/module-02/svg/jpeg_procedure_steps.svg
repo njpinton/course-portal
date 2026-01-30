@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" role="img" aria-label="JPEG Encoding Steps">
+<title>JPEG Encoding Steps</title><desc>Step-by-step JPEG compression procedure</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="800" height="380" fill="url(#bg)"/>
+<text x="400" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">JPEG Compression Pipeline</text>
+<rect x="50" y="80" width="100" height="100" rx="8" fill="#3b82f622" stroke="#3b82f6" stroke-width="2"/>
+<circle cx="100" cy="70" r="15" fill="#3b82f6"/>
+<text x="100" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">1</text>
+<text x="100" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Color</text>
+<text x="100" y="131" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Conversion</text>
+<text x="100" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">RGB→YCbCr</text>
+<path d="M155 130 L165 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr3)"/>
+<rect x="170" y="80" width="100" height="100" rx="8" fill="#8b5cf622" stroke="#8b5cf6" stroke-width="2"/>
+<circle cx="220" cy="70" r="15" fill="#8b5cf6"/>
+<text x="220" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
+<text x="220" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Chroma</text>
+<text x="220" y="131" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Subsample</text>
+<text x="220" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">4:2:0</text>
+<path d="M275 130 L285 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr3)"/>
+<rect x="290" y="80" width="100" height="100" rx="8" fill="#10b98122" stroke="#10b981" stroke-width="2"/>
+<circle cx="340" cy="70" r="15" fill="#10b981"/>
+<text x="340" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<text x="340" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">8×8 Block</text>
+<text x="340" y="131" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">DCT</text>
+<text x="340" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Frequency</text>
+<path d="M395 130 L405 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr3)"/>
+<rect x="410" y="80" width="100" height="100" rx="8" fill="#f9731622" stroke="#f97316" stroke-width="2"/>
+<circle cx="460" cy="70" r="15" fill="#f97316"/>
+<text x="460" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">4</text>
+<text x="460" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Quantization</text>
+<text x="460" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Lossy step</text>
+<path d="M515 130 L525 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr3)"/>
+<rect x="530" y="80" width="100" height="100" rx="8" fill="#3b82f622" stroke="#3b82f6" stroke-width="2"/>
+<circle cx="580" cy="70" r="15" fill="#3b82f6"/>
+<text x="580" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">5</text>
+<text x="580" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Zigzag</text>
+<text x="580" y="131" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Scan</text>
+<text x="580" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Reorder</text>
+<path d="M635 130 L645 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr3)"/>
+<rect x="650" y="80" width="100" height="100" rx="8" fill="#10b98122" stroke="#10b981" stroke-width="2"/>
+<circle cx="700" cy="70" r="15" fill="#10b981"/>
+<text x="700" y="75" font-family="Segoe UI" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">6</text>
+<text x="700" y="115" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Huffman</text>
+<text x="700" y="131" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">Encode</text>
+<text x="700" y="165" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Compress</text>
+<defs><marker id="arr3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#1a3a6e"/></marker></defs>
+<rect x="100" y="210" width="600" height="80" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="400" y="235" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Key Points</text>
+<text x="110" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937">• Lossy compression happens at Step 4 (Quantization)</text>
+<text x="110" y="280" font-family="Segoe UI" font-size="11" fill="#1f2937">• DCT transforms spatial data to frequency domain | Quality setting affects quantization table</text>
+</svg>

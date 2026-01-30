@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" role="img" aria-label="Image Formats">
+<title>Image Formats</title><desc>Comparison of common image file formats</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="400" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Image File Formats Comparison</text>
+<rect x="30" y="60" width="130" height="280" rx="8" fill="#f9731622" stroke="#f97316" stroke-width="2"/>
+<text x="95" y="90" font-family="Segoe UI" font-size="16" font-weight="600" fill="#f97316" text-anchor="middle">JPEG</text>
+<text x="95" y="110" font-family="monospace" font-size="10" fill="#6b7280" text-anchor="middle">.jpg</text>
+<text x="95" y="145" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Compression</text>
+<text x="95" y="160" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Lossy</text>
+<text x="95" y="195" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Best For</text>
+<text x="95" y="210" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Photos</text>
+<text x="95" y="245" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Bit Depth</text>
+<text x="95" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">8-bit</text>
+<rect x="175" y="60" width="130" height="280" rx="8" fill="#10b98122" stroke="#10b981" stroke-width="2"/>
+<text x="240" y="90" font-family="Segoe UI" font-size="16" font-weight="600" fill="#10b981" text-anchor="middle">PNG</text>
+<text x="240" y="110" font-family="monospace" font-size="10" fill="#6b7280" text-anchor="middle">.png</text>
+<text x="240" y="145" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Compression</text>
+<text x="240" y="160" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Lossless</text>
+<text x="240" y="195" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Best For</text>
+<text x="240" y="210" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Graphics</text>
+<text x="240" y="245" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Bit Depth</text>
+<text x="240" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">8/16-bit</text>
+<rect x="320" y="60" width="130" height="280" rx="8" fill="#8b5cf622" stroke="#8b5cf6" stroke-width="2"/>
+<text x="385" y="90" font-family="Segoe UI" font-size="16" font-weight="600" fill="#8b5cf6" text-anchor="middle">GIF</text>
+<text x="385" y="110" font-family="monospace" font-size="10" fill="#6b7280" text-anchor="middle">.gif</text>
+<text x="385" y="145" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Compression</text>
+<text x="385" y="160" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Lossless</text>
+<text x="385" y="195" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Best For</text>
+<text x="385" y="210" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Animation</text>
+<text x="385" y="245" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Bit Depth</text>
+<text x="385" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">8-bit (256)</text>
+<rect x="465" y="60" width="130" height="280" rx="8" fill="#3b82f622" stroke="#3b82f6" stroke-width="2"/>
+<text x="530" y="90" font-family="Segoe UI" font-size="16" font-weight="600" fill="#3b82f6" text-anchor="middle">TIFF</text>
+<text x="530" y="110" font-family="monospace" font-size="10" fill="#6b7280" text-anchor="middle">.tif</text>
+<text x="530" y="145" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Compression</text>
+<text x="530" y="160" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Both</text>
+<text x="530" y="195" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Best For</text>
+<text x="530" y="210" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Professional</text>
+<text x="530" y="245" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Bit Depth</text>
+<text x="530" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">8-32-bit</text>
+<rect x="610" y="60" width="130" height="280" rx="8" fill="#6b728022" stroke="#6b7280" stroke-width="2"/>
+<text x="675" y="90" font-family="Segoe UI" font-size="16" font-weight="600" fill="#6b7280" text-anchor="middle">BMP</text>
+<text x="675" y="110" font-family="monospace" font-size="10" fill="#6b7280" text-anchor="middle">.bmp</text>
+<text x="675" y="145" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Compression</text>
+<text x="675" y="160" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">None</text>
+<text x="675" y="195" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Best For</text>
+<text x="675" y="210" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Legacy</text>
+<text x="675" y="245" font-family="Segoe UI" font-size="10" font-weight="600" fill="#1f2937" text-anchor="middle">Bit Depth</text>
+<text x="675" y="260" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">1-32-bit</text>
+<rect x="100" y="355" width="550" height="35" rx="4" fill="#f3f4f6" stroke="#7eb8da"/>
+<text x="375" y="377" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">Lossy = data lost on save | Lossless = perfect reconstruction | None = uncompressed</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" role="img" aria-label="Memory Calculation">
+<title>Memory Calculation</title><desc>Image memory requirements based on resolution and bit depth</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="700" height="350" fill="url(#bg)"/>
+<text x="350" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Image Memory Requirements</text>
+<rect x="100" y="50" width="500" height="50" rx="8" fill="#e8f4fd" stroke="#7eb8da" stroke-width="2"/>
+<text x="350" y="80" font-family="monospace" font-size="14" fill="#1a3a6e" text-anchor="middle">Memory (bytes) = Width × Height × (Bits per pixel / 8)</text>
+<rect x="50" y="120" width="600" height="200" rx="0" fill="#ffffff" stroke="#1a3a6e" stroke-width="2"/>
+<rect x="50" y="120" width="150" height="35" fill="#1a3a6e"/>
+<text x="125.0" y="143" font-family="Segoe UI" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">Resolution</text>
+<rect x="200" y="120" width="150" height="35" fill="#1a3a6e"/>
+<text x="275.0" y="143" font-family="Segoe UI" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">Grayscale (8-bit)</text>
+<rect x="350" y="120" width="150" height="35" fill="#1a3a6e"/>
+<text x="425.0" y="143" font-family="Segoe UI" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">RGB (24-bit)</text>
+<rect x="500" y="120" width="150" height="35" fill="#1a3a6e"/>
+<text x="575.0" y="143" font-family="Segoe UI" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle">RGBA (32-bit)</text>
+<rect x="50" y="155" width="600" height="35" fill="#ffffff"/>
+<text x="125" y="177" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">640×480</text>
+<text x="275" y="177" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">300 KB</text>
+<text x="425" y="177" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">900 KB</text>
+<text x="575" y="177" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">1.2 MB</text>
+<rect x="50" y="190" width="600" height="35" fill="#f3f4f6"/>
+<text x="125" y="212" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">1280×720</text>
+<text x="275" y="212" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">900 KB</text>
+<text x="425" y="212" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">2.6 MB</text>
+<text x="575" y="212" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">3.5 MB</text>
+<rect x="50" y="225" width="600" height="35" fill="#ffffff"/>
+<text x="125" y="247" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">1920×1080</text>
+<text x="275" y="247" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">2.0 MB</text>
+<text x="425" y="247" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">5.9 MB</text>
+<text x="575" y="247" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">7.9 MB</text>
+<rect x="50" y="260" width="600" height="35" fill="#f3f4f6"/>
+<text x="125" y="282" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">3840×2160</text>
+<text x="275" y="282" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">7.9 MB</text>
+<text x="425" y="282" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">23.7 MB</text>
+<text x="575" y="282" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">31.6 MB</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" role="img" aria-label="Convolution Step by Step">
+<title>Convolution Step by Step</title><desc>How convolution works on images</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="400" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Convolution Operation</text>
+<text x="100" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Input Image</text>
+<rect x="30" y="80" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="44" y="98" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">1</text>
+<rect x="58" y="80" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="72" y="98" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">2</text>
+<rect x="86" y="80" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="100" y="98" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="114" y="80" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="128" y="98" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">4</text>
+<rect x="142" y="80" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="156" y="98" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">5</text>
+<rect x="30" y="108" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="44" y="126" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">5</text>
+<rect x="58" y="108" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="72" y="126" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">4</text>
+<rect x="86" y="108" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="100" y="126" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="114" y="108" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="128" y="126" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">2</text>
+<rect x="142" y="108" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="156" y="126" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">1</text>
+<rect x="30" y="136" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="44" y="154" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">1</text>
+<rect x="58" y="136" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="72" y="154" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="86" y="136" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="100" y="154" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">5</text>
+<rect x="114" y="136" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="128" y="154" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="142" y="136" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="156" y="154" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">1</text>
+<rect x="30" y="164" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="44" y="182" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">2</text>
+<rect x="58" y="164" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="72" y="182" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">4</text>
+<rect x="86" y="164" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="100" y="182" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">6</text>
+<rect x="114" y="164" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="128" y="182" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">4</text>
+<rect x="142" y="164" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="156" y="182" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">2</text>
+<rect x="30" y="192" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="44" y="210" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="58" y="192" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="72" y="210" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="86" y="192" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="100" y="210" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="114" y="192" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="128" y="210" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="142" y="192" width="28" height="28" fill="#f3f4f6" stroke="#6b7280"/>
+<text x="156" y="210" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">3</text>
+<rect x="58" y="108" width="84" height="84" fill="none" stroke="#f97316" stroke-width="3"/>
+<text x="280" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Kernel (3×3)</text>
+<rect x="230" y="80" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="247" y="102" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">0</text>
+<rect x="265" y="80" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="282" y="102" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">-1</text>
+<rect x="300" y="80" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="317" y="102" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">0</text>
+<rect x="230" y="115" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="247" y="137" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">-1</text>
+<rect x="265" y="115" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="282" y="137" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">5</text>
+<rect x="300" y="115" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="317" y="137" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">-1</text>
+<rect x="230" y="150" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="247" y="172" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">0</text>
+<rect x="265" y="150" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="282" y="172" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">-1</text>
+<rect x="300" y="150" width="35" height="35" fill="#3b82f622" stroke="#3b82f6"/>
+<text x="317" y="172" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">0</text>
+<text x="385" y="130" font-family="Segoe UI" font-size="24" fill="#1a3a6e">=</text>
+<rect x="410" y="105" width="60" height="50" fill="#10b98133" stroke="#10b981" stroke-width="2" rx="4"/>
+<text x="440" y="140" font-family="monospace" font-size="16" font-weight="600" fill="#1f2937" text-anchor="middle">9</text>
+<rect x="50" y="240" width="650" height="140" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="265" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Calculation (element-wise multiply and sum)</text>
+<text x="375" y="295" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">(0×4 + (-1)×3 + 0×2) + ((-1)×3 + 5×5 + (-1)×3) + (0×4 + (-1)×6 + 0×4)</text>
+<text x="375" y="320" font-family="monospace" font-size="12" fill="#10b981" text-anchor="middle">= 0 + (-3) + 0 + (-3) + 25 + (-3) + 0 + (-6) + 0 = 10</text>
+<text x="375" y="355" font-family="Segoe UI" font-size="11" fill="#1f2937" text-anchor="middle">This kernel is a sharpening filter (Laplacian + identity)</text>
+</svg>

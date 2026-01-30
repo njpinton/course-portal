@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Latent space concept visualization">
+  <title>Latent Space Concept</title>
+  <desc>Visualization of latent space as a compressed representation where similar data points cluster together and meaningful directions exist</desc>
+
+  <defs>
+    <linearGradient id="latentBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#latentBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Latent Space: Compressed Representation</text>
+
+  <!-- High-dimensional to Latent -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="500" height="175" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="250" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Encoding: High-Dim → Low-Dim</text>
+
+    <g transform="translate(25, 45)">
+      <!-- High-dimensional image -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="100" height="100" fill="#fef3c7" rx="4" stroke="#666"/>
+        <!-- Face representation -->
+        <ellipse cx="50" cy="50" rx="35" ry="40" fill="#fcd34d"/>
+        <circle cx="38" cy="42" r="6" fill="#333"/>
+        <circle cx="62" cy="42" r="6" fill="#333"/>
+        <path d="M40,65 Q50,75 60,65" fill="none" stroke="#333" stroke-width="2"/>
+        <text x="50" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">64×64×3 = 12,288 dims</text>
+      </g>
+
+      <!-- Encoder arrow -->
+      <g transform="translate(115, 35)">
+        <rect x="0" y="0" width="80" height="40" fill="#7c3aed" rx="6"/>
+        <text x="40" y="18" fill="white" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Encoder</text>
+        <text x="40" y="32" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">f(x)</text>
+      </g>
+
+      <!-- Latent vector -->
+      <g transform="translate(210, 20)">
+        <rect x="0" y="0" width="30" height="70" fill="#d1fae5" rx="4" stroke="#10b981" stroke-width="2"/>
+        <text x="15" y="25" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">0.3</text>
+        <text x="15" y="38" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">-0.7</text>
+        <text x="15" y="51" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">0.1</text>
+        <text x="15" y="64" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">...</text>
+        <text x="15" y="90" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">z</text>
+        <text x="15" y="105" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">128 dims</text>
+      </g>
+
+      <!-- Decoder arrow -->
+      <g transform="translate(255, 35)">
+        <rect x="0" y="0" width="80" height="40" fill="#f97316" rx="6"/>
+        <text x="40" y="18" fill="white" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Decoder</text>
+        <text x="40" y="32" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">g(z)</text>
+      </g>
+
+      <!-- Reconstructed image -->
+      <g transform="translate(350, 0)">
+        <rect x="0" y="0" width="100" height="100" fill="#fef3c7" rx="4" stroke="#f97316" stroke-width="2"/>
+        <ellipse cx="50" cy="50" rx="35" ry="40" fill="#fcd34d"/>
+        <circle cx="38" cy="42" r="6" fill="#333"/>
+        <circle cx="62" cy="42" r="6" fill="#333"/>
+        <path d="M40,65 Q50,75 60,65" fill="none" stroke="#333" stroke-width="2"/>
+        <text x="50" y="115" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Reconstruction</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Latent space visualization -->
+  <g transform="translate(545, 55)">
+    <rect x="0" y="0" width="275" height="175" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="137" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">2D Latent Space</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Coordinate system -->
+      <line x1="10" y1="110" x2="210" y2="110" stroke="#333" stroke-width="1"/>
+      <line x1="10" y1="10" x2="10" y2="110" stroke="#333" stroke-width="1"/>
+      <text x="110" y="125" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">z₁</text>
+      <text x="0" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" transform="rotate(-90, 0, 60)">z₂</text>
+
+      <!-- Clusters -->
+      <!-- Smiling cluster -->
+      <ellipse cx="60" cy="40" rx="30" ry="25" fill="#d1fae5" opacity="0.5"/>
+      <circle cx="50" cy="35" r="5" fill="#10b981"/>
+      <circle cx="65" cy="45" r="5" fill="#10b981"/>
+      <circle cx="55" cy="50" r="5" fill="#10b981"/>
+      <circle cx="70" cy="35" r="5" fill="#10b981"/>
+      <text x="60" y="75" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">😊 Smiling</text>
+
+      <!-- Neutral cluster -->
+      <ellipse cx="150" cy="70" rx="30" ry="25" fill="#dbeafe" opacity="0.5"/>
+      <circle cx="140" cy="65" r="5" fill="#3b82f6"/>
+      <circle cx="155" cy="75" r="5" fill="#3b82f6"/>
+      <circle cx="145" cy="80" r="5" fill="#3b82f6"/>
+      <circle cx="160" cy="65" r="5" fill="#3b82f6"/>
+      <text x="150" y="105" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">😐 Neutral</text>
+
+      <!-- Arrow showing direction -->
+      <path d="M75,50 L130,65" stroke="#f97316" stroke-width="2" stroke-dasharray="4,2"/>
+      <polygon points="130,62 138,65 130,68" fill="#f97316"/>
+      <text x="100" y="45" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">"smile" direction</text>
+    </g>
+  </g>
+
+  <!-- Properties -->
+  <g transform="translate(30, 245)">
+    <rect x="0" y="0" width="790" height="130" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="395" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Latent Space Properties</text>
+
+    <g transform="translate(25, 42)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="180" height="70" fill="#dbeafe" rx="4"/>
+        <text x="90" y="18" fill="#3b82f6" font-weight="600" text-anchor="middle">Compression</text>
+        <text x="90" y="35" fill="#666" text-anchor="middle" font-size="8">High-dim data → low-dim</text>
+        <text x="90" y="50" fill="#666" text-anchor="middle" font-size="8">12,288 → 128 dimensions</text>
+        <text x="90" y="65" fill="#666" text-anchor="middle" font-size="8">~96x reduction</text>
+      </g>
+
+      <g transform="translate(195, 0)">
+        <rect x="0" y="0" width="180" height="70" fill="#d1fae5" rx="4"/>
+        <text x="90" y="18" fill="#10b981" font-weight="600" text-anchor="middle">Structure</text>
+        <text x="90" y="35" fill="#666" text-anchor="middle" font-size="8">Similar inputs → nearby z</text>
+        <text x="90" y="50" fill="#666" text-anchor="middle" font-size="8">Clusters form by attributes</text>
+        <text x="90" y="65" fill="#666" text-anchor="middle" font-size="8">Smooth interpolation</text>
+      </g>
+
+      <g transform="translate(390, 0)">
+        <rect x="0" y="0" width="180" height="70" fill="#f5f3ff" rx="4"/>
+        <text x="90" y="18" fill="#7c3aed" font-weight="600" text-anchor="middle">Manipulation</text>
+        <text x="90" y="35" fill="#666" text-anchor="middle" font-size="8">Move in latent space</text>
+        <text x="90" y="50" fill="#666" text-anchor="middle" font-size="8">= Change attributes</text>
+        <text x="90" y="65" fill="#666" text-anchor="middle" font-size="8">z + "smile" = smiling face</text>
+      </g>
+
+      <g transform="translate(585, 0)">
+        <rect x="0" y="0" width="180" height="70" fill="#fef3c7" rx="4"/>
+        <text x="90" y="18" fill="#f97316" font-weight="600" text-anchor="middle">Generation</text>
+        <text x="90" y="35" fill="#666" text-anchor="middle" font-size="8">Sample z ~ N(0, 1)</text>
+        <text x="90" y="50" fill="#666" text-anchor="middle" font-size="8">Decode to new image</text>
+        <text x="90" y="65" fill="#666" text-anchor="middle" font-size="8">Never-seen-before data</text>
+      </g>
+    </g>
+  </g>
+</svg>

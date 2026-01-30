@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Point Operations">
+<title>Point Operations</title><desc>Pixel-wise transformations in image processing</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Point Operations (Pixel Transformations)</text>
+<text x="120" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#f97316" text-anchor="middle">Brightness</text>
+<defs><linearGradient id="in0" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#333"/><stop offset="100%" style="stop-color:#aaa"/></linearGradient></defs>
+<rect x="50" y="80" width="140" height="30" fill="url(#in0)" stroke="#6b7280"/>
+<text x="120" y="125" font-family="monospace" font-size="12" fill="#f97316" text-anchor="middle">↓ +50</text>
+<defs><linearGradient id="out0" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#666"/><stop offset="100%" style="stop-color:#ddd"/></linearGradient></defs>
+<rect x="50" y="140" width="140" height="30" fill="url(#out0)" stroke="#6b7280"/>
+<text x="120" y="190" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Adds constant</text>
+<text x="295" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#3b82f6" text-anchor="middle">Contrast</text>
+<defs><linearGradient id="in1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#333"/><stop offset="100%" style="stop-color:#aaa"/></linearGradient></defs>
+<rect x="225" y="80" width="140" height="30" fill="url(#in1)" stroke="#6b7280"/>
+<text x="295" y="125" font-family="monospace" font-size="12" fill="#3b82f6" text-anchor="middle">↓ ×1.5</text>
+<defs><linearGradient id="out1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#111"/><stop offset="100%" style="stop-color:#fff"/></linearGradient></defs>
+<rect x="225" y="140" width="140" height="30" fill="url(#out1)" stroke="#6b7280"/>
+<text x="295" y="190" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Multiplies</text>
+<text x="470" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#8b5cf6" text-anchor="middle">Negative</text>
+<defs><linearGradient id="in2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#333"/><stop offset="100%" style="stop-color:#aaa"/></linearGradient></defs>
+<rect x="400" y="80" width="140" height="30" fill="url(#in2)" stroke="#6b7280"/>
+<text x="470" y="125" font-family="monospace" font-size="12" fill="#8b5cf6" text-anchor="middle">↓ 255-x</text>
+<defs><linearGradient id="out2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#ccc"/><stop offset="100%" style="stop-color:#555"/></linearGradient></defs>
+<rect x="400" y="140" width="140" height="30" fill="url(#out2)" stroke="#6b7280"/>
+<text x="470" y="190" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Inverts</text>
+<text x="645" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#10b981" text-anchor="middle">Threshold</text>
+<defs><linearGradient id="in3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#333"/><stop offset="100%" style="stop-color:#aaa"/></linearGradient></defs>
+<rect x="575" y="80" width="140" height="30" fill="url(#in3)" stroke="#6b7280"/>
+<text x="645" y="125" font-family="monospace" font-size="12" fill="#10b981" text-anchor="middle">↓ >128?</text>
+<defs><linearGradient id="out3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000"/><stop offset="50%" style="stop-color:#000"/><stop offset="50.1%" style="stop-color:#fff"/><stop offset="100%" style="stop-color:#fff"/></linearGradient></defs>
+<rect x="575" y="140" width="140" height="30" fill="url(#out3)" stroke="#6b7280"/>
+<text x="645" y="190" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Binary</text>
+<rect x="100" y="220" width="550" height="140" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="245" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Point Operation Properties</text>
+<text x="120" y="275" font-family="Segoe UI" font-size="11" fill="#1f2937">• Output depends only on input pixel value (not neighbors)</text>
+<text x="120" y="295" font-family="Segoe UI" font-size="11" fill="#1f2937">• Formula: g(x,y) = T[f(x,y)] where T is transformation function</text>
+<text x="120" y="315" font-family="Segoe UI" font-size="11" fill="#1f2937">• Applications: brightness/contrast adjustment, LUT mapping, thresholding</text>
+<text x="120" y="335" font-family="Segoe UI" font-size="11" fill="#1f2937">• Very fast: can process each pixel independently (parallelizable)</text>
+</svg>

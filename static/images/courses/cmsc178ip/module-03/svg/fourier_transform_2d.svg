@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="2D Fourier Transform">
+<title>2D Fourier Transform</title><desc>Spatial to frequency domain transformation</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">2D Fourier Transform</text>
+<text x="150" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Spatial Domain</text>
+<rect x="60" y="80" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="80" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="80" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="80" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="80" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="80" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="80" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="80" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="102" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="102" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="102" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="102" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="102" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="102" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="102" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="102" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="124" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="124" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="124" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="124" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="124" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="124" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="124" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="124" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="146" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="146" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="146" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="146" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="146" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="146" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="146" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="146" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="168" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="168" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="168" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="168" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="168" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="168" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="168" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="168" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="190" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="190" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="190" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="190" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="190" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="190" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="190" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="190" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="212" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="212" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="212" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="212" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="212" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="212" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="212" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="212" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="234" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="82" y="234" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="104" y="234" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="126" y="234" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="148" y="234" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="170" y="234" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="192" y="234" width="22" height="22" fill="rgb(228,228,228)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="214" y="234" width="22" height="22" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="0.5"/>
+<rect x="60" y="80" width="176" height="176" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+<text x="150" y="280" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">f(x, y)</text>
+<path d="M260 170 L350 170" stroke="#1a3a6e" stroke-width="3" marker-end="url(#arr7)"/>
+<text x="305" y="155" font-family="Segoe UI" font-size="11" fill="#f97316" text-anchor="middle">FFT</text>
+<defs><marker id="arr7" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a3a6e"/></marker></defs>
+<text x="500" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Frequency Domain</text>
+<rect x="380" y="80" width="176" height="176" fill="#111" stroke="#1a3a6e" stroke-width="2"/>
+<circle cx="468" cy="168" r="20" fill="#ffffff"/>
+<circle cx="468" cy="168" r="40" fill="none" stroke="#6b7280" opacity="0.5"/>
+<circle cx="468" cy="168" r="60" fill="none" stroke="#6b7280" opacity="0.3"/>
+<circle cx="428" cy="128" r="5" fill="#ffffff" opacity="0.8"/>
+<circle cx="508" cy="208" r="5" fill="#ffffff" opacity="0.8"/>
+<text x="500" y="280" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">|F(u, v)| (log scale)</text>
+<rect x="100" y="300" width="550" height="65" rx="8" fill="#f3f4f6" stroke="#7eb8da" stroke-width="2"/>
+<text x="120" y="325" font-family="Segoe UI" font-size="11" fill="#1f2937">• Center = DC (average brightness) | Edges = high frequencies</text>
+<text x="120" y="350" font-family="Segoe UI" font-size="11" fill="#1f2937">• Periodic patterns in spatial domain → peaks in frequency domain</text>
+</svg>

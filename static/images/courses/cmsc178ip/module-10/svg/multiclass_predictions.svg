@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Multiclass classification prediction examples">
+  <title>Multiclass Predictions</title>
+  <desc>Examples of multiclass image classification showing input images, predicted class probabilities, and correct vs incorrect predictions</desc>
+
+  <defs>
+    <linearGradient id="multiPredBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#multiPredBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Multiclass Classification Predictions</text>
+
+  <!-- Correct predictions -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="390" height="320" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="195" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">✓ Correct Predictions</text>
+
+    <!-- Example 1: Cat -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="70" height="70" fill="#fef3c7" rx="4" stroke="#666"/>
+      <!-- Cat face -->
+      <ellipse cx="35" cy="40" rx="25" ry="22" fill="#f97316"/>
+      <polygon points="18,20 12,32 24,30" fill="#f97316"/>
+      <polygon points="52,20 58,32 46,30" fill="#f97316"/>
+      <circle cx="28" cy="38" r="4" fill="#333"/>
+      <circle cx="42" cy="38" r="4" fill="#333"/>
+      <ellipse cx="35" cy="48" rx="5" ry="3" fill="#fca5a5"/>
+
+      <!-- Predictions -->
+      <g transform="translate(85, 0)" font-family="Segoe UI, sans-serif" font-size="9">
+        <text x="0" y="12" fill="#333" font-weight="600">Predictions:</text>
+        <rect x="0" y="18" width="130" height="14" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="18" width="120" height="14" fill="#10b981" rx="2"/>
+        <text x="5" y="28" fill="white">Cat: 92%</text>
+
+        <rect x="0" y="36" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="36" width="8" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="45" fill="#666">Dog: 5%</text>
+
+        <rect x="0" y="52" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="52" width="4" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="61" fill="#666">Tiger: 2%</text>
+      </g>
+      <text x="35" y="85" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">True: Cat ✓</text>
+    </g>
+
+    <!-- Example 2: Dog -->
+    <g transform="translate(20, 140)">
+      <rect x="0" y="0" width="70" height="70" fill="#e5e7eb" rx="4" stroke="#666"/>
+      <!-- Dog face -->
+      <ellipse cx="35" cy="35" rx="22" ry="20" fill="#d4a574"/>
+      <ellipse cx="20" cy="20" rx="10" ry="15" fill="#c9956e"/>
+      <ellipse cx="50" cy="20" rx="10" ry="15" fill="#c9956e"/>
+      <circle cx="28" cy="32" r="4" fill="#333"/>
+      <circle cx="42" cy="32" r="4" fill="#333"/>
+      <ellipse cx="35" cy="42" rx="6" ry="4" fill="#333"/>
+
+      <g transform="translate(85, 0)" font-family="Segoe UI, sans-serif" font-size="9">
+        <text x="0" y="12" fill="#333" font-weight="600">Predictions:</text>
+        <rect x="0" y="18" width="130" height="14" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="18" width="115" height="14" fill="#10b981" rx="2"/>
+        <text x="5" y="28" fill="white">Dog: 88%</text>
+
+        <rect x="0" y="36" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="36" width="10" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="45" fill="#666">Wolf: 7%</text>
+
+        <rect x="0" y="52" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="52" width="6" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="61" fill="#666">Cat: 3%</text>
+      </g>
+      <text x="35" y="85" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">True: Dog ✓</text>
+    </g>
+
+    <!-- Example 3: Car -->
+    <g transform="translate(20, 235)">
+      <rect x="0" y="0" width="70" height="70" fill="#dbeafe" rx="4" stroke="#666"/>
+      <!-- Car -->
+      <rect x="10" y="30" width="50" height="22" fill="#ef4444" rx="3"/>
+      <rect x="18" y="22" width="32" height="15" fill="#93c5fd" rx="3"/>
+      <circle cx="20" cy="55" r="7" fill="#333"/>
+      <circle cx="50" cy="55" r="7" fill="#333"/>
+
+      <g transform="translate(85, 0)" font-family="Segoe UI, sans-serif" font-size="9">
+        <text x="0" y="12" fill="#333" font-weight="600">Predictions:</text>
+        <rect x="0" y="18" width="130" height="14" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="18" width="125" height="14" fill="#10b981" rx="2"/>
+        <text x="5" y="28" fill="white">Car: 96%</text>
+
+        <rect x="0" y="36" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="36" width="4" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="45" fill="#666">Truck: 2%</text>
+
+        <rect x="0" y="52" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="52" width="3" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="61" fill="#666">Bus: 1%</text>
+      </g>
+      <text x="35" y="85" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">True: Car ✓</text>
+    </g>
+  </g>
+
+  <!-- Incorrect predictions -->
+  <g transform="translate(435, 55)">
+    <rect x="0" y="0" width="385" height="320" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="192" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">✗ Incorrect Predictions</text>
+
+    <!-- Example 1: Misclassified cat as tiger -->
+    <g transform="translate(20, 45)">
+      <rect x="0" y="0" width="70" height="70" fill="#fef3c7" rx="4" stroke="#666"/>
+      <!-- Striped cat (looks like tiger) -->
+      <ellipse cx="35" cy="40" rx="25" ry="22" fill="#f97316"/>
+      <line x1="15" y1="35" x2="55" y2="35" stroke="#333" stroke-width="2"/>
+      <line x1="18" y1="42" x2="52" y2="42" stroke="#333" stroke-width="2"/>
+      <line x1="20" y1="49" x2="50" y2="49" stroke="#333" stroke-width="2"/>
+      <polygon points="18,22 12,32 24,30" fill="#f97316"/>
+      <polygon points="52,22 58,32 46,30" fill="#f97316"/>
+      <circle cx="28" cy="36" r="3" fill="#333"/>
+      <circle cx="42" cy="36" r="3" fill="#333"/>
+
+      <g transform="translate(85, 0)" font-family="Segoe UI, sans-serif" font-size="9">
+        <text x="0" y="12" fill="#333" font-weight="600">Predictions:</text>
+        <rect x="0" y="18" width="130" height="14" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="18" width="75" height="14" fill="#ef4444" rx="2"/>
+        <text x="5" y="28" fill="white">Tiger: 58%</text>
+
+        <rect x="0" y="36" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="36" width="45" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="45" fill="#666">Cat: 35%</text>
+
+        <rect x="0" y="52" width="130" height="12" fill="#f1f5f9" rx="2"/>
+        <rect x="0" y="52" width="10" height="12" fill="#94a3b8" rx="2"/>
+        <text x="5" y="61" fill="#666">Leopard: 5%</text>
+      </g>
+      <text x="35" y="85" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">True: Cat ✗</text>
+    </g>
+
+    <!-- Analysis -->
+    <g transform="translate(20, 140)">
+      <rect x="0" y="0" width="345" height="165" fill="#fef2f2" rx="6"/>
+      <text x="172" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Why Misclassification Happens</text>
+
+      <g transform="translate(15, 35)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="50" fill="white" rx="4"/>
+        <text x="77" y="15" fill="#333" text-anchor="middle" font-weight="600">Visual Similarity</text>
+        <text x="77" y="30" fill="#666" text-anchor="middle" font-size="8">Stripes confuse model</text>
+        <text x="77" y="43" fill="#666" text-anchor="middle" font-size="8">with tiger patterns</text>
+
+        <rect x="165" y="0" width="155" height="50" fill="white" rx="4"/>
+        <text x="242" y="15" fill="#333" text-anchor="middle" font-weight="600">Low Confidence</text>
+        <text x="242" y="30" fill="#666" text-anchor="middle" font-size="8">Only 58% confident</text>
+        <text x="242" y="43" fill="#666" text-anchor="middle" font-size="8">suggests uncertainty</text>
+
+        <rect x="0" y="60" width="155" height="50" fill="white" rx="4"/>
+        <text x="77" y="75" fill="#333" text-anchor="middle" font-weight="600">Training Data</text>
+        <text x="77" y="90" fill="#666" text-anchor="middle" font-size="8">May need more</text>
+        <text x="77" y="103" fill="#666" text-anchor="middle" font-size="8">striped cat examples</text>
+
+        <rect x="165" y="60" width="155" height="50" fill="white" rx="4"/>
+        <text x="242" y="75" fill="#333" text-anchor="middle" font-weight="600">Hard Example</text>
+        <text x="242" y="90" fill="#666" text-anchor="middle" font-size="8">Edge case where</text>
+        <text x="242" y="103" fill="#666" text-anchor="middle" font-size="8">classes overlap</text>
+      </g>
+    </g>
+  </g>
+</svg>

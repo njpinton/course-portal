@@ -151,6 +151,11 @@ node_modules/
 # macOS
 .DS_Store
 
+# ⚠️ CRITICAL: Student submission data - DO NOT DELETE
+# This directory contains student exam submissions and enrollment data
+# that is NOT backed up in git. See data/README.md for details.
+data/
+
 # IDE
 .idea/
 .vscode/
@@ -173,9 +178,6 @@ CLAUDE.md
 # Development artifacts
 slide-reviews/
 images/module12/
-
-# User uploads
-uploads/
 
 # Supabase local config
 supabase/

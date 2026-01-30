@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Huffman Encoding">
+<title>Huffman Encoding</title><desc>Huffman tree construction and encoding example</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Huffman Coding</text>
+<text x="100" y="65" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e">Symbol Frequencies:</text>
+<rect x="80" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="105" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">A</text>
+<text x="105" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">45%</text>
+<rect x="140" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="165" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">B</text>
+<text x="165" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">13%</text>
+<rect x="200" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="225" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">C</text>
+<text x="225" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">12%</text>
+<rect x="260" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="285" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">D</text>
+<text x="285" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">16%</text>
+<rect x="320" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="345" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">E</text>
+<text x="345" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">9%</text>
+<rect x="380" y="80" width="50" height="50" rx="4" fill="#3b82f622" stroke="#3b82f6" stroke-width="1"/>
+<text x="405" y="100" font-family="monospace" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">F</text>
+<text x="405" y="120" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">5%</text>
+<text x="450" y="65" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e">Huffman Codes:</text>
+<text x="450" y="85" font-family="monospace" font-size="12" fill="#1f2937">A:</text>
+<text x="490" y="85" font-family="monospace" font-size="12" fill="#10b981">0</text>
+<text x="550" y="85" font-family="Segoe UI" font-size="10" fill="#6b7280">(1 bits)</text>
+<text x="450" y="110" font-family="monospace" font-size="12" fill="#1f2937">B:</text>
+<text x="490" y="110" font-family="monospace" font-size="12" fill="#10b981">101</text>
+<text x="550" y="110" font-family="Segoe UI" font-size="10" fill="#6b7280">(3 bits)</text>
+<text x="450" y="135" font-family="monospace" font-size="12" fill="#1f2937">C:</text>
+<text x="490" y="135" font-family="monospace" font-size="12" fill="#10b981">100</text>
+<text x="550" y="135" font-family="Segoe UI" font-size="10" fill="#6b7280">(3 bits)</text>
+<text x="450" y="160" font-family="monospace" font-size="12" fill="#1f2937">D:</text>
+<text x="490" y="160" font-family="monospace" font-size="12" fill="#10b981">111</text>
+<text x="550" y="160" font-family="Segoe UI" font-size="10" fill="#6b7280">(3 bits)</text>
+<text x="450" y="185" font-family="monospace" font-size="12" fill="#1f2937">E:</text>
+<text x="490" y="185" font-family="monospace" font-size="12" fill="#10b981">1101</text>
+<text x="550" y="185" font-family="Segoe UI" font-size="10" fill="#6b7280">(4 bits)</text>
+<text x="450" y="210" font-family="monospace" font-size="12" fill="#1f2937">F:</text>
+<text x="490" y="210" font-family="monospace" font-size="12" fill="#10b981">1100</text>
+<text x="550" y="210" font-family="Segoe UI" font-size="10" fill="#6b7280">(4 bits)</text>
+<rect x="100" y="250" width="550" height="110" rx="8" fill="#d4edda" stroke="#10b981" stroke-width="2"/>
+<text x="375" y="280" font-family="Segoe UI" font-size="13" font-weight="600" fill="#155724" text-anchor="middle">Huffman Coding Principle</text>
+<text x="120" y="310" font-family="Segoe UI" font-size="11" fill="#155724">• Frequent symbols → Short codes (A=45% gets 1 bit)</text>
+<text x="120" y="330" font-family="Segoe UI" font-size="11" fill="#155724">• Rare symbols → Long codes (F=5% gets 4 bits)</text>
+<text x="120" y="350" font-family="Segoe UI" font-size="11" fill="#155724">• Result: Optimal prefix-free encoding (no code is prefix of another)</text>
+</svg>

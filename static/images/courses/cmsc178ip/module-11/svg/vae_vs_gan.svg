@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Comparison of VAE and GAN generative models">
+  <title>VAE vs GAN Comparison</title>
+  <desc>Side-by-side comparison of Variational Autoencoders and Generative Adversarial Networks including architecture, training, and output characteristics</desc>
+
+  <defs>
+    <linearGradient id="vsgBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#vsgBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">VAE vs GAN: Generative Model Comparison</text>
+
+  <!-- VAE column -->
+  <g transform="translate(30, 50)">
+    <rect x="0" y="0" width="385" height="325" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <rect x="0" y="0" width="385" height="35" fill="#7c3aed" rx="8"/>
+    <rect x="0" y="27" width="385" height="8" fill="#7c3aed"/>
+    <text x="192" y="24" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Variational Autoencoder (VAE)</text>
+
+    <g transform="translate(15, 50)">
+      <!-- Architecture -->
+      <text x="0" y="0" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Architecture</text>
+      <rect x="0" y="10" width="355" height="40" fill="#f5f3ff" rx="4"/>
+      <text x="177" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Encoder → Latent (μ, σ) → Decoder</text>
+      <text x="177" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Single network, reconstructs input</text>
+
+      <!-- Training -->
+      <text x="0" y="70" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Training</text>
+      <rect x="0" y="80" width="355" height="40" fill="#f5f3ff" rx="4"/>
+      <text x="177" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Maximize ELBO (Evidence Lower Bound)</text>
+      <text x="177" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Stable training, clear convergence</text>
+
+      <!-- Output quality -->
+      <text x="0" y="140" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Output Quality</text>
+      <rect x="0" y="150" width="355" height="40" fill="#f5f3ff" rx="4"/>
+      <text x="177" y="170" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Tends to be blurry</text>
+      <text x="177" y="185" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Optimizes for average, not detail</text>
+
+      <!-- Latent space -->
+      <text x="0" y="210" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Latent Space</text>
+      <rect x="0" y="220" width="355" height="40" fill="#f5f3ff" rx="4"/>
+      <text x="177" y="240" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Structured, continuous, interpretable</text>
+      <text x="177" y="255" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Good for interpolation and editing</text>
+    </g>
+  </g>
+
+  <!-- GAN column -->
+  <g transform="translate(435, 50)">
+    <rect x="0" y="0" width="385" height="325" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <rect x="0" y="0" width="385" height="35" fill="#10b981" rx="8"/>
+    <rect x="0" y="27" width="385" height="8" fill="#10b981"/>
+    <text x="192" y="24" fill="white" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Generative Adversarial Network (GAN)</text>
+
+    <g transform="translate(15, 50)">
+      <!-- Architecture -->
+      <text x="0" y="0" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Architecture</text>
+      <rect x="0" y="10" width="355" height="40" fill="#d1fae5" rx="4"/>
+      <text x="177" y="30" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Generator + Discriminator (adversarial)</text>
+      <text x="177" y="45" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Two networks competing</text>
+
+      <!-- Training -->
+      <text x="0" y="70" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Training</text>
+      <rect x="0" y="80" width="355" height="40" fill="#d1fae5" rx="4"/>
+      <text x="177" y="100" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Minimax game, adversarial loss</text>
+      <text x="177" y="115" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Tricky to train, can be unstable</text>
+
+      <!-- Output quality -->
+      <text x="0" y="140" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Output Quality</text>
+      <rect x="0" y="150" width="355" height="40" fill="#d1fae5" rx="4"/>
+      <text x="177" y="170" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Sharp, realistic images</text>
+      <text x="177" y="185" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">State-of-the-art visual quality</text>
+
+      <!-- Latent space -->
+      <text x="0" y="210" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600">Latent Space</text>
+      <rect x="0" y="220" width="355" height="40" fill="#d1fae5" rx="4"/>
+      <text x="177" y="240" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Less structured, not explicitly regularized</text>
+      <text x="177" y="255" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">No encoder by default</text>
+    </g>
+  </g>
+
+  <!-- Summary comparison -->
+  <g transform="translate(175, 382)">
+    <rect x="0" y="0" width="500" height="18" fill="#dbeafe" rx="4"/>
+    <text x="250" y="13" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">VAE: Stable + Structured | GAN: Sharp + Realistic | Combine both for best results!</text>
+  </g>
+</svg>

@@ -2,10 +2,604 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=/static/presentations/cmsc178ip/module-02/index.html">
-    <title>Redirecting to Module 2...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 02: Image Types, Storage Formats, Coding & Compression | CMSC 178IP</title>
+    <meta name="description" content="Image Types, Storage Formats, Coding & Compression - CMSC 178IP at University of the Philippines Cebu">
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- PDF Print stylesheet (loaded conditionally) -->
+    <script>
+        if (window.location.search.match(/print-pdf/gi)) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/print/pdf.css';
+            document.head.appendChild(link);
+        }
+    </script>
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        /* UP Cebu Color Palette */
+        :root {
+            --up-maroon: #7b1113;
+            --up-gold: #ffd700;
+            --navy-blue: #1a3a6e;
+            --steel-blue: #7eb8da;
+            --light-gray: #f8f9fa;
+            --dark-gray: #2c3e50;
+            --text-dark: #333;
+            --text-light: #666;
+            --header-bg: #4A90A4;
+            --header-bg-dark: #3a7a94;
+        }
+
+        body { margin: 0; padding: 0; }
+
+        .presenter-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: var(--header-bg);
+            color: white;
+            padding: 8px 16px;
+            border-bottom: 3px solid var(--up-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .presenter-header h1 {
+            font-size: 0.95em;
+            font-weight: 500;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .home-button {
+            background: var(--up-gold);
+            color: var(--header-bg-dark);
+            border: none;
+            padding: 6px 12px;
+            font-size: 0.75em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .home-button:hover {
+            background: white;
+            color: var(--header-bg-dark);
+        }
+
+        .home-button svg { width: 14px; height: 14px; }
+
+        .course-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .course-badge svg { opacity: 0.9; }
+
+        .slide-counter {
+            font-size: 0.9em;
+            color: var(--up-gold);
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .header-btn:hover { background: rgba(255, 255, 255, 0.25); }
+        .header-btn svg { width: 18px; height: 18px; }
+
+        /* Reveal.js overrides */
+        .reveal {
+            margin-top: 50px !important;
+            height: calc(100vh - 50px) !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        /* Hide vertical navigation controls - horizontal only */
+        .reveal .controls .navigate-up,
+        .reveal .controls .navigate-down {
+            display: none !important;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            font-weight: 600;
+            color: var(--navy-blue);
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+
+        .reveal h1 { font-size: 2.2em; margin-bottom: 0.5em; }
+        .reveal h2 {
+            font-size: 1.6em;
+            margin-bottom: 0.4em;
+            border-bottom: 3px solid var(--steel-blue);
+            padding-bottom: 0.2em;
+        }
+        .reveal h3 { font-size: 1.3em; color: var(--steel-blue); }
+
+        .two-columns, .two-column {
+            display: flex;
+            gap: 2em;
+            align-items: flex-start;
+        }
+
+        .two-columns > div, .two-column > .column, .column {
+            flex: 1;
+            text-align: left;
+        }
+
+        .reveal ul, .reveal ol { text-align: left; margin-left: 1em; }
+        .reveal li { margin-bottom: 0.3em; line-height: 1.4; }
+
+        .reveal pre {
+            width: 100%;
+            font-size: 0.7em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .reveal code { font-family: 'Fira Code', 'Consolas', monospace; }
+        .reveal pre code { padding: 1em; max-height: 400px; }
+
+        .math-display, .math-block {
+            font-size: 1.3em;
+            margin: 0.5em 0;
+            color: var(--navy-blue);
+        }
+
+        .reveal img {
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .caption {
+            font-size: 0.7em;
+            color: var(--text-light);
+            font-style: italic;
+            margin-top: 0.5em;
+        }
+
+        .highlight-box, .highlight {
+            background-color: var(--light-gray);
+            border-left: 4px solid var(--navy-blue);
+            padding: 1em 1.5em;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        .definition-box, .definition {
+            background-color: #e8f4fd;
+            border: 2px solid var(--steel-blue);
+            padding: 1em 1.5em;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .formula-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 1em 1.5em;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0f8ff 100%);
+            border-left: 4px solid var(--navy-blue);
+            padding: 1em 1.5em;
+            border-radius: 0 8px 8px 0;
+            margin: 1em 0;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1em 1.5em;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        /* Knowledge check styling */
+        .knowledge-check {
+            background: #f0fff0;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 1em;
+            margin-top: 1em;
+            text-align: left;
+        }
+
+        .knowledge-check h4 {
+            color: #28a745;
+            margin: 0 0 0.5em 0;
+        }
+
+        .knowledge-check .question { font-weight: 500; }
+
+        .knowledge-check button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5em;
+        }
+
+        .knowledge-check button:hover { background: #218838; }
+
+        .knowledge-check .answer {
+            margin-top: 0.5em;
+            padding: 0.5em;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .knowledge-check .answer.hidden { display: none; }
+
+        .reveal table { margin: 1em auto; border-collapse: collapse; }
+        .reveal table th {
+            background-color: var(--navy-blue);
+            color: white;
+            padding: 0.5em 1em;
+        }
+        .reveal table td { padding: 0.4em 1em; border: 1px solid #ddd; }
+        .reveal table tr:nth-child(even) { background-color: var(--light-gray); }
+
+        /* Loading state */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            font-size: 1.2em;
+            color: var(--text-light);
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--navy-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1em;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .presenter-header { padding: 6px 12px; }
+            .presenter-header h1 { display: none; }
+            .course-badge span { display: none; }
+            .header-left { gap: 10px; }
+            .home-button span { display: none; }
+            .reveal {
+                font-size: 20px;
+                margin-top: 45px !important;
+                height: calc(100vh - 45px) !important;
+            }
+            .two-columns, .two-column { flex-direction: column; }
+            .reveal pre { font-size: 0.6em; }
+        }
+
+        @media print {
+            .presenter-header { display: none; }
+            .reveal { margin-top: 0 !important; height: 100vh !important; }
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting to presentation... <a href="/static/presentations/cmsc178ip/module-02/index.html">Click here if not redirected</a></p>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178ip" class="home-button" aria-label="Return to course page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Back to Course</span>
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="4" fill="currentColor"/>
+                </svg>
+                <span>CMSC 178IP</span>
+            </div>
+            <h1 id="module-title">Image Types, Storage Formats, Coding & Compression</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">--</span>
+            </div>
+            <button class="header-btn" onclick="openPrintView()" title="Download PDF">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides" id="slides-container">
+            <!-- Loading state -->
+            <section>
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <span>Loading slides...</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    {% raw %}
+    <script>
+        // Module configuration
+        const MODULE_CONFIG = {
+            number: '02',
+            jsonPath: '/static/data/courses/cmsc178ip/module-02-slides.json',
+            nextModule: '/course/cmsc178ip/module/03',
+            prevModule: '/course/cmsc178ip/module/01'
+        };
+
+        let slidesData = null;
+
+        // Load slides from JSON and build Reveal.js presentation
+        async function loadPresentation() {
+            try {
+                const response = await fetch(MODULE_CONFIG.jsonPath);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const data = await response.json();
+                slidesData = data;
+
+                // Update page title
+                if (data.module && data.module.title) {
+                    document.getElementById('module-title').textContent = data.module.title;
+                    document.title = `Module ${data.module.id}: ${data.module.title} | CMSC 178IP`;
+                }
+
+                // Build slides
+                const container = document.getElementById('slides-container');
+                container.innerHTML = ''; // Clear loading state
+
+                data.slides.forEach((slide, index) => {
+                    const section = buildSlide(slide, index);
+                    container.appendChild(section);
+                });
+
+                // Initialize Reveal.js
+                initReveal();
+
+            } catch (error) {
+                console.error('Failed to load slides:', error);
+                showError('Failed to load lecture content. Please refresh the page.');
+            }
+        }
+
+        // Build a single slide section
+        function buildSlide(slide, index) {
+            const section = document.createElement('section');
+
+            // Handle background color for title slides
+            if (slide.background) {
+                section.setAttribute('data-background-color', slide.background);
+            }
+
+            // Build slide content
+            let html = '';
+
+            // Add title
+            if (slide.title) {
+                const titleStyle = slide.background ? 'style="color: white;"' : '';
+                html += `<h2 ${titleStyle}>${slide.title}</h2>`;
+            }
+
+            // Add main content
+            if (slide.content) {
+                html += slide.content;
+            }
+
+            // Add knowledge check if present
+            if (slide.knowledgeCheck) {
+                html += buildKnowledgeCheck(slide.knowledgeCheck);
+            }
+
+            section.innerHTML = html;
+            return section;
+        }
+
+        // Build knowledge check HTML
+        function buildKnowledgeCheck(kc) {
+            return `
+                <div class="knowledge-check">
+                    <h4>Knowledge Check</h4>
+                    <p class="question">${kc.question}</p>
+                    <button onclick="toggleAnswer(this)" aria-expanded="false">Reveal Answer</button>
+                    <div class="answer hidden" aria-hidden="true">${kc.answer}</div>
+                </div>
+            `;
+        }
+
+        // Toggle knowledge check answer visibility
+        function toggleAnswer(button) {
+            const answerDiv = button.nextElementSibling;
+            const isHidden = answerDiv.classList.contains('hidden');
+            answerDiv.classList.toggle('hidden');
+            answerDiv.setAttribute('aria-hidden', !isHidden);
+            button.setAttribute('aria-expanded', isHidden);
+            button.textContent = isHidden ? 'Hide Answer' : 'Reveal Answer';
+        }
+
+        // Initialize Reveal.js
+        function initReveal() {
+            Reveal.initialize({
+                hash: true,
+                navigationMode: 'default',
+                slideNumber: false,
+                transition: 'fade',
+                backgroundTransition: 'fade',
+                transitionSpeed: 'default',
+                math: {
+                    mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+                    config: 'TeX-AMS_HTML-full',
+                    TeX: {
+                        Macros: {
+                            R: '\\mathbb{R}',
+                            set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+                        }
+                    }
+                },
+                plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3]
+            });
+
+            // Update slide counter
+            Reveal.on('slidechanged', updateSlideCounter);
+            Reveal.on('ready', updateSlideCounter);
+        }
+
+        // Update slide counter in header
+        function updateSlideCounter() {
+            const indices = Reveal.getIndices();
+            const totalSlides = Reveal.getTotalSlides();
+            document.getElementById('current-slide').textContent = indices.h + 1;
+            document.getElementById('total-slides').textContent = totalSlides;
+        }
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen error:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Open print view for PDF export
+        function openPrintView() {
+            const printUrl = window.location.href.split('?')[0] + '?print-pdf';
+            const printWindow = window.open(printUrl, '_blank');
+            if (printWindow) {
+                printWindow.onload = function() {
+                    setTimeout(() => {
+                        alert('To save as PDF:\n1. Press Ctrl+P (Cmd+P on Mac)\n2. Select "Save as PDF" as destination\n3. Click Save');
+                    }, 1000);
+                };
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const container = document.getElementById('slides-container');
+            container.innerHTML = `
+                <section>
+                    <div class="warning">
+                        <strong>Error:</strong> ${message}
+                    </div>
+                    <p><a href="/course/cmsc178ip">Return to course page</a></p>
+                </section>
+            `;
+            initReveal();
+        }
+
+        // Load presentation when DOM is ready
+        document.addEventListener('DOMContentLoaded', loadPresentation);
+    </script>
+    {% endraw %}
 </body>
 </html>

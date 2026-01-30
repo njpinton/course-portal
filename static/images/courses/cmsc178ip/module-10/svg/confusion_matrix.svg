@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Confusion matrix for multiclass classification evaluation">
+  <title>Confusion Matrix</title>
+  <desc>Confusion matrix showing classification results across multiple classes with true labels vs predicted labels and derived metrics</desc>
+
+  <defs>
+    <linearGradient id="confMatBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#confMatBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Confusion Matrix: Classification Evaluation</text>
+
+  <!-- Confusion Matrix -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="420" height="320" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="210" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">4-Class Confusion Matrix</text>
+
+    <!-- Matrix -->
+    <g transform="translate(70, 60)">
+      <!-- Axis labels -->
+      <text x="145" y="-20" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Predicted Label</text>
+      <text x="-40" y="120" fill="#333" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle" transform="rotate(-90, -40, 120)">True Label</text>
+
+      <!-- Column headers -->
+      <g font-family="Segoe UI, sans-serif" font-size="10" fill="#666" text-anchor="middle">
+        <text x="35" y="-5">Cat</text>
+        <text x="105" y="-5">Dog</text>
+        <text x="175" y="-5">Car</text>
+        <text x="245" y="-5">Bird</text>
+      </g>
+
+      <!-- Row headers -->
+      <g font-family="Segoe UI, sans-serif" font-size="10" fill="#666" text-anchor="end">
+        <text x="-10" y="40">Cat</text>
+        <text x="-10" y="100">Dog</text>
+        <text x="-10" y="160">Car</text>
+        <text x="-10" y="220">Bird</text>
+      </g>
+
+      <!-- Matrix cells -->
+      <!-- Row 1: Cat -->
+      <rect x="0" y="10" width="60" height="50" fill="#10b981" rx="4"/>
+      <text x="30" y="42" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">45</text>
+
+      <rect x="70" y="10" width="60" height="50" fill="#fef2f2" rx="4" stroke="#e5e7eb"/>
+      <text x="100" y="42" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">3</text>
+
+      <rect x="140" y="10" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="170" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">1</text>
+
+      <rect x="210" y="10" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="240" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">1</text>
+
+      <!-- Row 2: Dog -->
+      <rect x="0" y="70" width="60" height="50" fill="#fef2f2" rx="4" stroke="#e5e7eb"/>
+      <text x="30" y="102" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">2</text>
+
+      <rect x="70" y="70" width="60" height="50" fill="#10b981" rx="4"/>
+      <text x="100" y="102" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">42</text>
+
+      <rect x="140" y="70" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="170" y="102" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">0</text>
+
+      <rect x="210" y="70" width="60" height="50" fill="#fef2f2" rx="4" stroke="#e5e7eb"/>
+      <text x="240" y="102" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">6</text>
+
+      <!-- Row 3: Car -->
+      <rect x="0" y="130" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="30" y="162" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">0</text>
+
+      <rect x="70" y="130" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="100" y="162" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">0</text>
+
+      <rect x="140" y="130" width="60" height="50" fill="#10b981" rx="4"/>
+      <text x="170" y="162" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">48</text>
+
+      <rect x="210" y="130" width="60" height="50" fill="#fef2f2" rx="4" stroke="#e5e7eb"/>
+      <text x="240" y="162" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">2</text>
+
+      <!-- Row 4: Bird -->
+      <rect x="0" y="190" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="30" y="222" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">1</text>
+
+      <rect x="70" y="190" width="60" height="50" fill="#fef2f2" rx="4" stroke="#e5e7eb"/>
+      <text x="100" y="222" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">4</text>
+
+      <rect x="140" y="190" width="60" height="50" fill="#f8f9fa" rx="4" stroke="#e5e7eb"/>
+      <text x="170" y="222" fill="#666" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">0</text>
+
+      <rect x="210" y="190" width="60" height="50" fill="#10b981" rx="4"/>
+      <text x="240" y="222" fill="white" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">45</text>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(310, 85)">
+      <rect x="0" y="0" width="90" height="70" fill="#f8f9fa" rx="4"/>
+      <g font-family="Segoe UI, sans-serif" font-size="8">
+        <rect x="10" y="10" width="15" height="15" fill="#10b981" rx="2"/>
+        <text x="30" y="21" fill="#333">Correct (TP)</text>
+        <rect x="10" y="30" width="15" height="15" fill="#fef2f2" stroke="#ef4444" rx="2"/>
+        <text x="30" y="41" fill="#333">Errors (FP/FN)</text>
+        <text x="45" y="60" fill="#666" text-anchor="middle">Diagonal = good</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Metrics -->
+  <g transform="translate(465, 55)">
+    <rect x="0" y="0" width="355" height="320" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="177" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Derived Metrics</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Per-class metrics table -->
+      <g font-family="Segoe UI, sans-serif" font-size="9">
+        <!-- Header -->
+        <rect x="0" y="0" width="60" height="25" fill="#f1f5f9"/>
+        <text x="30" y="17" fill="#333" font-weight="600" text-anchor="middle">Class</text>
+        <rect x="60" y="0" width="70" height="25" fill="#f1f5f9"/>
+        <text x="95" y="17" fill="#333" font-weight="600" text-anchor="middle">Precision</text>
+        <rect x="130" y="0" width="60" height="25" fill="#f1f5f9"/>
+        <text x="160" y="17" fill="#333" font-weight="600" text-anchor="middle">Recall</text>
+        <rect x="190" y="0" width="60" height="25" fill="#f1f5f9"/>
+        <text x="220" y="17" fill="#333" font-weight="600" text-anchor="middle">F1</text>
+
+        <!-- Cat row -->
+        <rect x="0" y="25" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="30" y="40" fill="#333" text-anchor="middle">Cat</text>
+        <rect x="60" y="25" width="70" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="95" y="40" fill="#10b981" text-anchor="middle">93.8%</text>
+        <rect x="130" y="25" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="160" y="40" fill="#10b981" text-anchor="middle">90.0%</text>
+        <rect x="190" y="25" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="220" y="40" fill="#10b981" text-anchor="middle">91.8%</text>
+
+        <!-- Dog row -->
+        <rect x="0" y="47" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="30" y="62" fill="#333" text-anchor="middle">Dog</text>
+        <rect x="60" y="47" width="70" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="95" y="62" fill="#10b981" text-anchor="middle">85.7%</text>
+        <rect x="130" y="47" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="160" y="62" fill="#10b981" text-anchor="middle">84.0%</text>
+        <rect x="190" y="47" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="220" y="62" fill="#10b981" text-anchor="middle">84.8%</text>
+
+        <!-- Car row -->
+        <rect x="0" y="69" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="30" y="84" fill="#333" text-anchor="middle">Car</text>
+        <rect x="60" y="69" width="70" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="95" y="84" fill="#10b981" text-anchor="middle">98.0%</text>
+        <rect x="130" y="69" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="160" y="84" fill="#10b981" text-anchor="middle">96.0%</text>
+        <rect x="190" y="69" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="220" y="84" fill="#10b981" text-anchor="middle">97.0%</text>
+
+        <!-- Bird row -->
+        <rect x="0" y="91" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="30" y="106" fill="#333" text-anchor="middle">Bird</text>
+        <rect x="60" y="91" width="70" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="95" y="106" fill="#10b981" text-anchor="middle">83.3%</text>
+        <rect x="130" y="91" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="160" y="106" fill="#10b981" text-anchor="middle">90.0%</text>
+        <rect x="190" y="91" width="60" height="22" fill="white" stroke="#e5e7eb"/>
+        <text x="220" y="106" fill="#10b981" text-anchor="middle">86.5%</text>
+
+        <!-- Averages -->
+        <rect x="0" y="118" width="250" height="25" fill="#d1fae5"/>
+        <text x="30" y="135" fill="#10b981" font-weight="600" text-anchor="middle">Avg</text>
+        <text x="95" y="135" fill="#10b981" font-weight="600" text-anchor="middle">90.2%</text>
+        <text x="160" y="135" fill="#10b981" font-weight="600" text-anchor="middle">90.0%</text>
+        <text x="220" y="135" fill="#10b981" font-weight="600" text-anchor="middle">90.0%</text>
+      </g>
+
+      <!-- Formulas -->
+      <g transform="translate(0, 160)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="315" height="115" fill="#f8f9fa" rx="4"/>
+        <text x="157" y="18" fill="#333" font-weight="600" text-anchor="middle">Metric Formulas</text>
+
+        <g transform="translate(15, 30)">
+          <text x="0" y="0" fill="#3b82f6" font-weight="600">Precision = TP / (TP + FP)</text>
+          <text x="0" y="18" fill="#666" font-size="8">Of predicted positives, how many correct?</text>
+
+          <text x="0" y="40" fill="#7c3aed" font-weight="600">Recall = TP / (TP + FN)</text>
+          <text x="0" y="58" fill="#666" font-size="8">Of actual positives, how many found?</text>
+
+          <text x="0" y="80" fill="#f97316" font-weight="600">F1 = 2 × (P × R) / (P + R)</text>
+          <text x="0" y="95" fill="#666" font-size="8">Harmonic mean of precision and recall</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

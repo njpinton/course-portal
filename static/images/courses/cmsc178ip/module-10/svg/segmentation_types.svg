@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Comparison of semantic and instance segmentation">
+  <title>Segmentation Types</title>
+  <desc>Visual comparison of semantic segmentation (class-level) and instance segmentation (object-level) showing the difference in how objects are labeled</desc>
+
+  <defs>
+    <linearGradient id="segTypeBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#segTypeBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Image Segmentation Types</text>
+
+  <!-- Original image -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="250" height="220" fill="white" rx="8" stroke="#666" stroke-width="2"/>
+    <text x="125" y="22" fill="#333" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Original Image</text>
+
+    <g transform="translate(25, 40)">
+      <rect x="0" y="0" width="200" height="150" fill="#87ceeb" rx="4"/>
+      <!-- Road -->
+      <rect x="0" y="110" width="200" height="40" fill="#6b7280"/>
+      <!-- Grass -->
+      <rect x="0" y="90" width="200" height="20" fill="#22c55e"/>
+
+      <!-- Person 1 -->
+      <g transform="translate(30, 30)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#fcd34d"/>
+        <rect x="5" y="22" width="20" height="35" fill="#3b82f6"/>
+        <rect x="7" y="57" width="7" height="25" fill="#1e3a5f"/>
+        <rect x="16" y="57" width="7" height="25" fill="#1e3a5f"/>
+      </g>
+
+      <!-- Person 2 -->
+      <g transform="translate(80, 25)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#fcd34d"/>
+        <rect x="5" y="22" width="20" height="38" fill="#ef4444"/>
+        <rect x="7" y="60" width="7" height="27" fill="#1e3a5f"/>
+        <rect x="16" y="60" width="7" height="27" fill="#1e3a5f"/>
+      </g>
+
+      <!-- Car -->
+      <g transform="translate(130, 95)">
+        <rect x="0" y="8" width="55" height="25" fill="#10b981" rx="3"/>
+        <rect x="8" y="0" width="38" height="15" fill="#6ee7b7" rx="3"/>
+        <circle cx="12" cy="35" r="7" fill="#333"/>
+        <circle cx="43" cy="35" r="7" fill="#333"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Semantic Segmentation -->
+  <g transform="translate(300, 55)">
+    <rect x="0" y="0" width="250" height="220" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="125" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Semantic Segmentation</text>
+
+    <g transform="translate(25, 40)">
+      <rect x="0" y="0" width="200" height="150" fill="#60a5fa" rx="4"/>
+      <!-- Road (same color for all road) -->
+      <rect x="0" y="110" width="200" height="40" fill="#6b7280"/>
+      <!-- Grass -->
+      <rect x="0" y="90" width="200" height="20" fill="#22c55e"/>
+
+      <!-- All persons same color (pink) -->
+      <g transform="translate(30, 30)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#ec4899"/>
+        <rect x="5" y="22" width="20" height="35" fill="#ec4899"/>
+        <rect x="7" y="57" width="7" height="25" fill="#ec4899"/>
+        <rect x="16" y="57" width="7" height="25" fill="#ec4899"/>
+      </g>
+
+      <g transform="translate(80, 25)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#ec4899"/>
+        <rect x="5" y="22" width="20" height="38" fill="#ec4899"/>
+        <rect x="7" y="60" width="7" height="27" fill="#ec4899"/>
+        <rect x="16" y="60" width="7" height="27" fill="#ec4899"/>
+      </g>
+
+      <!-- Car (single color for vehicle class) -->
+      <g transform="translate(130, 95)">
+        <rect x="0" y="8" width="55" height="25" fill="#f97316" rx="3"/>
+        <rect x="8" y="0" width="38" height="15" fill="#f97316" rx="3"/>
+        <circle cx="12" cy="35" r="7" fill="#f97316"/>
+        <circle cx="43" cy="35" r="7" fill="#f97316"/>
+      </g>
+    </g>
+
+    <g transform="translate(25, 200)" font-family="Segoe UI, sans-serif" font-size="8">
+      <rect x="0" y="0" width="12" height="12" fill="#60a5fa"/>
+      <text x="16" y="10" fill="#666">Sky</text>
+      <rect x="40" y="0" width="12" height="12" fill="#ec4899"/>
+      <text x="56" y="10" fill="#666">Person</text>
+      <rect x="95" y="0" width="12" height="12" fill="#f97316"/>
+      <text x="111" y="10" fill="#666">Car</text>
+      <rect x="135" y="0" width="12" height="12" fill="#22c55e"/>
+      <text x="151" y="10" fill="#666">Grass</text>
+    </g>
+  </g>
+
+  <!-- Instance Segmentation -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="220" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="125" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Instance Segmentation</text>
+
+    <g transform="translate(25, 40)">
+      <rect x="0" y="0" width="200" height="150" fill="#87ceeb" rx="4"/>
+      <rect x="0" y="110" width="200" height="40" fill="#6b7280"/>
+      <rect x="0" y="90" width="200" height="20" fill="#22c55e"/>
+
+      <!-- Person 1 (unique color) -->
+      <g transform="translate(30, 30)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#ef4444"/>
+        <rect x="5" y="22" width="20" height="35" fill="#ef4444"/>
+        <rect x="7" y="57" width="7" height="25" fill="#ef4444"/>
+        <rect x="16" y="57" width="7" height="25" fill="#ef4444"/>
+      </g>
+
+      <!-- Person 2 (different unique color) -->
+      <g transform="translate(80, 25)">
+        <ellipse cx="15" cy="10" rx="10" ry="12" fill="#3b82f6"/>
+        <rect x="5" y="22" width="20" height="38" fill="#3b82f6"/>
+        <rect x="7" y="60" width="7" height="27" fill="#3b82f6"/>
+        <rect x="16" y="60" width="7" height="27" fill="#3b82f6"/>
+      </g>
+
+      <!-- Car (unique color) -->
+      <g transform="translate(130, 95)">
+        <rect x="0" y="8" width="55" height="25" fill="#8b5cf6" rx="3"/>
+        <rect x="8" y="0" width="38" height="15" fill="#8b5cf6" rx="3"/>
+        <circle cx="12" cy="35" r="7" fill="#8b5cf6"/>
+        <circle cx="43" cy="35" r="7" fill="#8b5cf6"/>
+      </g>
+    </g>
+
+    <g transform="translate(25, 200)" font-family="Segoe UI, sans-serif" font-size="8">
+      <rect x="0" y="0" width="12" height="12" fill="#ef4444"/>
+      <text x="16" y="10" fill="#666">Person 1</text>
+      <rect x="65" y="0" width="12" height="12" fill="#3b82f6"/>
+      <text x="81" y="10" fill="#666">Person 2</text>
+      <rect x="140" y="0" width="12" height="12" fill="#8b5cf6"/>
+      <text x="156" y="10" fill="#666">Car 1</text>
+    </g>
+  </g>
+
+  <!-- Comparison table -->
+  <g transform="translate(30, 290)">
+    <rect x="0" y="0" width="790" height="85" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="395" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Key Differences</text>
+
+    <g transform="translate(25, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <!-- Semantic -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="365" height="35" fill="#dbeafe" rx="4"/>
+        <text x="182" y="13" fill="#3b82f6" font-weight="600" text-anchor="middle">Semantic: "What class is each pixel?"</text>
+        <text x="182" y="28" fill="#666" text-anchor="middle" font-size="8">All persons = same label, all cars = same label</text>
+      </g>
+
+      <!-- Instance -->
+      <g transform="translate(380, 0)">
+        <rect x="0" y="0" width="365" height="35" fill="#d1fae5" rx="4"/>
+        <text x="182" y="13" fill="#10b981" font-weight="600" text-anchor="middle">Instance: "Which specific object is each pixel?"</text>
+        <text x="182" y="28" fill="#666" text-anchor="middle" font-size="8">Person 1 ≠ Person 2, each object has unique ID</text>
+      </g>
+    </g>
+  </g>
+</svg>

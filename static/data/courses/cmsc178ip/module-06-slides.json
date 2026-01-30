@@ -39,7 +39,7 @@
       "id": 4,
       "title": "Basic Geometric Transformations",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/basic_transformations.png\" alt=\"Basic Transformations\" style=\"max-height: 60vh;\"><p class=\"caption\">Translation, rotation, and scaling are the fundamental building blocks</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/basic_transformations.svg\" alt=\"Basic Transformations\" style=\"max-height: 60vh;\"><p class=\"caption\">Translation, rotation, and scaling are the fundamental building blocks</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -47,7 +47,7 @@
       "id": 5,
       "title": "Rotation Visualization",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/rotation_visualization.png\" alt=\"Rotation\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\end{bmatrix} = \\begin{bmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix}$$</p><p>Rotation by angle θ around the origin</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/rotation_visualization.svg\" alt=\"Rotation\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\end{bmatrix} = \\begin{bmatrix} \\cos\\theta & -\\sin\\theta \\\\ \\sin\\theta & \\cos\\theta \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\end{bmatrix}$$</p><p>Rotation by angle θ around the origin</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -64,7 +64,7 @@
       "id": 7,
       "title": "Homogeneous Coordinates",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/homogeneous_coordinates.png\" alt=\"Homogeneous Coordinates\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Homogeneous Coordinates:</strong> Add an extra dimension to represent 2D points as 3D vectors.</p><p class=\"math-block\">$$(x, y) \\rightarrow (x, y, 1)$$</p><p>Enables all transformations (including translation) as matrix multiplication.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/homogeneous_coordinates.svg\" alt=\"Homogeneous Coordinates\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Homogeneous Coordinates:</strong> Add an extra dimension to represent 2D points as 3D vectors.</p><p class=\"math-block\">$$(x, y) \\rightarrow (x, y, 1)$$</p><p>Enables all transformations (including translation) as matrix multiplication.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why do we use homogeneous coordinates in computer graphics?",
@@ -84,7 +84,7 @@
       "id": 9,
       "title": "Affine Transformation Matrix",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/affine_matrix_effects.png\" alt=\"Affine Matrix\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} a & b & t_x \\\\ c & d & t_y \\\\ 0 & 0 & 1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\\\ 1 \\end{bmatrix}$$</p><p>Combines rotation, scaling, shearing, and translation</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/affine_matrix_effects.svg\" alt=\"Affine Matrix\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} a & b & t_x \\\\ c & d & t_y \\\\ 0 & 0 & 1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\\\ 1 \\end{bmatrix}$$</p><p>Combines rotation, scaling, shearing, and translation</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -92,7 +92,7 @@
       "id": 10,
       "title": "Transformation Hierarchy",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/transformation_hierarchy.png\" alt=\"Transformation Hierarchy\" style=\"max-height: 65vh;\"><p class=\"caption\">From rigid to projective: each level adds more degrees of freedom</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/transformation_hierarchy.svg\" alt=\"Transformation Hierarchy\" style=\"max-height: 65vh;\"><p class=\"caption\">From rigid to projective: each level adds more degrees of freedom</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -100,7 +100,7 @@
       "id": 11,
       "title": "Transformation Composition",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/transformation_composition.png\" alt=\"Composition\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Matrix multiplication</strong> allows combining transformations:<p class=\"math-block\">$$T_{combined} = T_3 \\cdot T_2 \\cdot T_1$$</p><p>Order matters! Transformations are applied right-to-left.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/transformation_composition.svg\" alt=\"Composition\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Matrix multiplication</strong> allows combining transformations:<p class=\"math-block\">$$T_{combined} = T_3 \\cdot T_2 \\cdot T_1$$</p><p>Order matters! Transformations are applied right-to-left.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "If you want to rotate an image around its center, what sequence of transformations is needed?",
@@ -120,7 +120,7 @@
       "id": 13,
       "title": "Projective Transformation",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/projective_transformation.png\" alt=\"Projective\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Homography (8 DOF):</strong></p><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\\\ w \\end{bmatrix} = \\begin{bmatrix} h_{11} & h_{12} & h_{13} \\\\ h_{21} & h_{22} & h_{23} \\\\ h_{31} & h_{32} & 1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\\\ 1 \\end{bmatrix}$$</p><p>Final coordinates: $(x'/w, y'/w)$</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/projective_transformation.svg\" alt=\"Projective\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Homography (8 DOF):</strong></p><p class=\"math-block\">$$\\begin{bmatrix} x' \\\\ y' \\\\ w \\end{bmatrix} = \\begin{bmatrix} h_{11} & h_{12} & h_{13} \\\\ h_{21} & h_{22} & h_{23} \\\\ h_{31} & h_{32} & 1 \\end{bmatrix} \\begin{bmatrix} x \\\\ y \\\\ 1 \\end{bmatrix}$$</p><p>Final coordinates: $(x'/w, y'/w)$</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -128,7 +128,7 @@
       "id": 14,
       "title": "Perspective Correction",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/perspective_correction.png\" alt=\"Perspective Correction\" style=\"max-height: 65vh;\"><p class=\"caption\">Correcting perspective distortion in document scanning and photography</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/perspective_correction.svg\" alt=\"Perspective Correction\" style=\"max-height: 65vh;\"><p class=\"caption\">Correcting perspective distortion in document scanning and photography</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -145,7 +145,7 @@
       "id": 16,
       "title": "Interpolation Methods",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/interpolation_methods.png\" alt=\"Interpolation Methods\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Nearest Neighbor</strong><br>Fast, blocky artifacts</div><div><strong>Bilinear</strong><br>Smooth, slight blur</div></div><div class=\"two-columns\" style=\"margin-top: 1em;\"><div><strong>Bicubic</strong><br>High quality, slower</div><div><strong>Lanczos</strong><br>Best quality, slowest</div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/interpolation_methods.svg\" alt=\"Interpolation Methods\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Nearest Neighbor</strong><br>Fast, blocky artifacts</div><div><strong>Bilinear</strong><br>Smooth, slight blur</div></div><div class=\"two-columns\" style=\"margin-top: 1em;\"><div><strong>Bicubic</strong><br>High quality, slower</div><div><strong>Lanczos</strong><br>Best quality, slowest</div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -153,7 +153,7 @@
       "id": 17,
       "title": "Interpolation Artifacts",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/interpolation_artifacts.png\" alt=\"Artifacts\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Trade-off:</strong> Speed vs. quality. Nearest neighbor for speed, bicubic/Lanczos for quality.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/interpolation_artifacts.svg\" alt=\"Artifacts\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Trade-off:</strong> Speed vs. quality. Nearest neighbor for speed, bicubic/Lanczos for quality.</div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "When would you prefer nearest-neighbor over bicubic interpolation?",
@@ -164,7 +164,7 @@
       "id": 18,
       "title": "Image Warping",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/image_warping.png\" alt=\"Image Warping\" style=\"max-height: 65vh;\"><p class=\"caption\">Non-linear transformations for artistic effects and correction</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/image_warping.svg\" alt=\"Image Warping\" style=\"max-height: 65vh;\"><p class=\"caption\">Non-linear transformations for artistic effects and correction</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -172,7 +172,7 @@
       "id": 19,
       "title": "Polar Transforms",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/polar_transforms.png\" alt=\"Polar Transforms\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Polar Transform:</strong> Convert from Cartesian to polar coordinates.</p><p class=\"math-block\">$$r = \\sqrt{x^2 + y^2}, \\quad \\theta = \\arctan(y/x)$$</p><p>Useful for analyzing circular patterns and rotational symmetry.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/polar_transforms.svg\" alt=\"Polar Transforms\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Polar Transform:</strong> Convert from Cartesian to polar coordinates.</p><p class=\"math-block\">$$r = \\sqrt{x^2 + y^2}, \\quad \\theta = \\arctan(y/x)$$</p><p>Useful for analyzing circular patterns and rotational symmetry.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -189,7 +189,7 @@
       "id": 21,
       "title": "Registration Pipeline",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/registration_pipeline.png\" alt=\"Registration Pipeline\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Registration Steps:</strong><ol><li>Feature detection</li><li>Feature matching</li><li>Transformation estimation</li><li>Image warping</li></ol></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/registration_pipeline.svg\" alt=\"Registration Pipeline\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Registration Steps:</strong><ol><li>Feature detection</li><li>Feature matching</li><li>Transformation estimation</li><li>Image warping</li></ol></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -197,7 +197,7 @@
       "id": 22,
       "title": "Feature Matching for Registration",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/feature_matching_geometric.png\" alt=\"Feature Matching\" style=\"max-height: 65vh;\"><p class=\"caption\">Corresponding points are used to estimate the transformation</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/feature_matching_geometric.svg\" alt=\"Feature Matching\" style=\"max-height: 65vh;\"><p class=\"caption\">Corresponding points are used to estimate the transformation</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -205,7 +205,7 @@
       "id": 23,
       "title": "Image Registration Applications",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/image_registration.png\" alt=\"Registration Applications\" style=\"max-height: 65vh;\"><p class=\"caption\">Medical imaging, satellite imagery, panorama stitching</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-06/svg/image_registration.svg\" alt=\"Registration Applications\" style=\"max-height: 65vh;\"><p class=\"caption\">Medical imaging, satellite imagery, panorama stitching</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

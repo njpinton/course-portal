@@ -1,0 +1,529 @@
+{% extends "base_layout.html" %}
+
+{% block title %}CMSC 173 Midterm - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Page Header */
+    .page-title { color: var(--up-green); font-size: 1.6em; margin-bottom: 4px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 0.95em; margin-bottom: 20px; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
+    .stat-card { background: linear-gradient(135deg, var(--up-green) 0%, var(--up-green-dark, #145245) 100%); color: white; padding: 16px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow); }
+    .stat-card h3 { font-size: 0.75em; margin-bottom: 6px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 1.7em; font-weight: bold; }
+    .stat-card .sub-value { font-size: 0.65em; opacity: 0.85; margin-top: 4px; }
+
+    /* Controls */
+    .controls { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+    .controls input { flex: 1; min-width: 220px; padding: 9px 12px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 0.9em; background: var(--bg-white); }
+    .controls input:focus { outline: none; border-color: var(--up-green); box-shadow: 0 0 0 3px var(--primary-light); }
+    .controls select { padding: 9px 12px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 0.9em; background: var(--bg-white); min-width: 130px; }
+    .controls select:focus { outline: none; border-color: var(--up-green); }
+
+    /* Table */
+    .table-wrapper { overflow-x: auto; margin-bottom: 20px; background: var(--bg-white); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .records-table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    .records-table th { background: var(--up-green); color: white; padding: 10px 12px; text-align: center; font-weight: 600; font-size: 0.85em; position: sticky; top: 0; z-index: 10; white-space: nowrap; }
+    .records-table th.th-name { text-align: left; min-width: 180px; }
+    .records-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-light, #eee); vertical-align: middle; text-align: center; }
+    .records-table td.td-name { text-align: left; font-weight: 500; }
+    .records-table tbody tr.main-row { cursor: pointer; transition: background 0.15s; }
+    .records-table tbody tr.main-row:hover { background: var(--primary-light, #e8f5f0); }
+    .records-table tbody tr.main-row.expanded { background: var(--primary-light, #e8f5f0); }
+
+    /* Expand icon */
+    .expand-icon { display: inline-block; width: 20px; text-align: center; transition: transform 0.2s; font-size: 0.8em; color: var(--text-muted); }
+    .main-row.expanded .expand-icon { transform: rotate(90deg); }
+
+    /* Grade badges */
+    .grade-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; min-width: 45px; }
+    .grade-1-00 { background: #d1fae5; color: #065f46; }
+    .grade-1-25 { background: #ccfbf1; color: #115e59; }
+    .grade-1-50 { background: #dbeafe; color: #1e40af; }
+    .grade-1-75 { background: #fef3c7; color: #92400e; }
+    .grade-2-00 { background: #fee2e2; color: #991b1b; }
+    .grade-na { background: #f3f4f6; color: #6b7280; }
+
+    /* Score cell coloring */
+    .score-low { color: #dc2626; font-weight: 600; }
+    .score-high { color: #059669; font-weight: 600; }
+    .not-submitted { color: var(--text-muted, #999); font-style: italic; }
+
+    /* Detail row */
+    .detail-row { display: none; }
+    .detail-row.active { display: table-row; }
+    .detail-row td { padding: 0; border-bottom: 2px solid var(--up-green); }
+    .detail-content { padding: 16px 20px; background: #f8faf9; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Detail sections */
+    .detail-section { margin-bottom: 14px; }
+    .detail-section h4 { font-size: 0.85em; color: var(--up-green); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; border-bottom: 1px solid var(--border-light, #ddd); padding-bottom: 4px; }
+    .detail-section p { font-size: 0.88em; color: var(--text-primary, #333); line-height: 1.5; margin: 4px 0; }
+
+    /* Reasoning items */
+    .reasoning-item { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.88em; }
+    .reasoning-label { font-weight: 600; color: var(--up-green); min-width: 30px; }
+    .reasoning-text { color: var(--text-primary, #333); }
+
+    /* Methodology tags */
+    .method-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .method-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.78em; font-weight: 500; }
+    .method-present { background: #d1fae5; color: #065f46; }
+    .method-missing { background: #fee2e2; color: #991b1b; }
+
+    /* Metric comparison */
+    .metric-table { width: 100%; font-size: 0.85em; border-collapse: collapse; }
+    .metric-table th { background: #e5e7eb; color: #374151; padding: 5px 8px; text-align: left; font-size: 0.85em; }
+    .metric-table td { padding: 4px 8px; border-bottom: 1px solid #e5e7eb; }
+    .metric-match { color: #059669; }
+    .metric-mismatch { color: #dc2626; }
+
+    /* File links */
+    .file-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .file-link { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; background: var(--bg-white); border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.8em; color: var(--up-green); text-decoration: none; transition: all 0.15s; }
+    .file-link:hover { background: var(--primary-light, #e8f5f0); border-color: var(--up-green); }
+    .file-icon { font-size: 1em; }
+
+    /* LLM section */
+    .llm-model { font-weight: 600; color: var(--up-maroon, #8C2448); }
+    .llm-experience { font-size: 0.85em; color: var(--text-secondary); line-height: 1.5; max-height: 120px; overflow-y: auto; background: white; padding: 8px; border-radius: var(--radius); border: 1px solid var(--border-light, #eee); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .controls { flex-direction: column; }
+        .controls input, .controls select { width: 100%; min-width: auto; }
+        .detail-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 50px 40px; color: var(--text-muted); }
+    .empty-state-icon { font-size: 3em; margin-bottom: 16px; opacity: 0.5; }
+
+    /* Loading */
+    .loading { text-align: center; padding: 40px; color: var(--text-muted); }
+
+    /* Files button in table */
+    .files-btn { background: none; border: 1px solid var(--border); padding: 4px 8px; border-radius: var(--radius); cursor: pointer; font-size: 0.85em; color: var(--text-secondary); }
+    .files-btn:hover { background: var(--primary-light, #e8f5f0); color: var(--up-green); }
+
+    /* Result count */
+    .result-count { font-size: 0.85em; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<a href="/" class="breadcrumb-item">Home</a>
+<span class="breadcrumb-separator">/</span>
+<a href="/admin" class="breadcrumb-item">Admin</a>
+<span class="breadcrumb-separator">/</span>
+<span class="breadcrumb-current">CMSC 173 Midterm</span>
+{% endblock %}
+
+{% block content %}
+<h1 class="page-title">CMSC 173 - Machine Learning</h1>
+<p class="page-subtitle">1st Semester AY 2025-2026 &middot; Midterm Exam Class Record</p>
+
+<div id="alertContainer"></div>
+
+<!-- Stats Grid -->
+<div class="stats-grid" id="statsGrid">
+    <div class="stat-card">
+        <h3>Total Students</h3>
+        <div class="value" id="totalStudents">-</div>
+    </div>
+    <div class="stat-card">
+        <h3>Submitted</h3>
+        <div class="value" id="submittedCount">-</div>
+        <div class="sub-value" id="submittedPct"></div>
+    </div>
+    <div class="stat-card">
+        <h3>Average Final</h3>
+        <div class="value" id="avgFinal">-</div>
+    </div>
+    <div class="stat-card">
+        <h3>Highest Final</h3>
+        <div class="value" id="highFinal">-</div>
+    </div>
+    <div class="stat-card">
+        <h3>Grade Distribution</h3>
+        <div class="value" id="gradeDist" style="font-size:0.7em;">-</div>
+    </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+    <input type="text" id="searchInput" placeholder="Search by name or ID..." aria-label="Search students">
+    <select id="gradeFilter" aria-label="Filter by grade">
+        <option value="">All Grades</option>
+        <option value="1.0">1.00</option>
+        <option value="1.25">1.25</option>
+        <option value="1.5">1.50</option>
+        <option value="1.75">1.75</option>
+        <option value="2.0">2.00</option>
+    </select>
+    <select id="submissionFilter" aria-label="Filter by submission">
+        <option value="">All</option>
+        <option value="submitted">Submitted</option>
+        <option value="not_submitted">Not Submitted</option>
+    </select>
+    <button class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+    <button class="btn btn-primary" onclick="exportCSV()">Export CSV</button>
+    <span class="result-count" id="resultCount"></span>
+</div>
+
+<!-- Table -->
+<div class="table-wrapper">
+    <table class="records-table" id="recordsTable">
+        <thead>
+            <tr>
+                <th style="width:30px;"></th>
+                <th class="th-name">Student</th>
+                <th>ID</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+                <th>Q4</th>
+                <th>Q5</th>
+                <th>Base</th>
+                <th>Bonus</th>
+                <th>Final</th>
+                <th>Grade</th>
+                <th>LLM</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr><td colspan="13" class="loading">Loading data...</td></tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let allStudents = [];
+let filteredStudents = [];
+let studentFilesCache = {};
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadData();
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('gradeFilter').addEventListener('change', applyFilters);
+    document.getElementById('submissionFilter').addEventListener('change', applyFilters);
+});
+
+async function loadData() {
+    try {
+        const resp = await fetch('/api/admin/cmsc173-midterm/data');
+        if (!resp.ok) throw new Error('Failed to load data');
+        allStudents = await resp.json();
+        filteredStudents = [...allStudents];
+        computeStats();
+        renderTable();
+    } catch (err) {
+        document.getElementById('tableBody').innerHTML =
+            '<tr><td colspan="13" class="empty-state"><div class="empty-state-icon">&#9888;</div><p>Error loading data: ' + err.message + '</p></td></tr>';
+    }
+}
+
+function computeStats() {
+    const submitted = allStudents.filter(s => s.submitted !== 'Not Submitted' && s.submitted !== '-');
+    const finals = submitted.map(s => parseFloat(s.final)).filter(n => !isNaN(n));
+
+    document.getElementById('totalStudents').textContent = allStudents.length;
+    document.getElementById('submittedCount').textContent = submitted.length;
+    document.getElementById('submittedPct').textContent =
+        allStudents.length ? Math.round(submitted.length / allStudents.length * 100) + '%' : '';
+    document.getElementById('avgFinal').textContent =
+        finals.length ? (finals.reduce((a, b) => a + b, 0) / finals.length).toFixed(1) : '-';
+    document.getElementById('highFinal').textContent =
+        finals.length ? Math.max(...finals) : '-';
+
+    // Grade distribution
+    const grades = {};
+    submitted.forEach(s => {
+        const g = s.grade;
+        if (g && g !== '-') grades[g] = (grades[g] || 0) + 1;
+    });
+    const distParts = Object.entries(grades)
+        .sort((a, b) => parseFloat(a[0]) - parseFloat(b[0]))
+        .map(([g, c]) => `${g}: ${c}`);
+    document.getElementById('gradeDist').innerHTML = distParts.join('<br>') || '-';
+}
+
+function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase().trim();
+    const gradeVal = document.getElementById('gradeFilter').value;
+    const subVal = document.getElementById('submissionFilter').value;
+
+    filteredStudents = allStudents.filter(s => {
+        if (search && !s.name.toLowerCase().includes(search) && !s.id.includes(search)) return false;
+        if (gradeVal && s.grade !== gradeVal) return false;
+        if (subVal === 'submitted' && (s.submitted === 'Not Submitted' || s.submitted === '-')) return false;
+        if (subVal === 'not_submitted' && s.submitted !== 'Not Submitted' && s.submitted !== '-') return false;
+        return true;
+    });
+
+    renderTable();
+}
+
+function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('gradeFilter').value = '';
+    document.getElementById('submissionFilter').value = '';
+    filteredStudents = [...allStudents];
+    renderTable();
+}
+
+function gradeClass(g) {
+    const gf = parseFloat(g);
+    if (isNaN(gf)) return 'grade-na';
+    if (gf <= 1.0) return 'grade-1-00';
+    if (gf <= 1.25) return 'grade-1-25';
+    if (gf <= 1.5) return 'grade-1-50';
+    if (gf <= 1.75) return 'grade-1-75';
+    return 'grade-2-00';
+}
+
+function scoreClass(score) {
+    const n = parseInt(score);
+    if (isNaN(n)) return '';
+    if (n <= 10) return 'score-low';
+    if (n >= 18) return 'score-high';
+    return '';
+}
+
+function isNotSubmitted(s) {
+    return s.submitted === 'Not Submitted' || s.submitted === '-';
+}
+
+function renderTable() {
+    const tbody = document.getElementById('tableBody');
+    const count = document.getElementById('resultCount');
+    count.textContent = `${filteredStudents.length} student${filteredStudents.length !== 1 ? 's' : ''}`;
+
+    if (!filteredStudents.length) {
+        tbody.innerHTML = '<tr><td colspan="13" class="empty-state"><div class="empty-state-icon">&#128269;</div><p>No students match your filters</p></td></tr>';
+        return;
+    }
+
+    let html = '';
+    filteredStudents.forEach((s, idx) => {
+        const notSub = isNotSubmitted(s);
+        const rowClass = notSub ? 'not-submitted' : '';
+
+        // Main row
+        html += `<tr class="main-row ${rowClass}" data-idx="${idx}" onclick="toggleDetail(${idx})">`;
+        html += `<td><span class="expand-icon">&#9654;</span></td>`;
+        html += `<td class="td-name">${esc(s.name)}</td>`;
+        html += `<td>${esc(s.id)}</td>`;
+
+        if (notSub) {
+            html += `<td colspan="8" class="not-submitted">Not Submitted</td>`;
+            html += `<td></td>`;
+        } else {
+            ['q1','q2','q3','q4','q5'].forEach(q => {
+                html += `<td class="${scoreClass(s[q])}">${esc(s[q])}</td>`;
+            });
+            html += `<td><strong>${esc(s.total)}</strong></td>`;
+            html += `<td>${esc(s.bonus)}</td>`;
+            html += `<td><strong>${esc(s.final)}</strong></td>`;
+            html += `<td><span class="grade-badge ${gradeClass(s.grade)}">${esc(s.grade)}</span></td>`;
+            html += `<td>${s.llm_model && s.llm_model !== 'Not specified' && s.llm_model !== '-' ? esc(s.llm_model) : '<span style="color:#aaa">-</span>'}</td>`;
+        }
+        html += `</tr>`;
+
+        // Detail row
+        html += `<tr class="detail-row" id="detail-${idx}"><td colspan="13">`;
+        html += renderDetailContent(s, idx);
+        html += `</td></tr>`;
+    });
+
+    tbody.innerHTML = html;
+}
+
+function renderDetailContent(s, idx) {
+    if (isNotSubmitted(s)) {
+        return '<div class="detail-content"><p class="not-submitted">Student has not submitted.</p></div>';
+    }
+
+    let h = '<div class="detail-content">';
+    h += '<div class="detail-grid">';
+
+    // Left column: Q1-Q5 Reasoning
+    h += '<div>';
+    h += '<div class="detail-section"><h4>Score Breakdown</h4>';
+    ['q1','q2','q3','q4','q5'].forEach((q, i) => {
+        const labels = ['Q1 Data Audit', 'Q2 Cleaning', 'Q3 Classification', 'Q4 Regression', 'Q5 Clustering'];
+        const reasoning = s[q + '_reasoning'] || '-';
+        h += `<div class="reasoning-item"><span class="reasoning-label">${labels[i]}:</span><span class="reasoning-text">${esc(reasoning)}</span></div>`;
+    });
+    h += `<div class="reasoning-item" style="margin-top:8px;"><span class="reasoning-label">Submitted:</span><span class="reasoning-text">${esc(s.submitted)}</span></div>`;
+    h += '</div>';
+
+    // Methodology checks
+    h += '<div class="detail-section"><h4>Methodology Checks</h4>';
+    if (s.methodology_checks && s.methodology_checks !== '-') {
+        const parts = s.methodology_checks.split('. ');
+        parts.forEach(part => {
+            const trimmed = part.trim();
+            if (trimmed.startsWith('Present:')) {
+                const items = trimmed.replace('Present:', '').trim().split(', ');
+                h += '<div class="method-tags">';
+                items.forEach(it => { if (it) h += `<span class="method-tag method-present">${esc(it)}</span>`; });
+                h += '</div>';
+            } else if (trimmed.startsWith('Missing:')) {
+                const items = trimmed.replace('Missing:', '').trim().split(', ');
+                h += '<div class="method-tags" style="margin-top:4px;">';
+                items.forEach(it => { if (it && it !== '.') h += `<span class="method-tag method-missing">${esc(it)}</span>`; });
+                h += '</div>';
+            }
+        });
+    } else {
+        h += '<p>-</p>';
+    }
+    h += '</div>';
+    h += '</div>';
+
+    // Right column: Metrics + LLM + Files
+    h += '<div>';
+
+    // Expected vs Student metrics
+    h += '<div class="detail-section"><h4>Expected vs Student Metrics</h4>';
+    h += '<table class="metric-table"><thead><tr><th>Metric</th><th>Expected</th><th>Student</th></tr></thead><tbody>';
+    const metrics = [
+        { label: 'Optimal k', exp: s.exp_k, stu: s.stu_k, match: s.k_match },
+        { label: 'Categories', exp: s.exp_cat, stu: s.stu_cat },
+        { label: 'Classification', exp: s.exp_clf, stu: s.stu_clf },
+        { label: 'R²', exp: s.exp_r2, stu: s.stu_r2 },
+        { label: 'Silhouette', exp: s.exp_sil, stu: s.stu_sil },
+    ];
+    metrics.forEach(m => {
+        const cls = m.match === '\u2713' ? 'metric-match' : (m.match === '\u2717' ? 'metric-mismatch' : '');
+        h += `<tr><td>${m.label}</td><td>${esc(m.exp || '-')}</td><td class="${cls}">${esc(m.stu || '-')}</td></tr>`;
+    });
+    h += '</tbody></table></div>';
+
+    // LLM Info
+    h += '<div class="detail-section"><h4>LLM Usage</h4>';
+    h += `<p><strong>Model:</strong> <span class="llm-model">${esc(s.llm_model || 'Not specified')}</span></p>`;
+    if (s.llm_experience && s.llm_experience !== 'Not provided' && s.llm_experience !== '-') {
+        h += `<div class="llm-experience">${esc(s.llm_experience)}</div>`;
+    } else {
+        h += '<p style="color:#999;font-size:0.85em;">No experience statement provided</p>';
+    }
+    h += '</div>';
+
+    // Files (lazy loaded)
+    h += '<div class="detail-section"><h4>Student Files</h4>';
+    h += `<div id="files-${idx}" class="file-list"><span style="color:#999;font-size:0.85em;">Click to load files...</span></div>`;
+    h += '</div>';
+
+    h += '</div>'; // right column
+    h += '</div>'; // detail-grid
+    h += '</div>'; // detail-content
+    return h;
+}
+
+function toggleDetail(idx) {
+    const mainRow = document.querySelector(`tr.main-row[data-idx="${idx}"]`);
+    const detailRow = document.getElementById(`detail-${idx}`);
+    if (!mainRow || !detailRow) return;
+
+    const wasExpanded = mainRow.classList.contains('expanded');
+    mainRow.classList.toggle('expanded');
+    detailRow.classList.toggle('active');
+
+    // Load files on first expand
+    if (!wasExpanded) {
+        const s = filteredStudents[idx];
+        loadStudentFiles(s.name, idx);
+    }
+}
+
+async function loadStudentFiles(studentName, idx) {
+    const container = document.getElementById(`files-${idx}`);
+    if (!container) return;
+
+    // Check cache
+    if (studentFilesCache[studentName]) {
+        renderFileLinks(studentFilesCache[studentName], container);
+        return;
+    }
+
+    container.innerHTML = '<span style="color:#999;font-size:0.85em;">Loading files...</span>';
+
+    try {
+        const resp = await fetch(`/api/admin/cmsc173-midterm/student-files/${encodeURIComponent(studentName)}`);
+        if (!resp.ok) throw new Error('Failed to load files');
+        const data = await resp.json();
+        studentFilesCache[studentName] = data.files;
+        renderFileLinks(data.files, container);
+    } catch (err) {
+        container.innerHTML = '<span style="color:#dc2626;font-size:0.85em;">Error loading files</span>';
+    }
+}
+
+function renderFileLinks(files, container) {
+    let html = '';
+    const icons = { ipynb: '&#128212;', pdf: '&#128196;', csv: '&#128202;', html: '&#127760;', zip: '&#128230;', txt: '&#128196;' };
+
+    // Submission files first, then exam files
+    ['submission', 'exam'].forEach(section => {
+        const fileList = files[section] || [];
+        if (fileList.length > 0) {
+            html += `<div style="font-size:0.75em;color:#666;width:100%;margin-top:4px;text-transform:uppercase;font-weight:600;">${section}</div>`;
+            fileList.forEach(f => {
+                const icon = icons[f.type] || '&#128196;';
+                if (f.type === 'ipynb') {
+                    html += `<a href="/admin_cmsc173_midterm/notebook/${encodeURI(f.path)}" target="_blank" class="file-link" title="Open notebook"><span class="file-icon">${icon}</span>${truncName(f.name)}</a>`;
+                } else if (f.type === 'pdf' || f.type === 'html') {
+                    html += `<a href="/api/admin/cmsc173-midterm/files/${encodeURI(f.path)}" target="_blank" class="file-link" title="View ${f.type.toUpperCase()}"><span class="file-icon">${icon}</span>${truncName(f.name)}</a>`;
+                } else {
+                    html += `<a href="/api/admin/cmsc173-midterm/files/${encodeURI(f.path)}" class="file-link" title="Download"><span class="file-icon">${icon}</span>${truncName(f.name)}</a>`;
+                }
+            });
+        }
+    });
+
+    container.innerHTML = html || '<span style="color:#999;font-size:0.85em;">No files found</span>';
+}
+
+function truncName(name) {
+    // Remove timestamp prefix and shorten
+    const clean = name.replace(/^\d{4}-\d{2}-\d{2}_\d{4}_/, '');
+    return clean.length > 35 ? clean.substring(0, 32) + '...' : clean;
+}
+
+function exportCSV() {
+    const headers = ['Student Name','ID','Submitted','Q1','Q2','Q3','Q4','Q5','Total','Bonus','Final','Grade','LLM Model'];
+    const rows = filteredStudents.map(s => [
+        s.name, s.id, s.submitted,
+        s.q1, s.q2, s.q3, s.q4, s.q5,
+        s.total, s.bonus, s.final, s.grade,
+        s.llm_model
+    ]);
+
+    let csv = headers.join(',') + '\n';
+    rows.forEach(r => {
+        csv += r.map(v => '"' + String(v || '').replace(/"/g, '""') + '"').join(',') + '\n';
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'cmsc173_midterm_grades.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+
+function esc(str) {
+    if (str === null || str === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+}
+</script>
+{% endblock %}

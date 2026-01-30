@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" role="img" aria-label="Bit Depth Comparison">
+  <title>Bit Depth Comparison</title>
+  <desc>Visual comparison of different bit depths and their storage requirements</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+  <rect width="750" height="400" fill="url(#bgGrad)"/>
+  <text x="375" y="35" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e" text-anchor="middle">Bit Depth and Storage</text>
+  <text x="80" y="95" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="end">1-bit</text>
+  <defs><linearGradient id="depth0" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000000"/><stop offset="100%" style="stop-color:#ffffff"/></linearGradient></defs>
+  <rect x="100" y="70" width="300" height="40" fill="url(#depth0)" stroke="#6b7280" rx="4"/>
+  <line x1="100.0" y1="70" x2="100.0" y2="110" stroke="#ffffff" opacity="0.3"/>
+  <line x1="250.0" y1="70" x2="250.0" y2="110" stroke="#ffffff" opacity="0.3"/>
+  <text x="420" y="88" font-family="monospace" font-size="12" fill="#1f2937">2 levels</text>
+  <text x="420" y="105" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">1 bit(s) per pixel</text>
+  <text x="80" y="165" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="end">4-bit</text>
+  <defs><linearGradient id="depth1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000000"/><stop offset="100%" style="stop-color:#ffffff"/></linearGradient></defs>
+  <rect x="100" y="140" width="300" height="40" fill="url(#depth1)" stroke="#6b7280" rx="4"/>
+  <line x1="100.0" y1="140" x2="100.0" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="118.75" y1="140" x2="118.75" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="137.5" y1="140" x2="137.5" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="156.25" y1="140" x2="156.25" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="175.0" y1="140" x2="175.0" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="193.75" y1="140" x2="193.75" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="212.5" y1="140" x2="212.5" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="231.25" y1="140" x2="231.25" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="250.0" y1="140" x2="250.0" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="268.75" y1="140" x2="268.75" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="287.5" y1="140" x2="287.5" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="306.25" y1="140" x2="306.25" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="325.0" y1="140" x2="325.0" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="343.75" y1="140" x2="343.75" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="362.5" y1="140" x2="362.5" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <line x1="381.25" y1="140" x2="381.25" y2="180" stroke="#ffffff" opacity="0.3"/>
+  <text x="420" y="158" font-family="monospace" font-size="12" fill="#1f2937">16 levels</text>
+  <text x="420" y="175" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">4 bit(s) per pixel</text>
+  <text x="80" y="235" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="end">8-bit</text>
+  <defs><linearGradient id="depth2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000000"/><stop offset="100%" style="stop-color:#ffffff"/></linearGradient></defs>
+  <rect x="100" y="210" width="300" height="40" fill="url(#depth2)" stroke="#6b7280" rx="4"/>
+  <text x="420" y="228" font-family="monospace" font-size="12" fill="#1f2937">256 levels</text>
+  <text x="420" y="245" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">8 bit(s) per pixel</text>
+  <text x="80" y="305" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="end">16-bit</text>
+  <defs><linearGradient id="depth3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#000000"/><stop offset="100%" style="stop-color:#ffffff"/></linearGradient></defs>
+  <rect x="100" y="280" width="300" height="40" fill="url(#depth3)" stroke="#6b7280" rx="4"/>
+  <text x="420" y="298" font-family="monospace" font-size="12" fill="#1f2937">65,536 levels</text>
+  <text x="420" y="315" font-family="Segoe UI, sans-serif" font-size="11" fill="#6b7280">16 bit(s) per pixel</text>
+  <rect x="550" y="70" width="180" height="210" rx="8" fill="#f3f4f6" stroke="#7eb8da" stroke-width="2"/>
+  <text x="640" y="95" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">1024×768 Image</text>
+  <text x="560" y="120" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">1-bit:</text>
+  <text x="720" y="120" font-family="monospace" font-size="11" fill="#3b82f6" text-anchor="end">98 KB</text>
+  <text x="560" y="155" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">8-bit Gray:</text>
+  <text x="720" y="155" font-family="monospace" font-size="11" fill="#3b82f6" text-anchor="end">768 KB</text>
+  <text x="560" y="190" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">24-bit RGB:</text>
+  <text x="720" y="190" font-family="monospace" font-size="11" fill="#3b82f6" text-anchor="end">2.25 MB</text>
+  <text x="560" y="225" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937">48-bit RGB:</text>
+  <text x="720" y="225" font-family="monospace" font-size="11" fill="#3b82f6" text-anchor="end">4.5 MB</text>
+  <rect x="100" y="320" width="550" height="65" rx="8" fill="#fff3cd" stroke="#f97316" stroke-width="2"/>
+  <text x="375" y="345" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">Storage Formula</text>
+  <text x="375" y="370" font-family="monospace" font-size="14" fill="#1f2937" text-anchor="middle">Size (bytes) = Width × Height × (Bits per pixel / 8)</text>
+</svg>

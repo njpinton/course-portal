@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" role="img" aria-label="Pixel Grid Visualization">
+  <title>Pixel Grid Visualization</title>
+  <desc>A digital image represented as a grid of pixels with intensity values</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+  <rect width="700" height="450" fill="url(#bgGrad)"/>
+  <text x="350" y="35" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e" text-anchor="middle">Digital Image as Pixel Grid</text>
+  <rect x="50" y="70" width="45" height="45" fill="rgb(45,45,45)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="97.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">45</text>
+  <rect x="95" y="70" width="45" height="45" fill="rgb(52,52,52)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="97.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">52</text>
+  <rect x="140" y="70" width="45" height="45" fill="rgb(68,68,68)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="97.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">68</text>
+  <rect x="185" y="70" width="45" height="45" fill="rgb(95,95,95)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="97.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">95</text>
+  <rect x="230" y="70" width="45" height="45" fill="rgb(120,120,120)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="97.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">120</text>
+  <rect x="275" y="70" width="45" height="45" fill="rgb(145,145,145)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="97.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">145</text>
+  <rect x="320" y="70" width="45" height="45" fill="rgb(160,160,160)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="97.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">160</text>
+  <rect x="365" y="70" width="45" height="45" fill="rgb(170,170,170)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="97.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">170</text>
+  <rect x="50" y="115" width="45" height="45" fill="rgb(50,50,50)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="142.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">50</text>
+  <rect x="95" y="115" width="45" height="45" fill="rgb(58,58,58)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="142.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">58</text>
+  <rect x="140" y="115" width="45" height="45" fill="rgb(75,75,75)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="142.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">75</text>
+  <rect x="185" y="115" width="45" height="45" fill="rgb(105,105,105)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="142.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">105</text>
+  <rect x="230" y="115" width="45" height="45" fill="rgb(135,135,135)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="142.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">135</text>
+  <rect x="275" y="115" width="45" height="45" fill="rgb(155,155,155)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="142.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">155</text>
+  <rect x="320" y="115" width="45" height="45" fill="rgb(165,165,165)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="142.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">165</text>
+  <rect x="365" y="115" width="45" height="45" fill="rgb(172,172,172)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="142.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">172</text>
+  <rect x="50" y="160" width="45" height="45" fill="rgb(55,55,55)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="187.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">55</text>
+  <rect x="95" y="160" width="45" height="45" fill="rgb(65,65,65)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="187.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">65</text>
+  <rect x="140" y="160" width="45" height="45" fill="rgb(88,88,88)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="187.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">88</text>
+  <rect x="185" y="160" width="45" height="45" fill="rgb(118,118,118)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="187.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">118</text>
+  <rect x="230" y="160" width="45" height="45" fill="rgb(148,148,148)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="187.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">148</text>
+  <rect x="275" y="160" width="45" height="45" fill="rgb(165,165,165)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="187.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">165</text>
+  <rect x="320" y="160" width="45" height="45" fill="rgb(175,175,175)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="187.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">175</text>
+  <rect x="365" y="160" width="45" height="45" fill="rgb(180,180,180)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="187.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">180</text>
+  <rect x="50" y="205" width="45" height="45" fill="rgb(60,60,60)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="232.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">60</text>
+  <rect x="95" y="205" width="45" height="45" fill="rgb(72,72,72)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="232.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">72</text>
+  <rect x="140" y="205" width="45" height="45" fill="rgb(98,98,98)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="232.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">98</text>
+  <rect x="185" y="205" width="45" height="45" fill="rgb(130,130,130)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="232.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">130</text>
+  <rect x="230" y="205" width="45" height="45" fill="rgb(158,158,158)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="232.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">158</text>
+  <rect x="275" y="205" width="45" height="45" fill="rgb(175,175,175)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="232.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">175</text>
+  <rect x="320" y="205" width="45" height="45" fill="rgb(185,185,185)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="232.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">185</text>
+  <rect x="365" y="205" width="45" height="45" fill="rgb(190,190,190)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="232.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">190</text>
+  <rect x="50" y="250" width="45" height="45" fill="rgb(65,65,65)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="277.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">65</text>
+  <rect x="95" y="250" width="45" height="45" fill="rgb(78,78,78)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="277.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">78</text>
+  <rect x="140" y="250" width="45" height="45" fill="rgb(108,108,108)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="277.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">108</text>
+  <rect x="185" y="250" width="45" height="45" fill="rgb(140,140,140)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="277.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">140</text>
+  <rect x="230" y="250" width="45" height="45" fill="rgb(168,168,168)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="277.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">168</text>
+  <rect x="275" y="250" width="45" height="45" fill="rgb(182,182,182)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="277.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">182</text>
+  <rect x="320" y="250" width="45" height="45" fill="rgb(192,192,192)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="277.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">192</text>
+  <rect x="365" y="250" width="45" height="45" fill="rgb(195,195,195)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="277.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">195</text>
+  <rect x="50" y="295" width="45" height="45" fill="rgb(70,70,70)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="322.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">70</text>
+  <rect x="95" y="295" width="45" height="45" fill="rgb(85,85,85)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="322.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">85</text>
+  <rect x="140" y="295" width="45" height="45" fill="rgb(115,115,115)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="322.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">115</text>
+  <rect x="185" y="295" width="45" height="45" fill="rgb(150,150,150)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="322.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">150</text>
+  <rect x="230" y="295" width="45" height="45" fill="rgb(175,175,175)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="322.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">175</text>
+  <rect x="275" y="295" width="45" height="45" fill="rgb(188,188,188)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="322.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">188</text>
+  <rect x="320" y="295" width="45" height="45" fill="rgb(198,198,198)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="322.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">198</text>
+  <rect x="365" y="295" width="45" height="45" fill="rgb(200,200,200)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="322.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">200</text>
+  <rect x="50" y="340" width="45" height="45" fill="rgb(75,75,75)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="367.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">75</text>
+  <rect x="95" y="340" width="45" height="45" fill="rgb(90,90,90)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="367.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">90</text>
+  <rect x="140" y="340" width="45" height="45" fill="rgb(122,122,122)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="367.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">122</text>
+  <rect x="185" y="340" width="45" height="45" fill="rgb(158,158,158)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="367.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">158</text>
+  <rect x="230" y="340" width="45" height="45" fill="rgb(180,180,180)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="367.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">180</text>
+  <rect x="275" y="340" width="45" height="45" fill="rgb(192,192,192)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="367.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">192</text>
+  <rect x="320" y="340" width="45" height="45" fill="rgb(202,202,202)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="367.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">202</text>
+  <rect x="365" y="340" width="45" height="45" fill="rgb(205,205,205)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="367.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">205</text>
+  <rect x="50" y="385" width="45" height="45" fill="rgb(78,78,78)" stroke="#6b7280" stroke-width="1"/>
+  <text x="72.5" y="412.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">78</text>
+  <rect x="95" y="385" width="45" height="45" fill="rgb(95,95,95)" stroke="#6b7280" stroke-width="1"/>
+  <text x="117.5" y="412.5" font-family="monospace" font-size="11" fill="#ffffff" text-anchor="middle">95</text>
+  <rect x="140" y="385" width="45" height="45" fill="rgb(128,128,128)" stroke="#6b7280" stroke-width="1"/>
+  <text x="162.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">128</text>
+  <rect x="185" y="385" width="45" height="45" fill="rgb(162,162,162)" stroke="#6b7280" stroke-width="1"/>
+  <text x="207.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">162</text>
+  <rect x="230" y="385" width="45" height="45" fill="rgb(185,185,185)" stroke="#6b7280" stroke-width="1"/>
+  <text x="252.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">185</text>
+  <rect x="275" y="385" width="45" height="45" fill="rgb(195,195,195)" stroke="#6b7280" stroke-width="1"/>
+  <text x="297.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">195</text>
+  <rect x="320" y="385" width="45" height="45" fill="rgb(205,205,205)" stroke="#6b7280" stroke-width="1"/>
+  <text x="342.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">205</text>
+  <rect x="365" y="385" width="45" height="45" fill="rgb(210,210,210)" stroke="#6b7280" stroke-width="1"/>
+  <text x="387.5" y="412.5" font-family="monospace" font-size="11" fill="#1f2937" text-anchor="middle">210</text>
+  <path d="M 420 230 L 470 230" stroke="#1a3a6e" stroke-width="3" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a3a6e"/></marker></defs>
+  <rect x="490" y="100" width="180" height="180" rx="4" fill="url(#imgGrad)" stroke="#6b7280"/>
+  <defs>
+    <linearGradient id="imgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(45,45,45)"/>
+      <stop offset="100%" style="stop-color:rgb(210,210,210)"/>
+    </linearGradient>
+  </defs>
+  <text x="230" y="420" font-family="Segoe UI, sans-serif" font-size="14" fill="#1a3a6e" text-anchor="middle">Pixel Values (0-255)</text>
+  <text x="580.0" y="310" font-family="Segoe UI, sans-serif" font-size="14" fill="#1a3a6e" text-anchor="middle">Rendered Image</text>
+  <text x="35" y="97.5" font-family="monospace" font-size="12" fill="#6b7280">0</text>
+  <text x="35" y="412.5" font-family="monospace" font-size="12" fill="#6b7280">7</text>
+  <text x="72.5" y="65" font-family="monospace" font-size="12" fill="#6b7280" text-anchor="middle">0</text>
+  <text x="387.5" y="65" font-family="monospace" font-size="12" fill="#6b7280" text-anchor="middle">7</text>
+  <rect x="50" y="380" width="620" height="55" rx="8" fill="#f3f4f6" stroke="#7eb8da" stroke-width="2"/>
+  <text x="360" y="405" font-family="Segoe UI, sans-serif" font-size="13" fill="#1f2937" text-anchor="middle" font-weight="600">Pixel = Picture Element</text>
+  <text x="360" y="425" font-family="Segoe UI, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">Each pixel stores an intensity value (grayscale: 0-255, color: RGB triplet)</text>
+</svg>

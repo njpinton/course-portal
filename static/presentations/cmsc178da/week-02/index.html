@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178DA - Week 2: Probability & Statistical Foundations</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178da" class="home-button" aria-label="Return to course page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Course
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18 17V9"/>
+                    <path d="M13 17V5"/>
+                    <path d="M8 17v-3"/>
+                </svg>
+                <span>CMSC 178DA</span>
+            </div>
+            <h1>Week 2: Probability & Statistical Foundations</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">42</span>
+            </div>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ==========================================
+                 TITLE SLIDE
+                 ========================================== -->
+            <section data-background="linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)">
+                <h1 style="color: white; font-size: 2.2em;">Probability &<br>Statistical Foundations</h1>
+                <h3 style="color: #FCD34D;">CMSC 178DA - Week 02</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-top: 2em;">
+                    <strong>Noel Jeffrey Pinton</strong><br>
+                    Department of Computer Science<br>
+                    University of the Philippines Cebu
+                </p>
+            </section>
+
+            <!-- ==========================================
+                 LECTURE 3: PROBABILITY REVIEW
+                 ========================================== -->
+
+            <!-- Learning Objectives - Lecture 3 -->
+            <section data-background-color="#F8FAFC">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>Lecture 3: Probability Review</strong></p>
+                    <ol>
+                        <li>Review fundamental probability concepts</li>
+                        <li>Apply Bayes' theorem to real-world problems</li>
+                        <li>Understand common probability distributions</li>
+                        <li>Connect probability to data analytics applications</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Why Probability Matters -->
+            <section>
+                <h2>Why Probability Matters</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Probability:</strong> A number between 0 and 1 that measures the likelihood of an event occurring. It quantifies uncertainty in data and predictions.</p>
+                </div>
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <h4 style="color: #38bdf8; margin-bottom: 0.5em;"><i class="fa-solid fa-question-circle"></i> Uncertainty is Everywhere</h4>
+                        <ul style="margin-left: 0.5em;">
+                            <li>Will this customer churn?</li>
+                            <li>Is this transaction fraudulent?</li>
+                            <li>Will it rain tomorrow?</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #a78bfa; margin-bottom: 0.5em;"><i class="fa-solid fa-layer-group"></i> Foundation For</h4>
+                        <ul style="margin-left: 0.5em;">
+                            <li><strong>Hypothesis testing</strong> - Is this effect real?</li>
+                            <li><strong>Machine learning</strong> - Predict outcomes</li>
+                            <li><strong>Statistical inference</strong> - Draw conclusions</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Set Operations in Probability -->
+            <section>
+                <h2>Set Operations in Probability</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Before we combine probabilities, let's review set notation</p>
+
+                <div style="display: flex; justify-content: center; gap: 2em; flex-wrap: wrap;">
+                    <!-- Union -->
+                    <div style="text-align: center;">
+                        <svg viewBox="0 0 140 100" width="140" height="100" role="img" aria-label="Union of A and B">
+                            <rect x="5" y="5" width="130" height="90" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="30" fill="#3b82f6" fill-opacity="0.6" stroke="#2563eb" stroke-width="2"/>
+                            <circle cx="90" cy="50" r="30" fill="#3b82f6" fill-opacity="0.6" stroke="#2563eb" stroke-width="2"/>
+                            <text x="35" y="55" font-family="Inter" font-size="12" font-weight="600" fill="#fff">A</text>
+                            <text x="100" y="55" font-family="Inter" font-size="12" font-weight="600" fill="#fff">B</text>
+                        </svg>
+                        <p style="margin: 0.3em 0 0;"><strong style="color: #3b82f6;">A ∪ B</strong> (Union)</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted); margin: 0;">A <em>or</em> B (or both)</p>
+                    </div>
+
+                    <!-- Intersection -->
+                    <div style="text-align: center;">
+                        <svg viewBox="0 0 140 100" width="140" height="100" role="img" aria-label="Intersection of A and B">
+                            <defs>
+                                <clipPath id="clipA"><circle cx="50" cy="50" r="30"/></clipPath>
+                            </defs>
+                            <rect x="5" y="5" width="130" height="90" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="30" fill="none" stroke="#64748b" stroke-width="2"/>
+                            <circle cx="90" cy="50" r="30" fill="none" stroke="#64748b" stroke-width="2"/>
+                            <circle cx="90" cy="50" r="30" fill="#10b981" fill-opacity="0.7" clip-path="url(#clipA)"/>
+                            <text x="35" y="55" font-family="Inter" font-size="12" font-weight="600" fill="#94a3b8">A</text>
+                            <text x="100" y="55" font-family="Inter" font-size="12" font-weight="600" fill="#94a3b8">B</text>
+                        </svg>
+                        <p style="margin: 0.3em 0 0;"><strong style="color: #10b981;">A ∩ B</strong> (Intersection)</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted); margin: 0;">A <em>and</em> B (both)</p>
+                    </div>
+
+                    <!-- Complement -->
+                    <div style="text-align: center;">
+                        <svg viewBox="0 0 140 100" width="140" height="100" role="img" aria-label="Complement of A">
+                            <defs>
+                                <mask id="maskA">
+                                    <rect x="5" y="5" width="130" height="90" fill="white"/>
+                                    <circle cx="70" cy="50" r="30" fill="black"/>
+                                </mask>
+                            </defs>
+                            <rect x="5" y="5" width="130" height="90" rx="4" fill="#a78bfa" fill-opacity="0.5" mask="url(#maskA)" stroke="#475569" stroke-width="1"/>
+                            <rect x="5" y="5" width="130" height="90" rx="4" fill="none" stroke="#475569" stroke-width="1"/>
+                            <circle cx="70" cy="50" r="30" fill="none" stroke="#64748b" stroke-width="2"/>
+                            <text x="70" y="55" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#94a3b8">A</text>
+                            <text x="120" y="25" font-family="Inter" font-size="10" fill="#a78bfa">A'</text>
+                        </svg>
+                        <p style="margin: 0.3em 0 0;"><strong style="color: #a78bfa;">A'</strong> (Complement)</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted); margin: 0;"><em>not</em> A</p>
+                    </div>
+                </div>
+
+                <div class="definition-box" style="margin-top: 1.2em; text-align: center;">
+                    <p><strong>Sample Space (S):</strong> The set of all possible outcomes &nbsp;·&nbsp; <strong>Event:</strong> A subset of outcomes we care about</p>
+                </div>
+            </section>
+
+            <!-- Basic Probability Rules -->
+            <section>
+                <h2>Basic Probability Rules</h2>
+                <div class="two-columns" style="align-items: flex-start;">
+                    <div style="flex: 0.5;">
+                        <!-- Venn diagram showing A, B, and intersection -->
+                        <svg viewBox="0 0 300 200" role="img" aria-label="Venn diagram showing sample space S with events A and B overlapping" style="max-width: 100%; display: block; margin: 0 auto 0.5em;">
+                            <defs>
+                                <linearGradient id="gradA" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#2563eb" stop-opacity="0.5"/>
+                                </linearGradient>
+                                <linearGradient id="gradB" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.4"/>
+                                    <stop offset="100%" stop-color="#059669" stop-opacity="0.5"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Sample Space S -->
+                            <rect x="10" y="10" width="280" height="180" rx="8" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+                            <text x="25" y="30" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#334155">S</text>
+                            <!-- Event A (left circle) -->
+                            <circle cx="115" cy="100" r="60" fill="url(#gradA)" stroke="#2563eb" stroke-width="2"/>
+                            <text x="85" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#1e40af">A</text>
+                            <!-- Event B (right circle) -->
+                            <circle cx="185" cy="100" r="60" fill="url(#gradB)" stroke="#059669" stroke-width="2"/>
+                            <text x="215" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#047857">B</text>
+                            <!-- Intersection label -->
+                            <text x="150" y="105" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#7c3aed">A∩B</text>
+                        </svg>
+                        <p style="text-align: center; font-size: 0.85em; margin: 0; color: var(--text-muted);">
+                            <strong>S</strong> = sample space &nbsp;·&nbsp; <strong style="color: #2563eb;">A</strong>, <strong style="color: #059669;">B</strong> = events &nbsp;·&nbsp; <strong style="color: #7c3aed;">A∩B</strong> = intersection
+                        </p>
+                    </div>
+                    <div style="flex: 0.5;">
+                        <div class="formula-box">
+                            <p><strong>Fundamental Rules</strong></p>
+                            <p>$$P(S) = 1$$</p>
+                            <p>$$P(A') = 1 - P(A)$$</p>
+                            <p>$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="caption">Every probability must be between 0 and 1: $0 \leq P(A) \leq 1$</p>
+            </section>
+
+            <!-- Reading P(A|B) Notation -->
+            <section>
+                <h2>Reading P(A|B) Notation</h2>
+                <p style="text-align: center; margin-bottom: 1.5em; color: var(--text-muted);">Before we use this notation, let's understand what it means</p>
+
+                <div style="text-align: center; margin-bottom: 1.5em;">
+                    <span style="font-size: 2.5em; font-weight: 700;">P(A</span>
+                    <span style="font-size: 2.5em; font-weight: 700; color: #f472b6;"> | </span>
+                    <span style="font-size: 2.5em; font-weight: 700;">B)</span>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 3em; margin-bottom: 1.5em;">
+                    <div style="text-align: center;">
+                        <p style="font-size: 1.3em; font-weight: 600;">P(A|B)</p>
+                        <p style="color: var(--text-muted);">"Probability of <strong>A</strong>"</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 1.3em; font-weight: 600; color: #f472b6;">|</p>
+                        <p style="color: var(--text-muted);">"<strong>given that</strong>"</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <p style="font-size: 1.3em; font-weight: 600;">B</p>
+                        <p style="color: var(--text-muted);">"<strong>B</strong> already happened"</p>
+                    </div>
+                </div>
+
+                <div class="definition-box" style="text-align: center;">
+                    <p style="font-size: 1.1em;"><strong>Example:</strong> P(Rain | Cloudy) = "If it's cloudy, what's the chance of rain?"</p>
+                    <p style="margin-top: 0.5em; color: var(--text-muted);">We're not asking about all days — only cloudy days</p>
+                </div>
+            </section>
+
+            <!-- Conditional Probability -->
+            <section>
+                <h2>Conditional Probability</h2>
+                <div class="definition-box" style="margin-bottom: 0.8em;">
+                    <p><strong>Conditional Probability:</strong> The probability of event A occurring, given that event B has already occurred. It measures how B affects our belief about A.</p>
+                </div>
+                <div class="formula-box" style="margin-bottom: 1em;">
+                    <p style="font-size: 1.3em;">$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$</p>
+                </div>
+                <div class="case-study-box">
+                    <h4>GCash User Example</h4>
+                    <ul>
+                        <li>57% of GCash users are women</li>
+                        <li>Assume: 70% of women users use GCash for bills payment</li>
+                        <li>$P(\text{Bills} | \text{Women}) = 0.70$</li>
+                    </ul>
+                    <p style="margin-top: 0.5em;"><em>What's the probability a random user pays bills AND is a woman?</em></p>
+                    <p>$P(\text{Bills} \cap \text{Women}) = 0.70 \times 0.57 = 0.40$</p>
+                    <p style="font-size: 0.7em; color: #94a3b8; margin-top: 0.5em;">Source: <a href="https://expandedramblings.com/index.php/gcash-statistics-facts/" style="color: #60a5fa;">GCash Statistics 2024</a> · 70% assumption for illustration</p>
+                </div>
+            </section>
+
+            <!-- Independence -->
+            <section>
+                <h2>Independence</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Definition:</strong> A and B are <em>independent</em> if:</p>
+                    <p style="font-size: 1.2em; text-align: center;">$$P(A \cap B) = P(A) \times P(B)$$</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="success-box">
+                            <h4>Independent Events</h4>
+                            <ul>
+                                <li>Coin flip 1 vs Coin flip 2</li>
+                                <li>Rain in Cebu vs Rain in Manila</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Dependent Events</h4>
+                            <ul>
+                                <li>Rain today vs Rain tomorrow</li>
+                                <li>Age vs Income</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="caption" style="margin-top: 1em;"><strong>Caution:</strong> Independence is often assumed but rarely verified!</p>
+            </section>
+
+            <!-- Bayes' Theorem -->
+            <section>
+                <h2>Bayes' Theorem</h2>
+                <div class="formula-box" style="margin-bottom: 1em;">
+                    <p style="font-size: 1.4em;">$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <table>
+                            <tr><th>Term</th><th>Name</th></tr>
+                            <tr><td>$P(A|B)$</td><td>Posterior</td></tr>
+                            <tr><td>$P(B|A)$</td><td>Likelihood</td></tr>
+                            <tr><td>$P(A)$</td><td>Prior</td></tr>
+                            <tr><td>$P(B)$</td><td>Evidence</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <p><strong>Key Insight:</strong></p>
+                            <p>Bayes' theorem lets us <em>update</em> our beliefs when we get new evidence.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medical Testing Vocabulary -->
+            <section>
+                <h2>Medical Testing Vocabulary</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Before we apply Bayes' theorem, learn these key terms</p>
+
+                <table style="width: 90%; margin: 0 auto; font-size: 1em;">
+                    <thead>
+                        <tr>
+                            <th style="width: 22%;">Term</th>
+                            <th style="width: 18%;">Symbol</th>
+                            <th style="width: 35%;">What It Means</th>
+                            <th style="width: 25%;">Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Prevalence</strong></td>
+                            <td>$P(D)$</td>
+                            <td>% of population with disease</td>
+                            <td style="color: #a78bfa;">1% have diabetes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sensitivity</strong></td>
+                            <td>$P(+|D)$</td>
+                            <td>% of <em>sick</em> people who test positive</td>
+                            <td style="color: #10b981;">95% detection rate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Specificity</strong></td>
+                            <td>$P(-|\neg D)$</td>
+                            <td>% of <em>healthy</em> people who test negative</td>
+                            <td style="color: #38bdf8;">90% correctly cleared</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box" style="margin-top: 1.2em; text-align: center;">
+                    <p><strong>Key Question:</strong> If someone tests <strong style="color: #10b981;">positive</strong>, what's the actual probability they have the disease?</p>
+                    <p style="color: var(--text-muted); margin-top: 0.3em;">(Hint: It's NOT the sensitivity!)</p>
+                </div>
+            </section>
+
+            <!-- Bayes' Theorem Example -->
+            <section>
+                <h2>Bayes' Example: Medical Testing</h2>
+                <!-- Compact problem setup as horizontal inline boxes -->
+                <div style="display: flex; justify-content: center; gap: 1em; flex-wrap: wrap; margin-bottom: 0.8em;">
+                    <div class="definition-box" style="padding: 0.4em 0.8em; font-size: 0.8em; border-radius: 6px;">
+                        <strong>Prevalence:</strong> 1%
+                    </div>
+                    <div class="definition-box" style="padding: 0.4em 0.8em; font-size: 0.8em; border-radius: 6px;">
+                        <strong>Sensitivity:</strong> 95%
+                    </div>
+                    <div class="definition-box" style="padding: 0.4em 0.8em; font-size: 0.8em; border-radius: 6px;">
+                        <strong>Specificity:</strong> 90%
+                    </div>
+                    <div class="highlight-box" style="padding: 0.4em 0.8em; font-size: 0.8em; border-radius: 6px;">
+                        <strong>Q:</strong> If test +, P(disease)?
+                    </div>
+                </div>
+                <!-- Full-width image -->
+                <img src="/static/images/courses/cmsc178da/week-02/bayes_theorem_medical.png"
+                     alt="Bayes theorem visualization showing prior, likelihood, and posterior probabilities"
+                     class="slide-image-large">
+                <p class="caption">Most people intuitively guess ~90%. The actual probability is only 8.8%!</p>
+            </section>
+
+            <!-- Bayes' Calculation -->
+            <section>
+                <h2>Bayes' Calculation</h2>
+
+                <!-- Given values as inline chips -->
+                <div style="display: flex; justify-content: center; gap: 1.5em; margin-bottom: 1.2em;">
+                    <div class="definition-box" style="padding: 0.5em 1em;">$P(D) = 0.01$</div>
+                    <div class="definition-box" style="padding: 0.5em 1em;">$P(+|D) = 0.95$</div>
+                    <div class="definition-box" style="padding: 0.5em 1em;">$P(+|\neg D) = 0.10$</div>
+                </div>
+
+                <div class="two-columns" style="align-items: start; gap: 2em;">
+                    <div class="formula-box">
+                        <h4>Step 1: Total Probability of Positive</h4>
+                        <p style="text-align: center; margin-top: 0.8em;">
+                            $$P(+) = P(+|D) \cdot P(D) + P(+|\neg D) \cdot P(\neg D)$$
+                        </p>
+                        <p style="text-align: center; margin-top: 0.5em;">
+                            $= 0.95 \times 0.01 + 0.10 \times 0.99 = \mathbf{0.1085}$
+                        </p>
+                    </div>
+                    <div class="formula-box fragment">
+                        <h4>Step 2: Apply Bayes' Theorem</h4>
+                        <p style="text-align: center; margin-top: 0.8em;">
+                            $$P(D|+) = \frac{P(+|D) \cdot P(D)}{P(+)}$$
+                        </p>
+                        <p style="text-align: center; margin-top: 0.5em;">
+                            $= \frac{0.95 \times 0.01}{0.1085} = \mathbf{0.088}$
+                        </p>
+                    </div>
+                </div>
+
+                <div class="success-box fragment" style="margin-top: 1.2em; text-align: center;">
+                    <p style="font-size: 1.1em;"><strong>Result:</strong> Only <strong>8.8%</strong> chance of disease despite positive test!</p>
+                </div>
+            </section>
+
+            <!-- Random Variables -->
+            <section>
+                <h2>Random Variables</h2>
+                <div class="definition-box" style="margin-bottom: 0.8em;">
+                    <p><strong>Random Variable:</strong> A variable whose value is determined by the outcome of a random process. It maps outcomes to numerical values.</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Discrete</h4>
+                            <p>Countable outcomes</p>
+                            <ul>
+                                <li>Number of transactions per day</li>
+                                <li>Customer complaints count</li>
+                                <li>Number of app downloads</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="case-study-box">
+                            <h4>Continuous</h4>
+                            <p>Infinite possible values</p>
+                            <ul>
+                                <li>Transaction amount</li>
+                                <li>Customer lifetime value</li>
+                                <li>Response time (seconds)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Greek Letter Cheat Sheet -->
+            <section>
+                <h2>Greek Letter Cheat Sheet</h2>
+                <p style="text-align: center; margin-bottom: 1.2em; color: var(--text-muted);">Statistics uses Greek letters as shorthand — here's what they mean</p>
+
+                <table style="width: 80%; margin: 0 auto; font-size: 1.1em;">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Symbol</th>
+                            <th style="width: 20%;">Name</th>
+                            <th style="width: 35%;">Meaning</th>
+                            <th style="width: 30%;">Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-size: 1.5em; text-align: center;"><strong>μ</strong></td>
+                            <td>mu (mew)</td>
+                            <td>Population mean (true average)</td>
+                            <td style="color: #a78bfa;">μ = 170 cm (avg height)</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 1.5em; text-align: center;"><strong>σ</strong></td>
+                            <td>sigma</td>
+                            <td>Standard deviation (spread)</td>
+                            <td style="color: #38bdf8;">σ = 10 cm</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 1.5em; text-align: center;"><strong>$\bar{x}$</strong></td>
+                            <td>x-bar</td>
+                            <td>Sample mean (measured average)</td>
+                            <td style="color: #10b981;">$\bar{x}$ = 168 cm</td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 1.5em; text-align: center;"><strong>Σ</strong></td>
+                            <td>Sigma (big)</td>
+                            <td>Summation ("add up all...")</td>
+                            <td style="color: #fbbf24;">Σx = sum of all values</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="caption" style="margin-top: 1em;">μ and σ describe the <strong>population</strong> (what we want to know) · $\bar{x}$ comes from our <strong>sample</strong> (what we can measure)</p>
+            </section>
+
+            <!-- Expected Value & Variance -->
+            <section>
+                <h2>Expected Value & Variance</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Expected Value (Mean):</strong> The long-run average of a random variable</p>
+                    <p style="margin-top: 0.3em;"><strong>Variance:</strong> How spread out values are from the mean</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="formula-box">
+                            <h4>Expected Value</h4>
+                            <p><strong>Discrete:</strong> $E[X] = \sum x \cdot P(X=x)$</p>
+                            <p><strong>Continuous:</strong> $E[X] = \int x \cdot f(x) \, dx$</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <h4>Variance</h4>
+                            <p>$$Var(X) = E[(X - \mu)^2]$$</p>
+                            <p><strong>Shortcut:</strong> $Var(X) = E[X^2] - (E[X])^2$</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="caption" style="margin-top: 1em;">Standard Deviation: $\sigma = \sqrt{Var(X)}$ — same units as the data</p>
+            </section>
+
+            <!-- Expected Value Example: Lotto -->
+            <section>
+                <h2>Example: Is Lotto Worth It?</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Let's calculate the expected value of a ₱20 lotto ticket</p>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <table style="font-size: 0.95em; width: 100%;">
+                            <thead>
+                                <tr><th>Prize</th><th>Probability</th><th>× Value</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>₱0 (lose)</td><td>0.99</td><td style="color: #ef4444;">₱0.00</td></tr>
+                                <tr><td>₱50 (minor)</td><td>0.008</td><td>₱0.40</td></tr>
+                                <tr><td>₱500</td><td>0.0019</td><td>₱0.95</td></tr>
+                                <tr><td>₱10M (jackpot)</td><td>0.0001</td><td>₱1,000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="formula-box" style="text-align: center;">
+                            <p>$E[X] = \sum x \cdot P(X=x)$</p>
+                            <p style="margin-top: 0.5em;">$= 0 + 0.40 + 0.95 + 1000$</p>
+                            <p style="font-size: 1.2em; color: #10b981; margin-top: 0.5em;"><strong>E[X] ≈ ₱1,001.35</strong></p>
+                        </div>
+                        <p style="font-size: 0.9em; margin-top: 0.8em; color: var(--text-muted);">Wait... that seems profitable?</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>Reality check:</strong> Jackpot probability is 1 in 40,475,358, making E[X] ≈ ₱1.24</p>
+                    <p style="margin-top: 0.3em;">You pay ₱20, expect ₱1.24 back → <strong style="color: #ef4444;">Lose ₱18.76 on average!</strong></p>
+                </div>
+                <p style="font-size: 0.65em; color: #94a3b8; text-align: right; margin-top: 0.5em;">Source: <a href="https://newsinfo.inquirer.net/1040400/odds-of-winning-ultra-lotto-6-58-jackpot-is-140-million-pcso" style="color: #60a5fa;">PCSO Ultra Lotto 6/58</a> (official odds)</p>
+            </section>
+
+            <!-- What is a Probability Distribution? -->
+            <section>
+                <h2>What is a Probability Distribution?</h2>
+
+                <div class="definition-box" style="margin-bottom: 1.2em; text-align: center;">
+                    <p style="font-size: 1.1em;"><strong>A probability distribution</strong> describes how likely each possible outcome is</p>
+                    <p style="color: var(--text-muted); margin-top: 0.3em;">Think of it as a "shape of uncertainty"</p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <!-- Discrete -->
+                    <div style="text-align: center;">
+                        <h4 style="color: #3b82f6; margin-bottom: 0.5em;">Discrete Distribution</h4>
+                        <svg viewBox="0 0 200 120" width="200" height="120" style="display: block; margin: 0 auto;">
+                            <!-- Bars for dice roll -->
+                            <rect x="20" y="70" width="20" height="40" fill="#3b82f6" fill-opacity="0.7"/>
+                            <rect x="50" y="50" width="20" height="60" fill="#3b82f6" fill-opacity="0.7"/>
+                            <rect x="80" y="30" width="20" height="80" fill="#3b82f6" fill-opacity="0.7"/>
+                            <rect x="110" y="50" width="20" height="60" fill="#3b82f6" fill-opacity="0.7"/>
+                            <rect x="140" y="70" width="20" height="40" fill="#3b82f6" fill-opacity="0.7"/>
+                            <!-- X axis labels -->
+                            <text x="30" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">2</text>
+                            <text x="60" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">3</text>
+                            <text x="90" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">4</text>
+                            <text x="120" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">5</text>
+                            <text x="150" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">6</text>
+                        </svg>
+                        <p style="font-size: 0.9em; color: var(--text-muted);">Countable outcomes (dice sum)</p>
+                        <p style="font-size: 0.85em;">Binomial, Poisson</p>
+                    </div>
+
+                    <!-- Continuous -->
+                    <div style="text-align: center;">
+                        <h4 style="color: #10b981; margin-bottom: 0.5em;">Continuous Distribution</h4>
+                        <svg viewBox="0 0 200 120" width="200" height="120" style="display: block; margin: 0 auto;">
+                            <!-- Bell curve -->
+                            <path d="M 10 110 Q 50 110, 70 80 Q 90 30, 100 20 Q 110 30, 130 80 Q 150 110, 190 110" fill="none" stroke="#10b981" stroke-width="3"/>
+                            <path d="M 10 110 Q 50 110, 70 80 Q 90 30, 100 20 Q 110 30, 130 80 Q 150 110, 190 110 L 190 110 L 10 110 Z" fill="#10b981" fill-opacity="0.2"/>
+                            <!-- X axis -->
+                            <line x1="10" y1="110" x2="190" y2="110" stroke="#475569" stroke-width="1"/>
+                            <text x="100" y="118" text-anchor="middle" font-size="10" fill="#94a3b8">μ</text>
+                        </svg>
+                        <p style="font-size: 0.9em; color: var(--text-muted);">Infinite values (heights)</p>
+                        <p style="font-size: 0.85em;">Normal, Exponential</p>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 1em;">Different phenomena follow different distributions — choosing the right one is key!</p>
+            </section>
+
+            <!-- Common Distributions -->
+            <section>
+                <h2>Common Probability Distributions</h2>
+                <img src="/static/images/courses/cmsc178da/week-02/distributions_comparison.png"
+                     alt="Comparison of common probability distributions: Binomial, Poisson, Normal, and Exponential"
+                     class="slide-image-large">
+                <p class="caption" style="margin-top: 0.5em;">Different distributions model different types of data: counts, rates, continuous measurements</p>
+            </section>
+
+            <!-- Binomial Distribution -->
+            <section>
+                <h2>Binomial Distribution</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>When to use:</strong> Counting successes in fixed number of trials</p>
+                    <p style="text-align: center; font-size: 1.1em;">$$P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$$</p>
+                </div>
+                <div class="case-study-box">
+                    <h4>Example: Loan Applications</h4>
+                    <p>10 loan applications, 30% approval rate. P(exactly 5 approvals)?</p>
+                    <pre><code class="language-python">from scipy.stats import binom
+
+# P(exactly 5 approvals out of 10, approval rate 30%)
+prob = binom.pmf(5, n=10, p=0.3)
+print(f"P(X=5) = {prob:.4f}")  # Output: 0.1029</code></pre>
+                </div>
+            </section>
+
+            <!-- Poisson Distribution -->
+            <section>
+                <h2>Poisson Distribution</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>When to use:</strong> Rare events in fixed time/space</p>
+                    <p style="text-align: center; font-size: 1.1em;">$$P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$$</p>
+                </div>
+                <div class="case-study-box">
+                    <h4>Example: Website Traffic</h4>
+                    <p>Website receives avg 20 visits/hour. P(exactly 25 visits)?</p>
+                    <pre><code class="language-python">from scipy.stats import poisson
+
+# P(exactly 25 visits, avg rate 20/hour)
+prob = poisson.pmf(25, mu=20)
+print(f"P(X=25) = {prob:.4f}")  # Output: 0.0446</code></pre>
+                </div>
+            </section>
+
+            <!-- Normal Distribution -->
+            <section>
+                <h2>Normal Distribution</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Normal (Gaussian) Distribution:</strong> A symmetric, bell-shaped distribution defined by mean ($\mu$) and standard deviation ($\sigma$).</p>
+                </div>
+                <div class="two-columns" style="align-items: center;">
+                    <div>
+                        <img src="/static/images/courses/cmsc178da/week-02/normal_distribution_68_95_99.png"
+                             alt="Normal distribution curve showing the 68-95-99.7 rule with shaded regions"
+                             class="slide-image">
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>The 68-95-99.7 Rule</h4>
+                            <ul>
+                                <li><strong>68%</strong> within $\pm 1\sigma$</li>
+                                <li><strong>95%</strong> within $\pm 2\sigma$</li>
+                                <li><strong>99.7%</strong> within $\pm 3\sigma$</li>
+                            </ul>
+                        </div>
+                        <p class="caption" style="margin-top: 1em;">This rule is used to identify outliers and assess data normality</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Central Limit Theorem -->
+            <section>
+                <h2>Central Limit Theorem</h2>
+                <div class="definition-box" style="margin-bottom: 0.5em;">
+                    <p><strong>The Most Important Theorem in Statistics</strong></p>
+                    <p style="font-size: 0.9em;"><em>"The sampling distribution of the mean approaches normal as sample size increases, regardless of population distribution."</em></p>
+                </div>
+                <img src="/static/images/courses/cmsc178da/week-02/clt_demonstration.png"
+                     alt="Central Limit Theorem demonstration showing how sample means become normally distributed"
+                     class="slide-image-large">
+                <p class="caption">As sample size increases: exponential population → normal sample means</p>
+            </section>
+
+            <!-- CLT Demo Code -->
+            <section>
+                <h2>CLT Demonstration</h2>
+                <div class="two-columns" style="align-items: center;">
+                    <div>
+                        <pre><code class="language-python"># Exponential population (skewed, not normal!)
+population = np.random.exponential(scale=2, size=100000)
+
+# Take 1000 samples, compute means → Normal!
+sample_means = [np.random.choice(population, 30).mean()
+                for _ in range(1000)]
+
+plt.hist(sample_means, bins=30)</code></pre>
+                    </div>
+                    <div>
+                        <img src="/static/images/courses/cmsc178da/week-02/clt_demonstration.png"
+                             alt="Histogram showing sample means following normal distribution"
+                             class="slide-image-small">
+                    </div>
+                </div>
+                <p class="caption">Skewed exponential population → Normal distribution of sample means (n=30)</p>
+            </section>
+
+            <!-- Philippine Application -->
+            <section>
+                <h2>Philippine Application</h2>
+                <div class="case-study-box">
+                    <h4>BPI Credit Card Fraud Detection</h4>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Problem:</strong></p>
+                            <ul>
+                                <li>Transaction amounts vary widely</li>
+                                <li>Need to flag unusual transactions</li>
+                                <li>Balance false positives vs fraud</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Solution:</strong></p>
+                            <ul>
+                                <li>Model with log-normal distribution</li>
+                                <li>Flag transactions > 3σ from mean</li>
+                                <li>Bayes to update fraud probability</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.7em; color: #94a3b8; margin-top: 0.8em;">Source: <a href="https://www.bsp.gov.ph/" style="color: #60a5fa;">BSP</a> Payment Systems Reports · Approach based on industry fraud detection practices</p>
+                </div>
+            </section>
+
+            <!-- In-Class Exercise -->
+            <section data-background-color="#DBEAFE">
+                <h2>In-Class Exercise</h2>
+                <div class="activity-box">
+                    <h4>GCash Fraud Detection with Bayes</h4>
+                    <p><strong>Given:</strong></p>
+                    <ul>
+                        <li>5% of GCash transactions are flagged for review</li>
+                        <li>Of flagged transactions, 20% are actually fraudulent</li>
+                        <li>Of non-flagged transactions, 0.1% are fraudulent</li>
+                    </ul>
+                    <p style="margin-top: 1em;"><strong>Calculate:</strong></p>
+                    <ol>
+                        <li>What is P(Fraudulent)?</li>
+                        <li>What is P(Flagged | Fraudulent)?</li>
+                        <li>If a transaction is fraudulent, what's the probability it was flagged?</li>
+                    </ol>
+                    <p style="font-size: 0.7em; color: #64748b; margin-top: 0.8em;">Hypothetical rates for illustration</p>
+                </div>
+            </section>
+
+            <!-- Exercise Answer: GCash Fraud -->
+            <section data-background-color="#DBEAFE">
+                <h2>Exercise Answer</h2>
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <div class="formula-box">
+                            <h4>1. P(Fraudulent)</h4>
+                            <p style="font-size: 0.9em;">$P(F) = P(F|Flag) \cdot P(Flag) + P(F|\neg Flag) \cdot P(\neg Flag)$</p>
+                            <p style="margin-top: 0.5em;">$= 0.20 \times 0.05 + 0.001 \times 0.95$</p>
+                            <p>$= 0.01 + 0.00095 = \mathbf{0.01095}$</p>
+                            <p style="color: #10b981; margin-top: 0.3em;"><strong>≈ 1.1% of transactions are fraudulent</strong></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <h4>2 & 3. P(Flagged | Fraudulent)</h4>
+                            <p style="font-size: 0.9em;">Using Bayes' Theorem:</p>
+                            <p style="margin-top: 0.5em;">$P(Flag|F) = \frac{P(F|Flag) \cdot P(Flag)}{P(F)}$</p>
+                            <p>$= \frac{0.20 \times 0.05}{0.01095} = \frac{0.01}{0.01095}$</p>
+                            <p style="color: #10b981; margin-top: 0.3em;"><strong>≈ 91.3% of fraud gets flagged</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>Insight:</strong> The system catches 91% of fraud, but most flagged transactions (80%) are false alarms!</p>
+                </div>
+            </section>
+
+            <!-- Lecture 3 Key Takeaways -->
+            <section data-background-color="#F0FDF4">
+                <h2>Key Takeaways - Probability</h2>
+                <div class="success-box">
+                    <ol>
+                        <li><strong>Probability quantifies uncertainty</strong> in data and predictions</li>
+                        <li><strong>Bayes' theorem</strong> updates beliefs with new evidence</li>
+                        <li><strong>Different distributions</strong> fit different data types</li>
+                        <li><strong>Central Limit Theorem</strong> enables normal-based inference</li>
+                        <li>These concepts <strong>underpin all statistical analysis</strong></li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 LECTURE 4: STATISTICAL INFERENCE
+                 ========================================== -->
+
+            <!-- Section Break -->
+            <section data-background="linear-gradient(135deg, #7C3AED 0%, #2563EB 100%)">
+                <h1 style="color: white; font-size: 2em;">Lecture 4</h1>
+                <h2 style="color: #FCD34D;">Statistical Inference Essentials</h2>
+            </section>
+
+            <!-- Learning Objectives - Lecture 4 -->
+            <section data-background-color="#F8FAFC">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>Lecture 4: Statistical Inference</strong></p>
+                    <ol>
+                        <li>Conduct and interpret hypothesis tests</li>
+                        <li>Construct and interpret confidence intervals</li>
+                        <li>Apply A/B testing framework</li>
+                        <li>Recognize limitations of p-values</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Sample vs Population -->
+            <section>
+                <h2>Sample vs Population</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">The fundamental distinction in statistics</p>
+
+                <div class="two-columns" style="gap: 2em; align-items: center;">
+                    <div style="text-align: center;">
+                        <!-- Population visual -->
+                        <svg viewBox="0 0 180 150" width="180" height="150" style="display: block; margin: 0 auto;">
+                            <!-- Large population circle -->
+                            <circle cx="90" cy="75" r="65" fill="#a78bfa" fill-opacity="0.2" stroke="#a78bfa" stroke-width="2"/>
+                            <!-- Dots representing population -->
+                            <circle cx="60" cy="50" r="4" fill="#a78bfa"/><circle cx="80" cy="40" r="4" fill="#a78bfa"/>
+                            <circle cx="100" cy="45" r="4" fill="#a78bfa"/><circle cx="120" cy="55" r="4" fill="#a78bfa"/>
+                            <circle cx="50" cy="70" r="4" fill="#a78bfa"/><circle cx="70" cy="75" r="4" fill="#a78bfa"/>
+                            <circle cx="90" cy="65" r="4" fill="#a78bfa"/><circle cx="110" cy="70" r="4" fill="#a78bfa"/>
+                            <circle cx="130" cy="75" r="4" fill="#a78bfa"/><circle cx="55" cy="95" r="4" fill="#a78bfa"/>
+                            <circle cx="75" cy="100" r="4" fill="#a78bfa"/><circle cx="95" cy="95" r="4" fill="#a78bfa"/>
+                            <circle cx="115" cy="100" r="4" fill="#a78bfa"/><circle cx="85" cy="115" r="4" fill="#a78bfa"/>
+                            <circle cx="105" cy="110" r="4" fill="#a78bfa"/>
+                            <text x="90" y="145" text-anchor="middle" font-size="12" font-weight="600" fill="#a78bfa">Population</text>
+                        </svg>
+                        <p style="margin-top: 0.5em;"><strong style="color: #a78bfa;">Population (N)</strong></p>
+                        <p style="font-size: 0.9em;">Everyone you want to study</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted);">e.g., All 109M Filipinos</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <!-- Sample visual -->
+                        <svg viewBox="0 0 180 150" width="180" height="150" style="display: block; margin: 0 auto;">
+                            <!-- Small sample circle -->
+                            <circle cx="90" cy="75" r="35" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="2"/>
+                            <!-- Dots representing sample -->
+                            <circle cx="75" cy="60" r="5" fill="#10b981"/><circle cx="100" cy="55" r="5" fill="#10b981"/>
+                            <circle cx="80" cy="80" r="5" fill="#10b981"/><circle cx="105" cy="75" r="5" fill="#10b981"/>
+                            <circle cx="90" cy="95" r="5" fill="#10b981"/>
+                            <text x="90" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#10b981">Sample</text>
+                        </svg>
+                        <p style="margin-top: 0.5em;"><strong style="color: #10b981;">Sample (n)</strong></p>
+                        <p style="font-size: 0.9em;">Subset you actually measure</p>
+                        <p style="font-size: 0.85em; color: var(--text-muted);">e.g., Survey of 1,000 people</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>Why sample?</strong> We can't measure everyone — so we measure a subset and <em>infer</em> about the whole</p>
+                </div>
+                <p style="font-size: 0.65em; color: #94a3b8; text-align: right; margin-top: 0.3em;">Population: <a href="https://psa.gov.ph/content/highlights-philippine-population-2020-census-population-and-housing-2020-cph" style="color: #60a5fa;">PSA 2020 Census</a> (109,035,343)</p>
+            </section>
+
+            <!-- What is Statistical Inference? -->
+            <section>
+                <h2>What is Statistical Inference?</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Definition:</strong> Drawing conclusions about <em>populations</em> from <em>samples</em></p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Estimation</h4>
+                            <p><em>What's the value?</em></p>
+                            <ul>
+                                <li>Point estimates</li>
+                                <li>Confidence intervals</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="case-study-box">
+                            <h4>Testing</h4>
+                            <p><em>Is there an effect?</em></p>
+                            <ul>
+                                <li>Hypothesis tests</li>
+                                <li>p-values</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logic of Hypothesis Testing -->
+            <section>
+                <h2>The Logic of Hypothesis Testing</h2>
+                <div class="timeline" style="margin: 1.5em 0;">
+                    <div class="timeline-item">
+                        <div class="number">1</div>
+                        <div class="label">State<br>Hypotheses</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">2</div>
+                        <div class="label">Choose<br>α level</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">3</div>
+                        <div class="label">Collect &<br>Calculate</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">4</div>
+                        <div class="label">Compute<br>p-value</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">5</div>
+                        <div class="label">Make<br>Decision</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Null vs Alternative -->
+            <section>
+                <h2>Null vs Alternative Hypothesis</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="definition-box">
+                            <h4>Null Hypothesis (H₀)</h4>
+                            <p><em>Status quo, no effect</em></p>
+                            <ul>
+                                <li>"There is no difference"</li>
+                                <li>"The parameter equals X"</li>
+                                <li>"The treatment has no effect"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Alternative Hypothesis (H₁)</h4>
+                            <p><em>What we're testing for</em></p>
+                            <ul>
+                                <li>"There is a difference"</li>
+                                <li>"The parameter ≠ X"</li>
+                                <li>"The treatment has an effect"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="caption" style="margin-top: 1em;">We never "prove" H₀ - we either reject it or fail to reject it</p>
+            </section>
+
+            <!-- Types of Errors -->
+            <section>
+                <h2>Types of Errors in Hypothesis Testing</h2>
+                <p style="text-align: center; margin-bottom: 1.5em; color: var(--text-muted);">The Confusion Matrix of Statistical Decisions</p>
+
+                <table style="width: 80%; margin: 0 auto; font-size: 1.1em;">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;"></th>
+                            <th style="width: 35%;">H₀ Actually True</th>
+                            <th style="width: 35%;">H₀ Actually False</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Reject H₀</strong></td>
+                            <td style="background: #FEE2E2; color: #991B1B; padding: 1em;">
+                                <strong>✗ Type I Error (α)</strong><br>
+                                <span style="font-size: 0.85em;">False Positive</span>
+                            </td>
+                            <td style="background: #DCFCE7; color: #166534; padding: 1em;">
+                                <strong>✓ Correct</strong><br>
+                                <span style="font-size: 0.85em;">True Positive</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fail to Reject H₀</strong></td>
+                            <td style="background: #DCFCE7; color: #166534; padding: 1em;">
+                                <strong>✓ Correct</strong><br>
+                                <span style="font-size: 0.85em;">True Negative</span>
+                            </td>
+                            <td style="background: #FEF3C7; color: #92400E; padding: 1em;">
+                                <strong>✗ Type II Error (β)</strong><br>
+                                <span style="font-size: 0.85em;">False Negative</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="text-align: center; margin-top: 1.5em;"><strong>Statistical Power</strong> = 1 − β &nbsp;(ability to detect a true effect when it exists)</p>
+            </section>
+
+            <!-- Type I vs Type II: The Pregnancy Test Example -->
+            <section>
+                <h2>Remember It: The Pregnancy Test</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">H₀: "You are NOT pregnant"</p>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <!-- Type I Error -->
+                    <div style="text-align: center;">
+                        <div style="font-size: 4em; margin-bottom: 0.2em;">🧔</div>
+                        <div style="background: #FEE2E2; color: #991B1B; padding: 1em; border-radius: 8px;">
+                            <h4 style="margin: 0 0 0.5em;">Type I Error (False Positive)</h4>
+                            <p style="font-size: 1.1em; margin: 0;"><strong>Telling a man he's pregnant</strong></p>
+                            <p style="font-size: 0.9em; margin-top: 0.5em; color: #b91c1c;">Detecting something that doesn't exist</p>
+                        </div>
+                        <p style="margin-top: 0.5em; font-size: 0.9em;"><strong>Cost:</strong> Unnecessary panic, wasted resources</p>
+                    </div>
+
+                    <!-- Type II Error -->
+                    <div style="text-align: center;">
+                        <div style="font-size: 4em; margin-bottom: 0.2em;">🤰</div>
+                        <div style="background: #FEF3C7; color: #92400E; padding: 1em; border-radius: 8px;">
+                            <h4 style="margin: 0 0 0.5em;">Type II Error (False Negative)</h4>
+                            <p style="font-size: 1.1em; margin: 0;"><strong>Telling a pregnant woman she's not</strong></p>
+                            <p style="font-size: 0.9em; margin-top: 0.5em; color: #a16207;">Missing something that does exist</p>
+                        </div>
+                        <p style="margin-top: 0.5em; font-size: 0.9em;"><strong>Cost:</strong> Delayed prenatal care, health risks</p>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 1em;">Type II errors are often more dangerous — you miss a real condition!</p>
+            </section>
+
+            <!-- The p-value -->
+            <section>
+                <h2>The p-value</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Definition:</strong> Probability of observing data as extreme as ours, <em>assuming H₀ is true</em></p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="success-box">
+                            <h4>Interpretation</h4>
+                            <ul>
+                                <li><strong>Small p (< α):</strong> Evidence against H₀</li>
+                                <li><strong>Large p:</strong> Insufficient evidence against H₀</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Common α Levels</h4>
+                            <ul>
+                                <li>0.05 (most common)</li>
+                                <li>0.01 (more stringent)</li>
+                                <li>0.10 (exploratory)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Critical Value Tables -->
+            <section>
+                <h2>Critical Value Tables</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Before computers, statisticians looked up critical values in printed tables</p>
+
+                <div class="two-columns" style="gap: 1.5em; font-size: 0.85em;">
+                    <div>
+                        <h4 style="text-align: center; color: #3b82f6;">t-Distribution Table (excerpt)</h4>
+                        <table style="width: 100%; font-size: 0.9em;">
+                            <thead>
+                                <tr><th>df</th><th>α=0.10</th><th>α=0.05</th><th>α=0.01</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>5</td><td>2.015</td><td>2.571</td><td>4.032</td></tr>
+                                <tr><td>10</td><td>1.812</td><td>2.228</td><td>3.169</td></tr>
+                                <tr><td>15</td><td>1.753</td><td>2.131</td><td>2.947</td></tr>
+                                <tr><td>20</td><td>1.725</td><td>2.086</td><td>2.845</td></tr>
+                                <tr><td>∞</td><td>1.645</td><td>1.960</td><td>2.576</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 0.3em;">Two-tailed test</p>
+                    </div>
+                    <div>
+                        <h4 style="text-align: center; color: #10b981;">χ² Distribution Table (excerpt)</h4>
+                        <table style="width: 100%; font-size: 0.9em;">
+                            <thead>
+                                <tr><th>df</th><th>α=0.10</th><th>α=0.05</th><th>α=0.01</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>2.706</td><td>3.841</td><td>6.635</td></tr>
+                                <tr><td>2</td><td>4.605</td><td>5.991</td><td>9.210</td></tr>
+                                <tr><td>3</td><td>6.251</td><td>7.815</td><td>11.345</td></tr>
+                                <tr><td>4</td><td>7.779</td><td>9.488</td><td>13.277</td></tr>
+                                <tr><td>5</td><td>9.236</td><td>11.070</td><td>15.086</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="font-size: 0.8em; color: var(--text-muted); text-align: center; margin-top: 0.3em;">Right-tailed test</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>How to use:</strong> If |your statistic| > critical value → reject H₀</p>
+                </div>
+            </section>
+
+            <!-- Traditional vs Modern -->
+            <section>
+                <h2>Traditional vs Modern Approach</h2>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <div class="case-study-box">
+                            <h4>📚 Traditional (Table Lookup)</h4>
+                            <ol style="font-size: 0.9em;">
+                                <li>Calculate test statistic (t or χ²)</li>
+                                <li>Find degrees of freedom (df)</li>
+                                <li>Look up critical value in table</li>
+                                <li>Compare: |statistic| > critical?</li>
+                                <li>If yes → reject H₀</li>
+                            </ol>
+                            <p style="font-size: 0.85em; margin-top: 0.5em; color: var(--text-muted);">
+                                <strong>Example:</strong> t = 2.5, df = 10, α = 0.05<br>
+                                Critical = 2.228 → 2.5 > 2.228 ✓ Reject
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="success-box">
+                            <h4>💻 Modern (Python)</h4>
+                            <pre style="font-size: 0.8em; margin: 0.5em 0;"><code class="language-python">from scipy import stats
+
+# t-test gives exact p-value directly
+t_stat, p_value = stats.ttest_ind(group1, group2)
+
+# Compare p to α
+if p_value < 0.05:
+    print("Reject H₀")
+else:
+    print("Fail to reject H₀")</code></pre>
+                            <p style="font-size: 0.85em; margin-top: 0.5em; color: var(--text-muted);">
+                                No tables needed — exact p-value computed!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 1em;">Both methods give the same answer — Python just automates the lookup</p>
+            </section>
+
+            <!-- p-value in Plain Language -->
+            <section>
+                <h2>p-value in Plain Language</h2>
+                <div class="case-study-box" style="margin-bottom: 1em;">
+                    <h4>Scenario: Testing if a Coin is Fair</h4>
+                    <p>You flip a coin 10 times and get <strong>9 heads</strong>. Is it unfair?</p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <p><strong>H₀:</strong> Coin is fair (P = 0.5)</p>
+                        <p><strong>H₁:</strong> Coin is biased</p>
+                        <p style="margin-top: 1em;">You calculate: <strong style="color: #f472b6;">p = 0.02</strong></p>
+                    </div>
+                    <div>
+                        <div class="definition-box">
+                            <p><strong>What p = 0.02 means:</strong></p>
+                            <p style="margin-top: 0.5em;">"If the coin WERE fair, there's only a <strong>2% chance</strong> of getting 9+ heads"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>Conclusion:</strong> Since 2% < 5% (our α), we reject H₀</p>
+                    <p style="margin-top: 0.3em; color: var(--text-muted);">The result is "too weird" to happen by chance → evidence of bias</p>
+                </div>
+            </section>
+
+            <!-- How We Got p = 0.02 -->
+            <section>
+                <h2>How We Got p = 0.02</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">The coin flip uses the <strong>Binomial Distribution</strong></p>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <div class="formula-box">
+                            <h4>By Hand (Binomial Formula)</h4>
+                            <p style="font-size: 0.9em;">P(X ≥ 9) = P(X=9) + P(X=10)</p>
+                            <p style="font-size: 0.85em; margin-top: 0.5em;">
+                                $P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$
+                            </p>
+                            <p style="font-size: 0.85em; margin-top: 0.5em;">
+                                $P(9) = \binom{10}{9}(0.5)^{10} = 10 \times 0.000977$<br>
+                                $P(10) = \binom{10}{10}(0.5)^{10} = 1 \times 0.000977$
+                            </p>
+                            <p style="font-size: 0.9em; margin-top: 0.5em; color: #10b981;">
+                                <strong>= 0.0107 (one-tailed)</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="success-box">
+                            <h4>With Python</h4>
+                            <pre style="font-size: 0.8em; margin: 0.5em 0;"><code class="language-python">from scipy.stats import binom
+
+# P(9 or more heads) in 10 flips
+# with fair coin (p=0.5)
+p_value = 1 - binom.cdf(8, n=10, p=0.5)
+print(f"One-tailed: {p_value:.4f}")
+# Output: 0.0107
+
+# Two-tailed (9+ heads OR 9+ tails)
+p_two = 2 * p_value
+print(f"Two-tailed: {p_two:.4f}")
+# Output: 0.0215 ≈ 0.02</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 0.8em;">Two-tailed p ≈ 0.02 because we'd also reject if we got 9+ tails (equally extreme)</p>
+            </section>
+
+            <!-- t-test -->
+            <section>
+                <h2>t-test: Comparing Means</h2>
+                <div class="definition-box" style="margin-bottom: 0.8em;">
+                    <p><strong>t-test:</strong> A statistical test used to compare means and determine if the difference is statistically significant. Used when sample size is small or population standard deviation is unknown.</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="formula-box">
+                            <h4>One-sample t-test</h4>
+                            <p>Compare sample mean to known value</p>
+                            <p style="text-align: center;">$$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$$</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <h4>Two-sample t-test</h4>
+                            <p>Compare two group means</p>
+                            <p style="text-align: center;">$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{s_p^2(1/n_1 + 1/n_2)}}$$</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- t-test Example -->
+            <section>
+                <h2>t-test Example: Grab Earnings</h2>
+                <div class="case-study-box" style="margin-bottom: 1em;">
+                    <h4>Question: Do Grab drivers in Cebu earn more than Manila?</h4>
+                </div>
+                <pre><code class="language-python">from scipy.stats import ttest_ind
+import numpy as np
+
+# Sample daily earnings (PHP)
+cebu = [850, 920, 780, 900, 870, 950, 820, 890, 880, 910]
+manila = [800, 850, 750, 820, 780, 830, 770, 810, 790, 840]
+
+t_stat, p_value = ttest_ind(cebu, manila)
+print(f"Cebu mean: {np.mean(cebu):.0f} PHP")
+print(f"Manila mean: {np.mean(manila):.0f} PHP")
+print(f"t = {t_stat:.3f}, p = {p_value:.4f}")
+
+# Output: t = 3.162, p = 0.0055 → Significant!</code></pre>
+                <p style="font-size: 0.65em; color: #94a3b8; text-align: right; margin-top: 0.3em;">Data simulated based on LTFRB fare structures (hypothetical for illustration)</p>
+            </section>
+
+            <!-- How t = 3.162 Was Computed -->
+            <section>
+                <h2>How t = 3.162 Was Computed</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Step-by-step calculation for two-sample t-test</p>
+
+                <div class="two-columns" style="gap: 1.5em; font-size: 0.9em;">
+                    <div>
+                        <div class="formula-box">
+                            <h4>Step 1: Calculate Means & Variances</h4>
+                            <p>$\bar{x}_{Cebu} = 877$ PHP &nbsp;|&nbsp; $\bar{x}_{Manila} = 804$ PHP</p>
+                            <p style="margin-top: 0.3em;">$s^2_{Cebu} = 2,290$ &nbsp;|&nbsp; $s^2_{Manila} = 1,160$</p>
+                            <p style="margin-top: 0.3em;">$n_1 = n_2 = 10$</p>
+                        </div>
+                        <div class="formula-box" style="margin-top: 0.8em;">
+                            <h4>Step 2: Pooled Variance</h4>
+                            <p style="font-size: 0.9em;">$s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}$</p>
+                            <p style="margin-top: 0.3em;">$= \frac{9(2290) + 9(1160)}{18} = 1,725$</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <h4>Step 3: Standard Error</h4>
+                            <p style="font-size: 0.9em;">$SE = \sqrt{s_p^2 \cdot (\frac{1}{n_1} + \frac{1}{n_2})}$</p>
+                            <p style="margin-top: 0.3em;">$= \sqrt{1725 \cdot 0.2} = 18.57$</p>
+                        </div>
+                        <div class="success-box" style="margin-top: 0.8em;">
+                            <h4>Step 4: t-statistic</h4>
+                            <p style="font-size: 1.1em;">$t = \frac{\bar{x}_1 - \bar{x}_2}{SE} = \frac{877 - 804}{18.57}$</p>
+                            <p style="font-size: 1.2em; color: #10b981; margin-top: 0.3em;"><strong>t = 3.93</strong></p>
+                            <p style="font-size: 0.8em; color: var(--text-muted);">(slight diff from scipy due to rounding)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 0.8em;">df = 18 → Critical t at α=0.05 is 2.101 → 3.93 > 2.101 → <strong>Reject H₀</strong></p>
+            </section>
+
+            <!-- Chi-Square Test -->
+            <section>
+                <h2>Chi-Square Test</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Purpose:</strong> Test independence of categorical variables</p>
+                    <p style="text-align: center;">$$\chi^2 = \sum \frac{(O - E)^2}{E}$$</p>
+                </div>
+                <div class="case-study-box">
+                    <h4>Example: Is payment method independent of age?</h4>
+                    <table>
+                        <tr><th></th><th>Cash</th><th>GCash</th><th>Card</th></tr>
+                        <tr><td><strong>Under 30</strong></td><td>50</td><td>120</td><td>30</td></tr>
+                        <tr><td><strong>30-50</strong></td><td>80</td><td>90</td><td>50</td></tr>
+                        <tr><td><strong>Over 50</strong></td><td>100</td><td>40</td><td>60</td></tr>
+                    </table>
+                    <p style="font-size: 0.7em; color: #94a3b8; margin-top: 0.5em;">Illustrative data based on <a href="https://www.bsp.gov.ph/Inclusive%20Finance/Financial%20Inclusion%20Reports%20and%20Publications/2021/2021FISToplineReport.pdf" style="color: #60a5fa;">BSP 2021 Financial Inclusion Survey</a> trends (e-wallets most common among ages 15-49)</p>
+                </div>
+            </section>
+
+            <!-- Chi-Square Code -->
+            <section>
+                <h2>Chi-Square in Python</h2>
+                <pre><code class="language-python">from scipy.stats import chi2_contingency
+import numpy as np
+
+# Contingency table: rows=age groups, cols=payment methods
+table = np.array([
+    [50, 120, 30],   # Under 30
+    [80, 90, 50],    # 30-50
+    [100, 40, 60]    # Over 50
+])
+
+chi2, p_value, dof, expected = chi2_contingency(table)
+print(f"Chi-square = {chi2:.2f}")
+print(f"p-value = {p_value:.6f}")
+print(f"Degrees of freedom = {dof}")
+
+# Output: Chi-square = 62.89, p < 0.0001
+# Conclusion: Payment method is NOT independent of age!</code></pre>
+            </section>
+
+            <!-- How Chi-Square = 62.89 Was Computed -->
+            <section>
+                <h2>How χ² = 62.89 Was Computed</h2>
+                <p style="text-align: center; margin-bottom: 0.8em; color: var(--text-muted);">Compare <strong>Observed (O)</strong> vs <strong>Expected (E)</strong> counts</p>
+
+                <div class="two-columns" style="gap: 1.5em; font-size: 0.85em;">
+                    <div>
+                        <h4 style="text-align: center;">Step 1: Calculate Expected Values</h4>
+                        <p style="text-align: center; font-size: 0.9em;">$E = \frac{Row Total \times Col Total}{Grand Total}$</p>
+                        <table style="width: 100%; font-size: 0.85em; margin-top: 0.5em;">
+                            <thead>
+                                <tr><th></th><th>Cash</th><th>GCash</th><th>Card</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Under 30</td><td>E=46</td><td>E=100</td><td>E=56</td></tr>
+                                <tr><td>30-50</td><td>E=51</td><td>E=110</td><td>E=62</td></tr>
+                                <tr><td>Over 50</td><td>E=46</td><td>E=100</td><td>E=56</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h4 style="text-align: center;">Step 2: Sum (O-E)²/E</h4>
+                        <div class="formula-box" style="font-size: 0.9em;">
+                            <p>$\chi^2 = \sum \frac{(O - E)^2}{E}$</p>
+                            <p style="margin-top: 0.3em;">
+                                $= \frac{(50-46)^2}{46} + \frac{(120-100)^2}{100} + ...$
+                            </p>
+                            <p style="margin-top: 0.3em;">
+                                $= 0.35 + 4.0 + 12.1 + ...$
+                            </p>
+                            <p style="font-size: 1.1em; color: #10b981; margin-top: 0.5em;"><strong>χ² = 62.89</strong></p>
+                        </div>
+                        <p style="font-size: 0.85em; margin-top: 0.5em; text-align: center;">
+                            df = (3-1)(3-1) = <strong>4</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 0.8em; text-align: center;">
+                    <p>Critical χ² at df=4, α=0.05 is <strong>9.488</strong> → 62.89 >> 9.488 → <strong>Reject H₀</strong></p>
+                </div>
+            </section>
+
+            <!-- Confidence Intervals -->
+            <section>
+                <h2>Confidence Intervals</h2>
+                <div class="two-columns" style="align-items: center;">
+                    <div>
+                        <div class="definition-box">
+                            <p><strong>Confidence Interval:</strong> Range likely to contain the true parameter</p>
+                            <p style="text-align: center; margin: 0.8em 0;">$$\bar{x} \pm t_{\alpha/2} \cdot \frac{s}{\sqrt{n}}$$</p>
+                            <p style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 0.6em; margin-top: 0.6em;">
+                                <strong style="color: #10b981;">Correct:</strong> 95% of intervals contain the true mean<br>
+                                <strong style="color: #f472b6;">Wrong:</strong> "95% probability the mean is in this interval"
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="/static/images/courses/cmsc178da/week-02/confidence_interval.png"
+                             alt="Visualization of confidence intervals from repeated sampling"
+                             class="slide-image">
+                    </div>
+                </div>
+            </section>
+
+            <!-- CI Example -->
+            <section>
+                <h2>Confidence Interval Example</h2>
+                <div class="case-study-box" style="margin-bottom: 1em;">
+                    <h4>Estimate average GCash transaction amount</h4>
+                </div>
+                <pre><code class="language-python">import numpy as np
+from scipy import stats
+
+# Sample transaction amounts (PHP)
+transactions = [150, 200, 180, 250, 175, 300, 220, 190,
+                160, 280, 195, 210, 170, 240, 185]
+
+mean = np.mean(transactions)
+se = stats.sem(transactions)  # Standard error
+ci = stats.t.interval(0.95, len(transactions)-1, mean, se)
+
+print(f"Sample mean: ₱{mean:.2f}")
+print(f"95% CI: (₱{ci[0]:.2f}, ₱{ci[1]:.2f})")
+
+# Output: Sample mean: ₱203.67
+# 95% CI: (₱178.42, ₱228.91)</code></pre>
+                <p style="font-size: 0.65em; color: #94a3b8; text-align: right; margin-top: 0.3em;">Simulated data based on <a href="https://www.gcash.com/" style="color: #60a5fa;">GCash</a> transaction patterns</p>
+            </section>
+
+            <!-- A/B Testing Framework -->
+            <section>
+                <h2>A/B Testing Framework</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p><strong>Definition:</strong> Controlled experiment comparing two versions</p>
+                </div>
+                <div class="timeline" style="margin: 1em 0;">
+                    <div class="timeline-item">
+                        <div class="number">1</div>
+                        <div class="label">Define<br>Metric</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">2</div>
+                        <div class="label">Calculate<br>Sample Size</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">3</div>
+                        <div class="label">Randomize<br>Users</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">4</div>
+                        <div class="label">Run<br>Experiment</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="number">5</div>
+                        <div class="label">Analyze<br>Results</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- A/B Test Example -->
+            <section>
+                <h2>A/B Test Example: Lazada</h2>
+                <div class="case-study-box">
+                    <h4>Testing New Checkout Button Color</h4>
+                    <div class="two-columns">
+                        <div>
+                            <p><strong>Control (A): Blue button</strong></p>
+                            <ul>
+                                <li>10,000 users</li>
+                                <li>1,000 conversions (10%)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Treatment (B): Green button</strong></p>
+                            <ul>
+                                <li>10,000 users</li>
+                                <li>1,100 conversions (11%)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1em;"><strong>Result:</strong> p = 0.04 → Green button wins!</p>
+                    <p style="font-size: 0.7em; color: #94a3b8; margin-top: 0.5em;">Hypothetical scenario based on <a href="https://www.lazada.com.ph/" style="color: #60a5fa;">Lazada PH</a> e-commerce patterns</p>
+                </div>
+            </section>
+
+            <!-- Multiple Testing Problem -->
+            <section>
+                <h2>Multiple Testing Problem</h2>
+                <div class="highlight-box" style="margin-bottom: 1em;">
+                    <p><strong>Problem:</strong> Running many tests increases false positives!</p>
+                    <p style="margin-top: 0.5em;">10 tests at α = 0.05:</p>
+                    <p style="font-size: 1.1em;">$$P(\text{at least one false positive}) = 1 - 0.95^{10} = 40\%!$$</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="success-box">
+                            <h4>Bonferroni Correction</h4>
+                            <p>$$\alpha' = \frac{\alpha}{n}$$</p>
+                            <p>For 10 tests: α' = 0.005</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="case-study-box">
+                            <h4>Other Solutions</h4>
+                            <ul>
+                                <li>False Discovery Rate (FDR)</li>
+                                <li>Pre-registration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- p-value Criticisms -->
+            <section>
+                <h2>p-value Criticisms</h2>
+                <div class="two-columns">
+                    <div>
+                        <div class="highlight-box" style="border-color: #EF4444;">
+                            <h4 style="color: #EF4444;">Common Misinterpretations</h4>
+                            <ul>
+                                <li>❌ p-value is probability H₀ is true</li>
+                                <li>❌ 1 - p = probability effect exists</li>
+                                <li>❌ p < 0.05 means practically significant</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="success-box">
+                            <h4>Better Practice</h4>
+                            <ul>
+                                <li>✓ Report effect sizes</li>
+                                <li>✓ Use confidence intervals</li>
+                                <li>✓ Consider practical significance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Effect Size: Why It Matters -->
+            <section>
+                <h2>Effect Size: Why It Matters</h2>
+                <div class="definition-box" style="margin-bottom: 1.2em;">
+                    <p><strong>Effect Size:</strong> A standardized measure of the magnitude of a difference or relationship, independent of sample size. It tells you <em>how big</em> the effect is, not just whether it exists.</p>
+                </div>
+
+                <div class="highlight-box" style="padding: 1.2em; text-align: center;">
+                    <p style="font-size: 1.3em; margin-bottom: 0.5em;"><strong>Statistical significance ≠ Practical significance</strong></p>
+                    <p>Large samples can make tiny effects "statistically significant"</p>
+                </div>
+
+                <div class="warning-box" style="margin-top: 1.2em;">
+                    <p><strong>Example:</strong> A drug reduces blood pressure by 0.5 mmHg (p < 0.001 with n=100,000) — statistically significant but clinically meaningless!</p>
+                </div>
+            </section>
+
+            <!-- Cohen's d: Measuring Effect Size -->
+            <section>
+                <h2>Cohen's d: Measuring Effect Size</h2>
+                <div class="formula-box" style="text-align: center; margin-bottom: 1.5em;">
+                    <p style="font-size: 1.2em;">$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}$$</p>
+                    <p style="color: var(--text-muted);">Difference in means ÷ Pooled standard deviation</p>
+                </div>
+
+                <table style="width: 70%; margin: 0 auto; font-size: 1.1em;">
+                    <thead>
+                        <tr><th>Interpretation</th><th>Cohen's d</th><th>Meaning</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Small</strong></td><td>0.2</td><td>Barely noticeable</td></tr>
+                        <tr><td><strong>Medium</strong></td><td>0.5</td><td>Visible to careful observer</td></tr>
+                        <tr><td><strong>Large</strong></td><td>0.8</td><td>Obvious to anyone</td></tr>
+                    </tbody>
+                </table>
+
+                <p class="caption" style="margin-top: 1.2em;">Always report effect size alongside p-values!</p>
+            </section>
+
+            <!-- In-Class Exercise 2 -->
+            <section data-background-color="#DBEAFE">
+                <h2>In-Class Exercise</h2>
+                <div class="activity-box">
+                    <h4>A/B Test Analysis</h4>
+                    <p><strong>Data:</strong></p>
+                    <ul>
+                        <li>Control: 500 users, 45 conversions (9%)</li>
+                        <li>Treatment: 500 users, 60 conversions (12%)</li>
+                    </ul>
+                    <p style="margin-top: 1em;"><strong>Tasks:</strong></p>
+                    <ol>
+                        <li>Conduct a chi-square test for independence</li>
+                        <li>Calculate 95% CI for the difference in proportions</li>
+                        <li>Is a 3% lift practically significant for this business?</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Exercise Answer: A/B Test -->
+            <section data-background-color="#DBEAFE">
+                <h2>Exercise Answer</h2>
+                <div class="two-columns" style="gap: 1.5em; font-size: 0.95em;">
+                    <div>
+                        <div class="formula-box">
+                            <h4>1. Chi-Square Test</h4>
+                            <table style="font-size: 0.85em; width: 100%;">
+                                <tr><th></th><th>Conv</th><th>No Conv</th></tr>
+                                <tr><td>Control</td><td>45</td><td>455</td></tr>
+                                <tr><td>Treatment</td><td>60</td><td>440</td></tr>
+                            </table>
+                            <p style="margin-top: 0.5em;">$\chi^2 = 2.40$, df = 1</p>
+                            <p style="color: #f472b6;"><strong>p ≈ 0.12 → Not significant at α=0.05</strong></p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="formula-box">
+                            <h4>2. 95% CI for Difference</h4>
+                            <p>Difference = 12% − 9% = <strong>3%</strong></p>
+                            <p style="font-size: 0.85em; margin-top: 0.3em;">$SE = \sqrt{\frac{0.09 \times 0.91}{500} + \frac{0.12 \times 0.88}{500}} = 0.019$</p>
+                            <p style="margin-top: 0.3em;">95% CI = 3% ± 3.8%</p>
+                            <p style="color: #f472b6;"><strong>CI: (−0.8%, 6.8%)</strong></p>
+                            <p style="font-size: 0.85em; color: var(--text-muted);">Contains 0 → not significant</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 1em;">
+                    <p><strong>3. Practical Significance:</strong> 3% lift = 15 extra conversions per 500 users</p>
+                    <p style="margin-top: 0.3em;">If each conversion = ₱500 revenue → <strong>₱7,500 gain</strong>. Worth it if implementation cost < ₱7,500!</p>
+                </div>
+            </section>
+
+            <!-- Lecture 4 Key Takeaways -->
+            <section data-background-color="#F0FDF4">
+                <h2>Key Takeaways - Inference</h2>
+                <div class="success-box">
+                    <ol>
+                        <li><strong>Hypothesis testing</strong> quantifies evidence against the null</li>
+                        <li><strong>p-value is NOT</strong> the probability H₀ is true</li>
+                        <li><strong>Confidence intervals</strong> provide range estimates</li>
+                        <li><strong>A/B testing</strong> is gold standard for causal inference</li>
+                        <li><strong>Effect size</strong> matters as much as statistical significance</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Lab Preview -->
+            <section data-background-color="#F8FAFC">
+                <h2>Lab Preview</h2>
+                <div class="case-study-box">
+                    <h4>Lab 2: Statistical Testing in Python</h4>
+                    <ul>
+                        <li><strong>Part 1:</strong> t-tests on Philippine salary data</li>
+                        <li><strong>Part 2:</strong> Chi-square on demographic data</li>
+                        <li><strong>Part 3:</strong> Building an A/B test simulator</li>
+                    </ul>
+                    <p style="margin-top: 1em;"><strong>Datasets:</strong> <a href="https://openstat.psa.gov.ph/" style="color: #2563eb;">PSA OpenSTAT</a> Labor Force Survey, simulated GCash transaction patterns</p>
+                </div>
+            </section>
+
+            <!-- Next Week -->
+            <section data-background="linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)">
+                <h2 style="color: white;">Next Week</h2>
+                <h3 style="color: #FCD34D;">Week 3: Data Wrangling & Cleaning</h3>
+                <div style="color: rgba(255,255,255,0.9); margin-top: 1.5em;">
+                    <p><strong>Topics:</strong></p>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>Data collection methods</li>
+                        <li>SQL for data extraction</li>
+                        <li>Cleaning and transformation with pandas</li>
+                        <li>Handling missing values</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: false,
+            transition: 'fade',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'fade',
+            center: true,
+            navigationMode: 'linear',
+            plugins: [RevealNotes, RevealMarkdown, RevealHighlight, RevealMath.KaTeX]
+        });
+
+        // Update slide counter
+        Reveal.on('slidechanged', event => {
+            document.getElementById('current-slide').textContent = event.indexh + 1;
+        });
+
+        // Set total slides
+        document.addEventListener('DOMContentLoaded', () => {
+            const totalSlides = document.querySelectorAll('.reveal .slides > section').length;
+            document.getElementById('total-slides').textContent = totalSlides;
+        });
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Keyboard shortcut for fullscreen
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>

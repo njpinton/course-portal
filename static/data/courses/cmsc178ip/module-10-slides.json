@@ -39,7 +39,7 @@
       "id": 4,
       "title": "MNIST Dataset",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/mnist_samples.png\" alt=\"MNIST\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>MNIST:</strong> 70,000 handwritten digits (28×28 grayscale). The \"Hello World\" of deep learning.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/mnist_samples.svg\" alt=\"MNIST\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>MNIST:</strong> 70,000 handwritten digits (28×28 grayscale). The \"Hello World\" of deep learning.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -47,7 +47,7 @@
       "id": 5,
       "title": "CIFAR-10 Dataset",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/cifar10_samples.png\" alt=\"CIFAR-10\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>CIFAR-10:</strong> 60,000 color images (32×32) in 10 classes. More challenging than MNIST.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/cifar10_samples.svg\" alt=\"CIFAR-10\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>CIFAR-10:</strong> 60,000 color images (32×32) in 10 classes. More challenging than MNIST.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -55,7 +55,7 @@
       "id": 6,
       "title": "CNN for Classification",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/cnn_architecture.png\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Classification Pipeline:</strong><br>Conv layers → Feature extraction<br>FC layers → Classification<br>Softmax → Probability distribution over classes</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/cnn_architecture.svg\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Classification Pipeline:</strong><br>Conv layers → Feature extraction<br>FC layers → Classification<br>Softmax → Probability distribution over classes</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -63,7 +63,7 @@
       "id": 7,
       "title": "Feature Maps Visualization",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/feature_maps.png\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><p class=\"caption\">What the CNN learns at different layers</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/feature_maps.svg\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><p class=\"caption\">What the CNN learns at different layers</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -71,7 +71,7 @@
       "id": 8,
       "title": "Training and Evaluation",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/training_curves.png\" alt=\"Training Curves\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Monitor:</strong> Loss and accuracy on train/val sets. Gap indicates overfitting.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/training_curves.svg\" alt=\"Training Curves\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Monitor:</strong> Loss and accuracy on train/val sets. Gap indicates overfitting.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -79,7 +79,7 @@
       "id": 9,
       "title": "Confusion Matrix",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/confusion_matrix.png\" alt=\"Confusion Matrix\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Metrics from confusion matrix:</strong></p><ul><li>Precision = TP / (TP + FP)</li><li>Recall = TP / (TP + FN)</li><li>F1 = 2 × (Precision × Recall) / (Precision + Recall)</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/confusion_matrix.svg\" alt=\"Confusion Matrix\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Metrics from confusion matrix:</strong></p><ul><li>Precision = TP / (TP + FP)</li><li>Recall = TP / (TP + FN)</li><li>F1 = 2 × (Precision × Recall) / (Precision + Recall)</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -87,7 +87,7 @@
       "id": 10,
       "title": "Multiclass Predictions",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/multiclass_predictions.png\" alt=\"Predictions\" style=\"max-height: 65vh;\"><p class=\"caption\">Sample predictions showing correct classifications and errors</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/multiclass_predictions.svg\" alt=\"Predictions\" style=\"max-height: 65vh;\"><p class=\"caption\">Sample predictions showing correct classifications and errors</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -104,7 +104,7 @@
       "id": 12,
       "title": "Object Detection Task",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/detection_example.png\" alt=\"Detection Example\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Object Detection:</strong> Not just \"what\" but \"where\".</p><p>Output: Class label + Bounding box (x, y, width, height)</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/detection_example.svg\" alt=\"Detection Example\" style=\"max-height: 60vh;\"><div class=\"definition-box\"><p><strong>Object Detection:</strong> Not just \"what\" but \"where\".</p><p>Output: Class label + Bounding box (x, y, width, height)</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -112,7 +112,7 @@
       "id": 13,
       "title": "YOLO Architecture",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/yolo_grid.png\" alt=\"YOLO Grid\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>YOLO</strong> (You Only Look Once):</p><ul><li>Single-shot detector - very fast</li><li>Divides image into grid cells</li><li>Each cell predicts B boxes + class probabilities</li><li>Real-time detection possible</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/yolo_grid.svg\" alt=\"YOLO Grid\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>YOLO</strong> (You Only Look Once):</p><ul><li>Single-shot detector - very fast</li><li>Divides image into grid cells</li><li>Each cell predicts B boxes + class probabilities</li><li>Real-time detection possible</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why is YOLO faster than two-stage detectors like Faster R-CNN?",
@@ -123,7 +123,7 @@
       "id": 14,
       "title": "Faster R-CNN",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/faster_rcnn_pipeline.png\" alt=\"Faster R-CNN\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Two-stage detector:</strong><ol><li><strong>Region Proposal Network (RPN):</strong> Generate candidate boxes</li><li><strong>Classification head:</strong> Classify and refine boxes</li></ol><p>More accurate but slower than YOLO.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/faster_rcnn_pipeline.svg\" alt=\"Faster R-CNN\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Two-stage detector:</strong><ol><li><strong>Region Proposal Network (RPN):</strong> Generate candidate boxes</li><li><strong>Classification head:</strong> Classify and refine boxes</li></ol><p>More accurate but slower than YOLO.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -139,7 +139,7 @@
       "id": 16,
       "title": "Non-Maximum Suppression",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/nms_visualization.png\" alt=\"NMS\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>NMS:</strong> Remove duplicate detections.</p><ol><li>Sort boxes by confidence</li><li>Keep highest confidence box</li><li>Remove boxes with IoU > threshold</li><li>Repeat for remaining boxes</li></ol></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/nms_visualization.svg\" alt=\"NMS\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>NMS:</strong> Remove duplicate detections.</p><ol><li>Sort boxes by confidence</li><li>Keep highest confidence box</li><li>Remove boxes with IoU > threshold</li><li>Repeat for remaining boxes</li></ol></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -164,7 +164,7 @@
       "id": 19,
       "title": "Segmentation Types",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/segmentation_types.png\" alt=\"Segmentation Types\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Semantic</strong><br>Classify every pixel<br>No instance distinction</div><div><strong>Instance</strong><br>Separate each object<br>Distinguishes individuals</div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/segmentation_types.svg\" alt=\"Segmentation Types\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Semantic</strong><br>Classify every pixel<br>No instance distinction</div><div><strong>Instance</strong><br>Separate each object<br>Distinguishes individuals</div></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What is the difference between semantic and instance segmentation?",
@@ -175,7 +175,7 @@
       "id": 20,
       "title": "U-Net Architecture",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/unet_architecture.png\" alt=\"U-Net\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>U-Net:</strong> Encoder-decoder with skip connections.</p><ul><li><strong>Encoder:</strong> Downsample, extract features</li><li><strong>Decoder:</strong> Upsample, recover spatial detail</li><li><strong>Skip connections:</strong> Preserve fine details</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/unet_architecture.svg\" alt=\"U-Net\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>U-Net:</strong> Encoder-decoder with skip connections.</p><ul><li><strong>Encoder:</strong> Downsample, extract features</li><li><strong>Decoder:</strong> Upsample, recover spatial detail</li><li><strong>Skip connections:</strong> Preserve fine details</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -183,7 +183,7 @@
       "id": 21,
       "title": "Segmentation Example",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/segmentation_example.png\" alt=\"Segmentation Example\" style=\"max-height: 65vh;\"><p class=\"caption\">Input image and pixel-wise segmentation output</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-10/svg/segmentation_example.svg\" alt=\"Segmentation Example\" style=\"max-height: 65vh;\"><p class=\"caption\">Input image and pixel-wise segmentation output</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

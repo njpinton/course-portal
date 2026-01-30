@@ -39,7 +39,7 @@
       "id": 4,
       "title": "Image Degradation Model",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/degradation_model_diagram.png\" alt=\"Degradation Model\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$g(x,y) = h(x,y) * f(x,y) + n(x,y)$$</p><p><strong>g</strong> = degraded image, <strong>h</strong> = PSF, <strong>f</strong> = original, <strong>n</strong> = noise</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/degradation_model_diagram.svg\" alt=\"Degradation Model\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p class=\"math-block\">$$g(x,y) = h(x,y) * f(x,y) + n(x,y)$$</p><p><strong>g</strong> = degraded image, <strong>h</strong> = PSF, <strong>f</strong> = original, <strong>n</strong> = noise</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -47,7 +47,7 @@
       "id": 5,
       "title": "Noise Models",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/noise_models.png\" alt=\"Noise Models\" style=\"max-height: 65vh;\"><p class=\"caption\">Common noise distributions: Gaussian, Poisson, salt & pepper</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/noise_models.svg\" alt=\"Noise Models\" style=\"max-height: 65vh;\"><p class=\"caption\">Common noise distributions: Gaussian, Poisson, salt & pepper</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -55,7 +55,7 @@
       "id": 6,
       "title": "Point Spread Function (PSF)",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/psf_examples.png\" alt=\"PSF Examples\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>PSF:</strong> The impulse response of the imaging system - how a point source is blurred.</p><ul><li><strong>Motion blur:</strong> Linear PSF in direction of motion</li><li><strong>Out-of-focus:</strong> Circular (pillbox) PSF</li><li><strong>Atmospheric:</strong> Gaussian-like PSF</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/psf_examples.svg\" alt=\"PSF Examples\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>PSF:</strong> The impulse response of the imaging system - how a point source is blurred.</p><ul><li><strong>Motion blur:</strong> Linear PSF in direction of motion</li><li><strong>Out-of-focus:</strong> Circular (pillbox) PSF</li><li><strong>Atmospheric:</strong> Gaussian-like PSF</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why is knowing the PSF important for image restoration?",
@@ -75,7 +75,7 @@
       "id": 8,
       "title": "Spatial Filtering for Restoration",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/spatial_filtering.png\" alt=\"Spatial Filtering\" style=\"max-height: 65vh;\"><p class=\"caption\">Simple spatial filters can reduce some types of degradation</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/spatial_filtering.svg\" alt=\"Spatial Filtering\" style=\"max-height: 65vh;\"><p class=\"caption\">Simple spatial filters can reduce some types of degradation</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -83,7 +83,7 @@
       "id": 9,
       "title": "Frequency Domain Restoration",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/frequency_domain_restoration.png\" alt=\"Frequency Domain\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Inverse Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{G(u,v)}{H(u,v)}$$</p><p class=\"warning\">Problem: Amplifies noise where H(u,v) is small!</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/frequency_domain_restoration.svg\" alt=\"Frequency Domain\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Inverse Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{G(u,v)}{H(u,v)}$$</p><p class=\"warning\">Problem: Amplifies noise where H(u,v) is small!</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -91,7 +91,7 @@
       "id": 10,
       "title": "Wiener Filter",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/wiener_filter_analysis.png\" alt=\"Wiener Filter\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Wiener Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{H^*(u,v)}{|H(u,v)|^2 + \\frac{S_n}{S_f}} \\cdot G(u,v)$$</p><p>Balances deconvolution against noise amplification</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/wiener_filter_analysis.svg\" alt=\"Wiener Filter\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Wiener Filter:</strong><p class=\"math-block\">$$\\hat{F}(u,v) = \\frac{H^*(u,v)}{|H(u,v)|^2 + \\frac{S_n}{S_f}} \\cdot G(u,v)$$</p><p>Balances deconvolution against noise amplification</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What advantage does the Wiener filter have over simple inverse filtering?",
@@ -102,7 +102,7 @@
       "id": 11,
       "title": "Motion Blur Restoration",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/motion_blur_restoration.png\" alt=\"Motion Blur Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring images degraded by camera or object motion</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/motion_blur_restoration.svg\" alt=\"Motion Blur Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring images degraded by camera or object motion</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -119,7 +119,7 @@
       "id": 13,
       "title": "Richardson-Lucy Algorithm",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/richardson_lucy_iterations.png\" alt=\"Richardson-Lucy\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Richardson-Lucy:</strong> Iterative ML estimation for Poisson noise.</p><p class=\"math-block\">$$f^{(k+1)} = f^{(k)} \\cdot \\left( h(-x,-y) * \\frac{g}{h * f^{(k)}} \\right)$$</p><p>Converges to maximum likelihood solution; good for astronomical images.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/richardson_lucy_iterations.svg\" alt=\"Richardson-Lucy\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Richardson-Lucy:</strong> Iterative ML estimation for Poisson noise.</p><p class=\"math-block\">$$f^{(k+1)} = f^{(k)} \\cdot \\left( h(-x,-y) * \\frac{g}{h * f^{(k)}} \\right)$$</p><p>Converges to maximum likelihood solution; good for astronomical images.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -127,7 +127,7 @@
       "id": 14,
       "title": "Restoration Comparison",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/restoration_comparison.png\" alt=\"Restoration Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparing different restoration methods on the same degraded image</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/restoration_comparison.svg\" alt=\"Restoration Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparing different restoration methods on the same degraded image</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -135,7 +135,7 @@
       "id": 15,
       "title": "Quality Metrics",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/quality_metrics.png\" alt=\"Quality Metrics\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>PSNR</strong><p class=\"math-block\">$$PSNR = 10\\log_{10}\\frac{MAX^2}{MSE}$$</p></div><div><strong>SSIM</strong><p>Structural similarity considering luminance, contrast, structure</p></div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/quality_metrics.svg\" alt=\"Quality Metrics\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>PSNR</strong><p class=\"math-block\">$$PSNR = 10\\log_{10}\\frac{MAX^2}{MSE}$$</p></div><div><strong>SSIM</strong><p>Structural similarity considering luminance, contrast, structure</p></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -152,7 +152,7 @@
       "id": 17,
       "title": "Medical Image Restoration",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/medical_image_restoration.png\" alt=\"Medical Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Enhancing CT, MRI, and X-ray images for better diagnosis</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/medical_image_restoration.svg\" alt=\"Medical Restoration\" style=\"max-height: 65vh;\"><p class=\"caption\">Enhancing CT, MRI, and X-ray images for better diagnosis</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -160,7 +160,7 @@
       "id": 18,
       "title": "Document Processing",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/document_processing.png\" alt=\"Document Processing\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring degraded historical documents and improving OCR accuracy</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/document_processing.svg\" alt=\"Document Processing\" style=\"max-height: 65vh;\"><p class=\"caption\">Restoring degraded historical documents and improving OCR accuracy</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -168,7 +168,7 @@
       "id": 19,
       "title": "Image Inpainting",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/image_inpainting.png\" alt=\"Inpainting\" style=\"max-height: 65vh;\"><div class=\"key-point\"><strong>Inpainting:</strong> Filling in missing or damaged regions using surrounding information.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-05/svg/image_inpainting.svg\" alt=\"Inpainting\" style=\"max-height: 65vh;\"><div class=\"key-point\"><strong>Inpainting:</strong> Filling in missing or damaged regions using surrounding information.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="GAN architecture with generator and discriminator networks">
+  <title>GAN Architecture</title>
+  <desc>Generative Adversarial Network showing generator creating fake images and discriminator distinguishing real from fake</desc>
+
+  <defs>
+    <linearGradient id="ganBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="ganArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#ganBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Generative Adversarial Network (GAN)</text>
+
+  <!-- Main architecture -->
+  <g transform="translate(30, 50)">
+    <rect x="0" y="0" width="790" height="230" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+
+    <!-- Noise input -->
+    <g transform="translate(25, 70)">
+      <rect x="0" y="0" width="60" height="60" fill="#f8f9fa" stroke="#666" stroke-width="2" rx="4"/>
+      <text x="30" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">z</text>
+      <text x="30" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Random</text>
+      <text x="30" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Noise</text>
+    </g>
+
+    <!-- Generator -->
+    <g transform="translate(110, 40)">
+      <rect x="0" y="0" width="150" height="120" fill="#d1fae5" stroke="#10b981" stroke-width="2" rx="8"/>
+      <text x="75" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Generator</text>
+      <text x="75" y="45" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">G(z)</text>
+
+      <!-- Layers -->
+      <rect x="15" y="55" width="120" height="50" fill="#10b981" rx="4"/>
+      <text x="75" y="78" fill="white" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Neural Network</text>
+      <text x="75" y="93" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(FC + Deconv)</text>
+    </g>
+
+    <!-- Fake image -->
+    <g transform="translate(285, 55)">
+      <rect x="0" y="0" width="80" height="80" fill="#fef3c7" stroke="#f97316" stroke-width="2" rx="4"/>
+      <ellipse cx="40" cy="40" rx="25" ry="28" fill="#fcd34d"/>
+      <circle cx="30" cy="35" r="4" fill="#333"/>
+      <circle cx="50" cy="35" r="4" fill="#333"/>
+      <path d="M32,50 Q40,56 48,50" fill="none" stroke="#333" stroke-width="2"/>
+      <text x="40" y="100" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle" font-weight="600">Fake</text>
+    </g>
+
+    <!-- Real image -->
+    <g transform="translate(285, 160)">
+      <rect x="0" y="0" width="80" height="80" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="4"/>
+      <ellipse cx="40" cy="40" rx="25" ry="28" fill="#fcd34d"/>
+      <circle cx="30" cy="35" r="4" fill="#333"/>
+      <circle cx="50" cy="35" r="4" fill="#333"/>
+      <path d="M32,50 Q40,56 48,50" fill="none" stroke="#333" stroke-width="2"/>
+      <text x="40" y="-10" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle" font-weight="600">Real</text>
+      <text x="40" y="-25" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Training Data</text>
+    </g>
+
+    <!-- Discriminator -->
+    <g transform="translate(430, 70)">
+      <rect x="0" y="0" width="150" height="120" fill="#fef2f2" stroke="#ef4444" stroke-width="2" rx="8"/>
+      <text x="75" y="25" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Discriminator</text>
+      <text x="75" y="45" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" text-anchor="middle">D(x)</text>
+
+      <!-- Layers -->
+      <rect x="15" y="55" width="120" height="50" fill="#ef4444" rx="4"/>
+      <text x="75" y="78" fill="white" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Neural Network</text>
+      <text x="75" y="93" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">(Conv + FC)</text>
+    </g>
+
+    <!-- Output -->
+    <g transform="translate(605, 100)">
+      <rect x="0" y="0" width="80" height="60" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2" rx="4"/>
+      <text x="40" y="25" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Output</text>
+      <text x="40" y="45" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" text-anchor="middle">[0, 1]</text>
+      <text x="40" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Real/Fake</text>
+    </g>
+
+    <!-- Labels for output -->
+    <g transform="translate(700, 85)">
+      <text x="0" y="0" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">1 = Real</text>
+      <text x="0" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600">0 = Fake</text>
+    </g>
+
+    <!-- Arrows -->
+    <line x1="85" y1="100" x2="107" y2="100" stroke="#666" stroke-width="2" marker-end="url(#ganArrow)"/>
+    <line x1="260" y1="100" x2="282" y2="100" stroke="#666" stroke-width="2" marker-end="url(#ganArrow)"/>
+    <line x1="365" y1="95" x2="427" y2="120" stroke="#666" stroke-width="2" marker-end="url(#ganArrow)"/>
+    <line x1="365" y1="200" x2="427" y2="145" stroke="#666" stroke-width="2" marker-end="url(#ganArrow)"/>
+    <line x1="580" y1="130" x2="602" y2="130" stroke="#666" stroke-width="2" marker-end="url(#ganArrow)"/>
+
+    <!-- Label arrows -->
+    <text x="390" y="90" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9">Fake</text>
+    <text x="390" y="175" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9">Real</text>
+  </g>
+
+  <!-- Training objectives -->
+  <g transform="translate(30, 295)">
+    <rect x="0" y="0" width="385" height="80" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="192" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Generator Objective</text>
+    <text x="192" y="40" fill="#10b981" font-family="Consolas, monospace" font-size="10" text-anchor="middle">max_G E[log D(G(z))]</text>
+    <text x="192" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Fool discriminator: make it output "real" for fakes</text>
+  </g>
+
+  <g transform="translate(435, 295)">
+    <rect x="0" y="0" width="385" height="80" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="192" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Discriminator Objective</text>
+    <text x="192" y="40" fill="#ef4444" font-family="Consolas, monospace" font-size="10" text-anchor="middle">max_D E[log D(x)] + E[log(1-D(G(z)))]</text>
+    <text x="192" y="60" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Correctly classify real as real, fake as fake</text>
+  </g>
+</svg>

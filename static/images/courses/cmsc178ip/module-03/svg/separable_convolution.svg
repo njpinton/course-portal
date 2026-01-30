@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="Separable Convolution">
+  <title>Separable Convolution</title>
+  <desc>Demonstration of how a 2D convolution kernel can be decomposed into two 1D kernels for computational efficiency</desc>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1a3a6e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" fill="#f8f9fa"/>
+
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e">Separable Convolution: 2D = 1D x 1D</text>
+
+  <!-- 2D Kernel -->
+  <g transform="translate(50, 70)">
+    <text x="67" y="0" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#333">2D Gaussian Kernel (3x3)</text>
+    <rect x="0" y="15" width="135" height="135" rx="4" fill="#e3f2fd" stroke="#1a3a6e" stroke-width="2"/>
+    <g font-family="monospace" font-size="14" text-anchor="middle" fill="#1a3a6e">
+      <text x="22" y="55">1</text>
+      <text x="67" y="55">2</text>
+      <text x="112" y="55">1</text>
+      <text x="22" y="95">2</text>
+      <text x="67" y="95">4</text>
+      <text x="112" y="95">2</text>
+      <text x="22" y="135">1</text>
+      <text x="67" y="135">2</text>
+      <text x="112" y="135">1</text>
+    </g>
+    <!-- Grid lines -->
+    <line x1="45" y1="15" x2="45" y2="150" stroke="#1a3a6e" stroke-width="1"/>
+    <line x1="90" y1="15" x2="90" y2="150" stroke="#1a3a6e" stroke-width="1"/>
+    <line x1="0" y1="60" x2="135" y2="60" stroke="#1a3a6e" stroke-width="1"/>
+    <line x1="0" y1="105" x2="135" y2="105" stroke="#1a3a6e" stroke-width="1"/>
+
+    <text x="67" y="170" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">9 multiplications per pixel</text>
+  </g>
+
+  <!-- Equals sign -->
+  <text x="230" y="150" font-family="Segoe UI, sans-serif" font-size="30" font-weight="600" fill="#1a3a6e">=</text>
+
+  <!-- Vertical 1D Kernel -->
+  <g transform="translate(280, 70)">
+    <text x="22" y="0" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#43a047">Column Vector</text>
+    <rect x="0" y="15" width="45" height="135" rx="4" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+    <g font-family="monospace" font-size="14" text-anchor="middle" fill="#43a047">
+      <text x="22" y="55">1</text>
+      <text x="22" y="95">2</text>
+      <text x="22" y="135">1</text>
+    </g>
+    <line x1="0" y1="60" x2="45" y2="60" stroke="#43a047" stroke-width="1"/>
+    <line x1="0" y1="105" x2="45" y2="105" stroke="#43a047" stroke-width="1"/>
+    <text x="22" y="170" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">(3x1)</text>
+  </g>
+
+  <!-- Multiplication sign -->
+  <text x="365" y="150" font-family="Segoe UI, sans-serif" font-size="24" font-weight="600" fill="#1a3a6e">×</text>
+
+  <!-- Horizontal 1D Kernel -->
+  <g transform="translate(400, 100)">
+    <text x="67" y="-30" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1976d2">Row Vector</text>
+    <rect x="0" y="-15" width="135" height="45" rx="4" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+    <g font-family="monospace" font-size="14" text-anchor="middle" fill="#1976d2">
+      <text x="22" y="15">1</text>
+      <text x="67" y="15">2</text>
+      <text x="112" y="15">1</text>
+    </g>
+    <line x1="45" y1="-15" x2="45" y2="30" stroke="#1976d2" stroke-width="1"/>
+    <line x1="90" y1="-15" x2="90" y2="30" stroke="#1976d2" stroke-width="1"/>
+    <text x="67" y="55" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">(1x3)</text>
+  </g>
+
+  <!-- Arrow and process description -->
+  <g transform="translate(570, 70)">
+    <text x="90" y="0" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#333">Two-Pass Process</text>
+
+    <!-- Step 1 -->
+    <rect x="0" y="20" width="180" height="55" rx="4" fill="#e8f5e9" stroke="#43a047" stroke-width="1"/>
+    <text x="90" y="42" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#43a047">Step 1: Vertical Pass</text>
+    <text x="90" y="60" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#333">Convolve with column [1,2,1]ᵀ</text>
+
+    <!-- Arrow down -->
+    <line x1="90" y1="80" x2="90" y2="95" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+    <!-- Step 2 -->
+    <rect x="0" y="100" width="180" height="55" rx="4" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+    <text x="90" y="122" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#1976d2">Step 2: Horizontal Pass</text>
+    <text x="90" y="140" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#333">Convolve with row [1,2,1]</text>
+  </g>
+
+  <!-- Computational comparison -->
+  <g transform="translate(50, 240)">
+    <rect x="0" y="0" width="700" height="140" rx="8" fill="#fff" stroke="#ddd"/>
+    <text x="350" y="25" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" fill="#1a3a6e">Computational Savings</text>
+
+    <!-- Direct convolution -->
+    <g transform="translate(30, 45)">
+      <rect x="0" y="0" width="200" height="80" rx="4" fill="#ffebee"/>
+      <text x="100" y="22" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#e53935">Direct 2D Convolution</text>
+      <text x="100" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#333">N × N = N²</text>
+      <text x="100" y="65" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">Example: 3×3 = 9 ops/pixel</text>
+    </g>
+
+    <!-- Separable convolution -->
+    <g transform="translate(250, 45)">
+      <rect x="0" y="0" width="200" height="80" rx="4" fill="#e8f5e9"/>
+      <text x="100" y="22" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#43a047">Separable Convolution</text>
+      <text x="100" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#333">N + N = 2N</text>
+      <text x="100" y="65" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">Example: 3+3 = 6 ops/pixel</text>
+    </g>
+
+    <!-- Savings -->
+    <g transform="translate(470, 45)">
+      <rect x="0" y="0" width="200" height="80" rx="4" fill="#fff3e0"/>
+      <text x="100" y="22" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#e65100">Speedup Factor</text>
+      <text x="100" y="48" text-anchor="middle" font-family="monospace" font-size="18" font-weight="600" fill="#e65100">N²/2N = N/2</text>
+      <text x="100" y="70" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" fill="#666">Larger kernels = more savings!</text>
+    </g>
+  </g>
+
+  <!-- Note about separability -->
+  <text x="400" y="390" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">Not all kernels are separable. Gaussian, box, and some derivative filters are separable.</text>
+</svg>

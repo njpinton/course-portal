@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 350" role="img" aria-label="Resolution Comparison">
+<title>Resolution Comparison</title><desc>Common image resolutions and their applications</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="350" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Common Image Resolutions</text>
+<rect x="50" y="60" width="76" height="57" fill="#6b7280" opacity="0.3" stroke="#6b7280" stroke-width="2"/>
+<text x="141" y="83.5" font-family="Segoe UI" font-size="13" font-weight="600" fill="#6b7280">VGA</text>
+<text x="141" y="100.5" font-family="monospace" font-size="11" fill="#1f2937">640×480</text>
+<rect x="50" y="60" width="115" height="64" fill="#3b82f6" opacity="0.3" stroke="#3b82f6" stroke-width="2"/>
+<text x="180" y="87.0" font-family="Segoe UI" font-size="13" font-weight="600" fill="#3b82f6">HD</text>
+<text x="180" y="104.0" font-family="monospace" font-size="11" fill="#1f2937">1280×720</text>
+<rect x="50" y="60" width="172" height="97" fill="#10b981" opacity="0.3" stroke="#10b981" stroke-width="2"/>
+<text x="237" y="103.5" font-family="Segoe UI" font-size="13" font-weight="600" fill="#10b981">Full HD</text>
+<text x="237" y="120.5" font-family="monospace" font-size="11" fill="#1f2937">1920×1080</text>
+<rect x="50" y="60" width="230" height="129" fill="#8b5cf6" opacity="0.3" stroke="#8b5cf6" stroke-width="2"/>
+<text x="295" y="119.5" font-family="Segoe UI" font-size="13" font-weight="600" fill="#8b5cf6">4K UHD</text>
+<text x="295" y="136.5" font-family="monospace" font-size="11" fill="#1f2937">3840×2160</text>
+<rect x="400" y="60" width="320" height="200" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="420" y="85" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1a3a6e">Resolution</text>
+<text x="520" y="85" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1a3a6e">Pixels</text>
+<text x="620" y="85" font-family="Segoe UI" font-size="11" font-weight="600" fill="#1a3a6e">Storage (24-bit)</text>
+<text x="420" y="110" font-family="Segoe UI" font-size="10" fill="#1f2937">VGA</text>
+<text x="520" y="110" font-family="monospace" font-size="10" fill="#1f2937">307K</text>
+<text x="620" y="110" font-family="monospace" font-size="10" fill="#3b82f6">0.9 MB</text>
+<text x="420" y="138" font-family="Segoe UI" font-size="10" fill="#1f2937">HD 720p</text>
+<text x="520" y="138" font-family="monospace" font-size="10" fill="#1f2937">921K</text>
+<text x="620" y="138" font-family="monospace" font-size="10" fill="#3b82f6">2.6 MB</text>
+<text x="420" y="166" font-family="Segoe UI" font-size="10" fill="#1f2937">Full HD</text>
+<text x="520" y="166" font-family="monospace" font-size="10" fill="#1f2937">2.1M</text>
+<text x="620" y="166" font-family="monospace" font-size="10" fill="#3b82f6">5.9 MB</text>
+<text x="420" y="194" font-family="Segoe UI" font-size="10" fill="#1f2937">4K UHD</text>
+<text x="520" y="194" font-family="monospace" font-size="10" fill="#1f2937">8.3M</text>
+<text x="620" y="194" font-family="monospace" font-size="10" fill="#3b82f6">23.7 MB</text>
+<text x="420" y="222" font-family="Segoe UI" font-size="10" fill="#1f2937">8K UHD</text>
+<text x="520" y="222" font-family="monospace" font-size="10" fill="#1f2937">33.2M</text>
+<text x="620" y="222" font-family="monospace" font-size="10" fill="#3b82f6">95 MB</text>
+</svg>

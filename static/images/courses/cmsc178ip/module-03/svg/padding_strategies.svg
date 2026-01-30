@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Padding Strategies">
+<title>Padding Strategies</title><desc>Different approaches to handle image boundaries during convolution</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Padding Strategies for Convolution</text>
+<text x="120" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#6b7280" text-anchor="middle">Zero</text>
+<rect x="70" y="95" width="100" height="80" fill="#ffffff" stroke="#1a3a6e" stroke-width="2"/>
+<rect x="50" y="75" width="20" height="120" fill="#888" opacity="0.5"/>
+<rect x="170" y="75" width="20" height="120" fill="#888" opacity="0.5"/>
+<rect x="50" y="75" width="140" height="20" fill="#888" opacity="0.5"/>
+<rect x="50" y="175" width="140" height="20" fill="#888" opacity="0.5"/>
+<rect x="50" y="75" width="140" height="120" fill="none" stroke="#6b7280" stroke-width="1"/>
+<text x="120" y="215" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Pad with 0s</text>
+<text x="295" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#10b981" text-anchor="middle">Replicate</text>
+<rect x="245" y="95" width="100" height="80" fill="#ffffff" stroke="#1a3a6e" stroke-width="2"/>
+<rect x="225" y="75" width="20" height="120" fill="#8a8" opacity="0.5"/>
+<rect x="345" y="75" width="20" height="120" fill="#8a8" opacity="0.5"/>
+<rect x="225" y="75" width="140" height="20" fill="#8a8" opacity="0.5"/>
+<rect x="225" y="175" width="140" height="20" fill="#8a8" opacity="0.5"/>
+<rect x="225" y="75" width="140" height="120" fill="none" stroke="#10b981" stroke-width="1"/>
+<text x="295" y="215" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Repeat edge</text>
+<text x="470" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#3b82f6" text-anchor="middle">Reflect</text>
+<rect x="420" y="95" width="100" height="80" fill="#ffffff" stroke="#1a3a6e" stroke-width="2"/>
+<rect x="400" y="75" width="20" height="120" fill="#88a" opacity="0.5"/>
+<rect x="520" y="75" width="20" height="120" fill="#88a" opacity="0.5"/>
+<rect x="400" y="75" width="140" height="20" fill="#88a" opacity="0.5"/>
+<rect x="400" y="175" width="140" height="20" fill="#88a" opacity="0.5"/>
+<rect x="400" y="75" width="140" height="120" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<text x="470" y="215" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Mirror image</text>
+<text x="645" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#f97316" text-anchor="middle">Wrap</text>
+<rect x="595" y="95" width="100" height="80" fill="#ffffff" stroke="#1a3a6e" stroke-width="2"/>
+<rect x="575" y="75" width="20" height="120" fill="#a88" opacity="0.5"/>
+<rect x="695" y="75" width="20" height="120" fill="#a88" opacity="0.5"/>
+<rect x="575" y="75" width="140" height="20" fill="#a88" opacity="0.5"/>
+<rect x="575" y="175" width="140" height="20" fill="#a88" opacity="0.5"/>
+<rect x="575" y="75" width="140" height="120" fill="none" stroke="#f97316" stroke-width="1"/>
+<text x="645" y="215" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Circular</text>
+<rect x="100" y="250" width="550" height="110" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="275" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Why Padding Matters</text>
+<text x="120" y="300" font-family="Segoe UI" font-size="11" fill="#1f2937">• Convolution at edges needs values outside the image boundary</text>
+<text x="120" y="320" font-family="Segoe UI" font-size="11" fill="#1f2937">• Zero padding: Simple but may create dark border artifacts</text>
+<text x="120" y="340" font-family="Segoe UI" font-size="11" fill="#1f2937">• Reflect/Replicate: Usually gives most natural results at edges</text>
+</svg>

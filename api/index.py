@@ -6,6 +6,7 @@ from flask_limiter.util import get_remote_address
 from flask_talisman import Talisman
 import os
 import json
+import csv
 import logging
 import sys
 from datetime import datetime, timezone
@@ -1106,6 +1107,160 @@ def admin_class_records():
 def admin_submissions():
     """Admin view to see all submissions by all groups"""
     return render_template('admin_submissions.html', active_page='admin_submissions', courses=COURSES)
+
+# ─── CMSC 173 Midterm Exam Routes ────────────────────────────────────────────
+
+CMSC173_DATA_DIR = os.path.join(parent_dir, 'data', 'CMSC173 Midterm Attachments')
+
+@app.route('/admin_cmsc173_midterm')
+@admin_page_required
+def admin_cmsc173_midterm():
+    """CMSC 173 Midterm Exam class record page."""
+    return render_template('admin_cmsc173_midterm.html',
+                           active_page='admin_cmsc173_midterm',
+                           courses=COURSES)
+
+
+@app.route('/api/admin/cmsc173-midterm/data')
+@admin_required
+def cmsc173_midterm_data():
+    """Return merged grading data as JSON from the two CSV files."""
+    summary_path = os.path.join(CMSC173_DATA_DIR, '_grading_summary.csv')
+    detail_path = os.path.join(CMSC173_DATA_DIR, '_detailed_grading_table.csv')
+
+    if not os.path.exists(summary_path):
+        return jsonify({"error": "Grading summary not found"}), 404
+
+    summary = {}
+    with open(summary_path, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            summary[row['ID']] = row
+
+    details = {}
+    if os.path.exists(detail_path):
+        with open(detail_path, 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                details[row['ID']] = row
+
+    students = []
+    for student_id, s in summary.items():
+        d = details.get(student_id, {})
+        students.append({
+            'name': s.get('Student Name', ''),
+            'id': s.get('ID', ''),
+            'submitted': s.get('Submitted', ''),
+            'exp_k': s.get('Exp_k', ''), 'stu_k': s.get('Stu_k', ''),
+            'k_match': s.get('k?', ''),
+            'exp_cat': s.get('Exp_Cat', ''), 'stu_cat': s.get('Stu_Cat', ''),
+            'exp_clf': s.get('Exp_Clf', ''), 'stu_clf': s.get('Stu_Clf', ''),
+            'exp_r2': s.get('Exp_R2', ''), 'stu_r2': s.get('Stu_R2', ''),
+            'exp_sil': s.get('Exp_Sil', ''), 'stu_sil': s.get('Stu_Sil', ''),
+            'q1': s.get('Q1', ''), 'q2': s.get('Q2', ''),
+            'q3': s.get('Q3', ''), 'q4': s.get('Q4', ''),
+            'q5': s.get('Q5', ''),
+            'total': s.get('Total', ''),
+            'bonus': s.get('Bonus', ''),
+            'final': s.get('Final', ''),
+            'grade': s.get('Grade', ''),
+            'q1_reasoning': d.get('Q1 Reasoning', ''),
+            'q2_reasoning': d.get('Q2 Reasoning', ''),
+            'q3_reasoning': d.get('Q3 Reasoning', ''),
+            'q4_reasoning': d.get('Q4 Reasoning', ''),
+            'q5_reasoning': d.get('Q5 Reasoning', ''),
+            'methodology_checks': d.get('Methodology Checks', ''),
+            'llm_model': d.get('LLM Model', ''),
+            'llm_experience': d.get('LLM Experience', ''),
+        })
+
+    return jsonify(students)
+
+
+@app.route('/api/admin/cmsc173-midterm/student-files/<student_name>')
+@admin_required
+def cmsc173_midterm_student_files(student_name):
+    """List available files for a student."""
+    if not os.path.exists(CMSC173_DATA_DIR):
+        return jsonify({"error": "Data directory not found"}), 404
+
+    matching = [d for d in os.listdir(CMSC173_DATA_DIR)
+                if d.startswith(student_name + ' (')
+                and os.path.isdir(os.path.join(CMSC173_DATA_DIR, d))
+                and '@up.edu.ph' in d]
+
+    if not matching:
+        return jsonify({"files": {"exam": [], "submission": []}}), 200
+
+    folder = matching[0]
+    files = {'exam': [], 'submission': []}
+
+    for subdir in ['exam', 'submission']:
+        path = os.path.join(CMSC173_DATA_DIR, folder, subdir)
+        if os.path.exists(path):
+            for fname in sorted(os.listdir(path)):
+                if fname.startswith('.'):
+                    continue
+                ext = fname.rsplit('.', 1)[-1].lower() if '.' in fname else 'unknown'
+                files[subdir].append({
+                    'name': fname,
+                    'path': f"{folder}/{subdir}/{fname}",
+                    'type': ext
+                })
+
+    return jsonify({"folder": folder, "files": files})
+
+
+@app.route('/api/admin/cmsc173-midterm/files/<path:filepath>')
+@admin_required
+def cmsc173_midterm_file(filepath):
+    """Serve student files from the CMSC173 midterm data directory."""
+    requested = os.path.realpath(os.path.join(CMSC173_DATA_DIR, filepath))
+    allowed = os.path.realpath(CMSC173_DATA_DIR)
+    if not requested.startswith(allowed + os.sep):
+        return jsonify({"error": "Invalid file path"}), 400
+
+    if not os.path.exists(requested):
+        return jsonify({"error": "File not found"}), 404
+
+    directory = os.path.dirname(requested)
+    filename = os.path.basename(requested)
+
+    if filename.endswith('.pdf'):
+        return send_from_directory(directory, filename, as_attachment=False)
+    elif filename.endswith('.ipynb'):
+        return send_from_directory(directory, filename, as_attachment=False,
+                                   mimetype='application/json')
+    elif filename.endswith('.html'):
+        return send_from_directory(directory, filename, as_attachment=False)
+    else:
+        return send_from_directory(directory, filename, as_attachment=True)
+
+
+@app.route('/admin_cmsc173_midterm/notebook/<path:filepath>')
+@admin_page_required
+def cmsc173_midterm_notebook(filepath):
+    """View a student's notebook in the notebook viewer."""
+    notebook_path = os.path.realpath(os.path.join(CMSC173_DATA_DIR, filepath))
+    allowed = os.path.realpath(CMSC173_DATA_DIR)
+    if not notebook_path.startswith(allowed + os.sep) or not os.path.exists(notebook_path):
+        return "Notebook not found", 404
+
+    with open(notebook_path, 'r', encoding='utf-8') as f:
+        notebook_data = json.load(f)
+
+    student_name = filepath.split('/')[0].split(' (')[0]
+    return render_template('notebook_viewer.html',
+        notebook=notebook_data,
+        title=f"Midterm Notebook - {student_name}",
+        course=None,
+        course_id='cmsc173',
+        is_admin=True,
+        show_answer_key=False,
+        courses=COURSES,
+        active_page='admin_cmsc173_midterm'
+    )
+
 
 @app.route('/api/admin/statistics', methods=['GET'])
 @admin_required

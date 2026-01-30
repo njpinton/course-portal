@@ -23,7 +23,7 @@
       "id": 2,
       "title": "Real-World Applications",
       "readingTime": "2 min",
-      "content": "<div class=\"highlight\"><h4>Where is DIP Used?</h4><ul><li><strong>Medical Imaging:</strong> CT scans, MRI, X-rays</li><li><strong>Satellite & Remote Sensing:</strong> Weather, agriculture, mapping</li><li><strong>Autonomous Vehicles:</strong> Object detection, lane recognition</li><li><strong>Biometrics:</strong> Face recognition, fingerprint analysis</li><li><strong>Social Media:</strong> Filters, enhancement, compression</li></ul></div><img src=\"/static/images/courses/cmsc178ip/module-01/applications_collage.png\" alt=\"DIP Applications\" style=\"max-width: 100%; border-radius: 8px; margin-top: 1rem;\">",
+      "content": "<div class=\"highlight\"><h4>Where is DIP Used?</h4><ul><li><strong>Medical Imaging:</strong> CT scans, MRI, X-rays</li><li><strong>Satellite & Remote Sensing:</strong> Weather, agriculture, mapping</li><li><strong>Autonomous Vehicles:</strong> Object detection, lane recognition</li><li><strong>Biometrics:</strong> Face recognition, fingerprint analysis</li><li><strong>Social Media:</strong> Filters, enhancement, compression</li></ul></div><img src=\"/static/images/courses/cmsc178ip/module-01/applications_collage_real.png\" alt=\"DIP Applications\" style=\"max-width: 100%; border-radius: 8px; margin-top: 1rem;\">",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -50,7 +50,7 @@
       "id": 5,
       "title": "From Continuous to Discrete",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\">Converting a continuous image to digital form requires two processes: <strong>Sampling</strong> and <strong>Quantization</strong>.</div><img src=\"/static/images/courses/cmsc178ip/module-01/pixel_grid_visualization.png\" alt=\"Pixel Grid\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"definition\"><strong>Pixel:</strong> Picture element — the smallest addressable unit in a digital image.</div>",
+      "content": "<div class=\"key-point\">Converting a continuous image to digital form requires two processes: <strong>Sampling</strong> and <strong>Quantization</strong>.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/pixel_grid_visualization.svg\" alt=\"Pixel Grid\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"definition\"><strong>Pixel:</strong> Picture element — the smallest addressable unit in a digital image.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -58,7 +58,7 @@
       "id": 6,
       "title": "Image Coordinate System",
       "readingTime": "2 min",
-      "content": "<div class=\"highlight\"><h4>Standard Convention</h4><ul><li><strong>Origin:</strong> Top-left corner at (0, 0)</li><li><strong>x-axis:</strong> Increases to the right (columns)</li><li><strong>y-axis:</strong> Increases downward (rows)</li></ul></div><img src=\"/static/images/courses/cmsc178ip/module-01/coordinate_system.png\" alt=\"Coordinate System\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"definition\"><strong>Matrix notation:</strong> $I[i, j]$ where $i$ = row, $j$ = column</div>",
+      "content": "<div class=\"highlight\"><h4>Standard Convention</h4><ul><li><strong>Origin:</strong> Top-left corner at (0, 0)</li><li><strong>x-axis:</strong> Increases to the right (columns)</li><li><strong>y-axis:</strong> Increases downward (rows)</li></ul></div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/coordinate_system.svg\" alt=\"Coordinate System\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"definition\"><strong>Matrix notation:</strong> $I[i, j]$ where $i$ = row, $j$ = column</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -77,7 +77,7 @@
       "id": 8,
       "title": "Effect of Sampling Rate",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\">Lower sampling rates result in fewer pixels and loss of fine detail.</div><img src=\"/static/images/courses/cmsc178ip/module-01/sampling_demonstration.png\" alt=\"Sampling Demonstration\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Observations</h4><ul><li><strong>512×512:</strong> Full detail (262,144 pixels)</li><li><strong>128×128:</strong> Some detail loss (16,384 pixels)</li><li><strong>32×32:</strong> Heavy pixelation (1,024 pixels)</li></ul></div>",
+      "content": "<div class=\"key-point\">Lower sampling rates result in fewer pixels and loss of fine detail.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/sampling_demonstration.svg\" alt=\"Sampling Demonstration\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Observations</h4><ul><li><strong>512×512:</strong> Full detail (262,144 pixels)</li><li><strong>128×128:</strong> Some detail loss (16,384 pixels)</li><li><strong>32×32:</strong> Heavy pixelation (1,024 pixels)</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -85,7 +85,7 @@
       "id": 9,
       "title": "Spatial Resolution",
       "readingTime": "2 min",
-      "content": "<div class=\"definition\"><strong>Spatial Resolution:</strong> The number of pixels per unit length (e.g., pixels per inch, PPI).</div><img src=\"/static/images/courses/cmsc178ip/module-01/resolution_comparison.png\" alt=\"Resolution Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Common Resolutions</h4><ul><li><strong>VGA:</strong> 640 × 480 (307,200 pixels)</li><li><strong>Full HD:</strong> 1920 × 1080 (2.07 megapixels)</li><li><strong>4K:</strong> 3840 × 2160 (8.29 megapixels)</li></ul></div>",
+      "content": "<div class=\"definition\"><strong>Spatial Resolution:</strong> The number of pixels per unit length (e.g., pixels per inch, PPI).</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/resolution_comparison.svg\" alt=\"Resolution Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Common Resolutions</h4><ul><li><strong>VGA:</strong> 640 × 480 (307,200 pixels)</li><li><strong>Full HD:</strong> 1920 × 1080 (2.07 megapixels)</li><li><strong>4K:</strong> 3840 × 2160 (8.29 megapixels)</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -101,7 +101,7 @@
       "id": 11,
       "title": "Effect of Quantization",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\">Fewer bits per pixel results in visible <strong>banding</strong> (posterization effect).</div><img src=\"/static/images/courses/cmsc178ip/module-01/quantization_effects.png\" alt=\"Quantization Effects\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Observations</h4><ul><li><strong>8-bit:</strong> 256 levels — smooth gradients</li><li><strong>4-bit:</strong> 16 levels — slight banding</li><li><strong>2-bit:</strong> 4 levels — obvious posterization</li><li><strong>1-bit:</strong> 2 levels — binary only</li></ul></div>",
+      "content": "<div class=\"key-point\">Fewer bits per pixel results in visible <strong>banding</strong> (posterization effect).</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/quantization_effects.svg\" alt=\"Quantization Effects\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Observations</h4><ul><li><strong>8-bit:</strong> 256 levels — smooth gradients</li><li><strong>4-bit:</strong> 16 levels — slight banding</li><li><strong>2-bit:</strong> 4 levels — obvious posterization</li><li><strong>1-bit:</strong> 2 levels — binary only</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -109,7 +109,7 @@
       "id": 12,
       "title": "Image Types Overview",
       "readingTime": "2 min",
-      "content": "<div class=\"highlight\"><h4>Three Common Image Types</h4></div><img src=\"/static/images/courses/cmsc178ip/module-01/image_types_comparison.png\" alt=\"Image Types\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><ul><li><strong>Binary:</strong> 1-bit, 2 values</li><li><strong>Grayscale:</strong> 8-bit, 256 levels</li></ul></div><div class=\"column\"><ul><li><strong>Color:</strong> 24-bit RGB</li><li>3 channels × 8 bits each</li></ul></div></div>",
+      "content": "<div class=\"highlight\"><h4>Three Common Image Types</h4></div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/image_types_comparison.svg\" alt=\"Image Types\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><ul><li><strong>Binary:</strong> 1-bit, 2 values</li><li><strong>Grayscale:</strong> 8-bit, 256 levels</li></ul></div><div class=\"column\"><ul><li><strong>Color:</strong> 24-bit RGB</li><li>3 channels × 8 bits each</li></ul></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -144,7 +144,7 @@
       "id": 16,
       "title": "RGB Color Model",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\"><strong>RGB:</strong> Additive color mixing — combining light.</div><img src=\"/static/images/courses/cmsc178ip/module-01/rgb_color_model.png\" alt=\"RGB Model\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>Color Mixing</h4><ul><li>R + G = Yellow</li><li>G + B = Cyan</li><li>R + B = Magenta</li><li>R + G + B = White</li></ul></div><div class=\"column\"><h4>Pure Colors</h4><ul><li>Red: (255, 0, 0)</li><li>Green: (0, 255, 0)</li><li>Blue: (0, 0, 255)</li></ul></div></div>",
+      "content": "<div class=\"key-point\"><strong>RGB:</strong> Additive color mixing — combining light.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/rgb_color_model.svg\" alt=\"RGB Model\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>Color Mixing</h4><ul><li>R + G = Yellow</li><li>G + B = Cyan</li><li>R + B = Magenta</li><li>R + G + B = White</li></ul></div><div class=\"column\"><h4>Pure Colors</h4><ul><li>Red: (255, 0, 0)</li><li>Green: (0, 255, 0)</li><li>Blue: (0, 0, 255)</li></ul></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -152,7 +152,7 @@
       "id": 17,
       "title": "HSV Color Model",
       "readingTime": "3 min",
-      "content": "<div class=\"definition\"><strong>HSV:</strong> Hue, Saturation, Value — more intuitive for humans.</div><img src=\"/static/images/courses/cmsc178ip/module-01/hsv_color_model.png\" alt=\"HSV Model\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>Components</h4><ul><li><strong>H (Hue):</strong> Color type (0-360°)</li><li><strong>S (Saturation):</strong> Color purity (0-100%)</li><li><strong>V (Value):</strong> Brightness (0-100%)</li></ul></div><div class=\"column\"><h4>Advantages</h4><ul><li>Intuitive color selection</li><li>Better for thresholding</li><li>Separates luminance from color</li></ul></div></div>",
+      "content": "<div class=\"definition\"><strong>HSV:</strong> Hue, Saturation, Value — more intuitive for humans.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/hsv_color_model.svg\" alt=\"HSV Model\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>Components</h4><ul><li><strong>H (Hue):</strong> Color type (0-360°)</li><li><strong>S (Saturation):</strong> Color purity (0-100%)</li><li><strong>V (Value):</strong> Brightness (0-100%)</li></ul></div><div class=\"column\"><h4>Advantages</h4><ul><li>Intuitive color selection</li><li>Better for thresholding</li><li>Separates luminance from color</li></ul></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "When would you use HSV instead of RGB?",
@@ -163,7 +163,7 @@
       "id": 18,
       "title": "Color Space Conversion",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\">Converting between color spaces is essential for many image processing tasks.</div><img src=\"/static/images/courses/cmsc178ip/module-01/color_space_conversion.png\" alt=\"Color Conversion\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>OpenCV Conversion</h4><pre><code>import cv2\n\n# BGR to HSV\nhsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)\n\n# BGR to Grayscale\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)</code></pre></div>",
+      "content": "<div class=\"key-point\">Converting between color spaces is essential for many image processing tasks.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/color_space_conversion.svg\" alt=\"Color Conversion\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>OpenCV Conversion</h4><pre><code>import cv2\n\n# BGR to HSV\nhsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)\n\n# BGR to Grayscale\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)</code></pre></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -171,7 +171,7 @@
       "id": 19,
       "title": "Bit Depth & Storage",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\">Higher bit depth = better quality but larger file size.</div><img src=\"/static/images/courses/cmsc178ip/module-01/bit_depth_detailed.png\" alt=\"Bit Depth\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"warning\"><strong>Trade-off:</strong> Always balance quality requirements against storage and processing constraints.</div>",
+      "content": "<div class=\"key-point\">Higher bit depth = better quality but larger file size.</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/bit_depth_detailed.svg\" alt=\"Bit Depth\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"warning\"><strong>Trade-off:</strong> Always balance quality requirements against storage and processing constraints.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -179,7 +179,7 @@
       "id": 20,
       "title": "Memory Calculation",
       "readingTime": "2 min",
-      "content": "<div class=\"definition\"><strong>Uncompressed Image Size:</strong></div><div class=\"math-block\">$$\\text{Bytes} = \\text{Width} \\times \\text{Height} \\times \\frac{\\text{Bits per Pixel}}{8}$$</div><img src=\"/static/images/courses/cmsc178ip/module-01/memory_calculation_table.png\" alt=\"Memory Table\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Examples</h4><ul><li><strong>1920×1080 Grayscale:</strong> 2.07 MB</li><li><strong>1920×1080 RGB:</strong> 6.22 MB</li><li><strong>4K RGB:</strong> 24.88 MB</li></ul></div>",
+      "content": "<div class=\"definition\"><strong>Uncompressed Image Size:</strong></div><div class=\"math-block\">$$\\text{Bytes} = \\text{Width} \\times \\text{Height} \\times \\frac{\\text{Bits per Pixel}}{8}$$</div><img src=\"/static/images/courses/cmsc178ip/module-01/svg/memory_calculation_table.svg\" alt=\"Memory Table\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Examples</h4><ul><li><strong>1920×1080 Grayscale:</strong> 2.07 MB</li><li><strong>1920×1080 RGB:</strong> 6.22 MB</li><li><strong>4K RGB:</strong> 24.88 MB</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Calculate the size of a 4K (3840×2160) RGBA image with 8 bits per channel.",
@@ -190,7 +190,7 @@
       "id": 21,
       "title": "Quality vs Storage Trade-off",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-01/quality_size_tradeoff.png\" alt=\"Quality vs Size\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>When to Use High Bit Depth</h4><ul><li>Medical imaging</li><li>Scientific photography</li><li>Professional editing</li></ul></div><div class=\"column\"><h4>When to Use Low Bit Depth</h4><ul><li>Web images</li><li>Mobile apps</li><li>Real-time video</li></ul></div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-01/svg/quality_size_tradeoff.svg\" alt=\"Quality vs Size\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>When to Use High Bit Depth</h4><ul><li>Medical imaging</li><li>Scientific photography</li><li>Professional editing</li></ul></div><div class=\"column\"><h4>When to Use Low Bit Depth</h4><ul><li>Web images</li><li>Mobile apps</li><li>Real-time video</li></ul></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Tips and best practices for training GANs">
+  <title>GAN Training Tips</title>
+  <desc>Collection of best practices and techniques for stable GAN training including architecture choices, hyperparameters, and common fixes</desc>
+
+  <defs>
+    <linearGradient id="tipsBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#tipsBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">GAN Training Best Practices</text>
+
+  <!-- Architecture tips -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="255" height="155" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="127" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Architecture</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g>
+        <circle cx="5" cy="5" r="3" fill="#3b82f6"/>
+        <text x="15" y="9" fill="#333">Use strided conv (not pooling)</text>
+      </g>
+      <g transform="translate(0, 20)">
+        <circle cx="5" cy="5" r="3" fill="#3b82f6"/>
+        <text x="15" y="9" fill="#333">BatchNorm in both G and D</text>
+      </g>
+      <g transform="translate(0, 40)">
+        <circle cx="5" cy="5" r="3" fill="#3b82f6"/>
+        <text x="15" y="9" fill="#333">LeakyReLU in D (slope 0.2)</text>
+      </g>
+      <g transform="translate(0, 60)">
+        <circle cx="5" cy="5" r="3" fill="#3b82f6"/>
+        <text x="15" y="9" fill="#333">ReLU in G (except output)</text>
+      </g>
+      <g transform="translate(0, 80)">
+        <circle cx="5" cy="5" r="3" fill="#3b82f6"/>
+        <text x="15" y="9" fill="#333">Tanh output for G</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Training tips -->
+  <g transform="translate(300, 55)">
+    <rect x="0" y="0" width="255" height="155" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="127" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Training Process</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g>
+        <circle cx="5" cy="5" r="3" fill="#10b981"/>
+        <text x="15" y="9" fill="#333">Normalize inputs to [-1, 1]</text>
+      </g>
+      <g transform="translate(0, 20)">
+        <circle cx="5" cy="5" r="3" fill="#10b981"/>
+        <text x="15" y="9" fill="#333">Use soft labels (0.9 not 1.0)</text>
+      </g>
+      <g transform="translate(0, 40)">
+        <circle cx="5" cy="5" r="3" fill="#10b981"/>
+        <text x="15" y="9" fill="#333">Train D more (1-5 steps per G)</text>
+      </g>
+      <g transform="translate(0, 60)">
+        <circle cx="5" cy="5" r="3" fill="#10b981"/>
+        <text x="15" y="9" fill="#333">Small learning rate (0.0002)</text>
+      </g>
+      <g transform="translate(0, 80)">
+        <circle cx="5" cy="5" r="3" fill="#10b981"/>
+        <text x="15" y="9" fill="#333">Adam optimizer (β₁=0.5)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Stability tips -->
+  <g transform="translate(570, 55)">
+    <rect x="0" y="0" width="250" height="155" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="125" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Stability Tricks</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g>
+        <circle cx="5" cy="5" r="3" fill="#7c3aed"/>
+        <text x="15" y="9" fill="#333">Add noise to D inputs</text>
+      </g>
+      <g transform="translate(0, 20)">
+        <circle cx="5" cy="5" r="3" fill="#7c3aed"/>
+        <text x="15" y="9" fill="#333">Use spectral normalization</text>
+      </g>
+      <g transform="translate(0, 40)">
+        <circle cx="5" cy="5" r="3" fill="#7c3aed"/>
+        <text x="15" y="9" fill="#333">Gradient penalty (WGAN-GP)</text>
+      </g>
+      <g transform="translate(0, 60)">
+        <circle cx="5" cy="5" r="3" fill="#7c3aed"/>
+        <text x="15" y="9" fill="#333">Feature matching loss</text>
+      </g>
+      <g transform="translate(0, 80)">
+        <circle cx="5" cy="5" r="3" fill="#7c3aed"/>
+        <text x="15" y="9" fill="#333">Historical averaging</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Common problems -->
+  <g transform="translate(30, 225)">
+    <rect x="0" y="0" width="385" height="150" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="192" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Common Problems &amp; Solutions</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g>
+        <rect x="0" y="0" width="170" height="45" fill="#fef2f2" rx="3"/>
+        <text x="85" y="15" fill="#ef4444" font-weight="600" text-anchor="middle">D Loss → 0</text>
+        <text x="85" y="30" fill="#666" text-anchor="middle" font-size="8">D too strong, G can't learn</text>
+        <text x="85" y="42" fill="#10b981" text-anchor="middle" font-size="8">→ Weaken D, add noise</text>
+      </g>
+
+      <g transform="translate(185, 0)">
+        <rect x="0" y="0" width="170" height="45" fill="#fef2f2" rx="3"/>
+        <text x="85" y="15" fill="#ef4444" font-weight="600" text-anchor="middle">G Loss → ∞</text>
+        <text x="85" y="30" fill="#666" text-anchor="middle" font-size="8">G failing completely</text>
+        <text x="85" y="42" fill="#10b981" text-anchor="middle" font-size="8">→ Lower D learning rate</text>
+      </g>
+
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="170" height="45" fill="#fef2f2" rx="3"/>
+        <text x="85" y="15" fill="#ef4444" font-weight="600" text-anchor="middle">Mode Collapse</text>
+        <text x="85" y="30" fill="#666" text-anchor="middle" font-size="8">G produces same outputs</text>
+        <text x="85" y="42" fill="#10b981" text-anchor="middle" font-size="8">→ Mini-batch discrim.</text>
+      </g>
+
+      <g transform="translate(185, 55)">
+        <rect x="0" y="0" width="170" height="45" fill="#fef2f2" rx="3"/>
+        <text x="85" y="15" fill="#ef4444" font-weight="600" text-anchor="middle">Oscillating Loss</text>
+        <text x="85" y="30" fill="#666" text-anchor="middle" font-size="8">Training unstable</text>
+        <text x="85" y="42" fill="#10b981" text-anchor="middle" font-size="8">→ Lower LR, WGAN-GP</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Monitoring -->
+  <g transform="translate(435, 225)">
+    <rect x="0" y="0" width="385" height="150" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="192" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">What to Monitor</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g>
+        <circle cx="5" cy="5" r="3" fill="#f97316"/>
+        <text x="15" y="9" fill="#333">D loss on real data (should stay ~0.5-0.7)</text>
+      </g>
+      <g transform="translate(0, 20)">
+        <circle cx="5" cy="5" r="3" fill="#f97316"/>
+        <text x="15" y="9" fill="#333">D loss on fake data (should decrease, then stabilize)</text>
+      </g>
+      <g transform="translate(0, 40)">
+        <circle cx="5" cy="5" r="3" fill="#f97316"/>
+        <text x="15" y="9" fill="#333">Generated samples (visually inspect regularly!)</text>
+      </g>
+      <g transform="translate(0, 60)">
+        <circle cx="5" cy="5" r="3" fill="#f97316"/>
+        <text x="15" y="9" fill="#333">FID score (lower = better, measures quality)</text>
+      </g>
+      <g transform="translate(0, 80)">
+        <circle cx="5" cy="5" r="3" fill="#f97316"/>
+        <text x="15" y="9" fill="#333">Inception Score (higher = better diversity)</text>
+      </g>
+    </g>
+  </g>
+</svg>

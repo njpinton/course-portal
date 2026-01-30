@@ -1,0 +1,228 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="MNIST handwritten digit samples">
+  <title>MNIST Dataset Samples</title>
+  <desc>Sample images from the MNIST handwritten digit dataset showing examples of digits 0-9 used for classification training</desc>
+
+  <defs>
+    <linearGradient id="mnistBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#mnistBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">MNIST Handwritten Digit Dataset</text>
+
+  <!-- Sample grid -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="500" height="320" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="250" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Sample Digits (28×28 grayscale)</text>
+
+    <!-- Grid of digits 0-9 with 3 examples each -->
+    <g transform="translate(25, 40)">
+      <!-- Row labels -->
+      <g font-family="Segoe UI, sans-serif" font-size="12" fill="#666" font-weight="600">
+        <text x="-10" y="22" text-anchor="end">0</text>
+        <text x="-10" y="77" text-anchor="end">1</text>
+        <text x="-10" y="132" text-anchor="end">2</text>
+        <text x="-10" y="187" text-anchor="end">3</text>
+        <text x="-10" y="242" text-anchor="end">4</text>
+      </g>
+
+      <!-- Digit 0 row -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="20" cy="20" rx="12" ry="15" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="70" cy="20" rx="11" ry="14" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="120" cy="20" rx="13" ry="14" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <!-- Digit 1 row -->
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <line x1="20" y1="5" x2="20" y2="35" stroke="white" stroke-width="4"/>
+        <line x1="15" y1="10" x2="20" y2="5" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <line x1="70" y1="8" x2="70" y2="32" stroke="white" stroke-width="5"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M115,8 L120,5 L120,35" fill="none" stroke="white" stroke-width="4"/>
+      </g>
+
+      <!-- Digit 2 row -->
+      <g transform="translate(0, 110)">
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M10,15 Q20,5 30,15 Q25,25 10,35 L30,35" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M60,12 Q70,5 80,12 Q75,22 60,35 L80,35" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M108,15 Q120,5 130,15 Q125,25 108,35 L132,35" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <!-- Digit 3 row -->
+      <g transform="translate(0, 165)">
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M10,10 Q25,5 28,15 Q20,20 28,25 Q25,35 10,30" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M58,10 Q75,5 78,15 Q68,20 78,28 Q72,35 58,32" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M108,8 Q125,5 128,15 Q118,18 128,28 Q122,38 108,32" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <!-- Digit 4 row -->
+      <g transform="translate(0, 220)">
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M25,5 L10,25 L32,25 M25,15 L25,35" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M75,5 L58,25 L82,25 M75,15 L75,35" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M125,5 L108,25 L132,25 M125,18 L125,35" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <!-- Second column labels -->
+      <g transform="translate(170, 0)" font-family="Segoe UI, sans-serif" font-size="12" fill="#666" font-weight="600">
+        <text x="-10" y="22" text-anchor="end">5</text>
+        <text x="-10" y="77" text-anchor="end">6</text>
+        <text x="-10" y="132" text-anchor="end">7</text>
+        <text x="-10" y="187" text-anchor="end">8</text>
+        <text x="-10" y="242" text-anchor="end">9</text>
+      </g>
+
+      <!-- Digit 5-9 -->
+      <g transform="translate(170, 0)">
+        <!-- Digit 5 -->
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M30,8 L12,8 L10,20 Q25,15 30,25 Q28,35 12,32" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M80,8 L62,8 L60,20 Q75,15 80,25 Q78,35 62,32" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M130,8 L112,8 L110,18 Q125,15 130,25 Q128,35 112,32" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <g transform="translate(170, 55)">
+        <!-- Digit 6 -->
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M28,10 Q10,15 10,25 Q10,35 20,35 Q32,35 32,25 Q32,18 20,18" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M78,10 Q60,15 60,25 Q60,35 70,35 Q82,35 82,25 Q82,18 70,18" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M128,8 Q110,15 110,25 Q110,35 120,35 Q132,35 132,25 Q132,18 120,18" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <g transform="translate(170, 110)">
+        <!-- Digit 7 -->
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M10,8 L30,8 L18,35" fill="none" stroke="white" stroke-width="4"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M58,8 L82,8 L68,35" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M108,8 L132,8 L118,35" fill="none" stroke="white" stroke-width="4"/>
+      </g>
+
+      <g transform="translate(170, 165)">
+        <!-- Digit 8 -->
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="20" cy="13" rx="10" ry="8" fill="none" stroke="white" stroke-width="3"/>
+        <ellipse cx="20" cy="28" rx="10" ry="8" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="70" cy="13" rx="9" ry="8" fill="none" stroke="white" stroke-width="3"/>
+        <ellipse cx="70" cy="28" rx="10" ry="8" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="120" cy="12" rx="10" ry="7" fill="none" stroke="white" stroke-width="3"/>
+        <ellipse cx="120" cy="28" rx="11" ry="8" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+
+      <g transform="translate(170, 220)">
+        <!-- Digit 9 -->
+        <rect x="0" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M20,18 Q8,18 8,10 Q8,5 20,5 Q32,5 32,12 Q32,35 20,35" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="50" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M70,18 Q58,18 58,10 Q58,5 70,5 Q82,5 82,12 Q82,35 70,35" fill="none" stroke="white" stroke-width="3"/>
+
+        <rect x="100" y="0" width="40" height="40" fill="#1a1a2e" rx="3"/>
+        <path d="M120,18 Q108,18 108,10 Q108,5 120,5 Q132,5 132,12 Q132,35 118,35" fill="none" stroke="white" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Dataset info -->
+  <g transform="translate(545, 55)">
+    <rect x="0" y="0" width="275" height="155" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="137" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Dataset Statistics</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="10">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="115" height="45" fill="#d1fae5" rx="4"/>
+        <text x="57" y="18" fill="#10b981" font-weight="600" text-anchor="middle">Training Set</text>
+        <text x="57" y="35" fill="#333" font-size="14" font-weight="600" text-anchor="middle">60,000</text>
+      </g>
+
+      <g transform="translate(125, 0)">
+        <rect x="0" y="0" width="115" height="45" fill="#dbeafe" rx="4"/>
+        <text x="57" y="18" fill="#3b82f6" font-weight="600" text-anchor="middle">Test Set</text>
+        <text x="57" y="35" fill="#333" font-size="14" font-weight="600" text-anchor="middle">10,000</text>
+      </g>
+
+      <g transform="translate(0, 55)">
+        <rect x="0" y="0" width="115" height="45" fill="#f5f3ff" rx="4"/>
+        <text x="57" y="18" fill="#7c3aed" font-weight="600" text-anchor="middle">Image Size</text>
+        <text x="57" y="35" fill="#333" font-size="12" font-weight="600" text-anchor="middle">28 × 28</text>
+      </g>
+
+      <g transform="translate(125, 55)">
+        <rect x="0" y="0" width="115" height="45" fill="#fef3c7" rx="4"/>
+        <text x="57" y="18" fill="#f97316" font-weight="600" text-anchor="middle">Classes</text>
+        <text x="57" y="35" fill="#333" font-size="14" font-weight="600" text-anchor="middle">10</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Why MNIST -->
+  <g transform="translate(545, 220)">
+    <rect x="0" y="0" width="275" height="155" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="137" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Why MNIST?</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="245" height="25" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="16" fill="#7c3aed" font-weight="600">✓ "Hello World" of Deep Learning</text>
+      </g>
+
+      <g transform="translate(0, 30)">
+        <rect x="0" y="0" width="245" height="25" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="16" fill="#7c3aed" font-weight="600">✓ Small, fast to train</text>
+      </g>
+
+      <g transform="translate(0, 60)">
+        <rect x="0" y="0" width="245" height="25" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="16" fill="#7c3aed" font-weight="600">✓ Simple CNN achieves 99%+ accuracy</text>
+      </g>
+
+      <g transform="translate(0, 90)">
+        <rect x="0" y="0" width="245" height="25" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="16" fill="#7c3aed" font-weight="600">✓ Perfect for learning fundamentals</text>
+      </g>
+    </g>
+  </g>
+</svg>

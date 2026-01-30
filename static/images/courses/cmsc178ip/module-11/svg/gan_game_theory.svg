@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="GAN training as a minimax game between generator and discriminator">
+  <title>GAN Game Theory</title>
+  <desc>Visualization of GAN training as a two-player minimax game where generator tries to fool discriminator while discriminator tries to distinguish real from fake</desc>
+
+  <defs>
+    <linearGradient id="gameBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#gameBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">GAN as Minimax Game</text>
+
+  <!-- Minimax equation -->
+  <g transform="translate(30, 50)">
+    <rect x="0" y="0" width="790" height="70" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="395" y="45" fill="#1a3a6e" font-family="Consolas, monospace" font-size="14" text-anchor="middle">min_G max_D V(D, G) = E[log D(x)] + E[log(1 - D(G(z)))]</text>
+  </g>
+
+  <!-- Two players -->
+  <g transform="translate(30, 135)">
+    <!-- Generator -->
+    <rect x="0" y="0" width="380" height="240" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="190" y="25" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Generator (Counterfeiter)</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Icon -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="70" height="70" fill="#d1fae5" rx="8"/>
+        <text x="35" y="42" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="24" text-anchor="middle">G</text>
+      </g>
+
+      <g transform="translate(90, 0)" font-family="Segoe UI, sans-serif">
+        <text x="0" y="15" fill="#333" font-size="11" font-weight="600">Goal: MINIMIZE V(D, G)</text>
+        <text x="0" y="35" fill="#666" font-size="10">• Create fakes that fool D</text>
+        <text x="0" y="52" fill="#666" font-size="10">• Wants D(G(z)) → 1</text>
+        <text x="0" y="69" fill="#666" font-size="10">• "Make better counterfeits"</text>
+      </g>
+
+      <!-- Strategy -->
+      <g transform="translate(0, 90)">
+        <rect x="0" y="0" width="340" height="55" fill="#f8f9fa" rx="4"/>
+        <text x="170" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Strategy</text>
+        <text x="170" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Learn the data distribution P_data(x)</text>
+        <text x="170" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Generate samples indistinguishable from real</text>
+      </g>
+
+      <!-- Loss -->
+      <g transform="translate(0, 155)">
+        <rect x="0" y="0" width="340" height="35" fill="#d1fae5" rx="4"/>
+        <text x="170" y="22" fill="#10b981" font-family="Consolas, monospace" font-size="10" text-anchor="middle">L_G = -E[log D(G(z))]</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Discriminator -->
+  <g transform="translate(440, 135)">
+    <rect x="0" y="0" width="380" height="240" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="190" y="25" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" text-anchor="middle">Discriminator (Detective)</text>
+
+    <g transform="translate(20, 45)">
+      <!-- Icon -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="70" height="70" fill="#fef2f2" rx="8"/>
+        <text x="35" y="42" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="24" text-anchor="middle">D</text>
+      </g>
+
+      <g transform="translate(90, 0)" font-family="Segoe UI, sans-serif">
+        <text x="0" y="15" fill="#333" font-size="11" font-weight="600">Goal: MAXIMIZE V(D, G)</text>
+        <text x="0" y="35" fill="#666" font-size="10">• Correctly classify real vs fake</text>
+        <text x="0" y="52" fill="#666" font-size="10">• Wants D(x) → 1, D(G(z)) → 0</text>
+        <text x="0" y="69" fill="#666" font-size="10">• "Catch the counterfeiter"</text>
+      </g>
+
+      <!-- Strategy -->
+      <g transform="translate(0, 90)">
+        <rect x="0" y="0" width="340" height="55" fill="#f8f9fa" rx="4"/>
+        <text x="170" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Strategy</text>
+        <text x="170" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Learn boundary between P_data and P_G</text>
+        <text x="170" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Output high for real, low for fake</text>
+      </g>
+
+      <!-- Loss -->
+      <g transform="translate(0, 155)">
+        <rect x="0" y="0" width="340" height="35" fill="#fef2f2" rx="4"/>
+        <text x="170" y="22" fill="#ef4444" font-family="Consolas, monospace" font-size="10" text-anchor="middle">L_D = -E[log D(x)] - E[log(1-D(G(z)))]</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Nash equilibrium -->
+  <g transform="translate(270, 382)">
+    <rect x="0" y="0" width="310" height="18" fill="#f5f3ff" rx="4"/>
+    <text x="155" y="13" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle" font-weight="600">Nash Equilibrium: P_G = P_data, D(x) = 0.5</text>
+  </g>
+</svg>

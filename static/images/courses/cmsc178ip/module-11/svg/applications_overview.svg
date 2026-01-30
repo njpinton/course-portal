@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Applications of generative models in various domains">
+  <title>Generative Models Applications</title>
+  <desc>Overview of practical applications of generative models including image synthesis, data augmentation, art, and more</desc>
+
+  <defs>
+    <linearGradient id="appsBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#appsBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Generative Models: Real-World Applications</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(30, 55)">
+    <!-- Image Synthesis -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#3b82f6" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#3b82f6"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Image Synthesis</text>
+
+      <g transform="translate(15, 40)">
+        <rect x="0" y="0" width="70" height="50" fill="#dbeafe" rx="4"/>
+        <ellipse cx="35" cy="25" rx="22" ry="20" fill="#fcd34d"/>
+        <circle cx="27" cy="22" r="3" fill="#333"/>
+        <circle cx="43" cy="22" r="3" fill="#333"/>
+        <path d="M28,32 Q35,38 42,32" fill="none" stroke="#333" stroke-width="1.5"/>
+        <text x="35" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Faces</text>
+      </g>
+
+      <g transform="translate(100, 40)">
+        <rect x="0" y="0" width="70" height="50" fill="#d1fae5" rx="4"/>
+        <rect x="15" y="10" width="40" height="30" fill="#22c55e" rx="2"/>
+        <rect x="20" y="15" width="30" height="10" fill="#86efac" rx="1"/>
+        <text x="35" y="62" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Products</text>
+      </g>
+    </g>
+
+    <!-- Data Augmentation -->
+    <g transform="translate(200, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#10b981" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#10b981"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Data Augmentation</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#d1fae5" rx="3"/>
+        <text x="77" y="16" fill="#10b981" text-anchor="middle">Generate training data</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#d1fae5" rx="3"/>
+        <text x="77" y="48" fill="#10b981" text-anchor="middle">Handle class imbalance</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#d1fae5" rx="3"/>
+        <text x="77" y="80" fill="#10b981" text-anchor="middle">Medical imaging (rare cases)</text>
+      </g>
+    </g>
+
+    <!-- Art & Creativity -->
+    <g transform="translate(400, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#7c3aed" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#7c3aed"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Art &amp; Creativity</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#f5f3ff" rx="3"/>
+        <text x="77" y="16" fill="#7c3aed" text-anchor="middle">Style transfer art</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#f5f3ff" rx="3"/>
+        <text x="77" y="48" fill="#7c3aed" text-anchor="middle">AI-generated paintings</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#f5f3ff" rx="3"/>
+        <text x="77" y="80" fill="#7c3aed" text-anchor="middle">Design prototyping</text>
+      </g>
+    </g>
+
+    <!-- Video & Animation -->
+    <g transform="translate(600, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#f97316" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#f97316"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Video &amp; Animation</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#fef3c7" rx="3"/>
+        <text x="77" y="16" fill="#f97316" text-anchor="middle">Video frame interpolation</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#fef3c7" rx="3"/>
+        <text x="77" y="48" fill="#f97316" text-anchor="middle">Deepfakes (with caution!)</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#fef3c7" rx="3"/>
+        <text x="77" y="80" fill="#f97316" text-anchor="middle">Motion synthesis</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Row 2 -->
+  <g transform="translate(30, 210)">
+    <!-- Image Editing -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#ef4444" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#ef4444"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Image Editing</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#fef2f2" rx="3"/>
+        <text x="77" y="16" fill="#ef4444" text-anchor="middle">Inpainting (fill missing)</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#fef2f2" rx="3"/>
+        <text x="77" y="48" fill="#ef4444" text-anchor="middle">Super-resolution</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#fef2f2" rx="3"/>
+        <text x="77" y="80" fill="#ef4444" text-anchor="middle">Attribute editing</text>
+      </g>
+    </g>
+
+    <!-- Text-to-Image -->
+    <g transform="translate(200, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#06b6d4" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#06b6d4" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#06b6d4"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Text-to-Image</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#cffafe" rx="3"/>
+        <text x="77" y="16" fill="#06b6d4" text-anchor="middle">DALL-E, Midjourney</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#cffafe" rx="3"/>
+        <text x="77" y="48" fill="#06b6d4" text-anchor="middle">Stable Diffusion</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#cffafe" rx="3"/>
+        <text x="77" y="80" fill="#06b6d4" text-anchor="middle">"A cat riding a bike"</text>
+      </g>
+    </g>
+
+    <!-- 3D & Graphics -->
+    <g transform="translate(400, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#84cc16" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#84cc16" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#84cc16"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">3D &amp; Graphics</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#ecfccb" rx="3"/>
+        <text x="77" y="16" fill="#84cc16" text-anchor="middle">3D shape generation</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#ecfccb" rx="3"/>
+        <text x="77" y="48" fill="#84cc16" text-anchor="middle">Texture synthesis</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#ecfccb" rx="3"/>
+        <text x="77" y="80" fill="#84cc16" text-anchor="middle">Game asset generation</text>
+      </g>
+    </g>
+
+    <!-- Science & Medicine -->
+    <g transform="translate(600, 0)">
+      <rect x="0" y="0" width="185" height="140" fill="white" rx="8" stroke="#ec4899" stroke-width="2"/>
+      <rect x="0" y="0" width="185" height="30" fill="#ec4899" rx="8"/>
+      <rect x="0" y="22" width="185" height="8" fill="#ec4899"/>
+      <text x="92" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" text-anchor="middle">Science &amp; Medicine</text>
+
+      <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+        <rect x="0" y="0" width="155" height="25" fill="#fce7f3" rx="3"/>
+        <text x="77" y="16" fill="#ec4899" text-anchor="middle">Drug molecule design</text>
+
+        <rect x="0" y="32" width="155" height="25" fill="#fce7f3" rx="3"/>
+        <text x="77" y="48" fill="#ec4899" text-anchor="middle">Protein structure</text>
+
+        <rect x="0" y="64" width="155" height="25" fill="#fce7f3" rx="3"/>
+        <text x="77" y="80" fill="#ec4899" text-anchor="middle">Medical image synthesis</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Footer note -->
+  <g transform="translate(175, 360)">
+    <rect x="0" y="0" width="500" height="25" fill="#1a3a6e" rx="4"/>
+    <text x="250" y="17" fill="white" font-family="Segoe UI, sans-serif" font-size="10" text-anchor="middle">Generative AI is transforming creative industries and scientific research!</text>
+  </g>
+</svg>

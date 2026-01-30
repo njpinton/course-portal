@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="CLAHE">
+<title>CLAHE</title><desc>Contrast Limited Adaptive Histogram Equalization</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">CLAHE (Adaptive Histogram Equalization)</text>
+<text x="150" y="70" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">Global HE</text>
+<rect x="50" y="85" width="200" height="120" fill="#ddd" stroke="#6b7280" stroke-width="2"/>
+<text x="150" y="145" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Same transform everywhere</text>
+<text x="150" y="165" font-family="Segoe UI" font-size="10" fill="#ef4444" text-anchor="middle">Can over-enhance noise</text>
+<text x="550" y="70" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">CLAHE</text>
+<rect x="450" y="85" width="200" height="120" fill="#ddd" stroke="#6b7280" stroke-width="2"/>
+<rect x="450" y="85" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="500" y="85" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="550" y="85" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="600" y="85" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="450" y="125" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="500" y="125" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="550" y="125" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="600" y="125" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="450" y="165" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="500" y="165" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="550" y="165" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<rect x="600" y="165" width="50" height="40" fill="none" stroke="#3b82f6" stroke-width="1"/>
+<text x="550" y="145" font-family="Segoe UI" font-size="10" fill="#1f2937" text-anchor="middle">Local regions, clipping</text>
+<text x="550" y="165" font-family="Segoe UI" font-size="10" fill="#10b981" text-anchor="middle">Controls noise amplification</text>
+<rect x="100" y="230" width="550" height="130" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="255" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">CLAHE Parameters</text>
+<text x="120" y="285" font-family="Segoe UI" font-size="11" fill="#1f2937">• Tile Size: Divides image into tiles (e.g., 8×8)</text>
+<text x="120" y="305" font-family="Segoe UI" font-size="11" fill="#1f2937">• Clip Limit: Limits histogram height to prevent over-amplification</text>
+<text x="120" y="325" font-family="Segoe UI" font-size="11" fill="#1f2937">• Interpolation: Blends tile boundaries for smooth result</text>
+<text x="120" y="345" font-family="Segoe UI" font-size="11" fill="#1f2937">• Applications: Medical imaging, low-light enhancement, HDR tone mapping</text>
+</svg>

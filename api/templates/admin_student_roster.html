@@ -1,6 +1,6 @@
 {% extends "base_layout.html" %}
 
-{% block title %}Student Roster - CMSC 173{% endblock %}
+{% block title %}Student Roster - Admin{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -11,6 +11,13 @@
     .stat-card { background: linear-gradient(135deg, var(--up-green) 0%, var(--up-green-dark) 100%); color: white; padding: 20px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow); }
     .stat-card h3 { font-size: 0.9em; margin-bottom: 10px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px; }
     .stat-card .value { font-size: 2em; font-weight: bold; }
+
+    /* Course/Semester Selector */
+    .selector-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .selector-group { flex: 1; min-width: 200px; }
+    .selector-group label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text-secondary); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+    .selector-group select { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 1em; background: var(--bg-white); }
+    .selector-group select:focus { outline: none; border-color: var(--up-green); box-shadow: 0 0 0 3px var(--primary-light); }
 
     /* Controls */
     .controls { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
@@ -46,11 +53,16 @@
     .page-title { color: var(--up-green); font-size: 1.6em; margin-bottom: 8px; }
     .page-subtitle { color: var(--text-secondary); font-size: 0.95em; margin-bottom: 24px; }
 
+    /* Info banner */
+    .info-banner { background: var(--primary-light); border-left: 4px solid var(--up-green); padding: 12px 16px; margin-bottom: 20px; border-radius: 0 var(--radius) var(--radius) 0; }
+    .info-banner p { margin: 0; color: var(--text-secondary); font-size: 0.9em; }
+
     /* Responsive */
     @media (max-width: 768px) {
         .controls { flex-direction: column; }
         .controls input, .controls select { width: 100%; min-width: auto; }
         .stat-card .value { font-size: 1.6em; }
+        .selector-row { flex-direction: column; }
     }
 </style>
 {% endblock %}
@@ -65,13 +77,29 @@
 
 {% block content %}
 <h1 class="page-title">Student Roster</h1>
-<p class="page-subtitle">CMSC 173 - Machine Learning - All Sections</p>
+<p class="page-subtitle" id="courseSubtitle">Select a course and semester to view students</p>
 
 <!-- Alert Messages -->
 <div id="alertContainer"></div>
 
+<!-- Course/Semester Selector -->
+<div class="selector-row">
+    <div class="selector-group">
+        <label for="courseSelect">Course</label>
+        <select id="courseSelect" aria-label="Select course">
+            <option value="">Select a course...</option>
+        </select>
+    </div>
+    <div class="selector-group">
+        <label for="semesterSelect">Semester</label>
+        <select id="semesterSelect" aria-label="Select semester" disabled>
+            <option value="">Select a semester...</option>
+        </select>
+    </div>
+</div>
+
 <!-- Stats Grid -->
-<div class="stats-grid">
+<div class="stats-grid" id="statsGrid" style="display: none;">
     <div class="stat-card">
         <h3>Total Students</h3>
         <div class="value" id="totalStudents">-</div>
@@ -90,14 +118,11 @@
     </div>
 </div>
 
-<!-- Controls -->
-<div class="controls">
+<!-- Controls (shown after course/semester selected) -->
+<div class="controls" id="filterControls" style="display: none;">
     <input type="text" id="searchInput" placeholder="Search by name, email, or campus ID..." aria-label="Search students">
     <select id="filterSection" aria-label="Filter by section">
         <option value="">All Sections</option>
-        <option value="cmsc173a">Section A (Tue-Fri 3:00-4:30 PM)</option>
-        <option value="cmsc173d">Section D (Tue-Fri 4:30-6:00 PM)</option>
-        <option value="cmsc173e">Section E (Mon-Thu 3:00-4:30 PM)</option>
     </select>
     <select id="filterStatus" aria-label="Filter by status">
         <option value="">All Students</option>
@@ -115,9 +140,8 @@
 
 <!-- Students Table -->
 <div id="tableContainer">
-    <div class="empty-state">
-        <div class="spinner"></div>
-        <p>Loading student roster...</p>
+    <div class="info-banner" id="selectPrompt">
+        <p>Please select a course and semester above to view the student roster.</p>
     </div>
 </div>
 
@@ -139,17 +163,34 @@
 
 {% block extra_js %}
 <script>
-    let allStudents = { ungrouped: [], grouped: [] };
-    let filteredStudents = {};
+    // State
+    let allClasses = [];
     let sectionStudents = {};
+    let filteredStudents = {};
+    let currentCourse = '';
+    let currentSemester = '';
+
+    // Course display names (from config)
+    const courseNames = {
+        'CMSC173': 'CMSC 173 - Machine Learning',
+        'CMSC 173': 'CMSC 173 - Machine Learning',
+        'CMSC178IP': 'CMSC 178IP - Digital Image Processing',
+        'CMSC 178IP': 'CMSC 178IP - Digital Image Processing',
+        'CMSC178DA': 'CMSC 178DA - Data Analytics',
+        'CMSC 178DA': 'CMSC 178DA - Data Analytics',
+        'CMSC194.2': 'CMSC 194.2 - Special Problems / Research',
+        'CMSC 194.2': 'CMSC 194.2 - Special Problems / Research'
+    };
 
     document.addEventListener('DOMContentLoaded', function() {
-        loadAllSections();
+        loadClasses();
         setupEventListeners();
         setupModal();
     });
 
     function setupEventListeners() {
+        document.getElementById('courseSelect').addEventListener('change', onCourseChange);
+        document.getElementById('semesterSelect').addEventListener('change', onSemesterChange);
         document.getElementById('searchInput').addEventListener('input', filterStudents);
         document.getElementById('filterSection').addEventListener('change', filterStudents);
         document.getElementById('filterStatus').addEventListener('change', filterStudents);
@@ -174,29 +215,155 @@
         document.body.style.overflow = '';
     }
 
-    async function loadAllSections() {
+    async function loadClasses() {
         try {
-            const sections = ['cmsc173a', 'cmsc173d', 'cmsc173e'];
+            const response = await fetch('/api/admin/classes');
+            if (!response.ok) throw new Error('Failed to load classes');
+            allClasses = await response.json();
+            populateCourseDropdown();
+        } catch (error) {
+            console.error('Error loading classes:', error);
+            showAlert('Failed to load class data: ' + error.message, 'error');
+        }
+    }
+
+    function populateCourseDropdown() {
+        const courseSelect = document.getElementById('courseSelect');
+        // Get unique courses
+        const courses = [...new Set(allClasses.map(c => c.course_code))].sort();
+
+        courseSelect.innerHTML = '<option value="">Select a course...</option>';
+        courses.forEach(course => {
+            const displayName = courseNames[course] || course;
+            courseSelect.innerHTML += `<option value="${course}">${displayName}</option>`;
+        });
+    }
+
+    function onCourseChange() {
+        const courseSelect = document.getElementById('courseSelect');
+        const semesterSelect = document.getElementById('semesterSelect');
+        currentCourse = courseSelect.value;
+
+        if (!currentCourse) {
+            semesterSelect.disabled = true;
+            semesterSelect.innerHTML = '<option value="">Select a semester...</option>';
+            hideRosterUI();
+            return;
+        }
+
+        // Get semesters for this course
+        const semesters = [...new Set(
+            allClasses
+                .filter(c => c.course_code === currentCourse)
+                .map(c => c.semester)
+                .filter(s => s) // filter out null/undefined
+        )].sort().reverse(); // newest first
+
+        semesterSelect.disabled = false;
+        semesterSelect.innerHTML = '<option value="">Select a semester...</option>';
+        semesters.forEach(sem => {
+            semesterSelect.innerHTML += `<option value="${sem}">${sem}</option>`;
+        });
+
+        // Auto-select if only one semester
+        if (semesters.length === 1) {
+            semesterSelect.value = semesters[0];
+            onSemesterChange();
+        } else {
+            hideRosterUI();
+        }
+    }
+
+    function onSemesterChange() {
+        const semesterSelect = document.getElementById('semesterSelect');
+        currentSemester = semesterSelect.value;
+
+        if (!currentSemester) {
+            hideRosterUI();
+            return;
+        }
+
+        // Update subtitle
+        const displayName = courseNames[currentCourse] || currentCourse;
+        document.getElementById('courseSubtitle').textContent = `${displayName} - ${currentSemester}`;
+
+        // Show UI and load data
+        showRosterUI();
+        loadStudentsForSelection();
+    }
+
+    function hideRosterUI() {
+        document.getElementById('statsGrid').style.display = 'none';
+        document.getElementById('filterControls').style.display = 'none';
+        document.getElementById('selectPrompt').style.display = 'block';
+        document.getElementById('tableContainer').innerHTML = `
+            <div class="info-banner" id="selectPrompt">
+                <p>Please select a course and semester above to view the student roster.</p>
+            </div>
+        `;
+    }
+
+    function showRosterUI() {
+        document.getElementById('statsGrid').style.display = 'grid';
+        document.getElementById('filterControls').style.display = 'flex';
+        document.getElementById('tableContainer').innerHTML = `
+            <div class="empty-state">
+                <div class="spinner"></div>
+                <p>Loading student roster...</p>
+            </div>
+        `;
+    }
+
+    async function loadStudentsForSelection() {
+        try {
+            // Get sections for current course/semester
+            const sections = allClasses.filter(c =>
+                c.course_code === currentCourse && c.semester === currentSemester
+            );
+
+            if (sections.length === 0) {
+                showAlert('No sections found for this course/semester', 'error');
+                return;
+            }
+
+            // Populate section filter
+            const sectionFilter = document.getElementById('filterSection');
+            sectionFilter.innerHTML = '<option value="">All Sections</option>';
+            sections.forEach(s => {
+                const scheduleInfo = s.schedule ? ` (${s.schedule})` : '';
+                sectionFilter.innerHTML += `<option value="${s.id}">Section ${s.section}${scheduleInfo}</option>`;
+            });
+
+            // Load students for each section
             let totalStats = { total_students: 0, grouped_count: 0, ungrouped_count: 0 };
+            sectionStudents = {};
+            filteredStudents = {};
 
             for (const section of sections) {
-                const response = await fetch(`/api/classes/${section}`);
-                const data = await response.json();
+                const sectionKey = section.id;
+                try {
+                    // Use the generic API endpoint
+                    const response = await fetch(`/api/classes/${currentCourse}/${section.section}`);
+                    if (!response.ok) {
+                        console.warn(`Failed to load section ${section.section}`);
+                        continue;
+                    }
 
-                if (!response.ok) {
-                    console.error(`Error loading ${section}:`, data.error);
-                    continue;
+                    const data = await response.json();
+                    sectionStudents[sectionKey] = {
+                        info: section,
+                        ungrouped: data.ungrouped_students || [],
+                        grouped: data.grouped_students || [],
+                        schedule: section.schedule || 'N/A'
+                    };
+
+                    totalStats.total_students += data.total_students || 0;
+                    totalStats.grouped_count += data.grouped_count || 0;
+                    totalStats.ungrouped_count += data.ungrouped_count || 0;
+                    filteredStudents[sectionKey] = [];
+                } catch (e) {
+                    console.warn(`Error loading section ${section.section}:`, e);
                 }
-
-                sectionStudents[section] = {
-                    ungrouped: data.ungrouped_students || [],
-                    grouped: data.grouped_students || [],
-                    schedule: data.class?.schedule || 'N/A'
-                };
-
-                totalStats.total_students += data.total_students || 0;
-                totalStats.grouped_count += data.grouped_count || 0;
-                totalStats.ungrouped_count += data.ungrouped_count || 0;
             }
 
             updateStats(totalStats);
@@ -221,16 +388,21 @@
         const statusFilter = document.getElementById('filterStatus').value;
         const programFilter = document.getElementById('filterProgram').value;
 
-        filteredStudents = { cmsc173a: [], cmsc173d: [], cmsc173e: [] };
-
-        for (const section in sectionStudents) {
-            if (sectionFilter && sectionFilter !== section) continue;
+        for (const sectionKey in sectionStudents) {
+            if (sectionFilter && sectionFilter !== sectionKey) {
+                filteredStudents[sectionKey] = [];
+                continue;
+            }
 
             let students = [];
-            if (statusFilter === 'grouped' || statusFilter === '') students = students.concat(sectionStudents[section].grouped);
-            if (statusFilter === 'ungrouped' || statusFilter === '') students = students.concat(sectionStudents[section].ungrouped);
+            if (statusFilter === 'grouped' || statusFilter === '') {
+                students = students.concat(sectionStudents[sectionKey].grouped);
+            }
+            if (statusFilter === 'ungrouped' || statusFilter === '') {
+                students = students.concat(sectionStudents[sectionKey].ungrouped);
+            }
 
-            filteredStudents[section] = students.filter(student => {
+            filteredStudents[sectionKey] = students.filter(student => {
                 const matchesSearch = !searchTerm ||
                     student.first_name.toLowerCase().includes(searchTerm) ||
                     student.last_name.toLowerCase().includes(searchTerm) ||
@@ -246,14 +418,13 @@
 
     function displayStudents() {
         const container = document.getElementById('tableContainer');
-        const sections = ['cmsc173a', 'cmsc173d', 'cmsc173e'];
-        const sectionNames = {
-            cmsc173a: 'Section A (Tue-Fri 3:00-4:30 PM)',
-            cmsc173d: 'Section D (Tue-Fri 4:30-6:00 PM)',
-            cmsc173e: 'Section E (Mon-Thu 3:00-4:30 PM)'
-        };
+        const sectionKeys = Object.keys(filteredStudents).sort((a, b) => {
+            const sectionA = sectionStudents[a]?.info?.section || '';
+            const sectionB = sectionStudents[b]?.info?.section || '';
+            return sectionA.localeCompare(sectionB);
+        });
 
-        const totalStudents = sections.reduce((sum, sec) => sum + filteredStudents[sec].length, 0);
+        const totalStudents = sectionKeys.reduce((sum, key) => sum + filteredStudents[key].length, 0);
 
         if (totalStudents === 0) {
             container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">&#128269;</div><p>No students found matching your criteria.</p></div>';
@@ -262,13 +433,17 @@
 
         let html = '';
 
-        sections.forEach(section => {
-            const students = filteredStudents[section];
+        sectionKeys.forEach(sectionKey => {
+            const students = filteredStudents[sectionKey];
             if (students.length === 0) return;
+
+            const sectionInfo = sectionStudents[sectionKey].info;
+            const scheduleInfo = sectionInfo.schedule ? ` (${sectionInfo.schedule})` : '';
+            const sectionName = `Section ${sectionInfo.section}${scheduleInfo}`;
 
             html += `
                 <div style="margin-bottom: 30px;">
-                    <div class="section-header">${sectionNames[section]} (${students.length} student${students.length !== 1 ? 's' : ''})</div>
+                    <div class="section-header">${sectionName} (${students.length} student${students.length !== 1 ? 's' : ''})</div>
                     <div class="table-wrapper">
                         <table class="roster-table">
                             <thead>
@@ -299,7 +474,7 @@
                         <td>${escapeHtml(student.program)}</td>
                         <td><span class="status-badge status-${status}">${statusText}</span></td>
                         <td>${escapeHtml(groupInfo)}</td>
-                        <td><button class="action-view" onclick="viewStudentDetails('${student.id}')">View</button></td>
+                        <td><button class="action-view" onclick="viewStudentDetails('${student.id}', '${sectionKey}')">View</button></td>
                     </tr>
                 `;
             });
@@ -310,20 +485,18 @@
         container.innerHTML = html;
     }
 
-    function viewStudentDetails(studentId) {
-        let student = null;
-        for (const section in filteredStudents) {
-            student = filteredStudents[section].find(s => s.id === studentId);
-            if (student) break;
-        }
+    function viewStudentDetails(studentId, sectionKey) {
+        const student = filteredStudents[sectionKey]?.find(s => s.id === studentId);
         if (!student) return;
 
         const fullName = `${student.first_name} ${student.last_name}`;
+        const sectionInfo = sectionStudents[sectionKey]?.info;
         const content = `
             <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${escapeHtml(fullName)}</span></div>
             <div class="detail-row"><span class="detail-label">Campus ID</span><span class="detail-value">${escapeHtml(student.campus_id)}</span></div>
             <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value"><a href="mailto:${escapeHtml(student.email)}">${escapeHtml(student.email)}</a></span></div>
             <div class="detail-row"><span class="detail-label">Program</span><span class="detail-value">${escapeHtml(student.program)}</span></div>
+            <div class="detail-row"><span class="detail-label">Section</span><span class="detail-value">${sectionInfo ? 'Section ' + sectionInfo.section : 'N/A'}</span></div>
             <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="status-badge status-${student.group_id ? 'grouped' : 'ungrouped'}">${student.group_id ? 'Grouped' : 'Ungrouped'}</span></span></div>
             <div class="detail-row"><span class="detail-label">Group</span><span class="detail-value">${escapeHtml(student.group_name || 'Not assigned')}</span></div>
         `;
@@ -341,8 +514,8 @@
     }
 
     function exportCSV() {
-        const sections = ['cmsc173a', 'cmsc173d', 'cmsc173e'];
-        const totalStudents = sections.reduce((sum, sec) => sum + filteredStudents[sec].length, 0);
+        const sectionKeys = Object.keys(filteredStudents);
+        const totalStudents = sectionKeys.reduce((sum, key) => sum + filteredStudents[key].length, 0);
 
         if (totalStudents === 0) {
             showAlert('No students to export', 'error');
@@ -350,13 +523,15 @@
         }
 
         let csv = 'Section,Campus ID,First Name,Last Name,Email,Program,Status,Group Name\n';
-        const sectionNames = { cmsc173a: 'Section A', cmsc173d: 'Section D', cmsc173e: 'Section E' };
 
-        sections.forEach(section => {
-            filteredStudents[section].forEach(student => {
+        sectionKeys.forEach(sectionKey => {
+            const sectionInfo = sectionStudents[sectionKey]?.info;
+            const sectionName = sectionInfo ? `Section ${sectionInfo.section}` : 'Unknown';
+
+            filteredStudents[sectionKey].forEach(student => {
                 const status = student.group_id ? 'Grouped' : 'Ungrouped';
                 const groupName = student.group_name || 'Ungrouped';
-                csv += `${sectionNames[section]},${student.campus_id},"${student.first_name}","${student.last_name}",${student.email},${student.program},${status},"${groupName}"\n`;
+                csv += `${sectionName},${student.campus_id},"${student.first_name}","${student.last_name}",${student.email},${student.program},${status},"${groupName}"\n`;
             });
         });
 
@@ -364,7 +539,9 @@
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'cmsc173_roster.csv';
+        const courseCode = currentCourse.replace(/\s+/g, '').toLowerCase();
+        const semesterCode = currentSemester.replace(/\s+/g, '-').toLowerCase();
+        a.download = `${courseCode}_${semesterCode}_roster.csv`;
         a.click();
         showAlert('Roster exported successfully!', 'success');
     }

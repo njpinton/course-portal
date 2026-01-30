@@ -160,6 +160,12 @@
             color: var(--text-dark);
         }
 
+        /* Hide vertical navigation controls - horizontal only */
+        .reveal .controls .navigate-up,
+        .reveal .controls .navigate-down {
+            display: none !important;
+        }
+
         .reveal h1, .reveal h2, .reveal h3 {
             font-weight: 600;
             color: var(--navy-blue);
@@ -522,7 +528,7 @@
         function initReveal() {
             Reveal.initialize({
                 hash: true,
-                navigationMode: 'linear',
+                navigationMode: 'default',
                 slideNumber: false,
                 transition: 'fade',
                 backgroundTransition: 'fade',

@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="YOLO grid-based object detection concept">
+  <title>YOLO Grid Concept</title>
+  <desc>Visualization of how YOLO divides an image into a grid and predicts bounding boxes and class probabilities for each cell</desc>
+
+  <defs>
+    <linearGradient id="yoloBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#yoloBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">YOLO: You Only Look Once</text>
+
+  <!-- Grid visualization -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="350" height="320" fill="white" rx="8" stroke="#ef4444" stroke-width="2"/>
+    <text x="175" y="22" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">S×S Grid Division (7×7)</text>
+
+    <!-- Image with grid overlay -->
+    <g transform="translate(25, 40)">
+      <!-- Background image -->
+      <rect x="0" y="0" width="300" height="245" fill="#87ceeb" rx="4"/>
+      <rect x="0" y="180" width="300" height="65" fill="#6b7280"/>
+
+      <!-- Dog object -->
+      <g transform="translate(60, 100)">
+        <ellipse cx="50" cy="40" rx="45" ry="35" fill="#d4a574"/>
+        <ellipse cx="85" cy="25" rx="20" ry="25" fill="#d4a574"/>
+        <ellipse cx="70" cy="10" rx="12" ry="18" fill="#c9956e"/>
+        <ellipse cx="100" cy="10" rx="12" ry="18" fill="#c9956e"/>
+        <circle cx="80" cy="25" r="4" fill="#333"/>
+        <circle cx="92" cy="25" r="4" fill="#333"/>
+        <ellipse cx="86" cy="35" rx="6" ry="4" fill="#333"/>
+        <rect x="20" y="70" width="10" height="25" fill="#c9956e"/>
+        <rect x="40" y="70" width="10" height="25" fill="#c9956e"/>
+        <rect x="60" y="70" width="10" height="25" fill="#c9956e"/>
+        <rect x="80" y="70" width="10" height="25" fill="#c9956e"/>
+      </g>
+
+      <!-- 7x7 Grid overlay -->
+      <g stroke="#ef4444" stroke-width="1" opacity="0.7">
+        <!-- Vertical lines -->
+        <line x1="42.86" y1="0" x2="42.86" y2="245"/>
+        <line x1="85.71" y1="0" x2="85.71" y2="245"/>
+        <line x1="128.57" y1="0" x2="128.57" y2="245"/>
+        <line x1="171.43" y1="0" x2="171.43" y2="245"/>
+        <line x1="214.29" y1="0" x2="214.29" y2="245"/>
+        <line x1="257.14" y1="0" x2="257.14" y2="245"/>
+        <!-- Horizontal lines -->
+        <line x1="0" y1="35" x2="300" y2="35"/>
+        <line x1="0" y1="70" x2="300" y2="70"/>
+        <line x1="0" y1="105" x2="300" y2="105"/>
+        <line x1="0" y1="140" x2="300" y2="140"/>
+        <line x1="0" y1="175" x2="300" y2="175"/>
+        <line x1="0" y1="210" x2="300" y2="210"/>
+      </g>
+
+      <!-- Highlighted cell (object center) -->
+      <rect x="85.71" y="105" width="42.86" height="35" fill="#ef4444" opacity="0.3" stroke="#ef4444" stroke-width="2"/>
+
+      <!-- Center point -->
+      <circle cx="107" cy="122" r="5" fill="#ef4444"/>
+
+      <!-- Predicted bounding box -->
+      <rect x="50" y="90" width="120" height="115" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="8,4"/>
+    </g>
+  </g>
+
+  <!-- Per-cell prediction -->
+  <g transform="translate(395, 55)">
+    <rect x="0" y="0" width="425" height="165" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="212" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Each Grid Cell Predicts</text>
+
+    <g transform="translate(20, 40)">
+      <!-- B bounding boxes -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="120" height="105" fill="#dbeafe" rx="6"/>
+        <text x="60" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">B Bounding Boxes</text>
+        <g transform="translate(15, 28)" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">
+          <text x="0" y="0">• x, y (center)</text>
+          <text x="0" y="15">• w, h (size)</text>
+          <text x="0" y="30">• confidence</text>
+        </g>
+        <text x="60" y="85" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">B=2 typically</text>
+        <text x="60" y="98" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">5 values each</text>
+      </g>
+
+      <!-- Class probabilities -->
+      <g transform="translate(135, 0)">
+        <rect x="0" y="0" width="120" height="105" fill="#d1fae5" rx="6"/>
+        <text x="60" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">C Class Probs</text>
+        <g transform="translate(15, 28)" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">
+          <text x="0" y="0">• P(dog)</text>
+          <text x="0" y="15">• P(cat)</text>
+          <text x="0" y="30">• P(car)</text>
+          <text x="0" y="45">• ...</text>
+        </g>
+        <text x="60" y="98" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">C classes total</text>
+      </g>
+
+      <!-- Output tensor -->
+      <g transform="translate(270, 0)">
+        <rect x="0" y="0" width="120" height="105" fill="#f5f3ff" rx="6"/>
+        <text x="60" y="18" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Output Tensor</text>
+        <g transform="translate(10, 35)" font-family="Consolas, monospace" font-size="9" fill="#7c3aed">
+          <text x="0" y="0">S × S ×</text>
+          <text x="0" y="18">(B×5 + C)</text>
+        </g>
+        <text x="60" y="75" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Example: 7×7×30</text>
+        <text x="60" y="88" fill="#999" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">(2×5 + 20 = 30)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Key concepts -->
+  <g transform="translate(395, 230)">
+    <rect x="0" y="0" width="425" height="145" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="212" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">YOLO Key Advantages</text>
+
+    <g transform="translate(20, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="185" height="40" fill="#fef3c7" rx="4"/>
+        <text x="10" y="15" fill="#f97316" font-weight="600">⚡ Single Pass</text>
+        <text x="10" y="30" fill="#666" font-size="8">One forward pass = all detections</text>
+      </g>
+
+      <g transform="translate(200, 0)">
+        <rect x="0" y="0" width="185" height="40" fill="#fef3c7" rx="4"/>
+        <text x="10" y="15" fill="#f97316" font-weight="600">🚀 Real-Time Speed</text>
+        <text x="10" y="30" fill="#666" font-size="8">45-155 FPS on GPU</text>
+      </g>
+
+      <g transform="translate(0, 50)">
+        <rect x="0" y="0" width="185" height="40" fill="#fef3c7" rx="4"/>
+        <text x="10" y="15" fill="#f97316" font-weight="600">🎯 Global Context</text>
+        <text x="10" y="30" fill="#666" font-size="8">Sees entire image at once</text>
+      </g>
+
+      <g transform="translate(200, 50)">
+        <rect x="0" y="0" width="185" height="40" fill="#fef3c7" rx="4"/>
+        <text x="10" y="15" fill="#f97316" font-weight="600">📦 End-to-End</text>
+        <text x="10" y="30" fill="#666" font-size="8">Single unified architecture</text>
+      </g>
+    </g>
+  </g>
+</svg>

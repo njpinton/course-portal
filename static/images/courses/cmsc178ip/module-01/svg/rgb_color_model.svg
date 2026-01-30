@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 450" role="img" aria-label="RGB Color Model">
+  <title>RGB Color Model</title>
+  <desc>The additive RGB color model showing how red, green, and blue combine to create colors</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+  <rect width="750" height="450" fill="url(#bgGrad)"/>
+  <text x="375" y="35" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e" text-anchor="middle">RGB Color Model (Additive)</text>
+  <circle cx="160" cy="170" r="80" fill="#ff0000" opacity="0.7"/>
+  <text x="120" y="120" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#cc0000">Red</text>
+  <circle cx="240" cy="170" r="80" fill="#00ff00" opacity="0.7"/>
+  <text x="280" y="120" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#00aa00">Green</text>
+  <circle cx="200" cy="250" r="80" fill="#0000ff" opacity="0.7"/>
+  <text x="200" y="350" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#0000cc" text-anchor="middle">Blue</text>
+  <text x="200" y="160" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937" text-anchor="middle">Yellow</text>
+  <text x="150" y="230" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937" text-anchor="middle">Magenta</text>
+  <text x="250" y="230" font-family="Segoe UI, sans-serif" font-size="11" fill="#1f2937" text-anchor="middle">Cyan</text>
+  <text x="200" y="200" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#1f2937" text-anchor="middle">White</text>
+  <text x="540.0" y="70" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a3a6e" text-anchor="middle">RGB Color Cube</text>
+  <polygon points="450,260 630,260 630,80 450,80" fill="#ff0000" opacity="0.3" stroke="#1f2937" stroke-width="1"/>
+  <polygon points="450,80 630,80 680,40 500,40" fill="#00ff00" opacity="0.3" stroke="#1f2937" stroke-width="1"/>
+  <polygon points="630,80 680,40 680,220 630,260" fill="#0000ff" opacity="0.3" stroke="#1f2937" stroke-width="1"/>
+  <circle cx="450" cy="260" r="5" fill="#000000"/>
+  <text x="440" y="280" font-family="monospace" font-size="10" fill="#1f2937">Black (0,0,0)</text>
+  <circle cx="680" cy="220" r="5" fill="#ffffff" stroke="#000"/>
+  <text x="690" y="225" font-family="monospace" font-size="10" fill="#1f2937">White (255,255,255)</text>
+  <rect x="50" y="370" width="650" height="65" rx="8" fill="#f3f4f6" stroke="#7eb8da" stroke-width="2"/>
+  <text x="375" y="395" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">Each pixel = (R, G, B) where R, G, B ∈ [0, 255]</text>
+  <text x="375" y="420" font-family="Segoe UI, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle">Total colors = 256 × 256 × 256 = 16,777,216 (24-bit color)</text>
+</svg>

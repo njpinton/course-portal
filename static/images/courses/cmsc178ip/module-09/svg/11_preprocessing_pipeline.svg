@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Image preprocessing pipeline for deep learning">
+  <title>Data Preprocessing Pipeline</title>
+  <desc>Steps for preparing images for neural network training including resizing, normalization, and standardization</desc>
+
+  <defs>
+    <linearGradient id="prepBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#prepBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Image Preprocessing Pipeline for Deep Learning</text>
+
+  <!-- Pipeline flow -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="790" height="175" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="395" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Preprocessing Steps</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Raw image -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="90" height="95" fill="#f8f9fa" rx="6" stroke="#ddd"/>
+        <text x="45" y="16" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Raw Image</text>
+        <rect x="10" y="25" width="70" height="50" fill="#e5e7eb" rx="3"/>
+        <text x="45" y="55" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">1920×1080</text>
+        <text x="45" y="88" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Variable size</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(100, 50)">
+        <path d="M0,0 L25,0" stroke="#666" stroke-width="1.5" fill="none"/>
+        <polygon points="25,-4 33,0 25,4" fill="#666"/>
+      </g>
+
+      <!-- Resize -->
+      <g transform="translate(140, 0)">
+        <rect x="0" y="0" width="90" height="95" fill="#dbeafe" rx="6" stroke="#3b82f6"/>
+        <text x="45" y="16" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Resize</text>
+        <rect x="22" y="30" width="45" height="45" fill="#bfdbfe" rx="3" stroke="#3b82f6"/>
+        <text x="45" y="88" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">224×224</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(240, 50)">
+        <path d="M0,0 L25,0" stroke="#666" stroke-width="1.5" fill="none"/>
+        <polygon points="25,-4 33,0 25,4" fill="#666"/>
+      </g>
+
+      <!-- Convert to array -->
+      <g transform="translate(280, 0)">
+        <rect x="0" y="0" width="90" height="95" fill="#d1fae5" rx="6" stroke="#10b981"/>
+        <text x="45" y="16" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">To Array</text>
+        <g transform="translate(15, 28)">
+          <rect x="0" y="0" width="60" height="48" fill="white" stroke="#10b981" rx="2"/>
+          <text x="30" y="18" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">[0-255]</text>
+          <text x="30" y="32" fill="#10b981" font-family="Consolas, monospace" font-size="8" text-anchor="middle">uint8</text>
+        </g>
+        <text x="45" y="88" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">NumPy array</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(380, 50)">
+        <path d="M0,0 L25,0" stroke="#666" stroke-width="1.5" fill="none"/>
+        <polygon points="25,-4 33,0 25,4" fill="#666"/>
+      </g>
+
+      <!-- Normalize -->
+      <g transform="translate(420, 0)">
+        <rect x="0" y="0" width="90" height="95" fill="#f5f3ff" rx="6" stroke="#7c3aed"/>
+        <text x="45" y="16" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Normalize</text>
+        <g transform="translate(15, 28)">
+          <rect x="0" y="0" width="60" height="48" fill="white" stroke="#7c3aed" rx="2"/>
+          <text x="30" y="18" fill="#7c3aed" font-family="Consolas, monospace" font-size="8" text-anchor="middle">[0-1]</text>
+          <text x="30" y="32" fill="#7c3aed" font-family="Consolas, monospace" font-size="8" text-anchor="middle">x / 255</text>
+        </g>
+        <text x="45" y="88" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Scale to [0,1]</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(520, 50)">
+        <path d="M0,0 L25,0" stroke="#666" stroke-width="1.5" fill="none"/>
+        <polygon points="25,-4 33,0 25,4" fill="#666"/>
+      </g>
+
+      <!-- Standardize -->
+      <g transform="translate(560, 0)">
+        <rect x="0" y="0" width="90" height="95" fill="#fef3c7" rx="6" stroke="#f97316"/>
+        <text x="45" y="16" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Standardize</text>
+        <g transform="translate(10, 28)">
+          <rect x="0" y="0" width="70" height="48" fill="white" stroke="#f97316" rx="2"/>
+          <text x="35" y="15" fill="#f97316" font-family="Consolas, monospace" font-size="7" text-anchor="middle">(x - μ) / σ</text>
+          <text x="35" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">mean=0</text>
+          <text x="35" y="44" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">std=1</text>
+        </g>
+        <text x="45" y="88" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Zero-center</text>
+      </g>
+
+      <!-- Arrow -->
+      <g transform="translate(660, 50)">
+        <path d="M0,0 L25,0" stroke="#666" stroke-width="1.5" fill="none"/>
+        <polygon points="25,-4 33,0 25,4" fill="#666"/>
+      </g>
+
+      <!-- To tensor -->
+      <g transform="translate(695, 0)">
+        <rect x="0" y="0" width="55" height="95" fill="#fef2f2" rx="6" stroke="#ef4444"/>
+        <text x="27" y="16" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Tensor</text>
+        <g transform="translate(7, 28)">
+          <rect x="0" y="0" width="40" height="48" fill="white" stroke="#ef4444" rx="2"/>
+          <text x="20" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">GPU</text>
+          <text x="20" y="32" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">ready</text>
+        </g>
+        <text x="27" y="88" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">float32</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Why preprocessing -->
+  <g transform="translate(30, 245)">
+    <rect x="0" y="0" width="390" height="130" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="195" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Why Preprocessing Matters</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#d1fae5" rx="4"/>
+        <text x="10" y="14" fill="#10b981" font-weight="600">Consistent Input Size</text>
+        <text x="10" y="28" fill="#666" font-size="8">Networks require fixed dimensions</text>
+      </g>
+
+      <g transform="translate(185, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#dbeafe" rx="4"/>
+        <text x="10" y="14" fill="#3b82f6" font-weight="600">Numerical Stability</text>
+        <text x="10" y="28" fill="#666" font-size="8">Prevents gradient explosion</text>
+      </g>
+
+      <g transform="translate(0, 45)">
+        <rect x="0" y="0" width="175" height="35" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="14" fill="#7c3aed" font-weight="600">Faster Convergence</text>
+        <text x="10" y="28" fill="#666" font-size="8">Normalized inputs train faster</text>
+      </g>
+
+      <g transform="translate(185, 45)">
+        <rect x="0" y="0" width="175" height="35" fill="#fef3c7" rx="4"/>
+        <text x="10" y="14" fill="#f97316" font-weight="600">Better Generalization</text>
+        <text x="10" y="28" fill="#666" font-size="8">Remove dataset-specific bias</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Code example -->
+  <g transform="translate(435, 245)">
+    <rect x="0" y="0" width="385" height="130" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="192" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">PyTorch / TensorFlow Code</text>
+
+    <g transform="translate(15, 38)">
+      <rect x="0" y="0" width="355" height="80" fill="#1e293b" rx="4"/>
+      <g font-family="Consolas, monospace" font-size="8" fill="#a78bfa">
+        <text x="10" y="15"># PyTorch transforms</text>
+        <text x="10" y="28">transform = transforms.Compose([</text>
+        <text x="20" y="41">transforms.Resize((224, 224)),</text>
+        <text x="20" y="54">transforms.ToTensor(),  # scales to [0,1]</text>
+        <text x="20" y="67">transforms.Normalize(mean=[0.485, 0.456, 0.406],</text>
+        <text x="110" y="77">std=[0.229, 0.224, 0.225])])</text>
+      </g>
+    </g>
+  </g>
+</svg>

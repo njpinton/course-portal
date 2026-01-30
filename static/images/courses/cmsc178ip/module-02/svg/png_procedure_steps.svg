@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 350" role="img" aria-label="PNG Encoding Steps">
+<title>PNG Encoding Steps</title><desc>Step-by-step PNG compression procedure</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="350" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">PNG Compression Pipeline (Lossless)</text>
+<rect x="120" y="80" width="150" height="100" rx="8" fill="#3b82f622" stroke="#3b82f6" stroke-width="2"/>
+<circle cx="195" cy="70" r="18" fill="#3b82f6"/>
+<text x="195" y="76" font-family="Segoe UI" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">1</text>
+<text x="195" y="125" font-family="Segoe UI" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">Filtering</text>
+<text x="195" y="150" font-family="Segoe UI" font-size="11" fill="#6b7280" text-anchor="middle">Predict pixels</text>
+<path d="M275 130 L315 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr4)"/>
+<rect x="320" y="80" width="150" height="100" rx="8" fill="#8b5cf622" stroke="#8b5cf6" stroke-width="2"/>
+<circle cx="395" cy="70" r="18" fill="#8b5cf6"/>
+<text x="395" y="76" font-family="Segoe UI" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">2</text>
+<text x="395" y="125" font-family="Segoe UI" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">LZ77</text>
+<text x="395" y="150" font-family="Segoe UI" font-size="11" fill="#6b7280" text-anchor="middle">Find repeats</text>
+<path d="M475 130 L515 130" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr4)"/>
+<rect x="520" y="80" width="150" height="100" rx="8" fill="#10b98122" stroke="#10b981" stroke-width="2"/>
+<circle cx="595" cy="70" r="18" fill="#10b981"/>
+<text x="595" y="76" font-family="Segoe UI" font-size="14" font-weight="600" fill="#ffffff" text-anchor="middle">3</text>
+<text x="595" y="125" font-family="Segoe UI" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">Huffman</text>
+<text x="595" y="150" font-family="Segoe UI" font-size="11" fill="#6b7280" text-anchor="middle">Entropy coding</text>
+<defs><marker id="arr4" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#1a3a6e"/></marker></defs>
+<rect x="100" y="210" width="550" height="120" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="235" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">PNG Filter Types (Line-by-Line Prediction)</text>
+<text x="120" y="255" font-family="Segoe UI" font-size="10" fill="#1f2937">None (0): No filtering</text>
+<text x="120" y="272" font-family="Segoe UI" font-size="10" fill="#1f2937">Sub (1): Difference from left pixel</text>
+<text x="120" y="289" font-family="Segoe UI" font-size="10" fill="#1f2937">Up (2): Difference from above pixel</text>
+<text x="120" y="306" font-family="Segoe UI" font-size="10" fill="#1f2937">Average (3): Average of left and above</text>
+<text x="120" y="323" font-family="Segoe UI" font-size="10" fill="#1f2937">Paeth (4): Predictor from left, above, and upper-left</text>
+</svg>

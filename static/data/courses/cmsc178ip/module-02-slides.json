@@ -42,7 +42,7 @@
       "id": 4,
       "title": "Image Types - Detailed Classification",
       "readingTime": "2 min",
-      "content": "<div class=\"key-point\"><strong>Four Main Image Categories</strong></div><img src=\"/static/images/courses/cmsc178ip/module-02/image_types_comparison.png\" alt=\"Image Types Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>1. Binary Images (1-bit)</h4><ul><li>Values: 0 (black), 1 (white)</li><li>Applications: OCR, barcode scanning</li><li>Size: Smallest storage requirement</li></ul><h4>2. Grayscale Images (8-16 bit)</h4><ul><li>8-bit: 256 gray levels (0-255)</li><li>16-bit: 65,536 levels (medical imaging)</li><li>Size: 1/3 of equivalent color image</li></ul></div><div class=\"column\"><h4>3. Color Images (24-32 bit)</h4><ul><li>RGB: 8 bits per channel (16.7M colors)</li><li>RGBA: Additional alpha channel</li><li>Size: Largest uncompressed storage</li></ul><h4>4. Indexed Color (8-bit)</h4><ul><li>Palette-based: 256 colors max</li><li>Color lookup table (CLUT)</li><li>Applications: GIF animations, icons</li></ul></div></div>",
+      "content": "<div class=\"key-point\"><strong>Four Main Image Categories</strong></div><img src=\"/static/images/courses/cmsc178ip/module-02/svg/image_types_comparison.svg\" alt=\"Image Types Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"two-column\"><div class=\"column\"><h4>1. Binary Images (1-bit)</h4><ul><li>Values: 0 (black), 1 (white)</li><li>Applications: OCR, barcode scanning</li><li>Size: Smallest storage requirement</li></ul><h4>2. Grayscale Images (8-16 bit)</h4><ul><li>8-bit: 256 gray levels (0-255)</li><li>16-bit: 65,536 levels (medical imaging)</li><li>Size: 1/3 of equivalent color image</li></ul></div><div class=\"column\"><h4>3. Color Images (24-32 bit)</h4><ul><li>RGB: 8 bits per channel (16.7M colors)</li><li>RGBA: Additional alpha channel</li><li>Size: Largest uncompressed storage</li></ul><h4>4. Indexed Color (8-bit)</h4><ul><li>Palette-based: 256 colors max</li><li>Color lookup table (CLUT)</li><li>Applications: GIF animations, icons</li></ul></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -61,7 +61,7 @@
       "id": 6,
       "title": "Grayscale Images - Comprehensive Analysis",
       "readingTime": "2 min",
-      "content": "<div class=\"definition\">Grayscale images represent intensity using shades of gray, typically <strong>8-bit</strong> (256 levels) or <strong>16-bit</strong> (65,536 levels).</div><div class=\"two-column\"><div class=\"column\"><h4>Bit Depth Comparison</h4><ul><li><strong>8-bit:</strong> 0-255, standard photography</li><li><strong>12-bit:</strong> 0-4095, digital cameras</li><li><strong>16-bit:</strong> 0-65535, scientific imaging</li><li><strong>32-bit:</strong> Floating point, HDR</li></ul><h4>RGB Conversion</h4><ul><li><strong>Luminance:</strong> $Y = 0.299R + 0.587G + 0.114B$</li><li><strong>Average:</strong> Gray = $\\frac{R+G+B}{3}$</li></ul></div><div class=\"column\"><h4>Applications</h4><ul><li>Medical X-rays</li><li>Satellite imagery</li><li>Security systems</li><li>Scientific imaging</li></ul><div class=\"key-point\"><strong>Storage: M×N bytes (8-bit)</strong><br><em>Critical for scientific applications</em></div></div></div><img src=\"/static/images/courses/cmsc178ip/module-02/bit_depth_comparison.png\" alt=\"Bit Depth Comparison\" style=\"max-width: 100%; border-radius: 8px; margin-top: 1rem;\">",
+      "content": "<div class=\"definition\">Grayscale images represent intensity using shades of gray, typically <strong>8-bit</strong> (256 levels) or <strong>16-bit</strong> (65,536 levels).</div><div class=\"two-column\"><div class=\"column\"><h4>Bit Depth Comparison</h4><ul><li><strong>8-bit:</strong> 0-255, standard photography</li><li><strong>12-bit:</strong> 0-4095, digital cameras</li><li><strong>16-bit:</strong> 0-65535, scientific imaging</li><li><strong>32-bit:</strong> Floating point, HDR</li></ul><h4>RGB Conversion</h4><ul><li><strong>Luminance:</strong> $Y = 0.299R + 0.587G + 0.114B$</li><li><strong>Average:</strong> Gray = $\\frac{R+G+B}{3}$</li></ul></div><div class=\"column\"><h4>Applications</h4><ul><li>Medical X-rays</li><li>Satellite imagery</li><li>Security systems</li><li>Scientific imaging</li></ul><div class=\"key-point\"><strong>Storage: M×N bytes (8-bit)</strong><br><em>Critical for scientific applications</em></div></div></div><img src=\"/static/images/courses/cmsc178ip/module-02/svg/bit_depth_comparison.svg\" alt=\"Bit Depth Comparison\" style=\"max-width: 100%; border-radius: 8px; margin-top: 1rem;\">",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -69,7 +69,7 @@
       "id": 7,
       "title": "Color Images - RGB Color Model",
       "readingTime": "3 min",
-      "content": "<div class=\"definition\">RGB uses <strong>additive color mixing</strong> with Red, Green, Blue channels. Standard: <strong>24-bit color</strong> (8 bits per channel).</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>Each channel: 0-255 (8-bit)</li><li>Total colors: $256^3 = 16,777,216$</li><li>Storage: $3 \\times M \\times N$ bytes</li><li>Memory layout: Interleaved/planar</li></ul><h4>Extended Formats</h4><ul><li><strong>RGB565:</strong> Mobile displays (16-bit)</li><li><strong>RGB888:</strong> Standard 24-bit</li><li><strong>ARGB8888:</strong> 32-bit with alpha</li><li><strong>RGB48:</strong> Professional (16-bit/channel)</li></ul></div><div class=\"column\"><img src=\"/static/images/courses/cmsc178ip/module-02/color_spaces_demo.png\" alt=\"Color Spaces\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><p><strong>Advantage:</strong> Direct display compatibility</p><p><strong>Challenge:</strong> Large file sizes</p></div></div></div>",
+      "content": "<div class=\"definition\">RGB uses <strong>additive color mixing</strong> with Red, Green, Blue channels. Standard: <strong>24-bit color</strong> (8 bits per channel).</div><div class=\"two-column\"><div class=\"column\"><h4>Technical Specifications</h4><ul><li>Each channel: 0-255 (8-bit)</li><li>Total colors: $256^3 = 16,777,216$</li><li>Storage: $3 \\times M \\times N$ bytes</li><li>Memory layout: Interleaved/planar</li></ul><h4>Extended Formats</h4><ul><li><strong>RGB565:</strong> Mobile displays (16-bit)</li><li><strong>RGB888:</strong> Standard 24-bit</li><li><strong>ARGB8888:</strong> 32-bit with alpha</li><li><strong>RGB48:</strong> Professional (16-bit/channel)</li></ul></div><div class=\"column\"><img src=\"/static/images/courses/cmsc178ip/module-02/svg/color_spaces_demo.svg\" alt=\"Color Spaces\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><p><strong>Advantage:</strong> Direct display compatibility</p><p><strong>Challenge:</strong> Large file sizes</p></div></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -104,7 +104,7 @@
       "id": 11,
       "title": "Storage Formats - File Size Comparison",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/storage_formats_comparison.png\" alt=\"Storage Formats Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Insights</h4><ul><li><strong>BMP:</strong> Largest file size, no compression, maximum quality</li><li><strong>PNG:</strong> Moderate size, lossless compression, preserves quality</li><li><strong>JPEG:</strong> Smallest size, lossy compression, quality trade-offs</li></ul></div><div class=\"key-point\">Choose format based on application requirements: file size vs quality</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/storage_formats_comparison.svg\" alt=\"Storage Formats Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Insights</h4><ul><li><strong>BMP:</strong> Largest file size, no compression, maximum quality</li><li><strong>PNG:</strong> Moderate size, lossless compression, preserves quality</li><li><strong>JPEG:</strong> Smallest size, lossy compression, quality trade-offs</li></ul></div><div class=\"key-point\">Choose format based on application requirements: file size vs quality</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -128,7 +128,7 @@
       "id": 14,
       "title": "JPEG Compression - Quality Comparison",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/jpeg_compression_quality.png\" alt=\"JPEG Quality Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Quality vs File Size Trade-offs</h4><ul><li><strong>Quality 10%:</strong> Smallest file, visible artifacts, suitable for thumbnails</li><li><strong>Quality 30%:</strong> Moderate compression, some artifacts, web use</li><li><strong>Quality 60%:</strong> Good balance, minimal artifacts, general photography</li><li><strong>Quality 90%:</strong> High quality, larger files, professional use</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/jpeg_compression_quality.svg\" alt=\"JPEG Quality Comparison\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Quality vs File Size Trade-offs</h4><ul><li><strong>Quality 10%:</strong> Smallest file, visible artifacts, suitable for thumbnails</li><li><strong>Quality 30%:</strong> Moderate compression, some artifacts, web use</li><li><strong>Quality 60%:</strong> Good balance, minimal artifacts, general photography</li><li><strong>Quality 90%:</strong> High quality, larger files, professional use</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why does JPEG produce artifacts on images with sharp edges or text?",
@@ -139,7 +139,7 @@
       "id": 15,
       "title": "JPEG Compression - Artifacts Analysis",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/compression_artifacts.png\" alt=\"Compression Artifacts\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Common JPEG Artifacts</h4><ul><li><strong>Blocking:</strong> 8×8 DCT block boundaries become visible</li><li><strong>Ringing:</strong> Oscillations near sharp edges</li><li><strong>Mosquito Noise:</strong> Random variations around edges</li><li><strong>Color Bleeding:</strong> Chrominance subsampling effects</li></ul></div><div class=\"key-point\">Artifacts increase with higher compression ratios</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/compression_artifacts.svg\" alt=\"Compression Artifacts\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Common JPEG Artifacts</h4><ul><li><strong>Blocking:</strong> 8×8 DCT block boundaries become visible</li><li><strong>Ringing:</strong> Oscillations near sharp edges</li><li><strong>Mosquito Noise:</strong> Random variations around edges</li><li><strong>Color Bleeding:</strong> Chrominance subsampling effects</li></ul></div><div class=\"key-point\">Artifacts increase with higher compression ratios</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -147,7 +147,7 @@
       "id": 16,
       "title": "JPEG Compression - Step-by-Step Procedure",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/jpeg_procedure_steps.png\" alt=\"JPEG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/jpeg_procedure_steps.svg\" alt=\"JPEG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -163,7 +163,7 @@
       "id": 18,
       "title": "PNG Compression - Lossless Procedure",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/png_procedure_steps.png\" alt=\"PNG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/png_procedure_steps.svg\" alt=\"PNG Procedure Steps\" style=\"max-width: 100%; border-radius: 8px;\">",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -198,7 +198,7 @@
       "id": 22,
       "title": "Huffman Encoding - Algorithm Demonstration",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/huffman_encoding_demo.png\" alt=\"Huffman Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Benefits</h4><ul><li><strong>Optimal:</strong> Minimizes average code length for given symbol frequencies</li><li><strong>Variable Length:</strong> Frequent symbols get shorter codes</li><li><strong>Prefix-Free:</strong> No code is prefix of another (unambiguous decoding)</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/huffman_encoding_demo.svg\" alt=\"Huffman Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Key Benefits</h4><ul><li><strong>Optimal:</strong> Minimizes average code length for given symbol frequencies</li><li><strong>Variable Length:</strong> Frequent symbols get shorter codes</li><li><strong>Prefix-Free:</strong> No code is prefix of another (unambiguous decoding)</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -206,7 +206,7 @@
       "id": 23,
       "title": "Huffman Encoding - Complete Procedure",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/huffman_procedure_steps.png\" alt=\"Huffman Procedure\" style=\"max-width: 100%; border-radius: 8px;\">",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/huffman_procedure_steps.svg\" alt=\"Huffman Procedure\" style=\"max-width: 100%; border-radius: 8px;\">",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -214,7 +214,7 @@
       "id": 24,
       "title": "Run Length Encoding - Simple but Effective",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/rle_encoding_demo.png\" alt=\"RLE Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Best Applications</h4><ul><li><strong>Binary Images:</strong> Excellent compression for text, line art</li><li><strong>Simple Graphics:</strong> Images with large uniform areas</li><li><strong>Preprocessing:</strong> Often combined with other algorithms</li><li><strong>Fax Machines:</strong> Standard for document transmission</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/rle_encoding_demo.svg\" alt=\"RLE Encoding\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>Best Applications</h4><ul><li><strong>Binary Images:</strong> Excellent compression for text, line art</li><li><strong>Simple Graphics:</strong> Images with large uniform areas</li><li><strong>Preprocessing:</strong> Often combined with other algorithms</li><li><strong>Fax Machines:</strong> Standard for document transmission</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -230,7 +230,7 @@
       "id": 26,
       "title": "DCT (Discrete Cosine Transform) - JPEG Foundation",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/dct_demonstration.png\" alt=\"DCT Demonstration\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>DCT Process Steps</h4><ul><li><strong>Spatial → Frequency:</strong> Transform 8×8 pixel blocks to frequency domain</li><li><strong>Energy Compaction:</strong> Most energy concentrated in low frequencies (top-left)</li><li><strong>Quantization:</strong> Remove high-frequency details (human vision less sensitive)</li><li><strong>Reconstruction:</strong> Inverse DCT with some information loss</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-02/svg/dct_demonstration.svg\" alt=\"DCT Demonstration\" style=\"max-width: 100%; border-radius: 8px;\"><div class=\"highlight\"><h4>DCT Process Steps</h4><ul><li><strong>Spatial → Frequency:</strong> Transform 8×8 pixel blocks to frequency domain</li><li><strong>Energy Compaction:</strong> Most energy concentrated in low frequencies (top-left)</li><li><strong>Quantization:</strong> Remove high-frequency details (human vision less sensitive)</li><li><strong>Reconstruction:</strong> Inverse DCT with some information loss</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why does DCT concentrate most image energy in the top-left corner of the frequency block?",

@@ -1,0 +1,268 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Feature map visualizations at different CNN layers">
+  <title>Feature Maps</title>
+  <desc>Visualization of how different convolutional layers detect increasingly complex features from edges to high-level patterns</desc>
+
+  <defs>
+    <linearGradient id="fmBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#fmBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Feature Maps: What CNNs Learn</text>
+
+  <!-- Input image -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="150" height="170" fill="white" rx="8" stroke="#666" stroke-width="2"/>
+    <text x="75" y="22" fill="#333" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Input Image</text>
+
+    <!-- Stylized dog image -->
+    <g transform="translate(25, 35)">
+      <rect x="0" y="0" width="100" height="100" fill="#e5e7eb" rx="4"/>
+      <!-- Dog silhouette -->
+      <ellipse cx="50" cy="45" rx="35" ry="25" fill="#9ca3af"/>
+      <ellipse cx="40" cy="30" rx="12" ry="8" fill="#6b7280"/>
+      <ellipse cx="60" cy="30" rx="12" ry="8" fill="#6b7280"/>
+      <circle cx="45" cy="40" r="4" fill="#333"/>
+      <circle cx="55" cy="40" r="4" fill="#333"/>
+      <ellipse cx="50" cy="50" rx="6" ry="4" fill="#333"/>
+      <!-- Ears -->
+      <ellipse cx="30" cy="20" rx="8" ry="12" fill="#6b7280"/>
+      <ellipse cx="70" cy="20" rx="8" ry="12" fill="#6b7280"/>
+    </g>
+
+    <text x="75" y="155" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">224 × 224 × 3</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M185,140 L210,140" stroke="#666" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+  <!-- Early layers (Conv1) -->
+  <g transform="translate(220, 55)">
+    <rect x="0" y="0" width="185" height="170" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="92" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Layer 1: Edges</text>
+
+    <g transform="translate(15, 35)">
+      <!-- Feature map 1: Horizontal edges -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <line x1="5" y1="15" x2="40" y2="15" stroke="white" stroke-width="2"/>
+        <line x1="5" y1="30" x2="40" y2="30" stroke="white" stroke-width="2"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Horiz.</text>
+      </g>
+
+      <!-- Feature map 2: Vertical edges -->
+      <g transform="translate(55, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <line x1="15" y1="5" x2="15" y2="40" stroke="white" stroke-width="2"/>
+        <line x1="30" y1="5" x2="30" y2="40" stroke="white" stroke-width="2"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Vert.</text>
+      </g>
+
+      <!-- Feature map 3: Diagonal edges -->
+      <g transform="translate(110, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <line x1="5" y1="40" x2="40" y2="5" stroke="white" stroke-width="2"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Diag.</text>
+      </g>
+
+      <!-- Feature map 4: Colors/Intensity -->
+      <g transform="translate(0, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <circle cx="22" cy="22" r="15" fill="white" opacity="0.3"/>
+        <circle cx="22" cy="22" r="8" fill="white" opacity="0.7"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Blob</text>
+      </g>
+
+      <!-- Gradient -->
+      <g transform="translate(55, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <rect x="5" y="5" width="35" height="35" fill="url(#whiteGrad)" opacity="0.7"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Grad.</text>
+      </g>
+
+      <!-- More dots -->
+      <g transform="translate(110, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#dbeafe" rx="3" stroke="#3b82f6"/>
+        <text x="22" y="27" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="16" text-anchor="middle">...</text>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">64 maps</text>
+      </g>
+    </g>
+
+    <text x="92" y="162" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Low-level features</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M410,140 L435,140" stroke="#666" stroke-width="1.5" fill="none"/>
+
+  <!-- Middle layers (Conv3) -->
+  <g transform="translate(445, 55)">
+    <rect x="0" y="0" width="185" height="170" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="92" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Layer 3: Textures</text>
+
+    <g transform="translate(15, 35)">
+      <!-- Fur texture -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <g stroke="white" stroke-width="0.5">
+          <line x1="5" y1="10" x2="15" y2="5"/>
+          <line x1="15" y1="10" x2="25" y2="5"/>
+          <line x1="25" y1="10" x2="35" y2="5"/>
+          <line x1="5" y1="25" x2="15" y2="20"/>
+          <line x1="15" y1="25" x2="25" y2="20"/>
+          <line x1="25" y1="25" x2="35" y2="20"/>
+          <line x1="5" y1="40" x2="15" y2="35"/>
+          <line x1="15" y1="40" x2="25" y2="35"/>
+          <line x1="25" y1="40" x2="35" y2="35"/>
+        </g>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Fur</text>
+      </g>
+
+      <!-- Eye pattern -->
+      <g transform="translate(55, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <circle cx="22" cy="22" r="15" fill="none" stroke="white" stroke-width="2"/>
+        <circle cx="22" cy="22" r="8" fill="white"/>
+        <circle cx="22" cy="22" r="4" fill="#333"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Eye</text>
+      </g>
+
+      <!-- Nose pattern -->
+      <g transform="translate(110, 0)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="22" cy="25" rx="12" ry="8" fill="white"/>
+        <circle cx="18" cy="25" r="3" fill="#333"/>
+        <circle cx="26" cy="25" r="3" fill="#333"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Nose</text>
+      </g>
+
+      <!-- Ear shape -->
+      <g transform="translate(0, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="22" cy="25" rx="10" ry="18" fill="white"/>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Ear</text>
+      </g>
+
+      <!-- Grid/pattern -->
+      <g transform="translate(55, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#1a1a2e" rx="3"/>
+        <g stroke="white" stroke-width="1">
+          <rect x="5" y="5" width="10" height="10" fill="none"/>
+          <rect x="17" y="5" width="10" height="10" fill="none"/>
+          <rect x="29" y="5" width="10" height="10" fill="none"/>
+          <rect x="5" y="17" width="10" height="10" fill="none"/>
+          <rect x="17" y="17" width="10" height="10" fill="none"/>
+          <rect x="29" y="17" width="10" height="10" fill="none"/>
+        </g>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Pattern</text>
+      </g>
+
+      <!-- More dots -->
+      <g transform="translate(110, 70)">
+        <rect x="0" y="0" width="45" height="45" fill="#d1fae5" rx="3" stroke="#10b981"/>
+        <text x="22" y="27" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="16" text-anchor="middle">...</text>
+        <text x="22" y="58" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">256 maps</text>
+      </g>
+    </g>
+
+    <text x="92" y="162" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Mid-level features</text>
+  </g>
+
+  <!-- Arrow -->
+  <path d="M635,140 L660,140" stroke="#666" stroke-width="1.5" fill="none"/>
+
+  <!-- Deep layers -->
+  <g transform="translate(670, 55)">
+    <rect x="0" y="0" width="150" height="170" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="75" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Layer 5: Objects</text>
+
+    <g transform="translate(15, 35)">
+      <!-- Dog face -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="55" height="55" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="27" cy="30" rx="20" ry="18" fill="white" opacity="0.3"/>
+        <circle cx="20" cy="25" r="5" fill="white" opacity="0.7"/>
+        <circle cx="34" cy="25" r="5" fill="white" opacity="0.7"/>
+        <ellipse cx="27" cy="38" rx="5" ry="3" fill="white" opacity="0.7"/>
+        <text x="27" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Dog face</text>
+      </g>
+
+      <!-- Full dog -->
+      <g transform="translate(65, 0)">
+        <rect x="0" y="0" width="55" height="55" fill="#1a1a2e" rx="3"/>
+        <ellipse cx="27" cy="25" rx="18" ry="15" fill="white" opacity="0.5"/>
+        <ellipse cx="15" cy="12" rx="6" ry="10" fill="white" opacity="0.5"/>
+        <ellipse cx="39" cy="12" rx="6" ry="10" fill="white" opacity="0.5"/>
+        <rect x="15" y="40" width="6" height="12" fill="white" opacity="0.3"/>
+        <rect x="35" y="40" width="6" height="12" fill="white" opacity="0.3"/>
+        <text x="27" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Full dog</text>
+      </g>
+
+      <!-- Class activation -->
+      <g transform="translate(20, 80)">
+        <rect x="0" y="0" width="80" height="32" fill="#f5f3ff" rx="4" stroke="#7c3aed"/>
+        <text x="40" y="14" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle" font-weight="600">512 maps</text>
+        <text x="40" y="26" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Highly abstract</text>
+      </g>
+    </g>
+
+    <text x="75" y="162" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">High-level features</text>
+  </g>
+
+  <!-- Feature hierarchy explanation -->
+  <g transform="translate(30, 240)">
+    <rect x="0" y="0" width="790" height="135" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="395" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Feature Hierarchy: From Pixels to Concepts</text>
+
+    <g transform="translate(30, 45)">
+      <!-- Stage boxes -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="140" height="70" fill="#dbeafe" rx="6"/>
+        <text x="70" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Early Layers</text>
+        <text x="70" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Edges, gradients</text>
+        <text x="70" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Colors, blobs</text>
+        <text x="70" y="66" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Generic features</text>
+      </g>
+
+      <text x="160" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <g transform="translate(180, 0)">
+        <rect x="0" y="0" width="140" height="70" fill="#d1fae5" rx="6"/>
+        <text x="70" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Middle Layers</text>
+        <text x="70" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Textures, patterns</text>
+        <text x="70" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Object parts</text>
+        <text x="70" y="66" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Combines edges</text>
+      </g>
+
+      <text x="340" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <g transform="translate(360, 0)">
+        <rect x="0" y="0" width="140" height="70" fill="#f5f3ff" rx="6"/>
+        <text x="70" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Deep Layers</text>
+        <text x="70" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Object parts</text>
+        <text x="70" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Semantic concepts</text>
+        <text x="70" y="66" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Task-specific</text>
+      </g>
+
+      <text x="520" y="35" fill="#333" font-family="Segoe UI, sans-serif" font-size="16">→</text>
+
+      <g transform="translate(540, 0)">
+        <rect x="0" y="0" width="140" height="70" fill="#fef2f2" rx="6"/>
+        <text x="70" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Output</text>
+        <text x="70" y="38" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Class probabilities</text>
+        <text x="70" y="52" fill="#666" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">• Dog: 95%</text>
+        <text x="70" y="66" fill="#999" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Final decision</text>
+      </g>
+    </g>
+  </g>
+
+  <defs>
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:white;stop-opacity:0"/>
+      <stop offset="100%" style="stop-color:white;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+</svg>

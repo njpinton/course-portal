@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="U-Net encoder-decoder architecture for image segmentation">
+  <title>U-Net Architecture</title>
+  <desc>U-Net encoder-decoder architecture showing contracting path, expanding path, and skip connections for semantic segmentation</desc>
+
+  <defs>
+    <linearGradient id="unetBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="skipArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#unetBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="28" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">U-Net: Encoder-Decoder with Skip Connections</text>
+
+  <!-- U-Net architecture -->
+  <g transform="translate(30, 45)">
+    <rect x="0" y="0" width="590" height="330" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+
+    <!-- Encoder (Contracting Path) -->
+    <g transform="translate(30, 40)">
+      <!-- Level 1 encoder -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="60" height="100" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" rx="3"/>
+        <text x="30" y="55" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">64</text>
+      </g>
+
+      <!-- Level 2 encoder -->
+      <g transform="translate(0, 115)">
+        <rect x="10" y="0" width="50" height="80" fill="#93c5fd" stroke="#3b82f6" stroke-width="1.5" rx="3"/>
+        <text x="35" y="45" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">128</text>
+      </g>
+
+      <!-- Level 3 encoder -->
+      <g transform="translate(0, 210)">
+        <rect x="20" y="0" width="40" height="60" fill="#60a5fa" stroke="#3b82f6" stroke-width="1.5" rx="3"/>
+        <text x="40" y="35" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">256</text>
+      </g>
+
+      <!-- Down arrows -->
+      <path d="M30,105 L30,112" stroke="#3b82f6" stroke-width="2"/>
+      <polygon points="25,112 30,120 35,112" fill="#3b82f6"/>
+      <text x="50" y="112" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="7">Pool</text>
+
+      <path d="M35,198 L35,207" stroke="#3b82f6" stroke-width="2"/>
+      <polygon points="30,207 35,215 40,207" fill="#3b82f6"/>
+      <text x="55" y="205" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="7">Pool</text>
+    </g>
+
+    <!-- Bottleneck -->
+    <g transform="translate(110, 290)">
+      <rect x="0" y="0" width="50" height="40" fill="#1e40af" stroke="#3b82f6" stroke-width="2" rx="3"/>
+      <text x="25" y="25" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">512</text>
+    </g>
+    <text x="135" y="345" fill="#1e40af" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Bottleneck</text>
+
+    <!-- Down arrow to bottleneck -->
+    <path d="M70,305 L70,290 L105,290" stroke="#3b82f6" stroke-width="2" fill="none"/>
+    <polygon points="105,285 113,290 105,295" fill="#3b82f6"/>
+
+    <!-- Decoder (Expanding Path) -->
+    <g transform="translate(180, 40)">
+      <!-- Up arrow from bottleneck -->
+      <path d="M-15,270 L-15,250 L20,250" stroke="#ef4444" stroke-width="2" fill="none"/>
+      <polygon points="20,245 28,250 20,255" fill="#ef4444"/>
+
+      <!-- Level 3 decoder -->
+      <g transform="translate(0, 210)">
+        <rect x="20" y="0" width="40" height="60" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5" rx="3"/>
+        <text x="40" y="35" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">256</text>
+      </g>
+
+      <!-- Level 2 decoder -->
+      <g transform="translate(0, 115)">
+        <rect x="10" y="0" width="50" height="80" fill="#f87171" stroke="#ef4444" stroke-width="1.5" rx="3"/>
+        <text x="35" y="45" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">128</text>
+      </g>
+
+      <!-- Level 1 decoder -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="60" height="100" fill="#ef4444" stroke="#ef4444" stroke-width="1.5" rx="3"/>
+        <text x="30" y="55" fill="white" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">64</text>
+      </g>
+
+      <!-- Up arrows -->
+      <path d="M40,205 L40,198" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="35,198 40,190 45,198" fill="#ef4444"/>
+      <text x="60" y="200" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7">Up</text>
+
+      <path d="M35,110 L35,103" stroke="#ef4444" stroke-width="2"/>
+      <polygon points="30,103 35,95 40,103" fill="#ef4444"/>
+      <text x="55" y="107" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="7">Up</text>
+    </g>
+
+    <!-- Skip connections -->
+    <g stroke="#10b981" stroke-width="2" fill="none" stroke-dasharray="5,3">
+      <!-- Skip 1 (top) -->
+      <path d="M95,90 L175,90" marker-end="url(#skipArrow)"/>
+      <!-- Skip 2 (middle) -->
+      <path d="M65,195 L195,195" marker-end="url(#skipArrow)"/>
+      <!-- Skip 3 (bottom) -->
+      <path d="M75,280 L195,280" marker-end="url(#skipArrow)"/>
+    </g>
+
+    <!-- Output -->
+    <g transform="translate(265, 40)">
+      <rect x="0" y="0" width="40" height="100" fill="#d1fae5" stroke="#10b981" stroke-width="2" rx="3"/>
+      <text x="20" y="55" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">1×1</text>
+      <text x="20" y="67" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">conv</text>
+
+      <path d="M-25,50 L-5,50" stroke="#333" stroke-width="1.5"/>
+      <polygon points="-5,46 3,50 -5,54" fill="#333"/>
+    </g>
+
+    <!-- Output image -->
+    <g transform="translate(320, 45)">
+      <rect x="0" y="0" width="90" height="90" fill="#e5e7eb" rx="4" stroke="#10b981" stroke-width="2"/>
+      <!-- Segmentation map representation -->
+      <rect x="10" y="10" width="30" height="25" fill="#ef4444" opacity="0.7"/>
+      <rect x="50" y="15" width="25" height="35" fill="#3b82f6" opacity="0.7"/>
+      <rect x="20" y="50" width="40" height="30" fill="#10b981" opacity="0.7"/>
+      <text x="45" y="105" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Segmentation</text>
+      <text x="45" y="118" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Map</text>
+    </g>
+
+    <!-- Labels -->
+    <text x="60" y="20" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Encoder</text>
+    <text x="210" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Decoder</text>
+
+    <!-- Skip connection label -->
+    <g transform="translate(420, 150)">
+      <rect x="0" y="0" width="130" height="45" fill="#d1fae5" rx="4"/>
+      <text x="65" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Skip Connections</text>
+      <text x="65" y="32" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Preserve spatial info</text>
+      <text x="65" y="42" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">from encoder</text>
+    </g>
+  </g>
+
+  <!-- Key features -->
+  <g transform="translate(635, 45)">
+    <rect x="0" y="0" width="185" height="330" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="92" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">U-Net Features</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="155" height="55" fill="#dbeafe" rx="4"/>
+        <text x="10" y="18" fill="#3b82f6" font-weight="600">Encoder (Contraction)</text>
+        <text x="10" y="33" fill="#666" font-size="8">• Captures context</text>
+        <text x="10" y="46" fill="#666" font-size="8">• Reduces resolution</text>
+      </g>
+
+      <g transform="translate(0, 65)">
+        <rect x="0" y="0" width="155" height="55" fill="#fef2f2" rx="4"/>
+        <text x="10" y="18" fill="#ef4444" font-weight="600">Decoder (Expansion)</text>
+        <text x="10" y="33" fill="#666" font-size="8">• Enables localization</text>
+        <text x="10" y="46" fill="#666" font-size="8">• Restores resolution</text>
+      </g>
+
+      <g transform="translate(0, 130)">
+        <rect x="0" y="0" width="155" height="55" fill="#d1fae5" rx="4"/>
+        <text x="10" y="18" fill="#10b981" font-weight="600">Skip Connections</text>
+        <text x="10" y="33" fill="#666" font-size="8">• Copy + concatenate</text>
+        <text x="10" y="46" fill="#666" font-size="8">• Combine features</text>
+      </g>
+
+      <g transform="translate(0, 195)">
+        <rect x="0" y="0" width="155" height="55" fill="#f5f3ff" rx="4"/>
+        <text x="10" y="18" fill="#7c3aed" font-weight="600">Applications</text>
+        <text x="10" y="33" fill="#666" font-size="8">• Medical imaging</text>
+        <text x="10" y="46" fill="#666" font-size="8">• Satellite imagery</text>
+      </g>
+
+      <g transform="translate(0, 260)">
+        <rect x="0" y="0" width="155" height="30" fill="#fef3c7" rx="4"/>
+        <text x="77" y="20" fill="#f97316" font-size="10" font-weight="600" text-anchor="middle">Symmetric U-shape</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" role="img" aria-label="Image Coordinate System">
+<title>Image Coordinate System</title><desc>Digital image coordinate system with origin at top-left</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="700" height="400" fill="url(#bg)"/>
+<text x="350" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Image Coordinate System</text>
+<line x1="100" y1="60" x2="100" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="60" x2="500" y2="60" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="150" y1="60" x2="150" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="90" x2="500" y2="90" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="200" y1="60" x2="200" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="120" x2="500" y2="120" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="250" y1="60" x2="250" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="150" x2="500" y2="150" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="300" y1="60" x2="300" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="180" x2="500" y2="180" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="350" y1="60" x2="350" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="210" x2="500" y2="210" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="400" y1="60" x2="400" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="240" x2="500" y2="240" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="450" y1="60" x2="450" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="270" x2="500" y2="270" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="500" y1="60" x2="500" y2="310" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="300" x2="500" y2="300" stroke="#6b7280" stroke-width="0.5"/>
+<line x1="100" y1="60" x2="500" y2="60" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="100" y1="60" x2="100" y2="320" stroke="#1a3a6e" stroke-width="2" marker-end="url(#arr)"/>
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a3a6e"/></marker></defs>
+<text x="510" y="65" font-family="Segoe UI" font-size="14" fill="#1a3a6e">x (columns)</text>
+<text x="70" y="335" font-family="Segoe UI" font-size="14" fill="#1a3a6e">y (rows)</text>
+<circle cx="100" cy="60" r="5" fill="#ef4444"/>
+<text x="108" y="55" font-family="Segoe UI" font-size="12" fill="#ef4444">Origin (0,0)</text>
+<rect x="250" y="150" width="50" height="30" fill="#3b82f6" opacity="0.5" stroke="#1a3a6e"/>
+<text x="275" y="170" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">f[3,5]</text>
+<rect x="530" y="80" width="150" height="120" rx="8" fill="#f3f4f6" stroke="#7eb8da"/>
+<text x="605" y="105" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Convention</text>
+<text x="540" y="130" font-family="Segoe UI" font-size="11" fill="#1f2937">• Origin at top-left</text>
+<text x="540" y="150" font-family="Segoe UI" font-size="11" fill="#1f2937">• x increases right</text>
+<text x="540" y="170" font-family="Segoe UI" font-size="11" fill="#1f2937">• y increases down</text>
+<text x="540" y="190" font-family="Segoe UI" font-size="11" fill="#1f2937">• f[row, col] notation</text>
+</svg>

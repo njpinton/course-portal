@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Color Space Conversion">
+<title>Color Space Conversion</title><desc>Converting between RGB and other color spaces</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Color Space Conversions</text>
+<rect x="50" y="100" width="140" height="80" rx="8" fill="#ff000033" stroke="#ff0000" stroke-width="2"/>
+<text x="120" y="135" font-family="Segoe UI" font-size="14" font-weight="600" fill="#1f2937" text-anchor="middle">RGB</text>
+<text x="120" y="155" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">(R, G, B)</text>
+<path d="M190 140 L220 140" stroke="#1a3a6e" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+<rect x="220" y="100" width="140" height="80" rx="8" fill="#8b5cf633" stroke="#8b5cf6" stroke-width="2"/>
+<text x="290" y="130" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1f2937" text-anchor="middle">HSV</text>
+<text x="290" y="150" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">(H, S, V)</text>
+<text x="290" y="168" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Hue-based selection</text>
+<path d="M190 140 L220 220" stroke="#1a3a6e" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+<rect x="220" y="180" width="140" height="80" rx="8" fill="#6b728033" stroke="#6b7280" stroke-width="2"/>
+<text x="290" y="210" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1f2937" text-anchor="middle">Grayscale</text>
+<text x="290" y="230" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">(Y)</text>
+<text x="290" y="248" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Luminance only</text>
+<path d="M190 140 L220 300" stroke="#1a3a6e" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+<rect x="220" y="260" width="140" height="80" rx="8" fill="#3b82f633" stroke="#3b82f6" stroke-width="2"/>
+<text x="290" y="290" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1f2937" text-anchor="middle">YCbCr</text>
+<text x="290" y="310" font-family="monospace" font-size="10" fill="#1f2937" text-anchor="middle">(Y, Cb, Cr)</text>
+<text x="290" y="328" font-family="Segoe UI" font-size="9" fill="#6b7280" text-anchor="middle">Video encoding</text>
+<defs><marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a3a6e"/></marker></defs>
+<rect x="400" y="80" width="320" height="200" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+<text x="560" y="105" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">Common Formulas</text>
+<text x="415" y="135" font-family="monospace" font-size="10" fill="#1f2937">Grayscale = 0.299R + 0.587G + 0.114B</text>
+<text x="415" y="175" font-family="monospace" font-size="10" fill="#1f2937">HSV: H = angle, S = saturation, V = max(R,G,B)</text>
+<text x="415" y="215" font-family="monospace" font-size="10" fill="#1f2937">YCbCr: Y = luminance, Cb/Cr = chrominance</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Quantization Effects">
+<title>Quantization Effects</title><desc>Effect of bit depth on image quality</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Quantization: Effect of Bit Depth</text>
+<text x="100" y="60" font-family="Segoe UI" font-size="13" fill="#1a3a6e" text-anchor="middle">1-bit</text>
+<text x="100" y="75" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">(2 levels)</text>
+<rect x="40" y="85.0" width="120" height="60.0" fill="rgb(0,0,0)"/>
+<rect x="40" y="145.0" width="120" height="60.0" fill="rgb(255,255,255)"/>
+<rect x="40" y="85" width="120" height="120" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+<text x="100" y="225" font-family="Segoe UI" font-size="11" fill="#ef4444" text-anchor="middle">Severe banding</text>
+<text x="280" y="60" font-family="Segoe UI" font-size="13" fill="#1a3a6e" text-anchor="middle">2-bit</text>
+<text x="280" y="75" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">(4 levels)</text>
+<rect x="220" y="85.0" width="120" height="30.0" fill="rgb(0,0,0)"/>
+<rect x="220" y="115.0" width="120" height="30.0" fill="rgb(85,85,85)"/>
+<rect x="220" y="145.0" width="120" height="30.0" fill="rgb(170,170,170)"/>
+<rect x="220" y="175.0" width="120" height="30.0" fill="rgb(255,255,255)"/>
+<rect x="220" y="85" width="120" height="120" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+<text x="280" y="225" font-family="Segoe UI" font-size="11" fill="#f97316" text-anchor="middle">Noticeable</text>
+<text x="460" y="60" font-family="Segoe UI" font-size="13" fill="#1a3a6e" text-anchor="middle">4-bit</text>
+<text x="460" y="75" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">(16 levels)</text>
+<rect x="400" y="85.0" width="120" height="7.5" fill="rgb(0,0,0)"/>
+<rect x="400" y="92.5" width="120" height="7.5" fill="rgb(17,17,17)"/>
+<rect x="400" y="100.0" width="120" height="7.5" fill="rgb(34,34,34)"/>
+<rect x="400" y="107.5" width="120" height="7.5" fill="rgb(51,51,51)"/>
+<rect x="400" y="115.0" width="120" height="7.5" fill="rgb(68,68,68)"/>
+<rect x="400" y="122.5" width="120" height="7.5" fill="rgb(85,85,85)"/>
+<rect x="400" y="130.0" width="120" height="7.5" fill="rgb(102,102,102)"/>
+<rect x="400" y="137.5" width="120" height="7.5" fill="rgb(119,119,119)"/>
+<rect x="400" y="145.0" width="120" height="7.5" fill="rgb(136,136,136)"/>
+<rect x="400" y="152.5" width="120" height="7.5" fill="rgb(153,153,153)"/>
+<rect x="400" y="160.0" width="120" height="7.5" fill="rgb(170,170,170)"/>
+<rect x="400" y="167.5" width="120" height="7.5" fill="rgb(187,187,187)"/>
+<rect x="400" y="175.0" width="120" height="7.5" fill="rgb(204,204,204)"/>
+<rect x="400" y="182.5" width="120" height="7.5" fill="rgb(221,221,221)"/>
+<rect x="400" y="190.0" width="120" height="7.5" fill="rgb(238,238,238)"/>
+<rect x="400" y="197.5" width="120" height="7.5" fill="rgb(255,255,255)"/>
+<rect x="400" y="85" width="120" height="120" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+<text x="460" y="225" font-family="Segoe UI" font-size="11" fill="#3b82f6" text-anchor="middle">Subtle</text>
+<text x="640" y="60" font-family="Segoe UI" font-size="13" fill="#1a3a6e" text-anchor="middle">8-bit</text>
+<text x="640" y="75" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">(256 levels)</text>
+<defs><linearGradient id="g3" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#000"/><stop offset="100%" style="stop-color:#fff"/></linearGradient></defs>
+<rect x="580" y="85" width="120" height="120" fill="url(#g3)"/>
+<rect x="580" y="85" width="120" height="120" fill="none" stroke="#1a3a6e" stroke-width="2"/>
+<text x="640" y="225" font-family="Segoe UI" font-size="11" fill="#10b981" text-anchor="middle">Smooth</text>
+<rect x="100" y="260" width="550" height="60" rx="8" fill="#fff3cd" stroke="#f97316" stroke-width="2"/>
+<text x="375" y="285" font-family="Segoe UI" font-size="13" font-weight="600" fill="#1a3a6e" text-anchor="middle">Higher bit depth = More intensity levels = Smoother gradients</text>
+<text x="375" y="305" font-family="Segoe UI" font-size="11" fill="#6b7280" text-anchor="middle">8-bit (256 levels) is standard; human eye can't distinguish beyond ~10-12 bits</text>
+</svg>

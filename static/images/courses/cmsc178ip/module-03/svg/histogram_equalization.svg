@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" role="img" aria-label="Histogram Equalization">
+<title>Histogram Equalization</title><desc>Improving image contrast through histogram transformation</desc>
+<defs><linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" style="stop-color:#f8f9fa"/><stop offset="100%" style="stop-color:#e9ecef"/>
+</linearGradient></defs><rect width="750" height="380" fill="url(#bg)"/>
+<text x="375" y="30" font-family="Segoe UI" font-size="18" font-weight="600" fill="#1a3a6e" text-anchor="middle">Histogram Equalization</text>
+<text x="150" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Before (Low Contrast)</text>
+<rect x="50" y="80" width="200" height="100" fill="#ffffff" stroke="#6b7280"/>
+<rect x="50" y="180.0" width="9" height="0.0" fill="#ef4444" opacity="0.7"/>
+<rect x="60" y="179.2" width="9" height="0.7999999999999996" fill="#ef4444" opacity="0.7"/>
+<rect x="70" y="176.8" width="9" height="3.1999999999999984" fill="#ef4444" opacity="0.7"/>
+<rect x="80" y="172.8" width="9" height="7.200000000000002" fill="#ef4444" opacity="0.7"/>
+<rect x="90" y="167.2" width="9" height="12.800000000000002" fill="#ef4444" opacity="0.7"/>
+<rect x="100" y="160.0" width="9" height="20.0" fill="#ef4444" opacity="0.7"/>
+<rect x="110" y="151.2" width="9" height="28.799999999999997" fill="#ef4444" opacity="0.7"/>
+<rect x="120" y="140.8" width="9" height="39.199999999999996" fill="#ef4444" opacity="0.7"/>
+<rect x="130" y="128.79999999999998" width="9" height="51.20000000000001" fill="#ef4444" opacity="0.7"/>
+<rect x="140" y="115.19999999999999" width="9" height="64.80000000000001" fill="#ef4444" opacity="0.7"/>
+<rect x="150" y="100.0" width="9" height="80.0" fill="#ef4444" opacity="0.7"/>
+<rect x="160" y="115.19999999999999" width="9" height="64.80000000000001" fill="#ef4444" opacity="0.7"/>
+<rect x="170" y="128.79999999999998" width="9" height="51.20000000000001" fill="#ef4444" opacity="0.7"/>
+<rect x="180" y="140.8" width="9" height="39.199999999999996" fill="#ef4444" opacity="0.7"/>
+<rect x="190" y="151.2" width="9" height="28.799999999999997" fill="#ef4444" opacity="0.7"/>
+<rect x="200" y="160.0" width="9" height="20.0" fill="#ef4444" opacity="0.7"/>
+<rect x="210" y="167.2" width="9" height="12.800000000000002" fill="#ef4444" opacity="0.7"/>
+<rect x="220" y="172.8" width="9" height="7.200000000000002" fill="#ef4444" opacity="0.7"/>
+<rect x="230" y="176.8" width="9" height="3.1999999999999984" fill="#ef4444" opacity="0.7"/>
+<rect x="240" y="179.2" width="9" height="0.7999999999999996" fill="#ef4444" opacity="0.7"/>
+<text x="150" y="200" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Intensities clustered</text>
+<path d="M270 130 L340 130" stroke="#1a3a6e" stroke-width="3" marker-end="url(#arr6)"/>
+<text x="305" y="120" font-family="Segoe UI" font-size="10" fill="#f97316" text-anchor="middle">Equalize</text>
+<defs><marker id="arr6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1a3a6e"/></marker></defs>
+<text x="500" y="65" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">After (Improved Contrast)</text>
+<rect x="350" y="80" width="256" height="100" fill="#ffffff" stroke="#6b7280"/>
+<rect x="350" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="360" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="370" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="380" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="390" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="400" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="410" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="420" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="430" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="440" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="450" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="460" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="470" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="480" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="490" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="500" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="510" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="520" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="530" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="540" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="550" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="560" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<rect x="570" y="125" width="9" height="55" fill="#10b981" opacity="0.7"/>
+<rect x="580" y="110" width="9" height="70" fill="#10b981" opacity="0.7"/>
+<rect x="590" y="140" width="9" height="40" fill="#10b981" opacity="0.7"/>
+<text x="478" y="200" font-family="Segoe UI" font-size="10" fill="#6b7280" text-anchor="middle">Spread across full range</text>
+<rect x="100" y="230" width="550" height="130" rx="8" fill="#f3f4f6" stroke="#7eb8da" stroke-width="2"/>
+<text x="375" y="255" font-family="Segoe UI" font-size="12" font-weight="600" fill="#1a3a6e" text-anchor="middle">Transformation Formula</text>
+<text x="375" y="285" font-family="monospace" font-size="13" fill="#1f2937" text-anchor="middle">s = T(r) = (L-1) × CDF(r)</text>
+<text x="120" y="315" font-family="Segoe UI" font-size="11" fill="#1f2937">• CDF = Cumulative Distribution Function of histogram</text>
+<text x="120" y="335" font-family="Segoe UI" font-size="11" fill="#1f2937">• L = number of intensity levels (typically 256)</text>
+<text x="120" y="355" font-family="Segoe UI" font-size="11" fill="#1f2937">• Result: histogram becomes approximately uniform, contrast improves</text>
+</svg>

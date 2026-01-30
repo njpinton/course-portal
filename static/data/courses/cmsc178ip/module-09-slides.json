@@ -39,7 +39,7 @@
       "id": 4,
       "title": "The Perceptron",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/02_perceptron_diagram.png\" alt=\"Perceptron\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Perceptron:</strong></p><p class=\"math-block\">$$y = \\sigma\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)$$</p><p>Weighted sum of inputs + bias, passed through activation function</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/02_perceptron_diagram.svg\" alt=\"Perceptron\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Perceptron:</strong></p><p class=\"math-block\">$$y = \\sigma\\left(\\sum_{i=1}^{n} w_i x_i + b\\right)$$</p><p>Weighted sum of inputs + bias, passed through activation function</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -58,7 +58,7 @@
       "id": 6,
       "title": "Multi-Layer Perceptron",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/03_mlp_architecture.png\" alt=\"MLP Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>MLP:</strong> Multiple layers of neurons connected in sequence.</p><ul><li><strong>Input layer:</strong> Receives data</li><li><strong>Hidden layers:</strong> Learn representations</li><li><strong>Output layer:</strong> Produces predictions</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/03_mlp_architecture.svg\" alt=\"MLP Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>MLP:</strong> Multiple layers of neurons connected in sequence.</p><ul><li><strong>Input layer:</strong> Receives data</li><li><strong>Hidden layers:</strong> Learn representations</li><li><strong>Output layer:</strong> Produces predictions</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -102,7 +102,7 @@
       "id": 11,
       "title": "Overfitting",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/15_overfitting_example.png\" alt=\"Overfitting\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Overfitting:</strong> Model memorizes training data but fails on new data.</p><p><strong>Solutions:</strong> Regularization (L1/L2), dropout, early stopping, data augmentation, more data.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/15_overfitting_example.svg\" alt=\"Overfitting\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Overfitting:</strong> Model memorizes training data but fails on new data.</p><p><strong>Solutions:</strong> Regularization (L1/L2), dropout, early stopping, data augmentation, more data.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -119,7 +119,7 @@
       "id": 13,
       "title": "Convolution Operation",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/06_convolution_operation.png\" alt=\"Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Convolution in CNNs:</strong> Learnable filters slide across image, producing feature maps. Captures local patterns like edges, textures.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/06_convolution_operation.svg\" alt=\"Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Convolution in CNNs:</strong> Learnable filters slide across image, producing feature maps. Captures local patterns like edges, textures.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -127,7 +127,7 @@
       "id": 14,
       "title": "Pooling Operations",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/07_pooling_operations.png\" alt=\"Pooling\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Max Pooling</strong><br>Takes maximum value in window<br>Preserves strongest features</div><div><strong>Average Pooling</strong><br>Takes average value in window<br>Smoother downsampling</div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/07_pooling_operations.svg\" alt=\"Pooling\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Max Pooling</strong><br>Takes maximum value in window<br>Preserves strongest features</div><div><strong>Average Pooling</strong><br>Takes average value in window<br>Smoother downsampling</div></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What are the benefits of pooling layers?",
@@ -138,7 +138,7 @@
       "id": 15,
       "title": "CNN Architecture",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/08_cnn_architecture.png\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Typical CNN:</strong></p><p>Input → [Conv → ReLU → Pool] × N → Flatten → FC → Output</p><p>Early layers: edges, textures. Deeper layers: complex patterns, objects.</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/08_cnn_architecture.svg\" alt=\"CNN Architecture\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Typical CNN:</strong></p><p>Input → [Conv → ReLU → Pool] × N → Flatten → FC → Output</p><p>Early layers: edges, textures. Deeper layers: complex patterns, objects.</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -146,7 +146,7 @@
       "id": 16,
       "title": "Feature Maps",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/09_feature_maps.png\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Visualization:</strong> What does the CNN see? Feature maps show learned representations at each layer.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/09_feature_maps.svg\" alt=\"Feature Maps\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Visualization:</strong> What does the CNN see? Feature maps show learned representations at each layer.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -163,7 +163,7 @@
       "id": 18,
       "title": "Preprocessing Pipeline",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/11_preprocessing_pipeline.png\" alt=\"Preprocessing\" style=\"max-height: 55vh;\"><div class=\"highlight-box\"><p><strong>Essential steps:</strong></p><ul><li>Resize to consistent dimensions</li><li>Normalize pixel values (0-1 or -1 to 1)</li><li>Split: train/validation/test sets</li><li>Batch loading for memory efficiency</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/11_preprocessing_pipeline.svg\" alt=\"Preprocessing\" style=\"max-height: 55vh;\"><div class=\"highlight-box\"><p><strong>Essential steps:</strong></p><ul><li>Resize to consistent dimensions</li><li>Normalize pixel values (0-1 or -1 to 1)</li><li>Split: train/validation/test sets</li><li>Batch loading for memory efficiency</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -171,7 +171,7 @@
       "id": 19,
       "title": "Data Augmentation",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/12_data_augmentation.png\" alt=\"Data Augmentation\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Augmentation:</strong> Artificially expand training set by applying transformations.</p><ul><li>Rotation, flipping, cropping</li><li>Brightness, contrast adjustments</li><li>Scaling, shearing</li><li>Random erasing, cutout</li></ul></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/12_data_augmentation.svg\" alt=\"Data Augmentation\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Augmentation:</strong> Artificially expand training set by applying transformations.</p><ul><li>Rotation, flipping, cropping</li><li>Brightness, contrast adjustments</li><li>Scaling, shearing</li><li>Random erasing, cutout</li></ul></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -179,7 +179,7 @@
       "id": 20,
       "title": "Classification Example",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/13_classification_example.png\" alt=\"Classification\" style=\"max-height: 60vh;\"><p class=\"caption\">End-to-end image classification with a CNN</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-09/svg/13_classification_example.svg\" alt=\"Classification\" style=\"max-height: 60vh;\"><p class=\"caption\">End-to-end image classification with a CNN</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

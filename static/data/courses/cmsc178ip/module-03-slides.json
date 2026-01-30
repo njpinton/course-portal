@@ -66,7 +66,7 @@
       "id": 7,
       "title": "Point Operations Demo",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/point_operations_demo.png\" alt=\"Point Operations Demo\" style=\"max-height: 65vh;\"><p class=\"caption\">Effects of brightness, contrast, and gamma adjustments on an image</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/point_operations_demo.svg\" alt=\"Point Operations Demo\" style=\"max-height: 65vh;\"><p class=\"caption\">Effects of brightness, contrast, and gamma adjustments on an image</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -91,7 +91,7 @@
       "id": 10,
       "title": "Histogram Equalization",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/histogram_equalization.png\" alt=\"Histogram Equalization\" style=\"max-height: 60vh;\"><p class=\"caption\">Histogram equalization spreads intensities to utilize the full dynamic range</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/histogram_equalization.svg\" alt=\"Histogram Equalization\" style=\"max-height: 60vh;\"><p class=\"caption\">Histogram equalization spreads intensities to utilize the full dynamic range</p>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What is the goal of histogram equalization?",
@@ -110,7 +110,7 @@
       "id": 12,
       "title": "Adaptive Histogram Equalization (CLAHE)",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/adaptive_histogram_equalization.png\" alt=\"CLAHE\" style=\"max-height: 60vh;\"><p class=\"caption\">CLAHE applies equalization locally, preventing over-amplification of noise</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/adaptive_histogram_equalization.svg\" alt=\"CLAHE\" style=\"max-height: 60vh;\"><p class=\"caption\">CLAHE applies equalization locally, preventing over-amplification of noise</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -143,7 +143,7 @@
       "id": 16,
       "title": "Convolution Step by Step",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_step_by_step.png\" alt=\"Convolution Step by Step\" style=\"max-height: 65vh;\"><p class=\"caption\">The kernel slides over the image, computing weighted sums at each position</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/convolution_step_by_step.svg\" alt=\"Convolution Step by Step\" style=\"max-height: 65vh;\"><p class=\"caption\">The kernel slides over the image, computing weighted sums at each position</p>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What happens at each position during convolution?",
@@ -154,7 +154,7 @@
       "id": 17,
       "title": "Convolution vs Correlation",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_vs_correlation.png\" alt=\"Convolution vs Correlation\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><h3>Convolution</h3><p>Kernel is flipped (180°)</p><p>$g = f * h$</p></div><div><h3>Correlation</h3><p>Kernel is not flipped</p><p>$g = f \\star h$</p></div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/convolution_vs_correlation.svg\" alt=\"Convolution vs Correlation\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><h3>Convolution</h3><p>Kernel is flipped (180°)</p><p>$g = f * h$</p></div><div><h3>Correlation</h3><p>Kernel is not flipped</p><p>$g = f \\star h$</p></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -162,7 +162,7 @@
       "id": 18,
       "title": "Padding Strategies",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/padding_strategies.png\" alt=\"Padding Strategies\" style=\"max-height: 65vh;\"><p class=\"caption\">Different padding strategies: zero, replicate, reflect, wrap</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/padding_strategies.svg\" alt=\"Padding Strategies\" style=\"max-height: 65vh;\"><p class=\"caption\">Different padding strategies: zero, replicate, reflect, wrap</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -170,7 +170,7 @@
       "id": 19,
       "title": "Padding Effects",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/padding_effects.png\" alt=\"Padding Effects\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Note:</strong> Choice of padding affects border artifacts. Reflect padding often produces the most natural results.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/padding_effects.svg\" alt=\"Padding Effects\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Note:</strong> Choice of padding affects border artifacts. Reflect padding often produces the most natural results.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -178,7 +178,7 @@
       "id": 20,
       "title": "Separable Convolution",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/separable_convolution.png\" alt=\"Separable Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Efficiency:</strong> A separable n×n kernel reduces complexity from O(n²) to O(2n) per pixel.<br>Example: 9×9 kernel: 81 operations → 18 operations</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/separable_convolution.svg\" alt=\"Separable Convolution\" style=\"max-height: 55vh;\"><div class=\"key-point\"><strong>Efficiency:</strong> A separable n×n kernel reduces complexity from O(n²) to O(2n) per pixel.<br>Example: 9×9 kernel: 81 operations → 18 operations</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -186,7 +186,7 @@
       "id": 21,
       "title": "The Convolution Theorem",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/convolution_theorem.png\" alt=\"Convolution Theorem\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Convolution Theorem:</strong></p><p class=\"math-block\">$$f * h = \\mathcal{F}^{-1}\\{\\mathcal{F}\\{f\\} \\cdot \\mathcal{F}\\{h\\}\\}$$</p><p>Convolution in spatial domain = Multiplication in frequency domain</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/convolution_theorem.svg\" alt=\"Convolution Theorem\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><p><strong>Convolution Theorem:</strong></p><p class=\"math-block\">$$f * h = \\mathcal{F}^{-1}\\{\\mathcal{F}\\{f\\} \\cdot \\mathcal{F}\\{h\\}\\}$$</p><p>Convolution in spatial domain = Multiplication in frequency domain</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why is the convolution theorem useful for large kernels?",
@@ -214,7 +214,7 @@
       "id": 24,
       "title": "2D Fourier Transform Visualization",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/fourier_transform_2d.png\" alt=\"2D Fourier Transform\" style=\"max-height: 65vh;\"><p class=\"caption\">Image and its magnitude spectrum (log scale, centered)</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/fourier_transform_2d.svg\" alt=\"2D Fourier Transform\" style=\"max-height: 65vh;\"><p class=\"caption\">Image and its magnitude spectrum (log scale, centered)</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -222,7 +222,7 @@
       "id": 25,
       "title": "Fourier Transform Properties",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/fourier_properties.png\" alt=\"Fourier Properties\" style=\"max-height: 65vh;\"><p class=\"caption\">Key properties: linearity, shift, rotation, scaling</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/fourier_properties.svg\" alt=\"Fourier Properties\" style=\"max-height: 65vh;\"><p class=\"caption\">Key properties: linearity, shift, rotation, scaling</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -230,7 +230,7 @@
       "id": 26,
       "title": "Frequency Components",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/frequency_components.png\" alt=\"Frequency Components\" style=\"max-height: 65vh;\"><p class=\"caption\">Decomposing an image into low and high frequency components</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/frequency_components.svg\" alt=\"Frequency Components\" style=\"max-height: 65vh;\"><p class=\"caption\">Decomposing an image into low and high frequency components</p>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What image features correspond to high frequencies?",
@@ -241,7 +241,7 @@
       "id": 27,
       "title": "Frequency Domain Filtering",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/frequency_filtering_basics.png\" alt=\"Frequency Filtering\" style=\"max-height: 60vh;\"><div class=\"two-columns\"><div><strong>Low-pass filter:</strong><br>Keeps low frequencies<br>Blurs/smooths image</div><div><strong>High-pass filter:</strong><br>Keeps high frequencies<br>Enhances edges</div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/frequency_filtering_basics.svg\" alt=\"Frequency Filtering\" style=\"max-height: 60vh;\"><div class=\"two-columns\"><div><strong>Low-pass filter:</strong><br>Keeps low frequencies<br>Blurs/smooths image</div><div><strong>High-pass filter:</strong><br>Keeps high frequencies<br>Enhances edges</div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -257,7 +257,7 @@
       "id": 29,
       "title": "Sampling and Aliasing",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/sampling_aliasing.png\" alt=\"Sampling and Aliasing\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Nyquist Theorem:</strong> Sample rate must be at least 2× the highest frequency to avoid aliasing.</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-03/svg/sampling_aliasing.svg\" alt=\"Sampling and Aliasing\" style=\"max-height: 60vh;\"><div class=\"warning\"><strong>Nyquist Theorem:</strong> Sample rate must be at least 2× the highest frequency to avoid aliasing.</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },

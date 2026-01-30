@@ -39,7 +39,7 @@
       "id": 4,
       "title": "Types of Image Noise",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/noise_models_comparison.png\" alt=\"Noise Models\" style=\"max-height: 60vh;\"><div class=\"two-columns\" style=\"margin-top: 1em;\"><div><strong>Gaussian Noise</strong><br>Additive, bell-shaped distribution</div><div><strong>Salt & Pepper</strong><br>Random black/white pixels</div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/noise_models_comparison.svg\" alt=\"Noise Models\" style=\"max-height: 60vh;\"><div class=\"two-columns\" style=\"margin-top: 1em;\"><div><strong>Gaussian Noise</strong><br>Additive, bell-shaped distribution</div><div><strong>Salt & Pepper</strong><br>Random black/white pixels</div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -67,7 +67,7 @@
       "id": 7,
       "title": "Smoothing Filters Comparison",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/smoothing_filters_comparison.png\" alt=\"Smoothing Filters\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparison of mean, Gaussian, and median filters</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/smoothing_filters_comparison.svg\" alt=\"Smoothing Filters\" style=\"max-height: 65vh;\"><p class=\"caption\">Comparison of mean, Gaussian, and median filters</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -75,7 +75,7 @@
       "id": 8,
       "title": "Low-Pass Filters",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/lowpass_filters_comparison.png\" alt=\"Lowpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Box Filter (Mean)</strong><pre><code>1/9 * [[1,1,1],\n       [1,1,1],\n       [1,1,1]]</code></pre></div><div><strong>Gaussian Filter</strong><pre><code>1/16 * [[1,2,1],\n        [2,4,2],\n        [1,2,1]]</code></pre></div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/lowpass_filters_comparison.svg\" alt=\"Lowpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Box Filter (Mean)</strong><pre><code>1/9 * [[1,1,1],\n       [1,1,1],\n       [1,1,1]]</code></pre></div><div><strong>Gaussian Filter</strong><pre><code>1/16 * [[1,2,1],\n        [2,4,2],\n        [1,2,1]]</code></pre></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -83,7 +83,7 @@
       "id": 9,
       "title": "Denoising Results",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/denoising_comparison.png\" alt=\"Denoising Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Different filters have different strengths for various noise types</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/denoising_comparison.svg\" alt=\"Denoising Comparison\" style=\"max-height: 65vh;\"><p class=\"caption\">Different filters have different strengths for various noise types</p>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -100,7 +100,7 @@
       "id": 11,
       "title": "Bilateral Filter",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/bilateral_filter_demo.png\" alt=\"Bilateral Filter\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Bilateral Filter:</strong> Combines spatial proximity AND intensity similarity weights.</p><p class=\"math-block\">$$w(i,j,k,l) = \\exp\\left(-\\frac{(i-k)^2+(j-l)^2}{2\\sigma_s^2}\\right) \\cdot \\exp\\left(-\\frac{|I(i,j)-I(k,l)|^2}{2\\sigma_r^2}\\right)$$</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/bilateral_filter_demo.svg\" alt=\"Bilateral Filter\" style=\"max-height: 55vh;\"><div class=\"definition-box\"><p><strong>Bilateral Filter:</strong> Combines spatial proximity AND intensity similarity weights.</p><p class=\"math-block\">$$w(i,j,k,l) = \\exp\\left(-\\frac{(i-k)^2+(j-l)^2}{2\\sigma_s^2}\\right) \\cdot \\exp\\left(-\\frac{|I(i,j)-I(k,l)|^2}{2\\sigma_r^2}\\right)$$</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "Why does the bilateral filter preserve edges while smoothing?",
@@ -111,7 +111,7 @@
       "id": 12,
       "title": "Adaptive Filtering",
       "readingTime": "2 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/adaptive_filtering_demo.png\" alt=\"Adaptive Filtering\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Adaptive filters</strong> adjust their behavior based on local image statistics (variance, mean).</div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/adaptive_filtering_demo.svg\" alt=\"Adaptive Filtering\" style=\"max-height: 60vh;\"><div class=\"key-point\"><strong>Adaptive filters</strong> adjust their behavior based on local image statistics (variance, mean).</div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -128,7 +128,7 @@
       "id": 14,
       "title": "High-Pass Filters",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/highpass_filters_comparison.png\" alt=\"Highpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Laplacian</strong><pre><code>[[ 0,-1, 0],\n [-1, 4,-1],\n [ 0,-1, 0]]</code></pre></div><div><strong>Sobel (X direction)</strong><pre><code>[[-1, 0, 1],\n [-2, 0, 2],\n [-1, 0, 1]]</code></pre></div></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/highpass_filters_comparison.svg\" alt=\"Highpass Filters\" style=\"max-height: 55vh;\"><div class=\"two-columns\"><div><strong>Laplacian</strong><pre><code>[[ 0,-1, 0],\n [-1, 4,-1],\n [ 0,-1, 0]]</code></pre></div><div><strong>Sobel (X direction)</strong><pre><code>[[-1, 0, 1],\n [-2, 0, 2],\n [-1, 0, 1]]</code></pre></div></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -136,7 +136,7 @@
       "id": 15,
       "title": "Sharpening Techniques",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/sharpening_filters_comparison.png\" alt=\"Sharpening\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Unsharp Masking:</strong><p class=\"math-block\">$$g = f + k \\cdot (f - f_{blurred})$$</p><p>where k controls sharpening strength</p></div>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/sharpening_filters_comparison.svg\" alt=\"Sharpening\" style=\"max-height: 55vh;\"><div class=\"formula-box\"><strong>Unsharp Masking:</strong><p class=\"math-block\">$$g = f + k \\cdot (f - f_{blurred})$$</p><p>where k controls sharpening strength</p></div>",
       "hasVisualization": true,
       "knowledgeCheck": null
     },
@@ -144,7 +144,7 @@
       "id": 16,
       "title": "Edge Detection",
       "readingTime": "3 min",
-      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/edge_detection_comparison.png\" alt=\"Edge Detection\" style=\"max-height: 60vh;\"><p class=\"caption\">Comparison of Sobel, Prewitt, and Canny edge detectors</p>",
+      "content": "<img src=\"/static/images/courses/cmsc178ip/module-04/svg/edge_detection_comparison.svg\" alt=\"Edge Detection\" style=\"max-height: 60vh;\"><p class=\"caption\">Comparison of Sobel, Prewitt, and Canny edge detectors</p>",
       "hasVisualization": true,
       "knowledgeCheck": {
         "question": "What makes the Canny edge detector superior to simple gradient methods?",

@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="GAN training dynamics showing alternating optimization">
+  <title>GAN Training Dynamics</title>
+  <desc>Visualization of alternating training steps for generator and discriminator in GAN training</desc>
+
+  <defs>
+    <linearGradient id="trainBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+    <marker id="trainArrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#trainBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">GAN Training: Alternating Optimization</text>
+
+  <!-- Training loop -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="790" height="210" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="395" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Training Loop (One Iteration)</text>
+
+    <!-- Step 1: Train D -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="360" height="140" fill="#fef2f2" stroke="#ef4444" stroke-width="2" rx="6"/>
+      <g transform="translate(15, 20)">
+        <circle cx="15" cy="15" r="15" fill="#ef4444"/>
+        <text x="15" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">1</text>
+        <text x="45" y="20" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Train Discriminator (k steps)</text>
+      </g>
+
+      <g transform="translate(15, 55)" font-family="Segoe UI, sans-serif" font-size="10">
+        <text x="0" y="0" fill="#333">a) Sample real images from training data</text>
+        <text x="0" y="18" fill="#333">b) Sample noise, generate fake images</text>
+        <text x="0" y="36" fill="#333">c) Compute D loss on real (label=1) + fake (label=0)</text>
+        <text x="0" y="54" fill="#333">d) Update D weights (G is frozen)</text>
+
+        <text x="0" y="78" fill="#ef4444" font-family="Consolas, monospace" font-size="9">max_D: E[log D(x)] + E[log(1-D(G(z)))]</text>
+      </g>
+    </g>
+
+    <!-- Arrow between steps -->
+    <g transform="translate(395, 100)">
+      <line x1="0" y1="0" x2="25" y2="0" stroke="#666" stroke-width="3" marker-end="url(#trainArrow)"/>
+    </g>
+
+    <!-- Step 2: Train G -->
+    <g transform="translate(430, 45)">
+      <rect x="0" y="0" width="335" height="140" fill="#d1fae5" stroke="#10b981" stroke-width="2" rx="6"/>
+      <g transform="translate(15, 20)">
+        <circle cx="15" cy="15" r="15" fill="#10b981"/>
+        <text x="15" y="20" fill="white" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">2</text>
+        <text x="45" y="20" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600">Train Generator (1 step)</text>
+      </g>
+
+      <g transform="translate(15, 55)" font-family="Segoe UI, sans-serif" font-size="10">
+        <text x="0" y="0" fill="#333">a) Sample noise z</text>
+        <text x="0" y="18" fill="#333">b) Generate fake images G(z)</text>
+        <text x="0" y="36" fill="#333">c) Compute G loss (wants D output = 1)</text>
+        <text x="0" y="54" fill="#333">d) Update G weights (D is frozen)</text>
+
+        <text x="0" y="78" fill="#10b981" font-family="Consolas, monospace" font-size="9">min_G: E[log(1-D(G(z)))] or max_G: E[log D(G(z))]</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Training progress visualization -->
+  <g transform="translate(30, 280)">
+    <rect x="0" y="0" width="385" height="95" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="192" y="20" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Training Progress Over Time</text>
+
+    <g transform="translate(20, 35)">
+      <!-- Timeline -->
+      <line x1="0" y1="30" x2="345" y2="30" stroke="#666" stroke-width="2"/>
+
+      <!-- Early -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="100" height="25" fill="#fef2f2" rx="3"/>
+        <text x="50" y="16" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">D strong, G weak</text>
+        <circle cx="50" cy="30" r="5" fill="#ef4444"/>
+        <text x="50" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Early</text>
+      </g>
+
+      <!-- Middle -->
+      <g transform="translate(120, 0)">
+        <rect x="0" y="0" width="100" height="25" fill="#fef3c7" rx="3"/>
+        <text x="50" y="16" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">Competition</text>
+        <circle cx="50" cy="30" r="5" fill="#f97316"/>
+        <text x="50" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Training</text>
+      </g>
+
+      <!-- Late -->
+      <g transform="translate(245, 0)">
+        <rect x="0" y="0" width="100" height="25" fill="#d1fae5" rx="3"/>
+        <text x="50" y="16" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle">D(G(z)) ≈ 0.5</text>
+        <circle cx="50" cy="30" r="5" fill="#10b981"/>
+        <text x="50" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Converged</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Tips -->
+  <g transform="translate(435, 280)">
+    <rect x="0" y="0" width="385" height="95" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="192" y="20" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Training Tips</text>
+
+    <g transform="translate(15, 35)" font-family="Segoe UI, sans-serif" font-size="9">
+      <circle cx="5" cy="8" r="3" fill="#f97316"/>
+      <text x="15" y="12" fill="#666">Train D more than G (k=1-5 D steps per G step)</text>
+
+      <circle cx="5" cy="28" r="3" fill="#f97316"/>
+      <text x="15" y="32" fill="#666">Use label smoothing (real=0.9 instead of 1.0)</text>
+
+      <circle cx="5" cy="48" r="3" fill="#f97316"/>
+      <text x="15" y="52" fill="#666">Add noise to D inputs for stability</text>
+    </g>
+  </g>
+</svg>

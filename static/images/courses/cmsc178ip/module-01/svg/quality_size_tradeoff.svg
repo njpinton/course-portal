@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 400" role="img" aria-label="Quality vs Size Tradeoff">
+  <title>Quality vs Size Tradeoff</title>
+  <desc>Balancing image quality against storage and processing requirements</desc>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+  <rect width="750" height="400" fill="url(#bgGrad)"/>
+  <text x="375" y="35" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a3a6e" text-anchor="middle">Quality vs. Size Tradeoff</text>
+  <line x1="100" y1="280" x2="400" y2="280" stroke="#1f2937" stroke-width="2"/>
+  <line x1="100" y1="80" x2="100" y2="280" stroke="#1f2937" stroke-width="2"/>
+  <text x="250.0" y="315" font-family="Segoe UI, sans-serif" font-size="12" fill="#1f2937" text-anchor="middle">File Size / Bit Depth</text>
+  <text x="60" y="180.0" font-family="Segoe UI, sans-serif" font-size="12" fill="#1f2937" text-anchor="middle" transform="rotate(-90,60,180.0)">Quality</text>
+  <path d="M 100 280 Q 190.0 140.0, 400 100" stroke="#3b82f6" stroke-width="3" fill="none"/>
+  <circle cx="130.0" cy="180.0" r="5" fill="#f97316"/>
+  <text x="140.0" y="184.0" font-family="Segoe UI, sans-serif" font-size="10" fill="#1f2937">1-bit</text>
+  <circle cx="175.0" cy="130.0" r="5" fill="#f97316"/>
+  <text x="185.0" y="134.0" font-family="Segoe UI, sans-serif" font-size="10" fill="#1f2937">4-bit</text>
+  <circle cx="220.0" cy="104.0" r="5" fill="#f97316"/>
+  <text x="230.0" y="108.0" font-family="Segoe UI, sans-serif" font-size="10" fill="#1f2937">8-bit</text>
+  <circle cx="310.0" cy="90.0" r="5" fill="#f97316"/>
+  <text x="320.0" y="94.0" font-family="Segoe UI, sans-serif" font-size="10" fill="#1f2937">16-bit</text>
+  <circle cx="385.0" cy="84.0" r="5" fill="#f97316"/>
+  <text x="395.0" y="88.0" font-family="Segoe UI, sans-serif" font-size="10" fill="#1f2937">32-bit</text>
+  <path d="M 300 100 L 340 80" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="350" y="75" font-family="Segoe UI, sans-serif" font-size="10" fill="#6b7280">Diminishing returns</text>
+  <rect x="450" y="70" width="280" height="250" rx="8" fill="#ffffff" stroke="#7eb8da" stroke-width="2"/>
+  <rect x="460" y="80" width="260" height="70" rx="4" fill="#d4edda"/>
+  <text x="590" y="100" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#155724" text-anchor="middle">High Quality Needed</text>
+  <text x="470" y="120" font-family="Segoe UI, sans-serif" font-size="10" fill="#155724">• Medical imaging (16-32 bit)</text>
+  <text x="470" y="135" font-family="Segoe UI, sans-serif" font-size="10" fill="#155724">• Professional photography</text>
+  <rect x="460" y="160" width="260" height="70" rx="4" fill="#fff3cd"/>
+  <text x="590" y="180" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#856404" text-anchor="middle">Balanced</text>
+  <text x="470" y="200" font-family="Segoe UI, sans-serif" font-size="10" fill="#856404">• Consumer photography (8-bit)</text>
+  <text x="470" y="215" font-family="Segoe UI, sans-serif" font-size="10" fill="#856404">• Video streaming</text>
+  <rect x="460" y="240" width="260" height="70" rx="4" fill="#f8d7da"/>
+  <text x="590" y="260" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#721c24" text-anchor="middle">Size-Constrained</text>
+  <text x="470" y="280" font-family="Segoe UI, sans-serif" font-size="10" fill="#721c24">• Thumbnails, icons (4-8 bit)</text>
+  <text x="470" y="295" font-family="Segoe UI, sans-serif" font-size="10" fill="#721c24">• Real-time processing</text>
+  <rect x="100" y="340" width="550" height="45" rx="8" fill="#f3f4f6" stroke="#1a3a6e" stroke-width="2"/>
+  <text x="375" y="368" font-family="Segoe UI, sans-serif" font-size="12" fill="#1f2937" text-anchor="middle">Choose bit depth based on application requirements, not just "more is better"</text>
+</svg>

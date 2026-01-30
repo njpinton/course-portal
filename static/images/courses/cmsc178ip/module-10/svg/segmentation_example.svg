@@ -1,0 +1,188 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Semantic segmentation example with input and output">
+  <title>Segmentation Example</title>
+  <desc>End-to-end semantic segmentation example showing input image, CNN processing, and pixel-wise classification output</desc>
+
+  <defs>
+    <linearGradient id="segExBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#segExBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="32" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">Semantic Segmentation: Pixel-wise Classification</text>
+
+  <!-- Input image -->
+  <g transform="translate(30, 55)">
+    <rect x="0" y="0" width="230" height="220" fill="white" rx="8" stroke="#3b82f6" stroke-width="2"/>
+    <text x="115" y="22" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Input Image</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Street scene -->
+      <rect x="0" y="0" width="180" height="150" fill="#87ceeb" rx="4"/>
+      <!-- Sky -->
+      <rect x="0" y="0" width="180" height="50" fill="#60a5fa" rx="4 4 0 0"/>
+      <!-- Buildings -->
+      <rect x="5" y="30" width="40" height="55" fill="#9ca3af"/>
+      <rect x="10" y="35" width="10" height="15" fill="#bfdbfe"/>
+      <rect x="25" y="35" width="10" height="15" fill="#bfdbfe"/>
+      <rect x="10" y="55" width="10" height="15" fill="#bfdbfe"/>
+      <rect x="25" y="55" width="10" height="15" fill="#bfdbfe"/>
+
+      <rect x="135" y="25" width="40" height="60" fill="#78716c"/>
+      <rect x="140" y="30" width="12" height="20" fill="#bfdbfe"/>
+      <rect x="158" y="30" width="12" height="20" fill="#bfdbfe"/>
+      <rect x="140" y="55" width="30" height="25" fill="#d6d3d1"/>
+
+      <!-- Road -->
+      <rect x="0" y="100" width="180" height="50" fill="#4b5563"/>
+      <line x1="0" y1="125" x2="180" y2="125" stroke="#fbbf24" stroke-width="2" stroke-dasharray="15,10"/>
+
+      <!-- Sidewalk -->
+      <rect x="0" y="85" width="180" height="15" fill="#9ca3af"/>
+
+      <!-- Person -->
+      <g transform="translate(60, 45)">
+        <ellipse cx="12" cy="8" rx="8" ry="10" fill="#fcd34d"/>
+        <rect x="4" y="18" width="16" height="28" fill="#ef4444"/>
+        <rect x="5" y="46" width="6" height="20" fill="#1e3a5f"/>
+        <rect x="13" y="46" width="6" height="20" fill="#1e3a5f"/>
+      </g>
+
+      <!-- Car -->
+      <g transform="translate(100, 105)">
+        <rect x="0" y="5" width="45" height="20" fill="#22c55e" rx="3"/>
+        <rect x="5" y="0" width="32" height="12" fill="#86efac" rx="3"/>
+        <circle cx="10" cy="27" r="6" fill="#333"/>
+        <circle cx="35" cy="27" r="6" fill="#333"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(270, 150)">
+    <rect x="0" y="0" width="90" height="40" fill="#7c3aed" rx="6"/>
+    <text x="45" y="18" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Segmentation</text>
+    <text x="45" y="32" fill="white" font-family="Segoe UI, sans-serif" font-size="10" font-weight="600" text-anchor="middle">Network</text>
+  </g>
+
+  <!-- Output segmentation map -->
+  <g transform="translate(370, 55)">
+    <rect x="0" y="0" width="230" height="220" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="115" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Segmentation Output</text>
+
+    <g transform="translate(25, 40)">
+      <!-- Segmented scene -->
+      <rect x="0" y="0" width="180" height="150" fill="#60a5fa" rx="4"/>
+      <!-- Sky class -->
+      <rect x="0" y="0" width="180" height="50" fill="#60a5fa" rx="4 4 0 0"/>
+
+      <!-- Buildings class -->
+      <rect x="5" y="30" width="40" height="55" fill="#78716c"/>
+      <rect x="135" y="25" width="40" height="60" fill="#78716c"/>
+
+      <!-- Road class -->
+      <rect x="0" y="100" width="180" height="50" fill="#4b5563"/>
+
+      <!-- Sidewalk class -->
+      <rect x="0" y="85" width="180" height="15" fill="#9ca3af"/>
+
+      <!-- Person class (pink) -->
+      <g transform="translate(60, 45)">
+        <ellipse cx="12" cy="8" rx="8" ry="10" fill="#ec4899"/>
+        <rect x="4" y="18" width="16" height="28" fill="#ec4899"/>
+        <rect x="5" y="46" width="6" height="20" fill="#ec4899"/>
+        <rect x="13" y="46" width="6" height="20" fill="#ec4899"/>
+      </g>
+
+      <!-- Car class (orange) -->
+      <g transform="translate(100, 105)">
+        <rect x="0" y="5" width="45" height="20" fill="#f97316" rx="3"/>
+        <rect x="5" y="0" width="32" height="12" fill="#f97316" rx="3"/>
+        <circle cx="10" cy="27" r="6" fill="#f97316"/>
+        <circle cx="35" cy="27" r="6" fill="#f97316"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(615, 55)">
+    <rect x="0" y="0" width="205" height="220" fill="white" rx="8" stroke="#7c3aed" stroke-width="2"/>
+    <text x="102" y="22" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Class Legend</text>
+
+    <g transform="translate(20, 40)" font-family="Segoe UI, sans-serif" font-size="10">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="20" height="20" fill="#60a5fa" rx="2"/>
+        <text x="30" y="14" fill="#333">Sky</text>
+      </g>
+
+      <g transform="translate(85, 0)">
+        <rect x="0" y="0" width="20" height="20" fill="#78716c" rx="2"/>
+        <text x="30" y="14" fill="#333">Building</text>
+      </g>
+
+      <g transform="translate(0, 30)">
+        <rect x="0" y="0" width="20" height="20" fill="#4b5563" rx="2"/>
+        <text x="30" y="14" fill="#333">Road</text>
+      </g>
+
+      <g transform="translate(85, 30)">
+        <rect x="0" y="0" width="20" height="20" fill="#9ca3af" rx="2"/>
+        <text x="30" y="14" fill="#333">Sidewalk</text>
+      </g>
+
+      <g transform="translate(0, 60)">
+        <rect x="0" y="0" width="20" height="20" fill="#ec4899" rx="2"/>
+        <text x="30" y="14" fill="#333">Person</text>
+      </g>
+
+      <g transform="translate(85, 60)">
+        <rect x="0" y="0" width="20" height="20" fill="#f97316" rx="2"/>
+        <text x="30" y="14" fill="#333">Vehicle</text>
+      </g>
+    </g>
+
+    <!-- Output format -->
+    <g transform="translate(15, 130)">
+      <rect x="0" y="0" width="175" height="70" fill="#f8f9fa" rx="4"/>
+      <text x="87" y="18" fill="#333" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Output Tensor</text>
+      <text x="87" y="35" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">H × W × C classes</text>
+      <text x="87" y="50" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">Each pixel → class prob</text>
+      <text x="87" y="65" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="8" font-weight="600" text-anchor="middle">argmax → final label</text>
+    </g>
+  </g>
+
+  <!-- Metrics -->
+  <g transform="translate(30, 290)">
+    <rect x="0" y="0" width="790" height="85" fill="white" rx="8" stroke="#f97316" stroke-width="2"/>
+    <text x="395" y="22" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Segmentation Metrics</text>
+
+    <g transform="translate(30, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#fef3c7" rx="4"/>
+        <text x="87" y="14" fill="#f97316" font-weight="600" text-anchor="middle">Pixel Accuracy</text>
+        <text x="87" y="28" fill="#666" font-size="8" text-anchor="middle">% of correctly classified pixels</text>
+      </g>
+
+      <g transform="translate(195, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#d1fae5" rx="4"/>
+        <text x="87" y="14" fill="#10b981" font-weight="600" text-anchor="middle">Mean IoU (mIoU)</text>
+        <text x="87" y="28" fill="#666" font-size="8" text-anchor="middle">Average IoU across all classes</text>
+      </g>
+
+      <g transform="translate(390, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#dbeafe" rx="4"/>
+        <text x="87" y="14" fill="#3b82f6" font-weight="600" text-anchor="middle">Dice Coefficient</text>
+        <text x="87" y="28" fill="#666" font-size="8" text-anchor="middle">2×|A∩B| / (|A|+|B|)</text>
+      </g>
+
+      <g transform="translate(585, 0)">
+        <rect x="0" y="0" width="175" height="35" fill="#f5f3ff" rx="4"/>
+        <text x="87" y="14" fill="#7c3aed" font-weight="600" text-anchor="middle">Boundary F1</text>
+        <text x="87" y="28" fill="#666" font-size="8" text-anchor="middle">Edge precision/recall</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 400" role="img" aria-label="Complete CNN architecture for image classification">
+  <title>CNN Architecture</title>
+  <desc>Full convolutional neural network showing input, convolutional layers, pooling layers, fully connected layers, and output</desc>
+
+  <defs>
+    <linearGradient id="cnnBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fa"/>
+      <stop offset="100%" style="stop-color:#e9ecef"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="850" height="400" fill="url(#cnnBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="425" y="28" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" text-anchor="middle">CNN Architecture for Image Classification</text>
+
+  <!-- Main architecture -->
+  <g transform="translate(20, 50)">
+    <!-- Input image -->
+    <g transform="translate(0, 80)">
+      <rect x="0" y="0" width="55" height="55" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="4"/>
+      <rect x="5" y="5" width="45" height="45" fill="#bfdbfe"/>
+      <text x="27" y="75" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" text-anchor="middle" font-weight="600">Input</text>
+      <text x="27" y="87" fill="#666" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">224×224×3</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M60,107 L80,107" stroke="#666" stroke-width="1.5" fill="none"/>
+
+    <!-- Conv Block 1 -->
+    <g transform="translate(85, 50)">
+      <rect x="0" y="0" width="85" height="115" fill="white" rx="6" stroke="#3b82f6" stroke-width="2"/>
+      <text x="42" y="18" fill="#3b82f6" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Conv Block 1</text>
+
+      <!-- Stacked feature maps -->
+      <g transform="translate(15, 28)">
+        <rect x="6" y="6" width="50" height="50" fill="#93c5fd" stroke="#3b82f6"/>
+        <rect x="3" y="3" width="50" height="50" fill="#bfdbfe" stroke="#3b82f6"/>
+        <rect x="0" y="0" width="50" height="50" fill="#dbeafe" stroke="#3b82f6"/>
+      </g>
+
+      <text x="42" y="95" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Conv 3×3, 64</text>
+      <text x="42" y="107" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">+ ReLU</text>
+    </g>
+
+    <!-- Arrow + Pool -->
+    <g transform="translate(175, 97)">
+      <rect x="0" y="0" width="35" height="20" fill="#d1fae5" stroke="#10b981" rx="3"/>
+      <text x="17" y="14" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="7" font-weight="600" text-anchor="middle">Pool</text>
+    </g>
+
+    <!-- Conv Block 2 -->
+    <g transform="translate(220, 60)">
+      <rect x="0" y="0" width="80" height="95" fill="white" rx="6" stroke="#10b981" stroke-width="2"/>
+      <text x="40" y="18" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Conv Block 2</text>
+
+      <g transform="translate(17, 28)">
+        <rect x="8" y="8" width="38" height="38" fill="#6ee7b7" stroke="#10b981"/>
+        <rect x="4" y="4" width="38" height="38" fill="#a7f3d0" stroke="#10b981"/>
+        <rect x="0" y="0" width="38" height="38" fill="#d1fae5" stroke="#10b981"/>
+      </g>
+
+      <text x="40" y="80" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Conv 3×3, 128</text>
+      <text x="40" y="90" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">+ ReLU</text>
+    </g>
+
+    <!-- Arrow + Pool -->
+    <g transform="translate(305, 97)">
+      <rect x="0" y="0" width="35" height="20" fill="#f5f3ff" stroke="#7c3aed" rx="3"/>
+      <text x="17" y="14" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="7" font-weight="600" text-anchor="middle">Pool</text>
+    </g>
+
+    <!-- Conv Block 3 -->
+    <g transform="translate(350, 70)">
+      <rect x="0" y="0" width="75" height="75" fill="white" rx="6" stroke="#7c3aed" stroke-width="2"/>
+      <text x="37" y="16" fill="#7c3aed" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Conv Block 3</text>
+
+      <g transform="translate(17, 25)">
+        <rect x="8" y="8" width="30" height="30" fill="#c4b5fd" stroke="#7c3aed"/>
+        <rect x="4" y="4" width="30" height="30" fill="#ddd6fe" stroke="#7c3aed"/>
+        <rect x="0" y="0" width="30" height="30" fill="#f5f3ff" stroke="#7c3aed"/>
+      </g>
+
+      <text x="37" y="68" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Conv 3×3, 256</text>
+    </g>
+
+    <!-- Arrow + Pool -->
+    <g transform="translate(430, 97)">
+      <rect x="0" y="0" width="35" height="20" fill="#fef3c7" stroke="#f97316" rx="3"/>
+      <text x="17" y="14" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="7" font-weight="600" text-anchor="middle">Pool</text>
+    </g>
+
+    <!-- Flatten -->
+    <g transform="translate(475, 75)">
+      <rect x="0" y="0" width="35" height="65" fill="#fef3c7" stroke="#f97316" stroke-width="2" rx="4"/>
+      <text x="17" y="25" fill="#f97316" font-family="Segoe UI, sans-serif" font-size="8" font-weight="600" text-anchor="middle" transform="rotate(-90, 17, 25)">Flatten</text>
+    </g>
+
+    <!-- FC Layers -->
+    <g transform="translate(520, 55)">
+      <rect x="0" y="0" width="105" height="105" fill="white" rx="6" stroke="#ef4444" stroke-width="2"/>
+      <text x="52" y="18" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Fully Connected</text>
+
+      <!-- FC1 -->
+      <g transform="translate(10, 30)">
+        <rect x="0" y="0" width="85" height="22" fill="#fef2f2" stroke="#ef4444" rx="3"/>
+        <text x="42" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">FC 4096 + ReLU</text>
+      </g>
+
+      <!-- FC2 -->
+      <g transform="translate(10, 55)">
+        <rect x="0" y="0" width="85" height="22" fill="#fef2f2" stroke="#ef4444" rx="3"/>
+        <text x="42" y="15" fill="#ef4444" font-family="Segoe UI, sans-serif" font-size="8" text-anchor="middle">FC 1024 + ReLU</text>
+      </g>
+
+      <!-- Dropout note -->
+      <text x="52" y="93" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">+ Dropout</text>
+    </g>
+
+    <!-- Arrow -->
+    <path d="M630,107 L650,107" stroke="#666" stroke-width="1.5" fill="none"/>
+
+    <!-- Output -->
+    <g transform="translate(655, 65)">
+      <rect x="0" y="0" width="75" height="85" fill="white" rx="6" stroke="#1a3a6e" stroke-width="2"/>
+      <text x="37" y="18" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="9" font-weight="600" text-anchor="middle">Output</text>
+
+      <g transform="translate(12, 28)">
+        <rect x="0" y="0" width="50" height="35" fill="#e0e7ff" stroke="#1a3a6e" rx="3"/>
+        <text x="25" y="15" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Softmax</text>
+        <text x="25" y="28" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">10 classes</text>
+      </g>
+
+      <text x="37" y="75" fill="#666" font-family="Segoe UI, sans-serif" font-size="7" text-anchor="middle">Probabilities</text>
+    </g>
+
+    <!-- Dimension labels at bottom -->
+    <g transform="translate(0, 180)" font-family="Segoe UI, sans-serif" font-size="7" fill="#999">
+      <text x="27" y="0" text-anchor="middle">224×224×3</text>
+      <text x="127" y="0" text-anchor="middle">112×112×64</text>
+      <text x="260" y="0" text-anchor="middle">56×56×128</text>
+      <text x="387" y="0" text-anchor="middle">28×28×256</text>
+      <text x="492" y="0" text-anchor="middle">7×7×256</text>
+      <text x="572" y="0" text-anchor="middle">12544</text>
+      <text x="692" y="0" text-anchor="middle">10</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(30, 260)">
+    <rect x="0" y="0" width="340" height="115" fill="white" rx="8" stroke="#1a3a6e" stroke-width="2"/>
+    <text x="170" y="22" fill="#1a3a6e" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Layer Types</text>
+
+    <g transform="translate(15, 40)">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="50" height="18" fill="#dbeafe" stroke="#3b82f6" rx="3"/>
+        <text x="60" y="13" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Convolutional - Feature extraction</text>
+      </g>
+
+      <g transform="translate(0, 25)">
+        <rect x="0" y="0" width="50" height="18" fill="#d1fae5" stroke="#10b981" rx="3"/>
+        <text x="60" y="13" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Pooling - Downsampling</text>
+      </g>
+
+      <g transform="translate(0, 50)">
+        <rect x="0" y="0" width="50" height="18" fill="#fef2f2" stroke="#ef4444" rx="3"/>
+        <text x="60" y="13" fill="#333" font-family="Segoe UI, sans-serif" font-size="9">Fully Connected - Classification</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Key concepts -->
+  <g transform="translate(385, 260)">
+    <rect x="0" y="0" width="435" height="115" fill="white" rx="8" stroke="#10b981" stroke-width="2"/>
+    <text x="217" y="22" fill="#10b981" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Key CNN Concepts</text>
+
+    <g transform="translate(15, 40)" font-family="Segoe UI, sans-serif" font-size="9">
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="130" height="32" fill="#f8f9fa" rx="4"/>
+        <text x="10" y="13" fill="#3b82f6" font-weight="600">Local connectivity</text>
+        <text x="10" y="26" fill="#666" font-size="8">Each neuron sees small region</text>
+      </g>
+
+      <g transform="translate(140, 0)">
+        <rect x="0" y="0" width="130" height="32" fill="#f8f9fa" rx="4"/>
+        <text x="10" y="13" fill="#10b981" font-weight="600">Weight sharing</text>
+        <text x="10" y="26" fill="#666" font-size="8">Same filter across image</text>
+      </g>
+
+      <g transform="translate(280, 0)">
+        <rect x="0" y="0" width="130" height="32" fill="#f8f9fa" rx="4"/>
+        <text x="10" y="13" fill="#7c3aed" font-weight="600">Hierarchical features</text>
+        <text x="10" y="26" fill="#666" font-size="8">Edges → Parts → Objects</text>
+      </g>
+
+      <g transform="translate(0, 40)">
+        <rect x="0" y="0" width="200" height="32" fill="#f8f9fa" rx="4"/>
+        <text x="10" y="13" fill="#f97316" font-weight="600">Translation invariance</text>
+        <text x="10" y="26" fill="#666" font-size="8">Detect features regardless of position</text>
+      </g>
+
+      <g transform="translate(210, 40)">
+        <rect x="0" y="0" width="200" height="32" fill="#f8f9fa" rx="4"/>
+        <text x="10" y="13" fill="#ef4444" font-weight="600">Dimensionality reduction</text>
+        <text x="10" y="26" fill="#666" font-size="8">224×224×3 → 10 class probabilities</text>
+      </g>
+    </g>
+  </g>
+</svg>
