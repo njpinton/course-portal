@@ -16,7 +16,7 @@ groups_bp = Blueprint('groups', __name__)
 def create_group_api():
     """Create a new group."""
     try:
-        from supabase_client import (
+        from api.utils.supabase_client import (
             get_supabase_client, create_group, assign_student_to_group,
             update_group_credentials
         )
@@ -109,7 +109,7 @@ def create_group_api():
 def get_groups_api():
     """Get all groups."""
     try:
-        from supabase_client import get_supabase_client, get_groups
+        from api.utils.supabase_client import get_supabase_client, get_groups
     except ImportError:
         return jsonify({"error": "Database module not available"}), 500
 
@@ -129,7 +129,7 @@ def get_groups_api():
 def get_group_details_api(group_id: str):
     """Get details for a specific group."""
     try:
-        from supabase_client import get_supabase_client, get_group_with_submissions
+        from api.utils.supabase_client import get_supabase_client, get_group_with_submissions
     except ImportError:
         return jsonify({"error": "Database module not available"}), 500
 
@@ -152,7 +152,7 @@ def get_group_details_api(group_id: str):
 def delete_group_api(group_id: str):
     """Delete a group (admin only)."""
     try:
-        from supabase_client import get_supabase_client, delete_group
+        from api.utils.supabase_client import get_supabase_client, delete_group
     except ImportError:
         return jsonify({"error": "Database module not available"}), 500
 
@@ -180,7 +180,7 @@ def delete_group_api(group_id: str):
 def get_group_members_api(group_id: str):
     """Get all members of a group."""
     try:
-        from supabase_client import get_group_members
+        from api.utils.supabase_client import get_group_members
     except ImportError:
         return jsonify({"error": "Database module not available"}), 500
 
@@ -199,7 +199,7 @@ def group_login():
     """Group login page."""
     if request.method == 'POST':
         try:
-            from supabase_client import get_group_by_username, update_group_last_login
+            from api.utils.supabase_client import get_group_by_username, update_group_last_login
 
             username = request.form.get('username', '').strip()
             password = request.form.get('password', '')
@@ -246,7 +246,7 @@ def group_submission_portal():
         return redirect(url_for('groups.group_login'))
 
     try:
-        from supabase_client import get_group_with_submissions, get_class_by_id
+        from api.utils.supabase_client import get_group_with_submissions, get_class_by_id
         from ..config import PROJECTS, COURSES, COURSE_PROJECTS
 
         group_id = session.get('group_id')

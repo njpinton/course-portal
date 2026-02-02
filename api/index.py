@@ -49,7 +49,7 @@ logger = logging.getLogger(__name__)
 
 try:
     logger.debug("Attempting to import supabase_client...")
-    from supabase_client import (
+    from api.utils.supabase_client import (
         get_supabase_client, create_group, add_group_member, add_group_document,
         get_groups, get_group_details, delete_group, get_project_stages,
         update_stage_status, get_project_models, add_project_model,

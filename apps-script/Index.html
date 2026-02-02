@@ -602,6 +602,10 @@
       <span class="material-icons">email</span>
       Submissions
     </div>
+    <div class="tab" data-tab="grades" onclick="switchTab('grades')">
+      <span class="material-icons">mail</span>
+      Send Grades
+    </div>
   </div>
 
   <!-- Dashboard Tab -->
@@ -703,6 +707,48 @@
     </div>
   </div>
 
+  <!-- Send Grades Tab -->
+  <div id="grades-tab" class="tab-content">
+    <div class="toolbar">
+      <button class="btn btn-primary" onclick="loadGradesSendingData()" id="refresh-grades-btn">
+        <span class="material-icons">refresh</span>
+        Refresh
+      </button>
+      <button class="btn btn-success" onclick="sendAllUnsent()" id="send-all-btn">
+        <span class="material-icons">send</span>
+        Send All Unsent
+      </button>
+    </div>
+    <div class="container">
+      <div id="grades-content">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div>Loading grades data...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email Preview Modal -->
+  <div class="modal-overlay" id="preview-modal-overlay">
+    <div class="modal" style="max-width:800px;">
+      <div class="modal-header">
+        <h2><span class="material-icons">preview</span> <span id="preview-modal-title">Email Preview</span></h2>
+        <button class="modal-close" onclick="closePreviewModal()" aria-label="Close preview"><span class="material-icons">close</span></button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <iframe id="preview-iframe" style="width:100%;height:70vh;border:none;"></iframe>
+      </div>
+      <div class="modal-footer">
+        <div style="font-size:13px;color:#888;">This is a preview of the email that will be sent.</div>
+        <button class="btn btn-success" id="preview-send-btn" onclick="sendFromPreview()">
+          <span class="material-icons">send</span>
+          Send This Email
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
@@ -791,6 +837,10 @@
       if (tabName === 'submissions' && submissions.length === 0) {
         loadStats();
         loadSubmissions();
+      }
+
+      if (tabName === 'grades' && !gradesData) {
+        loadGradesSendingData();
       }
     }
 
@@ -1626,8 +1676,259 @@
     });
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        closeModal();
+        closePreviewModal();
+      }
     });
+
+    // ============================================
+    // SEND GRADES TAB
+    // ============================================
+    let gradesData = null;
+    let previewCampusId = null;
+
+    function loadGradesSendingData() {
+      document.getElementById('grades-content').innerHTML = '\
+        <div class="loading">\
+          <div class="spinner"></div>\
+          <div>Loading grades data...</div>\
+        </div>\
+      ';
+      setButtonLoading('refresh-grades-btn', true, 'Loading...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('refresh-grades-btn', false);
+          if (!result.success) {
+            document.getElementById('grades-content').innerHTML = '\
+              <div class="empty-state">\
+                <span class="material-icons">error</span>\
+                <h3>Error loading grades</h3>\
+                <p>' + escapeHtml(result.error) + '</p>\
+                <button class="btn btn-primary" onclick="loadGradesSendingData()">\
+                  <span class="material-icons">refresh</span> Try Again\
+                </button>\
+              </div>\
+            ';
+            return;
+          }
+          gradesData = result;
+          renderGradesSendingUI(result);
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('refresh-grades-btn', false);
+          document.getElementById('grades-content').innerHTML = '\
+            <div class="empty-state">\
+              <span class="material-icons">error</span>\
+              <h3>Error</h3>\
+              <p>' + escapeHtml(err.message) + '</p>\
+              <button class="btn btn-primary" onclick="loadGradesSendingData()">\
+                <span class="material-icons">refresh</span> Try Again\
+              </button>\
+            </div>\
+          ';
+        })
+        .getGradesSendingData();
+    }
+
+    function renderGradesSendingUI(data) {
+      var c = data.counts;
+      var students = data.students;
+
+      var rows = students.map(function(s) {
+        var gradeColor = getGradeColorClass(s.grade);
+        var statusClass = s.emailStatus === 'Sent' ? 'submitted' : (s.emailStatus === 'Failed' ? 'pending' : '');
+        var statusBadge = '';
+        if (s.emailStatus === 'Sent') {
+          statusBadge = '<span class="status-badge submitted"><span class="material-icons">check_circle</span> Sent</span>';
+        } else if (s.emailStatus === 'Failed') {
+          statusBadge = '<span class="status-badge" style="background:#fee2e2;color:#dc2626;"><span class="material-icons">error</span> Failed</span>';
+        } else {
+          statusBadge = '<span class="status-badge pending"><span class="material-icons">schedule</span> Not Sent</span>';
+        }
+
+        return '\
+          <tr>\
+            <td>\
+              <div class="student-name">' + escapeHtml(s.name) + '</div>\
+              <div class="student-email">' + escapeHtml(s.email) + '</div>\
+            </td>\
+            <td><span class="section-badge">' + escapeHtml(s.section) + '</span></td>\
+            <td style="text-align:center;font-weight:600;">' + escapeHtml(String(s.finalScore || '-')) + '</td>\
+            <td style="text-align:center;">\
+              <span style="display:inline-block;padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;' + gradeColor + '">' + escapeHtml(String(s.grade || '-')) + '</span>\
+            </td>\
+            <td>' + statusBadge + '</td>\
+            <td>\
+              <div style="display:flex;gap:6px;">\
+                <button class="btn btn-secondary btn-icon" onclick="previewEmail(\'' + escapeHtml(s.campusId) + '\')" title="Preview Email" aria-label="Preview email">\
+                  <span class="material-icons">preview</span>\
+                </button>\
+                <button class="btn btn-primary btn-icon" onclick="sendSingleEmail(\'' + escapeHtml(s.campusId) + '\', this)" title="Send Email" ' + (s.emailStatus === 'Sent' ? 'disabled' : '') + ' aria-label="Send email">\
+                  <span class="material-icons">send</span>\
+                </button>\
+              </div>\
+            </td>\
+          </tr>\
+        ';
+      }).join('');
+
+      var html = '\
+        <div class="dashboard-summary">\
+          <div class="summary-card total">\
+            <div class="value">' + c.total + '</div>\
+            <div class="label">Submitted Students</div>\
+          </div>\
+          <div class="summary-card submitted">\
+            <div class="value">' + c.sent + '</div>\
+            <div class="label">Emails Sent</div>\
+          </div>\
+          <div class="summary-card pending">\
+            <div class="value">' + c.pending + '</div>\
+            <div class="label">Pending</div>\
+          </div>\
+          <div class="summary-card" style="border-left:4px solid #ef4444;">\
+            <div class="value">' + c.failed + '</div>\
+            <div class="label">Failed</div>\
+          </div>\
+        </div>\
+        <div class="table-card">\
+          <table class="student-table">\
+            <thead>\
+              <tr>\
+                <th class="no-sort">Student</th>\
+                <th class="no-sort">Section</th>\
+                <th class="no-sort" style="text-align:center;">Final Score</th>\
+                <th class="no-sort" style="text-align:center;">Grade</th>\
+                <th class="no-sort">Email Status</th>\
+                <th class="no-sort">Actions</th>\
+              </tr>\
+            </thead>\
+            <tbody>' + rows + '</tbody>\
+          </table>\
+        </div>\
+      ';
+
+      document.getElementById('grades-content').innerHTML = html;
+    }
+
+    function getGradeColorClass(grade) {
+      var g = parseFloat(grade);
+      if (isNaN(g)) return 'background:#f3f4f6;color:#666;';
+      if (g <= 1.25) return 'background:#d1fae5;color:#059669;';
+      if (g <= 1.75) return 'background:#dbeafe;color:#2563eb;';
+      if (g <= 2.5) return 'background:#fef3c7;color:#d97706;';
+      if (g <= 3.0) return 'background:#fed7aa;color:#ea580c;';
+      return 'background:#fee2e2;color:#dc2626;';
+    }
+
+    function previewEmail(campusId) {
+      previewCampusId = campusId;
+      document.getElementById('preview-modal-overlay').classList.add('show');
+      document.getElementById('preview-iframe').srcdoc = '<div style="padding:40px;text-align:center;color:#888;font-family:sans-serif;"><div class="spinner" style="width:30px;height:30px;border:3px solid #e0e0e0;border-top-color:#667eea;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px;"></div>Loading preview...</div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (!result.success) {
+            document.getElementById('preview-iframe').srcdoc = '<div style="padding:40px;text-align:center;color:#ef4444;font-family:sans-serif;">Error: ' + escapeHtml(result.error) + '</div>';
+            return;
+          }
+          document.getElementById('preview-iframe').srcdoc = result.html;
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('preview-iframe').srcdoc = '<div style="padding:40px;text-align:center;color:#ef4444;font-family:sans-serif;">Error: ' + escapeHtml(err.message) + '</div>';
+        })
+        .previewGradeEmail(campusId);
+    }
+
+    function closePreviewModal() {
+      document.getElementById('preview-modal-overlay').classList.remove('show');
+      previewCampusId = null;
+    }
+
+    document.getElementById('preview-modal-overlay').addEventListener('click', function(e) {
+      if (e.target.id === 'preview-modal-overlay') closePreviewModal();
+    });
+
+    function sendFromPreview() {
+      if (!previewCampusId) return;
+      setButtonLoading('preview-send-btn', true, 'Sending...');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('preview-send-btn', false);
+          if (!result.success) {
+            showToast('Error: ' + result.error, 'error');
+            return;
+          }
+          showToast('Email sent to ' + result.email, 'success');
+          closePreviewModal();
+          loadGradesSendingData();
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('preview-send-btn', false);
+          showToast('Error: ' + err.message, 'error');
+        })
+        .sendGradeEmail(previewCampusId);
+    }
+
+    function sendSingleEmail(campusId, btn) {
+      if (btn) btn.disabled = true;
+      if (btn) btn.innerHTML = '<div class="spinner-small"></div>';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (!result.success) {
+            showToast('Error: ' + result.error, 'error');
+            if (btn) { btn.disabled = false; btn.innerHTML = '<span class="material-icons">send</span>'; }
+            return;
+          }
+          showToast('Email sent to ' + result.email, 'success');
+          loadGradesSendingData();
+        })
+        .withFailureHandler(function(err) {
+          showToast('Error: ' + err.message, 'error');
+          if (btn) { btn.disabled = false; btn.innerHTML = '<span class="material-icons">send</span>'; }
+        })
+        .sendGradeEmail(campusId);
+    }
+
+    function sendAllUnsent() {
+      if (!gradesData || !gradesData.counts) {
+        showToast('Please load grades data first', 'error');
+        return;
+      }
+
+      var pending = gradesData.counts.pending;
+      if (pending === 0) {
+        showToast('No unsent emails remaining', 'success');
+        return;
+      }
+
+      if (!confirm('Send grade emails to ' + pending + ' student(s)?\n\nThis will send emails with their full score reports.')) {
+        return;
+      }
+
+      setButtonLoading('send-all-btn', true, 'Sending...');
+      showToast('Sending ' + pending + ' emails... This may take a moment.', 'success');
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          setButtonLoading('send-all-btn', false);
+          if (!result.success) {
+            showToast('Error: ' + result.error, 'error');
+            return;
+          }
+          showToast(result.message, 'success');
+          loadGradesSendingData();
+        })
+        .withFailureHandler(function(err) {
+          setButtonLoading('send-all-btn', false);
+          showToast('Error: ' + err.message, 'error');
+        })
+        .sendAllGradeEmails();
+    }
   </script>
 </body>
 </html>

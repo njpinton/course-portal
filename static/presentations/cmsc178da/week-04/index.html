@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMSC 178DA - Week 4: Exploratory Data Analysis</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+
+    <!-- Highlight.js theme for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- KaTeX for math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="presenter-header">
+        <div class="header-left">
+            <a href="/course/cmsc178da" class="home-button" aria-label="Return to course page" target="_top">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Course
+            </a>
+            <div class="course-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18 17V9"/>
+                    <path d="M13 17V5"/>
+                    <path d="M8 17v-3"/>
+                </svg>
+                <span>CMSC 178DA</span>
+            </div>
+            <h1>Week 4: Exploratory Data Analysis</h1>
+        </div>
+        <div class="header-right">
+            <div class="slide-counter" aria-live="polite">
+                <span id="current-slide">1</span> / <span id="total-slides">--</span>
+            </div>
+            <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                </svg>
+            </button>
+            <button class="header-btn" onclick="Reveal.toggleOverview()" title="Overview (O)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section data-background="linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)">
+                <h1 style="color: white; font-size: 2.2em;">Exploratory Data Analysis</h1>
+                <h3 style="color: #FCD34D;">CMSC 178DA - Week 04</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-top: 2em;">
+                    <strong>Department of Computer Science</strong><br>
+                    University of the Philippines Cebu
+                </p>
+            </section>
+
+            <!-- Learning Objectives -->
+            <section data-background-color="#F8FAFC">
+                <h2>Learning Objectives</h2>
+                <div class="highlight-box">
+                    <p><strong>By the end of this lecture, you should be able to:</strong></p>
+                    <ol>
+                        <li>Perform <strong>Univariate Analysis</strong> to understand distributions and outliers.</li>
+                        <li>Conduct <strong>Bivariate Analysis</strong> to uncover relationships between variables.</li>
+                        <li>Apply <strong>Feature Engineering</strong> techniques (encoding, binning) for modeling.</li>
+                        <li>Detect and handle data quality issues using EDA.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Motivation -->
+            <section>
+                <h2>Why EDA?</h2>
+                <div class="two-columns">
+                    <div>
+                        <p><strong>"You can't model what you don't understand."</strong></p>
+                        <p>EDA is the detective work before the trial:</p>
+                        <ul>
+                            <li>Spotting anomalies (fraud, errors)</li>
+                            <li>Testing assumptions (normality, linearity)</li>
+                            <li>Generating hypotheses</li>
+                        </ul>
+                    </div>
+                    <div class="case-study-box">
+                        <h4>🇵🇭 Philippine Context: FIES Data</h4>
+                        <p><strong>Family Income and Expenditure Survey</strong></p>
+                        <p>Before predicting poverty incidence, we must ask:</p>
+                        <ul>
+                            <li>Is income distribution normal or skewed? (Skewed!)</li>
+                            <li>Are there outliers? (Billionaires vs. average)</li>
+                            <li>How does region correlate with spending?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PART 1: UNIVARIATE ANALYSIS
+                 ========================================== -->
+            
+            <section>
+                <h2>Part 1: Univariate Analysis</h2>
+                <p class="caption">Analyzing one variable at a time</p>
+            </section>
+
+            <section>
+                <h2>Descriptive Statistics</h2>
+                <div class="three-columns">
+                    <div class="stat-card">
+                        <div class="stat-value">Central</div>
+                        <div class="stat-label">Tendency</div>
+                        <div style="font-size: 0.7em; margin-top: 10px; text-align: left;">
+                            <ul>
+                                <li><strong>Mean:</strong> Average (sensitive to outliers)</li>
+                                <li><strong>Median:</strong> Middle value (robust)</li>
+                                <li><strong>Mode:</strong> Most frequent</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">Spread</div>
+                        <div class="stat-label">Dispersion</div>
+                        <div style="font-size: 0.7em; margin-top: 10px; text-align: left;">
+                            <ul>
+                                <li><strong>Range:</strong> Max - Min</li>
+                                <li><strong>Variance:</strong> Avg squared deviation</li>
+                                <li><strong>Std Dev:</strong> Avg deviation (same units)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">Shape</div>
+                        <div class="stat-label">Distribution</div>
+                        <div style="font-size: 0.7em; margin-top: 10px; text-align: left;">
+                            <ul>
+                                <li><strong>Skewness:</strong> Asymmetry</li>
+                                <li><strong>Kurtosis:</strong> "Tailedness"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Visualizing Distributions: Histograms</h2>
+                <div class="two-columns">
+                    <div>
+                        <ul>
+                            <li>Shows frequency of values in bins.</li>
+                            <li><strong>Right Skewed:</strong> Tail extends right (e.g., Income). Mean > Median.</li>
+                            <li><strong>Left Skewed:</strong> Tail extends left (e.g., Age at death). Mean < Median.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <pre><code class="language-python">import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Histogram with KDE (Kernel Density Estimate)
+sns.histplot(data=df, x='income', kde=True)
+plt.title('Income Distribution (Right Skewed)')
+plt.show()</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Box Plots & Outliers</h2>
+                <div class="two-columns">
+                    <div>
+                        <p><strong>The Five-Number Summary:</strong></p>
+                        <ol>
+                            <li>Min</li>
+                            <li>Q1 (25th percentile)</li>
+                            <li>Median (Q2)</li>
+                            <li>Q3 (75th percentile)</li>
+                            <li>Max</li>
+                        </ol>
+                        <p><strong>IQR Method for Outliers:</strong></p>
+                        <p>Outlier < Q1 - 1.5*IQR <br> Outlier > Q3 + 1.5*IQR</p>
+                    </div>
+                    <div>
+                         <pre><code class="language-python"># Box plot
+sns.boxplot(x=df['annual_income'])
+
+# Finding outliers
+Q1 = df['income'].quantile(0.25)
+Q3 = df['income'].quantile(0.75)
+IQR = Q3 - Q1
+outliers = df[(df['income'] < (Q1 - 1.5 * IQR)) | 
+              (df['income'] > (Q3 + 1.5 * IQR))]</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PART 2: BIVARIATE ANALYSIS
+                 ========================================== -->
+
+            <section>
+                <h2>Part 2: Bivariate Analysis</h2>
+                <p class="caption">Relationships between two variables</p>
+            </section>
+
+            <section>
+                <h2>Scatter Plots (Num vs Num)</h2>
+                <div class="two-columns">
+                    <div>
+                        <ul>
+                            <li><strong>Direction:</strong> Positive or Negative relationship?</li>
+                            <li><strong>Strength:</strong> How tight is the cluster?</li>
+                            <li><strong>Shape:</strong> Linear, curved, or random?</li>
+                        </ul>
+                        <div class="definition-box" style="margin-top: 1em;">
+                            <strong>Correlation (r):</strong> Measures linear relationship (-1 to +1). 
+                            <br><em>Warning: Correlation ≠ Causation!</em>
+                        </div>
+                    </div>
+                    <div>
+                        <pre><code class="language-python"># Scatter plot with regression line
+sns.regplot(x='years_experience', y='salary', data=df)
+
+# Correlation matrix
+print(df.corr())</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Categorical vs Numerical</h2>
+                <p>How does a numerical variable change across categories?</p>
+                <div class="two-columns">
+                    <div>
+                        <h4>Grouped Box Plots</h4>
+                        <p>Compare distributions side-by-side.</p>
+                        <p><em>Example: Salary distribution by Department.</em></p>
+                    </div>
+                    <div>
+                        <pre><code class="language-python">plt.figure(figsize=(10,6))
+sns.boxplot(x='region', y='family_income', data=fies_df)
+plt.xticks(rotation=45)
+plt.title('Income Distribution by Region')</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Categorical vs Categorical</h2>
+                <div class="two-columns">
+                    <div>
+                        <h4>Cross-Tabulation (Crosstab)</h4>
+                        <p>Frequency counts for combinations of categories.</p>
+                        <p><em>Example: Education Level vs. Employment Status.</em></p>
+                        <p>Visualized via <strong>Heatmaps</strong> or <strong>Stacked Bar Charts</strong>.</p>
+                    </div>
+                    <div>
+                        <pre><code class="language-python"># Contingency Table
+ct = pd.crosstab(df['education'], df['employed'])
+
+# Heatmap visualization
+sns.heatmap(ct, annot=True, cmap='Blues', fmt='d')</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PART 3: FEATURE ENGINEERING
+                 ========================================== -->
+
+            <section>
+                <h2>Part 3: Feature Engineering</h2>
+                <p class="caption">Creating better inputs for machine learning</p>
+            </section>
+
+            <section>
+                <h2>Handling Categorical Data</h2>
+                <div class="two-columns">
+                    <div>
+                        <h4>One-Hot Encoding</h4>
+                        <p>For nominal data (no order).</p>
+                        <p>Creates binary columns for each category.</p>
+                        <p><em>Region: [NCR, Cebu, Davao] &rarr; is_NCR, is_Cebu...</em></p>
+                    </div>
+                    <div>
+                        <h4>Label Encoding</h4>
+                        <p>For ordinal data (ordered).</p>
+                        <p>Assigns integers.</p>
+                        <p><em>Size: [Small, Medium, Large] &rarr; [0, 1, 2]</em></p>
+                    </div>
+                </div>
+                <pre><code class="language-python" style="margin-top: 1em;"># One-Hot Encoding in Pandas
+pd.get_dummies(df, columns=['region'], drop_first=True)</code></pre>
+            </section>
+
+            <section>
+                <h2>Binning & Interaction Terms</h2>
+                <div class="two-columns">
+                    <div>
+                        <h4>Binning (Discretization)</h4>
+                        <p>Converting numerical data into categories.</p>
+                        <p><em>Age &rarr; Age Group (Child, Adult, Senior)</em></p>
+                        <p>Helps handle non-linear relationships and outliers.</p>
+                    </div>
+                    <div>
+                        <h4>Interaction Features</h4>
+                        <p>Combining two features to capture joint effects.</p>
+                        <p><em>Total Area = Length * Width</em></p>
+                        <p><em>Income Per Capita = Household Income / Members</em></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary & Next Steps -->
+            <section>
+                <h2>Summary</h2>
+                <div class="success-box">
+                    <ul>
+                        <li><strong>Univariate Analysis:</strong> Start here. Understand your variables' shape and spread (Histograms, Boxplots).</li>
+                        <li><strong>Bivariate Analysis:</strong> Find relationships. Correlation (Scatter plots) and Group differences (Boxplots).</li>
+                        <li><strong>Data Quality:</strong> EDA reveals missing data, outliers, and duplicates. Fix them before modeling.</li>
+                        <li><strong>Feature Engineering:</strong> Transform data (Encoding, Binning) to make it machine-readable and more predictive.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>Next Lecture</h2>
+                <div class="highlight-box">
+                    <h3>Week 5: Data Visualization Principles</h3>
+                    <ul>
+                        <li>Visual Perception and Cognition</li>
+                        <li>The "Grammar of Graphics"</li>
+                        <li>Choosing the Right Chart</li>
+                        <li><strong>Lab 5:</strong> Advanced Visualization with Seaborn & Plotly</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+
+    <script>
+        // Initialize Reveal.js with accessibility settings
+        Reveal.initialize({
+            hash: true,
+            slideNumber: false,
+            transition: 'fade',           // REQUIRED: Reduce motion
+            transitionSpeed: 'fast',      // REQUIRED: Minimize discomfort
+            backgroundTransition: 'fade', // REQUIRED: Consistent
+            center: true,
+            navigationMode: 'linear',
+            plugins: [RevealNotes, RevealMarkdown, RevealHighlight, RevealMath.MathJax3]
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Update slide counter
+        Reveal.on('slidechanged', event => {
+            document.getElementById('current-slide').innerText = event.indexh + 1;
+        });
+
+        Reveal.on('ready', event => {
+            document.getElementById('total-slides').innerText = Reveal.getTotalSlides();
+        });
+    </script>
+</body>
+</html>

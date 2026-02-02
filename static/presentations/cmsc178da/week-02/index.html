@@ -23,7 +23,7 @@
     <!-- Header Bar -->
     <header class="presenter-header">
         <div class="header-left">
-            <a href="/course/cmsc178da" class="home-button" aria-label="Return to course page">
+            <a href="/course/cmsc178da" class="home-button" aria-label="Return to course page" target="_top">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
@@ -42,7 +42,7 @@
         </div>
         <div class="header-right">
             <div class="slide-counter" aria-live="polite">
-                <span id="current-slide">1</span> / <span id="total-slides">42</span>
+                <span id="current-slide">1</span> / <span id="total-slides">70</span>
             </div>
             <button class="header-btn" onclick="toggleFullscreen()" title="Fullscreen (F)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -310,7 +310,66 @@
                 <p class="caption" style="margin-top: 1em;"><strong>Caution:</strong> Independence is often assumed but rarely verified!</p>
             </section>
 
-            <!-- Bayes' Theorem -->
+            <!-- Introducing Bayes' Theorem -->
+            <section>
+                <h2>Introducing Bayes' Theorem</h2>
+                <div class="two-columns" style="gap: 2em; align-items: start;">
+                    <div>
+                        <div class="definition-box" style="margin-bottom: 1em;">
+                            <p><strong>Thomas Bayes</strong> (1701-1761)</p>
+                            <p style="margin-top: 0.3em;">English minister and mathematician who asked: <em>"How should we update our beliefs when we see new evidence?"</em></p>
+                        </div>
+                        <ul style="font-size: 0.9em;">
+                            <li>Published posthumously in 1763</li>
+                            <li>Rediscovered by <strong>Pierre-Simon Laplace</strong></li>
+                            <li>Now one of the most-used formulas in all of statistics</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Why It Matters Today</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Spam filters (Gmail uses it)</li>
+                                <li>Medical diagnosis</li>
+                                <li>Search engines &amp; recommendations</li>
+                                <li>Self-driving cars</li>
+                                <li>Machine learning &amp; AI</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bayes' Intuition -->
+            <section>
+                <h2>Bayes' Intuition: Updating Beliefs</h2>
+                <p style="text-align: center; margin-bottom: 1.2em; color: var(--text-muted);">Bayes gives us a <strong>systematic way</strong> to update what we believe</p>
+
+                <div style="display: flex; justify-content: center; gap: 1em; align-items: center; margin-bottom: 1.5em;">
+                    <div class="formula-box" style="text-align: center; flex: 1;">
+                        <h4 style="color: #a78bfa;">Prior Belief</h4>
+                        <p style="font-size: 0.9em;">What you believed <em>before</em> seeing data</p>
+                    </div>
+                    <div style="font-size: 2em; color: var(--text-muted);">+</div>
+                    <div class="formula-box" style="text-align: center; flex: 1;">
+                        <h4 style="color: #38bdf8;">New Evidence</h4>
+                        <p style="font-size: 0.9em;">Data you just observed</p>
+                    </div>
+                    <div style="font-size: 2em; color: var(--text-muted);">=</div>
+                    <div class="success-box" style="text-align: center; flex: 1;">
+                        <h4 style="color: #10b981;">Posterior</h4>
+                        <p style="font-size: 0.9em;">Your <em>updated</em> belief</p>
+                    </div>
+                </div>
+
+                <div class="case-study-box" style="text-align: center;">
+                    <p><strong>Everyday example:</strong> You hear thunder.</p>
+                    <p style="margin-top: 0.3em;">Before hearing it: <strong>30%</strong> chance of rain &nbsp;→&nbsp; After hearing thunder: <strong>80%</strong> chance of rain</p>
+                    <p style="margin-top: 0.3em; color: var(--text-muted);">That update is Bayes' Theorem in action.</p>
+                </div>
+            </section>
+
+            <!-- Bayes' Theorem Formula -->
             <section>
                 <h2>Bayes' Theorem</h2>
                 <div class="formula-box" style="margin-bottom: 1em;">
@@ -340,7 +399,7 @@
                 <h2>Medical Testing Vocabulary</h2>
                 <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Before we apply Bayes' theorem, learn these key terms</p>
 
-                <table style="width: 90%; margin: 0 auto; font-size: 1em;">
+                <table style="width: 90%; margin: 0 auto; font-size: 0.9em;">
                     <thead>
                         <tr>
                             <th style="width: 22%;">Term</th>
@@ -476,7 +535,7 @@
                 <h2>Greek Letter Cheat Sheet</h2>
                 <p style="text-align: center; margin-bottom: 1.2em; color: var(--text-muted);">Statistics uses Greek letters as shorthand — here's what they mean</p>
 
-                <table style="width: 80%; margin: 0 auto; font-size: 1.1em;">
+                <table style="width: 80%; margin: 0 auto; font-size: 0.95em;">
                     <thead>
                         <tr>
                             <th style="width: 15%;">Symbol</th>
@@ -628,6 +687,36 @@
                 <p class="caption" style="margin-top: 1em;">Different phenomena follow different distributions — choosing the right one is key!</p>
             </section>
 
+            <!-- Why the Right Distribution Matters -->
+            <section>
+                <h2>Why the Right Distribution Matters</h2>
+                <div class="highlight-box" style="margin-bottom: 1em; text-align: center;">
+                    <p style="font-size: 1.1em;"><strong>Choosing the wrong distribution leads to wrong conclusions</strong></p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div class="success-box">
+                        <h4 style="color: #10b981;">Correct Choices</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li>Customer wait times → <strong>Exponential</strong></li>
+                            <li>Exam scores → <strong>Normal</strong></li>
+                            <li>Defect counts → <strong>Poisson</strong></li>
+                            <li>Pass/fail outcomes → <strong>Binomial</strong></li>
+                        </ul>
+                    </div>
+                    <div class="case-study-box">
+                        <h4 style="color: #ef4444;">Wrong Choices</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li>Normal for count data → can predict <em>negative</em> counts!</li>
+                            <li>Normal for income data → misses the long right tail</li>
+                            <li>Binomial when trials aren't independent → wrong variance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="caption" style="margin-top: 1em;">Always check your data's <strong>shape</strong> before choosing a distribution</p>
+            </section>
+
             <!-- Common Distributions -->
             <section>
                 <h2>Common Probability Distributions</h2>
@@ -637,7 +726,37 @@
                 <p class="caption" style="margin-top: 0.5em;">Different distributions model different types of data: counts, rates, continuous measurements</p>
             </section>
 
-            <!-- Binomial Distribution -->
+            <!-- When to Use: Binomial -->
+            <section>
+                <h2>When to Use: Binomial</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p>Models the <strong>number of successes</strong> in a fixed number of independent yes/no trials</p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <h4>3 Requirements</h4>
+                        <ol style="font-size: 0.9em;">
+                            <li><strong>Fixed</strong> number of trials ($n$)</li>
+                            <li>Each trial: <strong>success or failure</strong> only</li>
+                            <li>Same probability ($p$) each trial, trials <strong>independent</strong></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="case-study-box">
+                            <h4>Real Examples</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Coin flips: heads in 10 tosses</li>
+                                <li>MCQ guessing: correct in 20 questions</li>
+                                <li>Defective items in a batch of 100</li>
+                                <li>Free throw success in 15 attempts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Binomial Distribution Formula -->
             <section>
                 <h2>Binomial Distribution</h2>
                 <div class="definition-box" style="margin-bottom: 1em;">
@@ -655,7 +774,37 @@ print(f"P(X=5) = {prob:.4f}")  # Output: 0.1029</code></pre>
                 </div>
             </section>
 
-            <!-- Poisson Distribution -->
+            <!-- When to Use: Poisson -->
+            <section>
+                <h2>When to Use: Poisson</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p>Models the <strong>count of events</strong> in a fixed interval of time or space, when events occur independently at a constant average rate</p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <h4>3 Requirements</h4>
+                        <ol style="font-size: 0.9em;">
+                            <li>Events occur <strong>independently</strong></li>
+                            <li>Average rate ($\lambda$) is <strong>constant</strong></li>
+                            <li>Two events cannot occur at <em>exactly</em> the same instant</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="case-study-box">
+                            <h4>Real Examples</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>Calls to a hotline per hour</li>
+                                <li>Typos per page of a book</li>
+                                <li>Jeepney arrivals per 10 minutes</li>
+                                <li>Website visitors per minute</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Poisson Distribution Formula -->
             <section>
                 <h2>Poisson Distribution</h2>
                 <div class="definition-box" style="margin-bottom: 1em;">
@@ -673,7 +822,27 @@ print(f"P(X=25) = {prob:.4f}")  # Output: 0.0446</code></pre>
                 </div>
             </section>
 
-            <!-- Normal Distribution -->
+            <!-- Introducing the Normal Distribution -->
+            <section>
+                <h2>The Normal Distribution</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">The most important distribution in statistics</p>
+
+                <div class="definition-box" style="margin-bottom: 1em; text-align: center;">
+                    <p>Many natural phenomena follow this <strong>bell-shaped curve</strong> when sample sizes are large enough</p>
+                    <p style="margin-top: 0.3em; color: var(--text-muted);">Also called the <strong>Gaussian distribution</strong>, after Carl Friedrich Gauss (1777-1855)</p>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>Why It's So Important</h4>
+                    <ul style="font-size: 0.9em;">
+                        <li>The <strong>Central Limit Theorem</strong> guarantees sample means are approximately Normal</li>
+                        <li>Required assumption for many statistical tests (t-test, ANOVA, regression)</li>
+                        <li>Heights, exam scores, measurement errors all follow it naturally</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Normal Distribution Details -->
             <section>
                 <h2>Normal Distribution</h2>
                 <div class="definition-box" style="margin-bottom: 1em;">
@@ -735,9 +904,40 @@ plt.hist(sample_means, bins=30)</code></pre>
                 <p class="caption">Skewed exponential population → Normal distribution of sample means (n=30)</p>
             </section>
 
-            <!-- Philippine Application -->
+            <!-- Wrong Distribution = Wrong Conclusions -->
             <section>
-                <h2>Philippine Application</h2>
+                <h2>Wrong Distribution = Wrong Conclusions</h2>
+                <p style="text-align: center; margin-bottom: 1em; color: var(--text-muted);">Choosing the wrong distribution leads to <strong>misleading results</strong></p>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div class="case-study-box">
+                        <h4 style="color: #ef4444;">Example 1: Income Data</h4>
+                        <p>If you assume income is <strong>Normal</strong> (symmetric), you will:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Underestimate the number of very high earners</li>
+                            <li>Overestimate the "average" person</li>
+                        </ul>
+                        <p style="margin-top: 0.5em; color: #10b981;"><strong>Better:</strong> Log-normal distribution (right-skewed)</p>
+                    </div>
+                    <div class="case-study-box">
+                        <h4 style="color: #ef4444;">Example 2: Rare Events</h4>
+                        <p>If you model server crashes with <strong>Normal</strong>, you might:</p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Predict "negative crashes" (impossible!)</li>
+                            <li>Underestimate extreme events</li>
+                        </ul>
+                        <p style="margin-top: 0.5em; color: #10b981;"><strong>Better:</strong> Poisson (handles count data correctly)</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 1em; text-align: center;">
+                    <p><strong>Always:</strong> (1) Visualize your data first &nbsp; (2) Check skewness and shape &nbsp; (3) Run a normality test if using Normal</p>
+                </div>
+            </section>
+
+            <!-- Real-World Application -->
+            <section>
+                <h2>Real-World: Fraud Detection</h2>
                 <div class="case-study-box">
                     <h4>BPI Credit Card Fraud Detection</h4>
                     <div class="two-columns">
@@ -849,6 +1049,23 @@ plt.hist(sample_means, bins=30)</code></pre>
                 </div>
             </section>
 
+            <!-- From Data to Decisions -->
+            <section>
+                <h2>From Data to Decisions</h2>
+                <div class="case-study-box" style="margin-bottom: 1em; text-align: center;">
+                    <p style="font-size: 1.1em;">You survey <strong>200 students</strong> at UP Cebu about their preferred payment app.</p>
+                    <p style="font-size: 1.1em; margin-top: 0.5em;"><strong>68%</strong> say GCash.</p>
+                </div>
+
+                <div class="highlight-box" style="text-align: center; margin-bottom: 1em;">
+                    <p style="font-size: 1.1em;">Can you conclude that 68% of <strong>ALL</strong> Filipino college students prefer GCash?</p>
+                </div>
+
+                <div class="definition-box" style="text-align: center;">
+                    <p><strong>Statistical inference</strong> = using sample data to draw conclusions about a larger population, while <em>quantifying our uncertainty</em></p>
+                </div>
+            </section>
+
             <!-- Sample vs Population -->
             <section>
                 <h2>Sample vs Population</h2>
@@ -926,6 +1143,35 @@ plt.hist(sample_means, bins=30)</code></pre>
                         </div>
                     </div>
                 </div>
+            </section>
+
+            <!-- What is Hypothesis Testing? -->
+            <section>
+                <h2>What is Hypothesis Testing?</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p>A structured method for deciding whether observed data provides <strong>enough evidence</strong> to reject a claim about a population</p>
+                </div>
+
+                <div class="case-study-box" style="margin-bottom: 1em;">
+                    <h4>Think of It Like a Court Trial</h4>
+                    <div class="two-columns" style="gap: 1.5em; font-size: 0.9em;">
+                        <div>
+                            <ul>
+                                <li><strong>Defendant</strong> = Your hypothesis</li>
+                                <li><strong>"Innocent until proven guilty"</strong> = H₀ (null hypothesis)</li>
+                                <li><strong>Prosecution's evidence</strong> = Your data</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul>
+                                <li><strong>Jury's standard of proof</strong> = Significance level (alpha)</li>
+                                <li><strong>Verdict</strong> = Reject or fail to reject H₀</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="caption">Just like a jury needs "beyond reasonable doubt," we need a <strong>p-value below alpha</strong> to reject H₀</p>
             </section>
 
             <!-- Logic of Hypothesis Testing -->
@@ -1308,7 +1554,7 @@ print(f"t = {t_stat:.3f}, p = {p_value:.4f}")
                             <p style="margin-top: 0.3em;">$s^2_{Cebu} = 2,290$ &nbsp;|&nbsp; $s^2_{Manila} = 1,160$</p>
                             <p style="margin-top: 0.3em;">$n_1 = n_2 = 10$</p>
                         </div>
-                        <div class="formula-box" style="margin-top: 0.8em;">
+                        <div class="formula-box" style="margin-top: 0.5em;">
                             <h4>Step 2: Pooled Variance</h4>
                             <p style="font-size: 0.9em;">$s_p^2 = \frac{(n_1-1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}$</p>
                             <p style="margin-top: 0.3em;">$= \frac{9(2290) + 9(1160)}{18} = 1,725$</p>
@@ -1320,7 +1566,7 @@ print(f"t = {t_stat:.3f}, p = {p_value:.4f}")
                             <p style="font-size: 0.9em;">$SE = \sqrt{s_p^2 \cdot (\frac{1}{n_1} + \frac{1}{n_2})}$</p>
                             <p style="margin-top: 0.3em;">$= \sqrt{1725 \cdot 0.2} = 18.57$</p>
                         </div>
-                        <div class="success-box" style="margin-top: 0.8em;">
+                        <div class="success-box" style="margin-top: 0.5em;">
                             <h4>Step 4: t-statistic</h4>
                             <p style="font-size: 1.1em;">$t = \frac{\bar{x}_1 - \bar{x}_2}{SE} = \frac{877 - 804}{18.57}$</p>
                             <p style="font-size: 1.2em; color: #10b981; margin-top: 0.3em;"><strong>t = 3.93</strong></p>
@@ -1376,7 +1622,7 @@ print(f"Degrees of freedom = {dof}")
             <!-- How Chi-Square = 62.89 Was Computed -->
             <section>
                 <h2>How χ² = 62.89 Was Computed</h2>
-                <p style="text-align: center; margin-bottom: 0.8em; color: var(--text-muted);">Compare <strong>Observed (O)</strong> vs <strong>Expected (E)</strong> counts</p>
+                <p style="text-align: center; margin-bottom: 0.5em; color: var(--text-muted);">Compare <strong>Observed (O)</strong> vs <strong>Expected (E)</strong> counts</p>
 
                 <div class="two-columns" style="gap: 1.5em; font-size: 0.85em;">
                     <div>
@@ -1413,6 +1659,26 @@ print(f"Degrees of freedom = {dof}")
 
                 <div class="highlight-box" style="margin-top: 0.8em; text-align: center;">
                     <p>Critical χ² at df=4, α=0.05 is <strong>9.488</strong> → 62.89 >> 9.488 → <strong>Reject H₀</strong></p>
+                </div>
+            </section>
+
+            <!-- Introducing Confidence Intervals -->
+            <section>
+                <h2>Introducing Confidence Intervals</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p>A <strong>range of plausible values</strong> for an unknown population parameter, based on sample data</p>
+                </div>
+
+                <div class="case-study-box" style="text-align: center; margin-bottom: 1em;">
+                    <h4>Everyday Analogy</h4>
+                    <p>"How long is your commute?"</p>
+                    <p style="margin-top: 0.5em;">You wouldn't say <strong>"exactly 47 minutes"</strong></p>
+                    <p>You'd say <strong>"usually between 40-55 minutes"</strong></p>
+                    <p style="margin-top: 0.5em; color: var(--text-muted);">A confidence interval gives this kind of range for statistical estimates</p>
+                </div>
+
+                <div class="highlight-box" style="text-align: center;">
+                    <p><strong>Why not just report the average?</strong> Because a single number hides the <em>uncertainty</em> in your estimate.</p>
                 </div>
             </section>
 
@@ -1461,6 +1727,33 @@ print(f"95% CI: (₱{ci[0]:.2f}, ₱{ci[1]:.2f})")
 # Output: Sample mean: ₱203.67
 # 95% CI: (₱178.42, ₱228.91)</code></pre>
                 <p style="font-size: 0.65em; color: #94a3b8; text-align: right; margin-top: 0.3em;">Simulated data based on <a href="https://www.gcash.com/" style="color: #60a5fa;">GCash</a> transaction patterns</p>
+            </section>
+
+            <!-- Introducing A/B Testing -->
+            <section>
+                <h2>Introducing A/B Testing</h2>
+                <div class="definition-box" style="margin-bottom: 1em;">
+                    <p>A <strong>controlled experiment</strong> where you compare two versions (A and B) to see which performs better on a specific metric</p>
+                </div>
+
+                <div class="two-columns" style="gap: 2em;">
+                    <div>
+                        <h4>You've Seen It Everywhere</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Netflix:</strong> Which thumbnail gets more clicks?</li>
+                            <li><strong>Shopee:</strong> Which banner drives more sales?</li>
+                            <li><strong>Facebook:</strong> Which feed algorithm keeps users longer?</li>
+                            <li><strong>Google:</strong> Which search layout gets more engagement?</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="highlight-box">
+                            <h4>Why It Matters for Data Analysts</h4>
+                            <p style="font-size: 0.9em;">A/B testing is the <strong>gold standard</strong> for establishing <em>causation</em>, not just correlation.</p>
+                            <p style="font-size: 0.9em; margin-top: 0.5em;">It answers: "Did this change <strong>actually cause</strong> the improvement?"</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- A/B Testing Framework -->
@@ -1635,7 +1928,7 @@ print(f"95% CI: (₱{ci[0]:.2f}, ₱{ci[1]:.2f})")
             <!-- Exercise Answer: A/B Test -->
             <section data-background-color="#DBEAFE">
                 <h2>Exercise Answer</h2>
-                <div class="two-columns" style="gap: 1.5em; font-size: 0.95em;">
+                <div class="two-columns" style="gap: 1.5em; font-size: 0.9em;">
                     <div>
                         <div class="formula-box">
                             <h4>1. Chi-Square Test</h4>

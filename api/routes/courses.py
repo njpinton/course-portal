@@ -104,7 +104,7 @@ def show_module(course_id: str, module_id: str):
     # Optional: Track view count via Supabase
     view_count = 0
     try:
-        from supabase_client import get_supabase_client
+        from api.utils.supabase_client import get_supabase_client
         supabase_client = get_supabase_client()
         if supabase_client:
             supabase_client.rpc('increment_module_view', {'module_id': module_number}).execute()

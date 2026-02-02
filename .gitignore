@@ -166,6 +166,7 @@ data/
 *.tmp
 *.temp
 /tmp/
+.gemini-clipboard/
 
 # Exam answer keys (sensitive)
 **/finals_exam/admin/
@@ -206,7 +207,7 @@ vercel.json
 docs/
 
 # Supabase client (contains DB logic)
-supabase_client.py
+api/utils/supabase_client.py
 
 # Analysis/documentation MD files (keep only README.md)
 README_ANALYSIS.md

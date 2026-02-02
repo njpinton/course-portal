@@ -920,3 +920,564 @@ function formatBytes(bytes) {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
+
+// ============================================
+// GRADING & EMAIL SENDING FUNCTIONS
+// ============================================
+
+/**
+ * Get grading data sheets from the roster spreadsheet
+ */
+function getGradingSheets() {
+  const spreadsheet = getOrCreateRosterSheet();
+  return {
+    summary: spreadsheet.getSheetByName('Grading Summary'),
+    detailed: spreadsheet.getSheetByName('Detailed Grading'),
+    tracking: getOrCreateEmailTrackingSheet(spreadsheet)
+  };
+}
+
+/**
+ * Get or create the Email Tracking sheet
+ */
+function getOrCreateEmailTrackingSheet(spreadsheet) {
+  if (!spreadsheet) spreadsheet = getOrCreateRosterSheet();
+  let sheet = spreadsheet.getSheetByName('Email Tracking');
+  if (sheet) return sheet;
+
+  sheet = spreadsheet.insertSheet('Email Tracking');
+  const headers = ['Campus ID', 'Student Name', 'Email', 'Status', 'Sent Date', 'Error'];
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  const headerRange = sheet.getRange(1, 1, 1, headers.length);
+  headerRange.setFontWeight('bold');
+  headerRange.setBackground('#667eea');
+  headerRange.setFontColor('white');
+  sheet.setFrozenRows(1);
+  for (let i = 1; i <= headers.length; i++) sheet.autoResizeColumn(i);
+  return sheet;
+}
+
+/**
+ * Get all grading + roster data for the Send Grades UI
+ */
+function getGradesSendingData() {
+  try {
+    const sheets = getGradingSheets();
+    if (!sheets.summary) {
+      return { success: false, error: 'Grading Summary sheet not found in the roster spreadsheet. Please create a "Grading Summary" tab with CSV data.' };
+    }
+
+    const roster = getStudentRosterFromSheet();
+    const summaryData = sheets.summary.getDataRange().getValues();
+    const trackingData = sheets.tracking.getDataRange().getValues();
+
+    // Build tracking map by campus ID
+    const trackingMap = {};
+    for (let i = 1; i < trackingData.length; i++) {
+      trackingMap[String(trackingData[i][0])] = {
+        status: trackingData[i][3],
+        sentDate: trackingData[i][4],
+        error: trackingData[i][5]
+      };
+    }
+
+    // Build summary map by ID (column index 1)
+    const summaryMap = {};
+    for (let i = 1; i < summaryData.length; i++) {
+      const row = summaryData[i];
+      const id = String(row[1]);
+      if (!id) continue;
+      summaryMap[id] = {
+        name: row[0],
+        submitted: String(row[2]),
+        total: row[19],
+        bonus: row[20],
+        finalScore: row[21],
+        grade: row[22]
+      };
+    }
+
+    // Join with roster to get emails
+    const students = [];
+    for (const section in roster) {
+      for (const student of roster[section].students) {
+        const id = String(student.campusId);
+        const grading = summaryMap[id];
+        const tracking = trackingMap[id];
+
+        if (grading && grading.submitted && grading.submitted !== 'Not Submitted') {
+          students.push({
+            campusId: id,
+            name: student.firstName + ' ' + student.lastName,
+            email: student.email,
+            section: section,
+            schedule: roster[section].schedule,
+            submitted: grading.submitted,
+            total: grading.total,
+            bonus: grading.bonus,
+            finalScore: grading.finalScore,
+            grade: grading.grade,
+            emailStatus: tracking ? tracking.status : 'Not Sent',
+            sentDate: tracking ? String(tracking.sentDate) : null,
+            error: tracking ? tracking.error : null
+          });
+        }
+      }
+    }
+
+    students.sort((a, b) => a.name.localeCompare(b.name));
+
+    const sent = students.filter(s => s.emailStatus === 'Sent').length;
+    const failed = students.filter(s => s.emailStatus === 'Failed').length;
+    const pending = students.length - sent - failed;
+
+    return {
+      success: true,
+      students: students,
+      counts: { total: students.length, sent: sent, failed: failed, pending: pending }
+    };
+  } catch (e) {
+    Logger.log('Error in getGradesSendingData: ' + e.message);
+    return { success: false, error: e.message };
+  }
+}
+
+/**
+ * Get full grading detail for one student by campus ID
+ */
+function getStudentGradingDetail(campusId) {
+  const sheets = getGradingSheets();
+  const roster = getStudentRosterFromSheet();
+  campusId = String(campusId);
+
+  // Find student in roster
+  let studentInfo = null;
+  for (const section in roster) {
+    for (const s of roster[section].students) {
+      if (String(s.campusId) === campusId) {
+        studentInfo = {
+          name: s.firstName + ' ' + s.lastName,
+          fullName: s.firstName + ' ' + (s.middleName ? s.middleName + ' ' : '') + s.lastName,
+          email: s.email,
+          campusId: campusId,
+          section: section,
+          schedule: roster[section].schedule,
+          program: s.program
+        };
+        break;
+      }
+    }
+    if (studentInfo) break;
+  }
+
+  if (!studentInfo) return null;
+
+  // Get summary row
+  let summaryRow = null;
+  if (sheets.summary) {
+    const sData = sheets.summary.getDataRange().getValues();
+    for (let i = 1; i < sData.length; i++) {
+      if (String(sData[i][1]) === campusId) {
+        summaryRow = sData[i];
+        break;
+      }
+    }
+  }
+
+  // Get detailed row
+  let detailRow = null;
+  if (sheets.detailed) {
+    const dData = sheets.detailed.getDataRange().getValues();
+    for (let i = 1; i < dData.length; i++) {
+      if (String(dData[i][1]) === campusId) {
+        detailRow = dData[i];
+        break;
+      }
+    }
+  }
+
+  return { studentInfo, summaryRow, detailRow };
+}
+
+/**
+ * Generate the HTML email for a student's grade report
+ */
+function generateGradeEmailHtml(campusId) {
+  const data = getStudentGradingDetail(campusId);
+  if (!data) return null;
+
+  const { studentInfo, summaryRow, detailRow } = data;
+  if (!summaryRow) return null;
+
+  // Summary columns: 0:Name, 1:ID, 2:Submitted, 3:Exp_k, 4:Stu_k, 5:k?, 6:Exp_Cat, 7:Stu_Cat, 8:Exp_Clf, 9:Stu_Clf, 10:Exp_R2, 11:Stu_R2, 12:Exp_Sil, 13:Stu_Sil, 14:Q1..18:Q5, 19:Total, 20:Bonus, 21:Final, 22:Grade
+  const submitted = summaryRow[2];
+  const total = summaryRow[19];
+  const bonus = summaryRow[20];
+  const finalScore = summaryRow[21];
+  const grade = summaryRow[22];
+
+  // Metrics
+  const metrics = [
+    { label: 'k (Clusters)', expected: summaryRow[3], student: summaryRow[4], match: summaryRow[5] },
+    { label: 'Categories', expected: summaryRow[6], student: summaryRow[7] },
+    { label: 'Classification Acc.', expected: summaryRow[8], student: summaryRow[9] },
+    { label: 'R²', expected: summaryRow[10], student: summaryRow[11] },
+    { label: 'Silhouette', expected: summaryRow[12], student: summaryRow[13] }
+  ];
+
+  // Question scores from summary
+  const qScores = [summaryRow[14], summaryRow[15], summaryRow[16], summaryRow[17], summaryRow[18]];
+  const qMaxes = [20, 20, 20, 20, 20];
+  const qLabels = [
+    'Q1: Exploratory Data Analysis',
+    'Q2: Data Cleaning & Preprocessing',
+    'Q3: Classification',
+    'Q4: Regression',
+    'Q5: Clustering'
+  ];
+
+  // Detail columns: 0:Name, 1:ID, 2:Q1Score, 3:Q1Reasoning, 4:Q2Score, 5:Q2Reasoning, ..., 12:Total, 13:MethodologyChecks, 14:LLMModel, 15:LLMExperience
+  let qReasonings = ['', '', '', '', ''];
+  let methodologyChecks = '';
+  let llmModel = '';
+  let llmExperience = '';
+
+  if (detailRow) {
+    qReasonings = [detailRow[3], detailRow[5], detailRow[7], detailRow[9], detailRow[11]];
+    methodologyChecks = String(detailRow[13] || '');
+    llmModel = String(detailRow[14] || '');
+    llmExperience = String(detailRow[15] || '');
+  }
+
+  // Grade color
+  const gradeColor = getGradeColor(grade);
+
+  // Build question rows
+  let questionRowsHtml = '';
+  for (let i = 0; i < 5; i++) {
+    const score = qScores[i];
+    const max = qMaxes[i];
+    const pct = (score && max) ? Math.round((Number(score) / max) * 100) : 0;
+    const barColor = pct >= 80 ? '#10b981' : pct >= 60 ? '#f59e0b' : '#ef4444';
+    const reasoning = sanitizeText(String(qReasonings[i] || ''));
+
+    questionRowsHtml += `
+      <tr>
+        <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;font-weight:500;font-size:14px;color:#333;vertical-align:top;width:35%;">
+          ${sanitizeText(qLabels[i])}
+        </td>
+        <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:top;width:15%;">
+          <span style="font-size:18px;font-weight:700;color:${barColor};">${sanitizeText(String(score || '-'))}</span>
+          <span style="font-size:13px;color:#888;">/ ${max}</span>
+        </td>
+        <td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#555;line-height:1.5;vertical-align:top;">
+          ${reasoning}
+        </td>
+      </tr>`;
+  }
+
+  // Build metrics rows
+  let metricsRowsHtml = '';
+  for (const m of metrics) {
+    const expVal = sanitizeText(String(m.expected || '-'));
+    const stuVal = sanitizeText(String(m.student || '-'));
+    const matchIcon = m.match === '✓' ? '&#10003;' : m.match === '✗' ? '&#10007;' : '';
+    const matchColor = m.match === '✓' ? '#10b981' : m.match === '✗' ? '#ef4444' : '#888';
+
+    metricsRowsHtml += `
+      <tr>
+        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-weight:500;font-size:13px;">${sanitizeText(m.label)}</td>
+        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:13px;">${expVal}</td>
+        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:13px;font-weight:600;">${stuVal}</td>
+        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;text-align:center;font-size:16px;font-weight:700;color:${matchColor};">${matchIcon}</td>
+      </tr>`;
+  }
+
+  // Build methodology badges
+  let methodologyHtml = '';
+  if (methodologyChecks) {
+    const presentMatch = methodologyChecks.match(/Present:\s*([^.]*)/);
+    const missingMatch = methodologyChecks.match(/Missing:\s*([^.]*)/);
+
+    const presentItems = presentMatch ? presentMatch[1].split(',').map(s => s.trim()).filter(Boolean) : [];
+    const missingItems = missingMatch ? missingMatch[1].split(',').map(s => s.trim()).filter(Boolean) : [];
+
+    const presentBadges = presentItems.map(item =>
+      `<span style="display:inline-block;padding:4px 10px;margin:3px;border-radius:20px;font-size:12px;font-weight:500;background:#d1fae5;color:#059669;">&#10003; ${sanitizeText(item)}</span>`
+    ).join('');
+
+    const missingBadges = missingItems.map(item =>
+      `<span style="display:inline-block;padding:4px 10px;margin:3px;border-radius:20px;font-size:12px;font-weight:500;background:#fee2e2;color:#dc2626;">&#10007; ${sanitizeText(item)}</span>`
+    ).join('');
+
+    methodologyHtml = `
+      <div style="margin-top:24px;">
+        <h3 style="font-size:16px;font-weight:600;color:#333;margin-bottom:12px;">Methodology Checklist</h3>
+        <div>${presentBadges}${missingBadges}</div>
+      </div>`;
+  }
+
+  // LLM section
+  let llmHtml = '';
+  if (llmModel && llmModel !== 'Not specified') {
+    llmHtml += `
+      <div style="margin-top:24px;">
+        <h3 style="font-size:16px;font-weight:600;color:#333;margin-bottom:12px;">LLM Usage</h3>
+        <div style="background:#f8f9fa;border-radius:8px;padding:16px;">
+          <div style="font-size:13px;color:#666;margin-bottom:4px;">Model Used</div>
+          <div style="font-size:14px;font-weight:500;color:#333;margin-bottom:12px;">${sanitizeText(llmModel)}</div>`;
+
+    if (llmExperience && llmExperience !== 'Not provided') {
+      llmHtml += `
+          <div style="font-size:13px;color:#666;margin-bottom:4px;">Experience Summary</div>
+          <div style="font-size:13px;color:#444;line-height:1.6;">${sanitizeText(llmExperience)}</div>`;
+    }
+    llmHtml += `
+        </div>
+      </div>`;
+  }
+
+  // Full email HTML
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <div style="max-width:700px;margin:0 auto;background:white;">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:32px;text-align:center;">
+      <div style="font-size:13px;text-transform:uppercase;letter-spacing:1px;opacity:0.9;margin-bottom:8px;">CMSC 173 - Machine Learning</div>
+      <div style="font-size:22px;font-weight:700;margin-bottom:4px;">Midterm Exam Score Report</div>
+      <div style="font-size:13px;opacity:0.85;">1st Semester, AY 2025-2026</div>
+    </div>
+
+    <!-- Student Info -->
+    <div style="padding:24px 32px;border-bottom:1px solid #eee;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="padding:4px 0;font-size:13px;color:#888;width:120px;">Student</td>
+          <td style="padding:4px 0;font-size:14px;font-weight:500;color:#333;">${sanitizeText(studentInfo.fullName)}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 0;font-size:13px;color:#888;">Campus ID</td>
+          <td style="padding:4px 0;font-size:14px;color:#333;">${sanitizeText(studentInfo.campusId)}</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 0;font-size:13px;color:#888;">Section</td>
+          <td style="padding:4px 0;font-size:14px;color:#333;">${sanitizeText(studentInfo.section)} (${sanitizeText(studentInfo.schedule)})</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 0;font-size:13px;color:#888;">Submitted</td>
+          <td style="padding:4px 0;font-size:14px;color:#333;">${sanitizeText(String(submitted))}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Score Summary -->
+    <div style="padding:24px 32px;background:#fafbff;border-bottom:1px solid #eee;">
+      <table style="width:100%;border-collapse:collapse;text-align:center;">
+        <tr>
+          <td style="padding:8px;">
+            <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Base Total</div>
+            <div style="font-size:28px;font-weight:700;color:#333;">${sanitizeText(String(total || '-'))}</div>
+            <div style="font-size:12px;color:#888;">/ 100</div>
+          </td>
+          <td style="padding:8px;">
+            <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Bonus</div>
+            <div style="font-size:28px;font-weight:700;color:#10b981;">+${sanitizeText(String(bonus || '0'))}</div>
+          </td>
+          <td style="padding:8px;">
+            <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Final Score</div>
+            <div style="font-size:28px;font-weight:700;color:#667eea;">${sanitizeText(String(finalScore || '-'))}</div>
+          </td>
+          <td style="padding:8px;">
+            <div style="font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.5px;">UP Grade</div>
+            <div style="display:inline-block;padding:6px 16px;border-radius:20px;font-size:20px;font-weight:700;background:${gradeColor.bg};color:${gradeColor.text};">${sanitizeText(String(grade || '-'))}</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Question Breakdown -->
+    <div style="padding:24px 32px;">
+      <h3 style="font-size:16px;font-weight:600;color:#333;margin-bottom:16px;">Score Breakdown</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="background:#f8f9fa;">
+          <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Question</th>
+          <th style="padding:10px 16px;text-align:center;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Score</th>
+          <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Reasoning</th>
+        </tr>
+        ${questionRowsHtml}
+      </table>
+    </div>
+
+    <!-- Metrics Comparison -->
+    <div style="padding:0 32px 24px;">
+      <h3 style="font-size:16px;font-weight:600;color:#333;margin-bottom:12px;">Metrics Comparison</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="background:#f8f9fa;">
+          <th style="padding:10px 16px;text-align:left;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Metric</th>
+          <th style="padding:10px 16px;text-align:center;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Expected</th>
+          <th style="padding:10px 16px;text-align:center;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Yours</th>
+          <th style="padding:10px 16px;text-align:center;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;border-bottom:2px solid #eee;">Match</th>
+        </tr>
+        ${metricsRowsHtml}
+      </table>
+    </div>
+
+    <!-- Methodology -->
+    <div style="padding:0 32px 24px;">
+      ${methodologyHtml}
+    </div>
+
+    <!-- LLM -->
+    <div style="padding:0 32px 24px;">
+      ${llmHtml}
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#f8f9fa;padding:20px 32px;text-align:center;border-top:1px solid #eee;">
+      <div style="font-size:13px;color:#888;line-height:1.6;">
+        If you have questions about your score, please reply to this email or visit during consultation hours.<br>
+        <span style="font-size:12px;color:#aaa;">This is an automated grade report from CMSC 173 - Machine Learning.</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  return html;
+}
+
+/**
+ * Get grade badge color based on UP grade
+ */
+function getGradeColor(grade) {
+  const g = parseFloat(grade);
+  if (isNaN(g)) return { bg: '#f3f4f6', text: '#666' };
+  if (g <= 1.25) return { bg: '#d1fae5', text: '#059669' };
+  if (g <= 1.75) return { bg: '#dbeafe', text: '#2563eb' };
+  if (g <= 2.5) return { bg: '#fef3c7', text: '#d97706' };
+  if (g <= 3.0) return { bg: '#fed7aa', text: '#ea580c' };
+  return { bg: '#fee2e2', text: '#dc2626' };
+}
+
+/**
+ * Preview grade email for a student (returns HTML string)
+ */
+function previewGradeEmail(campusId) {
+  try {
+    const html = generateGradeEmailHtml(campusId);
+    if (!html) return { success: false, error: 'Student or grading data not found.' };
+    return { success: true, html: html };
+  } catch (e) {
+    Logger.log('Error in previewGradeEmail: ' + e.message);
+    return { success: false, error: e.message };
+  }
+}
+
+/**
+ * Update email tracking sheet
+ */
+function updateEmailTracking(campusId, name, email, status, error) {
+  const sheet = getOrCreateEmailTrackingSheet();
+  const data = sheet.getDataRange().getValues();
+  const now = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd HH:mm:ss');
+
+  // Check if row exists
+  for (let i = 1; i < data.length; i++) {
+    if (String(data[i][0]) === String(campusId)) {
+      sheet.getRange(i + 1, 4, 1, 3).setValues([[status, now, error || '']]);
+      return;
+    }
+  }
+
+  // Add new row
+  sheet.appendRow([campusId, name, email, status, now, error || '']);
+}
+
+/**
+ * Send grade email to a single student
+ */
+function sendGradeEmail(campusId) {
+  try {
+    const data = getStudentGradingDetail(campusId);
+    if (!data || !data.studentInfo) {
+      return { success: false, error: 'Student not found.' };
+    }
+
+    const html = generateGradeEmailHtml(campusId);
+    if (!html) {
+      return { success: false, error: 'Could not generate email.' };
+    }
+
+    const { studentInfo } = data;
+    const subject = 'CMSC 173 Midterm Exam - Score Report';
+
+    GmailApp.sendEmail(studentInfo.email, subject, 'Please view this email in an HTML-capable client.', {
+      htmlBody: html,
+      name: 'CMSC 173 - Machine Learning'
+    });
+
+    updateEmailTracking(campusId, studentInfo.name, studentInfo.email, 'Sent', '');
+
+    Logger.log('Grade email sent to: ' + studentInfo.email);
+    return { success: true, email: studentInfo.email };
+  } catch (e) {
+    Logger.log('Error sending email to ' + campusId + ': ' + e.message);
+    const data = getStudentGradingDetail(campusId);
+    if (data && data.studentInfo) {
+      updateEmailTracking(campusId, data.studentInfo.name, data.studentInfo.email, 'Failed', e.message);
+    }
+    return { success: false, error: e.message };
+  }
+}
+
+/**
+ * Send grade emails to all unsent submitted students
+ * Returns progress updates
+ */
+function sendAllGradeEmails() {
+  try {
+    const result = getGradesSendingData();
+    if (!result.success) return result;
+
+    const unsent = result.students.filter(s => s.emailStatus !== 'Sent');
+    if (unsent.length === 0) {
+      return { success: true, message: 'All emails already sent.', sent: 0, failed: 0 };
+    }
+
+    let sentCount = 0;
+    let failedCount = 0;
+    const errors = [];
+
+    for (const student of unsent) {
+      try {
+        const sendResult = sendGradeEmail(student.campusId);
+        if (sendResult.success) {
+          sentCount++;
+        } else {
+          failedCount++;
+          errors.push(student.name + ': ' + sendResult.error);
+        }
+      } catch (e) {
+        failedCount++;
+        errors.push(student.name + ': ' + e.message);
+      }
+
+      // 1-second delay to avoid rate limits
+      Utilities.sleep(1000);
+    }
+
+    return {
+      success: true,
+      message: `Sent ${sentCount} emails, ${failedCount} failed.`,
+      sent: sentCount,
+      failed: failedCount,
+      errors: errors
+    };
+  } catch (e) {
+    Logger.log('Error in sendAllGradeEmails: ' + e.message);
+    return { success: false, error: e.message };
+  }
+}
