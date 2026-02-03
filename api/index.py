@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# Add the API directory and parent directory to the Python path for Vercel compatibility
+# Add the API directory and parent directory to the Python path
 import os.path
 api_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(api_dir)  # Parent directory (project root)
@@ -24,7 +24,7 @@ if api_dir not in sys.path:
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-# Load environment variables early for Vercel compatibility
+# Load environment variables
 from dotenv import load_dotenv
 if os.path.exists('.env.local'):
     load_dotenv('.env.local')
@@ -48,8 +48,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 try:
-    logger.debug("Attempting to import supabase_client...")
-    from api.utils.supabase_client import (
+    logger.debug("Attempting to import database_client...")
+    from api.utils.database_client import (
         get_supabase_client, create_group, add_group_member, add_group_document,
         get_groups, get_group_details, delete_group, get_project_stages,
         update_stage_status, get_project_models, add_project_model,
@@ -71,9 +71,9 @@ try:
         get_grades_by_assessment, get_student_grades_for_class, upsert_student_grade,
         bulk_upsert_grades, get_assessment_stats
     )
-    logger.debug("Successfully imported supabase_client")
+    logger.debug("Successfully imported database_client")
 except Exception as e:
-    logger.warning(f"Failed to import supabase_client: {e}", exc_info=True)
+    logger.warning(f"Failed to import database_client: {e}", exc_info=True)
     # Define stub functions to prevent NameError
     def get_class_by_code_section(*args, **kwargs):
         return None
@@ -116,36 +116,16 @@ except Exception as e:
     def get_resource_counts_by_course(*args, **kwargs):
         return {}
 
-# -- Supabase Configuration --
+# -- Database Configuration --
 # To run this locally, you will need to create a .env file in the presenter_app directory
 # with the following content:
-# SUPABASE_URL=your_supabase_url
-# SUPABASE_ANON_KEY=your_supabase_anon_key
+# DATABASE_URL=postgresql://presenter_app_user:password@localhost/presenter_app
 # FLASK_SECRET_KEY=your_secret_key (required - no default fallback)
 # ADMIN_USERNAME=admin
 # ADMIN_PASSWORD_HASH=hashed_password (use werkzeug.security.generate_password_hash())
+# FLASK_ENV=production (for production deployment)
 #
-# You will also need to create a table in your Supabase project with the following schema:
-# CREATE TABLE module_views (
-#   module_number INT PRIMARY KEY,
-#   view_count INT
-# );
-#
-# And a function to increment the view count:
-# CREATE OR REPLACE FUNCTION increment_module_view(module_id INT)
-# RETURNS VOID AS $$
-# BEGIN
-#   INSERT INTO module_views (module_number, view_count)
-#   VALUES (module_id, 1)
-#   ON CONFLICT (module_number)
-#   DO UPDATE SET view_count = module_views.view_count + 1;
-# END;
-# $$ LANGUAGE plpgsql;
-#
-# To get your Supabase URL and anon key, go to your Supabase project's
-# API settings page.
-
-# The global supabase client initialization is now handled in supabase_client.py
+# The database client initialization is handled in database_client.py
 # --------------------------
 
 app = Flask(__name__, static_folder='../static', static_url_path='/static')
@@ -155,7 +135,7 @@ app = Flask(__name__, static_folder='../static', static_url_path='/static')
 # =============================================================================
 
 # Secret key management - REQUIRED in production
-is_production = os.environ.get('VERCEL_ENV') == 'production'
+is_production = os.environ.get('FLASK_ENV') == 'production'
 secret_key = os.environ.get('FLASK_SECRET_KEY')
 
 if not secret_key:

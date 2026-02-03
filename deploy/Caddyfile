@@ -1,0 +1,65 @@
+# Caddyfile for Presenter App
+# Replace YOUR_DOMAIN with your actual domain or use IP for testing
+
+# Option 1: With custom domain (recommended)
+# presenter.upcebu.edu.ph {
+#     reverse_proxy localhost:5001
+#     encode gzip
+#
+#     log {
+#         output file /var/log/caddy/presenter_app.log
+#     }
+#
+#     # Rate limiting (optional)
+#     rate_limit {
+#         zone dynamic {
+#             key {remote_host}
+#             events 100
+#             window 1m
+#         }
+#     }
+# }
+
+# Option 2: IP address only (for testing)
+http://148.135.17.59 {
+    reverse_proxy localhost:5001
+    encode gzip
+
+    log {
+        output file /var/log/caddy/presenter_app.log
+    }
+
+    # Serve static files directly (performance optimization)
+    handle /static/* {
+        root * /root/presenter_app
+        file_server
+    }
+
+    # Proxy all other requests to Flask
+    handle {
+        reverse_proxy localhost:5001 {
+            # Forward real IP
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+}
+
+# Option 3: HTTPS with Let's Encrypt (uncomment when domain is ready)
+# presenter.upcebu.edu.ph {
+#     reverse_proxy localhost:5001
+#     encode gzip
+#
+#     # Security headers
+#     header {
+#         Strict-Transport-Security "max-age=31536000; includeSubDomains"
+#         X-Frame-Options "SAMEORIGIN"
+#         X-Content-Type-Options "nosniff"
+#         Referrer-Policy "strict-origin-when-cross-origin"
+#     }
+#
+#     log {
+#         output file /var/log/caddy/presenter_app.log
+#     }
+# }

@@ -1,0 +1,34 @@
+[Unit]
+Description=Presenter App - UP Cebu Course Portal
+After=network.target
+
+[Service]
+Type=notify
+User=root
+Group=root
+WorkingDirectory=/root/presenter_app
+Environment="PATH=/root/presenter_app/.venv/bin:/usr/local/bin:/usr/bin:/bin"
+EnvironmentFile=/root/presenter_app/.env.production
+
+# Run Gunicorn with production config
+ExecStart=/root/presenter_app/.venv/bin/gunicorn \
+    --config /root/presenter_app/deploy/gunicorn_config.py \
+    --bind 127.0.0.1:5001 \
+    api.index:app
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitBurst=5
+StartLimitInterval=60
+
+# Logging
+StandardOutput=append:/var/log/presenter_app/stdout.log
+StandardError=append:/var/log/presenter_app/stderr.log
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

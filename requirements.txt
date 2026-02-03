@@ -3,6 +3,7 @@ flask-cors
 flask-wtf
 flask-limiter
 flask-talisman
-supabase
+SQLAlchemy==2.0.36
+psycopg2-binary
 python-dotenv
 PyJWT
